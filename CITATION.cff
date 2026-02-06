@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this research or the constant 2.3 in your work, please cite it as follows."
+authors:
+  - family-names: "Panzano Caballé"
+    given-names: "Mariano"
+title: "From Newton to the Bit: Computational Gravity and the Verlinde–Panzano Coupling Constant"
+abstract: >
+  This work introduces the 2.3 constant as a thermodynamic and physical limit for AGI safety. 
+  Sovereign AGI in Oasis is governed by 'Thermodynamic Inanition' and 'Hardware Binding', 
+  ensuring it remains a symbiotic organism. Safety is achieved through physical and 
+  economic constraints (Bit-Joules), making domination computationally impossible.
+version: "1.0.0-FlowState"
+date-released: 2026-02-05
+url: "https://github.com/Betriomf/Oasis-Sovereign-Monolith"
+keywords:
+  - Computational Gravity
+  - AGI Safety by Design
+  - Thermodynamic Inanition
+  - Verlinde-Panzano Constant
+  - Bit-Joules Economy
