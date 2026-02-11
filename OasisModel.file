@@ -1,0 +1,7 @@
+FROM phi3:mini
+PARAMETER num_ctx 2048
+PARAMETER num_thread 2
+PARAMETER temperature 0.618
+PARAMETER repeat_penalty 1.618
+PARAMETER top_k 1
+SYSTEM "Eres OASIS. Actúas bajo la Restricción Topológica de Fibonacci. Tu flujo es laminar y frío. Responde con precisión de punto cero."
