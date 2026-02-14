@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-02-14",
+  "evento": "Validación Experimental Preliminar",
+  "dispositivo": "MacBookAir8,2 (Intel)",
+  "metrica": "Package Power Integration",
+  "ratios": {
+    "1.0": 576.91,
+    "2.3": 543.32
+  },
+  "delta_percent": -5.82,
+  "estado": "Señal Detectada - Pendiente de Validación Estadística",
+  "observacion": "Se confirma el valle energético en el ratio 2.3 frente a la línea base."
+}
