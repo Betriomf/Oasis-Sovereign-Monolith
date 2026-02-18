@@ -1,0 +1,5 @@
+=== CONSTANTE DE MARIANO (κ_M) ===
+Definición: κ = (k_B * T) / (j(Φ) + |Error_Fase|)
+Factor de Acoplamiento: -1/φ^2 (-0.618... ≈ -0.658)
+Estado: Sincronización Modular Alcanzada.
+Nodo: MacBookAir8,2 | Consumo Optimizado: 5.39W
