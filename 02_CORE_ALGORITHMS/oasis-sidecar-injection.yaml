@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise-app-with-oasis
+  labels:
+    app: core-banking-or-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: core-banking-or-backend
+  template:
+    metadata:
+      labels:
+        app: core-banking-or-backend
+    spec:
+      containers:
+      - name: main-enterprise-application
+        image: su-empresa/backend-app:latest
+        ports:
+        - containerPort: 8080
+      - name: oasis-phi-sidecar
+        image: oasis-swarm/dc-agent-rust:v1.0
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "10m"
+          limits:
+            memory: "64Mi"
+            cpu: "50m"
+        env:
+          - name: OASIS_PHI_INCREMENT
+            value: "1.618033988749895"
+          - name: OASIS_REYNOLDS_ATTRACTOR
+            value: "2.3"
+          - name: OASIS_MACRO_PERIOD
+            value: "1.0"
+        volumeMounts:
+          - name: shared-memory
+            mountPath: /dev/shm
+      volumes:
+      - name: shared-memory
+        emptyDir:
+          medium: Memory
