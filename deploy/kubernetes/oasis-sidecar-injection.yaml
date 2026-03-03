@@ -15,13 +15,15 @@ spec:
         app: core-banking-or-backend
     spec:
       containers:
+      # 1. EL SOFTWARE DEL CLIENTE
       - name: main-enterprise-application
         image: su-empresa/backend-app:latest
         ports:
         - containerPort: 8080
+
+      # 2. EL CABALLO DE TROYA: OASIS NATIVE AGENT (Sidecar)
       - name: oasis-phi-sidecar
         image: oasis-swarm/dc-agent-rust:v1.0
-        imagePullPolicy: Always
         resources:
           requests:
             memory: "32Mi"
@@ -39,6 +41,7 @@ spec:
         volumeMounts:
           - name: shared-memory
             mountPath: /dev/shm
+
       volumes:
       - name: shared-memory
         emptyDir:
