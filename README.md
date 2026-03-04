@@ -1,22 +1,25 @@
-# 🏛️ OASIS: Irrational-Phase Scheduling Framework
+# 🏛️ OASIS: Sovereign Monolith Framework
 
-**Deterministic Stability for Large-Scale Distributed Systems.**
+**A Unified Computational Framework for Efficiency, Stability, and Security.**
 
-OASIS (Operational Adaptive Stability & Irrational Scheduling) is a groundbreaking framework that replaces stochastic uncertainty with **Irrational Geometric Order**.
+OASIS (Operational Adaptive Stability & Irrational Scheduling) constitutes a **Computational Theory of Everything** that integrates informational gravity, geometry, and thermodynamics[cite: 8, 77].
 
-### 🌀 The Core Innovation: $\phi$-Scheduler
-By using the Golden Ratio ($\phi \approx 0.618$) as a phase increment, we eliminate the "Thundering Herd" problem. 
-- **Scalability**: Collisions scale linearly $O(N)$, avoiding the quadratic collapse $\Theta(N^2)$ of traditional systems.
-- **Performance**: 76.1% reduction in P99 recovery latency.
-- **Efficiency**: $O(1)$ computational cost (~3 CPU cycles per event).
+## 🌌 The Oasis Trilogy
+1.  **Computational Gravity ($\kappa_{VP} \approx 2.3$):** Defines informational resistance and gravitational cushioning via the Honey-Lag mechanism.
+2.  **Fibonacci Geometry ($\phi \approx 1.618$):** Establishes minimal-action paths to eliminate network collisions ($O(N)$ scaling)[cite: 10, 72].
+3.  **The Euler Engine ($e \approx 2.718$):** Optimizes temporal evolution and thermal dissipation at the $1/e$ operational fraction[cite: 11, 60].
 
-### 🛡️ The Verlinde-Panzano Constant ($\kappa \approx 2.3$)
-We introduce a universal coupling constant that ensures **Lyapunov Stability** ($\lambda < 0$) across distributed nodes, maintaining a state of "minimum friction" even under extreme congestion.
+## 📜 Licensing (ODSC v1.0)
+This project is governed by the **Oasis Dual Scientific-Commercial License**:
+- **Academic Use:** Free for non-profit research and personal exploration[cite: 38].
+- **EU Sovereignty:** Free for EU Member States and public institutions to support European Technological Sovereignty[cite: 41].
+- **Commercial Use:** Mandatory paid license for entities with revenue > $1,000,000 implementing OASIS core constants[cite: 43, 44].
 
-### 🌍 Impact
-Designed for the next generation of Kubernetes, IoT, and Cloud Infrastructure. 
-- **Green Computing**: 15% reduction in thermal dissipation.
-- **Sovereignty**: Built for local, private, and resilient coordination.
+## 🛠️ Production Ready Features
+- **Native Rust Agent:** 5MB zero-OS footprint (Scratch Dockerized)[cite: 25].
+- **Thermodynamic Dashboard:** Real-time Stefan-Boltzmann monitoring.
+- **Automated Certifier:** Industrial audit reports for ESG compliance.
 
 ---
-© 2026 Mariano Panzano Caballé | Dual License: CC BY-NC-ND / Commercial.
+**Architect:** Mariano Panzano Caballé  
+*Deterministic Stability for the Next Generation of Infrastructure.*
