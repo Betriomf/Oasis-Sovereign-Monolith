@@ -1,0 +1,22 @@
+
+============================================================
+           🏛️ OASIS SOVEREIGN MONOLITH - INVOICE
+============================================================
+ID FACTURA: OASIS-20260317-001
+FECHA: 17/03/2026
+EMISOR: Mariano Panzano Caballé (Barcelona, España)
+IBAN: ES36 0182 1756 1802 0152 9233
+------------------------------------------------------------
+CLIENTE: CORPORATE_CLIENT_001
+CONCEPTO: Licencia Comercial ODSC v1.0
+DETALLE: Optimización de Eficiencia Landauer (+30.6%)
+         Inhibición de Telemetría Profunda
+         Topología de Perelman (Coherencia 0.00005294)
+------------------------------------------------------------
+TOTAL: 1000 EUR
+------------------------------------------------------------
+MOTIVO DEL VALOR:
+El cliente paga por el ahorro energético real y la 
+eliminación de singularidades en su infraestructura.
+============================================================
+Factura generada bajo la Jurisdicción Euler-Fibonacci.
