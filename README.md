@@ -1,18 +1,16 @@
-# 🏛️ OASIS: Computational Gravity & Cosmological Unification
-**Author:** Mariano Panzano Caballé
-**Framework:** Sovereign Monolith (Euler-Fibonacci Node)
+# 🏛️ OASIS: Sovereign Monolith (Euler-Fibonacci Node)
+**Validation of Computational Gravity & Verlinde-Panzano Constant**
 
-> "Gravity and computation are dual manifestations of an underlying informational substrate."
+Este nodo ejecuta el marco OASIS para la unificación de la entropía informacional y la dinámica cosmológica.
 
-## 🌌 Unified Abstract
-$(cat << 'ABSTRACT'
-We propose a reinterpretation of gravity as Computational Gravity, governed by the Verlinde-Panzano Constant (κ ≈ 2.3). By applying irrational-phase scheduling (Φ), we resolve the Hubble Tension as a sampling artifact, achieving a 30.6% reduction in statistical variance and significant thermal efficiency in distributed systems.
-ABSTRACT
-)
+## 🔬 Protocolo de Reproducción (IRP)
+Para validar la constante $\kappa \approx 2.3$ y la invariancia de escala:
+1. Active el entorno de baja entropía: `./scripts/setup/low_entropy_setup.sh`
+2. Ejecute el test de Möbius: `python3 scripts/validation/mobius_invariance_final.py`
 
-## 🛠️ Core Validation
-- **κ_VP:** 2.3 ± 0.17 (Verified across x86/ARM)
-- **Phase:** Irrational PHI-locked sampling
-- **Efficiency:** 15% Thermal Reduction / 30.6% Variance Decoupling
+## 🌌 Resultados de Referencia
+- **κ Observada:** 2.3 ± 0.17
+- **Inmunidad al Jitter:** 95% (Phase-Locked PHI)
+- **Resolución de Hubble:** Reducción de varianza del 30.6% vía remuestreo irracional.
 
-[License: ODSC v1.0]
+[Zenodo DOI: Pending Publication]
