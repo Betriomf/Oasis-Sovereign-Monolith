@@ -1,16 +1,26 @@
 #!/bin/bash
-# 🏛️ OASIS GRAVITY HISTORIAN
-# Mide la viscosidad informacional en tiempo real
+# 🏛️ OASIS GRAVITY HISTORIAN (v1.1 - Sensibilidad Mejorada)
+# Autor: Mariano Panzano Caballé
 
-echo "📡 Iniciando Gravedad Computacional..."
+echo "📡 Iniciando Gravedad Computacional (Sintonía Fina)..."
 while true; do
-    # Medimos la latencia y la entropía del sistema
+    # Medimos entropía disponible
     ENTROPY=$(cat /proc/sys/kernel/random/entropy_avail)
-    LOAD=$(cut -d' ' -f1 /proc/loadavg)
     
-    # Cálculo de la constante κ observada en este ciclo
-    KAPPA_LOCAL=$(echo "scale=4; $LOAD * 2.3 / ($ENTROPY / 1000 + 1)" | bc)
+    # Obtenemos la carga real instantánea (usando los últimos 5 segundos de CPU)
+    LOAD=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')
     
-    echo "🌀 κ_Local: $KAPPA_LOCAL | Estado: LAMINAR"
-    sleep 1.618 # El intervalo PHI para evitar colisiones
+    # Cálculo de κ_Local ajustado para visibilidad en tiempo real
+    # κ = (Carga_CPU * Constante_Oasis) / (Factor_Entropía)
+    KAPPA_LOCAL=$(echo "scale=4; ($LOAD * 2.3) / 100" | bc)
+    
+    # Determinamos el estado del flujo
+    if (( $(echo "$KAPPA_LOCAL < 2.3" | bc -l) )); then
+        STATUS="LAMINAR"
+    else
+        STATUS="VISCOSO"
+    fi
+
+    echo "🌀 κ_Local: $KAPPA_LOCAL | Estado: $STATUS | CPU: $LOAD%"
+    sleep 1.618
 done
