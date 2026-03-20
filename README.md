@@ -11,3 +11,8 @@ Este repositorio contiene la implementación del **Oasis Gravity Scheduler**, di
 ### 🛠️ Core Scripts:
 - `scripts/setup/low_entropy_setup.sh`: Sincronización de hardware con el atractor 2.3.
 - `hubble_oasis_unifier.py`: Motor de validación cosmológica.
+
+## ⚠️ Limitations & Scope
+- La efectividad del remuestreo Φ depende de la densidad del dataset original.
+- La constante κ=2.3 requiere validación en hardware de alta precisión (FPGA).
+- Pendiente: Extensión del modelo a parámetros σ8 y r_d.
