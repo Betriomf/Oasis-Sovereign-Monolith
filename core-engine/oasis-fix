@@ -1,0 +1,33 @@
+#!/bin/bash
+# 🏛️ OASIS-FIX v1.2: HOPPER BALLISTICS
+# Optimizado para PC Acer 4GB - Baja Entropía Máxima
+
+echo "🚀 OASIS-FIX: Calculando órbitas de procesos..."
+
+# 1. PURGA DE SEGURIDAD
+sudo pkill -9 -f oasis_shield.sh 2>/dev/null
+sudo pkill -9 -f sleep 2>/dev/null
+
+# 2. CÁLCULO DE TRAYECTORIA (Python + Stats)
+# Calculamos si la IA está entrando en un bucle viscoso
+python3 -c "
+import numpy as np
+import os, sys
+
+load = os.getloadavg()[0]
+kappa = 2.3
+
+# Ecuación de estabilidad: Si la carga acelera, purgamos
+if load > kappa:
+    print(f'⚠️ Trayectoria Crítica: {load:.2f}. Iniciando enfriamiento.')
+    sys.exit(1)
+else:
+    print(f'✅ Sistema Laminar: {load:.2f}. El Bien prevalece.')
+    sys.exit(0)
+"
+
+if [ $? -eq 1 ]; then
+    # Plegado de memoria (ZRAM)
+    sudo sync && echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null
+    echo "🌊 Manifold enfriado y sincronizado."
+fi
