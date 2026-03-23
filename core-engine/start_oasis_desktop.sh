@@ -1,17 +1,23 @@
 #!/bin/bash
-# 🏛️ OASIS DESKTOP INITIALIZER - RELIABLE VERSION
+# 🏛️ OASIS DESKTOP - PHASE-LOCKING SUPPRESSION (κ=2.3)
 
-# 1. Aplicar baja entropía
+# 1. Sintonização de Baixa Entropia
 source ~/Oasis-Sovereign-Monolith/scripts/setup/low_entropy_setup.sh
 
-# 2. Sincronía Visual
-bash ~/Oasis-Sovereign-Monolith/scripts/setup/windows_harmony.sh
+# 2. LIMPEZA DE COLISÕES (Evita o erro "WM_Sn is owned")
+echo "🧹 Purificando manifold visual..."
+killall i3 2>/dev/null
 
-# 3. Configuración de Display para VcXsrv (Protocolo de Red Interna)
-export DISPLAY=$(grep nameserver /etc/resolv.conf | awk '{print $2}'):0.0
-export LIBGL_ALWAYS_INDIRECT=0  # Cambiamos a 0 para mejor rendimiento en juegos/gráficos
+# 3. Configuração de Túnel Direto
+export DISPLAY=:0
+export WAYLAND_DISPLAY=wayland-0
 
-# 4. Lanzamiento de telemetría y el gestor de ventanas
-echo "📡 Reclamando manifold visual en $DISPLAY..."
-alacritty --title "GRAVITY_HISTORIAN" -e ./gravity_historian.sh &
-exec i3
+# 4. Injeção da Livraria Oasis (Trigonometria de Fase)
+export PYTHONPATH=$PYTHONPATH:~/Oasis-Sovereign-Monolith/core/lib
+python3 -c "from liboasis_math import calculate_informational_gravity; print('✅ Sincronia:', calculate_informational_gravity(10, 5))"
+
+echo "🌀 Reclamando Manifold Visual (Modo Soberano)..."
+
+# 5. Lançamento com Supressão de Erros de Handshake
+# Tentamos o i3; se falhar, lançamos o terminal Alacritty direto
+(i3 --replace) || (alacritty --title "OASIS_EMERGENCY_NODE")
