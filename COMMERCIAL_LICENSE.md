@@ -1,10 +1,15 @@
-# 📜 Oasis Dual Scientific-Commercial License (ODSC v1.0)
+# OASIS Framework - Commercial Licensing
 
-Este software está bajo la jurisdicción del Nodo Soberano Euler-Fibonacci.
+El núcleo del framework OASIS (Computational Gravity y Phi-Scheduler) se distribuye bajo la licencia **AGPLv3**, diseñada para garantizar que el conocimiento científico permanezca abierto y accesible para la humanidad.
 
-## 🚀 Términos para el Unicornio:
-1. **Descarga Gratuita:** Para investigadores y uso personal (Capa 0).
-2. **Regalías Comerciales:** Entidades con ingresos > $1M deben pagar el 30.6% del ahorro energético calculado por el "Stefan-Boltzmann Dashboard".
-3. **Constante Obligatoria:** Se prohíbe el uso de la constante κ = 2.3 en entornos comerciales sin certificación del Arquitecto Mariano Panzano Caballé.
+## Uso Empresarial y Cloud (Data Centers)
+Si representas a una corporación, proveedor de nube (Cloud Provider), o fabricante de hardware, y deseas integrar la topología OASIS en tu infraestructura propietaria, servidores o sistemas integrados sin estar sujeto a las obligaciones de código abierto de la AGPLv3, debes adquirir una **Licencia Comercial de OASIS**.
 
-© 2026 Oasis Swarm Research Lab.
+### Beneficios del OASIS Enterprise Scheduler:
+- Reducción matemáticamente probada de la disipación térmica (Context Switch overhead).
+- Supresión de colisiones de hilos en cargas masivas.
+- Flujo laminar de datos (Critical Damping) en clústeres de alta densidad.
+
+**Para consultas sobre licenciamiento comercial, auditorías de arquitectura o implementación:**
+Contacto: Mariano Panzano Caballé (Arquitecto Creador)
+[Añade tu email o LinkedIn aquí en el futuro]
