@@ -12,4 +12,3 @@ Si representas a una corporación, proveedor de nube (Cloud Provider), o fabrica
 
 **Para consultas sobre licenciamiento comercial, auditorías de arquitectura o implementación:**
 Contacto: Mariano Panzano Caballé (Arquitecto Creador)
-[Añade tu email o LinkedIn aquí en el futuro]
