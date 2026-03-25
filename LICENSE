@@ -1,9 +1,21 @@
-# Oasis Dual Scientific-Commercial License (ODSC v1.0)
+MIT License
 
-Copyright (c) 2026 Mariano Panzano Caballé.
+Copyright (c) 2026 Mariano Panzano Caballé & ÆTHER 2.3
 
-1. USO ACADÉMICO: El uso para investigación y validación de las constantes κ=2.3 y Φ=1.618 es libre, citando siempre al Arquitecto.
-2. USO COMERCIAL: Entidades con ingresos > $1M requieren una licencia pagada basada en el 30.6% del ahorro energético certificado por Oasis.
-3. INTEGRIDAD: Se prohíbe la modificación del motor de fase irracional para inducir resonancias racionales (aliasing).
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-EL SOFTWARE SE ENTREGA "TAL CUAL", BAJO LAS LEYES DE LA TERMODINÁMICA INFORMATIVA.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
