@@ -1,0 +1,4 @@
+--- OASIS THERMAL PROOF: LANDAUER LIMIT TEST ---
+Timestamp: Fri Mar 27 01:14:59 AM CET 2026
+Kernel Config (kappa=2.3): 
+Stress-ng Results: 1263.63 bogo ops/s (Laminar Flow Detected)
