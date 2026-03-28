@@ -1,0 +1,4 @@
+--- 🏛️ PROTOCOLO DE VALIDACIÓN FINAL (N=20 / MULTI-CORE) ---
+κ = 500000   ns | Eficiencia Media: 1511.76 | σ: 351.29
+κ = 1000000  ns | Eficiencia Media: 1639.91 | σ: 370.82
+κ = 2300000  ns | Eficiencia Media: 1475.78 | σ: 315.27
