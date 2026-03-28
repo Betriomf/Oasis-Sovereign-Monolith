@@ -1,0 +1,44 @@
+stress-ng: info:  [60260] setting to a 10 secs run per stressor
+stress-ng: info:  [60260] dispatching hogs: 1 cpu
+stress-ng: info:  [60260] skipped: 0
+stress-ng: info:  [60260] passed: 1: cpu (1)
+stress-ng: info:  [60260] failed: 0
+stress-ng: info:  [60260] metrics untrustworthy: 0
+stress-ng: info:  [60260] successful run completed in 10.01 secs
+stress-ng: info:  [60274] setting to a 10 secs run per stressor
+stress-ng: info:  [60274] dispatching hogs: 1 cpu
+stress-ng: info:  [60274] skipped: 0
+stress-ng: info:  [60274] passed: 1: cpu (1)
+stress-ng: info:  [60274] failed: 0
+stress-ng: info:  [60274] metrics untrustworthy: 0
+stress-ng: info:  [60274] successful run completed in 10.01 secs
+stress-ng: info:  [60286] setting to a 10 secs run per stressor
+stress-ng: info:  [60286] dispatching hogs: 1 cpu
+stress-ng: info:  [60286] skipped: 0
+stress-ng: info:  [60286] passed: 1: cpu (1)
+stress-ng: info:  [60286] failed: 0
+stress-ng: info:  [60286] metrics untrustworthy: 0
+stress-ng: info:  [60286] successful run completed in 10.01 secs
+stress-ng: info:  [60298] setting to a 10 secs run per stressor
+stress-ng: info:  [60298] dispatching hogs: 1 cpu
+stress-ng: info:  [60298] skipped: 0
+stress-ng: info:  [60298] passed: 1: cpu (1)
+stress-ng: info:  [60298] failed: 0
+stress-ng: info:  [60298] metrics untrustworthy: 0
+stress-ng: info:  [60298] successful run completed in 10.11 secs
+
+--- 🔬 PRUEBA DE FALSIFICACIÓN CIEGA (OASIS) ---
+Midiendo eficiencia para κ = 500000 ns...
+Midiendo eficiencia para κ = 1000000 ns...
+Midiendo eficiencia para κ = 2300000 ns...
+Midiendo eficiencia para κ = 5000000 ns...
+
+--- RESULTADOS REALES DEL SILICIO ---
+κ (ns)     | Instrucciones/Fallo de Caché
+---------------------------------------------
+500000     | 2447.35
+1000000    | 2273.53
+2300000    | 2298.82
+5000000    | 2471.07
+
+Atractor empírico detectado en: 5000000 ns
