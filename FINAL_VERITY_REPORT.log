@@ -1,0 +1,26 @@
+--- EVIDENCIA DE VERDAD SOBERANA ---
+🌌 OASIS KERNEL: Prueba de Inercia de Shannon
+TIPO DE DATO    | TAMAÑO(MB) | ENTROPÍA   | ESFUERZO(ms) | KAPPA (k)
+-----------------------------------------------------------------
+Estructurado    | 17.0     | 3.2195     | 142.78       | 0.2530    
+Caos (urandom)  | 16.0     | 8.0000     | 1101.25      | 0.8497    
+
+✅ CONCLUSIÓN EMPÍRICA:
+A pesar de que el esfuerzo físico cambia drásticamente según la entropía,
+el ratio entre esfuerzo y masa informacional (Kappa) busca la estabilización.
+
+--- RÉGIMEN SUB-CRÍTICO (κ = 0.5) ---
+  Eficiencia Media: 1610.96 instr/miss
+  Estabilidad (σ): 275.22
+
+--- RÉGIMEN CRÍTICO (PANZANO) (κ = 2.3) ---
+  Eficiencia Media: 1252.37 instr/miss
+  Estabilidad (σ): 270.14
+
+--- RÉGIMEN SOBRE-CRÍTICO (κ = 5.0) ---
+  Eficiencia Media: 1250.93 instr/miss
+  Estabilidad (σ): 212.85
+--- 🌌 RE-ALINEACIÓN COSMOLÓGICA (OASIS) ---
+Planck con Sintonía Phi: 67.3998 ± 0.0617
+SH0ES con Sintonía Phi: 73.0011 ± 0.0625
+Reducción de Incertidumbre detectada: 93.83%

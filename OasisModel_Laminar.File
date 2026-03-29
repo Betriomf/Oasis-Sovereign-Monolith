@@ -1,0 +1,4 @@
+FROM llama3
+PARAMETER temperature 0.618
+PARAMETER repeat_penalty 1.618
+PARAMETER top_k 55
