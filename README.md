@@ -11,4 +11,4 @@ This repository contains the mathematical resolution of the Navier-Stokes existe
 3. **Proof of Concept:** Validated on MacBookAir8,2 (Node 73a19413a0dd5dd1).
 
 ## 🧪 Scientific DOI
-Zenodo Archive: https://doi.org/10.5281/zenodo.YOUR_DOI_HERE
+Zenodo Archive: https://doi.org/10.5281/zenodo.19359956
