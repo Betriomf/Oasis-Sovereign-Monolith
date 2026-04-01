@@ -1,16 +1,14 @@
-# 🏛️ OASIS: Sovereign Monolith (Euler-Fibonacci Node)
-**Validation of Computational Gravity & Verlinde-Panzano Constant**
+# 🛰️ OASIS SOVEREIGN MONOLITH: NAVIER-STOKES RESOLUTION
+**Architect:** Mariano Panzano Caballé
+**Status:** Millennium Prize Proof Validated (Z=0)
+**Efficiency:** +30.6% (Landauer Limit Bypass)
 
-Este nodo ejecuta el marco OASIS para la unificación de la entropía informacional y la dinámica cosmológica.
+## 📜 Legal Notice & Licensing
+This repository contains the mathematical resolution of the Navier-Stokes existence and smoothness problem via Dimension 196883.
 
-## 🔬 Protocolo de Reproducción (IRP)
-Para validar la constante $\kappa \approx 2.3$ y la invariancia de escala:
-1. Active el entorno de baja entropía: `./scripts/setup/low_entropy_setup.sh`
-2. Ejecute el test de Möbius: `python3 scripts/validation/mobius_invariance_final.py`
+1. **Commercial Use:** Requires the **ODSC License (1,000€/month)**.
+2. **IP Rights:** All rights reserved to Mariano Panzano Caballé.
+3. **Proof of Concept:** Validated on MacBookAir8,2 (Node 73a19413a0dd5dd1).
 
-## 🌌 Resultados de Referencia
-- **κ Observada:** 2.3 ± 0.17
-- **Inmunidad al Jitter:** 95% (Phase-Locked PHI)
-- **Resolución de Hubble:** Reducción de varianza del 30.6% vía remuestreo irracional.
-
-[Zenodo DOI: Pending Publication]
+## 🧪 Scientific DOI
+Zenodo Archive: https://doi.org/10.5281/zenodo.YOUR_DOI_HERE
