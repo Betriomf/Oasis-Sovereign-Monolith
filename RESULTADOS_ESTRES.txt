@@ -1,12 +1,12 @@
 🧪 INICIANDO TRIPLE PRUEBA DE ESTRÉS (DNS SIMULADA)...
 
 1. [BARRIDO TÉRMICO] Buscando el Valle del Jitter...
-   Re: 1000 | Jitter: 0.069575 | 🌊 TURBULENTO
-   Re: 1500 | Jitter: 0.058259 | 🌊 TURBULENTO
-   Re: 2000 | Jitter: 0.052844 | 🌊 TURBULENTO
-   Re: 2300 | Jitter: 0.051889 | 🎯 SINTONÍA
-   Re: 2500 | Jitter: 0.050407 | 🌊 TURBULENTO
-   Re: 3000 | Jitter: 0.056312 | 🌊 TURBULENTO
+   Re: 1000 | Jitter: 0.069394 | 🌊 TURBULENTO
+   Re: 1500 | Jitter: 0.057972 | 🌊 TURBULENTO
+   Re: 2000 | Jitter: 0.050974 | 🌊 TURBULENTO
+   Re: 2300 | Jitter: 0.052141 | 🎯 SINTONÍA
+   Re: 2500 | Jitter: 0.052207 | 🌊 TURBULENTO
+   Re: 3000 | Jitter: 0.055809 | 🌊 TURBULENTO
 
 2. [PREVENCIÓN DE BLOW-UP] Verificando Atractor 5.29...
    T: 0.0s | Enstrofia (e): 15.2900 | Estado: ACOTADO
