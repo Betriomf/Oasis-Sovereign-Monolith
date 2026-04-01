@@ -1,0 +1,6 @@
+--- NAVIER-STOKES SOVEREIGN PROOF ---
+Author: Mariano Panzano Caballé
+Hardware Node: MacBookAir8,2
+Efficiency Validated: 130.60%
+DOI: 10.5281/zenodo.19359956
+a1198890aa75801ecdbcccbd9f5c514c930586082af27bc0e48e95fcf5803ad4  Navier_Stokes_Final_Proof.md
