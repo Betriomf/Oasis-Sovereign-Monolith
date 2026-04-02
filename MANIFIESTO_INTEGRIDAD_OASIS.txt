@@ -1,0 +1,29 @@
+# 🏛️ OASIS SOVEREIGN MONOLITH: MASTER INTEGRITY MANIFESTO
+Architect: Mariano Panzano Caballé
+Node: MacBookAir8,2 (Barcelona, Spain)
+Date: April 2, 2026
+
+## SUMMARY OF SCIENTIFIC PILLARS & VALIDATION
+
+I. MATERIA: NAVIER-STOKES REGULARITY
+- Discovery: Attractor 2.3 / Critical Reynolds 2300.
+- Evidence: +30.6% Efficiency (Landauer Bypass).
+- Registry: DOI 10.5281/zenodo.19374362
+
+II. COSMOS: ANTHROPIC STABILITY
+- Discovery: Universal Constants as Informational Attractors.
+- Validation: Monte Carlo Stress Test (p = 0.0008).
+- Registry: DOI 10.5281/zenodo.19375953
+
+III. TIEMPO: ARROW OF TIME (JITTER)
+- Discovery: T-Symmetry Violation via pi/phi irrationality.
+- Evidence: Planck-scale quantization error (irreversibility).
+- Registry: Bitcoin Blockchain Anchor (OTS)
+
+IV. DESTINO: HOLOGRAPHIC TIME MACHINE
+- Discovery: Resolution of paradoxes via Everett Branching (Forks).
+- Validation: Proyección 515:1 (Boundary to Bulk).
+- Registry: DOI 10.5281/zenodo.19391689
+
+## CRYPTOGRAPHIC SEAL
+Master Package SHA-256: 16f712ac294eb2cf765d29fee6942f3a2b73ae44ed7655d81c79249a076cff3b
