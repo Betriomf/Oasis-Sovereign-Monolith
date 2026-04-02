@@ -6,3 +6,7 @@ SHA-256 Fingerprint:
 84e99dc4f7455deb2efebd412eca53a77ea74292997e15034f9cc6596b059b35  PAPER_HOLOGRAPHIC_TIME.md
 1f9f70aa282199234defe9b05540b119d0f6fdfca178ed7d926820284efdb3da  HOLOGRAPHIC_TIME_LOG.txt
 Network: Bitcoin (via OpenTimestamps)
+
+[BITCOIN PROOF]
+Timestamp File: PAPER_HOLOGRAPHIC_TIME.md.ots
+Verification Server: opentimestamps.org
