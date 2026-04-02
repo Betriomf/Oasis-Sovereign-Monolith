@@ -10,3 +10,9 @@ Network: Bitcoin (via OpenTimestamps)
 [BITCOIN PROOF]
 Timestamp File: PAPER_HOLOGRAPHIC_TIME.md.ots
 Verification Server: opentimestamps.org
+
+[AMPLIACIÓN MAESTRA - 2 ABRIL 2026 - NODO AYERBE]
+Documento: HOLOGRAPHIC_TIME_MACHINE_PAPER.md (Síntesis: Landauer + Everett)
+Hash SHA-256 de la versión:
+72500dfb040ffb7786b9599768484991c9ccdd5371bb38a38f79a5cfe89b90ec  HOLOGRAPHIC_TIME_MACHINE_PAPER.md
+Blockchain Proof: HOLOGRAPHIC_TIME_MACHINE_PAPER_V_EXTENDED.md.ots
