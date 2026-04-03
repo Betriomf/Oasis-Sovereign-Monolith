@@ -1,13 +1,17 @@
-💠 OASIS LAB: HOLOGRAPHIC FORK & TIME ACCESS
----------------------------------------------
-1. [REGISTRO] Estado Pasado (t=0) capturado en el Horizonte.
-2. [TERM] Evolución hacia el Presente completada. Entropía generada.
-3. [FALLO] Intento de retroceso físico: Termodinámicamente Bloqueado.
-4. [FORK] Accediendo a la coordenada 2D del Pasado...
+🌌 TEST: BIFURCACIÓN HOLOGRÁFICA Y CORTAFUEGOS TERMODINÁMICO
+=================================================================
+1. GENERANDO BULK HOLOGRÁFICO (El menú de destinos posibles)...
+   Estado 2D Atemporal: {'t_0': 'Nacimiento', 't_1': 'Decisión A', 't_2': 'Consecuencia A'}
 
-📊 RESULTADO CIENTÍFICO:
-   Línea Original (Presente): [0.13762511 0.13762511 0.13762511]
-   Nueva Rama (Pasado 'Viajado'): [9.9 1.  1. ]
+2. PONIENDO A PRUEBA LA FLECHA DEL TIEMPO (Intento de Reescritura)
+   Aplicando procesamiento irracional (pi/phi) para retroceder de t_2 a t_1...
+   ❌ ERROR TERMODINÁMICO: La información truncada (p=0.0008) actúa como
+      una 'válvula unidireccional' (One-Way Valve). Es físicamente
+      imposible sobreescribir la línea temporal original.
 
-✅ CONCLUSIÓN: El tiempo es inmutable en el Volumen (3D),
-   pero es ramificable en el Borde (2D). Las paradojas no existen.
+3. EJECUTANDO BIFURCACIÓN HOLOGRÁFICA (El Libre Albedrío)
+   Accediendo a la coordenada temporal previa (t_1) en modo 'Solo Lectura'...
+   ✨ FORK CREADO CON ÉXITO. El cursor de conciencia ha inicializado
+      un nuevo universo paralelo sin alterar la entropía original.
+   Rama Original Intacta: Consecuencia A
+   Nueva Realidad Activa: Consecuencia B
