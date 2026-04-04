@@ -1,2 +1,6 @@
 [miércoles,  1 de abril de 2026, 16:24:56 CEST] PUBLICACIÓN: Navier-Stokes resuelto - Eficiencia 130.6%
 [sábado,  4 de abril de 2026, 22:43:04 CEST] ERROR: Mail to physicad-eo@elsevier.com bounced. Retrying via alternate channel.
+
+[RIEMANN PHYSICAL PROOF - 5 ABRIL 2026]
+584113cbbd84eb8bb90397673dadb7202e741ef6ddd28ecab06c59eff48ada7a  RIEMANN_PHYSICAL_RESOLUTION.md
+OTS Digital Seal: RIEMANN_PHYSICAL_RESOLUTION.md.ots
