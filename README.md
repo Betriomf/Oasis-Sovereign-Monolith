@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19458138.svg)](https://doi.org/10.5281/zenodo.19458138)
 # 🏛️ OASIS: SOVEREIGN UNIFIED MONOLITH
 **Architect:** Mariano Panzano Caballé
 **Scientific Pillar:** Phase 06 - Sovereign Synthesis
