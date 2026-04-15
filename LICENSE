@@ -1,21 +1,12 @@
-MIT License
-
+OASIS DUAL SCIENTIFIC-COMMERCIAL LICENSE (ODSC v1.0)
 Copyright (c) 2026 Mariano Panzano Caballé
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. SCIENTIFIC USE: Free and open access is granted for independent research, 
+academic study, and verification of the Riemann Hypothesis and Quantum Dissipation.
+2. COMMERCIAL USE: Any utilization in commercial hardware, quantum samplers, 
+or proprietary algorithms requires an explicit commercial license agreement.
+3. SOVEREIGNTY: Explicit exemptions are granted for EU Sovereign infrastructure 
+and non-profit decentralized networks.
+4. ATTRIBUTION: Citation of DOI 10.5281/zenodo.19599103 is mandatory.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+The software is provided "as is", without warranty of any kind.
