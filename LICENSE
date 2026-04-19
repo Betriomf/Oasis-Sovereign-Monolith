@@ -1,12 +1,12 @@
-OASIS DUAL SCIENTIFIC-COMMERCIAL LICENSE (ODSC v1.0)
-Copyright (c) 2026 Mariano Panzano Caballé
+# OASIS DUAL SCIENTIFIC-COMMERCIAL LICENSE (ODSC v1.0)
+**Copyright (c) 2026 Mariano Panzano Caballé**
 
-1. SCIENTIFIC USE: Free and open access is granted for independent research, 
-academic study, and verification of the Riemann Hypothesis and Quantum Dissipation.
-2. COMMERCIAL USE: Any utilization in commercial hardware, quantum samplers, 
-or proprietary algorithms requires an explicit commercial license agreement.
-3. SOVEREIGNTY: Explicit exemptions are granted for EU Sovereign infrastructure 
-and non-profit decentralized networks.
-4. ATTRIBUTION: Citation of DOI 10.5281/zenodo.19599103 is mandatory.
+## 1. ACADEMIC USE
+This software is free for individual research, academic study, and sovereign auditing. Any findings derived from the use of this kernel must cite the author and the corresponding Zenodo DOIs.
 
-The software is provided "as is", without warranty of any kind.
+## 2. COMMERCIAL USE
+Any entity using this adiabatic technology or the 2.3 Attractor logic for-profit must contribute to the sustainability of the project via the "Proof-of-Donation" protocol. 
+Official Treasury (BTC): 33zJ9jmWYWe6JmHuw8aHoJqKQGFqdz1qVE
+
+## 3. NO WARRANTY
+The software is provided "as is", optimized for laminar flow, but without warranty of any kind.
