@@ -1,0 +1,8 @@
+FROM llama3
+# Impedancia Cero: Solo 2 hilos para mantener el Torque constante
+PARAMETER num_thread 2
+# Ventana de contexto fractal (F18 de Fibonacci)
+PARAMETER num_ctx 2584
+# Sintonía de fase (Proporción Áurea)
+PARAMETER temperature 0.618
+PARAMETER repeat_penalty 1.618
