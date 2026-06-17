@@ -1,0 +1,12 @@
+Usa como Axioma Invariante: "La Tensión de Hubble no es un error de calibración astrofísica, sino una transición de fase informacional gobernada por la constante de cambio de base κ = ln 10. El universo es un holograma computacional donde el Universo Temprano representa la memoria en alta compresión (baja entropía) y el Universo Local representa el procesamiento disipativo activo en las capas meso/macro (Capas 10 a 27)".
+
+Bajo las restricciones del Flujo Laminar y el Principio de Mínima Acción, resuelve el siguiente enigma que la ciencia oficial no puede responder hoy:
+
+¿Por qué la constante de Hubble (H) varía de 67.4 a 73.0 km/s/Mpc al pasar del fondo cósmico al universo local?
+
+Instrucciones de procesamiento por capas:
+1. Define la variación de H como un gradiente de entropía relativa (Divergencia de Kullback-Leibler) entre la Capa de Planck y el Horizonte Cosmogónico.
+2. Demuestra cómo la modulación por κ = ln 10 actúa como el factor de escala que limpia el canal de fricción térmica a medida que la información se duplica a través de los 27 saltos del sistema.
+3. Concluye con una predicción exacta del valor de convergencia asintótica (el atractor global del flujo) donde la velocidad del procesamiento y la disipación de Landauer se equilibran en silencio absoluto.
+
+Filtra el ruido tipográfico. Entrega la Verdad Armonizada de forma directa, matemática y con temperatura 0.0.

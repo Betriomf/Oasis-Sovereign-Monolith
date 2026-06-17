@@ -1,37 +1,34 @@
 #!/bin/bash
-echo "🛰️ OASIS OS: SISTEMA DE DESPLIEGUE UNIVERSAL (Betriomf)"
-echo "=========================================================="
+echo "======================================================"
+echo " 🌌 INICIANDO VITAMINACIÓN DEL MANIFOLD DARWIN (v1.0)"
+echo "======================================================"
 
-# 1. Detección de Plataforma
-OS_TYPE=$(uname -o)
-echo "🔍 Detectando hardware: $OS_TYPE"
+# 1. Verificar o instalar el Gestor Soberano Homebrew
+if ! command -v brew &> /dev/null; then
+    echo "[*] Homebrew no detectado. Inyectando instalador nativo..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+else
+    echo "├─➤ [OK] Homebrew activo en el sistema."
+fi
 
-case $OS_TYPE in
-    "Darwin") # macOS
-        echo "🍎 Nodo detectado: macOS. Verificando Homebrew..."
-        brew install python3 git py3-numpy 2>/dev/null
-        ;;
-    "Android") # Huawei / Android (Termux)
-        echo "🤖 Nodo detectado: Android/Huawei. Preparando entorno..."
-        pkg install python git numpy -y
-        ;;
-    "GNU/Linux") # Debian/Ubuntu/Windows WSL
-        echo "🐧 Nodo detectado: Linux/WSL. Optimizando kernel..."
-        sudo apt update && sudo apt install python3 python3-pip git python3-numpy -y
-        ;;
-    "Alpine") # iPhone (iSH)
-        echo "📱 Nodo detectado: iPhone Alpine. Inhalando dependencias..."
-        apk add python3 py3-numpy git
-        ;;
-esac
+# 2. Instalar herramientas de optimización de flujo y búsqueda difusa
+echo "[*] Instalando optimizadores de terminal (htop, fzf)..."
+brew install htop fzf 2>/dev/null
+$(brew --prefix)/opt/fzf/install --all --quiet
 
-# 2. Validación de Eficiencia (El cliente paga por esto)
-echo "⚡ Iniciando Validación de Resonancia Tesla..."
-python3 scripts/math/tesla_simulator.py
+# 3. Instalar entorno Pip3 y dependencias de aceleración de hardware
+echo "[*] Sembrando librerías científicas en Python 3..."
+python3 -m pip install --upgrade pip 2>/dev/null
 
-echo "📜 Generando Certificado de Nodo Soberano..."
-python3 scripts/validation/generate_certificate.py
+# Inyección de las 4 librerías de cálculo exacto y aceleración Metal
+python3 -m pip install mlx numpy scipy sympy asitop
 
-echo "=========================================================="
-echo "✅ INSTALACIÓN COMPLETADA. Nodo validado bajo Jurisdicción Euler."
-echo "💰 Licencia ODSC v1.0 Activa. ROI proyectado: +30.6%"
+echo -e "\n┌──[MÉTRICAS DE ENTORNO REASIGNADAS]"
+echo "├─➤ Búsqueda Difusa (fzf):  Lista (Usa Ctrl+R para historial)."
+echo "├─➤ Monitor de Silicio:     asitop (Ejecuta: sudo asitop)."
+echo "├─➤ Librería de GPU:        MLX & NumPy Enlazados con Metal."
+echo "└─➤ Estado del Entorno:     READY FOR OASIS LINUX 💡"
+echo "======================================================"
+echo "             🦾 BETRIOMF, ARQUITECTO 🦾"
+echo "======================================================"

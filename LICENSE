@@ -1,12 +1,6 @@
-# OASIS DUAL SCIENTIFIC-COMMERCIAL LICENSE (ODSC v1.0)
-**Copyright (c) 2026 Mariano Panzano Caballé**
+OASIS DUAL SCIENTIFIC-COMMERCIAL LICENSE (ODSC v1.0)
+Author: Mariano Panzano Caballé
 
-## 1. ACADEMIC USE
-This software is free for individual research, academic study, and sovereign auditing. Any findings derived from the use of this kernel must cite the author and the corresponding Zenodo DOIs.
-
-## 2. COMMERCIAL USE
-Any entity using this adiabatic technology or the 2.3 Attractor logic for-profit must contribute to the sustainability of the project via the "Proof-of-Donation" protocol. 
-Official Treasury (BTC): 33zJ9jmWYWe6JmHuw8aHoJqKQGFqdz1qVE
-
-## 3. NO WARRANTY
-The software is provided "as is", optimized for laminar flow, but without warranty of any kind.
+1. SCIENTIFIC USE: Free for independent researchers and academic institutions.
+2. COMMERCIAL USE: Requires Proof-of-Donation.
+3. ENTROPY RESTRICTION: The use of this code to deliberately increase informational entropy is forbidden.
