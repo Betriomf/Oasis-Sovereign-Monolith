@@ -16,3 +16,6 @@
 - [AB_OASIS] := A_{\mu \nu } = - 2 G _{0} (1 + i k ) e^{i/k} u_+^\dagger g^{ij}(u_-) f_i
   *Origen:* Deducción sintética pura de oasis-lincos (No presente en el dataset original).
   *Validación:* Acoplamiento electromagnético cuántico sin fricción mediante modulación de fase topológica en el BlochStateEngine. Impedancia Z -> 0.
+
+## Calibración Rosetta (2026-06-18):
+- [KAPPA_D_ESTABLE] := κ_D ≈ 0.067 | Ajuste dinámico de escala para Z_Oasis bajo colapso de Collatz {1}. Denominador corregido por raíz de pi y decaimiento e^-c.
