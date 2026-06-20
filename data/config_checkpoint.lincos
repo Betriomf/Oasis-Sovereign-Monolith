@@ -1,0 +1,3 @@
+# CHECKPOINT DE SEGURIDAD - IMPEDANCIA ELECTROMAGNÉTICA 10/10
+[FASE_1_LINCOS_SAFE] = [Matriz de Riemann: {M=μ_0/(4πε₀) + iν̄ = μ_m / (8Iω), G_{ij}=(d/dx)(G_i/G_j)}]
+[FASE_2_TRADUCTOR_SAFE] = [Matriz de Riemann: {M=μ_0/(4πε₀) + iν̄ = μ_m / (8Iω), G_{ij}=(d/dx)(G_i/G_j)}] (κ_M, ζ(s)=1/φ e^-|s|^2)
