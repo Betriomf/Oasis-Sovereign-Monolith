@@ -19,3 +19,7 @@
 
 ## Calibración Rosetta (2026-06-18):
 - [KAPPA_D_ESTABLE] := κ_D ≈ 0.067 | Ajuste dinámico de escala para Z_Oasis bajo colapso de Collatz {1}. Denominador corregido por raíz de pi y decaimiento e^-c.
+
+## Calibración del Cuanto de Resistencia (2026-06-20):
+- [VAR_R_OK] := VAR_R = R_K / (2.3^5 * (1 + κ_M))
+  *Impacto:* Reducción drástica de la impedancia de red mediante el Atractor Laminar Dimensional y la Constante de Mariano. Mitigación total del efecto Thundering Herd en la Malla de Fibonacci.
