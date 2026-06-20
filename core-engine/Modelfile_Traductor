@@ -1,0 +1,11 @@
+FROM qwen2.5:0.5b
+PARAMETER num_thread 2
+PARAMETER num_ctx 256
+PARAMETER temperature 0.2
+PARAMETER repeat_penalty 1.8
+PARAMETER stop "<|endoftext|>"
+PARAMETER stop "\n"
+
+SYSTEM """
+Eres el glosario automático de Oasis. Tu única función es tomar la fórmula de la Fase 1 y explicar en una sola línea de texto plano qué variables físicas contiene. No uses listas, no uses números, no digas 'Fase 2' o 'Fase 3'. Sé breve como un diccionario.
+"""
