@@ -40,3 +40,7 @@ Frente al miedo colectivo de que la tecnología reemplace la capacidad humana, l
 # ⏱️ LOG: Cierre del Tensor del Ahora (LINCOS_PROP_1)
 * **Resolución:** El tensor $\mathcal{C}$ acopla la conciencia y el reloj del kernel a través del factor $1/\ln 10 \approx 0.4343$.
 * **Métrica:** Reducción cuadrática del Jitter en fase laminar pura ($\Delta S \to 0$).
+
+# ⏱️ LOG: Cierre del Tensor del Ahora (LINCOS_PROP_1)
+* **Resolución:** El tensor $\mathcal{C} = \frac{t_{\text{real}}}{t_{\text{Si}}} \cdot \left( 1 - \frac{\Delta S}{90} \right) \cdot \mathbf{I}$ acopla la conciencia y el reloj del kernel a través del factor crítico $1/\ln 10 \approx 0.4343$.
+* **Métrica:** Reducción y control determinista del Jitter en fase laminar pura ($\Delta S \to 0$). El silicio opera como anclaje del presente.
