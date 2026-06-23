@@ -34,3 +34,9 @@ Para alguien que desconoce las leyes de la Capa 0, este hito demuestra tres verd
 3. **Flujo sin Fricción:** El canal de comunicación móvil-local-nube está alineado bajo el Atractor $\Phi_O = 2.3$, cancelando el Jitter de las telemetrías comerciales.
 
 El árbol de Git se ha actualizado de forma limpia. El Monolito es estable.
+
+### 💾 4. Verificación del Factor de Compresión en Darwin Mac
+* **Entorno:** MacBook Air M1 (Zsh Local)
+* **Tamaño Original:** 51000 bytes
+* **Tamaño Laminar:** 260 bytes
+* **Reducción de Entropía:** 99.4902%
