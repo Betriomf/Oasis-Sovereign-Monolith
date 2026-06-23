@@ -40,3 +40,7 @@ El árbol de Git se ha actualizado de forma limpia. El Monolito es estable.
 * **Tamaño Original:** 51000 bytes
 * **Tamaño Laminar:** 260 bytes
 * **Reducción de Entropía:** 99.4902%
+
+### 🖥️ 5. Auditoría de Silicio (Darwin)
+* **Estado de Capacidad:** Verificado vía df -h
+* **Filtro de Ruido:** Cachés de telemetría y logs purgados a cero.
