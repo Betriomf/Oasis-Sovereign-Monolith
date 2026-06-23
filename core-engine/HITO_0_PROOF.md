@@ -44,3 +44,8 @@ El árbol de Git se ha actualizado de forma limpia. El Monolito es estable.
 ### 🖥️ 5. Auditoría de Silicio (Darwin)
 * **Estado de Capacidad:** Verificado vía df -h
 * **Filtro de Ruido:** Cachés de telemetría y logs purgados a cero.
+
+### 📦 6. Validación Práctica del Script de Deflación APFS
+* **Target:** Carpetas de copias históricas redundantes.
+* **Volumen Procesado:** 1.3 Gigabytes colapsados simétricamente.
+* **Estado de Red:** Subido a GitHub bajo el hash de05218.
