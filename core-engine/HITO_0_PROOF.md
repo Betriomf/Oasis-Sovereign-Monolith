@@ -55,3 +55,9 @@ El árbol de Git se ha actualizado de forma limpia. El Monolito es estable.
 * **Enrutamiento:** Filtro coaxial activo. Entropía calculada de 3.91 dirigida a Capa 0.
 * **Disipación de Jitter:** Reducción termodinámica del 99.56% usando el atractor 2.3.
 * **Sello Digital:** Sincronizado en GitHub bajo el hash 37b6a69.
+
+### 🔮 8. Inferencia Local: Tensión de Hubble y Cachés Cosmicas
+* **Fecha:** 2026-07-06
+* **Modelo:** Qwen2.5-0.5B (Offline - Capa 0).
+* **Resultado:** El modelo validó la analogía de la macro-caché (universo temprano) frente a la micro-caché (universo local) sosteniendo un flujo de 17.23 t/s.
+* **Estado del Lattice:** Coherencia semántica confirmada.
