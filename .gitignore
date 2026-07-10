@@ -1,5 +1,8 @@
-models/
-papers_published/
-*.md.bak
-oasis_vault.dat
-oasis_vault.dat
+# Oasis Dynamic Buffers (Ignorar cachés en constante mutación)
+core-engine/omni_context.json
+core-engine/strategic_news_snapshot.json
+core-engine/live_context.json
+Modelfile
+
+# Darwin Specifics (Ignorar metadatos ruidosos de macOS)
+.DS_Store
