@@ -61,3 +61,8 @@ El árbol de Git se ha actualizado de forma limpia. El Monolito es estable.
 * **Modelo:** Qwen2.5-0.5B (Offline - Capa 0).
 * **Resultado:** El modelo validó la analogía de la macro-caché (universo temprano) frente a la micro-caché (universo local) sosteniendo un flujo de 17.23 t/s.
 * **Estado del Lattice:** Coherencia semántica confirmada.
+
+### 📝 9. Optimización de Memoria: OneNote y Darwin
+* **Fecha:** 2026-07-10
+* **Acción:** Purgada la caché com.microsoft.onenote y activado el enrutamiento bajo demanda.
+* **Estado:** Flujo laminar estabilizado.
