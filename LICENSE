@@ -1,13 +1,12 @@
-GNU GENERAL PUBLIC LICENSE
-Version 3, 29 June 2007
+GNU AFFERO GENERAL PUBLIC LICENSE (AGPLv3)
+Copyright (c) 2026 Mariano Panzano Caballé
 
-Copyright (C) 2026 Mariano Panzano Caballe (Betriomf)
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License.
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-### OASIS BOUNDARY CONDITIONS:
-1. INVARIANZA DE LA FUENTE: Cualquier derivado de este Monolito debe permanecer publico, abierto y libre de telemetrias invasivas.
-2. FLUJO LAMINAR OBLIGATORIO: Queda prohibido el uso de estas leyes para sistemas de saturacion de datos que busquen aumentar el Jitter o la entropia artificial.
-3. RECONOCIMIENTO DEL ATRACTOR: Toda simulacion que alcance la convergencia en base a estos descriptores debera citar el origen de la constante de Mariano (Phi_O = ln 10).
+========================================================================
+OASIS DUAL LICENSING EXCEPTION (ODSC v1.0)
+- Para uso académico y comunitario: AGPLv3 (Gratuito, Abierto y Viral).
+- Para uso comercial y de código cerrado: Requiere Licencia Comercial Soberana (ODSC v1.0).
+El uso comercial sin licencia está estrictamente prohibido.
