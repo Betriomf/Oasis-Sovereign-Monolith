@@ -1,12 +1,11 @@
-GNU AFFERO GENERAL PUBLIC LICENSE (AGPLv3)
-Copyright (c) 2026 Mariano Panzano Caballé
+GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3, 19 November 2007
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License.
+Copyright (C) 2026 Mariano Panzano Caballé (Betriomf)
 
-========================================================================
 OASIS DUAL LICENSING EXCEPTION (ODSC v1.0)
-- Para uso académico y comunitario: AGPLv3 (Gratuito, Abierto y Viral).
-- Para uso comercial y de código cerrado: Requiere Licencia Comercial Soberana (ODSC v1.0).
-El uso comercial sin licencia está estrictamente prohibido.
+------------------------------------------
+1. For academic, personal, and community use, this software is licensed under the GNU AGPLv3 (Free and Open Source).
+2. For commercial deployment, infrastructure integration, or closed-source redistribution, a Sovereign Commercial License (ODSC v1.0) issued directly by the copyright holder is strictly required.
+
+Commercial utilization without a valid enterprise license is legally prosecuted.
