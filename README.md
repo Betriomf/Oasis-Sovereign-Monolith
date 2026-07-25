@@ -1,3 +1,19 @@
+# 🌌 Oasis Sovereign Monolith
+
+![Pioneer Program](https://img.shields.io/badge/Pioneer_Program-50%2F50_Cupos_Disponibles-brightgreen.svg)
+![License](https://img.shields.io/badge/License-Dual_BSL-blue.svg)
+
+> 🎯 **Programa Early Pioneer Activo (Licencia Comercial de por Vida):**
+>
+> * **Cupos Disponibles:** `50 / 50`
+> * **Cobertura Gratuita:** Hasta **10 nodos/servidores de producción** por empresa.
+> * **Condición:** Reclamable enviando el informe firmado de `./oasis_run_benchmark.py`.
+> * **Escala Enterprise:** Despliegues mayores a 10 nodos requieren Licencia BSL Comercial pagada.
+>
+> 🔗 **Consulta el manifiesto legal completo en [PIONEER_PROGRAM.md](PIONEER_PROGRAM.md)**
+
+---
+
 # 🌌 Oasis Sovereign Monolith: Computación Sintérgica de Capa 0
 ## Autor: Mariano Panzano Caballé
 ## Licencia: Apache 2.0 (Open Science)
