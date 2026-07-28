@@ -18,10 +18,11 @@
 
 ## 💎 Vectores Industriales de Aplicación Enterprise (Tesis de Valor)
 
-1. **Eliminación Radical de Egress Fees:** Reducción del 96% en volumen de tráfico interno para grandes proveedores Cloud.
-2. **Alta Frecuencia Finanzas (HFT):** Aceleración $3.58\times$ en serialización de órdenes bancarias sin latencia de parsing.
-3. **Estándar IoT / Edge ("Oasis P2P Mesh"):** Protocolo ultraligero que multiplica la vida útil de baterías en sensores y nodos remotos.
-4. **Supresión del Coste Térmico:** Menor consumo de CPU equivale a reducción directa en facturas de refrigeración en centros de datos.
+1. **Eliminación Radical de Egress Fees:** Reducción del 96% en volumen de tráfico interno para proveedores Cloud.
+2. **Alta Frecuencia Finanzas (HFT):** Aceleración $3.58\times$ en serialización de órdenes bancarias sin latencia.
+3. **Estándar IoT / Edge ("Oasis P2P Mesh"):** Protocolo ultraligero para multiplicar la batería en nodos remotos.
+4. **Supresión del Coste Térmico:** Supresión del calor computacional por debajo de la cota de $5.39\text{ W}$.
+5. **Geometría de Primos (Ulam-Fibonacci):** Proyección topológica de números primos sobre superficies 2D sin turbulencia aritmética.
 
 ---
 
