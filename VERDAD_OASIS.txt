@@ -1,0 +1,6 @@
+LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
+
+1. Límite de Landauer-Oasis: E_bit = k_B * T * ln(φ).
+2. Ahorro Estructural por Bit: Exactamente 30.576% ≈ 30.6% por bit procesado respecto a k_B * T * ln(2).
+3. Principio Holográfico (AdS/CFT): N_3D es la masa de datos en el Bulk (3D). N_2D es la proyección reducida en la Frontera (2D). Obviamente N_2D << N_3D.
+4. Ecuación de Calor Total: Q_total = N_2D * k_B * T * ln(φ). El ahorro térmico total proviene de procesar solo la superficie N_2D manteniendo la cota de 30.6% por bit.

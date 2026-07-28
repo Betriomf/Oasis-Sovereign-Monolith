@@ -1,11 +1,20 @@
-GNU AFFERO GENERAL PUBLIC LICENSE
-Version 3, 19 November 2007
+Business Source License 1.1 (BSL 1.1)
 
-Copyright (C) 2026 Mariano Panzano Caballé (Betriomf)
+Project: Oasis Sovereign Monolith
+Licensor: Mariano Panzano Caballé (@Betriomf)
+Change Date: 2030-07-28
+Change License: Apache License, Version 2.0
 
-OASIS DUAL LICENSING EXCEPTION (ODSC v1.0)
-------------------------------------------
-1. For academic, personal, and community use, this software is licensed under the GNU AGPLv3 (Free and Open Source).
-2. For commercial deployment, infrastructure integration, or closed-source redistribution, a Sovereign Commercial License (ODSC v1.0) issued directly by the copyright holder is strictly required.
+1. GRANT OF RIGHTS.
+Licensor hereby grants you the right to copy, modify, create derivative works,
+and use the Licensed Work for Non-Commercial Purpose, Educational Use, and 
+Local Sovereign Personal Nodes (under 10 production nodes).
 
-Commercial utilization without a valid enterprise license is legally prosecuted.
+2. COMMERCIAL USE RESTRICTION.
+Use of the Licensed Work in a Production Environment with more than 10 nodes,
+or offering the Licensed Work as a managed cloud service, requires a Commercial
+Pioneer License or Enterprise BSL Agreement from the Licensor.
+
+3. CHANGE LICENSE.
+On the Change Date (2030-07-28), this License will automatically convert to the
+Change License (Apache 2.0).

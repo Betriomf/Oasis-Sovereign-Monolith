@@ -1,8 +1,16 @@
-# Oasis Dynamic Buffers (Ignorar cachés en constante mutación)
-core-engine/omni_context.json
-core-engine/strategic_news_snapshot.json
-core-engine/live_context.json
-Modelfile
+# Excluir entornos virtuales y cachés de Python
+__pycache__/
+*.pyc
+openwebui-env/
+.venv/
 
-# Darwin Specifics (Ignorar metadatos ruidosos de macOS)
+# Excluir modelos binarios pesados (se gestionan vía Ollama)
+*.gguf
+*.bin
+*.tar.gz
+
+# Excluir registros locales y temporales
+*.log
+oasis_ledger.json
+moonshine_results.csv
 .DS_Store
