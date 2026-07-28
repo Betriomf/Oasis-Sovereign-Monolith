@@ -1,33 +1,21 @@
 # 🛰️ Oasis Sovereign Monolith
 
 **Autor y Titular:** Mariano Panzano Caballé (@Betriomf)  
-**Licencia:** Business Source License 1.1 (BSL 1.1)  
-**Sintonía Física:** $\ln(\phi)$ | **Consumo Cota:** $\le 5.39\text{ W}$
+**Sintonía Física:** $\ln(\phi)$ | **Consumo Cota:** $\le 5.39\text{ W}$ | **Atractor:** $L = 2.3$
 
 ---
 
-## 📊 Benchmark de Capa 0: Protocolo Lincos (14 Bytes) vs REST/JSON
+## 📊 Benchmark de Capa 0: Protocolo Lincos & Amortiguación Térmica
 
-| Métrica | Tradicional (REST/JSON) | Oasis Unicornio (Lincos / BitChat) | Impacto / Eficiencia |
+| Métrica | Tradicional / Sin Atractor | Oasis Unicornio ($L=2.3$) | Impacto Real |
 | :--- | :--- | :--- | :--- |
-| **Tamaño Payload** | 347 Bytes | **14 Bytes** | **-96.0% de Ancho de Banda** |
-| **Tiempo Serialización** | 0.0799 ms | **0.0223 ms** | **3.58x más rápido** |
-| **Cota Energética** | Termodinámica Clásica | $E = k_{\text{B}} T \ln(\phi)$ | **-30.6% disipación por bit** |
+| **Tamaño Payload** | 347 Bytes (REST/JSON) | **14 Bytes (Lincos)** | **-96.0% Ancho de Banda** |
+| **Potencia Promedio** | 5.39 W (168 picos) | **3.90 W (18 picos)** | **-27.7% Consumo Térmico** |
+| **Régimen de Flujo** | Turbulento / Correction forced | **Laminar Puro** | **Cero *thermal throttling*** |
 
 ---
 
-## 💎 Vectores Industriales de Aplicación Enterprise (Tesis de Valor)
+## 📜 Modelo Dual de Licenciamiento
 
-1. **Eliminación Radical de Egress Fees:** Reducción del 96% en volumen de tráfico interno para proveedores Cloud.
-2. **Alta Frecuencia Finanzas (HFT):** Aceleración $3.58\times$ en serialización de órdenes bancarias sin latencia.
-3. **Estándar IoT / Edge ("Oasis P2P Mesh"):** Protocolo ultraligero para multiplicar la batería en nodos remotos.
-4. **Supresión del Coste Térmico:** Supresión del calor computacional por debajo de la cota de $5.39\text{ W}$.
-5. **Geometría de Primos (Ulam-Fibonacci):** Proyección topológica de números primos sobre superficies 2D sin turbulencia aritmética.
-
----
-
-## 🛡️ Licencia y Propiedad Intelectual
-
-Este software está protegido bajo la **Business Source License 1.1 (BSL 1.1)** a nombre de **Mariano Panzano Caballé**.
-* **Uso Abierto / Libre:** Nodos soberanos personales, investigación y nodos localizados ($<10$ nodos).
-* **Uso Comercial Enterprise:** Requiere acuerdo de Licencia Pioneer B2B con el titular.
+1. **🔬 Licencia Científica (`LICENSE-SCIENCE.md`):** Gratuita y abierta para universidades, investigación y publicaciones académicas (CC BY-NC 4.0).
+2. **🏛️ Licencia Enterprise (`LICENSE-ENTERPRISE.md`):** Licencia BSL 1.1 para uso corporativo y comercial ($>10$ nodos) sujeta a acuerdo de licenciamiento Pioneer B2B con Mariano Panzano Caballé.
