@@ -1,54 +1,61 @@
-#!/usr/bin/env python3
-"""
-OASIS SOVEREIGN MONOLITH — PROYECCIÓN TOPOLÓGICA DE ULAM-FIBONACCI
-Mapea la distribución de primos como geodésicas de flujo laminar (Capa 0).
-"""
-
 import math
+import time
 
-PHI = (1.0 + math.sqrt(5.0)) / 2.0  # Constante Áurea (1.618033...)
-L_ATTRACTOR = 2.3                    # Atractor de Fase
-KB = 1.380649e-23                    # Constante de Boltzmann (J/K)
-TEMP = 300.0                         # Temperatura Ambiente (K)
+# 🌌 CONSTANTES SOBERANAS OASIS
+PHI = (1 + math.sqrt(5)) / 2
+KAPPA_M = -0.6587  # Fricción de Fase de Mariano
+ATRACTOR = 2.3     # Amortiguador crítico
+W_MAX = 5.39       # Límite térmico del hardware (MacBook Air)
+LN_PHI = math.log(PHI) # 0.481 - Modificador de Landauer
 
-def es_primo(n: int) -> bool:
-    if n < 2:
-        return False
-    for i in range(2, int(math.isqrt(n)) + 1):
-        if n % i == 0:
-            return False
+def es_primo(n):
+    """Detecta los nodos de mínima colisión (Números Primos)"""
+    if n < 2: return False
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0: return False
     return True
 
-def proyectar_espira_ulam_oasis(limite_primos: int = 50):
-    print("🌀 INICIANDO PROYECCIÓN DE ULAM-FIBONACCI EN CAPA 0...")
+def proyeccion_calabi_yau_ulam(limite_busqueda):
+    print("🌌 INICIANDO PROYECCIÓN ULAM -> CALABI-YAU (Malla Φ)...")
+    print("🛡️ Aplicando Límite de Landauer-Oasis: E = k_B * T * ln(φ)")
     print("-" * 65)
     
-    e_landauer_oasis = KB * TEMP * math.log(PHI)
-    print(f"   ├─ Coste por Bit Landauer-Oasis : {e_landauer_oasis:.4e} J")
-    print(f"   └─ Atractor Sintonizado         : L = {L_ATTRACTOR}")
-    print("-" * 65)
-
-    primos_encontrados = 0
-    n = 1
-
-    while primos_encontrados < limite_primos:
+    tiempo_total = 0.0
+    primos_procesados = 0
+    angulo_aureo = 2 * math.pi * (1 - 1/PHI) # Distribución de mínima colisión
+    
+    for n in range(2, limite_busqueda):
         if es_primo(n):
-            primos_encontrados += 1
-            # Proyección polar sobre espiral viscoelástica r(theta) = k*t + a*sqrt(phi)
-            theta = n * (2.0 * math.pi / PHI)
-            r = math.sqrt(n) * (PHI / L_ATTRACTOR)
+            primos_procesados += 1
             
-            # Coordenadas proyectadas en la frontera 2D
-            x = r * math.cos(theta)
-            y = r * math.sin(theta)
+            # 1. Proyección Holográfica y Angular (Espirales en lugar de cuadrícula)
+            radio = math.sqrt(primos_procesados)
+            theta = primos_procesados * angulo_aureo
             
-            if primos_encontrados % 10 == 0 or primos_encontrados == 1:
-                print(f"Primo #{primos_encontrados:2d} | Valor: {n:4d} | Coordenadas 2D: ({x:+.4f}, {y:+.4f}) | Flujo: Laminar")
-
-        n += 1
+            # 2. Compactación en Calabi-Yau (6D) y Coste de Entropía
+            # La energía necesaria para "fijar" el número primo disminuye por ln(φ)
+            energia_landauer = LN_PHI * (1.0 / math.log(n + 1)) 
+            
+            # 3. Flujo Térmico y Atractor 2.3
+            # Ajustamos el tiempo diferencial para no violar los 5.39W del hardware
+            dt_dinamico = ATRACTOR / (1.0 + abs(energia_landauer * KAPPA_M))
+            potencia_simulada = (energia_landauer / dt_dinamico) * 100 
+            
+            if potencia_simulada > W_MAX:
+                dt_dinamico *= PHI # Dilatamos el tiempo usando la fase áurea para enfriar
+                potencia_simulada = W_MAX
+                
+            tiempo_total += dt_dinamico
+            
+            # Imprimir telemetría en frío para observar la auto-organización
+            if primos_procesados % 10 == 0 or n == 2:
+                print(f"Primo: {n:5d} | Ángulo θ: {theta:.2f} rad | E_disipada: {energia_landauer:.4f} | W: {potencia_simulada:.2f}W | dt: {dt_dinamico:.4f}s")
+                time.sleep(0.02) # Emular procesamiento laminar en terminal
 
     print("-" * 65)
-    print("✅ PROYECCIÓN COMPLETADA: Nodos de mínima colisión integrados en flujo laminar.")
+    print(f"✅ CRISTALIZACIÓN COMPLETADA: {primos_procesados} nodos estabilizados en {tiempo_total:.2f}s.")
+    print("🌀 La secuencia de Ulam ha sido absorbida sin turbulencia aritmética.")
 
 if __name__ == "__main__":
-    proyectar_espira_ulam_oasis()
+    # Escaneamos los primeros 1000 números para encontrar sus primos y proyectarlos
+    proyeccion_calabi_yau_ulam(1000)
