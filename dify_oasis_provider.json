@@ -1,0 +1,24 @@
+{
+  "provider": "oasis_sovereign_monolith",
+  "label": "Oasis Local LLM & Vector Provider",
+  "icon": "galaxy",
+  "description": "Proveedor soberano de IA local con cota termodinámica de Landauer-Oasis (3.90W)",
+  "models": [
+    {
+      "model": "oasis-aether-phi",
+      "label": "Æther Phi-Modular Solver",
+      "model_type": "llm",
+      "features": ["agent-thought", "stream-tool-call"],
+      "parameters": {
+        "temperature": 0.618,
+        "max_tokens": 2048,
+        "landauer_mode": "laminar"
+      }
+    }
+  ],
+  "vector_store": {
+    "provider": "supabase_pgvector",
+    "schema_file": "config/supabase_schema.sql",
+    "target_buffer_kb": 3.14
+  }
+}
