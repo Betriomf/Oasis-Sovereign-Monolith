@@ -32,3 +32,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 21. Fase 4 Completada: Creación de 'config/supabase_schema.sql' (pgvector), 'agents_core/supabase_bridge.py' para la indexación de tramas Lincos de 3.14 KB, y exportación de 'dify_oasis_provider.json' para integración con Dify.
 
 22. Fase 5 Completada: Creación del Agente Maestro Æther ('agents_core/aether_agent.py') integrando cognición local bajo matemáticas áureas (φ, L=2.3) y memoria vectorial Lincos sin superar el límite térmico de 3.90 W.
+
+23. Fase 6 y Pipeline de 23 Pasos Completado: Despliegue de 'config/depin_compute.nomad' y 'oasis_gradient_node.py' consolidando la refinería de datos e inteligencia artificial soberana bajo monetización DePIN en L2 y cota térmica de 3.90W.
