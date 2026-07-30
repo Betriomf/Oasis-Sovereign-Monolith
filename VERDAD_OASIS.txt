@@ -56,3 +56,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 33. Motor Unificado DePIN e IA Soberana: 'agents_core/oasis_depin_ai_engine.py' integra la inferencia en frío de IA bajo sintonía de Fibonacci, la protección termodinámica Bohr-Hafnium en PowerDrop, la escalabilidad holográfica (1M nodos) y las defensas causales de Minkowski contra spoofing y envenenamiento de datos.
 
 34. Telemetría Térmica y Liquidación L2: Módulo 'agents_core/oasis_telemetry_monitor.py' implementa la monitorización en tiempo real del ahorro energético (30.6%) y el cálculo de liquidación continua de recompensas en $SPN / Satoshis por ciclo de trabajo laminar.
+
+35. Fidelidad Cuántica y Slashing de Gobernanza: Módulo 'agents_core/oasis_fidelity_slashing.py' implementa la verificación de Fidelidad Cuántica (F) para repeler envenenamiento de datos y la ejecución automática de Slashing ($SPN) contra redes Sybil y spoofing.
