@@ -16,3 +16,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 11. Orquestador del Kernel (TypeScript): 'OasisKernelOrchestrator.ts' integra el Guion del Constructor, la IA local soberana, el almacenamiento Dropzone con cifrado AGE y el enrutamiento privado I2P Garlic.
 
 12. Minería de Gradientes L2 & Puente Nomad/Dify: Ejecución de 'oasis_gradient_node.py' validó +$0.44845 USDC en 2.3 ciclos con cota Landauer-Oasis (-30.6% calor, 3.14 KB payload). Módulo 'oasis_nomad_dify_bridge.py' integra Nomad y Dify (143.8k★).
+
+13. Fase 1 & 2 Completadas: Instalación de Crawl4AI, Playwright y Supabase. Creación de 'agents_core/crawl_engine.py' para extracción web e integración con tramas Lincos (3.14 KB, Landauer-Oasis ln φ).
