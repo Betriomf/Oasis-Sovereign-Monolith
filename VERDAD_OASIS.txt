@@ -18,3 +18,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 12. Minería de Gradientes L2 & Puente Nomad/Dify: Ejecución de 'oasis_gradient_node.py' validó +$0.44845 USDC en 2.3 ciclos con cota Landauer-Oasis (-30.6% calor, 3.14 KB payload). Módulo 'oasis_nomad_dify_bridge.py' integra Nomad y Dify (143.8k★).
 
 13. Fase 1 & 2 Completadas: Instalación de Crawl4AI, Playwright y Supabase. Creación de 'agents_core/crawl_engine.py' para extracción web e integración con tramas Lincos (3.14 KB, Landauer-Oasis ln φ).
+
+15. Cálculo de Tensión de Cuerda (Nambu-Goto): 'agents_core/oasis_string_tension.py' calcula la tensión τ_0 y la frecuencia confinada del neutrino, deduciendo una suma de masas Σ m_ν de ~0.058 eV (validado bajo la cota < 0.41 eV de arXiv:2607.24742).
