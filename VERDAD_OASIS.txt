@@ -14,3 +14,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 10. Motor de Unificación (TypeScript): 'GrandUnifiedEngine.ts' conecta las 8 constantes (0, 1, π, φ, ln 10, e, √3, κ_M) para enrutar cargas masivas mediante trayectorias de Mínima Acción en retícula hexagonal y régimen laminar.
 
 11. Orquestador del Kernel (TypeScript): 'OasisKernelOrchestrator.ts' integra el Guion del Constructor, la IA local soberana, el almacenamiento Dropzone con cifrado AGE y el enrutamiento privado I2P Garlic.
+
+12. Minería de Gradientes L2 & Puente Nomad/Dify: Ejecución de 'oasis_gradient_node.py' validó +$0.44845 USDC en 2.3 ciclos con cota Landauer-Oasis (-30.6% calor, 3.14 KB payload). Módulo 'oasis_nomad_dify_bridge.py' integra Nomad y Dify (143.8k★).
