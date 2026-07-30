@@ -36,3 +36,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 23. Fase 6 y Pipeline de 23 Pasos Completado: Despliegue de 'config/depin_compute.nomad' y 'oasis_gradient_node.py' consolidando la refinería de datos e inteligencia artificial soberana bajo monetización DePIN en L2 y cota térmica de 3.90W.
 
 25. Protecciones de Nube y Escudo Bohr-Hafnium: Módulo 'agents_core/bohr_hafnium_shield.py' implementa hibernación por anomalía térmica (Hafnio) y decaimiento efímero con zeroización de memoria en 5 segundos (Bohrio) contra Ataques de Inversión de Modelo.
+
+26. Defensa Anti-Sybil y Movimiento Browniano: Actualización de 'agents_core/bohr_hafnium_shield.py' incorporando la Prueba de Difusión (varianza de entropía orgánica), verificación SBT de Hardware-Binding y penalización por Slashing en $SPN contra botnets sintéticas.
