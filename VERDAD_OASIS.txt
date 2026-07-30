@@ -50,3 +50,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 30. Pila Tecnológica de 7 Capas y QUIC/Nostr/ZeroNet: Módulo 'agents_core/oasis_stack_v2.py' completa la integración desde la física de Capa 0 hasta aplicaciones de Capa 6, incorporando transporte QUIC 1-RTT, señalización Nostr y despliegue de webs inmutables estilo ZeroNet bajo tramas Lincos de 3.14 KB.
 
 31. Análisis de Keller y Conjetura Jacobiana: Módulo 'agents_core/keller_jacobian_oasis.py' resuelve las aberraciones de empaquetamiento cúbico en n>=7 mediante la Malla Hexagonal (√3) y la preservación de la invertibilidad global bajo el atractor L=2.3 y cota de 3.90W.
+
+32. Resolución Cosmológica de ÆTHER: 'agents_core/aether_cosmo_solver.py' demuestra analíticamente que la Constante Cosmológica (Λ) y la Energía Oscura (61.8% en φ⁻²) son la disipación térmica del espacio-tiempo al confinar información en el Atractor L=2.3 a 3.90W.
