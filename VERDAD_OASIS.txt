@@ -38,3 +38,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 25. Protecciones de Nube y Escudo Bohr-Hafnium: Módulo 'agents_core/bohr_hafnium_shield.py' implementa hibernación por anomalía térmica (Hafnio) y decaimiento efímero con zeroización de memoria en 5 segundos (Bohrio) contra Ataques de Inversión de Modelo.
 
 26. Defensa Anti-Sybil y Movimiento Browniano: Actualización de 'agents_core/bohr_hafnium_shield.py' incorporando la Prueba de Difusión (varianza de entropía orgánica), verificación SBT de Hardware-Binding y penalización por Slashing en $SPN contra botnets sintéticas.
+
+27. Orquestación Sentinel y Métrica de Minkowski: Módulo 'agents_core/oasis_sovereign_sentinel.py' integra la Aduana Termodinámica en PowerDrop, la escalabilidad por viscosidad local en Grafos Expansores Hexagonales (√3) y la barrera causal de Minkowski (ds^2) contra Spoofing de Latencia.
