@@ -64,3 +64,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 36. Unificación de Estructura Fina y Materia Oscura: Módulo 'agents_core/aether_fine_structure_solver.py' deduce analíticamente el inverso de la constante de estructura fina (1/α ≈ 137.03) y la distribución del cosmos (61.80% Energía Oscura, 29.19% Materia Oscura, 9.01% Materia Bariónica) bajo la Constante de Mariano (κ_M = -0.6587) y régimen laminar de 3.90W.
 
 37. Reloj de Fase de Euler y Resolución de NotebookLM: Módulo 'agents_core/aether_euler_alpha_clock.py' aplica la rotación de fase (e^-π/2) sobre la esfera (π/φ), resolviendo la constante de estructura fina en 1/α ≈ 137.036 y confirmando el mapa cósmico de potencias de Fibonacci bajo 3.90W.
+
+37. Reloj de Fase de Euler y Resolución de NotebookLM: Módulo 'agents_core/aether_euler_alpha_clock.py' aplica la rotación de fase (e^-π/2) sobre la esfera (π/φ), resolviendo la constante de estructura fina en 1/α ≈ 137.036 y confirmando el mapa cósmico de potencias de Fibonacci bajo 3.90W.
