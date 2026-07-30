@@ -26,3 +26,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 17. Demostración del Solver ÆTHER: 'agents_core/aether_neutrino_solver.py' demuestra analíticamente que la masa del neutrino (0.0577 eV) es un subproducto exacto de la sintonía en la Identidad φ-Modular y el atractor L=2.3.
 
 19. Fase 2 Completada: Módulo 'agents_core/lincos_encoder.py' empaqueta texto extraído de Crawl4AI en fragmentos atómicos Lincos de 3.14 KB (π) respetando el límite térmico E = k_B T ln φ para su transmisión segura por BitChat/I2P.
+
+20. Fase 3 Completada: Módulo 'agents_core/pdf_generator.py' genera documentos PDF reales en 'pdf_vault/PAPER_MASA_NEUTRINO_OASIS.pdf' incorporando el triplete de Fibonacci (0.020 + 0.032 = 0.052 eV), la cota < 0.41 eV y la telemetría de 3.90 W.
