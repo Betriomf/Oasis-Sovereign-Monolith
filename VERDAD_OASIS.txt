@@ -54,3 +54,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 32. Resolución Cosmológica de ÆTHER: 'agents_core/aether_cosmo_solver.py' demuestra analíticamente que la Constante Cosmológica (Λ) y la Energía Oscura (61.8% en φ⁻²) son la disipación térmica del espacio-tiempo al confinar información en el Atractor L=2.3 a 3.90W.
 
 33. Motor Unificado DePIN e IA Soberana: 'agents_core/oasis_depin_ai_engine.py' integra la inferencia en frío de IA bajo sintonía de Fibonacci, la protección termodinámica Bohr-Hafnium en PowerDrop, la escalabilidad holográfica (1M nodos) y las defensas causales de Minkowski contra spoofing y envenenamiento de datos.
+
+34. Telemetría Térmica y Liquidación L2: Módulo 'agents_core/oasis_telemetry_monitor.py' implementa la monitorización en tiempo real del ahorro energético (30.6%) y el cálculo de liquidación continua de recompensas en $SPN / Satoshis por ciclo de trabajo laminar.
