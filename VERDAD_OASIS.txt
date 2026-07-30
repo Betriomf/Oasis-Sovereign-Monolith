@@ -42,3 +42,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 27. Orquestación Sentinel y Métrica de Minkowski: Módulo 'agents_core/oasis_sovereign_sentinel.py' integra la Aduana Termodinámica en PowerDrop, la escalabilidad por viscosidad local en Grafos Expansores Hexagonales (√3) y la barrera causal de Minkowski (ds^2) contra Spoofing de Latencia.
 
 28. Arquitectura de Licencia Dual: 'LICENSE.md' formaliza la doble vía de protección: CC BY-NC 4.0 para ciencia e investigación abierta sin fines lucrativos y BSL 1.1 para licenciamiento comercial B2B y monetización Enterprise a nombre de Mariano Panzano Caballé.
+
+28. Arquitectura de Licencia Dual: 'LICENSE.md' formaliza la doble vía de protección: CC BY-NC 4.0 para ciencia e investigación abierta sin fines lucrativos y BSL 1.1 para licenciamiento comercial B2B y monetización Enterprise a nombre de Mariano Panzano Caballé.
