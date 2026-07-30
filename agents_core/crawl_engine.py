@@ -28,7 +28,7 @@ def empaquetar_trama_lincos(texto_raw: str) -> dict:
         "header": "LINCOS_CAPA0_V1",
         "bytes_origen": tamano_bytes,
         "buffer_target_kb": PI_BUFFER,
-        "entropia_landauer": round(entropia_landauer, 6),
+        "entropia_landauer": round(entropia_estimada, 6),
         "atractor_fase": ATRACTOR,
         "contenido_limpio": texto_raw[:500] + "..."  # Extracto atómico de muestra
     }
