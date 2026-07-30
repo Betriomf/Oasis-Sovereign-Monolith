@@ -46,3 +46,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 28. Arquitectura de Licencia Dual: 'LICENSE.md' formaliza la doble vía de protección: CC BY-NC 4.0 para ciencia e investigación abierta sin fines lucrativos y BSL 1.1 para licenciamiento comercial B2B y monetización Enterprise a nombre de Mariano Panzano Caballé.
 
 29. Comunicaciones Híbridas (I2P SSU2 + BitChat Mesh): Módulo 'agents_core/oasis_communications_mesh.py' unifica el anonimato global por túneles I2P Garlic (UDP/SSU2) con la transmisión P2P local sin Internet (Bluetooth/Wi-Fi Direct) para tramas Lincos de 3.14 KB.
+
+30. Pila Tecnológica de 7 Capas y QUIC/Nostr/ZeroNet: Módulo 'agents_core/oasis_stack_v2.py' completa la integración desde la física de Capa 0 hasta aplicaciones de Capa 6, incorporando transporte QUIC 1-RTT, señalización Nostr y despliegue de webs inmutables estilo ZeroNet bajo tramas Lincos de 3.14 KB.
