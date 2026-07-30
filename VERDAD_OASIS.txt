@@ -30,3 +30,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 20. Fase 3 Completada: Módulo 'agents_core/pdf_generator.py' genera documentos PDF reales en 'pdf_vault/PAPER_MASA_NEUTRINO_OASIS.pdf' incorporando el triplete de Fibonacci (0.020 + 0.032 = 0.052 eV), la cota < 0.41 eV y la telemetría de 3.90 W.
 
 21. Fase 4 Completada: Creación de 'config/supabase_schema.sql' (pgvector), 'agents_core/supabase_bridge.py' para la indexación de tramas Lincos de 3.14 KB, y exportación de 'dify_oasis_provider.json' para integración con Dify.
+
+22. Fase 5 Completada: Creación del Agente Maestro Æther ('agents_core/aether_agent.py') integrando cognición local bajo matemáticas áureas (φ, L=2.3) y memoria vectorial Lincos sin superar el límite térmico de 3.90 W.
