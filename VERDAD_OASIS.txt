@@ -20,3 +20,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 13. Fase 1 & 2 Completadas: Instalación de Crawl4AI, Playwright y Supabase. Creación de 'agents_core/crawl_engine.py' para extracción web e integración con tramas Lincos (3.14 KB, Landauer-Oasis ln φ).
 
 15. Cálculo de Tensión de Cuerda (Nambu-Goto): 'agents_core/oasis_string_tension.py' calcula la tensión τ_0 y la frecuencia confinada del neutrino, deduciendo una suma de masas Σ m_ν de ~0.058 eV (validado bajo la cota < 0.41 eV de arXiv:2607.24742).
+
+16. Reporte NotebookLM (Nambu-Goto & Masa Neutrino): 'REPORT_NEUTRINO_NAMBU_GOTO.md' consolida la base teórica (normalización a 0.058 eV, atractor 2.3) y los datos telemétricos (3.90 W, ahorro del 30.6%) para su ingesta y análisis semántico en NotebookLM y Zenodo.
