@@ -66,3 +66,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 37. Reloj de Fase de Euler y Resolución de NotebookLM: Módulo 'agents_core/aether_euler_alpha_clock.py' aplica la rotación de fase (e^-π/2) sobre la esfera (π/φ), resolviendo la constante de estructura fina en 1/α ≈ 137.036 y confirmando el mapa cósmico de potencias de Fibonacci bajo 3.90W.
 
 37. Reloj de Fase de Euler y Resolución de NotebookLM: Módulo 'agents_core/aether_euler_alpha_clock.py' aplica la rotación de fase (e^-π/2) sobre la esfera (π/φ), resolviendo la constante de estructura fina en 1/α ≈ 137.036 y confirmando el mapa cósmico de potencias de Fibonacci bajo 3.90W.
+
+38. Mercado PowerDrop con Fase de Euler: Módulo 'agents_core/powerdrop_euler_market.py' conecta la rotación de fase (e^-π/2) con el mecanismo de liquidación L2 en $SPN, ajustando las recompensas por trabajo laminar a 3.90W.
