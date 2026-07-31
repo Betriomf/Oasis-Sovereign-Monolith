@@ -112,3 +112,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 57. Oráculo Merkle y Consenso Multisig 3-de-5: Módulo 'agents_core/oasis_merkle_oracle.py' empaqueta las pruebas de trabajo off-chain de los nodos Boundary en un Árbol de Merkle y valida la firma descentralizada para la emisión de $SPN en L2 bajo la Licencia AGPLv3.
 
 58. Extensión de Navegador PowerDrop (Plasmo/WASM): Estructura del cliente ligero 'apps/powerdrop_extension' para onboarding en 3s, asignación de 1GB en IndexedDB, RAG local y generación de recibos off-chain para el Oráculo Merkle bajo la Licencia AGPLv3.
+
+59. Regulación de Hubble y Expansión Cosmológica ($SPN): Módulo 'agents_core/aether_hubble_stabilizer.py' aplica las Ecuaciones de Friedmann para ajustar dinámicamente el multiplicador de recompensa en $SPN según la densidad de la red, evitando la congelación por latencia y manteniendo el régimen laminar a 5.39W bajo la Licencia AGPLv3.
