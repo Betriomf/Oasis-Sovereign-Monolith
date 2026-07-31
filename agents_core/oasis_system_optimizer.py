@@ -56,3 +56,11 @@ try:
     integrator.procesar_y_almacenar("arXiv:2607.27337", "Holography in linearized quantum gravity", 7.6983, 1.9941, "Automatic daemon ingestion")
 except Exception as e:
     pass
+
+# Invocación directa del optimizador laminar de macOS
+try:
+    from agents_core.mac_laminar_optimizer import MacLaminarOptimizer
+    opt = MacLaminarOptimizer()
+    opt.optimizar_rendimiento_sistema()
+except Exception as e:
+    pass
