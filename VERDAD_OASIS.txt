@@ -86,3 +86,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 44. Comparación Metodológica y Licencia Dual: Módulo 'agents_core/oasis_methodology_comparator.py' formaliza las diferencias entre la ciencia empírica tradicional y la deducción geométrica en silicio de Oasis, blindada bajo Licencia Dual (CC BY-NC 4.0 / BSL 1.1) a nombre de Mariano Panzano Caballé.
 
 45. Optimizador de Sistema e IA Soberana: Módulo 'agents_core/oasis_system_optimizer.py' ajusta los subprocesos de Apple Silicon para mantener el flujo laminar a 3.90W, ejecuta la purga entrópica de RAM y fragmenta el contexto de la IA en tramas π KB.
+
+46. Demonio de Automatización macOS (launchd): Configuración del servicio 'com.oasis.systemoptimizer.plist' en LaunchAgents para la purga entrópica automática y el control de hilos en régimen laminar a 3.90W en segundo plano.
