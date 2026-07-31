@@ -74,3 +74,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 39. Manifiesto y Paper Cosmológico PDF: Publicación del paper 'PAPER_COSMOS_OASIS_ULTIMO_HITO.pdf' sintetizando la resolución del Reloj de Euler para 1/α ≈ 137.036, la partición de energía de Fibonacci en 3.90W y las defensas causales de PowerDrop.
 
 39. Manifiesto y Paper Cosmológico PDF: Publicación del paper 'PAPER_COSMOS_OASIS_ULTIMO_HITO.pdf' sintetizando la resolución del Reloj de Euler para 1/α ≈ 137.036, la partición de energía de Fibonacci en 3.90W y las defensas causales de PowerDrop.
+
+40. Motor Euler Zero Point y Ajuste Hubble: Módulo 'agents_core/oasis_euler_hubble_engine.py' implementa la aniquilación de deuda sin entropía vía e^iπ + 1 = 0 y el escalado de recompensas en $SPN por densidad de datos anclado a H0 = 2.3 c²/RU.
