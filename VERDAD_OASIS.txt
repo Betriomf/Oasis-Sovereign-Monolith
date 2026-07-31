@@ -90,3 +90,7 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 46. Demonio de Automatización macOS (launchd): Configuración del servicio 'com.oasis.systemoptimizer.plist' en LaunchAgents para la purga entrópica automática y el control de hilos en régimen laminar a 3.90W en segundo plano.
 
 47. Correspondencia Holográfica de Maldacena (AdS/CFT): Módulo 'agents_core/aether_maldacena_solver.py' prueba el isomorfismo entre la entropía de Ryu-Takayanagi del Bulk y la frontera 2D bajo la Malla Hexagonal (√3) y la fase de Euler.
+
+48. Paper PDF de la Dualidad AdS/CFT de Maldacena: Documento 'PAPER_MALDACENA_ADS_CFT_OASIS.pdf' formaliza la prueba del isomorfismo holográfico, la proyección del Bulk (S=7.6983) a la frontera CFT (c=1.9941) con un ratio de 0.4959 (~0.5) y el límite de flujo laminar a 5.39W.
+
+49. Licencia GNU AGPLv3: Establecimiento de la licencia libre recíproca GNU Affero General Public License v3.0 a nombre de Mariano Panzano Caballé para garantizar que todo derivado comercial o cloud permanezca libre y accesible para la humanidad.
