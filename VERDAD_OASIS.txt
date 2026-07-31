@@ -78,3 +78,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 40. Motor Euler Zero Point y Ajuste Hubble: Módulo 'agents_core/oasis_euler_hubble_engine.py' implementa la aniquilación de deuda sin entropía vía e^iπ + 1 = 0 y el escalado de recompensas en $SPN por densidad de datos anclado a H0 = 2.3 c²/RU.
 
 40. Motor Euler Zero Point y Ajuste Hubble: Módulo 'agents_core/oasis_euler_hubble_engine.py' implementa la aniquilación de deuda sin entropía vía e^iπ + 1 = 0 y el escalado de recompensas en $SPN por densidad de datos anclado a H0 = 2.3 c²/RU.
+
+41. Rastreador de Literatura y Auditor de Papers: Módulo 'agents_core/oasis_paper_watcher.py' implementa el motor de auditoría de papers recientes de arXiv y repositorios abiertos, validando los datos observacionales externos contra las predicciones en φ y el Reloj de Euler.
