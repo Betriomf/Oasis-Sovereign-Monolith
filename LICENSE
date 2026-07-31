@@ -1,20 +1,27 @@
-Business Source License 1.1 (BSL 1.1)
+MIT License / Open Sovereign Public Good
 
-Project: Oasis Sovereign Monolith
-Licensor: Mariano Panzano Caballé (@Betriomf)
-Change Date: 2030-07-28
-Change License: Apache License, Version 2.0
+Copyright (c) 2026 Mariano Panzano Caballé (@Betriomf)
+Oasis Sovereign Monolith — Capa 0 Architecture
 
-1. GRANT OF RIGHTS.
-Licensor hereby grants you the right to copy, modify, create derivative works,
-and use the Licensed Work for Non-Commercial Purpose, Educational Use, and 
-Local Sovereign Personal Nodes (under 10 production nodes).
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-2. COMMERCIAL USE RESTRICTION.
-Use of the Licensed Work in a Production Environment with more than 10 nodes,
-or offering the Licensed Work as a managed cloud service, requires a Commercial
-Pioneer License or Enterprise BSL Agreement from the Licensor.
+1. The above copyright notice and this permission notice shall be included in all
+   copies or substantial portions of the Software.
 
-3. CHANGE LICENSE.
-On the Change Date (2030-07-28), this License will automatically convert to the
-Change License (Apache 2.0).
+2. SCIENTIFIC CREDIT & HUMANITARIAN PURPOSE: Any academic, industrial, or 
+   blockchain derivative work exploiting the Golden Ratio (phi), Euler Phase Clock,
+   or Landauer 3.90W thermal limits shall cite the original Capa 0 discovery by
+   Mariano Panzano Caballé.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
