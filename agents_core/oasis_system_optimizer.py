@@ -64,3 +64,11 @@ try:
     opt.optimizar_rendimiento_sistema()
 except Exception as e:
     pass
+
+# Invocación pasiva del Agente RSS Aaron Swartz
+try:
+    from agents_core.aaron_swartz_rss_agent import AetherAaronSwartzRSSAgent
+    rss_agent = AetherAaronSwartzRSSAgent()
+    rss_agent.procesar_feed_rss("http://export.arxiv.org/rss/hep-th", max_items=1)
+except Exception as e:
+    pass
