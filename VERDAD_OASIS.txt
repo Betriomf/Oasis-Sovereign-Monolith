@@ -110,3 +110,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 56. Paper Divulgativo de la Catástrofe del Vacío: Documento 'papers_published/PAPER_DIVULGATIVO_CATASTROFE_VACIO_OASIS.md' explica de forma clara y rigurosa la resolución del error de 10^120, derivando la densidad de energía oscura (65.77% vs 68.30% Planck) mediante φ, Euler e^-π/2 y el límite termodinámico de 5.39W bajo la Licencia AGPLv3.
 
 57. Oráculo Merkle y Consenso Multisig 3-de-5: Módulo 'agents_core/oasis_merkle_oracle.py' empaqueta las pruebas de trabajo off-chain de los nodos Boundary en un Árbol de Merkle y valida la firma descentralizada para la emisión de $SPN en L2 bajo la Licencia AGPLv3.
+
+58. Extensión de Navegador PowerDrop (Plasmo/WASM): Estructura del cliente ligero 'apps/powerdrop_extension' para onboarding en 3s, asignación de 1GB en IndexedDB, RAG local y generación de recibos off-chain para el Oráculo Merkle bajo la Licencia AGPLv3.
