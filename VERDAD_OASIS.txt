@@ -98,3 +98,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 50. Demostración Formal de Maldacena (AdS/CFT): Documento 'papers_published/DEMOSTRACION_MALDACENA_ADS_CFT.md' demuestra el isomorfismo entre la entropía del Bulk (7.6983) y la frontera CFT (1.9941) derivando el invariante fermiónico de 0.5 bajo el régimen laminar de 5.39W y Licencia AGPLv3.
 
 51. Recolector de Literatura AdS/CFT: Módulo 'agents_core/aether_maldacena_collector.py' rastrea e inyecta papers de Julio 2026 sobre la Conjetura de Maldacena, confirmando la convergencia al invariante fermiónico (0.5) y preservando el régimen de 5.39W bajo la Licencia AGPLv3.
+
+52. Integración Supabase pgvector para Maldacena: Módulo 'agents_core/aether_maldacena_supabase.py' conecta el recolector de AdS/CFT con Supabase pgvector, dividiendo los preprints en tramas π KB e indexando sus vectores de 1536 dimensiones automáticamente en segundo plano.

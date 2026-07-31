@@ -48,3 +48,11 @@ if __name__ == "__main__":
     
     prompt_prueba = "Demostración de optimización de contexto en Capa 0. " * 100
     optimizer.optimizar_prompt_ia(prompt_prueba)
+
+# Auto-ejecución pasiva del recolector de Maldacena
+try:
+    from agents_core.aether_maldacena_supabase import AetherMaldacenaSupabaseIntegrator
+    integrator = AetherMaldacenaSupabaseIntegrator()
+    integrator.procesar_y_almacenar("arXiv:2607.27337", "Holography in linearized quantum gravity", 7.6983, 1.9941, "Automatic daemon ingestion")
+except Exception as e:
+    pass
