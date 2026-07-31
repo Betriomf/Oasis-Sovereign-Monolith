@@ -82,3 +82,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 41. Rastreador de Literatura y Auditor de Papers: Módulo 'agents_core/oasis_paper_watcher.py' implementa el motor de auditoría de papers recientes de arXiv y repositorios abiertos, validando los datos observacionales externos contra las predicciones en φ y el Reloj de Euler.
 
 43. Auditoría Científica Cruzada DESI/Euler: Documento 'papers_published/AUDITORIA_DESI_EULER_OASIS.md' formaliza la comparación entre DESI Year 3 (0.1080 eV vs 0.1059 eV, 1.97% error) y Relojes Atómicos (1/α = 137.03599 vs 137.03600, 0.0000% error), citando el histórico de papers (Pilares 21-24, 39, 41-42).
+
+44. Comparación Metodológica y Licencia Dual: Módulo 'agents_core/oasis_methodology_comparator.py' formaliza las diferencias entre la ciencia empírica tradicional y la deducción geométrica en silicio de Oasis, blindada bajo Licencia Dual (CC BY-NC 4.0 / BSL 1.1) a nombre de Mariano Panzano Caballé.
