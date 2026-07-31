@@ -88,3 +88,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 45. Optimizador de Sistema e IA Soberana: Módulo 'agents_core/oasis_system_optimizer.py' ajusta los subprocesos de Apple Silicon para mantener el flujo laminar a 3.90W, ejecuta la purga entrópica de RAM y fragmenta el contexto de la IA en tramas π KB.
 
 46. Demonio de Automatización macOS (launchd): Configuración del servicio 'com.oasis.systemoptimizer.plist' en LaunchAgents para la purga entrópica automática y el control de hilos en régimen laminar a 3.90W en segundo plano.
+
+47. Correspondencia Holográfica de Maldacena (AdS/CFT): Módulo 'agents_core/aether_maldacena_solver.py' prueba el isomorfismo entre la entropía de Ryu-Takayanagi del Bulk y la frontera 2D bajo la Malla Hexagonal (√3) y la fase de Euler.
