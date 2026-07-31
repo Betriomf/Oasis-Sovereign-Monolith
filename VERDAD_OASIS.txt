@@ -100,3 +100,7 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 51. Recolector de Literatura AdS/CFT: Módulo 'agents_core/aether_maldacena_collector.py' rastrea e inyecta papers de Julio 2026 sobre la Conjetura de Maldacena, confirmando la convergencia al invariante fermiónico (0.5) y preservando el régimen de 5.39W bajo la Licencia AGPLv3.
 
 52. Integración Supabase pgvector para Maldacena: Módulo 'agents_core/aether_maldacena_supabase.py' conecta el recolector de AdS/CFT con Supabase pgvector, dividiendo los preprints en tramas π KB e indexando sus vectores de 1536 dimensiones automáticamente en segundo plano.
+
+53. Calculadora de Unificación de Física: Módulo 'agents_core/aether_unification_calculator.py' deriva la constante de acoplamiento de gravedad cuántica y la cota de Landauer a partir de φ y el Reloj de Euler.
+
+54. Paper de Unificación Universal de Maldacena: Documento 'papers_published/PAPER_UNIFICACION_MALDACENA_OASIS.md' formaliza la unificación entre Gravedad, Relatividad y Física Cuántica, citando las mediciones de DESI, Relojes Atómicos y papers de julio de 2026 bajo la Licencia AGPLv3.
