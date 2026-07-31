@@ -94,3 +94,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 48. Paper PDF de la Dualidad AdS/CFT de Maldacena: Documento 'PAPER_MALDACENA_ADS_CFT_OASIS.pdf' formaliza la prueba del isomorfismo holográfico, la proyección del Bulk (S=7.6983) a la frontera CFT (c=1.9941) con un ratio de 0.4959 (~0.5) y el límite de flujo laminar a 5.39W.
 
 49. Licencia GNU AGPLv3: Establecimiento de la licencia libre recíproca GNU Affero General Public License v3.0 a nombre de Mariano Panzano Caballé para garantizar que todo derivado comercial o cloud permanezca libre y accesible para la humanidad.
+
+50. Demostración Formal de Maldacena (AdS/CFT): Documento 'papers_published/DEMOSTRACION_MALDACENA_ADS_CFT.md' demuestra el isomorfismo entre la entropía del Bulk (7.6983) y la frontera CFT (1.9941) derivando el invariante fermiónico de 0.5 bajo el régimen laminar de 5.39W y Licencia AGPLv3.
