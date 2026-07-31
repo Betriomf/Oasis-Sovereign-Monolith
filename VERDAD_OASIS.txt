@@ -124,3 +124,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 63. Auditoría de Literatura Cosmológica 2026 (Energía y Materia Oscura): Módulo 'agents_core/test_dark_energy_2026.py' contrasta preprints recientes de 2026 (DES/DESI) contra la densidad de energía oscura derivada en Capa 0 (65.77% vs 68.30%), confirmando la divergencia < 3.7% sin parámetros libres bajo la Licencia AGPLv3.
 
 64. Reporte Consolidado de Unificación Holográfica y Cosmología 2026: Documento 'papers_published/REPORTE_CONSOLIDADO_HOLOGRAFIA_COSMOLOGIA_2026.md' unifica la Dualidad AdS/CFT de Maldacena (Ratio 0.5), el auto-escalado de Friedmann-Hubble y los resultados de las auditorías de 2026 bajo la Licencia AGPLv3.
+
+66. Motor de Verificación Transparente de Noticias y Papers (Aether Fact Verifier): Módulo 'agents_core/aether_fact_verifier.py' emite certificados criptográficos SHA-256 y pruebas Merkle 3-de-5 para auditar la veracidad y reproducibilidad de cualquier noticia o publicación científica bajo Licencia AGPLv3.
