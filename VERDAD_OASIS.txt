@@ -128,3 +128,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 66. Motor de Verificación Transparente de Noticias y Papers (Aether Fact Verifier): Módulo 'agents_core/aether_fact_verifier.py' emite certificados criptográficos SHA-256 y pruebas Merkle 3-de-5 para auditar la veracidad y reproducibilidad de cualquier noticia o publicación científica bajo Licencia AGPLv3.
 
 67. Kernel Tesla-Landauer para Lubuntu y Monetización PowerDrop Búnker 84: Módulo 'agents_core/lubuntu_tesla_landauer_setup.sh' configura el Kernel de Linux (BBR, MTU 1300, vfs_cache_pressure=161, ZRAM LZ4) para flujo laminar de red, y 'agents_core/powerdrop_monetizer.py' liquida las recompensas $SPN cifradas en AES-256-CBC en Búnker 84 bajo Licencia AGPLv3.
+
+68. Puente Búnker 84 y Prueba de Optimización de macOS: Módulo 'agents_core/mac_bunker_bridge_test.py' valida el cifrado AES-256-CBC con PBKDF2 del archivo datos_privados.enc en el Búnker 84, ejecuta purga de RAM y confirma la estabilidad térmica a 3.90W-5.39W en macOS bajo Licencia AGPLv3.
