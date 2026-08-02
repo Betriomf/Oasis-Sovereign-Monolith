@@ -158,3 +158,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 85. Analizador Científico de Conciencia Velázquez & Goya (Pilar 85): Módulo 'agents_core/velazquez_goya_consciousness_analyzer.py' procesa preprints de bioRxiv/arXiv sobre IIT 4.0 y mapeo holográfico cerebral, fragmentando las tramas a π KB (3141 chars) y deduciendo su valor comercial y científico a 5.39W bajo Licencia AGPLv3.
 
 87. Agente Kimi Goya Slides Engine (Pilar 87): Módulo 'agents_core/kimi_goya_slides_agent.py' actúa como el quinto agente del Monolito, convirtiendo los principios de Capa 0 (Hardware-Binding SU(2), RAG Óptico Lincos, Hipocampo Artificial y Protocolo de Conciencia) en estructuras de diapositivas agénticas para Kimi Slides y Marp a 5.39W bajo Licencia AGPLv3.
+
+88. Generador Visual del Mapa de la Mente (Kimi Goya Pilar 88): Módulo 'agents_core/kimi_goya_mind_diagram.py' renderiza el esquema gráfico de la mente holográfica (Dropzone, Cifrado AGE, Bulk 3D vs Borde 2D) en ASCII y Mermaid.js para Kimi Slides a 5.39W bajo Licencia AGPLv3.
