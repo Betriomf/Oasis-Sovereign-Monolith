@@ -142,3 +142,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 72. Agente OCR Velázquez (Retratador Óptico de Contexto): Módulo 'agents_core/velazquez_ocr_agent.py' actúa de forma aislada extrayendo y estructurando PDFs y papers pesados en tramas Lincos (π KB) para la IA local, preservando el contexto semántico y las ecuaciones a 5.39W bajo Licencia AGPLv3.
 
 73. Auditoría y Retrato Óptico de Neutrinos (Agente Velázquez 2026): Módulo 'agents_core/test_velazquez_neutrinos_2026.py' conecta al Agente Velázquez con los feeds de física de partículas y cosmología de arXiv, fragmentando la masa de neutrinos en tramas Lincos (π KB) para RAG local a 5.39W bajo Licencia AGPLv3.
+
+74. Orquestador Tripartito de la Tensión de Hubble (Swartz + Velázquez + ÆTHER): Módulo 'agents_core/tripartite_hubble_orchestrator.py' unifica la búsqueda abierta (Aaron Swartz), la estructuración óptica en tramas Lincos (Velázquez) y la resolución teórico-cosmológica (ÆTHER) acotada por el Atractor 2.3 (ln 10) a 5.39W bajo Licencia AGPLv3.
