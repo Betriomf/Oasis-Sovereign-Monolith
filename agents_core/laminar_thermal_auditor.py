@@ -29,6 +29,7 @@ class LaminarThermalAuditor:
     def obtener_carga_sistema(self):
         # Lee la carga promedio de la CPU (último minuto)
         try:
+            # os.getloadavg() retorna un tuple: (1m, 5m, 15m). Extraemos el primer elemento float.
             return os.getloadavg()
         except AttributeError:
             # Fallback si no está disponible en el S.O.
@@ -83,7 +84,7 @@ class LaminarThermalAuditor:
         hilo_trabajo.start()
 
         intervalo = 1.0
-        pasos = int(duracion_segundos / intervalo)
+        pasos = int(duracion_segundos / interval) if isinstance(duracion_segundos, (int, float)) else 10
 
         try:
             for paso in range(pasos):
