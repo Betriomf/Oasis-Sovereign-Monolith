@@ -171,3 +171,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 95. Paper Científico de Plegamiento de Proteínas en Capa 0: Documento 'papers_published/PAPER_PLEGAMIENTO_PROTEINAS_OASIS.md' formaliza la resolución de la Paradoja de Levinthal, unificando la Masa Informacional de los 20 aminoácidos, la Métrica de Fisher-Rao y el Operador de Proyección sobre la variedad del Grupo Monstruo ($M^{196883}$) con un límite de Landauer reducido de ln(φ) a 4.41W bajo la Licencia AGPLv3.
 
 96. Renderizador Adiabático de Proteínas en Malla Hexagonal (Rust): Módulo nativo 'agents_core/oasis_protein_renderer.rs' simula y renderiza interactivamente en la terminal una cadena polipeptídica de 30 aminoácidos proyectada en la variedad del Monstruo ($M^{196883}$) y sintonizada a la proporción áurea, garantizando el flujo laminar frío a 4.41W bajo la Licencia AGPLv3.
+
+97. Licencia Maestra GNU AGPLv3: Sello legal de copyleft recíproco a nombre de Mariano Panzano Caballé en la raíz del repositorio, garantizando la inmutabilidad y la apertura permanente de los pilares del Monolito para la humanidad.
