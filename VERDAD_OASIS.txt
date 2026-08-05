@@ -179,3 +179,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 98. Modelo de Activación Termodinámica de Materia Oscura (ÆTHER): Módulo 'agents_core/dark_matter_activation_test.py' valida la densidad de masa informacional fraccionaria (3/4) y la Constante de Mariano (|κ_M| = 0.6587), demostrando la transición del régimen de reposo laminar (κ ≈ 1.12 a 2.73 K) a flujo activo dentro del techo térmico de 5.39W bajo Licencia AGPLv3.
 
 99. Puente de Tolerancia a Sobrecargas Apolo 11 AGC (Pilar 99): Módulo 'agents_core/apollo11_agc_laminar_bridge.py' emula la gestión de interrupciones asíncronas del Apollo Guidance Computer (Alarma 1202) mitigando picos de carga mediante el Atractor 2.3 (ln 10) a 5.39W bajo Licencia AGPLv3.
+
+100. Agente Apolo 11 Air-Gapped y Motor Ramanujan-Chudnovsky (Pilar 100): Módulo 'agents_core/apollo11_airgap_fountain.py' otorga soberanía absoluta sin WiFi/Bluetooth mediante transferencia óptica Fountain QR y auditoría de fase local basada en la serie de Chudnovsky (1/pi) a 5.39W bajo Licencia AGPLv3.
