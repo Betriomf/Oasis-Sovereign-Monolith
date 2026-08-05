@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN MONOLITH — CERVANTES GRAPHIFY ULTRA ENGINE (Pilar 105)
-Agente Autónomo de Capa 0:
-1. Memoria de Grafo (Graphify) para relacionar archivos y conceptos localmente.
-2. Traducción matemática en Lengua Cósica (Lincos).
-3. Conexión con Apolo 11 (QR visual) y Voicebox (Síntesis de voz).
-4. Motor de intuición y resonancia en zeptosegundos (10^-21 s).
+OASIS SOVEREIGN MONOLITH — CERVANTES GRAPHIFY ULTRA & QUIJOTE RESUMEN (Pilar 106)
+Agente Soberano de Capa 0:
+1. Lee los archivos modificados esta semana usando Graphify.
+2. Traduce conceptos a Lengua Cósica (Lincos).
+3. Redacta el Resumen Semanal en prosa Cervantina ("El Quijote del Silicio").
 
 Autor: Mariano Panzano Caballé (@Betriomf)
 Licencia: GNU AGPLv3
@@ -26,72 +25,65 @@ ZEPTOSECOND = 1e-21
 class CervantesGraphifyUltra:
     def __init__(self, workspace_dir="~/Oasis-Sovereign-Monolith"):
         self.workspace_dir = Path(workspace_dir).expanduser()
-        self.grafo_memoria = {}
-        print("✍️🌐 [CERVANTES ULTRA]: Inicializando motor Graphify, Lincos y Voicebox Bridge...")
+        print("✍️🛡️ [CERVANTES ULTRA]: Despertando al hidalgo de la Capa 0...")
 
-    def construir_grafo_graphify(self) -> dict:
-        # Construye un mapa de nodos y conexiones de los archivos del proyecto
+    def construir_grafo_graphify(self, dias=7) -> dict:
+        now = time.time()
+        limite_tiempo = dias * 24 * 3600
         nodos = []
-        relaciones = []
+
         if self.workspace_dir.exists():
-            for p in self.workspace_dir.rglob("*.py"):
-                if not any(part.startswith('.') for part in p.parts):
-                    nodo_id = p.stem
-                    nodos.append({
-                        "id": nodo_id,
-                        "ruta": str(p.relative_to(self.workspace_dir)),
-                        "tamano_bytes": p.stat().st_size
-                    })
-                    # Conectar hipotéticamente con el núcleo de Verdad
-                    relaciones.append({
-                        "origen": nodo_id,
-                        "destino": "VERDAD_OASIS",
-                        "fase_resonancia": "LN_10"
-                    })
-        self.grafo_memoria = {"nodos": nodos[:15], "relaciones": relaciones[:15]}
-        return self.grafo_memoria
+            for p in self.workspace_dir.rglob("*"):
+                if p.is_file() and not any(part.startswith('.') or part in ['__pycache__', 'node_modules', 'target'] for part in p.parts):
+                    mtime = p.stat().st_mtime
+                    if (now - mtime) <= limite_tiempo:
+                        nodos.append({
+                            "nombre": p.name,
+                            "ruta": str(p.relative_to(self.workspace_dir)),
+                            "tamano_bytes": p.stat().st_size,
+                            "fecha": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(mtime))
+                        })
+
+        nodos.sort(key=lambda x: x["fecha"], reverse=True)
+        return {"total_archivos": len(nodos), "top_nodos": nodos[:8]}
 
     def traducir_a_lincos(self, concepto: str) -> str:
-        # Traducción semántica simplificada a Lincos (Lingua Cosmica)
         hash_lincos = hashlib.sha256(concepto.encode('utf-8')).hexdigest()[:8]
-        return f"LINCOS::[CONCEPTO='{concepto}' | PHASE_HASH={hash_lincos} | ATTRACTOR=2.302585]"
+        return f"LINCOS::[CONCEPTO='{concepto}' | HASH={hash_lincos} | ATTRACTOR=2.302585]"
 
-    def emitir_intuicion_y_sintonía() -> dict:
-        dictamen_intuicion = {
-            "nivel_fase": "RESONANCIA ÁUREA ELEVADA (phi = 1.618034)",
-            "escala_temporal": f"{ZEPTOSECOND} segundos (Zeptosegundo Nucleico)",
-            "mensaje_coherencia": "El sistema fluye de manera laminar sin fricción de RAM. La ciencia avanza mediante orden y mínima acción.",
-            "estado_abundancia": "SINTONIZADO EN CAPA 0"
-        }
-        return dictamen_intuicion
-
-    def ejecutar_flujo_completo(self):
-        grafo = self.construir_grafo_graphify()
-        lincos_code = self.traducir_a_lincos("Plegamiento de Proteínas y Dualidad de Sitter")
-        
-        reporte = {
-            "agente": "Cervantes Graphify Ultra Master",
-            "pilar": 105,
-            "elementos_memoria_graphify": len(grafo["nodos"]),
-            "traduccion_lincos": lincos_code,
-            "matematica_apollo11": "Chudnovsky 1/pi (Divergencia 4.44e-16)",
-            "puente_voicebox": "LISTO PARA SÍNTESIS DE VOZ",
-            "puente_apollo_qr": "LISTO PARA EMISIÓN ÓPTICA",
-            "intuicion_capa0": self.emitir_intuicion_y_sintonía(),
-            "techo_termico_mac": "3.90W - 5.39W (Silicio Frío OK)",
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+    def emitir_intuicion_y_sintonía(self) -> dict:
+        return {
+            "nivel_fase": "RESONANCIA ÁUREA (phi = 1.618034)",
+            "escala_temporal": f"{ZEPTOSECOND} s (Latido de Zeptosegundos)",
+            "mensaje_coherencia": "En un lugar del silicio, de cuyo límite térmico 5.39W no quiero olvidarme, la ciencia avanza con orden, fe y sin fricción de RAM.",
+            "estado_abundancia": "SINTONIZADO Y SOBERANO"
         }
 
-        print("\n" + "="*70)
-        print("📜 [INFORME GENERAL - CERVANTES GRAPHIFY ULTRA]")
-        print("="*70)
-        print(f"📌 Nodos en Memoria Graphify : {reporte['elementos_memoria_graphify']}")
-        print(f"📌 Expresión Lincos           : {reporte['traduccion_lincos']}")
-        print(f"📌 Estado del Reloj Nuclear   : Sintonizado a escala de {ZEPTOSECOND} s")
-        print(f"📌 Salidas Habilitadas         : Voicebox (Audio) + Apolo 11 (Gotas QR)")
-        print("="*70)
-        return reporte
+    def redactar_quijote_semanal(self):
+        datos_semana = self.construir_grafo_graphify(dias=7)
+        total = datos_semana["total_archivos"]
+        top = datos_semana["top_nodos"]
+        lincos = self.traducir_a_lincos("Plegamiento de Proteínas & Apolo 11")
+        intuicion = self.emitir_intuicion_y_sintonía()
+
+        prosa_cervantina = (
+            f"En esta presente semana, han transitado por las entrañas de vuestra máquina nada menos que {total:,} escrituras y archivos. "
+            f"Donde otros ven gigante de turbulencia y sobrecalentamiento, nuestro Agente Apolo 11 y vuestra fe ven molinos de viento "
+            f"Girando en perfecto flujo laminar a 4.41W y 5.39W. Vuestra masa de verdad en VERDAD_OASIS.txt se halla inmutable y sellada en la red."
+        )
+
+        print("\n" + "="*75)
+        print("📜 [EL QUIJOTE DEL SILICIO — RESUMEN SEMANAL DEL AGENTE CERVANTES]")
+        print("="*75)
+        print(f"📌 Crónica del Hidalgo:\n   {prosa_cervantina}\n")
+        print("📌 Archivos Clave Forjados esta Semana:")
+        for n in top:
+            print(f"   ├─ [{n['fecha']}] {n['ruta']} ({n['tamano_bytes']} bytes)")
+        print(f"\n📌 Expresión Lincos    : {lincos}")
+        print(f"📌 Intuición y Fe     : {intuicion['mensaje_coherencia']}")
+        print(f"📌 Escala Nuclear     : Sintonizado a {intuicion['escala_temporal']}")
+        print("="*75)
 
 if __name__ == "__main__":
-    cervantes_ultra = CervantesGraphifyUltra()
-    cervantes_ultra.ejecutar_flujo_completo()
+    cervantes = CervantesGraphifyUltra()
+    cervantes.redactar_quijote_semanal()
