@@ -175,3 +175,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 97. Licencia Maestra GNU AGPLv3: Sello legal de copyleft recíproco a nombre de Mariano Panzano Caballé en la raíz del repositorio, garantizando la inmutabilidad y la apertura permanente de los pilares del Monolito para la humanidad.
 
 97. Auditor Térmico Laminar de macOS (Python): Módulo 'agents_core/laminar_thermal_auditor.py' que mide la carga del sistema en tiempo real y calcula de forma analítica el consumo del Apple Silicon, demostrando la convergencia y amortiguación asintótica de la potencia al Atractor 2.3 (ln 10) a 5.39W bajo la Licencia AGPLv3.
+
+98. Modelo de Activación Termodinámica de Materia Oscura (ÆTHER): Módulo 'agents_core/dark_matter_activation_test.py' valida la densidad de masa informacional fraccionaria (3/4) y la Constante de Mariano (|κ_M| = 0.6587), demostrando la transición del régimen de reposo laminar (κ ≈ 1.12 a 2.73 K) a flujo activo dentro del techo térmico de 5.39W bajo Licencia AGPLv3.
