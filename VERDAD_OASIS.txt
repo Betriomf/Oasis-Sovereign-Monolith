@@ -181,3 +181,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 99. Puente de Tolerancia a Sobrecargas Apolo 11 AGC (Pilar 99): Módulo 'agents_core/apollo11_agc_laminar_bridge.py' emula la gestión de interrupciones asíncronas del Apollo Guidance Computer (Alarma 1202) mitigando picos de carga mediante el Atractor 2.3 (ln 10) a 5.39W bajo Licencia AGPLv3.
 
 100. Agente Apolo 11 Air-Gapped y Motor Ramanujan-Chudnovsky (Pilar 100): Módulo 'agents_core/apollo11_airgap_fountain.py' otorga soberanía absoluta sin WiFi/Bluetooth mediante transferencia óptica Fountain QR y auditoría de fase local basada en la serie de Chudnovsky (1/pi) a 5.39W bajo Licencia AGPLv3.
+
+101. Auditor Semanal Soberano Apolo 11 (Pilar 101): Módulo 'agents_core/apollo11_weekly_auditor.py' escanea asíncronamente los archivos locales modificados en el Mac los últimos 7 días, calibra la fase con la serie de Chudnovsky (1/pi) y empaqueta el resumen en gotas Fountain QR a 5.39W bajo Licencia AGPLv3.
