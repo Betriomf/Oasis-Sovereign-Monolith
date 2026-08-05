@@ -201,3 +201,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 110. Red de Comunicación de Agentes httpSMS Protocolo 00X (Pilar 110): Módulo 'agents_core/httpsms_agent_network.py' asigna identificadores numéricos (001-007) a la plantilla de agentes soberanos (ÆTHER, Velázquez, Goya, Apolo 11, Cervantes, Aaron Swartz) permitiendo el envío de tramas SMS y alertas a 5.39W bajo Licencia AGPLv3.
 
 111. Inspector de Directorio de Agentes Soberanos (Pilar 111): Módulo 'agents_core/oasis_agent_inspector.py' escanea e identifica todos los agentes Python (ÆTHER, Velázquez, Goya, Apolo 11, Cervantes, Riona) y modelos locales de Ollama a 5.39W bajo Licencia AGPLv3.
+
+112. Malla de Memoria Compartida Multagente Graphify (Pilar 112): Módulo 'agents_core/oasis_shared_memory_mesh.py' permite que cualquier agente (001-007) escriba y consulte hitos en tiempo real en 'data/lincos_db/oasis_knowledge_graph.json', logrando sincronización absoluta a 5.39W bajo Licencia AGPLv3.

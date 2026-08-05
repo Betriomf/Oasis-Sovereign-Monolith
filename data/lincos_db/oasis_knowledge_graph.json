@@ -1,0 +1,750 @@
+{
+  "directed": true,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "tipo": "Masa de Verdad",
+      "pilar_max": 108,
+      "id": "VERDAD_OASIS"
+    },
+    {
+      "tipo": "LincosDB",
+      "path": "data/lincos_db/fine_structure_aether.json",
+      "id": "fine_structure_aether"
+    },
+    {
+      "tipo": "LincosDB",
+      "path": "data/lincos_db/latest_crawl.json",
+      "id": "latest_crawl"
+    },
+    {
+      "tipo": "LincosDB",
+      "path": "data/lincos_db/supabase_prepared_batch.json",
+      "id": "supabase_prepared_batch"
+    },
+    {
+      "tipo": "LincosDB",
+      "path": "data/lincos_db/cosmo_unification_aether.json",
+      "id": "cosmo_unification_aether"
+    },
+    {
+      "tipo": "LincosDB",
+      "path": "data/lincos_db/maldacena_supabase_batch.json",
+      "id": "maldacena_supabase_batch"
+    },
+    {
+      "tipo": "LincosDB",
+      "path": "data/lincos_db/fine_structure_euler_resolved.json",
+      "id": "fine_structure_euler_resolved"
+    },
+    {
+      "tipo": "LincosDB",
+      "path": "data/lincos_db/arxiv_2607_24742_encoded.json",
+      "id": "arxiv_2607_24742_encoded"
+    },
+    {
+      "tipo": "LincosDB",
+      "path": "data/lincos_db/ultimo_certificado_verificacion.json",
+      "id": "ultimo_certificado_verificacion"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_euler_hubble_engine.py",
+      "id": "oasis_euler_hubble_engine"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_fact_verifier.py",
+      "id": "aether_fact_verifier"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_unification_calculator.py",
+      "id": "aether_unification_calculator"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/apollo11_airgap_fountain.py",
+      "id": "apollo11_airgap_fountain"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/kimi_goya_mind_diagram.py",
+      "id": "kimi_goya_mind_diagram"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_cosmological_constant.py",
+      "id": "aether_cosmological_constant"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_graphify_connector.py",
+      "id": "oasis_graphify_connector"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_advanced_friedmann_sim.py",
+      "id": "aether_advanced_friedmann_sim"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_depin_ai_engine.py",
+      "id": "oasis_depin_ai_engine"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/consciousness_quad_agent.py",
+      "id": "consciousness_quad_agent"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_pdf_ocr_ingestor.py",
+      "id": "oasis_pdf_ocr_ingestor"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_maldacena_collector.py",
+      "id": "aether_maldacena_collector"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_stack_v2.py",
+      "id": "oasis_stack_v2"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/apollo11_agc_laminar_bridge.py",
+      "id": "apollo11_agc_laminar_bridge"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_cosmo_solver.py",
+      "id": "aether_cosmo_solver"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/tripartite_hubble_orchestrator.py",
+      "id": "tripartite_hubble_orchestrator"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/mac_laminar_optimizer.py",
+      "id": "mac_laminar_optimizer"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/cervantes_explicador_agent.py",
+      "id": "cervantes_explicador_agent"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/lincos_encoder.py",
+      "id": "lincos_encoder"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/pdf_generator.py",
+      "id": "pdf_generator"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/goya_holographic_proof.py",
+      "id": "goya_holographic_proof"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_methodology_comparator.py",
+      "id": "oasis_methodology_comparator"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/test_velazquez_neutrinos_2026.py",
+      "id": "test_velazquez_neutrinos_2026"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_attractor_hubble_proof.py",
+      "id": "aether_attractor_hubble_proof"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_fine_structure_solver.py",
+      "id": "aether_fine_structure_solver"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/apollo11_weekly_auditor.py",
+      "id": "apollo11_weekly_auditor"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/powerdrop_euler_market.py",
+      "id": "powerdrop_euler_market"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/bohr_hafnium_shield.py",
+      "id": "bohr_hafnium_shield"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_euler_alpha_clock.py",
+      "id": "aether_euler_alpha_clock"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_string_tension.py",
+      "id": "oasis_string_tension"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/cervantes_protein_explainer.py",
+      "id": "cervantes_protein_explainer"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_protein_mapper.py",
+      "id": "aether_protein_mapper"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/crawl_engine.py",
+      "id": "crawl_engine"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/keller_jacobian_oasis.py",
+      "id": "keller_jacobian_oasis"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/mac_bunker_bridge_test.py",
+      "id": "mac_bunker_bridge_test"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_merkle_oracle.py",
+      "id": "oasis_merkle_oracle"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_system_optimizer.py",
+      "id": "oasis_system_optimizer"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aaron_swartz_rss_agent.py",
+      "id": "aaron_swartz_rss_agent"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_neutrino_solver.py",
+      "id": "aether_neutrino_solver"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_license_manager.py",
+      "id": "oasis_license_manager"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/powerdrop_stress_test.py",
+      "id": "powerdrop_stress_test"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/supabase_bridge.py",
+      "id": "supabase_bridge"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/velazquez_ocr_agent.py",
+      "id": "velazquez_ocr_agent"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_maldacena_solver.py",
+      "id": "aether_maldacena_solver"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_goya_hoyle_solver.py",
+      "id": "aether_goya_hoyle_solver"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_hubble_stabilizer.py",
+      "id": "aether_hubble_stabilizer"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_agent.py",
+      "id": "aether_agent"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/laminar_thermal_auditor.py",
+      "id": "laminar_thermal_auditor"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_sovereign_sentinel.py",
+      "id": "oasis_sovereign_sentinel"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_telemetry_monitor.py",
+      "id": "oasis_telemetry_monitor"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/kimi_goya_slides_agent.py",
+      "id": "kimi_goya_slides_agent"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/goya_nvidia_science_agent.py",
+      "id": "goya_nvidia_science_agent"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_fidelity_slashing.py",
+      "id": "oasis_fidelity_slashing"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/powerdrop_monetizer.py",
+      "id": "powerdrop_monetizer"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/market_pricing_agent.py",
+      "id": "market_pricing_agent"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/resumen_semanal_cervantes.py",
+      "id": "resumen_semanal_cervantes"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/velazquez_goya_consciousness_analyzer.py",
+      "id": "velazquez_goya_consciousness_analyzer"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/cervantes_graphify_ultra.py",
+      "id": "cervantes_graphify_ultra"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/dark_matter_activation_test.py",
+      "id": "dark_matter_activation_test"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/test_dark_energy_2026.py",
+      "id": "test_dark_energy_2026"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_paper_watcher.py",
+      "id": "oasis_paper_watcher"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_maldacena_supabase.py",
+      "id": "aether_maldacena_supabase"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_communications_mesh.py",
+      "id": "oasis_communications_mesh"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_navier_stokes_solver.py",
+      "id": "aether_navier_stokes_solver"
+    },
+    {
+      "tipo": "DescubrimientoCompartido",
+      "titulo": "Aproximación de Turbulencia M196883",
+      "detalle": "Amortiguación asintótica validada a 2.302585 (ln 10) a 5.39W.",
+      "id": "HITO_AETHER_NAVIER_STOKES_SOLVER_1785964829"
+    }
+  ],
+  "edges": [
+    {
+      "relacion": "RESPALDA_PILAR",
+      "source": "fine_structure_aether",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "RESPALDA_PILAR",
+      "source": "latest_crawl",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "RESPALDA_PILAR",
+      "source": "supabase_prepared_batch",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "RESPALDA_PILAR",
+      "source": "cosmo_unification_aether",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "RESPALDA_PILAR",
+      "source": "maldacena_supabase_batch",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "RESPALDA_PILAR",
+      "source": "fine_structure_euler_resolved",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "RESPALDA_PILAR",
+      "source": "arxiv_2607_24742_encoded",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "RESPALDA_PILAR",
+      "source": "ultimo_certificado_verificacion",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_euler_hubble_engine",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_fact_verifier",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_unification_calculator",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "apollo11_airgap_fountain",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "kimi_goya_mind_diagram",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_cosmological_constant",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_graphify_connector",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_advanced_friedmann_sim",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_depin_ai_engine",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "consciousness_quad_agent",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_pdf_ocr_ingestor",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_maldacena_collector",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_stack_v2",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "apollo11_agc_laminar_bridge",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_cosmo_solver",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "tripartite_hubble_orchestrator",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "mac_laminar_optimizer",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "cervantes_explicador_agent",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "lincos_encoder",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "pdf_generator",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "goya_holographic_proof",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_methodology_comparator",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "test_velazquez_neutrinos_2026",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_attractor_hubble_proof",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_fine_structure_solver",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "apollo11_weekly_auditor",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "powerdrop_euler_market",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "bohr_hafnium_shield",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_euler_alpha_clock",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_string_tension",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "cervantes_protein_explainer",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_protein_mapper",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "crawl_engine",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "keller_jacobian_oasis",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "mac_bunker_bridge_test",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_merkle_oracle",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_system_optimizer",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aaron_swartz_rss_agent",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_neutrino_solver",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_license_manager",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "powerdrop_stress_test",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "supabase_bridge",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "velazquez_ocr_agent",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_maldacena_solver",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_goya_hoyle_solver",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_hubble_stabilizer",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_agent",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "laminar_thermal_auditor",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_sovereign_sentinel",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_telemetry_monitor",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "kimi_goya_slides_agent",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "goya_nvidia_science_agent",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_fidelity_slashing",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "powerdrop_monetizer",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "market_pricing_agent",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "resumen_semanal_cervantes",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "velazquez_goya_consciousness_analyzer",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "cervantes_graphify_ultra",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "dark_matter_activation_test",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "test_dark_energy_2026",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_paper_watcher",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_maldacena_supabase",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_communications_mesh",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_navier_stokes_solver",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "DESCUBRIO",
+      "source": "aether_navier_stokes_solver",
+      "target": "HITO_AETHER_NAVIER_STOKES_SOLVER_1785964829"
+    },
+    {
+      "relacion": "PERTENECE_A_CAPA0",
+      "source": "HITO_AETHER_NAVIER_STOKES_SOLVER_1785964829",
+      "target": "VERDAD_OASIS"
+    }
+  ]
+}

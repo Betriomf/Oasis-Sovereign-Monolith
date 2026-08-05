@@ -1,0 +1,12 @@
+{
+  "version_protocolo": "Oasis Capa 0 - Verification V1",
+  "autor_sistema": "Mariano Panzano Caballé (@Betriomf)",
+  "titulo_articulo": "Constraints on Dynamical Dark Energy from Dark Energy Survey",
+  "fuente_origen": "https://arxiv.org/abs/2605.27221",
+  "content_sha256": "93fe45c02e529c7e55a6a88d96bc36453c60ed6edb742d9e8e62c423b82a8bc7",
+  "merkle_proof_status": "VALIDADO (Oráculo 3-de-5 Multisig)",
+  "divergencia_observacional_pct": 3.8467,
+  "verificacion_exitosa": true,
+  "timestamp_utc": "2026-07-31 15:22:57",
+  "licencia": "GNU AGPLv3 / Creative Commons CC BY 4.0"
+}
