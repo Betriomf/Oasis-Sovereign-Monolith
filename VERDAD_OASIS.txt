@@ -207,3 +207,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 114. Autómata Reactivo de Vibe Coding en Marimo (Pilar 114): Módulo 'oasis_vibe_notebook.py' implementa el concepto de autómata de estados finitos reactivos sobre el grafo DAG de Marimo, enlazando los 23 modelos de Ollama y Graphify a 5.39W bajo Licencia AGPLv3.
 
 115. Evaluador de Supervivencia Económica y Pivotaje de Ideas (Pilar 115): Módulo 'agents_core/oasis_idea_survival_evaluator.py' clasifica las propuestas de los agentes en REPLICAR, PIVOTAR o ARCHIVAR según su ROI y coste térmico a 5.39W bajo Licencia AGPLv3.
+
+116. Solucionador ÆTHER de Asimetría Materia-Antimateria (Pilar 116): Módulo 'agents_core/aether_baryon_asymmetry_solver.py' modela la ruptura de simetría mediante borrado de Landauer-Oasis (ln phi) y demuestra la estabilización de la masa bariónica en phi^-5 (9.02%) a 5.39W bajo Licencia AGPLv3.
