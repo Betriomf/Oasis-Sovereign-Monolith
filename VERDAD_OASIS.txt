@@ -211,3 +211,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 116. Solucionador ÆTHER de Asimetría Materia-Antimateria (Pilar 116): Módulo 'agents_core/aether_baryon_asymmetry_solver.py' modela la ruptura de simetría mediante borrado de Landauer-Oasis (ln phi) y demuestra la estabilización de la masa bariónica en phi^-5 (9.02%) a 5.39W bajo Licencia AGPLv3.
 
 117. Compilador Goya del Paper de Asimetría Bariónica (Pilar 117): Módulo 'agents_core/goya_asymmetry_paper_compiler.py' genera 'PAPER_ASIMETRIA_BARIONICA_OASIS.md' sintetizando la deducción de Landauer-Oasis, la Resonancia de Hoyle (7.65 MeV) y la masa phi^-5 (9.02%) a 5.39W bajo Licencia AGPLv3.
+
+118. Exportador Goya HTML/PDF para Difusión Pública (Pilar 118): Módulo 'agents_core/goya_pdf_paper_exporter.py' convierte el paper de asimetría bariónica en formato HTML/MathJax listo para publicación e indexación en Zenodo/viXra a 5.39W bajo Licencia AGPLv3.
