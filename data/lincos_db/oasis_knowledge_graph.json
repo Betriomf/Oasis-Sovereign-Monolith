@@ -45,8 +45,18 @@
     },
     {
       "tipo": "LincosDB",
+      "path": "data/lincos_db/oasis_knowledge_graph.json",
+      "id": "oasis_knowledge_graph"
+    },
+    {
+      "tipo": "LincosDB",
       "path": "data/lincos_db/ultimo_certificado_verificacion.json",
       "id": "ultimo_certificado_verificacion"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_anti_gravity_phase_solver.py",
+      "id": "aether_anti_gravity_phase_solver"
     },
     {
       "tipo": "AgenteSoberano",
@@ -55,8 +65,23 @@
     },
     {
       "tipo": "AgenteSoberano",
+      "path": "agents_core/test_graphify_apollo_cervantes.py",
+      "id": "test_graphify_apollo_cervantes"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_vibe_notebook_bridge.py",
+      "id": "oasis_vibe_notebook_bridge"
+    },
+    {
+      "tipo": "AgenteSoberano",
       "path": "agents_core/aether_fact_verifier.py",
       "id": "aether_fact_verifier"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/goya_antigravity_paper_compiler.py",
+      "id": "goya_antigravity_paper_compiler"
     },
     {
       "tipo": "AgenteSoberano",
@@ -175,6 +200,16 @@
     },
     {
       "tipo": "AgenteSoberano",
+      "path": "agents_core/goya_pdf_paper_exporter.py",
+      "id": "goya_pdf_paper_exporter"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/goya_asymmetry_paper_compiler.py",
+      "id": "goya_asymmetry_paper_compiler"
+    },
+    {
+      "tipo": "AgenteSoberano",
       "path": "agents_core/apollo11_weekly_auditor.py",
       "id": "apollo11_weekly_auditor"
     },
@@ -182,6 +217,11 @@
       "tipo": "AgenteSoberano",
       "path": "agents_core/powerdrop_euler_market.py",
       "id": "powerdrop_euler_market"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_baryon_asymmetry_solver.py",
+      "id": "aether_baryon_asymmetry_solver"
     },
     {
       "tipo": "AgenteSoberano",
@@ -195,6 +235,11 @@
     },
     {
       "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_idea_survival_evaluator.py",
+      "id": "oasis_idea_survival_evaluator"
+    },
+    {
+      "tipo": "AgenteSoberano",
       "path": "agents_core/oasis_string_tension.py",
       "id": "oasis_string_tension"
     },
@@ -202,6 +247,11 @@
       "tipo": "AgenteSoberano",
       "path": "agents_core/cervantes_protein_explainer.py",
       "id": "cervantes_protein_explainer"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/goya_fibonacci_paper_compiler.py",
+      "id": "goya_fibonacci_paper_compiler"
     },
     {
       "tipo": "AgenteSoberano",
@@ -250,6 +300,11 @@
     },
     {
       "tipo": "AgenteSoberano",
+      "path": "agents_core/aether_mariano_asymmetry_solver.py",
+      "id": "aether_mariano_asymmetry_solver"
+    },
+    {
+      "tipo": "AgenteSoberano",
       "path": "agents_core/powerdrop_stress_test.py",
       "id": "powerdrop_stress_test"
     },
@@ -260,6 +315,11 @@
     },
     {
       "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_antigravity_thermal_purger.py",
+      "id": "oasis_antigravity_thermal_purger"
+    },
+    {
+      "tipo": "AgenteSoberano",
       "path": "agents_core/velazquez_ocr_agent.py",
       "id": "velazquez_ocr_agent"
     },
@@ -267,6 +327,11 @@
       "tipo": "AgenteSoberano",
       "path": "agents_core/aether_maldacena_solver.py",
       "id": "aether_maldacena_solver"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_shared_memory_mesh.py",
+      "id": "oasis_shared_memory_mesh"
     },
     {
       "tipo": "AgenteSoberano",
@@ -330,6 +395,16 @@
     },
     {
       "tipo": "AgenteSoberano",
+      "path": "agents_core/httpsms_agent_network.py",
+      "id": "httpsms_agent_network"
+    },
+    {
+      "tipo": "AgenteSoberano",
+      "path": "agents_core/oasis_agent_inspector.py",
+      "id": "oasis_agent_inspector"
+    },
+    {
+      "tipo": "AgenteSoberano",
       "path": "agents_core/velazquez_goya_consciousness_analyzer.py",
       "id": "velazquez_goya_consciousness_analyzer"
     },
@@ -367,12 +442,6 @@
       "tipo": "AgenteSoberano",
       "path": "agents_core/aether_navier_stokes_solver.py",
       "id": "aether_navier_stokes_solver"
-    },
-    {
-      "tipo": "DescubrimientoCompartido",
-      "titulo": "Aproximación de Turbulencia M196883",
-      "detalle": "Amortiguación asintótica validada a 2.302585 (ln 10) a 5.39W.",
-      "id": "HITO_AETHER_NAVIER_STOKES_SOLVER_1785964829"
     }
   ],
   "edges": [
@@ -413,7 +482,17 @@
     },
     {
       "relacion": "RESPALDA_PILAR",
+      "source": "oasis_knowledge_graph",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "RESPALDA_PILAR",
       "source": "ultimo_certificado_verificacion",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_anti_gravity_phase_solver",
       "target": "VERDAD_OASIS"
     },
     {
@@ -423,7 +502,22 @@
     },
     {
       "relacion": "EJECUTA_CAPA0",
+      "source": "test_graphify_apollo_cervantes",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_vibe_notebook_bridge",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
       "source": "aether_fact_verifier",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "goya_antigravity_paper_compiler",
       "target": "VERDAD_OASIS"
     },
     {
@@ -543,12 +637,27 @@
     },
     {
       "relacion": "EJECUTA_CAPA0",
+      "source": "goya_pdf_paper_exporter",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "goya_asymmetry_paper_compiler",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
       "source": "apollo11_weekly_auditor",
       "target": "VERDAD_OASIS"
     },
     {
       "relacion": "EJECUTA_CAPA0",
       "source": "powerdrop_euler_market",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "aether_baryon_asymmetry_solver",
       "target": "VERDAD_OASIS"
     },
     {
@@ -563,12 +672,22 @@
     },
     {
       "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_idea_survival_evaluator",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
       "source": "oasis_string_tension",
       "target": "VERDAD_OASIS"
     },
     {
       "relacion": "EJECUTA_CAPA0",
       "source": "cervantes_protein_explainer",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "goya_fibonacci_paper_compiler",
       "target": "VERDAD_OASIS"
     },
     {
@@ -618,6 +737,11 @@
     },
     {
       "relacion": "EJECUTA_CAPA0",
+      "source": "aether_mariano_asymmetry_solver",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
       "source": "powerdrop_stress_test",
       "target": "VERDAD_OASIS"
     },
@@ -628,12 +752,22 @@
     },
     {
       "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_antigravity_thermal_purger",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
       "source": "velazquez_ocr_agent",
       "target": "VERDAD_OASIS"
     },
     {
       "relacion": "EJECUTA_CAPA0",
       "source": "aether_maldacena_solver",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_shared_memory_mesh",
       "target": "VERDAD_OASIS"
     },
     {
@@ -698,6 +832,16 @@
     },
     {
       "relacion": "EJECUTA_CAPA0",
+      "source": "httpsms_agent_network",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
+      "source": "oasis_agent_inspector",
+      "target": "VERDAD_OASIS"
+    },
+    {
+      "relacion": "EJECUTA_CAPA0",
       "source": "velazquez_goya_consciousness_analyzer",
       "target": "VERDAD_OASIS"
     },
@@ -734,16 +878,6 @@
     {
       "relacion": "EJECUTA_CAPA0",
       "source": "aether_navier_stokes_solver",
-      "target": "VERDAD_OASIS"
-    },
-    {
-      "relacion": "DESCUBRIO",
-      "source": "aether_navier_stokes_solver",
-      "target": "HITO_AETHER_NAVIER_STOKES_SOLVER_1785964829"
-    },
-    {
-      "relacion": "PERTENECE_A_CAPA0",
-      "source": "HITO_AETHER_NAVIER_STOKES_SOLVER_1785964829",
       "target": "VERDAD_OASIS"
     }
   ]
