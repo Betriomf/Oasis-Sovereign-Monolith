@@ -225,3 +225,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 
 
 123. Puente de Persistencia y Edge Function Supabase (Pilar 123): Módulo 'agents_core/supabase_edge_bridge.py' genera la plantilla TypeScript para despliegue en Supabase Edge, habilitando el almacenamiento gratuito en la nube y monetización vía API Key a 5.39W bajo Licencia AGPLv3.
+
+124. Exportador HTML/MathJax para Paper de Antigravedad (Pilar 124): Módulo 'agents_core/goya_antigravity_html_exporter.py' convierte el paper de desacoplamiento gravitatorio en 'PAPER_ANTIGRAVEDAD_CAPA0_OASIS.html' para visualización web y emisión QR a 5.39W bajo Licencia AGPLv3.
