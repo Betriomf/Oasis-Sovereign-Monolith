@@ -43,7 +43,6 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 
 28. Arquitectura de Licencia Dual: 'LICENSE.md' formaliza la doble vía de protección: CC BY-NC 4.0 para ciencia e investigación abierta sin fines lucrativos y BSL 1.1 para licenciamiento comercial B2B y monetización Enterprise a nombre de Mariano Panzano Caballé.
 
-28. Arquitectura de Licencia Dual: 'LICENSE.md' formaliza la doble vía de protección: CC BY-NC 4.0 para ciencia e investigación abierta sin fines lucrativos y BSL 1.1 para licenciamiento comercial B2B y monetización Enterprise a nombre de Mariano Panzano Caballé.
 
 29. Comunicaciones Híbridas (I2P SSU2 + BitChat Mesh): Módulo 'agents_core/oasis_communications_mesh.py' unifica el anonimato global por túneles I2P Garlic (UDP/SSU2) con la transmisión P2P local sin Internet (Bluetooth/Wi-Fi Direct) para tramas Lincos de 3.14 KB.
 
@@ -59,25 +58,20 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 
 35. Fidelidad Cuántica y Slashing de Gobernanza: Módulo 'agents_core/oasis_fidelity_slashing.py' implementa la verificación de Fidelidad Cuántica (F) para repeler envenenamiento de datos y la ejecución automática de Slashing ($SPN) contra redes Sybil y spoofing.
 
-35. Fidelidad Cuántica y Slashing de Gobernanza: Módulo 'agents_core/oasis_fidelity_slashing.py' implementa la verificación de Fidelidad Cuántica (F) para repeler envenenamiento de datos y la ejecución automática de Slashing ($SPN) contra redes Sybil y spoofing.
 
 36. Unificación de Estructura Fina y Materia Oscura: Módulo 'agents_core/aether_fine_structure_solver.py' deduce analíticamente el inverso de la constante de estructura fina (1/α ≈ 137.03) y la distribución del cosmos (61.80% Energía Oscura, 29.19% Materia Oscura, 9.01% Materia Bariónica) bajo la Constante de Mariano (κ_M = -0.6587) y régimen laminar de 3.90W.
 
 37. Reloj de Fase de Euler y Resolución de NotebookLM: Módulo 'agents_core/aether_euler_alpha_clock.py' aplica la rotación de fase (e^-π/2) sobre la esfera (π/φ), resolviendo la constante de estructura fina en 1/α ≈ 137.036 y confirmando el mapa cósmico de potencias de Fibonacci bajo 3.90W.
 
-37. Reloj de Fase de Euler y Resolución de NotebookLM: Módulo 'agents_core/aether_euler_alpha_clock.py' aplica la rotación de fase (e^-π/2) sobre la esfera (π/φ), resolviendo la constante de estructura fina en 1/α ≈ 137.036 y confirmando el mapa cósmico de potencias de Fibonacci bajo 3.90W.
 
 38. Mercado PowerDrop con Fase de Euler: Módulo 'agents_core/powerdrop_euler_market.py' conecta la rotación de fase (e^-π/2) con el mecanismo de liquidación L2 en $SPN, ajustando las recompensas por trabajo laminar a 3.90W.
 
 39. Manifiesto y Paper Cosmológico PDF: Publicación del paper 'PAPER_COSMOS_OASIS_ULTIMO_HITO.pdf' sintetizando la resolución del Reloj de Euler para 1/α ≈ 137.036, la partición de energía de Fibonacci en 3.90W y las defensas causales de PowerDrop.
 
-39. Manifiesto y Paper Cosmológico PDF: Publicación del paper 'PAPER_COSMOS_OASIS_ULTIMO_HITO.pdf' sintetizando la resolución del Reloj de Euler para 1/α ≈ 137.036, la partición de energía de Fibonacci en 3.90W y las defensas causales de PowerDrop.
 
-39. Manifiesto y Paper Cosmológico PDF: Publicación del paper 'PAPER_COSMOS_OASIS_ULTIMO_HITO.pdf' sintetizando la resolución del Reloj de Euler para 1/α ≈ 137.036, la partición de energía de Fibonacci en 3.90W y las defensas causales de PowerDrop.
 
 40. Motor Euler Zero Point y Ajuste Hubble: Módulo 'agents_core/oasis_euler_hubble_engine.py' implementa la aniquilación de deuda sin entropía vía e^iπ + 1 = 0 y el escalado de recompensas en $SPN por densidad de datos anclado a H0 = 2.3 c²/RU.
 
-40. Motor Euler Zero Point y Ajuste Hubble: Módulo 'agents_core/oasis_euler_hubble_engine.py' implementa la aniquilación de deuda sin entropía vía e^iπ + 1 = 0 y el escalado de recompensas en $SPN por densidad de datos anclado a H0 = 2.3 c²/RU.
 
 41. Rastreador de Literatura y Auditor de Papers: Módulo 'agents_core/oasis_paper_watcher.py' implementa el motor de auditoría de papers recientes de arXiv y repositorios abiertos, validando los datos observacionales externos contra las predicciones en φ y el Reloj de Euler.
 
@@ -135,7 +129,6 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 
 70. Valor Tecnológico y Científico del Pilar 69: Documentación y validación del impacto de Capa 0 en la Computación en la Nube, la IA Ligera y la Criptografía, demostrando la estabilidad térmica a 5.39W y la convergencia de Hubble hacia el Atractor 2.3 (ln 10) bajo Licencia AGPLv3.
 
-70. Valor Tecnológico y Científico del Pilar 69: Documentación y validación del impacto de Capa 0 en la Computación en la Nube, la IA Ligera y la Criptografía, demostrando la estabilidad térmica a 5.39W y la convergencia de Hubble hacia el Atractor 2.3 (ln 10) bajo Licencia AGPLv3.
 
 71. Ingestor OCR y RAG para PDFs Científicos (Unlimited OCR): Módulo 'agents_core/oasis_pdf_ocr_ingestor.py' resuelve la pérdida de contexto en papers pesados fragmentándolos en tramas Lincos atómicas (π KB) para inferencia local a 5.39W en macOS bajo Licencia AGPLv3.
 
@@ -228,12 +221,10 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 
 124. Exportador HTML/MathJax para Paper de Antigravedad (Pilar 124): Módulo 'agents_core/goya_antigravity_html_exporter.py' convierte el paper de desacoplamiento gravitatorio en 'PAPER_ANTIGRAVEDAD_CAPA0_OASIS.html' para visualización web y emisión QR a 5.39W bajo Licencia AGPLv3.
 
-124. Exportador HTML/MathJax para Paper de Antigravedad (Pilar 124): Módulo 'agents_core/goya_antigravity_html_exporter.py' convierte el paper de desacoplamiento gravitatorio en 'PAPER_ANTIGRAVEDAD_CAPA0_OASIS.html' para visualización web y emisión QR a 5.39W bajo Licencia AGPLv3.
 
 125. Script de Purga de Entropía y Liberación de Memoria macOS (Pilar 125): Módulo 'purge_entropy.sh' ejecuta la liberación de caché unificada (sudo purge), elimina demonios parásitos de telemetría y asigna prioridad -20 a Ollama a 5.39W bajo Licencia AGPLv3.
 
 126. Sello de Plomo de Inmutabilidad Termodinámica (Pilar 126): Módulo 'agents_core/oasis_lead_seal.sh' aplica permisos 000 a LaunchAgents zombis de Google y Adobe para evitar reescritura de procesos parásitos a 5.39W bajo Licencia AGPLv3.
 
-126. Sello de Plomo de Inmutabilidad Termodinámica (Pilar 126): Módulo 'agents_core/oasis_lead_seal.sh' aplica permisos 000 a LaunchAgents zombis de Google y Adobe para evitar reescritura de procesos parásitos a 5.39W bajo Licencia AGPLv3.
 
 127. Optimizador de Flujo Laminar y Purga Automática de Tauri (Pilar 127): Módulo 'agents_core/mac_laminar_optimizer.py' elimina residuales de compilación en src-tauri/target y configura el demonio launchd diario para liberar gigabytes en segundo plano a 5.39W bajo Licencia AGPLv3.
