@@ -231,3 +231,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 124. Exportador HTML/MathJax para Paper de Antigravedad (Pilar 124): Módulo 'agents_core/goya_antigravity_html_exporter.py' convierte el paper de desacoplamiento gravitatorio en 'PAPER_ANTIGRAVEDAD_CAPA0_OASIS.html' para visualización web y emisión QR a 5.39W bajo Licencia AGPLv3.
 
 125. Script de Purga de Entropía y Liberación de Memoria macOS (Pilar 125): Módulo 'purge_entropy.sh' ejecuta la liberación de caché unificada (sudo purge), elimina demonios parásitos de telemetría y asigna prioridad -20 a Ollama a 5.39W bajo Licencia AGPLv3.
+
+126. Sello de Plomo de Inmutabilidad Termodinámica (Pilar 126): Módulo 'agents_core/oasis_lead_seal.sh' aplica permisos 000 a LaunchAgents zombis de Google y Adobe para evitar reescritura de procesos parásitos a 5.39W bajo Licencia AGPLv3.
