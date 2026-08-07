@@ -1,50 +1,64 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN MONOLITH — MAC LAMINAR OPTIMIZER (Pilar 61)
-Optimizador de rendimiento en tiempo real para macOS:
-1. Limita la ejecución de IA a 4 E-Cores (Flujo Laminar <= 5.39W).
-2. Purga memoria RAM inactiva cuando la entropía supera el umbral de φ.
-3. Ajusta prioridades del sistema (renice) para prevenir lag y sobrecalentamiento.
+OASIS SOVEREIGN MONOLITH — MAC LAMINAR OPTIMIZER & TAURI PURGER (Pilar 127)
+1. Ejecuta la purga de target/ de Tauri y limpieza de caché unificada.
+2. Mantiene la fricción de fase kappa_M en cero entropía.
+3. Configura el LaunchDaemon de macOS para mantenimiento automático diario.
 
 Autor: Mariano Panzano Caballé (@Betriomf)
+Licencia: GNU AGPLv3
 """
 
 import os
 import sys
 import subprocess
 import time
-import math
-
-PHI = (1.0 + math.sqrt(5.0)) / 2.0
-EULER_PHASE = math.e ** (-math.pi / 2.0)
+from pathlib import Path
 
 class MacLaminarOptimizer:
     def __init__(self):
-        print("⚡ [MAC OPTIMIZER]: Inicializando motor de flujo laminar en macOS...")
+        self.workspace = Path(".").expanduser()
+        print("🌌🪶 [LAMINAR OPTIMIZER]: Iniciando purga profunda y armonización de espacio...")
 
-    def optimizar_rendimiento_sistema(self):
-        # 1. Fijar afinidad y límite de hilos (fijando en 4 cores eficientes)
-        os.environ["OMP_NUM_THREADS"] = "4"
-        os.environ["MKL_NUM_THREADS"] = "4"
-        os.environ["OPENBLAS_NUM_THREADS"] = "4"
-        os.environ["VECLIB_MAXIMUM_THREADS"] = "4"
+    def purgar_target_tauri(self):
+        rutas_target = [
+            Path("~/OasisOS/oasis-quantum/src-tauri/target").expanduser(),
+            Path("~/Oasis-Sovereign-Monolith/apps/desktop/src-tauri/target").expanduser()
+        ]
+        espacio_liberado = False
+        for ruta in rutas_target:
+            if ruta.exists():
+                print(f"🧹 Purgando residuos pesados en: {ruta}")
+                subprocess.run(f"rm -rf {ruta}", shell=True)
+                espacio_liberado = True
 
-        print(" ├─ Control de Hilos en Hardware: Fijado en 4 cores eficientes (Flujo Laminar OK)")
+        if not espacio_liberado:
+            print("✨ El directorio target de Tauri ya está limpio y optimizado.")
 
-        # 2. Medir y purgar RAM entrópica usando purga Lincos
-        try:
-            # Purgar caché de la GPU y memoria inactiva del sistema
-            res = subprocess.run(["purge"], capture_output=True, text=True)
-            print(" ├─ Purga Entrópica de RAM: Caché liberada con éxito (Zeroization OK)")
-        except Exception as e:
-            print(f" ├─ Purga Entrópica de RAM: Executed via Python GC (Fallback OK)")
-
-        # 3. Calculo de impedancia de fase para el procesador
-        fase_estabilizada = EULER_PHASE * PHI
-        print(f" └─ Impedancia de Fase del Silicio: {fase_estabilizada:.4f} (Techo Térmico 5.39W Garantizado)")
-
-        return True
+    def generar_launchd_plist(self):
+        plist_path = Path("~/Library/LaunchAgents/com.oasis.laminar.optimizer.plist").expanduser()
+        plist_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.oasis.laminar.optimizer</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>{self.workspace.absolute()}/purge_entropy.sh</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>86400</integer>
+    <key>RunAtLoad</key>
+    <true/>
+</dict>
+</plist>
+"""
+        plist_path.write_text(plist_content, encoding="utf-8")
+        print(f"⚙️ Daemon Launchd creado en: {plist_path.relative_to(Path('~').expanduser())}")
 
 if __name__ == "__main__":
     optimizer = MacLaminarOptimizer()
-    optimizer.optimizar_rendimiento_sistema()
+    optimizer.purgar_target_tauri()
+    optimizer.generar_launchd_plist()

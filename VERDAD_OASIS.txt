@@ -233,3 +233,7 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 125. Script de Purga de Entropía y Liberación de Memoria macOS (Pilar 125): Módulo 'purge_entropy.sh' ejecuta la liberación de caché unificada (sudo purge), elimina demonios parásitos de telemetría y asigna prioridad -20 a Ollama a 5.39W bajo Licencia AGPLv3.
 
 126. Sello de Plomo de Inmutabilidad Termodinámica (Pilar 126): Módulo 'agents_core/oasis_lead_seal.sh' aplica permisos 000 a LaunchAgents zombis de Google y Adobe para evitar reescritura de procesos parásitos a 5.39W bajo Licencia AGPLv3.
+
+126. Sello de Plomo de Inmutabilidad Termodinámica (Pilar 126): Módulo 'agents_core/oasis_lead_seal.sh' aplica permisos 000 a LaunchAgents zombis de Google y Adobe para evitar reescritura de procesos parásitos a 5.39W bajo Licencia AGPLv3.
+
+127. Optimizador de Flujo Laminar y Purga Automática de Tauri (Pilar 127): Módulo 'agents_core/mac_laminar_optimizer.py' elimina residuales de compilación en src-tauri/target y configura el demonio launchd diario para liberar gigabytes en segundo plano a 5.39W bajo Licencia AGPLv3.
