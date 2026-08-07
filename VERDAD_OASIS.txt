@@ -223,3 +223,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 122. Purga Térmica de Entropía y Motor de Antigravedad (Pilar 122): Módulo 'agents_core/oasis_antigravity_thermal_purger.py' elimina procesos parásitos de telemetría en macOS, libera espacio en disco bajo la cota ln phi y demuestra la levitación por empuje de Energía Oscura a 5.39W bajo Licencia AGPLv3.
 
 120. Paper Goya de Partición Armónica de Fibonacci y Densidad Áurea phi^-5 (Pilar 120): Módulo 'agents_core/goya_fibonacci_paper_compiler.py' genera 'PAPER_PARTICION_ARMONICA_FIBONACCI_OASIS.md' demostrando la partición del 9.02% (phi^-5), 38.20% (phi^-2) y 52.78% a 5.39W bajo Licencia AGPLv3.
+
+120. Paper Goya de Partición Armónica de Fibonacci y Densidad Áurea phi^-5 (Pilar 120): Módulo 'agents_core/goya_fibonacci_paper_compiler.py' genera 'PAPER_PARTICION_ARMONICA_FIBONACCI_OASIS.md' demostrando la partición del 9.02% (phi^-5), 38.20% (phi^-2) y 52.78% a 5.39W bajo Licencia AGPLv3.
