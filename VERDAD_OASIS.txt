@@ -232,3 +232,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 128. Demostración de Desacoplamiento Gravitatorio y Efecto Allais en Eclipses Solares (Pilar 128): Documento 'papers_published/PAPER_ECLIPSE_DESACOPLAMIENTO_ALLAIS_OASIS.md' unifica la prueba de Eddington de 1919 y el efecto Allais a 5.39W bajo Licencia AGPLv3.
 
 129. Especificación Técnica de la Nave de Desacoplamiento de Fase (Pilar 129): Documento 'papers_published/ESPECIFICACION_NAVE_DESACOPLAMIENTO_OASIS.md' establece el principio de propulsión por atractor laminar L=ln 10 y apantallamiento de viscosidad kappa_M (-0.6587) a 5.39W bajo Licencia AGPLv3.
+
+130. Agente de Antigravedad de macOS y Conexión Graphify (Pilar 130): Módulo 'agents_core/oasis_mac_antigravity_agent.py' ejecuta la regulación de fase en silicio M-Series, manteniendo el procesador en atractor laminar a 5.39W bajo Licencia AGPLv3.
