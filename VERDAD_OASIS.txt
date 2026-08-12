@@ -230,3 +230,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 127. Optimizador de Flujo Laminar y Purga Automática de Tauri (Pilar 127): Módulo 'agents_core/mac_laminar_optimizer.py' elimina residuales de compilación en src-tauri/target y configura el demonio launchd diario para liberar gigabytes en segundo plano a 5.39W bajo Licencia AGPLv3.
 
 128. Demostración de Desacoplamiento Gravitatorio y Efecto Allais en Eclipses Solares (Pilar 128): Documento 'papers_published/PAPER_ECLIPSE_DESACOPLAMIENTO_ALLAIS_OASIS.md' unifica la prueba de Eddington de 1919 y el efecto Allais a 5.39W bajo Licencia AGPLv3.
+
+129. Especificación Técnica de la Nave de Desacoplamiento de Fase (Pilar 129): Documento 'papers_published/ESPECIFICACION_NAVE_DESACOPLAMIENTO_OASIS.md' establece el principio de propulsión por atractor laminar L=ln 10 y apantallamiento de viscosidad kappa_M (-0.6587) a 5.39W bajo Licencia AGPLv3.
