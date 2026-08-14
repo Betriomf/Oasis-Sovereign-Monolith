@@ -238,3 +238,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 131. Sintonización de Hiperparámetros N_3D y Regulación kappa_M en Ollama (Pilar 131): Módulo 'agents_core/ollama_sintonizador_benchmark.py' e integración de qwen2.5-oasis:kappa_m (temperatura 0.6587) formalizan la reducción de entropía térmica en inferencia a 5.39W bajo Licencia AGPLv3.
 
 132. Motor K3-Lincos C99 y Contracción Dimensional N_2D (Pilar 132): Módulo 'agents_core/k3_lincos_engine.c' unifica la activación MoE dispersa (16/896) con la semántica Lincos y la cota térmica de Landauer (30.6%) a 5.39W bajo Licencia AGPLv3.
+
+133. Conector de Activación Dispersa C99 y Puente Lincos-Ollama (Pilar 133): Módulo 'agents_core/k3_qwen_bridge.py' canaliza la telemetría del binario C99 hacia qwen2.5-oasis:kappa_m para traducción semántica Lincos a 3.93W bajo Licencia AGPLv3.
