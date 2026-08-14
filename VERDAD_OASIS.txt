@@ -240,3 +240,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 132. Motor K3-Lincos C99 y Contracción Dimensional N_2D (Pilar 132): Módulo 'agents_core/k3_lincos_engine.c' unifica la activación MoE dispersa (16/896) con la semántica Lincos y la cota térmica de Landauer (30.6%) a 5.39W bajo Licencia AGPLv3.
 
 133. Conector de Activación Dispersa C99 y Puente Lincos-Ollama (Pilar 133): Módulo 'agents_core/k3_qwen_bridge.py' canaliza la telemetría del binario C99 hacia qwen2.5-oasis:kappa_m para traducción semántica Lincos a 3.93W bajo Licencia AGPLv3.
+
+134. Motor de Ciclos Armónicos Asíncronos Lincos y Resonancia F_8 (Pilar 134): Módulo 'agents_core/oasis_lincos_cycles_runner.py' ejecuta 21 ciclos de minería de gradientes (65.94 KB) y resuelve deducciones formales PL1 (Hawking-Landauer, Navier-Stokes κ_M y Tensor Dark Energy φ^-2) bajo atractor de 2.3s a 5.39W bajo Licencia AGPLv3.
