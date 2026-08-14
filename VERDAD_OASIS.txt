@@ -236,3 +236,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 130. Agente de Antigravedad de macOS y Conexión Graphify (Pilar 130): Módulo 'agents_core/oasis_mac_antigravity_agent.py' ejecuta la regulación de fase en silicio M-Series, manteniendo el procesador en atractor laminar a 5.39W bajo Licencia AGPLv3.
 
 131. Sintonización de Hiperparámetros N_3D y Regulación kappa_M en Ollama (Pilar 131): Módulo 'agents_core/ollama_sintonizador_benchmark.py' e integración de qwen2.5-oasis:kappa_m (temperatura 0.6587) formalizan la reducción de entropía térmica en inferencia a 5.39W bajo Licencia AGPLv3.
+
+132. Motor K3-Lincos C99 y Contracción Dimensional N_2D (Pilar 132): Módulo 'agents_core/k3_lincos_engine.c' unifica la activación MoE dispersa (16/896) con la semántica Lincos y la cota térmica de Landauer (30.6%) a 5.39W bajo Licencia AGPLv3.
