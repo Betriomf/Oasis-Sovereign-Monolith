@@ -234,3 +234,5 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 129. Especificación Técnica de la Nave de Desacoplamiento de Fase (Pilar 129): Documento 'papers_published/ESPECIFICACION_NAVE_DESACOPLAMIENTO_OASIS.md' establece el principio de propulsión por atractor laminar L=ln 10 y apantallamiento de viscosidad kappa_M (-0.6587) a 5.39W bajo Licencia AGPLv3.
 
 130. Agente de Antigravedad de macOS y Conexión Graphify (Pilar 130): Módulo 'agents_core/oasis_mac_antigravity_agent.py' ejecuta la regulación de fase en silicio M-Series, manteniendo el procesador en atractor laminar a 5.39W bajo Licencia AGPLv3.
+
+131. Sintonización de Hiperparámetros N_3D y Regulación kappa_M en Ollama (Pilar 131): Módulo 'agents_core/ollama_sintonizador_benchmark.py' e integración de qwen2.5-oasis:kappa_m (temperatura 0.6587) formalizan la reducción de entropía térmica en inferencia a 5.39W bajo Licencia AGPLv3.
