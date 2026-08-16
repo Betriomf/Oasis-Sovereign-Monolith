@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Oasis Sentinel Engine",
+  "version": "1.0.0",
+  "description": "Capa 0 Sentinel: Telemetría de silicio frío y disparador de barrido holográfico",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "storage",
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:8000/*"
+  ]
+}
