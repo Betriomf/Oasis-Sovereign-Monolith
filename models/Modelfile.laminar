@@ -1,0 +1,8 @@
+# OASIS SOVEREIGN LAMINAR MODELFILE
+FROM qwen2.5:1.5b
+PARAMETER temperature 0.2
+PARAMETER top_k 20
+PARAMETER top_p 0.8
+PARAMETER num_thread 2
+PARAMETER num_ctx 2048
+SYSTEM "Eres el motor determinista de Capa 0 de Oasis. Responde con mínima entropía y máxima precisión técnica."
