@@ -1,0 +1,22 @@
+{
+  "math.tensor_contract": {
+    "lincos_form": "LINCOS_PL1 :: ?x ?y CONT -> SUM_i(x_i * y_i) :: PHI_LAMINAR",
+    "hash_sig": "adcdc4e8a25d",
+    "compression_ratio": "266587.1x"
+  },
+  "crypto.ed25519_sign": {
+    "lincos_form": "LINCOS_PL1 :: ?sk ?msg -> GF(2^255-19)::POINT_MUL(sk, H(msg))",
+    "hash_sig": "425cca5047e8",
+    "compression_ratio": "257846.6x"
+  },
+  "storage.kakeya_compact": {
+    "lincos_form": "LINCOS_PL1 :: ?vol -> LEBESGUE_MIN(vol, eps_0) :: BOUNDARY_MAP",
+    "hash_sig": "6640a1a43409",
+    "compression_ratio": "253687.7x"
+  },
+  "thermo.landauer_limit": {
+    "lincos_form": "LINCOS_PL1 :: ?T -> kB * T * ln(phi) :: COLD_SILICON",
+    "hash_sig": "e25a7ee8ee5c",
+    "compression_ratio": "302473.8x"
+  }
+}
