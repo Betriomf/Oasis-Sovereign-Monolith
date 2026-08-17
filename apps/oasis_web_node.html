@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oasis Sovereign AI - Red Gratuita y Determinista</title>
+    <style>
+        :root { --bg: #0d1117; --panel: #161b22; --accent: #2ea043; --text: #c9d1d9; --phi: #58a6ff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 800px; background: var(--panel); border: 1px solid #30363d; border-radius: 8px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        h1 { font-size: 1.4rem; color: var(--phi); margin-top: 0; display: flex; align-items: center; justify-content: space-between; }
+        .badge { font-size: 0.75rem; background: #238636; color: #fff; padding: 3px 8px; border-radius: 12px; }
+        #chat { height: 350px; overflow-y: auto; background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 12px; font-size: 0.9rem; margin-bottom: 16px; white-space: pre-wrap; }
+        .input-group { display: flex; gap: 8px; }
+        input[type="text"] { flex: 1; background: #0d1117; border: 1px solid #30363d; color: var(--text); padding: 10px 14px; border-radius: 6px; font-size: 0.95rem; }
+        button { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        button:hover { opacity: 0.9; }
+        .footer { margin-top: 14px; font-size: 0.75rem; color: #8b949e; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🌌 Oasis Sovereign AI <span class="badge">Inferencia Fría $\le 5.39\text{W}$</span></h1>
+    <div id="chat">Bienvenido al nodo soberano Oasis. IA gratuita, determinista y local.
+Escribe una consulta para iniciar inferencia en silicio frío...</div>
+    <div class="input-group">
+        <input type="text" id="prompt" placeholder="Escribe tu consulta aquí..." onkeydown="if(event.key==='Enter') enviar()">
+        <button onclick="enviar()">Enviar</button>
+    </div>
+    <div class="footer">Licencia GNU AGPLv3 • Autor: Mariano Panzano Caballé (@Betriomf) • Cero Telemetría</div>
+</div>
+
+<script>
+async function enviar() {
+    const input = document.getElementById('prompt');
+    const chat = document.getElementById('chat');
+    const query = input.value.trim();
+    if (!query) return;
+
+    chat.innerHTML += `\n\n👤 <b>Tú:</b> ${query}\n⏳ <i>Procesando con mínima entropía...</i>`;
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+
+    try {
+        const response = await fetch('http://127.0.0.1:11434/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: 'oasis-laminar:1.5b',
+                prompt: query,
+                stream: false,
+                options: { temperature: 0.2, num_thread: 2, num_predict: 150 }
+            })
+        });
+        const data = await response.json();
+        chat.innerHTML = chat.innerHTML.replace('⏳ <i>Procesando con mínima entropía...</i>', `✨ <b>Oasis (1.5B):</b> ${data.response.trim()}`);
+    } catch (e) {
+        chat.innerHTML = chat.innerHTML.replace('⏳ <i>Procesando con mínima entropía...</i>', `⚠️ <b>Error:</b> Asegúrate de tener Ollama corriendo localmente ('ollama serve').`);
+    }
+    chat.scrollTop = chat.scrollHeight;
+}
+</script>
+</body>
+</html>

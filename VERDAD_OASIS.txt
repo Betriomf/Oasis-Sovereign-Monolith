@@ -279,3 +279,4 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 167. Puente de Orquestación Nomad-Dify y Minería de Gradientes Proof-of-Contribution (Pilar 167): Módulo 'agents_core/oasis_nomad_dify_bridge.py' acopla flujos de inferencia con timeouts estrictos y liquidación en USDC bajo Licencia AGPLv3.
 168. Inspector Forense de Capas OCI y Manifiestos SHA-256 (Pilar 168): Módulo 'agents_core/oasis_layer_inspector.py' audita la estructura de capas OCI en modelos locales bajo Licencia AGPLv3.
 169. Kernel de Atención Fractal Golden-RoPE y Poda de Dependencias (Pilar 169): Módulo 'agents_core/oasis_golden_kernel.py' implementa mecanismos de atención desde cero con escala áurea y cero librerías pesadas bajo Licencia AGPLv3.
+170. Interfaz Web de Inferencia Soberana y Despliegue de Mercado Gratuito (Pilar 170): Módulo 'apps/oasis_web_node.html' y 'agents_core/oasis_market_server.py' permiten distribución web a coste cero marginal bajo Licencia AGPLv3.
