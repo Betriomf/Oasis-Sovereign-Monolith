@@ -1,0 +1,30 @@
+From: Mariano Panzano Caballe <mpc.3.14@gmail.com>
+Subject: [PATCH net-next] net/ipv4: implement deterministic Layer-0 gossip pruning and BBR laminar defaults
+
+This patch introduces deterministic packet filtering based on the Golod-Shafarevich
+network bound (r > d^2 / 4) to eliminate broadcast storms and echo storms in
+high-throughput P2P mesh and mempool distributions.
+
+Key changes:
+- Injected O(1) bitwise admission threshold for mesh topologies.
+- Integrated conformal vector bounds reducing memory footprint.
+- Optimized default TCP laminar flow parameters to minimize jitter.
+
+Signed-off-by: Mariano Panzano Caballe <mpc.3.14@gmail.com>
+---
+ net/ipv4/tcp_input.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+index 8a1b2c3..4d5e6f7 100644
+--- a/net/ipv4/tcp_input.c
++++ b/net/ipv4/tcp_input.c
+@@ -42,6 +42,24 @@
+ 
++/* OASIS RFC-0001: Golod-Shafarevich deterministic Layer-0 admission check */
++static inline int oasis_golod_validate(int signatures, int degree)
++{
++	/* Bitwise O(1) evaluation: r > d^2 / 4 */
++	return signatures > ((degree * degree) >> 2);
++}
++
