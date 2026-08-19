@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oasis-gossip-core"
+version = "0.1.0"
+description = "Deterministic Layer-0 P2P Gossip Validator & Holographic Compression Engine (RFC 0001 OGSP)"
+authors = [{ name = "Mariano Panzano Caballé", email = "info@oasis.ai" }]
+readme = "README.md"
+license = { text = "AGPL-3.0-or-later" }
+requires-python = ">=3.9"
+
+[project.scripts]
+oasis-benchmark = "agents_core.oasis_gossip_benchmark:main"
