@@ -280,3 +280,4 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 168. Inspector Forense de Capas OCI y Manifiestos SHA-256 (Pilar 168): Módulo 'agents_core/oasis_layer_inspector.py' audita la estructura de capas OCI en modelos locales bajo Licencia AGPLv3.
 169. Kernel de Atención Fractal Golden-RoPE y Poda de Dependencias (Pilar 169): Módulo 'agents_core/oasis_golden_kernel.py' implementa mecanismos de atención desde cero con escala áurea y cero librerías pesadas bajo Licencia AGPLv3.
 170. Interfaz Web de Inferencia Soberana y Despliegue de Mercado Gratuito (Pilar 170): Módulo 'apps/oasis_web_node.html' y 'agents_core/oasis_market_server.py' permiten distribución web a coste cero marginal bajo Licencia AGPLv3.
+171. Calibración Universal de Modelo y Sintonía Semántica Multidominio (Pilar 171): Actualización de 'models/Modelfile.laminar' para equilibrar conocimiento general y deducción determinista sin alucinaciones numéricas bajo Licencia AGPLv3.
