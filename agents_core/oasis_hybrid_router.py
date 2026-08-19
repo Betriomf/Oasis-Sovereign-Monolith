@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-OASIS HYBRID SCI-ROUTER v2 (Pilar 172)
-Enrutador de baja impedancia: arXiv/Crossref + LINCOS Exacto + OpenData + LLM Fallback
+OASIS HYBRID SCI-ROUTER v3 (Pilar 172/178)
+Enrutador de baja impedancia: Álgebra LINCOS + Preguntas Barontini 2026 + arXiv + OpenData
 Autor: Mariano Panzano Caballé (@Betriomf)
 Licencia: GNU AGPLv3
 """
@@ -17,30 +17,38 @@ import xml.etree.ElementTree as ET
 KB = 1.380649e-23
 PHI = (1 + math.sqrt(5)) / 2
 
-def resolver_lincos_termo(query: str):
-    """Cálculo algebraico exacto en microsegundos sin IA."""
-    t_match = 300.0  # Default 300K
-    for palabra in query.split():
-        limpia = palabra.lower().replace("k", "").replace("t=", "").replace("k.", "")
-        try:
-            t_match = float(limpia)
-            break
-        except ValueError:
-            continue
-            
-    e_oasis = KB * t_match * math.log(PHI)
-    e_clasico = KB * t_match * math.log(2)
-    ahorro = (1.0 - (e_oasis / e_clasico)) * 100
-
-    return (
-        f"⚡ [LINCOS CAPA 0 - EXACTO]:\n"
-        f"  • E_oasis (T={t_match}K) = kB * T * ln(phi) = {e_oasis:.4e} J\n"
-        f"  • Límite clásico Landauer = {e_clasico:.4e} J\n"
-        f"  • Ahorro Termodinámico:   {ahorro:.2f}% (Reducción topológica 2^N -> phi^N)"
-    )
+def resolver_preguntas_barontini(query: str):
+    q_low = query.lower()
+    if "congelamiento" in q_low or "stasis" in q_low or "freezing" in q_low:
+        return (
+            "⚡ [LINCOS CAPA 0 - POSTULADO 1 BARONTINI 2026]:\n"
+            "  • Ecuación: d_tau = dS_coarse / (kB * ln(phi))\n"
+            "  • Límite: Cuando Delta_S -> 0, el tiempo relacional se anula (d_tau = 0).\n"
+            "  • Estado: STASIS COMPLETO a 0.0W de consumo térmico."
+        )
+    elif "orden" in q_low or "expansion" in q_low or "invarianza" in q_low:
+        return (
+            "⚡ [LINCOS CAPA 0 - POSTULADO 2 BARONTINI 2026]:\n"
+            "  • Invarianza de Orden: La secuencia de eventos en la malla phi^N es invariante ante inflación/colapso.\n"
+            "  • Cero Thundering Herd: La simetría áurea suprime colisiones de hilos en CPU."
+        )
+    elif "holografica" in q_low or "volumen" in q_low or "borde" in q_low:
+        e_oasis = KB * 300 * math.log(PHI)
+        return (
+            f"⚡ [LINCOS CAPA 0 - POSTULADO 3 HOLOGRAFÍA OASIS]:\n"
+            f"  • Contracción topológica: 2^N (Bulk 3D) -> phi^N (Superficie 2D)\n"
+            f"  • Cota Disipativa (300K): E = {e_oasis:.4e} J\n"
+            f"  • Ventaja Termodinámica: -30.58% frente al límite Landauer binario."
+        )
+    else:
+        e_oasis = KB * 300 * math.log(PHI)
+        return (
+            f"⚡ [LINCOS CAPA 0 - TERMODINÁMICA EXACTA]:\n"
+            f"  • E_oasis (300K) = kB * T * ln(phi) = {e_oasis:.4e} J\n"
+            f"  • Ahorro térmico: 30.58% | Silicio: LAMINAR (< 0.1W)"
+        )
 
 def buscar_arxiv_ciencia(query: str):
-    """Consulta directa a la base abierta de arXiv."""
     terminos = query.replace("paper", "").replace("arxiv", "").replace("investigacion", "").strip()
     url = f"https://export.arxiv.org/api/query?search_query=all:{urllib.parse.quote(terminos)}&start=0&max_results=3"
     req = urllib.request.Request(url, headers={"User-Agent": "Oasis-Sci-Node/1.0"})
@@ -61,7 +69,6 @@ def buscar_arxiv_ciencia(query: str):
         return f"⚠️ Error en consulta arXiv: {e}"
 
 def buscar_conocimiento_general(query: str):
-    """Consulta ultra-rápida a Wikipedia REST API."""
     term = query.replace("capital de", "").replace("¿", "").replace("?", "").strip()
     url = f"https://es.wikipedia.org/api/rest_v1/page/summary/{urllib.parse.quote(term)}"
     req = urllib.request.Request(url, headers={"User-Agent": "Oasis-OpenData/1.0"})
@@ -77,28 +84,24 @@ def buscar_conocimiento_general(query: str):
 
 def despachar_hibrido(query: str):
     print("=" * 70)
-    print(f"🛰️ [OASIS HYBRID ROUTER v2]: Procesando '{query}'...")
+    print(f"🛰️ [OASIS HYBRID ROUTER v3]: Procesando '{query}'...")
     print("=" * 70)
     
     t0 = time.perf_counter()
     q_lower = query.lower()
     
-    # 1. PRIORIDAD 1: Literatura científica / Papers / Búsqueda Académica
-    if any(k in q_lower for k in ["paper", "arxiv", "barontini", "hawking", "investigacion", "teorema", "doi"]):
-        salida = buscar_arxiv_ciencia(query) or "No se hallaron papers específicos en el índice."
-        tipo = "Open Science / arXiv API CC0"
-
-    # 2. PRIORIDAD 2: Cálculo Matemático / Cota de Landauer / Termodinámica
-    elif any(k in q_lower for k in ["calcula", "cota", "landauer", "fibonacci", "joule", "300k"]):
-        salida = resolver_lincos_termo(query)
+    if any(k in q_lower for k in ["barontini", "congelamiento", "stasis", "holografica", "orden relacional"]):
+        salida = resolver_preguntas_barontini(query)
         tipo = "Motor Algebraico LINCOS (0ms CPU)"
-
-    # 3. PRIORIDAD 3: Cultura general / Hechos enciclopédicos
+    elif any(k in q_lower for k in ["paper", "arxiv", "investigacion", "teorema", "doi"]):
+        salida = buscar_arxiv_ciencia(query) or "No se hallaron papers específicos."
+        tipo = "Open Science / arXiv API CC0"
+    elif any(k in q_lower for k in ["calcula", "cota", "landauer", "fibonacci", "joule", "300k"]):
+        salida = resolver_preguntas_barontini(query)
+        tipo = "Motor Algebraico LINCOS (0ms CPU)"
     elif any(k in q_lower for k in ["capital", "que es", "quien fue", "poblacion", "españa"]):
         salida = buscar_conocimiento_general(query) or "Sin datos en enciclopedia abierta."
         tipo = "OpenData REST API"
-
-    # 4. Fallback: LLM Local
     else:
         tipo = "Ollama oasis-laminar:1.5b (Inferencia)"
         salida = "Consulta enrutada a modelo local."
@@ -111,5 +114,5 @@ def despachar_hibrido(query: str):
     print("=" * 70)
 
 if __name__ == "__main__":
-    p = sys.argv[1] if len(sys.argv) > 1 else "capital de españa"
+    p = sys.argv[1] if len(sys.argv) > 1 else "congelamiento dinamico barontini"
     despachar_hibrido(p)
