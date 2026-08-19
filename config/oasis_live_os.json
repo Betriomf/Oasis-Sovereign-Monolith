@@ -1,0 +1,16 @@
+{
+  "system_name": "Oasis Sovereign Live OS",
+  "base_kernel": "Debian / Tails Live Hybrid",
+  "layer_0_engine": "LINCOS Deterministic Router v2",
+  "thermodynamics": "Sub-Landauer Fibonacci E=kB*T*ln(phi)",
+  "workspace_stack": {
+    "knowledge_base": "AppFlowy Local",
+    "design_engine": "Penpot Web",
+    "automation_bus": "n8n Workflow Engine",
+    "media_processing": "yt-dlp + Whisper Native",
+    "image_synthesis": "Fooocus Cycle Generator"
+  },
+  "network_policy": "Strict Tor / I2P / Local-Only (Zero External Telemetry)",
+  "author": "Mariano Panzano Caballé",
+  "license": "AGPLv3 / CC-BY-4.0"
+}
