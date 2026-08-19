@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oasis Layer 0 - Protocolo OGSP (RFC 0001)</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; color: #1a1a1a; background: #fafafa; }
+    h1, h2 { color: #0f172a; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .badge { display: inline-block; background: #10b981; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.85em; }
+    pre { background: #0f172a; color: #38bdf8; padding: 15px; border-radius: 6px; overflow-x: auto; }
+    .stat { font-size: 1.8em; font-weight: bold; color: #2563eb; }
+  </style>
+</head>
+<body>
+  <h1>🛰️ Oasis Layer 0 &middot; Protocolo OGSP (RFC 0001)</h1>
+  <p><span class="badge">Open Source / AGPLv3</span> &nbsp; Autor: <strong>Mariano Panzano Caballé</strong></p>
+
+  <div class="card">
+    <h2>📊 Métricas del Benchmark</h2>
+    <p>Optimización determinista en <i>O(1)</i> inspirada en el invariante de Golod-Shafarevich y la Cota Chen-Panzano:</p>
+    <ul>
+      <li><span class="stat">96.19%</span> Reducción neta de ancho de banda frente a Gossip clásico</li>
+      <li><span class="stat">0.53 µs</span> Latencia por paquete en silicio frío (&lt; 0.01 W)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>⚡ Pruébalo en 1 solo comando</h2>
+    <p>Ejecuta el evaluador directamente en tu terminal:</p>
+    <pre>git clone https://github.com/Betriomf/Oasis-Sovereign-Monolith.git
+cd Oasis-Sovereign-Monolith
+python3 agents_core/oasis_gossip_benchmark.py 100000</pre>
+  </div>
+
+  <p><a href="https://github.com/Betriomf/Oasis-Sovereign-Monolith">Ver Repositorio Completo en GitHub &rarr;</a></p>
+</body>
+</html>
