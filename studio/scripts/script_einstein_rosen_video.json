@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "title": "Misterio Revelado: Puentes de Einstein-Rosen y Tiempo Entr\u00f3pico",
+    "reference": "Barontini 2026 / Einstein-Rosen",
+    "created_at": 1787129708,
+    "aesthetic": "Textfiles ASCII + Fooocus Photorealistic Lensing"
+  },
+  "cognitive_framework": {
+    "hebb_rule": "Sincronizaci\u00f3n exacta de fonemas Whisper con overlays tipogr\u00e1ficos",
+    "yerkes_dodson": "Pico de atenci\u00f3n a 0:00 (Hook), calma a 0:45 (Explicaci\u00f3n), cl\u00edmax a 1:30",
+    "ikea_effect": "Micro-reto de deducci\u00f3n en pantalla a 1:00",
+    "pratfall_effect": "Desmontaje de la paradoja cl\u00e1sica inicial"
+  },
+  "scenes": [
+    {
+      "scene_id": 1,
+      "timestamp": "00:00 - 00:15",
+      "narrative": "\u00bfQu\u00e9 pasar\u00eda si el tiempo no existiera fuera de tu propia mente? Un puente de Einstein-Rosen lo cambia todo.",
+      "fooocus_prompt": "Cinematic gravitational lens Einstein cross glowing cyan neon, ascii matrix overlay, 8k render, photorealistic, Unreal Engine 5 style",
+      "ascii_art": "  +---+ \n  | E | \n+-+-+-+-+\n| R | O | S |\n+-+-+-+-+\n  | N | \n  +---+"
+    },
+    {
+      "scene_id": 2,
+      "timestamp": "00:15 - 00:45",
+      "narrative": "En 2026, \u00e1tomos ultra-fr\u00edos demostraron que el tiempo se detiene cuando la entrop\u00eda se congela.",
+      "fooocus_prompt": "Bose-Einstein condensate of rubidium atoms freezing in deep space, cold crystal blue light, sharp focus, hyperdetailed",
+      "ascii_art": " [ 24,000 ATOMS ] ---> [ Delta_S -> 0 ] ---> [ STASIS ]"
+    },
+    {
+      "scene_id": 3,
+      "timestamp": "00:45 - 01:15",
+      "narrative": "La cota de Landauer en r\u00e9gimen de Fibonacci ahorra un 30.58% de disipaci\u00f3n t\u00e9rmica. El universo calcula en fr\u00edo.",
+      "fooocus_prompt": "Golden ratio spiral geometry made of glowing optical fibers in dark laboratory, mathematical equation floating in air, 4k",
+      "ascii_art": "  E = kB * T * ln(phi) = 1.9932e-21 J"
+    }
+  ]
+}
