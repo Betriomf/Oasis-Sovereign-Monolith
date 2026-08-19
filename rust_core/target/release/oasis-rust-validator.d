@@ -1,0 +1,1 @@
+/Users/apple314/Oasis-Sovereign-Monolith/rust_core/target/release/oasis-rust-validator: /Users/apple314/Oasis-Sovereign-Monolith/rust_core/src/lib.rs /Users/apple314/Oasis-Sovereign-Monolith/rust_core/src/main.rs
