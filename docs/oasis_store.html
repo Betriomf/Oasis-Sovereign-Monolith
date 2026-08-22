@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Oasis Layer-0 Sovereign Market</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a0e17; color: #e1e7f0; margin: 0; padding: 40px; display: flex; justify-content: center; }
+    .card { background: #131b2e; border: 1px solid #1f2d4d; border-radius: 12px; padding: 30px; max-width: 650px; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    h1 { color: #58a6ff; font-size: 24px; margin-top: 0; }
+    .item { border-bottom: 1px solid #23355d; padding: 15px 0; display: flex; justify-content: space-between; align-items: center; }
+    .item-info { max-width: 70%; }
+    .item-title { font-weight: bold; color: #fff; }
+    .item-desc { font-size: 13px; color: #8b949e; margin-top: 4px; }
+    .btn { background: #238636; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .btn:hover { background: #2ea043; }
+    #status { margin-top: 20px; font-size: 14px; color: #7ee787; white-space: pre-wrap; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>⚡ Oasis Sovereign Store (Polygon Mainnet)</h1>
+    <p style="color: #8b949e; font-size: 14px;">Utilidades de Silicio Frío y Capa 0 por Mariano Panzano Caballé.</p>
+    
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">Fast Build Engine (Pilar 230)</div>
+        <div class="item-desc">Compilador C/C++ en RAM sub-milisegundo. Cero calentamiento.</div>
+      </div>
+      <button class="btn" onclick="buyModule('Fast Build Engine', '30')">Comprar (30 POL)</button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">O-QUIC Pacer Module (Pilar 227)</div>
+        <div class="item-desc">Pacing áureo (π/φ). Supresión del 72% de jitter P99 en juegos y streaming.</div>
+      </div>
+      <button class="btn" onclick="buyModule('O-QUIC Pacer', '60')">Comprar (60 POL)</button>
+    </div>
+
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">Cuantizador Genómico Z (Pilar 231)</div>
+        <div class="item-desc">Resolución determinista de homopolímeros en nanoporos en O(1).</div>
+      </div>
+      <button class="btn" onclick="buyModule('Genomic Z Quantizer', '180')">Comprar (180 POL)</button>
+    </div>
+
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const SELLER = "0x61c57049f39632981f42d57bb85ed05ea0b303db";
+
+    async function buyModule(name, polAmount) {
+      const statusDiv = document.getElementById("status");
+      if (!window.ethereum) {
+        statusDiv.innerText = "❌ Por favor instala MetaMask o abre desde una app Web3.";
+        return;
+      }
+      try {
+        statusDiv.innerText = `⏳ Conectando con billetera para adquirir ${name}...`;
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const buyer = accounts[0];
+        
+        // Conversión a Wei (Hexadecimal)
+        const weiValue = "0x" + (BigInt(polAmount) * 10n**18n).toString(16);
+
+        const txParams = {
+          from: buyer,
+          to: SELLER,
+          value: weiValue
+        };
+
+        statusDiv.innerText = "⏳ Confirmando transacción en Polygon...";
+        const txHash = await window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [txParams],
+        });
+
+        statusDiv.innerText = `✅ ¡PAGO COMPLETADO!\nTx Hash: ${txHash}\n🔑 Tu licencia se ha emitido para ${buyer}.`;
+      } catch (err) {
+        statusDiv.innerText = `⚠️ Error en la transacción: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
