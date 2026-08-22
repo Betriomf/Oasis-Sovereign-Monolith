@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oasis Sovereign Store | Polygon L2</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #080c14; color: #e6edf3; margin: 0; padding: 20px; display: flex; justify-content: center; }
+    .card { background: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 28px; max-width: 650px; width: 100%; box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
+    h1 { color: #58a6ff; font-size: 22px; margin-top: 0; }
+    .wallet-box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 13px; word-break: break-all; color: #8b949e; }
+    .item { border-bottom: 1px solid #21262d; padding: 18px 0; display: flex; justify-content: space-between; align-items: center; }
+    .item:last-of-type { border-bottom: none; }
+    .item-info { max-width: 68%; }
+    .item-title { font-weight: 600; color: #f0f6fc; font-size: 15px; }
+    .item-desc { font-size: 13px; color: #8b949e; margin-top: 4px; line-height: 1.4; }
+    .btn { background: #238636; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; white-space: nowrap; font-size: 13px; }
+    .btn:hover { background: #2ea043; }
+    .btn-v2 { background: #1f6feb; }
+    .btn-v2:hover { background: #388bfd; }
+    #status { margin-top: 20px; font-size: 13px; color: #7ee787; white-space: pre-wrap; font-family: monospace; background: #040d21; padding: 14px; border-radius: 6px; display: none; border: 1px solid #1f3a5f; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>⚡ Oasis Sovereign Store</h1>
+    <div class="wallet-box">
+      <strong>Billetera de Cobro (Polygon Mainnet):</strong><br>
+      <code>0x61c57049f39632981f42d57bb85ed05ea0b303db</code>
+    </div>
+
+    <!-- PRODUCTO 1 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">Fast Build Engine Standard (Pilar 230)</div>
+        <div class="item-desc">Compilación en RAM en &lt; 1 ms. Supresión de I/O de disco y compilación de mínima acción.</div>
+      </div>
+      <button class="btn" onclick="buyModule('Fast Build Standard', '30')">Comprar (30 POL / ~$2.50)</button>
+    </div>
+
+    <!-- PRODUCTO 2 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">Fast Build Pro V2 - Sintonía de Fase (Pilar 242)</div>
+        <div class="item-desc">Atenuación armónica en FPU, ahorro Landauer-Oasis 30.576%, atractor adiabático 2.3 y bypass de Windows Defender (Mac/Win).</div>
+      </div>
+      <button class="btn btn-v2" onclick="buyModule('Fast Build Pro V2', '280')">Comprar (280 POL / ~$23.00)</button>
+    </div>
+
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const SELLER = "0x61c57049f39632981f42d57bb85ed05ea0b303db";
+    const POLYGON_CHAIN_ID = "0x89";
+
+    async function ensurePolygonNetwork() {
+      const currentChain = await window.ethereum.request({ method: 'eth_chainId' });
+      if (currentChain !== POLYGON_CHAIN_ID) {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: POLYGON_CHAIN_ID }],
+        });
+      }
+    }
+
+    async function buyModule(name, polAmount) {
+      const status = document.getElementById("status");
+      status.style.display = "block";
+
+      if (!window.ethereum) {
+        status.innerText = "❌ Abre este enlace desde MetaMask Mobile o un navegador Web3.";
+        return;
+      }
+
+      try {
+        status.innerText = `⏳ Conectando con Polygon...`;
+        await ensurePolygonNetwork();
+
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const buyer = accounts[0];
+        const weiValue = "0x" + (BigInt(polAmount) * 10n**18n).toString(16);
+
+        status.innerText = `⏳ Esperando confirmación de ${polAmount} POL en tu billetera...`;
+        const txHash = await window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [{ from: buyer, to: SELLER, value: weiValue }],
+        });
+
+        const pType = polAmount === '280' ? 'PRO_V2' : 'STANDARD';
+
+        status.innerText = `✅ ¡PAGO CONFIRMADO EN POLYGON!\n\n📦 Módulo   : ${name}\n🔗 Tx Hash  : ${txHash}\n👤 Billetera: ${buyer}\n\nPara desbloquear en tu terminal ejecuta:\npython3 agents_core/oasis_fast_build_seller.py ${buyer} ${txHash} ${pType}`;
+      } catch (err) {
+        status.innerText = `⚠️ Operación cancelada: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
