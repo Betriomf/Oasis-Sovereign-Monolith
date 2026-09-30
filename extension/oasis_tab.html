@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>OASIS SOVEREIGN NODE | LIVE DASHBOARD</title>
+    <style>
+        body { background-color: #0b0f19; color: #00ffcc; font-family: monospace; padding: 40px; }
+        h1 { color: #ffffff; border-bottom: 2px solid #00ffcc; padding-bottom: 10px; }
+        .metric { background: #131c2e; padding: 15px; margin: 10px 0; border-left: 4px solid #00ffcc; font-size: 16px; }
+        .alert { border-left-color: #ff3366; color: #ff3366; }
+    </style>
+</head>
+<body>
+    <h1>🛰️ OASIS SOVEREIGN NODE | TELEMETRÍA EN VIVO (P288-P292)</h1>
+    <div class="metric">Estado del Sistema: <b id="status">Conectando...</b></div>
+    <div class="metric">Potencia Silicio: <b id="watts">--</b> W (Bajo Cota Landauer-Reynolds)</div>
+    <div class="metric">Carga CPU (Núcleos Eficientes): <b id="cpu">--</b> %</div>
+    <div class="metric">Asimetría Temporal (dS/dτ): <b id="entropy">--</b> J/K·s</div>
+    <div class="metric">Malla ARPANET (23 Nodos) - Confinamiento SU(3): <b id="arpanet">Activa (Inmune a Sybil)</b></div>
+    <div class="metric alert" id="sybil-box" style="display:none;">🚨 [ALTA SEGURIDAD]: Intento de ataque Sybil interceptado y bloqueado por Movimiento Browniano.</div>
+
+    <script>
+        async function fetchTelemetry() {
+            try {
+                let response = await fetch('http://localhost:8080/telemetry');
+                let data = await response.json();
+                
+                document.getElementById('status').innerText = data.status;
+                document.getElementById('watts').innerText = data.watts;
+                document.getElementById('cpu').innerText = data.cpu_load;
+                document.getElementById('entropy').innerText = data.entropy_dS;
+                
+                let sybilBox = document.getElementById('sybil-box');
+                if (data.sybil_blocked === 1) {
+                    sybilBox.style.display = 'block';
+                } else {
+                    sybilBox.style.display = 'none';
+                }
+            } catch (error) {
+                document.getElementById('status').innerText = "Esperando servidor local (python3 oasis_live_server.py)...";
+            }
+        }
+        setInterval(fetchTelemetry, 1000);
+        fetchTelemetry();
+    </script>
+</body>
+</html>

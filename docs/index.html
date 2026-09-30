@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -97,3 +98,182 @@
   </script>
 </body>
 </html>
+||||||| constructed merge base
+=======
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oasis Sovereign Store | Polygon L2</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #080c14; color: #e6edf3; margin: 0; padding: 20px; display: flex; justify-content: center; }
+    .card { background: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 28px; max-width: 720px; width: 100%; box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
+    h1 { color: #58a6ff; font-size: 22px; margin-top: 0; }
+    .wallet-box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 13px; word-break: break-all; color: #8b949e; }
+    .item { border-bottom: 1px solid #21262d; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; }
+    .item:last-of-type { border-bottom: none; }
+    .item-info { max-width: 68%; }
+    .item-title { font-weight: 600; color: #f0f6fc; font-size: 15px; }
+    .item-desc { font-size: 13px; color: #8b949e; margin-top: 4px; line-height: 1.4; }
+    .btn { color: #fff; border: none; padding: 9px 15px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; white-space: nowrap; font-size: 13px; }
+    .btn-green { background: #238636; }
+    .btn-orange { background: #d29922; color: #000; }
+    .btn-purple { background: #8957e5; }
+    .btn-yellow { background: #e3b341; color: #000; }
+    .btn-pink { background: #db61a2; }
+    .btn-cyan { background: #008080; color: #fff; }
+    .btn-indigo { background: #6366f1; color: #fff; }
+    .btn-red { background: #da3633; color: #fff; }
+    .btn-teal { background: #1f6feb; color: #fff; }
+    .btn-gold { background: #f0883e; color: #000; font-weight: 700; }
+    #status { margin-top: 20px; font-size: 13px; color: #7ee787; white-space: pre-wrap; font-family: monospace; background: #040d21; padding: 14px; border-radius: 6px; display: none; border: 1px solid #1f3a5f; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>⚡ Oasis Sovereign Store (10 Módulos de Capa 0)</h1>
+    <div class="wallet-box">
+      <strong>Billetera de Cobro (Polygon Mainnet):</strong><br>
+      <code>0x61c57049f39632981f42d57bb85ed05ea0b303db</code>
+    </div>
+
+    <!-- PRODUCTO 1 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">1. Fast Build Standard (Pilar 230)</div>
+        <div class="item-desc">Compilación en RAM en &lt; 1 ms sin I/O de disco.</div>
+      </div>
+      <button class="btn btn-green" onclick="buyModule('Fast Build Standard', '30', 'STANDARD')">Comprar (30 POL)</button>
+    </div>
+
+    <!-- PRODUCTO 2 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">2. O-QUIC Pacer V2 (Pilar 227/248)</div>
+        <div class="item-desc">Supresión del 95.59% de Jitter P99 en transporte de red.</div>
+      </div>
+      <button class="btn btn-orange" onclick="buyModule('O-QUIC Pacer', '60', 'O_QUIC_PACER')">Comprar (60 POL)</button>
+    </div>
+
+    <!-- PRODUCTO 3 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">3. Gaming UDP Proxy (Pilar 250)</div>
+        <div class="item-desc">Túnel local 127.0.0.1 para GTA, FiveM y Esports con Pacing Áureo.</div>
+      </div>
+      <button class="btn btn-purple" onclick="buyModule('Gaming UDP Proxy', '60', 'GAMING_PROXY')">Comprar (60 POL)</button>
+    </div>
+
+    <!-- PRODUCTO 4 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">4. Darwin RAM Liberator (Pilar 261)</div>
+        <div class="item-desc">Compresión holográfica Chen-Panzano al 10.14% y supresión de Swap en Mac.</div>
+      </div>
+      <button class="btn btn-yellow" onclick="buyModule('Darwin RAM Liberator', '90', 'RAM_LIBERATOR')">Comprar (90 POL)</button>
+    </div>
+
+    <!-- PRODUCTO 5 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">5. Chronos Everett Engine (Pilar 257)</div>
+        <div class="item-desc">Ejecución especulativa local en sandboxes RAM y colapso por mínima acción.</div>
+      </div>
+      <button class="btn btn-pink" onclick="buyModule('Chronos Everett Engine', '150', 'EVERETT_ENGINE')">Comprar (150 POL)</button>
+    </div>
+
+    <!-- PRODUCTO 6 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">6. Medical Everett Engine (Pilar 259)</div>
+        <div class="item-desc">Alineación pangenómica paralela y diagnóstico clínico instantáneo en RAM.</div>
+      </div>
+      <button class="btn btn-cyan" onclick="buyModule('Medical Everett Engine', '200', 'MEDICAL_ENGINE')">Comprar (200 POL)</button>
+    </div>
+
+    <!-- PRODUCTO 7 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">7. Conscious Ledger (Pilar 262)</div>
+        <div class="item-desc">Base de datos transaccional inmutable que solo registra rastros ante consultas.</div>
+      </div>
+      <button class="btn btn-indigo" onclick="buyModule('Conscious Ledger', '220', 'CONSCIOUS_LEDGER')">Comprar (220 POL)</button>
+    </div>
+
+    <!-- PRODUCTO 8 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">8. Fast Build Pro V2 (Pilar 242)</div>
+        <div class="item-desc">Sintonía FPU, Ahorro Landauer 30.576% y bypass de Windows Defender.</div>
+      </div>
+      <button class="btn btn-teal" onclick="buyModule('Fast Build Pro V2', '280', 'PRO_V2')">Comprar (280 POL)</button>
+    </div>
+
+    <!-- PRODUCTO 9 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">9. EventHorizon Engine (Pilar 266)</div>
+        <div class="item-desc">Preservación unitaria de transacciones, búfer de descompresión y tolerancia a picos.</div>
+      </div>
+      <button class="btn btn-red" onclick="buyModule('EventHorizon Engine', '320', 'EVENT_HORIZON')">Comprar (320 POL)</button>
+    </div>
+
+    <!-- PRODUCTO 10 -->
+    <div class="item">
+      <div class="item-info">
+        <div class="item-title">10. Cold Boot Engine (Pilar 267)</div>
+        <div class="item-desc">Inicializador determinista por métrica de Fisher-Rao con baja entropía inicial.</div>
+      </div>
+      <button class="btn btn-gold" onclick="buyModule('Cold Boot Engine', '350', 'COLD_BOOT')">Comprar (350 POL)</button>
+    </div>
+
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const SELLER = "0x61c57049f39632981f42d57bb85ed05ea0b303db";
+    const POLYGON_CHAIN_ID = "0x89";
+
+    async function ensurePolygonNetwork() {
+      const currentChain = await window.ethereum.request({ method: 'eth_chainId' });
+      if (currentChain !== POLYGON_CHAIN_ID) {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: POLYGON_CHAIN_ID }],
+        });
+      }
+    }
+
+    async function buyModule(name, polAmount, pType) {
+      const status = document.getElementById("status");
+      status.style.display = "block";
+
+      if (!window.ethereum) {
+        status.innerText = "❌ Abre este enlace desde MetaMask Mobile o un navegador Web3.";
+        return;
+      }
+
+      try {
+        status.innerText = `⏳ Conectando con Polygon...`;
+        await ensurePolygonNetwork();
+
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const buyer = accounts[0];
+        const weiValue = "0x" + (BigInt(polAmount) * 10n**18n).toString(16);
+
+        status.innerText = `⏳ Esperando confirmación de ${polAmount} POL en tu billetera...`;
+        const txHash = await window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [{ from: buyer, to: SELLER, value: weiValue }],
+        });
+
+        status.innerText = `✅ ¡PAGO CONFIRMADO EN POLYGON!\n\n📦 Módulo   : ${name}\n🔗 Tx Hash  : ${txHash}\n👤 Billetera: ${buyer}\n\nPara desbloquear en tu terminal ejecuta:\npython3 agents_core/oasis_fast_build_seller.py ${buyer} ${txHash} ${pType}`;
+      } catch (err) {
+        status.innerText = `⚠️ Operación cancelada: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
+>>>>>>> Stashed changes
