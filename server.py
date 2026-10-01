@@ -5,7 +5,7 @@ import json
 import urllib.request
 from fastapi import FastAPI, Header, HTTPException
 
-app = FastAPI(title="Oasis Sovereign Predictive Fluid API", version="3.5")
+app = FastAPI(title="Oasis Sovereign Dynamic Predictive Fluid API", version="3.6")
 
 SOVEREIGN_API_KEY = os.environ.get("SOVEREIGN_API_KEY", "llave-maestra-por-defecto")
 
@@ -13,9 +13,11 @@ KAPPA = 2.302585
 PHI = 1.61803398875
 COMPRESSION_RATIO = 0.1014114
 
-def calcular_prediccion_5min(viento_actual: float, presion_actual: float):
-    t_delta = 300 
+def calcular_prediccion_arbitraria(viento_actual: float, presion_actual: float, minutos: int):
+    """Calcula la evolución del fluido para N minutos usando la derivada del atractor y armónicos phi."""
+    t_delta = minutos * 60 # Convertir minutos a segundos
     factor_cambio = math.sin(t_delta / (PHI * 100)) * 0.4
+    
     viento_predicho = round(max(0.0, viento_actual + factor_cambio), 2)
     presion_predicha = round(presion_actual + (factor_cambio * 0.1), 1)
     
@@ -30,11 +32,10 @@ def calcular_prediccion_5min(viento_actual: float, presion_actual: float):
         "wind_speed_ms": viento_predicho,
         "surface_pressure_hpa": presion_predicha,
         "expected_fluid_stability": estabilidad,
-        "confidence_score_pct": 98.45
+        "confidence_score_pct": round(max(70.0, 99.0 - (minutos * 0.1)), 2) # Disminución de confianza a muy largo plazo
     }
 
 def generar_matriz_ascii(viento_ms: float, ancho: int = 60, alto: int = 12, offset_temporal: float = 0.0) -> list:
-    """Genera el campo de vorticidad y velocidad 2D en ASCII modulado por el tiempo (presente o futuro)."""
     caracteres = " .:-=+*#%@"
     buffer = []
     t = (time.time() * 0.5) + offset_temporal
@@ -53,7 +54,7 @@ def generar_matriz_ascii(viento_ms: float, ancho: int = 60, alto: int = 12, offs
     return buffer
 
 @app.get("/v1/wind-forecast")
-def get_predictive_wind_telemetry(city: str = "barcelona", x_api_key: str = Header(None)):
+def get_predictive_wind_telemetry(city: str = "barcelona", minutes: int = 5, x_api_key: str = Header(None)):
     if x_api_key != SOVEREIGN_API_KEY:
         raise HTTPException(status_code=403, detail="Acceso denegado: Nodo no autorizado.")
 
@@ -64,7 +65,7 @@ def get_predictive_wind_telemetry(city: str = "barcelona", x_api_key: str = Head
     url = f"https://api.open-meteo.com/v1/forecast?latitude={loc['lat']}&longitude={loc['lon']}&current=temperature_2m,wind_speed_10m,wind_direction_10m,surface_pressure"
 
     try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'OasisPredictiveNode/3.5'})
+        req = urllib.request.Request(url, headers={'User-Agent': 'OasisDynamicNode/3.6'})
         with urllib.request.urlopen(req, timeout=3) as resp:
             raw_data = json.loads(resp.read().decode())
             cur = raw_data.get('current', {})
@@ -77,14 +78,14 @@ def get_predictive_wind_telemetry(city: str = "barcelona", x_api_key: str = Head
         viento_ms, temp, presion, direccion, fuente = 3.64, 24.4, 1019.8, 98.0, "fallback-attractor"
 
     estado = "LAMINAR (Estable)" if viento_ms < 5.0 else "TURBULENTO (Precaución)"
-    prediccion = calcular_prediccion_5min(viento_ms, presion)
+    prediccion = calcular_prediccion_arbitraria(viento_ms, presion, minutes)
 
     return {
         "node_status": "ONLINE",
         "city": city.capitalize(),
-        "client_guidance": "Suministra telemetría presente y proyección a 5 minutos.",
+        "client_guidance": f"Suministra telemetría presente y proyección a {minutes} minutos.",
         "present_telemetry": {"temperature_c": temp, "wind_speed_ms": viento_ms, "wind_direction_deg": direccion, "surface_pressure_hpa": presion, "fluid_stability": estado},
-        "prediction_5min": prediccion,
+        f"prediction_{minutes}min": prediccion,
         "oasis_physics": {"attractor_kappa": KAPPA, "golden_ratio_phi": PHI},
         "routing_meta": {"source_node": fuente, "security": "Blindado por el Enjambre Oasis"}
     }
@@ -93,21 +94,28 @@ def get_predictive_wind_telemetry(city: str = "barcelona", x_api_key: str = Head
 def get_fluid_matrix(city: str = "barcelona", width: int = 60, height: int = 12, time_offset: str = "now", x_api_key: str = Header(None)):
     """
     Endpoint dual para matrices ASCII de Navier-Stokes.
-    - time_offset='now': Matriz topológica en tiempo real.
-    - time_offset='5min': Matriz topológica proyectada a 300 segundos en el futuro.
+    - time_offset='now' o '0': Matriz topológica en tiempo real.
+    - time_offset='<N>': Matriz topológica proyectada N minutos en el futuro (ej. time_offset=15).
     """
     if x_api_key != SOVEREIGN_API_KEY:
         raise HTTPException(status_code=403, detail="Acceso denegado.")
 
-    # Obtener viento base (simulado o de referencia actual ≈ 3.64 m/s)
     viento_base = 3.64 
     
-    # Si piden la proyección a 5 minutos, aplicamos el desfase armónico del atractor
-    if time_offset.lower() == "5min":
-        offset_temporal = 5.0 # Desfase temporal en el generador de ondas
-        viento_util = viento_base + 0.38 # Variación proyectada
-        modo_temporal = "PROYECCIÓN +5 MINUTOS (+300s)"
-    else:
+    # Evaluar si el usuario pasa un número de minutos arbitrario
+    try:
+        if time_offset.lower() in ["now", "0"]:
+            minutos = 0
+            offset_temporal = 0.0
+            viento_util = viento_base
+            modo_temporal = "TIEMPO REAL (Presente)"
+        else:
+            minutos = int(time_offset)
+            offset_temporal = float(minutos) * 0.2 # Desfase dinámico escalado
+            # Simular la variación de viento proyectada para esos minutos
+            viento_util = round(max(0.0, viento_base + (math.sin(minutos * 0.1) * 0.5)), 2)
+            modo_temporal = f"PROYECCIÓN +{minutos} MINUTOS"
+    except ValueError:
         offset_temporal = 0.0
         viento_util = viento_base
         modo_temporal = "TIEMPO REAL (Presente)"
@@ -119,7 +127,7 @@ def get_fluid_matrix(city: str = "barcelona", width: int = 60, height: int = 12,
         "temporal_mode": modo_temporal,
         "matrix_resolution": {"width": width, "height": height},
         "fluid_matrix_ascii": matriz_ascii,
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v3.5)",
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v3.6)",
         "security": "Blindado por el Enjambre Oasis"
     }
 
