@@ -5,7 +5,7 @@ import json
 import urllib.request
 from fastapi import FastAPI, Header, HTTPException
 
-app = FastAPI(title="Oasis Sovereign Atmospheric Node", version="2.2")
+app = FastAPI(title="Oasis Sovereign Wind & Fluid API", version="3.0")
 
 SOVEREIGN_API_KEY = os.environ.get("SOVEREIGN_API_KEY", "llave-maestra-por-defecto")
 
@@ -14,7 +14,7 @@ PHI = 1.61803398875
 COMPRESSION_RATIO = 0.1014114
 
 @app.get("/v1/wind-forecast")
-def get_atmospheric_data(city: str = "barcelona", x_api_key: str = Header(None)):
+def get_wind_telemetry(city: str = "barcelona", x_api_key: str = Header(None)):
     if x_api_key != SOVEREIGN_API_KEY:
         raise HTTPException(
             status_code=403,
@@ -33,59 +33,45 @@ def get_atmospheric_data(city: str = "barcelona", x_api_key: str = Header(None))
         raise HTTPException(status_code=404, detail="Objetivo geográfico no registrado en el enjambre.")
 
     loc = coords[city_lower]
-    
-    # Solicitamos datos actuales y previsión horaria para capturar la lluvia real de forma milimétrica
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={loc['lat']}&longitude={loc['lon']}&current=temperature_2m,wind_speed_10m,surface_pressure,precipitation,rain&hourly=precipitation,rain"
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={loc['lat']}&longitude={loc['lon']}&current=temperature_2m,wind_speed_10m,wind_direction_10m,surface_pressure"
 
     try:
         req = urllib.request.Request(url, headers={
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) OasisAuditedNode/2.2'
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) OasisFluidNode/3.0'
         })
         with urllib.request.urlopen(req, timeout=4) as resp:
             raw_data = json.loads(resp.read().decode())
             cur = raw_data.get('current', {})
             
-            viento = cur.get('wind_speed_10m', 2.5)
+            viento_kmh = cur.get('wind_speed_10m', 10.0)
+            viento_ms = round(viento_kmh / 3.6, 2) # Conversión estándar a metros por segundo
             temp = cur.get('temperature_2m', 20.0)
             presion = cur.get('surface_pressure', 1013.0)
-            
-            # Capturar de la capa 'current' o verificar la hora actual en la malla 'hourly' si estuviera a cero
-            lluvia = max(cur.get('precipitation', 0.0), cur.get('rain', 0.0))
-            
-            # Si el valor actual viene a cero pero hay indicio en la malla horaria cercana, aseguramos veracidad
-            if lluvia == 0.0 and 'hourly' in raw_data:
-                hourly_rain = raw_data['hourly'].get('rain', [])
-                if hourly_rain and len(hourly_rain) > 0:
-                    lluvia = float(hourly_rain[0]) # Tomar la estimación de la hora en curso
-
-            fuente_activa = "verified-open-meteo-hourly-mesh"
-    except Exception as e:
+            direccion = cur.get('wind_direction_10m', 0.0)
+            fuente_activa = "open-meteo-fluid-grid"
+    except Exception:
+        # Fallback determinista basado en el atractor si la red externa fluctúa
         t = time.time()
-        viento = round(3.0 + abs(math.sin(t * 0.1)) * 1.5, 1)
+        viento_ms = round(2.5 + abs(math.sin(t * 0.1)) * 1.5, 2)
         temp = 24.0
         presion = 1015.0
-        lluvia = 0.5  
-        fuente_activa = "sovereign-audited-fallback"
+        direccion = 180.0
+        fuente_activa = "sovereign-attractor-fallback"
 
-    estado_fluido = "LAMINAR (Estable)" if viento < 10.0 else "TURBULENTO (Alerta de Cizalladura)"
-    
-    if lluvia > 0.0:
-        regimen_lluvia = f"PRECIPITACIÓN ACTIVA ({lluvia} mm/h - Transferencia de calor latente)"
-    else:
-        regimen_lluvia = "SECO (Sin precipitación)"
+    # Evaluación termodinámica y de cizalladura para drones / movilidad urbana
+    estado_fluido = "LAMINAR (Estable)" if viento_ms < 5.0 else ("TURBULENTO (Precaución UAV)" if viento_ms < 10.0 else "CRÍTICO (Alerta Cizalladura Alta)")
 
     return {
         "node_status": "ONLINE",
         "city": city.capitalize(),
-        "telemetry": {
+        "fluid_telemetry": {
             "temperature_c": temp,
-            "wind_speed_ms": viento,
-            "surface_pressure_hpa": presion,
-            "precipitation_mm": lluvia,
-            "rain_phase": regimen_lluvia
+            "wind_speed_ms": viento_ms,
+            "wind_direction_deg": direccion,
+            "surface_pressure_hpa": presion
         },
         "oasis_physics": {
-            "fluid_status": estado_fluido,
+            "fluid_stability": estado_fluido,
             "attractor_kappa": KAPPA,
             "golden_ratio_phi": PHI,
             "compression_efficiency_pct": round(COMPRESSION_RATIO * 100, 2),
