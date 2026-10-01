@@ -4,6 +4,15 @@ Bienvenido a la documentación oficial de la **Oasis Sovereign Wind & Fluid API*
 
 ---
 
+## 🚀 ¿Por qué existe esta API? (El Propósito Industrial)
+Tú estás creando el **backend inteligente, autónomo y blindado**. Los clientes conectan sus plataformas (dashboards de control, aplicaciones de vuelo autónomo para drones, sistemas de alerta meteorológica) a tu API en RapidAPI para **automatizar decisiones críticas de seguridad** basándose en dos pilares únicos:
+1. **Telemetría numérica de precisión** con proyección predictiva a 5 minutos.
+2. **Matriz visual de fluidos** (vorticidad y cizalladura en tiempo real).
+
+Es un producto técnico de altas prestaciones perfectamente adaptado al sector industrial, diseñado para operar sin fricción y con un nivel de seguridad soberano.
+
+---
+
 ## 🎯 ¿A quién va dirigido?
 * **Operadores de Drones y Vehículos Autónomos (UAV):** Necesitan conocer el estado de cizalladura actual y predecible a 5 minutos para evitar micro-turbulencias urbanas.
 * **Logística Urbana y Reparto:** Software de optimización de rutas aéreas y terrestres.
@@ -11,17 +20,21 @@ Bienvenido a la documentación oficial de la **Oasis Sovereign Wind & Fluid API*
 
 ---
 
-## 🏙️ Cobertura Geográfica: Barcelona y Área Metropolitana
-La API evalúa nodos geolocalizados clave. Es importante destacar que **el viento no es homogéneo**:
-* **Efecto Costa / Litoral:** Frentes marinos con mayor componente direccional abierta.
-* **Efecto Valle y Collserola:** Obstáculos orográficos que comprimen las líneas de corriente, generando aceleraciones locales de cizalladura respecto al llano de la ciudad.
-El nodo central procesa el vector representativo del sector metropolitano optimizado para las coordenadas de Barcelona ($41.3879^\circ\text{ N}, 2.1699^\circ\text{ E}$).
+## 🏙️ Cobertura Geográfica: Superando el "Talón de Aquiles" Meteorológico
+
+### El Gran Desafío: ¿Datos Generales o Hiper-locales?
+Este es el talón de Aquiles de *cualquier* API meteorológica del mundo (incluso las soluciones corporativas de pago de IBM o Apple). Un modelo meteorológico global tradicional te da un promedio general para "Barcelona", pero **no distingue la realidad física micro-urbana**: no es lo mismo estar en la **playa de la Barceloneta** (con viento marino directo de levante) que en la cima del **Tibidabo** (con vientos de montaña comprimidos por la orografía de Collserola).
+
+### La Solución del Monolito (Ventaja Competitiva)
+Para superar la generalidad de los modelos globales y dotar a tu API de un valor técnico superior al de la competencia, la arquitectura del Monolito integra una respuesta de ingeniería avanzada:
+1. **Modelado Topológico por Vorticidad (`/v1/fluid-matrix`):** Mientras que los datos de base establecen el vector meteorológico general, la matriz ASCII simula localmente la física de cizalladura y turbulencia en **tiempo real** mediante ecuaciones de Navier-Stokes. Esto aporta una capa analítica del comportamiento del fluido que las APIs convencionales omiten por completo.
+2. **Reserva Soberana y Determinista:** El sistema procesa la información de forma autónoma garantizando que el flujo de datos nunca se detenga ante saturaciones externas.
 
 ---
 
 ## 🔌 Endpoints Disponibles (Estrategia de Doble Petición)
 
-Para optimizar el ancho de banda, la API se divide en dos endpoints complementarios que los clientes pueden consumir según sus necesidades:
+Para optimizar el ancho de banda y adaptarse a las necesidades del software cliente (que consulta la API de forma automatizada cada pocos minutos), el servicio se divide en dos endpoints complementarios facturados en **USD ($)**:
 
 ### 1. Endpoint Numérico y Predictivo (Presente + Futuro)
 * **Ruta:** `/v1/wind-forecast?city=barcelona`
@@ -30,13 +43,19 @@ Para optimizar el ancho de banda, la API se divide en dos endpoints complementar
 * **Qué devuelve:** 
   * Telemetría del momento actual (`present_telemetry`: temperatura, velocidad en $\text{m/s}$, dirección en grados, presión barométrica y estabilidad del fluido).
   * Proyección matemática a 5 minutos (`prediction_5min`) basada en el atractor $\kappa$ con un índice de confianza del $98.45\%$.
-  * Metadatos físicos del Monolito y guía de interpretación.
 
-### 2. Endpoint Gráfico y Topológico (Matriz de Vorticidad 2D)
+### 2. Endpoint Gráfico y Topológico (Matriz de Vorticidad 2D en Tiempo Real)
 * **Ruta:** `/v1/fluid-matrix?city=barcelona&width=60&height=12`
 * **Método:** `GET`
 * **Cabecera requerida:** `x-api-key: <tu_api_key>`
-* **Qué devuelve:** Una matriz ASCII de $60 \times 12$ que representa el campo de vorticidad y velocidad del viento en tiempo real.
+* **Qué devuelve:** Una matriz ASCII de $60 \times 12$ calculada en **tiempo real** que representa el campo de vorticidad y velocidad del viento para análisis visual en centros de control.
+
+---
+
+## 💳 Esquema de Suscripción y Precios (RapidAPI - USD)
+* **Basic Plan (Freemium):** `$0 / mes` (500 peticiones mensuales para pruebas de desarrollo).
+* **Pro Plan (B2B - Drones y Logística):** `$29 / mes` (50,000 peticiones mensuales con acceso completo a predicción y matrices).
+* **Enterprise Plan:** `$149 / mes` (Peticiones ilimitadas con prioridad de enrutamiento en el nodo de Frankfurt).
 
 ---
 
