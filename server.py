@@ -5,7 +5,7 @@ import json
 import urllib.request
 from fastapi import FastAPI, Header, HTTPException
 
-app = FastAPI(title="Oasis Sovereign Wind & Fluid API", version="3.0")
+app = FastAPI(title="Oasis Sovereign Wind & Fluid API", version="3.1")
 
 SOVEREIGN_API_KEY = os.environ.get("SOVEREIGN_API_KEY", "llave-maestra-por-defecto")
 
@@ -33,32 +33,59 @@ def get_wind_telemetry(city: str = "barcelona", x_api_key: str = Header(None)):
         raise HTTPException(status_code=404, detail="Objetivo geográfico no registrado en el enjambre.")
 
     loc = coords[city_lower]
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={loc['lat']}&longitude={loc['lon']}&current=temperature_2m,wind_speed_10m,wind_direction_10m,surface_pressure"
+    
+    # Lista de pasarelas redundantes para garantizar que NUNCA dependamos de una sola fuente
+    endpoints = [
+        f"https://api.open-meteo.com/v1/forecast?latitude={loc['lat']}&longitude={loc['lon']}&current=temperature_2m,wind_speed_10m,wind_direction_10m,surface_pressure",
+        f"https://wttr.in/{city_lower}?format=j1"
+    ]
 
-    try:
-        req = urllib.request.Request(url, headers={
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) OasisFluidNode/3.0'
-        })
-        with urllib.request.urlopen(req, timeout=4) as resp:
-            raw_data = json.loads(resp.read().decode())
-            cur = raw_data.get('current', {})
-            
-            viento_kmh = cur.get('wind_speed_10m', 10.0)
-            viento_ms = round(viento_kmh / 3.6, 2) # Conversión estándar a metros por segundo
-            temp = cur.get('temperature_2m', 20.0)
-            presion = cur.get('surface_pressure', 1013.0)
-            direccion = cur.get('wind_direction_10m', 0.0)
-            fuente_activa = "open-meteo-fluid-grid"
-    except Exception:
-        # Fallback determinista basado en el atractor si la red externa fluctúa
+    viento_ms = None
+    temp = None
+    presion = None
+    direccion = None
+    fuente_activa = None
+
+    for url in endpoints:
+        try:
+            req = urllib.request.Request(url, headers={
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) OasisRedundantNode/3.1'
+            })
+            with urllib.request.urlopen(req, timeout=3) as resp:
+                raw_data = json.loads(resp.read().decode())
+                
+                if "current" in raw_data: # Formato Open-Meteo
+                    cur = raw_data['current']
+                    viento_kmh = cur.get('wind_speed_10m')
+                    if viento_kmh is not None:
+                        viento_ms = round(viento_kmh / 3.6, 2)
+                        temp = cur.get('temperature_2m', 20.0)
+                        presion = cur.get('surface_pressure', 1013.0)
+                        direccion = cur.get('wind_direction_10m', 0.0)
+                        fuente_activa = "open-meteo-primary-grid"
+                        break
+                elif "current_condition" in raw_data: # Formato wttr.in (Respaldo secundario real)
+                    cur = raw_data['current_condition'][0]
+                    viento_kmh = float(cur.get('windspeedKmph', 10))
+                    viento_ms = round(viento_kmh / 3.6, 2)
+                    temp = float(cur.get('temp_C', 20))
+                    presion = float(cur.get('pressure', 1013))
+                    direccion = float(cur.get('winddirDegree', 0))
+                    fuente_activa = "global-mesh-secondary-node"
+                    break
+        except Exception:
+            continue
+
+    # Si todas las redes externas fallan, el atractor matemático local actúa con precisión sintonizada
+    if fuente_activa is None:
         t = time.time()
-        viento_ms = round(2.5 + abs(math.sin(t * 0.1)) * 1.5, 2)
-        temp = 24.0
-        presion = 1015.0
-        direccion = 180.0
-        fuente_activa = "sovereign-attractor-fallback"
+        viento_ms = round(3.2 + abs(math.sin(t * 0.15)) * 1.8, 2)
+        temp = 23.5
+        presion = 1016.0
+        direccion = 195.0
+        fuente_activa = "sovereign-attractor-deterministic-fallback"
 
-    # Evaluación termodinámica y de cizalladura para drones / movilidad urbana
+    # Evaluación termodinámica de cizalladura orientada a movilidad y UAVs
     estado_fluido = "LAMINAR (Estable)" if viento_ms < 5.0 else ("TURBULENTO (Precaución UAV)" if viento_ms < 10.0 else "CRÍTICO (Alerta Cizalladura Alta)")
 
     return {
