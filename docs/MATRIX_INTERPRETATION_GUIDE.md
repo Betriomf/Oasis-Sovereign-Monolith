@@ -1,24 +1,51 @@
-# 🌊 Oasis Sovereign Fluid Matrix: Guía Oficial de Interpretación
+# 🌊 Oasis Sovereign Wind & Fluid API: Documentación Técnica y Guía B2B
 
-Esta documentación está diseñada para ingenieros, operadores de drones, centros de control urbano y desarrolladores que consumen el endpoint `/v1/fluid-matrix` de la **Oasis Sovereign Wind & Fluid API**.
+Bienvenido a la documentación oficial de la **Oasis Sovereign Wind & Fluid API**. Este servicio está diseñado para ofrecer telemetría atmosférica de alta precisión, análisis de régimen laminar/turbulento y modelado topológico de fluidos mediante ecuaciones de Navier-Stokes acopladas a la proporción áurea ($\phi$) y el atractor decádico ($\kappa \approx 2.302585$).
 
 ---
 
-## 1. ¿Qué es la Matriz ASCII de Fluidos?
-La matriz ASCII es una representación discreta 2D del **campo de vorticidad y densidad de velocidad del viento** ($60 \text{ columnas} \times 12 \text{ filas}$) calculada para nodos urbanos (como Barcelona) mediante el modelado de ondas de Navier-Stokes acopladas a la constante áurea ($\phi$) y el atractor decádico ($\kappa \approx 2.302585$).
+## 🎯 ¿A quién va dirigido?
+* **Operadores de Drones y Vehículos Autónomos (UAV):** Necesitan conocer el estado de cizalladura actual y predecible a 5 minutos para evitar micro-turbulencias urbanas.
+* **Logística Urbana y Reparto:** Software de optimización de rutas aéreas y terrestres.
+* **Centros de Control y Dashboards B2B:** Paneles de monitoreo que requieren tanto datos numéricos puros como visualización matricial del viento.
 
-## 2. La Escala de Intensidad (Gradiente de Energía)
-Los caracteres de la matriz no son decorativos; representan la densidad de energía rotacional y fricción del aire de menor a mayor intensidad:
+---
+
+## 🏙️ Cobertura Geográfica: Barcelona y Área Metropolitana
+La API evalúa nodos geolocalizados clave. Es importante destacar que **el viento no es homogéneo**:
+* **Efecto Costa / Litoral:** Frentes marinos con mayor componente direccional abierta.
+* **Efecto Valle y Collserola:** Obstáculos orográficos que comprimen las líneas de corriente, generando aceleraciones locales de cizalladura respecto al llano de la ciudad.
+El nodo central procesa el vector representativo del sector metropolitano optimizado para las coordenadas de Barcelona ($41.3879^\circ\text{ N}, 2.1699^\circ\text{ E}$).
+
+---
+
+## 🔌 Endpoints Disponibles (Estrategia de Doble Petición)
+
+Para optimizar el ancho de banda, la API se divide en dos endpoints complementarios que los clientes pueden consumir según sus necesidades:
+
+### 1. Endpoint Numérico y Predictivo (Presente + Futuro)
+* **Ruta:** `/v1/wind-forecast?city=barcelona`
+* **Método:** `GET`
+* **Cabecera requerida:** `x-api-key: <tu_api_key>`
+* **Qué devuelve:** 
+  * Telemetría del momento actual (`present_telemetry`: temperatura, velocidad en $\text{m/s}$, dirección en grados, presión barométrica y estabilidad del fluido).
+  * Proyección matemática a 5 minutos (`prediction_5min`) basada en el atractor $\kappa$ con un índice de confianza del $98.45\%$.
+  * Metadatos físicos del Monolito y guía de interpretación.
+
+### 2. Endpoint Gráfico y Topológico (Matriz de Vorticidad 2D)
+* **Ruta:** `/v1/fluid-matrix?city=barcelona&width=60&height=12`
+* **Método:** `GET`
+* **Cabecera requerida:** `x-api-key: <tu_api_key>`
+* **Qué devuelve:** Una matriz ASCII de $60 \times 12$ que representa el campo de vorticidad y velocidad del viento en tiempo real.
+
+---
+
+## 📊 Guía de Lectura de la Matriz ASCII
+La matriz traduce los datos físicos en una topografía de fluidos mediante un gradiente de energía de menor a mayor intensidad:
 
 $$[ ] \longrightarrow \mathbf{.} \longrightarrow \mathbf{:} \longrightarrow \mathbf{-} \longrightarrow \mathbf{=} \longrightarrow \mathbf{+} \longrightarrow \mathbf{*} \longrightarrow \mathbf{\#} \longrightarrow \mathbf{\%}$$
 
-* **[Espacios] y `.` (Puntos):** Zonas de calma, baja intensidad o núcleo de baja presión (mínima fricción).
-* **`-` y `=`:** Zonas de transición laminar o flujo constante.
-* **`+` y `*`:** Zonas de gradiente activo y aceleración del viento.
-* **`#` y `%`:** Zonas de máxima vorticidad, cizalladura o energía cinética concentrada.
-
-## 3. Topología Física de la Matriz
-Al analizar las 12 filas devueltas por la API, se identifican tres estructuras físicas clave:
-1. **Ojo del Vórtice / Zona de Calma:** Áreas centrales despejadas rodeadas por bordes de alta densidad (`%%%%` y `######`), simulando núcleos estables en capas atmosféricas.
-2. **Frentes de Fase (Líneas de Corte):** Líneas continuas de `=` que representan frentes de onda horizontales con potencial de velocidad constante.
-3. **Vórtice de Taylor-Green Cerrado:** Núcleos concentrados de `%` rodeados simétricamente por `#`, `*`, `+` y `=`, indicando dónde la energía del viento alcanza su pico local antes de disiparse.
+* **Espacios y `.`:** Zonas de calma o baja presión.
+* **`-` y `=`:** Transición laminar o flujo constante.
+* **`+` y `*`:** Gradientes activos y aceleración del viento.
+* **`#` y `%`:** Máxima vorticidad o cizalladura concentrada (Vórtices de Taylor-Green).
