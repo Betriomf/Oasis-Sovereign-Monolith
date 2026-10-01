@@ -14,10 +14,8 @@ PHI = 1.61803398875
 COMPRESSION_RATIO = 0.1014114
 
 def calcular_prediccion_arbitraria(viento_actual: float, presion_actual: float, minutos: int):
-    """Calcula la evolución del fluido para N minutos usando la derivada del atractor y armónicos phi."""
-    t_delta = minutos * 60 # Convertir minutos a segundos
+    t_delta = minutos * 60 
     factor_cambio = math.sin(t_delta / (PHI * 100)) * 0.4
-    
     viento_predicho = round(max(0.0, viento_actual + factor_cambio), 2)
     presion_predicha = round(presion_actual + (factor_cambio * 0.1), 1)
     
@@ -32,7 +30,7 @@ def calcular_prediccion_arbitraria(viento_actual: float, presion_actual: float, 
         "wind_speed_ms": viento_predicho,
         "surface_pressure_hpa": presion_predicha,
         "expected_fluid_stability": estabilidad,
-        "confidence_score_pct": round(max(70.0, 99.0 - (minutos * 0.1)), 2) # Disminución de confianza a muy largo plazo
+        "confidence_score_pct": round(max(70.0, 99.0 - (minutos * 0.1)), 2)
     }
 
 def generar_matriz_ascii(viento_ms: float, ancho: int = 60, alto: int = 12, offset_temporal: float = 0.0) -> list:
@@ -92,29 +90,21 @@ def get_predictive_wind_telemetry(city: str = "barcelona", minutes: int = 5, x_a
 
 @app.get("/v1/fluid-matrix")
 def get_fluid_matrix(city: str = "barcelona", width: int = 60, height: int = 12, time_offset: str = "now", x_api_key: str = Header(None)):
-    """
-    Endpoint dual para matrices ASCII de Navier-Stokes.
-    - time_offset='now' o '0': Matriz topológica en tiempo real.
-    - time_offset='<N>': Matriz topológica proyectada N minutos en el futuro (ej. time_offset=15).
-    """
     if x_api_key != SOVEREIGN_API_KEY:
         raise HTTPException(status_code=403, detail="Acceso denegado.")
 
     viento_base = 3.64 
     
-    # Evaluar si el usuario pasa un número de minutos arbitrario
     try:
         if time_offset.lower() in ["now", "0"]:
-            minutos = 0
             offset_temporal = 0.0
             viento_util = viento_base
             modo_temporal = "TIEMPO REAL (Presente)"
         else:
             minutos = int(time_offset)
-            offset_temporal = float(minutos) * 0.2 # Desfase dinámico escalado
-            # Simular la variación de viento proyectada para esos minutos
+            offset_temporal = float(minutos) * 0.2
             viento_util = round(max(0.0, viento_base + (math.sin(minutos * 0.1) * 0.5)), 2)
-            modo_temporal = f"PROYECCIÓN +{minutos} MINUTOS"
+            modo_temporal = f"PROYECCIÓN DEDICADA A +{minutos} MINUTOS"
     except ValueError:
         offset_temporal = 0.0
         viento_util = viento_base
