@@ -58,14 +58,14 @@ async def wind_forecast(
         }
     }
 
-# 2. ENDPOINT AVANZADO GLOBAL (Con doble gráfico ASCII: Realidad vs Predicción Futura)
+# 2. ENDPOINT AVANZADO GLOBAL (Con doble matriz ASCII en cascada vertical)
 @app.get("/v1/advanced-forecast")
 async def advanced_forecast(
     lat: float, 
     lon: float, 
-    minutes: int = 10, 
+    minutes: int = 15, 
     width: int = 50,
-    height: int = 8,
+    height: int = 6,
     x_api_key: str = Header(None, alias="x-api-key")
 ):
     if x_api_key != CLAVE_LOCAL_PRUEBAS:
@@ -92,17 +92,13 @@ async def advanced_forecast(
     except Exception:
         fuente_estado = "Fallback exclusivo a Atractor Oasis"
 
-    # Si tenemos datos reales, los usamos como base de la realidad actual
     viento_actual_real = float(viento_real_externo) if viento_real_externo is not None else viento_oasis
-    
-    # Calculamos la predicción futura a los X minutos especificados usando Navier-Stokes
     viento_futuro = round(max(0.0, viento_actual_real + (math.sin(minutes * 0.1) * 0.6)), 2)
 
-    # Generamos los dos gráficos ASCII (El estado actual vs la proyección futura)
+    # Generación de los dos gráficos ASCII (Realidad vs Predicción Futura)
     matriz_actual_ascii = generar_matriz_ascii(viento_actual_real, width, height, offset=0.0)
     matriz_futura_ascii = generar_matriz_ascii(viento_futuro, width, height, offset=float(minutes) * 0.2)
 
-    # Diferencia (desviación) entre la previsión y la realidad base
     desviacion_ms = round(abs(viento_futuro - viento_actual_real), 2)
 
     return {
@@ -112,16 +108,11 @@ async def advanced_forecast(
         "comparative_analysis": {
             "real_current_wind_ms": viento_actual_real,
             f"predicted_{minutes}min_wind_ms": viento_futuro,
-            "absolute_deviation_ms": desviacion_ms,
-            "assessment": "Desviación controlada dentro de los límites del atractor determinista."
+            "absolute_deviation_ms": desviacion_ms
         },
-        "present_telemetry": {
-            "temperature_c": temp_externa if temp_externa is not None else 15.0,
-            "fluid_stability": "DINÁMICO (Global)"
-        },
-        "ascii_visualizations": {
-            "current_reality_matrix": matriz_actual_ascii,
-            f"predicted_{minutes}min_matrix": matriz_futura_ascii
+        "visual_comparison_vertical": {
+            "1_graph_current_reality": matriz_actual_ascii,
+            f"2_graph_predicted_{minutes}min_future": matriz_futura_ascii
         },
         "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v3.6)",
         "security": "Blindado por el Enjambre Oasis"
