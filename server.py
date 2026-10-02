@@ -58,7 +58,7 @@ async def wind_forecast(
         }
     }
 
-# 2. ENDPOINT AVANZADO GLOBAL (Con doble matriz ASCII en cascada vertical)
+# 2. ENDPOINT AVANZADO GLOBAL (Con doble matriz ASCII apilada verticalmente)
 @app.get("/v1/advanced-forecast")
 async def advanced_forecast(
     lat: float, 
@@ -71,10 +71,7 @@ async def advanced_forecast(
     if x_api_key != CLAVE_LOCAL_PRUEBAS:
         raise HTTPException(status_code=403, detail="Acceso denegado: API Key inválida.")
     
-    # Modelo matemático Oasis base
     viento_oasis = round(3.0 + (abs(lat) % 5.0) * 0.4, 2)
-    
-    # Consulta a fuentes globales (Open-Meteo / NOAA / ECMWF)
     viento_real_externo = None
     temp_externa = None
     fuente_estado = "Desconectada"
