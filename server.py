@@ -2,7 +2,7 @@ from fastapi import FastAPI, Header, HTTPException
 import httpx
 import math
 
-app = FastAPI(title="Oasis Sovereign Wind API", version="4.6")
+app = FastAPI(title="Oasis Sovereign Wind API", version="4.7")
 CLAVE_LOCAL_PRUEBAS = "oasis_sec_99887766554321"
 
 def generar_matriz_ascii(viento, width, height, offset):
@@ -17,7 +17,6 @@ def generar_matriz_ascii(viento, width, height, offset):
         matriz.append(fila)
     return matriz
 
-# 1. ENDPOINT CLÁSICO
 @app.get("/v1/wind-forecast")
 async def wind_forecast(city: str = "barcelona", minutes: int = 5, x_api_key: str = Header(None, alias="x-api-key")):
     if x_api_key != CLAVE_LOCAL_PRUEBAS:
@@ -29,10 +28,9 @@ async def wind_forecast(city: str = "barcelona", minutes: int = 5, x_api_key: st
         "city": city.capitalize(),
         "present_telemetry": {"wind_speed_ms": viento_base},
         f"prediction_{minutes}min": {"wind_speed_ms": viento_futuro},
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.6)"
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.7)"
     }
 
-# 2. ENDPOINT AVANZADO GLOBAL (Con coordenadas y doble gráfico ASCII vertical)
 @app.get("/v1/advanced-forecast")
 async def advanced_forecast(lat: float, lon: float, minutes: int = 15, width: int = 45, height: int = 6, x_api_key: str = Header(None, alias="x-api-key")):
     if x_api_key != CLAVE_LOCAL_PRUEBAS:
@@ -57,7 +55,6 @@ async def advanced_forecast(lat: float, lon: float, minutes: int = 15, width: in
 
     viento_futuro = round(max(0.0, viento_real + (math.sin(minutes * 0.1) * 0.5)), 2)
     
-    # Generar los dos gráficos ASCII (Realidad actual vs Predicción futura)
     matriz_actual = generar_matriz_ascii(viento_real, width, height, 0.0)
     matriz_futura = generar_matriz_ascii(viento_futuro, width, height, float(minutes) * 0.2)
 
@@ -73,11 +70,10 @@ async def advanced_forecast(lat: float, lon: float, minutes: int = 15, width: in
             "1_graph_current_reality": matriz_actual,
             f"2_graph_predicted_{minutes}min_future": matriz_futura
         },
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.6)",
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.7)",
         "security": "Blindado por el Enjambre Oasis"
     }
 
-# 3. ENDPOINT DE MATRICES DE FLUIDOS
 @app.get("/v1/fluid-matrix")
 async def fluid_matrix(city: str = "barcelona", width: int = 60, height: int = 12, time_offset: str = "now", x_api_key: str = Header(None, alias="x-api-key")):
     if x_api_key != CLAVE_LOCAL_PRUEBAS:
@@ -87,7 +83,7 @@ async def fluid_matrix(city: str = "barcelona", width: int = 60, height: int = 1
         "city": city.capitalize(),
         "matrix_resolution": {"width": width, "height": height},
         "fluid_matrix_ascii": generar_matriz_ascii(3.64, width, height, offset),
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.6)"
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.7)"
     }
 
 if __name__ == "__main__":
