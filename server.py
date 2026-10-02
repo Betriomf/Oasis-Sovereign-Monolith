@@ -1,8 +1,9 @@
 from fastapi import FastAPI, Header, HTTPException
 import httpx
 import math
+from datetime import datetime, timezone, timedelta
 
-app = FastAPI(title="Oasis Sovereign Wind API", version="4.7")
+app = FastAPI(title="Oasis Sovereign Wind API", version="4.8")
 CLAVE_LOCAL_PRUEBAS = "oasis_sec_99887766554321"
 
 def generar_matriz_ascii(viento, width, height, offset):
@@ -28,14 +29,19 @@ async def wind_forecast(city: str = "barcelona", minutes: int = 5, x_api_key: st
         "city": city.capitalize(),
         "present_telemetry": {"wind_speed_ms": viento_base},
         f"prediction_{minutes}min": {"wind_speed_ms": viento_futuro},
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.7)"
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.8)"
     }
 
 @app.get("/v1/advanced-forecast")
-async def advanced_forecast(lat: float, lon: float, minutes: int = 15, width: int = 45, height: int = 6, x_api_key: str = Header(None, alias="x-api-key")):
+async def advanced_forecast(lat: float, lon: float, minutes: int = 15, width: int = 45, height: int, x_api_key: str = Header(None, alias="x-api-key")):
     if x_api_key != CLAVE_LOCAL_PRUEBAS:
         raise HTTPException(status_code=403, detail="Acceso denegado: API Key inválida.")
     
+    # Calcular la hora local estimada basada en la longitud (15° = 1 hora UTC)
+    offset_horas = round(lon / 15.0)
+    hora_local = datetime.now(timezone.utc) + timedelta(hours=offset_horas)
+    hora_local_str = hora_local.strftime("%Y-%m-%d %H:%M:%S (UTC%+d)" % offset_horas)
+
     viento_oasis = round(3.0 + (abs(lat) % 5.0) * 0.4, 2)
     viento_real = viento_oasis
     temp_real = 15.0
@@ -61,6 +67,7 @@ async def advanced_forecast(lat: float, lon: float, minutes: int = 15, width: in
     return {
         "node_status": "ONLINE",
         "location": {"lat": lat, "lon": lon},
+        "local_time": hora_local_str,
         "telemetry_comparison": {
             "temperature_c": temp_real,
             "real_current_wind_ms": viento_real,
@@ -70,7 +77,7 @@ async def advanced_forecast(lat: float, lon: float, minutes: int = 15, width: in
             "1_graph_current_reality": matriz_actual,
             f"2_graph_predicted_{minutes}min_future": matriz_futura
         },
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.7)",
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.8)",
         "security": "Blindado por el Enjambre Oasis"
     }
 
@@ -83,7 +90,7 @@ async def fluid_matrix(city: str = "barcelona", width: int = 60, height: int = 1
         "city": city.capitalize(),
         "matrix_resolution": {"width": width, "height": height},
         "fluid_matrix_ascii": generar_matriz_ascii(3.64, width, height, offset),
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.7)"
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v4.8)"
     }
 
 if __name__ == "__main__":
