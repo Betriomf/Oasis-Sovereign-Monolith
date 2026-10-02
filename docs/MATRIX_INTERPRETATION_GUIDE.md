@@ -1,11 +1,11 @@
-# 🌐 Oasis Sovereign Wind & Fluid API - Official Documentation
+# 🌐 Oasis Sovereign Wind & Fluid API — Documentación Oficial
 
 ## 🚀 Arquitectura del Sistema
 El **Oasis Sovereign Wind & Fluid API** es un motor de dinámica de fluidos de alto rendimiento desplegado en Render. Combina telemetría en tiempo real con atractores matemáticos de Navier-Stokes ($\kappa \approx 2.302585$, $\phi = 1.6180339$).
 
 ### Características Principales del Monolito:
 * **Geolocalización Planetaria Real:** La API no está atada a una sola ciudad; acepta cualquier coordenada de latitud y longitud del planeta (desde Nueva York o Londres hasta la Antártida o la Playa de Icària en Barcelona).
-* **Fusión Híbrida Inteligente:** Conecta en tiempo real con redes meteorológicas mundiales (NOAA, ECMWF, Met Office a través de Open-Meteo) y las cruza al instante con el atractor matemático.
+* **Fusión Híbrida Inteligente:** Conecta en tiempo real con redes meteorológicas mundiales a través de Open-Meteo y las cruza al instante con el atractor matemático y modelos de respaldo autónomos para evitar caídas en zonas polares o remotas.
 * **Doble Gráfico ASCII en Cascada Vertical:** El servidor devuelve simultáneamente dos matrices topográficas vectoriales (la realidad actual y la proyección matemática al minuto u hora que elijas), permitiendo ver la evolución del viento a simple vista en la terminal.
 * **Resiliencia y Despliegue en la Nube:** Sistema automatizado, securizado con cabeceras privadas (`x-api-key`), sincronizado en GitHub y volando en producción en Render.
 
@@ -17,7 +17,7 @@ El **Oasis Sovereign Wind & Fluid API** es un motor de dinámica de fluidos de a
 * **Método:** `GET`
 * **Parámetros:** `lat` (float), `lon` (float), `minutes` (int, por defecto: 15), `width` (int), `height` (int)
 * **Cabecera requerida:** `x-api-key: oasis_sec_99887766554321`
-* **Descripción:** Consulta datos meteorológicos en tiempo real para cualquier coordenada del planeta, ejecuta el modelo de Navier-Stokes y devuelve **doble matriz ASCII en cascada vertical** (Realidad actual sobre Predicción futura) junto con la telemetría numérica.
+* **Descripción:** Consulta datos meteorológicos en tiempo real para cualquier coordenada del planeta, ejecuta el modelo de Navier-Stokes y devuelve **doble matriz ASCII en cascada vertical** (Realidad actual sobre Predicción futura) junto con la telemetría numérica y la hora local matemática.
 
 ### 2. Fluid Vorticity Matrix (`/v1/fluid-matrix`)
 * **Método:** `GET`
