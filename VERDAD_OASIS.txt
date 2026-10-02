@@ -681,3 +681,4 @@ LEYES FÍSICAS DE LA ARQUITECTURA OASIS (INVARIANTES DEFINITIVOS):
 
 47. Resolución Definitiva del Problema del Milenio (Paper B): Sincronización oficial de la prueba analítica de regularidad condicional, el script de validación numérica CKN-Osgood-Viscosidad y el hash criptográfico maestro (1cfd4a55...).
 >>>>>>> Stashed changes
+364. Motor de Inferencia y Streaming MovieBox-Tui con Interfaz de Guía (Pilar 364): Módulo 'moviebox_stream_api.py' resuelve enlaces multimedia y sirve la arquitectura soberana sin saturación de I/O bajo Licencia AGPLv3.
