@@ -92,7 +92,7 @@ async def advanced_forecast(
     viento_actual_real = float(viento_real_externo) if viento_real_externo is not None else viento_oasis
     viento_futuro = round(max(0.0, viento_actual_real + (math.sin(minutes * 0.1) * 0.6)), 2)
 
-    # Generación de los dos gráficos ASCII (Realidad vs Predicción Futura)
+    # Generación de los dos gráficos ASCII apilados
     matriz_actual_ascii = generar_matriz_ascii(viento_actual_real, width, height, offset=0.0)
     matriz_futura_ascii = generar_matriz_ascii(viento_futuro, width, height, offset=float(minutes) * 0.2)
 
