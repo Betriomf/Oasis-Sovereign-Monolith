@@ -2,7 +2,7 @@ from fastapi import FastAPI, Header, HTTPException
 import httpx
 import math
 
-app = FastAPI(title="Oasis Sovereign Wind API", version="5.0")
+app = FastAPI(title="Oasis Sovereign Wind API", version="5.1")
 CLAVE_LOCAL_PRUEBAS = "oasis_sec_99887766554321"
 
 def generar_matriz_ascii(viento, width, height, offset):
@@ -28,7 +28,7 @@ async def wind_forecast(city: str = "barcelona", minutes: int = 5, x_api_key: st
         "city": city.capitalize(),
         "present_telemetry": {"wind_speed_ms": viento_base},
         f"prediction_{minutes}min": {"wind_speed_ms": viento_futuro},
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v5.0)"
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v5.1)"
     }
 
 @app.get("/v1/advanced-forecast")
@@ -36,14 +36,17 @@ async def advanced_forecast(lat: float, lon: float, minutes: int = 15, width: in
     if x_api_key != CLAVE_LOCAL_PRUEBAS:
         raise HTTPException(status_code=403, detail="Acceso denegado: API Key inválida.")
     
-    viento_oasis = round(3.0 + (abs(lat) % 5.0) * 0.4, 2)
-    viento_real = viento_oasis
-    temp_real = 15.0
+    # Estimación base adaptativa según latitud (más frío cuanto más al polo)
+    temp_estimada = round(25.0 - (abs(lat) * 0.35), 1)
+    viento_estimado = round(3.0 + (abs(lat) % 7.0) * 0.4, 2)
+    
+    viento_real = viento_estimado
+    temp_real = temp_estimada
     hora_local_str = "No disponible"
     
     try:
         url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,wind_speed_10m&timezone=auto"
-        async with httpx.AsyncClient(timeout=3.0) as client:
+        async with httpx.AsyncClient(timeout=4.0) as client:
             res = await client.get(url)
             if res.status_code == 200:
                 body = res.json()
@@ -77,7 +80,7 @@ async def advanced_forecast(lat: float, lon: float, minutes: int = 15, width: in
             "1_graph_current_reality": matriz_actual,
             f"2_graph_predicted_{minutes}min_future": matriz_futura
         },
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v5.0)",
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v5.1)",
         "security": "Blindado por el Enjambre Oasis"
     }
 
@@ -90,7 +93,7 @@ async def fluid_matrix(city: str = "barcelona", width: int = 60, height: int = 1
         "city": city.capitalize(),
         "matrix_resolution": {"width": width, "height": height},
         "fluid_matrix_ascii": generar_matriz_ascii(3.64, width, height, offset),
-        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v5.0)"
+        "rendering_engine": "Oasis Navier-Stokes Wave Pacer (v5.1)"
     }
 
 if __name__ == "__main__":
