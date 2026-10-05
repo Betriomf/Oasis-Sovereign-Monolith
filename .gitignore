@@ -14,3 +14,8 @@ openwebui-env/
 oasis_ledger.json
 moonshine_results.csv
 .DS_Store
+test_*.py
+consulta_*.json
+prompt_*.txt
+deploy_oracle_arm.sh
+data/lincos_db/buzon_agentes.json
