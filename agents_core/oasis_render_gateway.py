@@ -6,14 +6,17 @@ import struct
 import hashlib
 import threading
 import urllib.request
+import urllib.parse
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 PORT = int(os.environ.get("PORT", 8080))
 AKASH_WALLET = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
+RPC_NODE = "https://rpc.akashnet.net:443"
 SUPABASE_URL = "https://opzddoqcvsqzdhulacei.supabase.co"
 SUPABASE_KEY = "sb_publishable_oTCm3P5c_cpuRT3hN5TfBQ_G8w_C8vn"
 MASTER_KEY = os.environ.get("OASIS_MASTER_KEY", "OASIS-SOVEREIGN-MARIANO-2026")
 
+# Parámetros Chaumianos (e, N) y d
 RSA_E = 17
 RSA_N = 3233
 RSA_D = 2753
@@ -22,12 +25,16 @@ SPENT_NULLIFIERS = set()
 AUTH_KEYS = {
     MASTER_KEY: {"quota": float("inf"), "owner": "sovereign_root"}
 }
+PROCESSED_TX_HASHES = set()
 
 VORTEX_CACHE = {}
 MAX_CACHE_ENTRIES = 25000
 BATCH_QUEUE = []
 QUEUE_LOCK = threading.Lock()
 
+# -------------------------------------------------------------
+# HILO 1: Batch Ingestion a Supabase (cada 2 segundos)
+# -------------------------------------------------------------
 def supabase_batch_worker():
     while True:
         import time
@@ -53,6 +60,75 @@ def supabase_batch_worker():
 
 threading.Thread(target=supabase_batch_worker, daemon=True).start()
 
+# -------------------------------------------------------------
+# HILO 2: Listener Autónomo de Akash / Cosmos (cada 30 segundos)
+# -------------------------------------------------------------
+def akash_listener_worker():
+    """Escucha depósitos on-chain y recarga créditos desatendidamente."""
+    import time
+    while True:
+        try:
+            query = f"transfer.recipient='{AKASH_WALLET}'"
+            url = f"{RPC_NODE}/tx_search?query={urllib.parse.quote(f'\"{query}\"')}&prove=false&page=1&per_page=10&order_by=\"desc\""
+            req = urllib.request.Request(url, headers={"User-Agent": "OasisAutonomousNode/2.2"})
+            with urllib.request.urlopen(req, timeout=7) as resp:
+                data = json.loads(resp.read().decode())
+                txs = data.get("result", {}).get("txs", [])
+
+            for tx in txs:
+                tx_hash = tx.get("hash")
+                if not tx_hash or tx_hash in PROCESSED_TX_HASHES:
+                    continue
+
+                if tx.get("tx_result", {}).get("code", 0) != 0:
+                    continue
+
+                # Extraer monto y clave del Memo
+                events = tx.get("tx_result", {}).get("events", [])
+                amount_akt = 0.0
+                sender = ""
+
+                for ev in events:
+                    if ev.get("type") == "transfer":
+                        for attr in ev.get("attributes", []):
+                            k = attr.get("key", "")
+                            v = attr.get("value", "")
+                            if k == "sender":
+                                sender = v
+                            elif k == "amount" and "uakt" in v:
+                                uakt_val = int(v.replace("uakt", "").split(",")[0])
+                                amount_akt = uakt_val / 1000000.0
+
+                if amount_akt > 0:
+                    added_credits = int(amount_akt * 10000)
+                    raw_tx_bytes = tx.get("tx", "")
+                    
+                    # Buscar si alguna API key activa fue mencionada en el cuerpo/memo
+                    credited = False
+                    for existing_key in list(AUTH_KEYS.keys()):
+                        if existing_key in raw_tx_bytes:
+                            AUTH_KEYS[existing_key]["quota"] += added_credits
+                            credited = True
+                            break
+
+                    # Si el memo no coincide, asignar a una clave vinculada a la wallet del remitente
+                    if not credited and sender:
+                        fallback_key = f"OASIS-KEY-{sender[:10]}"
+                        if fallback_key not in AUTH_KEYS:
+                            AUTH_KEYS[fallback_key] = {"quota": 1000, "owner": sender}
+                        AUTH_KEYS[fallback_key]["quota"] += added_credits
+
+                    PROCESSED_TX_HASHES.add(tx_hash)
+        except Exception:
+            pass
+
+        time.sleep(30)
+
+threading.Thread(target=akash_listener_worker, daemon=True).start()
+
+# -------------------------------------------------------------
+# Motor de Físicas y Clasificación
+# -------------------------------------------------------------
 def compute_game_vortex(x, y, z, t, helicity=1.0):
     cache_key = hashlib.sha256(f"{x:.4f}:{y:.4f}:{z:.4f}:{t:.4f}:{helicity:.4f}".encode("utf-8")).hexdigest()
     if cache_key in VORTEX_CACHE:
@@ -104,10 +180,10 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
 
         api_key = self.headers.get("x-api-key")
         if not api_key:
-            return False, f"Pago requerido. Añade 'x-api-key'. Recargas a {AKASH_WALLET} con tu clave en el Memo.", 402
+            return False, f"Pago requerido. Proporciona 'x-api-key' o 'x-oasis-ecash'. Recargas a {AKASH_WALLET}", 402
 
         if api_key not in AUTH_KEYS:
-            return False, "Clave API inválida o no registrada", 403
+            return False, "Clave API no registrada", 403
 
         entry = AUTH_KEYS[api_key]
         if entry["quota"] <= 0:
@@ -122,10 +198,11 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         if self.path in ("/", "", "/telemetry", "/healthz"):
             self._send_json({
                 "status": "ONLINE",
-                "system": "Oasis Sovereign Monolith",
-                "binary_netcode": "/v1/netcode/stream-bin",
+                "system": "Oasis Sovereign Monolith (Dual Threaded)",
+                "akash_listener": "ACTIVE",
                 "wallet_beneficiary": AKASH_WALLET,
-                "cached_vortices": len(VORTEX_CACHE)
+                "cached_vortices": len(VORTEX_CACHE),
+                "active_keys": len(AUTH_KEYS)
             })
         elif self.path == "/status":
             self._send_json({
@@ -173,12 +250,10 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self._send_json({"error": "PAGO_REQUERIDO", "motivo": auth_res}, status=code)
             return
 
-        # Endpoint Binario Lincos Ultra-Laminar (16 bytes exactos)
+        # Endpoint binario de 16 bytes
         if self.path == "/v1/netcode/stream-bin":
             x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
             (vel, enstrophy), _, _ = compute_game_vortex(x, y, z, t)
-            
-            # Empaquetado IEEE 754 Big-Endian: 4 floats de 32 bits = 16 bytes
             bin_payload = struct.pack("!ffff", vel[0], vel[1], vel[2], enstrophy)
             
             self.send_response(200)
