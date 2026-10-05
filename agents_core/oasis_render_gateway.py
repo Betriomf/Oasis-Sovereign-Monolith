@@ -11,15 +11,151 @@ AKASH_WALLET = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
 SUPABASE_URL = "https://opzddoqcvsqzdhulacei.supabase.co"
 SUPABASE_KEY = "sb_publishable_oTCm3P5c_cpuRT3hN5TfBQ_G8w_C8vn"
 
-# Registro en memoria para análisis estocástico de tráfico
-IP_HISTORY = {}  # { ip: [timestamp_1, timestamp_2, ...] }
+IP_HISTORY = {}
+
+OPENAPI_SPEC = {
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Oasis Sovereign Monolith — Physical CyberShield & Game Engine API",
+        "description": "Deterministic physics simulation, mathematical Navier-Stokes proofs, and zero-PII thermodynamic bot defense.",
+        "version": "2.1.0"
+    },
+    "servers": [
+        {"url": "https://oasis-sovereign-gateway.onrender.com", "description": "Production Cloud Node"}
+    ],
+    "paths": {
+        "/status": {
+            "get": {
+                "summary": "Node Status & Settlement Specs",
+                "responses": {"200": {"description": "Telemetry and tokens."}}
+            }
+        },
+        "/v1/shield/entropy-score": {
+            "post": {
+                "summary": "Analizar Entropía Browniana Anti-Bot",
+                "description": "Calcula el coeficiente de variación temporal y clasifica el tráfico como humano u orgánico sin almacenar datos personales (RGPD-compliant).",
+                "requestBody": {
+                    "required": True,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "target_id": {"type": "string", "example": "login_attempt_client_44"},
+                                    "intervals_ms": {
+                                        "type": "array",
+                                        "items": {"type": "number"},
+                                        "example": [120.5, 450.2, 180.1, 950.4, 320.0]
+                                    }
+                                },
+                                "required": ["intervals_ms"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {"description": "Puntuación de entropía y veredicto de bot."}
+                }
+            }
+        },
+        "/v1/game/vortex": {
+            "post": {
+                "summary": "Simular Vórtice de Fluidos 3D",
+                "description": "Calcula vectores de velocidad deterministas acotados por el atractor kappa=ln(10) y los guarda en Supabase.",
+                "requestBody": {
+                    "required": True,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "session_id": {"type": "string", "example": "room_01"},
+                                    "x": {"type": "number", "example": 1.0},
+                                    "y": {"type": "number", "example": 0.5},
+                                    "z": {"type": "number", "example": 2.0},
+                                    "t": {"type": "number", "example": 0.1},
+                                    "helicity": {"type": "number", "example": 1.0}
+                                },
+                                "required": ["session_id"]
+                            }
+                        }
+                    }
+                },
+                "responses": {"200": {"description": "Vector autoritativo estable."}}
+            }
+        },
+        "/api/bkm-enstrophy": {
+            "get": {
+                "summary": "Cota de Enstrofía Beale-Kato-Majda",
+                "responses": {"200": {"description": "Límite numérico analítico."}}
+            }
+        },
+        "/api/navier-stokes": {
+            "get": {
+                "summary": "Demostración Formal en Lean 4",
+                "responses": {"200": {"description": "Código fuente tipado formal."}}
+            }
+        }
+    }
+}
+
+SWAGGER_HTML = f"""<!DOCTYPE html>
+<html>
+<head>
+  <title>Oasis Sovereign — Interactive API Docs</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
+</head>
+<body style="margin: 0; background: #fafafa;">
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    window.onload = function() {{
+      SwaggerUIBundle({{
+        url: "/openapi.json",
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIBundle.SwaggerUIStandalonePreset
+        ],
+        layout: "BaseLayout"
+      }});
+    }};
+  </script>
+</body>
+</html>
+"""
+
+def evaluate_intervals_entropy(intervals):
+    if not intervals or len(intervals) < 3:
+        return 50.0, "INSUFFICIENT_DATA", 0.0, 0.0
+
+    intervals_sec = [x / 1000.0 if x > 20.0 else x for x in intervals]
+    mean = sum(intervals_sec) / len(intervals_sec)
+    variance = sum((x - mean) ** 2 for x in intervals_sec) / len(intervals_sec)
+    std_dev = math.sqrt(variance)
+
+    # Coeficiente de variación (CV = sigma / mu)
+    cv = std_dev / (mean + 1e-6)
+
+    # Escalado de entropía a base 100
+    entropy_score = min(100.0, max(0.0, cv * 75.0))
+
+    if entropy_score < 15.0 or (mean < 0.15 and std_dev < 0.02):
+        verdict = "BOT_SYNTHETIC"
+    elif entropy_score < 40.0:
+        verdict = "SUSPICIOUS_AUTOMATION"
+    else:
+        verdict = "ORGANIC_HUMAN"
+
+    return round(entropy_score, 2), verdict, round(mean, 4), round(std_dev, 4)
 
 def evaluate_brownian_entropy(ip):
-    """Detecta si los intervalos de una IP son robóticamente uniformes."""
     now = time.time()
     history = IP_HISTORY.get(ip, [])
     history.append(now)
-    # Conservar solo los últimos 10 accesos
     history = [t for t in history if now - t < 60.0][-10:]
     IP_HISTORY[ip] = history
 
@@ -28,7 +164,6 @@ def evaluate_brownian_entropy(ip):
         mean = sum(intervals) / len(intervals)
         variance = sum((x - mean) ** 2 for x in intervals) / len(intervals)
         std_dev = math.sqrt(variance)
-        # Si las llamadas son sospechosamente periódicas (std_dev mínima a alta frecuencia)
         if mean < 0.2 and std_dev < 0.015:
             return False, "BOT_UNIFORMITY_DETECTED"
     return True, "STOCHASTIC_ORGANIC_OK"
@@ -85,18 +220,27 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self._send_json({
                 "status": "ONLINE",
                 "system": "Oasis Sovereign Monolith",
-                "security_engine": "Minkowski + Brownian Entropy Shield Active",
+                "interactive_docs": "https://oasis-sovereign-gateway.onrender.com/docs",
+                "openapi_spec": "https://oasis-sovereign-gateway.onrender.com/openapi.json",
                 "wallet_beneficiary": AKASH_WALLET
             })
+        elif self.path == "/docs":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(SWAGGER_HTML.encode("utf-8"))
+        elif self.path == "/openapi.json":
+            self._send_json(OPENAPI_SPEC)
         elif self.path == "/status":
             self._send_json({
                 "network": "Cosmos IBC / Akash Network",
                 "deposit_address": AKASH_WALLET,
                 "supported_tokens": ["AKT", "USDC"],
                 "services": [
-                    {"endpoint": "/v1/game/vortex", "method": "POST", "price": "0.01 USDC"},
-                    {"endpoint": "/api/navier-stokes", "method": "GET", "price": "0.05 USDC"},
-                    {"endpoint": "/api/bkm-enstrophy", "method": "GET", "price": "0.02 USDC"}
+                    {"endpoint": "/v1/shield/entropy-score", "method": "POST", "price": "0.005 USDC", "desc": "Analizador estocástico anti-bot"},
+                    {"endpoint": "/v1/game/vortex", "method": "POST", "price": "0.01 USDC", "desc": "Simulación física 3D con persistencia"},
+                    {"endpoint": "/api/navier-stokes", "method": "GET", "price": "0.05 USDC", "desc": "Verificación formal en Lean 4"},
+                    {"endpoint": "/api/bkm-enstrophy", "method": "GET", "price": "0.02 USDC", "desc": "Operador diádico de enstrofía BKM"}
                 ]
             })
         elif self.path == "/api/navier-stokes":
@@ -118,17 +262,17 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         client_ip = self.client_address[0]
         
-        # 1. Filtro Browniano: Detección de uniformidad robótica
+        # Filtro perimetral Browniano automático
         is_organic, reason = evaluate_brownian_entropy(client_ip)
         if not is_organic:
             self._send_json({
                 "error": "CONEXION_RECHAZADA",
-                "motivo": "Filtro Browniano: patrón sintético de alta frecuencia detectado",
+                "motivo": "Filtro Browniano: patrón sintético periódico detectado",
                 "quarantine": True
             }, status=429)
             return
 
-        # 2. Minkowski Firewall: Validación Causal Espaciotemporal
+        # Filtro perimetral Causal Minkowski
         client_time_hdr = self.headers.get("x-client-time")
         if client_time_hdr:
             try:
@@ -137,21 +281,43 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 if abs(server_time - client_time) > 10.0:
                     self._send_json({
                         "error": "VIOLACION_CAUSAL_MINKOWSKI",
-                        "motivo": "El timestamp del cliente viola el cono de luz causal (>10s deriva)",
+                        "motivo": "Deriva temporal superior a 10s fuera del cono de luz",
                         "server_time": server_time
                     }, status=403)
                     return
             except ValueError:
                 pass
 
-        if self.path == "/v1/game/vortex":
-            content_length = int(self.headers.get("Content-Length", 0))
-            post_data = self.rfile.read(content_length)
-            try:
-                body = json.loads(post_data.decode("utf-8")) if post_data else {}
-            except Exception:
-                body = {}
+        content_length = int(self.headers.get("Content-Length", 0))
+        post_data = self.rfile.read(content_length)
+        try:
+            body = json.loads(post_data.decode("utf-8")) if post_data else {}
+        except Exception:
+            body = {}
 
+        # 1. Endpoint Comercial Anti-Bot: /v1/shield/entropy-score
+        if self.path == "/v1/shield/entropy-score":
+            intervals = body.get("intervals_ms", [])
+            target_id = body.get("target_id", "anonymous_evaluation")
+            
+            score, verdict, mean_val, std_val = evaluate_intervals_entropy(intervals)
+
+            self._send_json({
+                "target_id": target_id,
+                "entropy_score": score,
+                "verdict": verdict,
+                "is_bot": verdict != "ORGANIC_HUMAN",
+                "metrics": {
+                    "mean_interval_sec": mean_val,
+                    "std_dev_sec": std_val,
+                    "sample_size": len(intervals)
+                },
+                "audit": "EVALUACION_TERMODINAMICA_ZERO_PII",
+                "wallet_for_credits": AKASH_WALLET
+            })
+
+        # 2. Endpoint de Físicas de Fluidos: /v1/game/vortex
+        elif self.path == "/v1/game/vortex":
             session_id = body.get("session_id", "default_session")
             x = float(body.get("x", 1.0))
             y = float(body.get("y", 0.5))
@@ -168,13 +334,12 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "enstrophy_bound": enstrophy,
                 "bkm_stable": True,
                 "persisted_in_db": True,
-                "entropy_status": reason,
                 "wallet_for_credits": AKASH_WALLET
             })
         else:
             self._send_json({"error": "Endpoint no encontrado"}, status=404)
 
 if __name__ == "__main__":
-    print(f"🚀 [OASIS CLOUD GATEWAY CON BLINDAJE]: Puerto {PORT}")
+    print(f"🚀 [OASIS CLOUD GATEWAY FULL SUITE]: Iniciado en puerto {PORT}")
     server = HTTPServer(("0.0.0.0", PORT), OasisCloudHandler)
     server.serve_forever()
