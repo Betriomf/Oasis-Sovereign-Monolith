@@ -2,6 +2,7 @@
 import os
 import json
 import math
+import time
 import urllib.request
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
@@ -9,6 +10,28 @@ PORT = int(os.environ.get("PORT", 8080))
 AKASH_WALLET = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
 SUPABASE_URL = "https://opzddoqcvsqzdhulacei.supabase.co"
 SUPABASE_KEY = "sb_publishable_oTCm3P5c_cpuRT3hN5TfBQ_G8w_C8vn"
+
+# Registro en memoria para análisis estocástico de tráfico
+IP_HISTORY = {}  # { ip: [timestamp_1, timestamp_2, ...] }
+
+def evaluate_brownian_entropy(ip):
+    """Detecta si los intervalos de una IP son robóticamente uniformes."""
+    now = time.time()
+    history = IP_HISTORY.get(ip, [])
+    history.append(now)
+    # Conservar solo los últimos 10 accesos
+    history = [t for t in history if now - t < 60.0][-10:]
+    IP_HISTORY[ip] = history
+
+    if len(history) >= 5:
+        intervals = [history[i] - history[i-1] for i in range(1, len(history))]
+        mean = sum(intervals) / len(intervals)
+        variance = sum((x - mean) ** 2 for x in intervals) / len(intervals)
+        std_dev = math.sqrt(variance)
+        # Si las llamadas son sospechosamente periódicas (std_dev mínima a alta frecuencia)
+        if mean < 0.2 and std_dev < 0.015:
+            return False, "BOT_UNIFORMITY_DETECTED"
+    return True, "STOCHASTIC_ORGANIC_OK"
 
 def compute_game_vortex(x, y, z, t, helicity=1.0):
     kappa = math.log(10)
@@ -19,7 +42,6 @@ def compute_game_vortex(x, y, z, t, helicity=1.0):
     u_x = round(-y / r * math.sin(kappa * z) * enstrophy_limit, 4)
     u_y = round( x / r * math.sin(kappa * z) * enstrophy_limit, 4)
     u_z = round( math.cos(kappa * r) * decay, 4)
-    
     return [u_x, u_y, u_z], round(enstrophy_limit, 4)
 
 def persist_to_supabase(session_id, helicity, enstrophy, vector):
@@ -38,9 +60,9 @@ def persist_to_supabase(session_id, helicity, enstrophy, vector):
             "state_vector": vector
         }).encode("utf-8")
         req = urllib.request.Request(url, data=payload, headers=headers, method="POST")
-        urllib.request.urlopen(req, timeout=5)
+        urllib.request.urlopen(req, timeout=4)
     except Exception as e:
-        print(f"Advertencia al guardar en Supabase: {e}")
+        print(f"Aviso Supabase: {e}")
 
 class OasisCloudHandler(BaseHTTPRequestHandler):
 
@@ -55,15 +77,15 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, x-payment-tx")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, x-client-time, x-payment-tx")
         self.end_headers()
 
     def do_GET(self):
-        if self.path == "/" or self.path == "":
+        if self.path in ("/", ""):
             self._send_json({
                 "status": "ONLINE",
-                "system": "Oasis Sovereign Monolith (Render Node)",
-                "thermal_budget": "0.00W (Cloud Serverless)",
+                "system": "Oasis Sovereign Monolith",
+                "security_engine": "Minkowski + Brownian Entropy Shield Active",
                 "wallet_beneficiary": AKASH_WALLET
             })
         elif self.path == "/status":
@@ -71,49 +93,17 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "network": "Cosmos IBC / Akash Network",
                 "deposit_address": AKASH_WALLET,
                 "supported_tokens": ["AKT", "USDC"],
-                "available_services": [
-                    {
-                        "endpoint": "/v1/game/vortex",
-                        "method": "POST",
-                        "price": "0.01 USDC",
-                        "desc": "Deterministic 3D fluid vortex engine with Supabase vector persistence"
-                    },
-                    {
-                        "endpoint": "/api/navier-stokes",
-                        "method": "GET",
-                        "price": "0.05 USDC",
-                        "desc": "Lean 4 conditional regularity proof"
-                    },
-                    {
-                        "endpoint": "/api/bkm-enstrophy",
-                        "method": "GET",
-                        "price": "0.02 USDC",
-                        "desc": "BKM criterion under kappa=ln(10) attractor"
-                    },
-                    {
-                        "endpoint": "/docs",
-                        "method": "GET",
-                        "price": "0.00 USDC",
-                        "desc": "Divulgation & technical documentation"
-                    }
+                "services": [
+                    {"endpoint": "/v1/game/vortex", "method": "POST", "price": "0.01 USDC"},
+                    {"endpoint": "/api/navier-stokes", "method": "GET", "price": "0.05 USDC"},
+                    {"endpoint": "/api/bkm-enstrophy", "method": "GET", "price": "0.02 USDC"}
                 ]
             })
-        elif self.path == "/docs":
-            doc_path = os.path.expanduser("~/Oasis-Sovereign-Monolith/docs/INFORME_NAVIER_STOKES_LEAN4_GOYA.md")
-            if os.path.exists(doc_path):
-                with open(doc_path, "r", encoding="utf-8") as f:
-                    contenido = f.read()
-                self.send_response(200)
-                self.send_header("Content-Type", "text/markdown; charset=utf-8")
-                self.end_headers()
-                self.wfile.write(contenido.encode("utf-8"))
-            else:
-                self._send_json({"error": "Documentación no disponible localmente"}, status=404)
         elif self.path == "/api/navier-stokes":
             self._send_json({
                 "theorem": "navier_stokes_helical_regularity",
                 "formal_syntax": "Lean 4",
-                "audit": "CERTIFICADO COMO REGULARIDAD CONDICIONAL"
+                "status": "CERTIFICADO_REGULARIDAD_CONDICIONAL"
             })
         elif self.path == "/api/bkm-enstrophy":
             self._send_json({
@@ -126,6 +116,34 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self._send_json({"error": "Endpoint no encontrado"}, status=404)
 
     def do_POST(self):
+        client_ip = self.client_address[0]
+        
+        # 1. Filtro Browniano: Detección de uniformidad robótica
+        is_organic, reason = evaluate_brownian_entropy(client_ip)
+        if not is_organic:
+            self._send_json({
+                "error": "CONEXION_RECHAZADA",
+                "motivo": "Filtro Browniano: patrón sintético de alta frecuencia detectado",
+                "quarantine": True
+            }, status=429)
+            return
+
+        # 2. Minkowski Firewall: Validación Causal Espaciotemporal
+        client_time_hdr = self.headers.get("x-client-time")
+        if client_time_hdr:
+            try:
+                client_time = float(client_time_hdr)
+                server_time = time.time()
+                if abs(server_time - client_time) > 10.0:
+                    self._send_json({
+                        "error": "VIOLACION_CAUSAL_MINKOWSKI",
+                        "motivo": "El timestamp del cliente viola el cono de luz causal (>10s deriva)",
+                        "server_time": server_time
+                    }, status=403)
+                    return
+            except ValueError:
+                pass
+
         if self.path == "/v1/game/vortex":
             content_length = int(self.headers.get("Content-Length", 0))
             post_data = self.rfile.read(content_length)
@@ -150,12 +168,13 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "enstrophy_bound": enstrophy,
                 "bkm_stable": True,
                 "persisted_in_db": True,
+                "entropy_status": reason,
                 "wallet_for_credits": AKASH_WALLET
             })
         else:
             self._send_json({"error": "Endpoint no encontrado"}, status=404)
 
 if __name__ == "__main__":
-    print(f"🚀 [OASIS CLOUD GATEWAY]: Iniciado en el puerto {PORT}")
+    print(f"🚀 [OASIS CLOUD GATEWAY CON BLINDAJE]: Puerto {PORT}")
     server = HTTPServer(("0.0.0.0", PORT), OasisCloudHandler)
     server.serve_forever()
