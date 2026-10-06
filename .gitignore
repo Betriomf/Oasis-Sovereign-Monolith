@@ -19,3 +19,8 @@ consulta_*.json
 prompt_*.txt
 deploy_oracle_arm.sh
 data/lincos_db/buzon_agentes.json
+dist/
+*.egg-info/
+vortex.bin
+publish_reddit.py
+setup_billing_db.py
