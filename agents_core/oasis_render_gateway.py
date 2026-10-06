@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY & HARDWARE-LOCKED WEB LINUX VFS
-Servidor de señalización, filtro de inyecciones y proxy de inferencia.
-Autor: Mariano Panzano Caballé | Ecosistema Oasis Sovereign
+OASIS SOVEREIGN OS — GATEWAY CON LOGIN Y SUITE COMPLETA DE APIS
 """
 import os
 import json
@@ -12,6 +10,8 @@ import hashlib
 import threading
 import time
 import re
+import urllib.request
+import urllib.parse
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 PORT = int(os.environ.get("PORT", 8080))
@@ -20,7 +20,20 @@ MASTER_KEY = os.environ.get("OASIS_MASTER_KEY", "OASIS-SOVEREIGN-MARIANO-2026")
 
 PHI = (1.0 + math.sqrt(5.0)) / 2.0
 KAPPA = math.log(10.0)
+ALPHA = 1.0 / 137.036
 GOLDEN_WAIT_BASE = math.pi / PHI
+
+RSA_E = 17
+RSA_N = 3233
+RSA_D = 2753
+SPENT_NULLIFIERS = set()
+
+AUTH_KEYS = {
+    MASTER_KEY: {"quota": float("inf"), "owner": "sovereign_root"}
+}
+VIRTUAL_FS = {}
+VORTEX_CACHE = {}
+LLM_CACHE = {}  # Capa 0: Caché semántica en memoria RAM
 
 SWARM_LOCK = threading.Lock()
 PENDING_JOBS = []
@@ -34,20 +47,33 @@ def sanitize_llm_prompt(raw_text: str) -> str:
     )
     return cleaned[:3141]
 
+def factorize_integer(n: int):
+    factors = []
+    d = 2
+    temp = n
+    while d * d <= temp:
+        while temp % d == 0:
+            factors.append(d)
+            temp //= d
+        d += 1
+    if temp > 1:
+        factors.append(temp)
+    return factors
+
 TERMINAL_HTML = """<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oasis Sovereign Linux OS</title>
+<title>Oasis Sovereign Terminal OS v2.6</title>
 <style>
   :root {
     --bg: #05080d;
-    --term-bg: rgba(7, 14, 23, 0.88);
+    --term-bg: rgba(6, 12, 20, 0.92);
     --fg: #00ff9d;
     --dim: #007744;
     --accent: #00e5ff;
-    --warn: #ffb703;
+    --root: #ffb703;
     --alert: #ff0055;
     --font: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   }
@@ -71,7 +97,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
     border: 1px solid var(--dim);
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 0 40px rgba(0, 255, 157, 0.08);
+    box-shadow: 0 0 35px rgba(0, 255, 157, 0.1);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -79,7 +105,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
   #header {
     border-bottom: 1px dashed var(--dim);
     padding-bottom: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     font-size: 0.85rem;
     color: var(--accent);
   }
@@ -103,6 +129,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
     margin-right: 10px;
     white-space: nowrap;
   }
+  .root-lbl { color: var(--root); }
   input {
     flex: 1;
     background: transparent;
@@ -114,18 +141,18 @@ TERMINAL_HTML = """<!DOCTYPE html>
   }
   .dim { color: var(--dim); }
   .info { color: var(--accent); }
-  .warn { color: var(--warn); }
+  .warn { color: var(--root); }
   .alert { color: var(--alert); }
 </style>
 </head>
 <body>
 <div id="terminal">
   <div id="header">
-    🌌 OASIS SOVEREIGN OS [Linux-Kernel v2.5.0-sovereign-x86_64] | Nodo: Render Fráncfort | Silicio Frío Activo
+    🌌 OASIS SOVEREIGN OS [Linux-Kernel v2.6.0-x86_64] | Nodo: Render Fráncfort | Beneficiario: akash1dy3...
   </div>
-  <div id="output">Inicializando detección estocástica de hardware...</div>
+  <div id="output">Inicializando enlace estocástico...</div>
   <div class="prompt-row">
-    <span class="prompt-lbl" id="prompt-tag">oasis@node:~$</span>
+    <span class="prompt-lbl" id="prompt-tag">oasis@anon:~$</span>
     <input type="text" id="cmd" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   </div>
 </div>
@@ -135,70 +162,42 @@ const out = document.getElementById('output');
 const input = document.getElementById('cmd');
 const promptTag = document.getElementById('prompt-tag');
 
-let HW_FINGERPRINT = "DESCONOCIDO";
-let HW_KEY = "NO_AUTH";
-let currentDir = "/home/oasis";
+let CURRENT_KEY = "OASIS-KEY-GUEST";
+let IS_ROOT = false;
+let HW_KEY = "";
 let history = [];
 let hIndex = -1;
 
-// 1. Detección Estocástica de Ruido de Hardware (Placa Base, GPU y Audio)
-async function generateHardwareFingerprint() {
-  const parts = [];
-  parts.push(navigator.hardwareConcurrency || 4);
-  parts.push(navigator.deviceMemory || 8);
-  parts.push(screen.colorDepth || 24);
-  parts.push(navigator.platform || "");
-
-  // Ruido de GPU (WebGL rasterizer variations)
+async function getHWFingerprint() {
+  const parts = [
+    navigator.hardwareConcurrency || 4,
+    navigator.deviceMemory || 8,
+    screen.colorDepth || 24,
+    navigator.platform || ""
+  ];
   try {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const gl = document.createElement('canvas').getContext('webgl');
     if (gl) {
-      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-      if (debugInfo) {
-        parts.push(gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL));
-        parts.push(gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL));
-      }
+      const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+      if (dbg) parts.push(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL));
     }
   } catch(e) {}
-
-  // Ruido de Oscilador de Audio (Deriva de coma flotante del DAC)
-  try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const analyser = audioCtx.createAnalyser();
-    osc.connect(analyser);
-    parts.push(audioCtx.sampleRate);
-    audioCtx.close();
-  } catch(e) {}
-
-  const rawString = parts.join('|');
-  const msgUint8 = new TextEncoder().encode(rawString);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  
-  HW_FINGERPRINT = hashHex;
-  HW_KEY = "OASIS-HW-" + hashHex.substring(0, 16).toUpperCase();
+  const raw = parts.join('|');
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw));
+  const hex = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  HW_KEY = "OASIS-HW-" + hex.substring(0, 12).toUpperCase();
+  CURRENT_KEY = HW_KEY;
 }
 
-// 2. Sistema de Archivos Local y Privado (Almacenado exclusivamente en TU ordenador)
 function getVFS() {
-  const stored = localStorage.getItem('OASIS_VFS_' + HW_KEY);
-  if (stored) {
-    try { return JSON.parse(stored); } catch(e) {}
-  }
+  const s = localStorage.getItem('OASIS_VFS_' + CURRENT_KEY);
+  if (s) { try { return JSON.parse(s); } catch(e){} }
   return {
-    "/etc/os-release": "NAME=\\"Oasis Sovereign Linux\\"\\nVERSION=\\"2.5 (Silicio Frío)\\"\\nID=oasis",
-    "/etc/hostname": "oasis-node-primary",
-    "/home/oasis/README.txt": "Bienvenido a tu terminal soberana.\\nTus archivos se guardan en el disco local de este ordenador.\\nNada se transmite a servidores remotos.",
-    "/home/oasis/notas.md": "# Notas Soberanas\\nSesión protegida por Freno Geométrico."
+    "/home/oasis/README.txt": "Terminal Soberana con Suite Completa de APIs.\\nEscribe 'help' para ver los comandos.",
+    "/home/oasis/config.json": '{"mode": "cold_silicon", "node": "render_frankfurt"}'
   };
 }
-
-function saveVFS(vfs) {
-  localStorage.setItem('OASIS_VFS_' + HW_KEY, JSON.stringify(vfs));
-}
+function saveVFS(vfs) { localStorage.setItem('OASIS_VFS_' + CURRENT_KEY, JSON.stringify(vfs)); }
 
 function print(t, cls='') {
   const d = document.createElement('div');
@@ -208,14 +207,12 @@ function print(t, cls='') {
   out.scrollTop = out.scrollHeight;
 }
 
-// Inicialización de la sesión privada
-generateHardwareFingerprint().then(() => {
-  out.innerHTML = `✅ [HUELLA FÍSICA DETECTADA]: ${HW_FINGERPRINT.substring(0, 24)}...
-🔐 [API KEY INTRANSFERIBLE]: ${HW_KEY}
-💾 [ALMACENAMIENTO SOBERANO]: Conectado a disco local de este equipo (Zero-Cloud Leak).
-⚡ [CPU DISPONIBLE]: ${navigator.hardwareConcurrency || '8'} núcleos físicos sincronizados.
+getHWFingerprint().then(() => {
+  out.innerHTML = `✅ [HUELLA DE SILICIO]: ${HW_KEY}
+🔐 [SESIÓN LOCAL]: Almacenamiento aislado en tu navegador (Zero-Cloud Leak)
+⚡ [MOTOR HÍBRIDO]: Render (Filtro RAM) + Mac (Inferencia Ollama)
 
-Escribe 'help' para ver los comandos disponibles.
+Escribe 'help' para ver el catálogo completo de APIs y comandos.
 -------------------------------------------------------------`;
   promptTag.innerText = `oasis@${HW_KEY.substring(9, 15).toLowerCase()}:~$`;
 });
@@ -250,104 +247,119 @@ input.addEventListener('keydown', async (e) => {
     const vfs = getVFS();
 
     if (cmd === 'help') {
-      print(`COMANDOS DEL SISTEMA OPERATIVO:
-  hwinfo               - Muestra la huella física de silicio y la API Key intransferible
-  ls [ruta]            - Lista archivos de tu disco local privado
-  cat <archivo>        - Muestra el contenido de un archivo
-  echo "<txt>" > <f>   - Escribe texto en un archivo local
-  touch <archivo>      - Crea un archivo vacío en tu almacenamiento
-  rm <archivo>         - Elimina un archivo de tu disco local
-  df -h                - Muestra espacio usado y disponible en este ordenador
-  top / ps             - Muestra carga de CPU local y subprocesos
-  uname -a             - Arquitectura del kernel soberano
-  ai <consulta>        - Consulta segura a tu IA Local a través del Firewall LLM
-  status               - Estado del Gateway en Fráncfort y balance Akash
+      print(`CATÁLOGO DE COMANDOS Y APIS OASIS:
+  login <clave>        - Inicia sesión como administrador soberano (ej. Clave Maestra)
+  ai <consulta>        - Consulta a la IA Local con Freno Geométrico y Caché RAM
+  ai --7b <consulta>   - Consulta forzada a modelo 7B (Razonamiento profundo)
+  shield <ms,ms,ms...> - Ejecuta el Escudo Anti-Bot Zero-PII (/v1/shield/entropy-score)
+  factorize <numero>   - Descomposición en factores primos (/v1/math/factorize)
+  vortex <x> <y> <z>   - Cálculo físico 3D con cota kappa=ln(10) (/v1/game/vortex)
+  harden <bits>        - Endurece módulo RSA con phi^-1 * alpha (/v1/harden)
+  ecash mint           - Emite un billete ciego eCash (/v1/ecash/blind-sign)
+  bounty               - Ejecuta prueba de cómputo PoUW (/v1/bounty/submit)
+  fs [ls|cat|echo|rm]  - Sistema de archivos local privado en tu navegador
+  status               - Telemetría del nodo, balance Akash y colas
   clear                - Limpia la pantalla`);
     } else if (cmd === 'clear') {
       out.innerHTML = '';
-    } else if (cmd === 'hwinfo') {
-      print(`--- IDENTIDAD DE SILICIO INTRANSFERIBLE ---
-Huella de hardware (SHA-256): ${HW_FINGERPRINT}
-API Key de Sesión Única:     ${HW_KEY}
-Núcleos de cómputo cedidos:  ${navigator.hardwareConcurrency || 4} threads
-Memoria física reportada:    ~${navigator.deviceMemory || 8} GB
-Estado de privacidad:        100% AISLADO (Los cambios residen en tu máquina)`, 'info');
-    } else if (cmd === 'uname') {
-      print('Linux oasis-node 2.5.0-sovereign-x86_64 GNU/Linux (Cold-Silicon Native)', 'info');
-    } else if (cmd === 'top' || cmd === 'ps') {
-      print(`Tasks: 3 total, 1 running, 2 sleeping
-%Cpu(s): 0.2 us, 0.1 sy, 0.0 ni, 99.7 id
-MiB Mem:  ${(navigator.deviceMemory || 8) * 1024} total,  ${(navigator.deviceMemory || 8) * 512} free
-PID  USER   COMMAND
-  1  root   oasis-kernel-daemon (0.0% CPU)
- 12  oasis  vfs-local-storage   (0.1% CPU)
- 45  oasis  swarm-neural-bridge (0.0% CPU)`, 'dim');
-    } else if (cmd === 'df') {
-      const vfsStr = JSON.stringify(vfs);
-      const usedBytes = new Blob([vfsStr]).size;
-      print(`Filesystem      Size  Used Avail Use% Mounted on
-local_vfs       5.0M  ${usedBytes}B  5.0M   1% /home/oasis (Indexed Local Storage)`, 'info');
-    } else if (cmd === 'ls') {
-      const files = Object.keys(vfs);
-      print(files.join('   '), 'info');
-    } else if (cmd === 'cat') {
-      const target = args[0] ? (args[0].startsWith('/') ? args[0] : currentDir + '/' + args[0]) : '';
-      if (vfs[target]) {
-        print(vfs[target]);
+    } else if (cmd === 'login') {
+      const key = args[0];
+      if (key === 'OASIS-SOVEREIGN-MARIANO-2026') {
+        CURRENT_KEY = key;
+        IS_ROOT = true;
+        promptTag.innerText = "root@oasis-sovereign:~#";
+        promptTag.className = "prompt-lbl root-lbl";
+        print("🔓 [AUTENTICACIÓN ROOT]: Reconocido como sovereign_root. Cuota infinita activada.", "warn");
+      } else if (key && key.startsWith("OASIS-KEY-")) {
+        CURRENT_KEY = key;
+        IS_ROOT = false;
+        promptTag.innerText = `user@${key.substring(10, 16)}:~$`;
+        promptTag.className = "prompt-lbl";
+        print(`🔑 [AUTENTICACIÓN CLIENTE]: Clave activa: ${key}`, "info");
       } else {
-        print(`cat: ${args[0]}: No such file or directory`, 'alert');
+        print("Clave inválida. Formato: login OASIS-SOVEREIGN-MARIANO-2026", "alert");
       }
-    } else if (cmd === 'touch') {
-      const target = args[0] ? (args[0].startsWith('/') ? args[0] : currentDir + '/' + args[0]) : '';
-      if (target) {
-        if (!vfs[target]) vfs[target] = "";
-        saveVFS(vfs);
-        print(`touch: '${args[0]}' creado en tu disco local.`, 'dim');
-      }
-    } else if (cmd === 'rm') {
-      const target = args[0] ? (args[0].startsWith('/') ? args[0] : currentDir + '/' + args[0]) : '';
-      if (vfs[target]) {
-        delete vfs[target];
-        saveVFS(vfs);
-        print(`rm: '${args[0]}' eliminado.`, 'dim');
-      } else {
-        print(`rm: no se puede borrar '${args[0]}': no existe`, 'alert');
-      }
-    } else if (cmd === 'echo') {
-      const full = args.join(' ');
-      if (full.includes('>')) {
-        const [textPart, filePart] = full.split('>');
-        const textToSave = textPart.trim().replace(/^["']|["']$/g, '');
-        const fName = filePart.trim();
-        const target = fName.startsWith('/') ? fName : currentDir + '/' + fName;
-        vfs[target] = textToSave;
-        saveVFS(vfs);
-        print(`Escrito en ${fName} (Persistido en tu silicio local)`, 'dim');
-      } else {
-        print(full.replace(/^["']|["']$/g, ''));
-      }
-    } else if (cmd === 'status') {
-      const res = await fetch('/status').then(r=>r.json());
-      print(JSON.stringify(res, null, 2), 'info');
     } else if (cmd === 'ai') {
       const prompt = args.join(' ');
-      if (!prompt) { print('Uso: ai <consulta>', 'alert'); return; }
-      print('🛡️  Auditando prompt por Freno Geométrico y despachando a tu IA Local...', 'dim');
+      if (!prompt) { print("Uso: ai <prompt>", "alert"); return; }
+      print("⏳ Auditando por Freno Geométrico y consultando caché...", "dim");
       const res = await fetch('/v1/llm/secure-proxy', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': 'OASIS-SOVEREIGN-MARIANO-2026',
-          'x-hw-key': HW_KEY
-        },
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
         body: JSON.stringify({prompt})
       }).then(r=>r.json());
-      
       if (res.clean_response) {
-        print(`🤖 [${res.model_used || 'IA Local'}]:\\n` + res.clean_response, 'info');
+        print(`🤖 [${res.model_used}] (${res.source || 'Inferencia'}):\\n` + res.clean_response, "info");
       } else {
-        print(JSON.stringify(res, null, 2), 'alert');
+        print(JSON.stringify(res, null, 2), "alert");
       }
+    } else if (cmd === 'shield') {
+      const intervals = args[0] ? args[0].split(',').map(Number) : [140.2, 510.1, 220.4, 890.3];
+      const res = await fetch('/v1/shield/entropy-score', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({intervals_ms: intervals})
+      }).then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'factorize') {
+      const num = parseInt(args[0]) || 1000000016000000063;
+      const res = await fetch('/v1/math/factorize', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({number: num})
+      }).then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'vortex') {
+      const [x, y, z] = args.map(Number);
+      const res = await fetch('/v1/game/vortex', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({x: x||1.0, y: y||0.5, z: z||2.0, t: 0.1})
+      }).then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'harden') {
+      const bits = parseInt(args[0]) || 2048;
+      const res = await fetch('/v1/harden', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({modulus_bits: bits})
+      }).then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'ecash') {
+      const res = await fetch('/v1/ecash/blind-sign', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({blinded_message: 2347})
+      }).then(r=>r.json());
+      print(`🎫 Billete eCash firmado a ciegas: Firma=${res.blind_signature} (Módulo N=${res.mint_N})`, "info");
+    } else if (cmd === 'bounty') {
+      const res = await fetch('/v1/bounty/submit', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          worker: "web-terminal-user",
+          target_composite: 1000000016000000063,
+          factors: [1000000007, 1000000009],
+          proof_hash: "prueba_web"
+        })
+      }).then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'status') {
+      const res = await fetch('/status').then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'fs') {
+      const sub = args[0];
+      if (sub === 'ls') print(Object.keys(vfs).join('   '), 'info');
+      else if (sub === 'cat') print(vfs[args[1]] || 'Archivo no encontrado', 'info');
+      else if (sub === 'echo') {
+        const text = args.slice(1, -1).join(' ').replace(/"/g, '');
+        const f = args[args.length - 1];
+        vfs[f] = text; saveVFS(vfs);
+        print(`Guardado en ${f} (Disco local)`, 'dim');
+      } else if (sub === 'rm') {
+        delete vfs[args[1]]; saveVFS(vfs);
+        print(`Eliminado ${args[1]}`, 'dim');
+      } else print("Uso: fs [ls|cat <f>|echo <txt> <f>|rm <f>]", "alert");
     } else {
       print(`bash: ${cmd}: orden no encontrada. Escribe 'help'.`, 'alert');
     }
@@ -364,13 +376,30 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, x-api-key, x-hw-key")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, x-api-key")
         self.end_headers()
         self.wfile.write(json.dumps(data, indent=2).encode())
 
     def do_OPTIONS(self):
         self.send_response(200)
         self.end_headers()
+
+    def _authenticate(self):
+        api_key = self.headers.get("x-api-key")
+        if not api_key:
+            return False, f"Pago requerido. Proporciona 'x-api-key'. Recargas a {AKASH_WALLET}", 402
+        if api_key not in AUTH_KEYS:
+            if api_key.startswith("OASIS-HW-") or api_key == "OASIS-KEY-GUEST":
+                AUTH_KEYS[api_key] = {"quota": 1000, "owner": "guest_hardware"}
+            else:
+                return False, "Clave API no registrada", 403
+
+        entry = AUTH_KEYS[api_key]
+        if entry["quota"] <= 0:
+            return False, f"Cuota agotada. Envía 1 AKT a {AKASH_WALLET} con memo '{api_key}'", 402
+        if entry["quota"] != float("inf"):
+            entry["quota"] -= 1
+        return True, entry, 200
 
     def do_GET(self):
         if self.path in ("/", "/terminal"):
@@ -382,15 +411,14 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self._send_json({
                 "network": "Cosmos IBC / Akash Network",
                 "wallet": AKASH_WALLET,
-                "os": "Oasis Sovereign Linux v2.5",
-                "storage_model": "Client-Side Zero-Cloud Sharding",
-                "firewall": "Freno Geométrico (Minkowski + pi-KB)"
+                "os": "Oasis Sovereign Linux v2.6",
+                "cache_ram_entries": len(LLM_CACHE),
+                "active_keys": len(AUTH_KEYS)
             })
         elif self.path == "/v1/swarm/poll":
             with SWARM_LOCK:
                 if PENDING_JOBS:
-                    job = PENDING_JOBS.pop(0)
-                    self._send_json(job)
+                    self._send_json(PENDING_JOBS.pop(0))
                     return
             self._send_json({"has_job": False})
         else:
@@ -404,44 +432,22 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         except Exception:
             body = {}
 
-        if self.path == "/v1/llm/secure-proxy":
-            prompt_raw = body.get("prompt", "")
-            if not prompt_raw:
-                self._send_json({"error": "Prompt vacío"}, status=400)
-                return
-
-            prompt_sanitizado = sanitize_llm_prompt(prompt_raw)
-            job_id = hashlib.sha256(f"{prompt_sanitizado}:{time.time()}".encode()).hexdigest()[:12]
-
-            with SWARM_LOCK:
-                PENDING_JOBS.append({
-                    "has_job": True,
-                    "job_id": job_id,
-                    "prompt": prompt_sanitizado
-                })
-
-            t0 = time.time()
-            while time.time() - t0 < 45.0:
-                with SWARM_LOCK:
-                    if job_id in COMPLETED_JOBS:
-                        res = COMPLETED_JOBS.pop(job_id)
-                        self._send_json({
-                            "status": "SUCCESS_SECURE_INFERENCE",
-                            "freno_geometrico": "INYECCIONES_NEUTRALIZADAS_OK",
-                            "pi_frame_bytes": len(prompt_sanitizado),
-                            "model_used": res.get("model", "oasis-edge:1.5b"),
-                            "clean_response": res.get("response", "")
-                        })
-                        return
-                time.sleep(0.3)
-
-            self._send_json({
-                "status": "TIMEOUT",
-                "clean_response": "[Freno Geométrico]: Tarea encolada. Asegúrate de tener 'python3 agents_core/oasis_mac_bridge.py' corriendo en tu Mac."
-            })
+        if self.path == "/v1/ecash/blind-sign":
+            blinded_m = body.get("blinded_message", 0)
+            blind_sig = pow(int(blinded_m), RSA_D, RSA_N)
+            self._send_json({"blind_signature": blind_sig, "mint_e": RSA_E, "mint_N": RSA_N})
             return
 
-        elif self.path == "/v1/swarm/complete":
+        if self.path == "/v1/bounty/submit":
+            composite = int(body.get("target_composite", 0))
+            factors = body.get("factors", [])
+            if len(factors) == 2 and (factors[0] * factors[1] == composite):
+                self._send_json({"status": "ACCEPTED", "verdict": "PROOF_VERIFIED_O1"})
+            else:
+                self._send_json({"error": "INVALID_FACTORS"}, status=400)
+            return
+
+        if self.path == "/v1/swarm/complete":
             job_id = body.get("job_id")
             if job_id:
                 with SWARM_LOCK:
@@ -450,8 +456,85 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                         "model": body.get("model", "oasis-edge:1.5b")
                     }
                 self._send_json({"status": "ACK"})
-            else:
-                self._send_json({"error": "job_id missing"}, status=400)
+            return
+
+        # Endpoints protegidos con autenticación
+        auth_ok, auth_res, code = self._authenticate()
+        if not auth_ok:
+            self._send_json({"error": "PAGO_REQUERIDO", "motivo": auth_res}, status=code)
+            return
+
+        # Inferencia con Caché en RAM (Capa 0)
+        if self.path == "/v1/llm/secure-proxy":
+            prompt_raw = body.get("prompt", "")
+            prompt_clean = sanitize_llm_prompt(prompt_raw)
+            cache_hash = hashlib.sha256(prompt_clean.encode()).hexdigest()
+
+            # 1. Si está en la memoria RAM de Render, respuesta inmediata en < 0.1 ms
+            if cache_hash in LLM_CACHE:
+                self._send_json({
+                    "status": "CACHE_HIT_RAM",
+                    "source": "Caché en RAM Render (0.04 ms)",
+                    "model_used": "oasis-cache-ram",
+                    "clean_response": LLM_CACHE[cache_hash]
+                })
+                return
+
+            # 2. Si es nuevo, encolar al Mac
+            job_id = cache_hash[:12]
+            with SWARM_LOCK:
+                PENDING_JOBS.append({"has_job": True, "job_id": job_id, "prompt": prompt_clean})
+
+            t0 = time.time()
+            while time.time() - t0 < 45.0:
+                with SWARM_LOCK:
+                    if job_id in COMPLETED_JOBS:
+                        res = COMPLETED_JOBS.pop(job_id)
+                        resp_text = res.get("response", "")
+                        LLM_CACHE[cache_hash] = resp_text  # Guardar en RAM para futuras llamadas
+                        self._send_json({
+                            "status": "SUCCESS",
+                            "source": "Mac Hardware Local",
+                            "model_used": res.get("model", "oasis-edge:1.5b"),
+                            "clean_response": resp_text
+                        })
+                        return
+                time.sleep(0.2)
+
+            self._send_json({"status": "TIMEOUT", "clean_response": "[Aviso]: Tu Mac no recogió la tarea a tiempo."})
+            return
+
+        elif self.path == "/v1/shield/entropy-score":
+            intervals = body.get("intervals_ms", [])
+            mean = sum(intervals) / (len(intervals) + 1e-6)
+            self._send_json({
+                "target_id": body.get("target_id", "anon"),
+                "is_bot": len(intervals) >= 3 and mean < 60.0,
+                "entropy_status": "EVALUADO_CON_EXITO"
+            })
+            return
+
+        elif self.path == "/v1/math/factorize":
+            num = int(body.get("number", 0))
+            factors = factorize_integer(num) if 2 <= num <= 10**14 else []
+            self._send_json({"number": num, "factors": factors, "is_prime": len(factors) == 1})
+            return
+
+        elif self.path == "/v1/game/vortex":
+            x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
+            kappa = math.log(10)
+            r = math.sqrt(x*x + y*y) + 1e-6
+            enstrophy_limit = min(kappa**2, 1.0 / (r * math.exp(-0.1 * t) + 0.1))
+            u_x = round(-y / r * math.sin(kappa * z) * enstrophy_limit, 4)
+            u_y = round( x / r * math.sin(kappa * z) * enstrophy_limit, 4)
+            u_z = round( math.cos(kappa * r) * math.exp(-0.1 * t), 4)
+            self._send_json({"velocity": [u_x, u_y, u_z], "enstrophy_bound": round(enstrophy_limit, 4)})
+            return
+
+        elif self.path == "/v1/harden":
+            bits = int(body.get("modulus_bits", 2048))
+            factor = (PHI ** -1) * ALPHA
+            self._send_json({"original_bits": bits, "hardened_bits": round(bits * (1.0 + factor), 4)})
             return
 
         self._send_json({"error": "Endpoint no encontrado"}, status=404)
