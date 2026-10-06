@@ -16,7 +16,12 @@ SUPABASE_URL = "https://opzddoqcvsqzdhulacei.supabase.co"
 SUPABASE_KEY = "sb_publishable_oTCm3P5c_cpuRT3hN5TfBQ_G8w_C8vn"
 MASTER_KEY = os.environ.get("OASIS_MASTER_KEY", "OASIS-SOVEREIGN-MARIANO-2026")
 
-# Parámetros Chaumianos (e, N) y d
+# Constantes Fundamentales Oasis
+PHI = (1.0 + math.sqrt(5.0)) / 2.0
+KAPPA = math.log(10.0)
+ALPHA = 1.0 / 137.036
+GOLDEN_WAIT_BASE = math.pi / PHI
+
 RSA_E = 17
 RSA_N = 3233
 RSA_D = 2753
@@ -61,16 +66,15 @@ def supabase_batch_worker():
 threading.Thread(target=supabase_batch_worker, daemon=True).start()
 
 # -------------------------------------------------------------
-# HILO 2: Listener Autónomo de Akash / Cosmos (cada 30 segundos)
+# HILO 2: Listener Autónomo de Akash (cada 30 segundos)
 # -------------------------------------------------------------
 def akash_listener_worker():
-    """Escucha depósitos on-chain y recarga créditos desatendidamente."""
     import time
     while True:
         try:
             query = f"transfer.recipient='{AKASH_WALLET}'"
             url = f"{RPC_NODE}/tx_search?query={urllib.parse.quote(f'\"{query}\"')}&prove=false&page=1&per_page=10&order_by=\"desc\""
-            req = urllib.request.Request(url, headers={"User-Agent": "OasisAutonomousNode/2.2"})
+            req = urllib.request.Request(url, headers={"User-Agent": "OasisAutonomousNode/2.3"})
             with urllib.request.urlopen(req, timeout=7) as resp:
                 data = json.loads(resp.read().decode())
                 txs = data.get("result", {}).get("txs", [])
@@ -79,11 +83,9 @@ def akash_listener_worker():
                 tx_hash = tx.get("hash")
                 if not tx_hash or tx_hash in PROCESSED_TX_HASHES:
                     continue
-
                 if tx.get("tx_result", {}).get("code", 0) != 0:
                     continue
 
-                # Extraer monto y clave del Memo
                 events = tx.get("tx_result", {}).get("events", [])
                 amount_akt = 0.0
                 sender = ""
@@ -102,8 +104,6 @@ def akash_listener_worker():
                 if amount_akt > 0:
                     added_credits = int(amount_akt * 10000)
                     raw_tx_bytes = tx.get("tx", "")
-                    
-                    # Buscar si alguna API key activa fue mencionada en el cuerpo/memo
                     credited = False
                     for existing_key in list(AUTH_KEYS.keys()):
                         if existing_key in raw_tx_bytes:
@@ -111,7 +111,6 @@ def akash_listener_worker():
                             credited = True
                             break
 
-                    # Si el memo no coincide, asignar a una clave vinculada a la wallet del remitente
                     if not credited and sender:
                         fallback_key = f"OASIS-KEY-{sender[:10]}"
                         if fallback_key not in AUTH_KEYS:
@@ -127,7 +126,7 @@ def akash_listener_worker():
 threading.Thread(target=akash_listener_worker, daemon=True).start()
 
 # -------------------------------------------------------------
-# Motor de Físicas y Clasificación
+# Funciones Físicas y Criptográficas
 # -------------------------------------------------------------
 def compute_game_vortex(x, y, z, t, helicity=1.0):
     cache_key = hashlib.sha256(f"{x:.4f}:{y:.4f}:{z:.4f}:{t:.4f}:{helicity:.4f}".encode("utf-8")).hexdigest()
@@ -147,6 +146,19 @@ def compute_game_vortex(x, y, z, t, helicity=1.0):
     if len(VORTEX_CACHE) < MAX_CACHE_ENTRIES:
         VORTEX_CACHE[cache_key] = res
     return res, False, cache_key
+
+def shannon_entropy(text: str) -> float:
+    if not text:
+        return 0.0
+    freq = {}
+    for c in text:
+        freq[c] = freq.get(c, 0) + 1
+    ent = 0.0
+    n = len(text)
+    for count in freq.values():
+        p = count / n
+        ent -= p * math.log2(p)
+    return round(ent, 4)
 
 class OasisCloudHandler(BaseHTTPRequestHandler):
     def _send_json(self, data, status=200):
@@ -174,13 +186,13 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                     if nullifier not in SPENT_NULLIFIERS:
                         SPENT_NULLIFIERS.add(nullifier)
                         return True, {"owner": "chaumian_anonymous", "quota": "ecash_spent"}, 200
-                    return False, "Token eCash ya utilizado (Doble gasto)", 402
+                    return False, "Token eCash ya utilizado", 402
             except Exception:
                 return False, "Cabecera x-oasis-ecash corrupta", 400
 
         api_key = self.headers.get("x-api-key")
         if not api_key:
-            return False, f"Pago requerido. Proporciona 'x-api-key' o 'x-oasis-ecash'. Recargas a {AKASH_WALLET}", 402
+            return False, f"Pago requerido. Proporciona 'x-api-key'. Recargas a {AKASH_WALLET}", 402
 
         if api_key not in AUTH_KEYS:
             return False, "Clave API no registrada", 403
@@ -198,7 +210,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         if self.path in ("/", "", "/telemetry", "/healthz"):
             self._send_json({
                 "status": "ONLINE",
-                "system": "Oasis Sovereign Monolith (Dual Threaded)",
+                "system": "Oasis Sovereign Monolith (Full Suite)",
                 "akash_listener": "ACTIVE",
                 "wallet_beneficiary": AKASH_WALLET,
                 "cached_vortices": len(VORTEX_CACHE),
@@ -210,10 +222,18 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "deposit_address": AKASH_WALLET,
                 "services": [
                     {"endpoint": "/v1/shield/entropy-score", "price": "0.005 USDC"},
+                    {"endpoint": "/v1/netcode/stream-bin", "price": "0.005 USDC", "desc": "16-byte binary stream"},
                     {"endpoint": "/v1/game/vortex", "price": "0.01 USDC"},
-                    {"endpoint": "/v1/netcode/stream-bin", "price": "0.005 USDC", "desc": "16-byte binary stream"}
+                    {"endpoint": "/v1/brake", "price": "0.005 USDC", "desc": "Geometric AI Brake"},
+                    {"endpoint": "/v1/verify", "price": "0.005 USDC", "desc": "LLM Entropy Guard"},
+                    {"endpoint": "/v1/harden", "price": "0.005 USDC", "desc": "RSA-Oasis Hardening"}
                 ]
             })
+        elif self.path == "/docs":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(b"<h1>Oasis Sovereign Monolith - API Live</h1><p>Documentation active at /status</p>")
         else:
             self._send_json({"error": "Endpoint no encontrado"}, status=404)
 
@@ -224,15 +244,6 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             body = json.loads(post_data.decode("utf-8")) if post_data else {}
         except Exception:
             body = {}
-
-        if self.path == "/v1/ecash/blind-sign":
-            blinded_m = body.get("blinded_message")
-            if not blinded_m:
-                self._send_json({"error": "blinded_message requerido"}, status=400)
-                return
-            blind_sig = pow(int(blinded_m), RSA_D, RSA_N)
-            self._send_json({"blind_signature": blind_sig, "mint_e": RSA_E, "mint_N": RSA_N})
-            return
 
         if self.path == "/v1/auth/register":
             import uuid
@@ -245,17 +256,26 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             }, status=201)
             return
 
+        if self.path == "/v1/ecash/blind-sign":
+            blinded_m = body.get("blinded_message")
+            if not blinded_m:
+                self._send_json({"error": "blinded_message requerido"}, status=400)
+                return
+            blind_sig = pow(int(blinded_m), RSA_D, RSA_N)
+            self._send_json({"blind_signature": blind_sig, "mint_e": RSA_E, "mint_N": RSA_N})
+            return
+
+        # Validación del Gatekeeper
         auth_ok, auth_res, code = self._authenticate()
         if not auth_ok:
             self._send_json({"error": "PAGO_REQUERIDO", "motivo": auth_res}, status=code)
             return
 
-        # Endpoint binario de 16 bytes
+        # 1. Netcode Binario
         if self.path == "/v1/netcode/stream-bin":
             x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
             (vel, enstrophy), _, _ = compute_game_vortex(x, y, z, t)
             bin_payload = struct.pack("!ffff", vel[0], vel[1], vel[2], enstrophy)
-            
             self.send_response(200)
             self.send_header("Content-Type", "application/octet-stream")
             self.send_header("Content-Length", str(len(bin_payload)))
@@ -264,6 +284,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self.wfile.write(bin_payload)
             return
 
+        # 2. Ciberseguridad Anti-Bot Zero-PII
         if self.path == "/v1/shield/entropy-score":
             intervals = body.get("intervals_ms", [])
             mean = sum(intervals) / (len(intervals) + 1e-6)
@@ -273,6 +294,8 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "entropy_status": "EVALUADO_CON_EXITO",
                 "remaining_quota": auth_res.get("quota")
             })
+
+        # 3. Simulación de Fluidos
         elif self.path == "/v1/game/vortex":
             x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
             (vel, enstrophy), is_cached, _ = compute_game_vortex(x, y, z, t)
@@ -282,6 +305,49 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "velocity": vel,
                 "enstrophy_bound": enstrophy,
                 "cache_hit": is_cached,
+                "remaining_quota": auth_res.get("quota")
+            })
+
+        # 4. Freno Geométrico IA
+        elif self.path == "/v1/brake":
+            attempt = int(body.get("attempt", 0))
+            system_load = float(body.get("system_load", 0.5))
+            ratio = (attempt + 1) / (system_load + 1)
+            deviation = abs(ratio - KAPPA)
+            wait = GOLDEN_WAIT_BASE * (1.0 if deviation < 0.3 else (2.0 if deviation < 0.6 else 4.0))
+            self._send_json({
+                "wait_seconds": round(wait, 4),
+                "ratio": round(ratio, 4),
+                "deviation": round(deviation, 4),
+                "remaining_quota": auth_res.get("quota")
+            })
+
+        # 5. Escudo Anti-Inyección de Prompts
+        elif self.path == "/v1/verify":
+            prompt = body.get("prompt", "")
+            ent = shannon_entropy(prompt)
+            length = len(prompt)
+            ratio = (length + 1) / (ent + 1)
+            deviation = abs(ratio - KAPPA)
+            is_suspicious = deviation > 0.8 or ent < 1.5
+            wait_time = GOLDEN_WAIT_BASE * (1.0 + deviation) if is_suspicious else 0.0
+            self._send_json({
+                "prompt_length": length,
+                "shannon_entropy": ent,
+                "is_safe": not is_suspicious,
+                "recommended_wait_sec": round(wait_time, 4),
+                "verdict": "APPLY_BRAKE" if is_suspicious else "FORWARD_TO_LLM",
+                "remaining_quota": auth_res.get("quota")
+            })
+
+        # 6. Endurecimiento RSA-Oasis
+        elif self.path == "/v1/harden":
+            bits = int(body.get("modulus_bits", 2048))
+            factor = (PHI ** -1) * ALPHA
+            self._send_json({
+                "original_bits": bits,
+                "hardening_factor": round(factor, 8),
+                "hardened_bits": round(bits * (1.0 + factor), 4),
                 "remaining_quota": auth_res.get("quota")
             })
         else:
