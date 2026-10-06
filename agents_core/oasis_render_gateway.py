@@ -254,7 +254,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
 
             # Esperar respuesta del Mac hasta 15 segundos
             t0 = time.time()
-            while time.time() - t0 < 15.0:
+            while time.time() - t0 < 45.0:
                 with SWARM_LOCK:
                     if job_id in COMPLETED_JOBS:
                         res = COMPLETED_JOBS.pop(job_id)
