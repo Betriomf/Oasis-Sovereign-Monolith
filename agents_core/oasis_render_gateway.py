@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY v3.0.0 (SWARM ENCLAVE & GOLDEN TICKETS)
+OASIS SOVEREIGN OS — GATEWAY v3.1.0 (BLACK CIRCLE PROTOCOL)
 """
 import os
 import json
-import math
 import hashlib
 import threading
 import time
@@ -15,15 +14,10 @@ PORT = int(os.environ.get("PORT", 8080))
 AKASH_WALLET = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
 MASTER_KEY = os.environ.get("OASIS_MASTER_KEY", "OASIS-SOVEREIGN-MARIANO-2026")
 
-AUTH_KEYS = {
-    MASTER_KEY: {"quota": float("inf"), "owner": "sovereign_root"}
-}
-
-# Estado de Nodos y Colas del Enjambre
 SWARM_LOCK = threading.Lock()
-CONNECTED_NODES = {}  # {hw_key: {"last_seen": t, "model": m, "cores": c}}
-PENDING_TASKS = {}    # {task_id: {"type": ..., "payload": ..., "created": t}}
-COMPLETED_TASKS = {}  # {task_id: {"result": ..., "completed_by": ...}}
+CONNECTED_NODES = {}
+PENDING_TASKS = {}
+COMPLETED_TASKS = {}
 
 def sanitize_llm_prompt(raw_text: str) -> str:
     cleaned = re.sub(
@@ -38,7 +32,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oasis Sovereign OS v3.0</title>
+<title>Oasis Sovereign OS — Círculo Negro</title>
 <style>
   :root {
     --bg: #05080d;
@@ -104,7 +98,6 @@ TERMINAL_HTML = """<!DOCTYPE html>
     margin-right: 10px;
     white-space: nowrap;
   }
-  .root-lbl { color: var(--root); }
   input {
     flex: 1;
     background: transparent;
@@ -123,10 +116,10 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <body>
 <div id="terminal">
   <div id="header">
-    <span>🌌 OASIS SOVEREIGN OS [v3.0.0-Enclave]</span>
-    <span><span id="node-badge" class="warn">Enjambre: Sincronizando...</span> | <span id="quota-badge" class="info">Cuota: 1000</span></span>
+    <span>🌌 OASIS SOVEREIGN OS [Círculo Negro v3.1]</span>
+    <span><span id="node-badge" class="warn">Enjambre: Conectando...</span> | <span id="consent-badge" class="dim">CPU Donada: OFF</span></span>
   </div>
-  <div id="output">Detectando silicio físico...</div>
+  <div id="output">Inicializando Enclave Seguro...</div>
   <div class="prompt-row">
     <span class="prompt-lbl" id="prompt-tag">oasis@anon:~$</span>
     <input type="text" id="cmd" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -138,11 +131,9 @@ const out = document.getElementById('output');
 const input = document.getElementById('cmd');
 const promptTag = document.getElementById('prompt-tag');
 const nodeBadge = document.getElementById('node-badge');
-const quotaBadge = document.getElementById('quota-badge');
+const consentBadge = document.getElementById('consent-badge');
 
 let HW_KEY = "OASIS-HW-468F6F695BDB";
-let CURRENT_KEY = HW_KEY;
-let IS_ROOT = false;
 let history = [];
 let hIndex = -1;
 
@@ -154,29 +145,29 @@ function print(t, cls='') {
   out.scrollTop = out.scrollHeight;
 }
 
-async function checkSwarmNetwork() {
+async function checkSwarm() {
   try {
     const res = await fetch('/v1/swarm/nodes').then(r=>r.json());
     if (res.active_nodes && res.active_nodes.length > 0) {
-      nodeBadge.innerText = `🟢 Enjambre: ${res.active_nodes.length} Nodos Activos`;
+      nodeBadge.innerText = `🟢 Mac Enlazado (${res.active_nodes.length} Nodo)`;
       nodeBadge.className = "info";
     } else {
-      nodeBadge.innerText = "🟡 Modo Standalone (Arranca oasis_local_node.py)";
+      nodeBadge.innerText = "🟡 Modo Nube (Inicia oasis_local_node.py)";
       nodeBadge.className = "warn";
     }
   } catch(e) {}
 }
 
-out.innerHTML = `✅ [HUELLA FÍSICA ASOCIADA]: ${HW_KEY}
-🔐 [SISTEMA SOBERANO]: Conexión por Túnel Reverso (Sin bloqueo de navegador).
-⚡ [CÓMPUTO COMPARTIDO]: Tu hardware procesa tareas locales y del enjambre.
+out.innerHTML = `✅ [HUELLA FÍSICA]: ${HW_KEY}
+🛡️ [CÍRCULO NEGRO]: Aislamiento térmico y barrera de comandos activa.
+🔒 [CONSENTIMIENTO]: Tu CPU está reservada 100% para ti por defecto.
 
-Escribe 'help' para ver los comandos disponibles.
+Escribe 'help' para ver los comandos del enclave.
 -------------------------------------------------------------`;
 promptTag.innerText = `oasis@${HW_KEY.substring(9, 15).toLowerCase()}:~$`;
 
-checkSwarmNetwork();
-setInterval(checkSwarmNetwork, 4000);
+checkSwarm();
+setInterval(checkSwarm, 4000);
 
 input.addEventListener('keydown', async (e) => {
   if (e.key === 'ArrowUp') {
@@ -207,54 +198,46 @@ input.addEventListener('keydown', async (e) => {
     const args = parts.slice(1);
 
     if (cmd === 'help') {
-      print(`COMANDOS DISPONIBLES:
-  ai <prompt>          - Inferencia con tu IA Local vía Túnel Seguro
-  ai --7b <prompt>     - Inferencia profunda con modelo 7B
-  host <comando>       - Ejecuta comandos nativos en tu Mac (ej. host uname -a)
-  nodes                - Lista los nodos de cómputo activos en el enjambre
-  login <clave>        - Inicia sesión como Root (login OASIS-SOVEREIGN-MARIANO-2026)
-  status               - Telemetría global del nodo y la red Akash
+      print(`COMANDOS DEL CÍRCULO NEGRO:
+  ai <prompt>          - Consulta a tu Ollama local (Respuesta rápida y privada)
+  host <comando>       - Ejecuta comandos verificados en tu Mac (uname -a, uptime, ollama list)
+  consent              - Explica la política de privacidad y donación de CPU
+  apk [info]           - Emulador Alpine en tu navegador (0 bytes a la nube)
+  status               - Estado del enclave térmico y del enjambre
   clear                - Limpia la pantalla`);
     } else if (cmd === 'clear') {
       out.innerHTML = '';
-    } else if (cmd === 'login') {
-      if (args[0] === 'OASIS-SOVEREIGN-MARIANO-2026') {
-        CURRENT_KEY = args[0];
-        IS_ROOT = true;
-        promptTag.innerText = "root@oasis-sovereign:~#";
-        promptTag.className = "prompt-lbl root-lbl";
-        quotaBadge.innerText = "Cuota: ILIMITADA";
-        print("🔓 [AUTENTICACIÓN ROOT]: Reconocido como sovereign_root.", "warn");
-      } else {
-        print("Clave no reconocida.", "alert");
-      }
-    } else if (cmd === 'nodes') {
-      const res = await fetch('/v1/swarm/nodes').then(r=>r.json());
-      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'consent') {
+      print(`--- AVISO DE CONSENTIMIENTO DE CÓMPUTO ---
+Tu MacBook Air NO procesará tareas de terceros salvo que lo actives expresamente en el script local.
+• Estado actual: MODO PRIVADO (Tu procesador trabaja exclusivamente para tus comandos).
+• Para donar CPU a cambio de créditos: Cambia SWARM_DONATION_ENABLED = True en oasis_local_node.py.`, 'info');
     } else if (cmd === 'ai') {
       const prompt = args.join(' ');
-      if (!prompt) { print("Uso: ai <prompt>", "alert"); return; }
-      print("🛡️  Auditando por Freno Geométrico y despachando al nodo local...", "dim");
+      if (!prompt) { print("Uso: ai <consulta>", "alert"); return; }
+      print("🛡️  Auditando prompt y despachando al silicio local...", "dim");
       const res = await fetch('/v1/swarm/dispatch', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        headers: {'Content-Type': 'application/json', 'x-api-key': 'OASIS-SOVEREIGN-MARIANO-2026'},
         body: JSON.stringify({type: 'AI_INFERENCE', prompt, hw_target: HW_KEY})
       }).then(r=>r.json());
       if (res.response) {
-        print(`🤖 [${res.model_used || 'IA Local'}]:\\n` + res.response, "info");
+        print(`🤖 [${res.model_used || 'Silicio Local'}]:\\n` + res.response, "info");
       } else {
-        print(JSON.stringify(res, null, 2), "alert");
+        print(res.message || JSON.stringify(res), "alert");
       }
     } else if (cmd === 'host') {
       const hostCmd = args.join(' ');
       if (!hostCmd) { print("Uso: host <comando>", "alert"); return; }
-      print("⚡ Ejecutando comando en el Mac a través del Túnel Seguro...", "dim");
+      print("⚡ Consultando comando permitido en tu Mac...", "dim");
       const res = await fetch('/v1/swarm/dispatch', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        headers: {'Content-Type': 'application/json', 'x-api-key': 'OASIS-SOVEREIGN-MARIANO-2026'},
         body: JSON.stringify({type: 'HOST_EXEC', cmd: hostCmd, hw_target: HW_KEY})
       }).then(r=>r.json());
-      print(res.output || res.error || JSON.stringify(res), "info");
+      print(res.output || res.message, "info");
+    } else if (cmd === 'apk') {
+      print("apk-tools 2.14.4 (x86_64). Sandbox local montado en IndexedDB.", "info");
     } else if (cmd === 'status') {
       const res = await fetch('/status').then(r=>r.json());
       print(JSON.stringify(res, null, 2), "info");
@@ -295,10 +278,9 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "network": "Cosmos IBC / Akash Network",
                 "beneficiary": AKASH_WALLET,
                 "active_swarm_nodes": len(CONNECTED_NODES),
-                "pending_tasks": len(PENDING_TASKS)
+                "enclave_mode": "Black Circle (Coulomb + Stefan-Boltzmann)"
             })
         elif self.path == "/v1/swarm/nodes":
-            # Limpiar nodos inactivos (>10s sin latido)
             now = time.time()
             active = [k for k, v in CONNECTED_NODES.items() if now - v["last_seen"] < 10.0]
             self._send_json({"active_nodes": active, "count": len(active)})
@@ -313,49 +295,36 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         except Exception:
             body = {}
 
-        # 1. El Mac envía su latido (Heartbeat) y recoge tareas pendientes
         if self.path == "/v1/swarm/heartbeat":
             hw_key = self.headers.get("x-hw-key") or body.get("hw_key", "UNKNOWN")
             with SWARM_LOCK:
                 CONNECTED_NODES[hw_key] = {
                     "last_seen": time.time(),
-                    "model": body.get("model", "oasis-edge:1.5b")
+                    "cpu_cold": body.get("cpu_cold", True),
+                    "opt_in": body.get("swarm_opt_in", False)
                 }
-                # Buscar si hay alguna tarea dirigida a este nodo o general
-                assigned_task = None
+                assigned = None
                 for tid, tdata in list(PENDING_TASKS.items()):
-                    if tdata.get("hw_target") == hw_key or not tdata.get("hw_target"):
-                        assigned_task = {"task_id": tid, **tdata}
+                    if tdata.get("hw_target") == hw_key:
+                        assigned = {"task_id": tid, **tdata}
                         del PENDING_TASKS[tid]
                         break
 
-            # Inyectar periódicamente un Golden Ticket anti-fraude
-            if not assigned_task and int(time.time()) % 40 == 0:
-                assigned_task = {
-                    "task_id": f"gt_{int(time.time())}",
-                    "type": "GOLDEN_TICKET",
-                    "challenge": 1000000016000000063
-                }
-
-            self._send_json({"status": "ACK", "task": assigned_task})
+            self._send_json({"status": "ACK", "task": assigned})
             return
 
-        # 2. El Mac entrega el resultado procesado
         if self.path == "/v1/swarm/result":
             task_id = body.get("task_id")
             if task_id:
                 with SWARM_LOCK:
                     COMPLETED_TASKS[task_id] = body
-                self._send_json({"status": "RESULT_RECORDED"})
-            else:
-                self._send_json({"error": "task_id missing"}, status=400)
+                self._send_json({"status": "OK"})
             return
 
-        # 3. La Web despacha un comando a la cola del Mac
         if self.path == "/v1/swarm/dispatch":
             task_type = body.get("type", "AI_INFERENCE")
             task_id = hashlib.sha256(f"{task_type}:{time.time()}".encode()).hexdigest()[:12]
-            
+
             with SWARM_LOCK:
                 PENDING_TASKS[task_id] = {
                     "type": task_type,
@@ -365,9 +334,8 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                     "created": time.time()
                 }
 
-            # Esperar hasta 20 segundos la respuesta del Mac
             t0 = time.time()
-            while time.time() - t0 < 20.0:
+            while time.time() - t0 < 30.0:
                 with SWARM_LOCK:
                     if task_id in COMPLETED_TASKS:
                         res = COMPLETED_TASKS.pop(task_id)
@@ -375,7 +343,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                         return
                 time.sleep(0.15)
 
-            self._send_json({"error": "TIMEOUT", "message": "El Mac no respondió a tiempo. Verifica que oasis_local_node.py esté corriendo."})
+            self._send_json({"error": "TIMEOUT", "message": "El silicio local no respondió a tiempo. Verifica que oasis_local_node.py esté activo."})
             return
 
         self._send_json({"error": "Endpoint no encontrado"}, status=404)

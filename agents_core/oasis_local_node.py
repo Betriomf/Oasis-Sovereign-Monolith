@@ -1,26 +1,43 @@
 #!/usr/bin/env python3
 """
-OASIS LOCAL SWARM AGENT
-Mantiene el túnel reverso activo contra Render y procesa tareas locales.
+OASIS LOCAL ENCLAVE — CÍRCULO NEGRO v3.1
+Aislamiento estricto, consentimiento de CPU y protección térmica.
 """
 import os
 import json
 import time
 import subprocess
 import urllib.request
+import urllib.error
 
 RENDER_URL = "https://oasis-sovereign-gateway.onrender.com"
 OLLAMA_API = "http://127.0.0.1:11434/api/generate"
 HW_KEY = "OASIS-HW-468F6F695BDB"
-MODEL_DEFAULT = "oasis-edge:1.5b"
+
+# CONFIGURACIÓN DE CONSENTIMIENTO
+# False = Tu Mac SOLO procesa tus preguntas personales. Cero uso externo.
+# True  = Tu Mac ayuda al enjambre cuando esté frío a cambio de créditos.
+SWARM_DONATION_ENABLED = False
+
+# LÍMITE TÉRMICO (Stefan-Boltzmann Threshold)
+MAX_LOAD_THRESHOLD = 1.6
+
+# BARRERA DE COULOMB: Lista blanca cerrada de comandos permitidos en host
+HOST_WHITELIST = {
+    "uname -a": "uname -srm",
+    "uptime": "uptime",
+    "ollama list": "ollama list",
+    "sw_vers": "sw_vers"
+}
 
 print("=" * 65)
-print(f"🛰️  [OASIS LOCAL SWARM AGENT]: Iniciando túnel soberano")
-print(f"🔐 Huella de Silicio: {HW_KEY}")
-print(f"🧠 Modelo Local: {MODEL_DEFAULT} | Destino: {RENDER_URL}")
+print("🛡️  [OASIS ENCLAVE: CÍRCULO NEGRO v3.1 ACTIVO]")
+print(f"🔐 Huella de Hardware: {HW_KEY}")
+print(f"⚡ Compartir CPU con el Enjambre: {'ACTIVADO' if SWARM_DONATION_ENABLED else 'DESACTIVADO (Privado)'}")
+print("🧊 Freno Térmico: Máximo 2 hilos Ollama | Límite carga: 1.6")
 print("=" * 65)
 
-def factorize_golden_ticket(n):
+def resolver_golden_ticket(n):
     factors = []
     d = 2
     temp = n
@@ -35,13 +52,24 @@ def factorize_golden_ticket(n):
 
 while True:
     try:
-        # 1. Enviar latido (Heartbeat) y recoger trabajo pendiente
-        hb_data = json.dumps({"hw_key": HW_KEY, "model": MODEL_DEFAULT}).encode()
+        # 1. Monitoreo térmico previo
+        load_1m = os.getloadavg()[0]
+        cpu_cold = load_1m < MAX_LOAD_THRESHOLD
+
+        # 2. Heartbeat a Render
+        hb_payload = json.dumps({
+            "hw_key": HW_KEY,
+            "cpu_cold": cpu_cold,
+            "swarm_opt_in": SWARM_DONATION_ENABLED,
+            "loadavg": round(load_1m, 2)
+        }).encode()
+
         req = urllib.request.Request(
             f"{RENDER_URL}/v1/swarm/heartbeat",
-            data=hb_data,
+            data=hb_payload,
             headers={"Content-Type": "application/json", "x-hw-key": HW_KEY}
         )
+
         with urllib.request.urlopen(req, timeout=5) as resp:
             data = json.loads(resp.read().decode())
 
@@ -49,61 +77,65 @@ while True:
         if task:
             task_id = task.get("task_id")
             task_type = task.get("type")
+            is_external = task.get("hw_target") != HW_KEY
 
-            # Caso A: Inferencia LLM
+            # Filtro de consentimiento y barrera térmica
+            if is_external and (not SWARM_DONATION_ENABLED or not cpu_cold):
+                # Rechazar tarea externa para proteger silicio
+                time.sleep(1.5)
+                continue
+
+            # A. Inferencia de Lenguaje (Local y Segura)
             if task_type == "AI_INFERENCE":
                 prompt = task.get("prompt", "")
-                chosen_model = "qwen2.5:7b-instruct-q4_K_M" if "--7b" in prompt else MODEL_DEFAULT
-                clean_p = prompt.replace("--7b", "").strip()
+                print(f"📥 [ENCLAVE] Inferencia para: '{prompt[:45]}...'")
 
-                print(f"📥 [INFERENCIA RECIBIDA] ID: {task_id} | Modelo: {chosen_model}")
                 ollama_payload = json.dumps({
-                    "model": chosen_model,
-                    "prompt": f"Eres el asistente de Oasis OS. Responde de forma clara y directa.\n\nConsulta: {clean_p}",
+                    "model": "qwen2.5:0.5b" if "--fast" in prompt else "oasis-edge:1.5b",
+                    "prompt": f"Responde conciso y en español: {prompt.replace('--fast','').strip()}",
                     "stream": False,
-                    "keep_alive": "60m",
-                    "options": {"temperature": 0.23, "num_predict": 200, "num_thread": 6}
+                    "keep_alive": "30m",
+                    "options": {"temperature": 0.23, "num_predict": 120, "num_thread": 2}
                 }).encode()
 
                 o_req = urllib.request.Request(OLLAMA_API, data=ollama_payload, headers={"Content-Type": "application/json"})
-                with urllib.request.urlopen(o_req, timeout=40) as o_resp:
-                    ai_text = json.loads(o_resp.read().decode()).get("response", "").strip()
+                with urllib.request.urlopen(o_req, timeout=25) as o_resp:
+                    ai_reply = json.loads(o_resp.read().decode()).get("response", "").strip()
 
-                # Devolver resultado a Render
-                res_data = json.dumps({
+                # Devolver resultado
+                res_payload = json.dumps({
                     "task_id": task_id,
-                    "model_used": chosen_model,
-                    "response": ai_text
+                    "model_used": "oasis-edge:1.5b",
+                    "response": ai_reply
                 }).encode()
-                s_req = urllib.request.Request(f"{RENDER_URL}/v1/swarm/result", data=res_data, headers={"Content-Type": "application/json"})
-                urllib.request.urlopen(s_req, timeout=5)
-                print("📤 [RESPUESTA ENTREGADA A LA WEB]\n")
 
-            # Caso B: Ejecución nativa de comando (host <cmd>)
+                s_req = urllib.request.Request(f"{RENDER_URL}/v1/swarm/result", data=res_payload, headers={"Content-Type": "application/json"})
+                urllib.request.urlopen(s_req, timeout=5)
+                print("📤 [ENCLAVE] Respuesta entregada a la terminal.\n")
+
+            # B. Comandos de Host (Barrera de Coulomb)
             elif task_type == "HOST_EXEC":
-                cmd = task.get("cmd", "")
-                print(f"⚡ [COMANDO LOCAL RECIBIDO]: {cmd}")
-                try:
-                    cmd_out = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, timeout=5).decode()
-                except subprocess.CalledProcessError as e:
-                    cmd_out = e.output.decode()
-                except Exception as e:
-                    cmd_out = str(e)
+                cmd_in = task.get("cmd", "").strip()
+                if cmd_in in HOST_WHITELIST:
+                    safe_cmd = HOST_WHITELIST[cmd_in]
+                    output = subprocess.check_output(safe_cmd, shell=True).decode()
+                    print(f"⚡ [HOST SEGURO]: '{safe_cmd}' ejecutado.")
+                else:
+                    output = f"🛑 [BARRERA DE COULOMB]: Comando '{cmd_in}' bloqueado por seguridad. Solo permitidos: {list(HOST_WHITELIST.keys())}"
+                    print(f"⚠️ [BLOQUEO]: Intento no autorizado: {cmd_in}")
 
-                res_data = json.dumps({"task_id": task_id, "output": cmd_out}).encode()
-                s_req = urllib.request.Request(f"{RENDER_URL}/v1/swarm/result", data=res_data, headers={"Content-Type": "application/json"})
+                res_payload = json.dumps({"task_id": task_id, "output": output}).encode()
+                s_req = urllib.request.Request(f"{RENDER_URL}/v1/swarm/result", data=res_payload, headers={"Content-Type": "application/json"})
                 urllib.request.urlopen(s_req, timeout=5)
-                print("📤 [SALIDA DE COMANDO ENTREGADA]\n")
 
-            # Caso C: Golden Ticket (Auditoría anti-fraude)
-            elif task_type == "GOLDEN_TICKET":
-                num = task.get("challenge", 1000000016000000063)
-                t0 = time.time()
-                factors = factorize_golden_ticket(num)
-                duration = round((time.time() - t0) * 1000, 2)
-                print(f"🎯 [GOLDEN TICKET RESUELTO]: Factores {factors} en {duration}ms. Capacidad certificada.\n")
+            # C. Auditoría Anti-Fraude (Golden Ticket)
+            elif task_type == "GOLDEN_TICKET" and SWARM_DONATION_ENABLED:
+                factors = resolver_golden_ticket(task.get("challenge", 1000000016000000063))
+                print(f"🎯 [GOLDEN TICKET]: Silicio validado honesto -> {factors}\n")
 
-    except Exception:
-        pass
+    except urllib.error.URLError:
+        time.sleep(2.0)
+    except Exception as e:
+        time.sleep(2.0)
 
-    time.sleep(1.2)
+    time.sleep(1.8)
