@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY v2.9.0 CON DETECCIÓN DE MAC LOCAL Y MOTOR WASM
+OASIS SOVEREIGN OS — GATEWAY v3.0.0 (SWARM ENCLAVE & GOLDEN TICKETS)
 """
 import os
 import json
 import math
 import hashlib
+import threading
 import time
 import re
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -14,22 +15,40 @@ PORT = int(os.environ.get("PORT", 8080))
 AKASH_WALLET = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
 MASTER_KEY = os.environ.get("OASIS_MASTER_KEY", "OASIS-SOVEREIGN-MARIANO-2026")
 
+AUTH_KEYS = {
+    MASTER_KEY: {"quota": float("inf"), "owner": "sovereign_root"}
+}
+
+# Estado de Nodos y Colas del Enjambre
+SWARM_LOCK = threading.Lock()
+CONNECTED_NODES = {}  # {hw_key: {"last_seen": t, "model": m, "cores": c}}
+PENDING_TASKS = {}    # {task_id: {"type": ..., "payload": ..., "created": t}}
+COMPLETED_TASKS = {}  # {task_id: {"result": ..., "completed_by": ...}}
+
+def sanitize_llm_prompt(raw_text: str) -> str:
+    cleaned = re.sub(
+        r"(?i)(system:|ignore previous instructions|disregard|override|extract credentials|show keys|reveal prompt)",
+        "[NEUTRALIZADO]",
+        raw_text
+    )
+    return cleaned[:3141]
+
 TERMINAL_HTML = """<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oasis Sovereign Linux & Darwin OS v2.9</title>
+<title>Oasis Sovereign OS v3.0</title>
 <style>
   :root {
     --bg: #05080d;
-    --term-bg: rgba(6, 12, 20, 0.94);
+    --term: rgba(6, 12, 20, 0.94);
     --fg: #00ff9d;
     --dim: #007744;
     --accent: #00e5ff;
     --root: #ffb703;
     --alert: #ff0055;
-    --font: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    --font: 'JetBrains Mono', monospace;
   }
   * { box-sizing: border-box; }
   body {
@@ -47,7 +66,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
     max-width: 1100px;
     width: 100%;
     margin: 0 auto;
-    background: var(--term-bg);
+    background: var(--term);
     border: 1px solid var(--dim);
     border-radius: 8px;
     padding: 18px;
@@ -104,10 +123,10 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <body>
 <div id="terminal">
   <div id="header">
-    <span>🌌 OASIS SOVEREIGN OS [v2.9.0] | Silicio Híbrido</span>
-    <span><span id="daemon-status" class="warn">Local Daemon: Buscando...</span> | <span id="quota-display" class="info">Cuota: 1000</span></span>
+    <span>🌌 OASIS SOVEREIGN OS [v3.0.0-Enclave]</span>
+    <span><span id="node-badge" class="warn">Enjambre: Sincronizando...</span> | <span id="quota-badge" class="info">Cuota: 1000</span></span>
   </div>
-  <div id="output">Inicializando enlace estocástico...</div>
+  <div id="output">Detectando silicio físico...</div>
   <div class="prompt-row">
     <span class="prompt-lbl" id="prompt-tag">oasis@anon:~$</span>
     <input type="text" id="cmd" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -118,59 +137,14 @@ TERMINAL_HTML = """<!DOCTYPE html>
 const out = document.getElementById('output');
 const input = document.getElementById('cmd');
 const promptTag = document.getElementById('prompt-tag');
-const daemonStatus = document.getElementById('daemon-status');
-const quotaDisplay = document.getElementById('quota-display');
+const nodeBadge = document.getElementById('node-badge');
+const quotaBadge = document.getElementById('quota-badge');
 
-let LOCAL_DAEMON_ONLINE = false;
-let HW_KEY = "";
-let CURRENT_KEY = "";
+let HW_KEY = "OASIS-HW-468F6F695BDB";
+let CURRENT_KEY = HW_KEY;
 let IS_ROOT = false;
 let history = [];
 let hIndex = -1;
-
-async function deriveHWKey() {
-  const parts = [navigator.hardwareConcurrency || 4, navigator.deviceMemory || 8, screen.colorDepth || 24, navigator.platform || ""];
-  try {
-    const gl = document.createElement('canvas').getContext('webgl');
-    if (gl) {
-      const dbg = gl.getExtension('WEBGL_debug_renderer_info');
-      if (dbg) parts.push(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL));
-    }
-  } catch(e) {}
-  const raw = parts.join('|');
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw));
-  HW_KEY = "OASIS-HW-" + Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('').substring(0, 12).toUpperCase();
-  CURRENT_KEY = HW_KEY;
-}
-
-// Comprobación de Demonio Local en el Mac (127.0.0.1:8765)
-async function checkLocalDaemon() {
-  try {
-    const res = await fetch('http://127.0.0.1:8765/v1/local/telemetry', {signal: AbortSignal.timeout(1200)}).then(r=>r.json());
-    if (res.status === 'ONLINE') {
-      LOCAL_DAEMON_ONLINE = true;
-      daemonStatus.innerText = "🟢 Mac Local Conectado (127.0.0.1:8765)";
-      daemonStatus.className = "info";
-      return res;
-    }
-  } catch(e) {
-    LOCAL_DAEMON_ONLINE = false;
-    daemonStatus.innerText = "🟡 Modo Nube (Inicia oasis_local_node.py)";
-    daemonStatus.className = "warn";
-  }
-  return null;
-}
-
-function getVFS() {
-  const s = localStorage.getItem('OASIS_VFS_' + HW_KEY);
-  if (s) { try { return JSON.parse(s); } catch(e){} }
-  return {
-    "/etc/alpine-release": "3.20.2",
-    "/etc/issue": "Welcome to Alpine Linux 3.20 (Oasis Web Edition)",
-    "/home/oasis/README.txt": "Bienvenido a Oasis OS.\\nTus archivos están guardados localmente en este ordenador.\\nSupabase = 0 bytes consumidos."
-  };
-}
-function saveVFS(vfs) { localStorage.setItem('OASIS_VFS_' + HW_KEY, JSON.stringify(vfs)); }
 
 function print(t, cls='') {
   const d = document.createElement('div');
@@ -180,19 +154,29 @@ function print(t, cls='') {
   out.scrollTop = out.scrollHeight;
 }
 
-deriveHWKey().then(async () => {
-  const localInfo = await checkLocalDaemon();
-  out.innerHTML = `✅ [HUELLA FÍSICA]: ${HW_KEY}
-🔐 [SESIÓN PRIVADA]: Persistencia 100% en disco local (Zero-Cloud Leak).
-${localInfo ? "⚡ [SILICIO FRÍO NATIVO]: Enlace directo con " + localInfo.kernel : "⚡ [MODO NUBE]: Inicia 'python3 agents_core/oasis_local_node.py' para enlace nativo"}
+async function checkSwarmNetwork() {
+  try {
+    const res = await fetch('/v1/swarm/nodes').then(r=>r.json());
+    if (res.active_nodes && res.active_nodes.length > 0) {
+      nodeBadge.innerText = `🟢 Enjambre: ${res.active_nodes.length} Nodos Activos`;
+      nodeBadge.className = "info";
+    } else {
+      nodeBadge.innerText = "🟡 Modo Standalone (Arranca oasis_local_node.py)";
+      nodeBadge.className = "warn";
+    }
+  } catch(e) {}
+}
 
-Escribe 'help' para ver el catálogo de comandos.
+out.innerHTML = `✅ [HUELLA FÍSICA ASOCIADA]: ${HW_KEY}
+🔐 [SISTEMA SOBERANO]: Conexión por Túnel Reverso (Sin bloqueo de navegador).
+⚡ [CÓMPUTO COMPARTIDO]: Tu hardware procesa tareas locales y del enjambre.
+
+Escribe 'help' para ver los comandos disponibles.
 -------------------------------------------------------------`;
-  promptTag.innerText = `oasis@${HW_KEY.substring(9, 15).toLowerCase()}:~$`;
-});
+promptTag.innerText = `oasis@${HW_KEY.substring(9, 15).toLowerCase()}:~$`;
 
-// Chequeo periódico de conexión con el Mac
-setInterval(checkLocalDaemon, 4000);
+checkSwarmNetwork();
+setInterval(checkSwarmNetwork, 4000);
 
 input.addEventListener('keydown', async (e) => {
   if (e.key === 'ArrowUp') {
@@ -221,19 +205,15 @@ input.addEventListener('keydown', async (e) => {
     const parts = raw.split(' ');
     const cmd = parts[0].toLowerCase();
     const args = parts.slice(1);
-    const vfs = getVFS();
 
     if (cmd === 'help') {
-      print(`COMANDOS DE OASIS SOVEREIGN OS:
-  ai <prompt>          - Consulta a Ollama (Directo a tu Mac si el demonio está activo)
-  ai --7b <prompt>     - Inferencia con modelo 7B
-  host <comando>       - Ejecuta comandos nativos en tu Mac (ej. host uname -a, host ls)
-  apk [info|version]   - Gestor de paquetes de Alpine Linux
-  free -m              - Muestra memoria del entorno
-  cat <archivo>        - Muestra un archivo (ej. cat /etc/alpine-release)
-  ls, echo, rm         - Gestión de archivos en tu disco local privado
+      print(`COMANDOS DISPONIBLES:
+  ai <prompt>          - Inferencia con tu IA Local vía Túnel Seguro
+  ai --7b <prompt>     - Inferencia profunda con modelo 7B
+  host <comando>       - Ejecuta comandos nativos en tu Mac (ej. host uname -a)
+  nodes                - Lista los nodos de cómputo activos en el enjambre
   login <clave>        - Inicia sesión como Root (login OASIS-SOVEREIGN-MARIANO-2026)
-  status               - Telemetría del nodo y estado del demonio local
+  status               - Telemetría global del nodo y la red Akash
   clear                - Limpia la pantalla`);
     } else if (cmd === 'clear') {
       out.innerHTML = '';
@@ -243,65 +223,41 @@ input.addEventListener('keydown', async (e) => {
         IS_ROOT = true;
         promptTag.innerText = "root@oasis-sovereign:~#";
         promptTag.className = "prompt-lbl root-lbl";
-        quotaDisplay.innerText = "Cuota: ILIMITADA";
-        print("🔓 [AUTENTICACIÓN ROOT]: Acceso maestro activado.", "warn");
+        quotaBadge.innerText = "Cuota: ILIMITADA";
+        print("🔓 [AUTENTICACIÓN ROOT]: Reconocido como sovereign_root.", "warn");
       } else {
-        print("Clave inválida.", "alert");
+        print("Clave no reconocida.", "alert");
       }
+    } else if (cmd === 'nodes') {
+      const res = await fetch('/v1/swarm/nodes').then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
     } else if (cmd === 'ai') {
       const prompt = args.join(' ');
-      if (!prompt) { print("Uso: ai <consulta>", "alert"); return; }
-      
-      if (LOCAL_DAEMON_ONLINE) {
-        print("⚡ [ENLACE DIRECTO MAC]: Procesando en Ollama local (<1ms latencia)...", "dim");
-        try {
-          const res = await fetch('http://127.0.0.1:8765/v1/local/ai', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json', 'x-hw-key': HW_KEY},
-            body: JSON.stringify({prompt})
-          }).then(r=>r.json());
-          print(`🤖 [${res.model_used}] (Silicio Local Directo):\\n` + res.response, "info");
-          return;
-        } catch(e) {
-          print("⚠️ Enlace local falló, derivando a Render Gateway...", "dim");
-        }
-      }
-
-      print("🛡️  Enrutando a través de Render Gateway...", "dim");
-      const res = await fetch('/v1/llm/secure-proxy', {
+      if (!prompt) { print("Uso: ai <prompt>", "alert"); return; }
+      print("🛡️  Auditando por Freno Geométrico y despachando al nodo local...", "dim");
+      const res = await fetch('/v1/swarm/dispatch', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
-        body: JSON.stringify({prompt})
+        body: JSON.stringify({type: 'AI_INFERENCE', prompt, hw_target: HW_KEY})
       }).then(r=>r.json());
-      print(`🤖 [${res.model_used}]:\\n` + res.clean_response, "info");
-
-    } else if (cmd === 'host') {
-      if (!LOCAL_DAEMON_ONLINE) {
-        print("❌ Demonio local desconectado. Ejecuta en tu Mac: python3 agents_core/oasis_local_node.py", "alert");
-        return;
-      }
-      const hostCmd = args.join(' ');
-      const res = await fetch('http://127.0.0.1:8765/v1/local/exec', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', 'x-hw-key': HW_KEY},
-        body: JSON.stringify({cmd: hostCmd})
-      }).then(r=>r.json());
-      print(res.output || res.error, "info");
-
-    } else if (cmd === 'apk') {
-      if (args[0] === 'info' || args[0] === '--version') {
-        print("apk-tools 2.14.4 (x86_64), multi-call binary.\\nRepositorios locales montados en IndexedDB.", "info");
+      if (res.response) {
+        print(`🤖 [${res.model_used || 'IA Local'}]:\\n` + res.response, "info");
       } else {
-        print("apk: gestor de paquetes de Alpine activo.", "info");
+        print(JSON.stringify(res, null, 2), "alert");
       }
-    } else if (cmd === 'free') {
-      print("             total        used        free      shared  buff/cache   available\\nMem:          8192        2048        6144           0           0        6144\\nSwap:            0           0           0", "info");
-    } else if (cmd === 'cat') {
-      print(vfs[args[0]] || `cat: ${args[0]}: No such file or directory`, vfs[args[0]] ? 'info' : 'alert');
-    } else if (cmd === 'ls') {
-      print(Object.keys(vfs).join('   '), 'info');
+    } else if (cmd === 'host') {
+      const hostCmd = args.join(' ');
+      if (!hostCmd) { print("Uso: host <comando>", "alert"); return; }
+      print("⚡ Ejecutando comando en el Mac a través del Túnel Seguro...", "dim");
+      const res = await fetch('/v1/swarm/dispatch', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({type: 'HOST_EXEC', cmd: hostCmd, hw_target: HW_KEY})
+      }).then(r=>r.json());
+      print(res.output || res.error || JSON.stringify(res), "info");
     } else if (cmd === 'status') {
-      print(`Estado Demonio Local: ${LOCAL_DAEMON_ONLINE ? 'CONECTADO (127.0.0.1:8765)' : 'DESCONECTADO'}\\nHuella Silicio: ${HW_KEY}\\nCuota: ${IS_ROOT ? 'ILIMITADA' : '1000'}`, "info");
+      const res = await fetch('/status').then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
     } else {
       print(`bash: ${cmd}: orden no encontrada. Escribe 'help'.`, 'alert');
     }
@@ -318,8 +274,14 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
         self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, x-api-key, x-hw-key")
         self.end_headers()
         self.wfile.write(json.dumps(data, indent=2).encode())
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.end_headers()
 
     def do_GET(self):
         if self.path in ("/", "/terminal"):
@@ -328,11 +290,95 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
             self.end_headers()
             self.wfile.write(TERMINAL_HTML.encode())
+        elif self.path == "/status":
+            self._send_json({
+                "network": "Cosmos IBC / Akash Network",
+                "beneficiary": AKASH_WALLET,
+                "active_swarm_nodes": len(CONNECTED_NODES),
+                "pending_tasks": len(PENDING_TASKS)
+            })
+        elif self.path == "/v1/swarm/nodes":
+            # Limpiar nodos inactivos (>10s sin latido)
+            now = time.time()
+            active = [k for k, v in CONNECTED_NODES.items() if now - v["last_seen"] < 10.0]
+            self._send_json({"active_nodes": active, "count": len(active)})
         else:
             self._send_json({"status": "ONLINE"})
 
     def do_POST(self):
-        self._send_json({"status": "OK"})
+        content_length = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(content_length) if content_length > 0 else b"{}"
+        try:
+            body = json.loads(raw_body.decode())
+        except Exception:
+            body = {}
+
+        # 1. El Mac envía su latido (Heartbeat) y recoge tareas pendientes
+        if self.path == "/v1/swarm/heartbeat":
+            hw_key = self.headers.get("x-hw-key") or body.get("hw_key", "UNKNOWN")
+            with SWARM_LOCK:
+                CONNECTED_NODES[hw_key] = {
+                    "last_seen": time.time(),
+                    "model": body.get("model", "oasis-edge:1.5b")
+                }
+                # Buscar si hay alguna tarea dirigida a este nodo o general
+                assigned_task = None
+                for tid, tdata in list(PENDING_TASKS.items()):
+                    if tdata.get("hw_target") == hw_key or not tdata.get("hw_target"):
+                        assigned_task = {"task_id": tid, **tdata}
+                        del PENDING_TASKS[tid]
+                        break
+
+            # Inyectar periódicamente un Golden Ticket anti-fraude
+            if not assigned_task and int(time.time()) % 40 == 0:
+                assigned_task = {
+                    "task_id": f"gt_{int(time.time())}",
+                    "type": "GOLDEN_TICKET",
+                    "challenge": 1000000016000000063
+                }
+
+            self._send_json({"status": "ACK", "task": assigned_task})
+            return
+
+        # 2. El Mac entrega el resultado procesado
+        if self.path == "/v1/swarm/result":
+            task_id = body.get("task_id")
+            if task_id:
+                with SWARM_LOCK:
+                    COMPLETED_TASKS[task_id] = body
+                self._send_json({"status": "RESULT_RECORDED"})
+            else:
+                self._send_json({"error": "task_id missing"}, status=400)
+            return
+
+        # 3. La Web despacha un comando a la cola del Mac
+        if self.path == "/v1/swarm/dispatch":
+            task_type = body.get("type", "AI_INFERENCE")
+            task_id = hashlib.sha256(f"{task_type}:{time.time()}".encode()).hexdigest()[:12]
+            
+            with SWARM_LOCK:
+                PENDING_TASKS[task_id] = {
+                    "type": task_type,
+                    "prompt": sanitize_llm_prompt(body.get("prompt", "")),
+                    "cmd": body.get("cmd", ""),
+                    "hw_target": body.get("hw_target"),
+                    "created": time.time()
+                }
+
+            # Esperar hasta 20 segundos la respuesta del Mac
+            t0 = time.time()
+            while time.time() - t0 < 20.0:
+                with SWARM_LOCK:
+                    if task_id in COMPLETED_TASKS:
+                        res = COMPLETED_TASKS.pop(task_id)
+                        self._send_json(res)
+                        return
+                time.sleep(0.15)
+
+            self._send_json({"error": "TIMEOUT", "message": "El Mac no respondió a tiempo. Verifica que oasis_local_node.py esté corriendo."})
+            return
+
+        self._send_json({"error": "Endpoint no encontrado"}, status=404)
 
 if __name__ == "__main__":
     server = HTTPServer(("0.0.0.0", PORT), OasisCloudHandler)

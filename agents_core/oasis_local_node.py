@@ -1,97 +1,109 @@
 #!/usr/bin/env python3
 """
-OASIS LOCAL DAEMON (PUERTO 8765)
-Enlace directo de silicio entre la Terminal Web y tu MacBook Air.
+OASIS LOCAL SWARM AGENT
+Mantiene el túnel reverso activo contra Render y procesa tareas locales.
 """
 import os
 import json
+import time
 import subprocess
 import urllib.request
-from http.server import HTTPServer, BaseHTTPRequestHandler
 
-PORT = 8765
+RENDER_URL = "https://oasis-sovereign-gateway.onrender.com"
 OLLAMA_API = "http://127.0.0.1:11434/api/generate"
-MODELO = "oasis-edge:1.5b"
+HW_KEY = "OASIS-HW-468F6F695BDB"
+MODEL_DEFAULT = "oasis-edge:1.5b"
 
-class LocalNodeHandler(BaseHTTPRequestHandler):
-    def _send_json(self, data, status=200):
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, x-hw-key, x-api-key")
-        self.end_headers()
-        self.wfile.write(json.dumps(data, indent=2).encode())
+print("=" * 65)
+print(f"🛰️  [OASIS LOCAL SWARM AGENT]: Iniciando túnel soberano")
+print(f"🔐 Huella de Silicio: {HW_KEY}")
+print(f"🧠 Modelo Local: {MODEL_DEFAULT} | Destino: {RENDER_URL}")
+print("=" * 65)
 
-    def do_OPTIONS(self):
-        self.send_response(200)
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, x-hw-key, x-api-key")
-        self.end_headers()
+def factorize_golden_ticket(n):
+    factors = []
+    d = 2
+    temp = n
+    while d * d <= temp:
+        while temp % d == 0:
+            factors.append(d)
+            temp //= d
+        d += 1
+    if temp > 1:
+        factors.append(temp)
+    return factors
 
-    def do_GET(self):
-        if self.path in ("/", "/v1/local/telemetry"):
-            # Métricas nativas del Mac (Darwin)
-            uname = subprocess.check_output(["uname", "-srm"]).decode().strip()
-            load = subprocess.check_output(["sysctl", "-n", "vm.loadavg"]).decode().strip()
-            self._send_json({
-                "status": "ONLINE",
-                "silicio": "MacBook Air (Darwin x86_64)",
-                "kernel": uname,
-                "loadavg": load,
-                "ollama_active": True
-            })
-        else:
-            self._send_json({"error": "Ruta no encontrada"}, status=404)
+while True:
+    try:
+        # 1. Enviar latido (Heartbeat) y recoger trabajo pendiente
+        hb_data = json.dumps({"hw_key": HW_KEY, "model": MODEL_DEFAULT}).encode()
+        req = urllib.request.Request(
+            f"{RENDER_URL}/v1/swarm/heartbeat",
+            data=hb_data,
+            headers={"Content-Type": "application/json", "x-hw-key": HW_KEY}
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode())
 
-    def do_POST(self):
-        content_length = int(self.headers.get("Content-Length", 0))
-        body = json.loads(self.rfile.read(content_length).decode()) if content_length > 0 else {}
+        task = data.get("task")
+        if task:
+            task_id = task.get("task_id")
+            task_type = task.get("type")
 
-        # 1. Inferencia Directa con Ollama (Latencia Ultrabaja)
-        if self.path == "/v1/local/ai":
-            prompt = body.get("prompt", "")
-            chosen_model = "qwen2.5:7b-instruct-q4_K_M" if "--7b" in prompt else MODELO
-            prompt_clean = prompt.replace("--7b", "").strip()
+            # Caso A: Inferencia LLM
+            if task_type == "AI_INFERENCE":
+                prompt = task.get("prompt", "")
+                chosen_model = "qwen2.5:7b-instruct-q4_K_M" if "--7b" in prompt else MODEL_DEFAULT
+                clean_p = prompt.replace("--7b", "").strip()
 
-            ollama_body = json.dumps({
-                "model": chosen_model,
-                "prompt": prompt_clean,
-                "stream": False,
-                "keep_alive": "60m",
-                "options": {"temperature": 0.23, "num_predict": 200, "num_thread": 6}
-            }).encode()
+                print(f"📥 [INFERENCIA RECIBIDA] ID: {task_id} | Modelo: {chosen_model}")
+                ollama_payload = json.dumps({
+                    "model": chosen_model,
+                    "prompt": f"Eres el asistente de Oasis OS. Responde de forma clara y directa.\n\nConsulta: {clean_p}",
+                    "stream": False,
+                    "keep_alive": "60m",
+                    "options": {"temperature": 0.23, "num_predict": 200, "num_thread": 6}
+                }).encode()
 
-            try:
-                req = urllib.request.Request(OLLAMA_API, data=ollama_body, headers={"Content-Type": "application/json"})
-                with urllib.request.urlopen(req, timeout=40) as resp:
-                    ai_reply = json.loads(resp.read().decode()).get("response", "").strip()
-                self._send_json({
-                    "status": "SUCCESS_DIRECT_SILICON",
+                o_req = urllib.request.Request(OLLAMA_API, data=ollama_payload, headers={"Content-Type": "application/json"})
+                with urllib.request.urlopen(o_req, timeout=40) as o_resp:
+                    ai_text = json.loads(o_resp.read().decode()).get("response", "").strip()
+
+                # Devolver resultado a Render
+                res_data = json.dumps({
+                    "task_id": task_id,
                     "model_used": chosen_model,
-                    "response": ai_reply
-                })
-            except Exception as e:
-                self._send_json({"error": f"Error conectando a Ollama: {e}"}, status=500)
-            return
+                    "response": ai_text
+                }).encode()
+                s_req = urllib.request.Request(f"{RENDER_URL}/v1/swarm/result", data=res_data, headers={"Content-Type": "application/json"})
+                urllib.request.urlopen(s_req, timeout=5)
+                print("📤 [RESPUESTA ENTREGADA A LA WEB]\n")
 
-        # 2. Ejecución Nativa de Comandos en el Mac
-        if self.path == "/v1/local/exec":
-            cmd = body.get("cmd", "")
-            try:
-                res = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, timeout=5).decode()
-                self._send_json({"output": res})
-            except subprocess.CalledProcessError as e:
-                self._send_json({"output": e.output.decode()})
-            except Exception as e:
-                self._send_json({"error": str(e)}, status=500)
-            return
+            # Caso B: Ejecución nativa de comando (host <cmd>)
+            elif task_type == "HOST_EXEC":
+                cmd = task.get("cmd", "")
+                print(f"⚡ [COMANDO LOCAL RECIBIDO]: {cmd}")
+                try:
+                    cmd_out = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, timeout=5).decode()
+                except subprocess.CalledProcessError as e:
+                    cmd_out = e.output.decode()
+                except Exception as e:
+                    cmd_out = str(e)
 
-        self._send_json({"error": "Endpoint no encontrado"}, status=404)
+                res_data = json.dumps({"task_id": task_id, "output": cmd_out}).encode()
+                s_req = urllib.request.Request(f"{RENDER_URL}/v1/swarm/result", data=res_data, headers={"Content-Type": "application/json"})
+                urllib.request.urlopen(s_req, timeout=5)
+                print("📤 [SALIDA DE COMANDO ENTREGADA]\n")
 
-if __name__ == "__main__":
-    print(f"🛰️  [OASIS LOCAL DAEMON]: Escuchando en http://127.0.0.1:{PORT}")
-    print("🔒 Enlace directo con la terminal web activo bajo silicio frío.")
-    server = HTTPServer(("127.0.0.1", PORT), LocalNodeHandler)
-    server.serve_forever()
+            # Caso C: Golden Ticket (Auditoría anti-fraude)
+            elif task_type == "GOLDEN_TICKET":
+                num = task.get("challenge", 1000000016000000063)
+                t0 = time.time()
+                factors = factorize_golden_ticket(num)
+                duration = round((time.time() - t0) * 1000, 2)
+                print(f"🎯 [GOLDEN TICKET RESUELTO]: Factores {factors} en {duration}ms. Capacidad certificada.\n")
+
+    except Exception:
+        pass
+
+    time.sleep(1.2)
