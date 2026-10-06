@@ -29,115 +29,130 @@ SPENT_NULLIFIERS = set()
 AUTH_KEYS = {
     MASTER_KEY: {"quota": float("inf"), "owner": "sovereign_root"}
 }
-PROCESSED_TX_HASHES = set()
+VIRTUAL_FS = {}  # Memoria virtual de bloques fragmentados {filename: [chunks]}
+
 VORTEX_CACHE = {}
 MAX_CACHE_ENTRIES = 25000
 
-BATCH_FLUIDS = []
-BATCH_BOUNTIES = []
-QUEUE_LOCK = threading.Lock()
+# HTML/JS de la Terminal Soberana
+TERMINAL_HTML = """<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oasis Sovereign Terminal OS</title>
+<style>
+  :root { --bg: #0a0e14; --fg: #00ff88; --dim: #007744; --accent: #00e5ff; }
+  body { background: var(--bg); color: var(--fg); font-family: 'Courier New', monospace; margin: 0; padding: 20px; box-sizing: border-box; }
+  #terminal { max-width: 900px; margin: 0 auto; background: rgba(0,20,10,0.4); border: 1px solid var(--dim); border-radius: 8px; padding: 20px; box-shadow: 0 0 20px rgba(0,255,136,0.15); }
+  #output { white-space: pre-wrap; word-break: break-all; margin-bottom: 15px; max-height: 70vh; overflow-y: auto; }
+  .prompt-line { display: flex; align-items: center; }
+  .prompt { color: var(--accent); font-weight: bold; margin-right: 10px; }
+  input { flex: 1; background: transparent; border: none; outline: none; color: var(--fg); font-family: inherit; font-size: 1rem; }
+  .dim { color: var(--dim); }
+  .info { color: var(--accent); }
+</style>
+</head>
+<body>
+<div id="terminal">
+  <div id="output">
+  🌌 OASIS SOVEREIGN OS [Terminal v2.4 - Silicio Frío]
+  Conectado a nodo: Render (Fráncfort) | Red: Cosmos IBC / Akash Network
+  Escribe 'help' para ver los comandos disponibles.
+  -------------------------------------------------------------
+  </div>
+  <div class="prompt-line">
+    <span class="prompt">oasis@node:~$</span>
+    <input type="text" id="cmd" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  </div>
+</div>
 
-# Worker de base de datos relacional (cada 2 segundos)
-def supabase_batch_worker():
-    while True:
-        import time
-        time.sleep(2.0)
-        fluids, bounties = [], []
-        with QUEUE_LOCK:
-            if BATCH_FLUIDS:
-                fluids = BATCH_FLUIDS[:50]
-                del BATCH_FLUIDS[:len(fluids)]
-            if BATCH_BOUNTIES:
-                bounties = BATCH_BOUNTIES[:50]
-                del BATCH_BOUNTIES[:len(bounties)]
+<script>
+const out = document.getElementById('output');
+const input = document.getElementById('cmd');
 
-        headers = {
-            "apikey": SUPABASE_KEY,
-            "Authorization": f"Bearer {SUPABASE_KEY}",
-            "Content-Type": "application/json",
-            "Prefer": "return=minimal"
+function print(text, cls='') {
+  const div = document.createElement('div');
+  div.className = cls;
+  div.innerText = text;
+  out.appendChild(div);
+  out.scrollTop = out.scrollHeight;
+}
+
+input.addEventListener('keydown', async (e) => {
+  if (e.key === 'Enter') {
+    const raw = input.value.trim();
+    if (!raw) return;
+    print('oasis@node:~$ ' + raw, 'dim');
+    input.value = '';
+    const parts = raw.split(' ');
+    const command = parts[0].toLowerCase();
+    const args = parts.slice(1);
+
+    if (command === 'help') {
+      print(`COMANDOS DISPONIBLES:
+  status               - Estado del nodo, balance y telemetría
+  ai <prompt>          - Consulta segura con Freno Geométrico
+  vortex <x> <y> <z>   - Simulación de fluidos determinista (16 bytes)
+  fs put <name> <txt>  - Fragmenta y almacena un archivo en bloques
+  fs get <name>        - Desfragmenta y lee el archivo
+  fs list              - Lista archivos en el disco virtual
+  ecash                - Muestra saldo y genera ticket de pago ciego
+  clear                - Limpia la pantalla`);
+    } else if (command === 'clear') {
+      out.innerHTML = '';
+    } else if (command === 'status') {
+      const res = await fetch('/status').then(r=>r.json());
+      print(JSON.stringify(res, null, 2), 'info');
+    } else if (command === 'ai') {
+      const prompt = args.join(' ');
+      print('⏳ Auditando entropía y evaluando prompt...', 'dim');
+      const res = await fetch('/v1/verify', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': 'OASIS-SOVEREIGN-MARIANO-2026'},
+        body: JSON.stringify({prompt})
+      }).then(r=>r.json());
+      print(`Evaluación: ${res.verdict} | Entropía: ${res.shannon_entropy} | Retardo: ${res.recommended_wait_sec}s`, 'info');
+    } else if (command === 'vortex') {
+      const [x, y, z] = args.map(Number);
+      const res = await fetch('/v1/game/vortex', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': 'OASIS-SOVEREIGN-MARIANO-2026'},
+        body: JSON.stringify({x: x||1.0, y: y||0.5, z: z||2.0, t: 0.1})
+      }).then(r=>r.json());
+      print(`Velocidad: [${res.velocity}] | Enstrofía: ${res.enstrophy_bound}`, 'info');
+    } else if (command === 'fs') {
+      const sub = args[0];
+      if (sub === 'put') {
+        const fname = args[1];
+        const content = args.slice(2).join(' ');
+        const res = await fetch('/v1/fs/put', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'x-api-key': 'OASIS-SOVEREIGN-MARIANO-2026'},
+          body: JSON.stringify({filename: fname, content})
+        }).then(r=>r.json());
+        print(`✅ Archivo fragmentado en ${res.chunks_created} bloques (Hash raíz: ${res.root_merkle})`, 'info');
+      } else if (sub === 'get') {
+        const fname = args[1];
+        const res = await fetch('/v1/fs/get?filename=' + fname).then(r=>r.json());
+        if (res.content) {
+          print(`Contenido reensamblado: "${res.content}"`, 'info');
+        } else {
+          print('Archivo no encontrado', 'dim');
         }
-        if fluids:
-            try:
-                url = f"{SUPABASE_URL}/rest/v1/game_fluid_states"
-                req = urllib.request.Request(url, data=json.dumps(fluids).encode(), headers=headers, method="POST")
-                urllib.request.urlopen(req, timeout=5)
-            except Exception:
-                pass
-        if bounties:
-            try:
-                url = f"{SUPABASE_URL}/rest/v1/bounty_proofs"
-                req = urllib.request.Request(url, data=json.dumps(bounties).encode(), headers=headers, method="POST")
-                urllib.request.urlopen(req, timeout=5)
-            except Exception:
-                pass
-
-threading.Thread(target=supabase_batch_worker, daemon=True).start()
-
-# Listener Cosmos / Akash RPC
-def akash_listener_worker():
-    import time
-    while True:
-        try:
-            query = f"transfer.recipient='{AKASH_WALLET}'"
-            url = f"{RPC_NODE}/tx_search?query={urllib.parse.quote(f'\"{query}\"')}&prove=false&page=1&per_page=10&order_by=\"desc\""
-            req = urllib.request.Request(url, headers={"User-Agent": "OasisAutonomousNode/2.4"})
-            with urllib.request.urlopen(req, timeout=7) as resp:
-                data = json.loads(resp.read().decode())
-                txs = data.get("result", {}).get("txs", [])
-
-            for tx in txs:
-                tx_hash = tx.get("hash")
-                if not tx_hash or tx_hash in PROCESSED_TX_HASHES:
-                    continue
-                if tx.get("tx_result", {}).get("code", 0) != 0:
-                    continue
-
-                events = tx.get("tx_result", {}).get("events", [])
-                amount_akt = 0.0
-                sender = ""
-                for ev in events:
-                    if ev.get("type") == "transfer":
-                        for attr in ev.get("attributes", []):
-                            k = attr.get("key", "")
-                            v = attr.get("value", "")
-                            if k == "sender": sender = v
-                            elif k == "amount" and "uakt" in v:
-                                amount_akt = int(v.replace("uakt", "").split(",")[0]) / 1000000.0
-
-                if amount_akt > 0:
-                    credits = int(amount_akt * 10000)
-                    raw_tx = tx.get("tx", "")
-                    credited = False
-                    for key in list(AUTH_KEYS.keys()):
-                        if key in raw_tx:
-                            AUTH_KEYS[key]["quota"] += credits
-                            credited = True
-                            break
-                    if not credited and sender:
-                        f_key = f"OASIS-KEY-{sender[:10]}"
-                        if f_key not in AUTH_KEYS:
-                            AUTH_KEYS[f_key] = {"quota": 1000, "owner": sender}
-                        AUTH_KEYS[f_key]["quota"] += credits
-                    PROCESSED_TX_HASHES.add(tx_hash)
-        except Exception:
-            pass
-        time.sleep(30)
-
-threading.Thread(target=akash_listener_worker, daemon=True).start()
-
-def factorize_integer(n: int):
-    factors = []
-    d = 2
-    temp = n
-    while d * d <= temp:
-        while temp % d == 0:
-            factors.append(d)
-            temp //= d
-        d += 1
-    if temp > 1:
-        factors.append(temp)
-    return factors
+      } else if (sub === 'list') {
+        const res = await fetch('/v1/fs/list').then(r=>r.json());
+        print('Archivos: ' + res.files.join(', '), 'info');
+      }
+    } else {
+      print(`Comando desconocido: '${command}'. Escribe 'help'.`, 'dim');
+    }
+  }
+});
+</script>
+</body>
+</html>
+"""
 
 def compute_game_vortex(x, y, z, t, helicity=1.0):
     cache_key = hashlib.sha256(f"{x:.4f}:{y:.4f}:{z:.4f}:{t:.4f}:{helicity:.4f}".encode()).hexdigest()
@@ -182,57 +197,39 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
-    def _authenticate(self):
-        ecash_hdr = self.headers.get("x-oasis-ecash")
-        if ecash_hdr and ":" in ecash_hdr:
-            try:
-                s_m, s_s = ecash_hdr.split(":")
-                serial_m, signature_s = int(s_m), int(s_s)
-                if pow(signature_s, RSA_E, RSA_N) == (serial_m % RSA_N):
-                    nullifier = hashlib.sha256(str(serial_m).encode()).hexdigest()
-                    if nullifier not in SPENT_NULLIFIERS:
-                        SPENT_NULLIFIERS.add(nullifier)
-                        return True, {"owner": "chaumian_anonymous", "quota": "ecash_spent"}, 200
-                    return False, "Token eCash ya utilizado", 402
-            except Exception:
-                return False, "Cabecera eCash corrupta", 400
-
-        api_key = self.headers.get("x-api-key")
-        if not api_key:
-            return False, f"Pago requerido. Proporciona 'x-api-key'. Recargas a {AKASH_WALLET}", 402
-        if api_key not in AUTH_KEYS:
-            return False, "Clave API no registrada", 403
-
-        entry = AUTH_KEYS[api_key]
-        if entry["quota"] <= 0:
-            return False, f"Cuota agotada. Envía 1 AKT a {AKASH_WALLET} con memo '{api_key}'", 402
-        if entry["quota"] != float("inf"):
-            entry["quota"] -= 1
-        return True, entry, 200
-
     def do_GET(self):
-        if self.path in ("/", "", "/telemetry", "/healthz"):
+        if self.path in ("/", "/terminal"):
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(TERMINAL_HTML.encode("utf-8"))
+        elif self.path in ("/telemetry", "/healthz"):
             self._send_json({
                 "status": "ONLINE",
-                "system": "Oasis Sovereign Monolith (PoUW Compute Grid)",
-                "akash_listener": "ACTIVE",
-                "wallet_beneficiary": AKASH_WALLET,
-                "cached_vortices": len(VORTEX_CACHE),
-                "active_keys": len(AUTH_KEYS)
+                "system": "Oasis Sovereign Monolith & Web Terminal OS",
+                "akash_beneficiary": AKASH_WALLET,
+                "virtual_files_count": len(VIRTUAL_FS)
             })
         elif self.path == "/status":
             self._send_json({
                 "network": "Cosmos IBC / Akash Network",
-                "deposit_address": AKASH_WALLET,
-                "services": [
-                    {"endpoint": "/v1/math/factorize", "price": "0.005 USDC", "desc": "Prime decomposition engine"},
-                    {"endpoint": "/v1/bounty/submit", "price": "0.000 USDC", "desc": "PoUW Proof verification gate"},
-                    {"endpoint": "/v1/netcode/stream-bin", "price": "0.005 USDC", "desc": "16-byte binary stream"},
-                    {"endpoint": "/v1/shield/entropy-score", "price": "0.005 USDC", "desc": "Zero-PII Bot Shield"}
-                ]
+                "wallet": AKASH_WALLET,
+                "endpoints": ["/v1/verify", "/v1/game/vortex", "/v1/fs/put", "/v1/fs/get"]
             })
+        elif self.path.startswith("/v1/fs/get"):
+            query = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+            fname = query.get("filename", [""])[0]
+            if fname in VIRTUAL_FS:
+                # Desfragmentación: Reensambla los bloques ordenados
+                chunks = VIRTUAL_FS[fname]
+                full_content = "".join(chunks)
+                self._send_json({"filename": fname, "content": full_content, "reassembled_chunks": len(chunks)})
+            else:
+                self._send_json({"error": "Archivo no encontrado"}, status=404)
+        elif self.path == "/v1/fs/list":
+            self._send_json({"files": list(VIRTUAL_FS.keys())})
         else:
-            self._send_json({"error": "Endpoint no encontrado"}, status=404)
+            self._send_json({"error": "Ruta no encontrada"}, status=404)
 
     def do_POST(self):
         content_length = int(self.headers.get("Content-Length", 0))
@@ -242,156 +239,44 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         except Exception:
             body = {}
 
-        # 1. Registro Freemium
-        if self.path == "/v1/auth/register":
-            import uuid
-            new_key = f"OASIS-KEY-{uuid.uuid4().hex}"
-            AUTH_KEYS[new_key] = {"quota": 1000, "owner": body.get("client_id", "external_dev")}
-            self._send_json({
-                "api_key": new_key,
-                "free_quota": 1000,
-                "memo_instruction": f"Para recargas envía AKT a {AKASH_WALLET} indicando '{new_key}' en el Memo."
-            }, status=201)
+        # Fragmentación y almacenamiento virtual
+        if self.path == "/v1/fs/put":
+            filename = body.get("filename", "unnamed.dat")
+            content = body.get("content", "")
+            chunk_size = 32  # Micro-bloques para demostración
+            chunks = [content[i:i+chunk_size] for i in range(0, len(content), chunk_size)]
+            VIRTUAL_FS[filename] = chunks
+            root_hash = hashlib.sha256(content.encode()).hexdigest()
+            self._send_json({"filename": filename, "chunks_created": len(chunks), "root_merkle": root_hash})
             return
 
-        # 2. Emisión eCash Chaumiano
-        if self.path == "/v1/ecash/blind-sign":
-            blinded_m = body.get("blinded_message")
-            if not blinded_m:
-                self._send_json({"error": "blinded_message requerido"}, status=400)
-                return
-            blind_sig = pow(int(blinded_m), RSA_D, RSA_N)
-            self._send_json({"blind_signature": blind_sig, "mint_e": RSA_E, "mint_N": RSA_N})
-            return
-
-        # 3. Puerta de Recepción de Cómputo Verificable (Bounties PoUW)
-        if self.path == "/v1/bounty/submit":
-            worker = body.get("worker", "unknown")
-            composite = int(body.get("target_composite", 0))
-            factors = body.get("factors", [])
-            proof_hash = body.get("proof_hash", "")
-
-            # Validación matemática instantánea en O(1)
-            if len(factors) == 2 and (factors[0] * factors[1] == composite):
-                calc_hash = hashlib.sha256(f"{factors[0]}:{factors[1]}:{composite}".encode()).hexdigest()
-                if calc_hash == proof_hash:
-                    proof_record = {
-                        "worker_id": worker,
-                        "target_composite": str(composite),
-                        "verified_factors": factors,
-                        "proof_hash": proof_hash,
-                        "status": "MATHEMATICALLY_VERIFIED"
-                    }
-                    with QUEUE_LOCK:
-                        BATCH_BOUNTIES.append(proof_record)
-                    self._send_json({
-                        "status": "ACCEPTED",
-                        "verdict": "PROOF_OF_USEFUL_WORK_VERIFIED",
-                        "proof_hash": proof_hash
-                    })
-                    return
-            self._send_json({"error": "INVALID_PROOF", "reason": "La descomposición no verifica el compuesto"}, status=400)
-            return
-
-        # Autenticación requerida para el resto de endpoints
-        auth_ok, auth_res, code = self._authenticate()
-        if not auth_ok:
-            self._send_json({"error": "PAGO_REQUERIDO", "motivo": auth_res}, status=code)
-            return
-
-        # 4. Factorización Matemática bajo demanda
-        if self.path == "/v1/math/factorize":
-            number = int(body.get("number", 0))
-            if number <= 1 or number > 10**14:
-                self._send_json({"error": "Número fuera de rango (2 <= n <= 10^14)"}, status=400)
-                return
-            factors = factorize_integer(number)
-            self._send_json({
-                "number": number,
-                "factors": factors,
-                "is_prime": len(factors) == 1,
-                "remaining_quota": auth_res.get("quota")
-            })
-
-        # 5. Netcode Binario (16 Bytes)
-        elif self.path == "/v1/netcode/stream-bin":
-            x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
-            (vel, enstrophy), _, _ = compute_game_vortex(x, y, z, t)
-            bin_payload = struct.pack("!ffff", vel[0], vel[1], vel[2], enstrophy)
-            self.send_response(200)
-            self.send_header("Content-Type", "application/octet-stream")
-            self.send_header("Content-Length", str(len(bin_payload)))
-            self.send_header("x-remaining-quota", str(auth_res.get("quota")))
-            self.end_headers()
-            self.wfile.write(bin_payload)
-
-        # 6. Ciberseguridad Anti-Bot Zero-PII
-        elif self.path == "/v1/shield/entropy-score":
-            intervals = body.get("intervals_ms", [])
-            mean = sum(intervals) / (len(intervals) + 1e-6)
-            self._send_json({
-                "target_id": body.get("target_id", "anon"),
-                "is_bot": len(intervals) >= 3 and mean < 60.0,
-                "entropy_status": "EVALUADO_CON_EXITO",
-                "remaining_quota": auth_res.get("quota")
-            })
-
-        # 7. Simulación de Fluidos
-        elif self.path == "/v1/game/vortex":
-            x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
-            (vel, enstrophy), is_cached, _ = compute_game_vortex(x, y, z, t)
-            with QUEUE_LOCK:
-                BATCH_FLUIDS.append({"session_id": body.get("session_id", "anon"), "helicity": 1.0, "enstrophy_bound": enstrophy, "state_vector": vel})
-            self._send_json({
-                "velocity": vel,
-                "enstrophy_bound": enstrophy,
-                "cache_hit": is_cached,
-                "remaining_quota": auth_res.get("quota")
-            })
-
-        # 8. Freno Geométrico
-        elif self.path == "/v1/brake":
-            attempt = int(body.get("attempt", 0))
-            system_load = float(body.get("system_load", 0.5))
-            ratio = (attempt + 1) / (system_load + 1)
-            deviation = abs(ratio - KAPPA)
-            wait = GOLDEN_WAIT_BASE * (1.0 if deviation < 0.3 else (2.0 if deviation < 0.6 else 4.0))
-            self._send_json({
-                "wait_seconds": round(wait, 4),
-                "ratio": round(ratio, 4),
-                "deviation": round(deviation, 4),
-                "remaining_quota": auth_res.get("quota")
-            })
-
-        # 9. Verificación de Prompt
         elif self.path == "/v1/verify":
             prompt = body.get("prompt", "")
             ent = shannon_entropy(prompt)
-            length = len(prompt)
-            ratio = (length + 1) / (ent + 1)
+            ratio = (len(prompt) + 1) / (ent + 1)
             deviation = abs(ratio - KAPPA)
             is_suspicious = deviation > 0.8 or ent < 1.5
-            wait_time = GOLDEN_WAIT_BASE * (1.0 + deviation) if is_suspicious else 0.0
+            wait = GOLDEN_WAIT_BASE * (1.0 + deviation) if is_suspicious else 0.0
             self._send_json({
-                "prompt_length": length,
+                "prompt_length": len(prompt),
                 "shannon_entropy": ent,
                 "is_safe": not is_suspicious,
-                "recommended_wait_sec": round(wait_time, 4),
-                "remaining_quota": auth_res.get("quota")
+                "recommended_wait_sec": round(wait, 4),
+                "verdict": "APPLY_BRAKE" if is_suspicious else "FORWARD_TO_LLM"
             })
+            return
 
-        # 10. Endurecimiento RSA
-        elif self.path == "/v1/harden":
-            bits = int(body.get("modulus_bits", 2048))
-            factor = (PHI ** -1) * ALPHA
+        elif self.path == "/v1/game/vortex":
+            x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
+            (vel, enstrophy), is_cached, _ = compute_game_vortex(x, y, z, t)
             self._send_json({
-                "original_bits": bits,
-                "hardening_factor": round(factor, 8),
-                "hardened_bits": round(bits * (1.0 + factor), 4),
-                "remaining_quota": auth_res.get("quota")
+                "velocity": vel,
+                "enstrophy_bound": enstrophy,
+                "cache_hit": is_cached
             })
-        else:
-            self._send_json({"error": "Endpoint no encontrado"}, status=404)
+            return
+
+        self._send_json({"error": "Endpoint no encontrado"}, status=404)
 
 if __name__ == "__main__":
     server = HTTPServer(("0.0.0.0", PORT), OasisCloudHandler)
