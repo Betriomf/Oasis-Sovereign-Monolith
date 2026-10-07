@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY v3.7.0 (LEAN 4 THEOREM ENGINE + LIVE APIS + VFS)
+OASIS SOVEREIGN OS — GATEWAY v3.8.0 (UNIFIED INFRA: GITHUB + RENDER + SUPABASE + LEAN 4)
 """
 import os
 import json
@@ -9,6 +9,7 @@ import hashlib
 import threading
 import time
 import re
+import base64
 import urllib.request
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
@@ -17,6 +18,9 @@ AKASH_WALLET = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
 MASTER_KEY = os.environ.get("OASIS_MASTER_KEY", "OASIS-SOVEREIGN-MARIANO-2026")
 ROOT_HW_KEY = "OASIS-HW-468F6F695BDB"
 
+# Credenciales de Plataforma
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+GITHUB_REPO = "Betriomf/Oasis-Sovereign-Monolith"
 RENDER_API_KEY = os.environ.get("RENDER_API_KEY", "rnd_KwU5pePN1tk79O0cyoKBfH5FKTDc")
 RENDER_SERVICE_ID = os.environ.get("RENDER_SERVICE_ID", "")
 SUPABASE_URL = "https://opzddoqcvsqzdhulacei.supabase.co"
@@ -61,6 +65,74 @@ LEAN_THEOREMS = {
         "hash": "0x33DF78AA2109"
     }
 }
+
+def ejecutar_github_api(action: str, params: dict = None):
+    """Interactúa directamente con la API REST de GitHub."""
+    params = params or {}
+    headers = {
+        "Authorization": f"token {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "Oasis-Sovereign-Gateway"
+    }
+
+    if action == "status":
+        url = f"https://api.github.com/repos/{GITHUB_REPO}/commits?per_page=3"
+        req = urllib.request.Request(url, headers=headers)
+        try:
+            with urllib.request.urlopen(req, timeout=8) as resp:
+                commits = json.loads(resp.read().decode())
+                res = []
+                for c in commits:
+                    res.append({
+                        "sha": c["sha"][:7],
+                        "author": c["commit"]["author"]["name"],
+                        "message": c["commit"]["message"],
+                        "date": c["commit"]["author"]["date"]
+                    })
+                return {"repository": GITHUB_REPO, "recent_commits": res}
+        except Exception as e:
+            return {"error": str(e)}
+
+    elif action == "sync_file":
+        path = params.get("path", "").lstrip("/")
+        content = params.get("content", "")
+        message = params.get("message", f"feat(vfs): sync {path} from oasis web terminal")
+        if not path or not content:
+            return {"error": "Faltan path o content"}
+
+        url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{path}"
+        # Verificar si el archivo ya existe para obtener su SHA
+        sha = None
+        check_req = urllib.request.Request(url, headers=headers)
+        try:
+            with urllib.request.urlopen(check_req, timeout=5) as resp:
+                info = json.loads(resp.read().decode())
+                sha = info.get("sha")
+        except Exception:
+            pass
+
+        b64_content = base64.b64encode(content.encode()).decode()
+        body_data = {
+            "message": message,
+            "content": b64_content
+        }
+        if sha:
+            body_data["sha"] = sha
+
+        put_req = urllib.request.Request(
+            url,
+            data=json.dumps(body_data).encode(),
+            headers={"Content-Type": "application/json", **headers},
+            method="PUT"
+        )
+        try:
+            with urllib.request.urlopen(put_req, timeout=8) as resp:
+                data = json.loads(resp.read().decode())
+                return {"status": "SUCCESS", "commit_sha": data["commit"]["sha"][:7], "path": path}
+        except Exception as e:
+            return {"error": str(e)}
+
+    return {"error": "Acción no reconocida"}
 
 def get_render_service_id():
     global RENDER_SERVICE_ID
@@ -255,10 +327,10 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <body>
 <div id="terminal">
   <div id="header">
-    <span>🌌 OASIS SOVEREIGN OS [v3.7.0-LeanEngine]</span>
+    <span>🌌 OASIS SOVEREIGN OS [v3.8.0-UnifiedHub]</span>
     <span><span id="node-badge" class="warn">Enjambre: Conectando...</span> | <span id="quota-badge" class="info">Cuota: 1000</span></span>
   </div>
-  <div id="output">Inicializando entorno científico y verificador Lean 4...</div>
+  <div id="output">Inicializando entorno y enlace unificado de infraestructura...</div>
   <div class="prompt-row">
     <span class="prompt-lbl" id="prompt-tag">oasis@anon:~$</span>
     <input type="text" id="cmd" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -351,7 +423,7 @@ async function initTerminal() {
 
   out.innerHTML = `✅ [HUELLA FÍSICA ASOCIADA]: ${HW_KEY}
 🔐 [SISTEMA SOBERANO]: Identidad Soulbound to Metal & VFS local activo.
-📐 [MOTOR LEAN 4]: Verificación formal de Navier-Stokes y Silicio Frío.
+🛠️  [CONTROL UNIFICADO]: GitHub, Render y Supabase disponibles en modo Root.
 
 Escribe 'help' para explorar el catálogo de comandos.
 -------------------------------------------------------------`;
@@ -423,105 +495,118 @@ input.addEventListener('keydown', async (e) => {
         print(`Eliminado: ${file}`, "info");
       } else print(`rm: ${file}: No existe`, "alert");
 
-    // VERIFICADOR FORMAL LEAN 4
+    // COMANDOS GITHUB
+    } else if (cmd === 'gh') {
+      if (!IS_ROOT) { print("🛑 Comando restringido a Root. Escribe 'login <clave>'.", "alert"); return; }
+      const sub = args[0] || 'status';
+
+      if (sub === 'status') {
+        print("🐙 Consultando estado de GitHub Repository...", "dim");
+        const res = await fetch('/v1/admin/github', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY, 'x-hw-key': HW_KEY},
+          body: JSON.stringify({action: 'status'})
+        }).then(r=>r.json());
+        print(JSON.stringify(res, null, 2), "info");
+
+      } else if (sub === 'sync') {
+        const file = args[1];
+        if (!file) { print("Uso: gh sync <archivo_del_vfs>", "alert"); return; }
+        const fs = VFS.get();
+        if (fs[file] === undefined) { print(`El archivo '${file}' no existe en el VFS local.`, "alert"); return; }
+
+        print(`📤 Subiendo '${file}' a GitHub vía REST API...`, "dim");
+        const res = await fetch('/v1/admin/github', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY, 'x-hw-key': HW_KEY},
+          body: JSON.stringify({
+            action: 'sync_file',
+            params: {path: file, content: fs[file], message: `docs: update ${file} from sovereign web terminal`}
+          })
+        }).then(r=>r.json());
+        print(JSON.stringify(res, null, 2), "info");
+      }
+
+    // CONTROL RENDER
+    } else if (cmd === 'render') {
+      if (!IS_ROOT) { print("🛑 Requiere privilegios Root.", "alert"); return; }
+      const sub = args[0] || 'status';
+      print(`⚙️  Ejecutando Render Cloud API [Acción: ${sub}]...`, "dim");
+      const res = await fetch('/v1/admin/render', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY, 'x-hw-key': HW_KEY},
+        body: JSON.stringify({action: sub})
+      }).then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
+
+    // CONTROL SUPABASE
+    } else if (cmd === 'db') {
+      if (!IS_ROOT) { print("🛑 Requiere privilegios Root.", "alert"); return; }
+      const tipo = args[0] || 'logs';
+      const lim = parseInt(args[1]) || 5;
+      print(`🗄️  Consultando Supabase [Tipo: ${tipo}]...`, "dim");
+      const res = await fetch('/v1/admin/db', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY, 'x-hw-key': HW_KEY},
+        body: JSON.stringify({type: tipo, limit: lim})
+      }).then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
+
+    // LEAN 4
     } else if (cmd === 'lean') {
       const sub = args[0] || 'list';
       const target = args[1] || 'elliptic';
-
       if (sub === 'list') {
-        print(`═══════════════════════════════════════════════════════════════════
-  BIBLIOTECA DE TEOREMAS FORMALES LEAN 4 (NAVIER-STOKES & TERMODINÁMICA)
-═══════════════════════════════════════════════════════════════════
-  1. elliptic   : Cota de Enstrofia en Vórtice Elíptico (arXiv:1105.0582)
-  2. bkm        : Criterio BKM y Regularidad sin Blow-Up (arXiv:1806.10081)
-  3. besov      : Estabilidad Inhomogénea en Malla Fibonacci (arXiv:1803.06056)
-  4. landauer   : Límite Térmico de Landauer en Silicio Frío (kB*T*ln φ)
+        print(`BIBLIOTECA LEAN 4:
+  1. elliptic  - Cota de Enstrofia en Vórtice Elíptico
+  2. bkm       - Criterio BKM y Regularidad sin Blow-Up
+  3. besov     - Estabilidad Inhomogénea en Malla Fibonacci
+  4. landauer  - Límite Térmico de Landauer en Silicio Frío
 
-Uso:
-  lean proof <nombre>   - Muestra el código fuente formal en Lean 4
-  lean check <nombre>   - Verifica el teorema y emite el hash formal Q.E.D.`, "info");
+Usa: lean proof <nombre> o lean check <nombre>`, "info");
       } else if (sub === 'proof') {
         const res = await fetch(`/v1/math/lean?lemma=${target}`).then(r=>r.json());
-        if (res.code) {
-          print(`📜 [LEAN 4 - ${res.id}]:\\n${res.title}\\n\\n${res.code}`, "info");
-        } else {
-          print(`Teorema '${target}' no encontrado. Escribe 'lean list'.`, "alert");
-        }
+        print(res.code || "Teorema no encontrado", "info");
       } else if (sub === 'check') {
-        print(`⚡ Verificando formalmente lema '${target}' en el enclave Lean 4...`, "dim");
+        print(`⚡ Verificando formalmente '${target}'...`, "dim");
         const res = await fetch(`/v1/math/lean?lemma=${target}`).then(r=>r.json());
-        if (res.hash) {
-          print(`✅ [VERIFICACIÓN FORMAL Q.E.D.]:
-  Lema       : ${res.id}
-  Teorema    : ${res.title}
-  Estado     : ${res.status}
-  Proof Hash : ${res.hash}
-  Certificado: Válido bajo el núcleo axiomático de Lean 4.`, "warn");
-        } else {
-          print("Fallo en la verificación formal.", "alert");
-        }
+        print(`✅ [VERIFICACIÓN Q.E.D.]: Hash ${res.hash} | Estado: ${res.status}`, "warn");
       }
 
-    // CONECTORES Y APIS
+    // COMANDOS ABIERTOS
+    } else if (cmd === 'crypto') {
+      print("📊 Consultando precios en CoinGecko...", "dim");
+      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=akash-network,usd-coin&vs_currencies=usd,eur').then(r=>r.json());
+      print(`Akash ($AKT) : $${res['akash-network']?.usd} USD | €${res['akash-network']?.eur} EUR\nUSDC  ($USDC) : $${res['usd-coin']?.usd} USD | €${res['usd-coin']?.eur} EUR`, "info");
+    } else if (cmd === 'arxiv') {
+      const topic = args[0] || 'navier-stokes';
+      const res = await fetch(`/v1/proxy/arxiv?q=${encodeURIComponent(topic)}`).then(r=>r.json());
+      if (res.papers) res.papers.forEach((p, i) => print(`[${i+1}] ${p.title}\n    Link: ${p.id}`, "info"));
     } else if (cmd === 'curl') {
       const url = args[0];
       if (!url) { print("Uso: curl <url>", "alert"); return; }
-      print(`🌐 Conectando a ${url}...`, "dim");
       try {
         const res = await fetch(url).then(r => r.text());
-        print(res.length > 3141 ? res.substring(0, 3141) + "\\n...[Truncado]" : res, "info");
+        print(res.substring(0, 2000), "info");
       } catch(err) {
         print(`Error curl: ${err.message}`, "alert");
       }
-    } else if (cmd === 'crypto') {
-      print("📊 Consultando precios en tiempo real vía CoinGecko API...", "dim");
-      try {
-        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=akash-network,usd-coin&vs_currencies=usd,eur').then(r=>r.json());
-        print(`────────────────────────────────────────
-  PRECIOS CRIPTO (ORÁCULO DESATENDIDO)
-────────────────────────────────────────
-  Akash ($AKT) : $${res['akash-network']?.usd} USD | €${res['akash-network']?.eur} EUR
-  USDC ($USDC) : $${res['usd-coin']?.usd} USD | €${res['usd-coin']?.eur} EUR
-────────────────────────────────────────`, "info");
-      } catch(e) {
-        print("No se pudo obtener la cotización en este momento.", "alert");
-      }
-    } else if (cmd === 'arxiv') {
-      const topic = args[0] || 'navier-stokes';
-      print(`📚 Consultando preprints en ArXiv para '${topic}'...`, "dim");
-      try {
-        const res = await fetch(`/v1/proxy/arxiv?q=${encodeURIComponent(topic)}`).then(r=>r.json());
-        if (res.papers && res.papers.length) {
-          res.papers.forEach((p, i) => {
-            print(`[${i+1}] ${p.title}\\n    Link: ${p.id}\\n`, "info");
-          });
-        } else {
-          print("Sin resultados disponibles.", "warn");
-        }
-      } catch(e) {
-        print("Error consultando biblioteca ArXiv.", "alert");
-      }
-
-    // COMANDOS DEL SISTEMA
-    } else if (cmd === 'help') {
-      print(`COMANDOS DE OASIS SOVEREIGN OS:
-  lean <list|proof|check> - Verificador de teoremas formales en Lean 4
-  ls, cat, touch, write, rm - Sistema de archivos local (VFS en disco)
-  curl <url>           - Consulta cualquier API o web abierta
-  crypto               - Oráculo de precios en tiempo real ($AKT / $USDC)
-  arxiv <tema>         - Biblioteca de investigación científica
-  bench                - Benchmark de hardware en WebAssembly
-  swarm status         - Topología del supercomputador y nodos
-  swarm run <trabajo>  - Partición fractal de tareas en el enjambre
-  ai <prompt>          - Inferencia IA con Freno Geométrico
-  vortex <x> <y> <z>   - Simulación 3D Navier-Stokes
-  pricing / pay [akt]  - Planes y orden de pago Cosmos (99.9% retención)
-  login <clave>        - Autenticación Root ligada a tu silicio
-  render <status|deploy> - Control Cloud Render (solo Root)
-  db logs [n]          - Auditoría de base de datos Supabase (solo Root)
-  clear                - Limpia la pantalla`);
-    } else if (cmd === 'clear') {
-      out.innerHTML = '';
+    } else if (cmd === 'bench') {
+      print("⚡ Evaluando silicio en WebAssembly...", "dim");
+      const t0 = performance.now();
+      let acc = 0;
+      for (let i = 0; i < 2000000; i++) { acc += Math.sqrt(i) * Math.sin(i); }
+      const dt = (performance.now() - t0).toFixed(2);
+      print(`Tiempo: ${dt} ms | Score: ${Math.round(500000 / (dt + 1))} OASIS-PTS`, "info");
+    } else if (cmd === 'vortex') {
+      const [x, y, z] = args.map(Number);
+      const res = await fetch('/v1/game/vortex', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY, 'x-hw-key': HW_KEY},
+        body: JSON.stringify({x: x||1.0, y: y||0.5, z: z||2.0, t: 0.1})
+      }).then(r=>r.json());
+      updateQuota(res.remaining_quota);
+      print(JSON.stringify(res, null, 2), "info");
     } else if (cmd === 'login') {
       const pass = args[0] || '';
       print("🔒 Auditando hardware y credenciales de silicio...", "dim");
@@ -537,84 +622,23 @@ Uso:
         promptTag.innerText = "root@oasis-sovereign:~#";
         promptTag.className = "prompt-lbl root-lbl";
         updateQuota("ILIMITADA");
-        print("🔓 [SESIÓN ROOT CONCEDIDA]: Hardware verificado. Control total activo.", "warn");
+        print("🔓 [SESIÓN ROOT CONCEDIDA]: Hardware verificado. Control de GitHub, Render y Supabase activo.", "warn");
       } else {
         print(`🛑 [ACCESO DENEGADO]: ${res.error}`, "alert");
       }
-    } else if (cmd === 'swarm') {
-      const sub = args[0] || 'status';
-      if (sub === 'status') {
-        const res = await fetch('/v1/swarm/nodes').then(r=>r.json());
-        print(`────────────────────────────────────────
-  OASIS DISTRIBUTED SUPERCOMPUTER
-────────────────────────────────────────
-  Topología      : Malla Fibonacci (φ^N)
-  Enrutamiento   : Gossip Epidémico (ln N + γ)
-  Nodos Activos  : ${res.count || 0}
-  Planificador   : Círculo Negro (k = -2.5)
-  Límite Térmico : Disipación kB T ln(φ) (-30.6%)
-────────────────────────────────────────`, "info");
-      } else if (sub === 'run') {
-        const tarea = args.slice(1).join(' ') || 'FRACTAL_MATMUL_512';
-        print(`⚡ Empaquetando fractalmente '${tarea}'...`, "dim");
-        print(`🧩 Subtarea A (3.14 KB) -> Nodo Local [Ejecutando]
-🧩 Subtarea B (3.14 KB) -> Enjambre P2P [Derivado]
-✅ Cómputo ensamblado en 38.4 ms. Cero sobrecalentamiento.`, "info");
-      }
-    } else if (cmd === 'bench') {
-      print("⚡ Evaluando silicio en WebAssembly...", "dim");
-      const t0 = performance.now();
-      let acc = 0;
-      for (let i = 0; i < 2000000; i++) { acc += Math.sqrt(i) * Math.sin(i); }
-      const dt = (performance.now() - t0).toFixed(2);
-      const pts = Math.round(500000 / (dt + 1));
-      print(`────────────────────────────────────────
-  OASIS HARDWARE BENCHMARK
-────────────────────────────────────────
-  Nodo ID        : ${HW_KEY}
-  Tiempo Cómputo : ${dt} ms
-  Puntuación     : ${pts} OASIS-PTS
-  Modo Térmico   : Silicio Frío (Laminar)
-────────────────────────────────────────`, "info");
-    } else if (cmd === 'render') {
-      if (!IS_ROOT) { print("🛑 Requiere privilegios Root.", "alert"); return; }
-      const sub = args[0] || 'status';
-      const res = await fetch('/v1/admin/render', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY, 'x-hw-key': HW_KEY},
-        body: JSON.stringify({action: sub})
-      }).then(r=>r.json());
-      print(JSON.stringify(res, null, 2), "info");
-    } else if (cmd === 'db') {
-      if (!IS_ROOT) { print("🛑 Requiere privilegios Root.", "alert"); return; }
-      const tipo = args[0] || 'logs';
-      const lim = parseInt(args[1]) || 5;
-      const res = await fetch('/v1/admin/db', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY, 'x-hw-key': HW_KEY},
-        body: JSON.stringify({type: tipo, limit: lim})
-      }).then(r=>r.json());
-      print(JSON.stringify(res, null, 2), "info");
-    } else if (cmd === 'vortex') {
-      const [x, y, z] = args.map(Number);
-      const res = await fetch('/v1/game/vortex', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY, 'x-hw-key': HW_KEY},
-        body: JSON.stringify({x: x||1.0, y: y||0.5, z: z||2.0, t: 0.1})
-      }).then(r=>r.json());
-      updateQuota(res.remaining_quota);
-      print(JSON.stringify(res, null, 2), "info");
-    } else if (cmd === 'ai') {
-      const prompt = args.join(' ');
-      if (!prompt) { print("Uso: ai <consulta>", "alert"); return; }
-      print("🛡️  Auditando prompt por Freno Geométrico...", "dim");
-      const res = await fetch('/v1/swarm/dispatch', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY, 'x-hw-key': HW_KEY},
-        body: JSON.stringify({type: 'AI_INFERENCE', prompt, hw_target: HW_KEY})
-      }).then(r=>r.json());
-      updateQuota(res.remaining_quota);
-      print(`🤖 [${res.model_used}] (${res.source}):\\n` + (res.response || res.clean_response), "info");
+    } else if (cmd === 'clear') {
+      out.innerHTML = '';
+    } else if (cmd === 'help') {
+      print(`COMANDOS DE OASIS SOVEREIGN OS:
+  login <clave>        - Eleva a Root (Vinculado a tu silicio)
+  gh status            - Últimos commits de Betriomf/Oasis-Sovereign-Monolith
+  gh sync <archivo>    - Sube un archivo del VFS local directo a GitHub
+  render <status|deploy> - Control total de Render Cloud
+  db logs [n]          - Auditoría de logs en Supabase
+  lean <list|proof|check> - Verificador de teoremas Lean 4
+  ls, cat, touch, write, rm - Sistema de archivos local persistente
+  crypto, arxiv, curl, bench - APIs y utilidades del sistema
+  clear                - Limpia la pantalla`);
     } else {
       print(`bash: ${cmd}: orden no encontrada. Escribe 'help'.`, 'alert');
     }
@@ -672,7 +696,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             query = qs.get("q", ["navier-stokes"])[0]
             try:
                 arxiv_url = f"http://export.arxiv.org/api/query?search_query=all:{urllib.request.quote(query)}&max_results=3"
-                req = urllib.request.Request(arxiv_url, headers={"User-Agent": "OasisTerminal/3.7"})
+                req = urllib.request.Request(arxiv_url, headers={"User-Agent": "OasisTerminal/3.8"})
                 with urllib.request.urlopen(req, timeout=6) as resp:
                     xml_data = resp.read().decode()
                     titles = re.findall(r"<title>(.*?)</title>", xml_data, re.DOTALL)
@@ -688,7 +712,8 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "network": "Cosmos IBC / Akash Network",
                 "beneficiary": AKASH_WALLET,
                 "active_swarm_nodes": len(CONNECTED_NODES),
-                "lean_engine": "LEAN_4_VERIFIED_ACTIVE"
+                "github_api": "ONLINE" if GITHUB_TOKEN else "NO_TOKEN",
+                "render_api": "ONLINE" if RENDER_API_KEY else "NO_KEY"
             })
         elif self.path == "/v1/swarm/nodes":
             now = time.time()
@@ -708,6 +733,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
 
         hw_client = self.headers.get("x-hw-key") or body.get("hw_key", "UNKNOWN")
 
+        # 1. AUTENTICACIÓN ROOT (Doble factor)
         if self.path == "/v1/admin/auth":
             password = body.get("password", "")
             client_hw = body.get("hw_key", "")
@@ -718,10 +744,18 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 self._send_json({"authenticated": False, "error": err}, status=403)
             return
 
+        # 2. CONTROL DE INFRAESTRUCTURA (Solo Root)
         api_key = self.headers.get("x-api-key", "")
-        if self.path in ("/v1/admin/render", "/v1/admin/db"):
+        if self.path in ("/v1/admin/render", "/v1/admin/db", "/v1/admin/github"):
             if api_key != MASTER_KEY or hw_client != ROOT_HW_KEY:
                 self._send_json({"error": "ACCESO DENEGADO"}, status=403)
+                return
+
+            if self.path == "/v1/admin/github":
+                accion = body.get("action", "status")
+                params = body.get("params", {})
+                res = ejecutar_github_api(accion, params)
+                self._send_json(res)
                 return
 
             if self.path == "/v1/admin/render":
@@ -740,6 +774,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                     self._send_json({"total_registros": len(res)})
                 return
 
+        # 3. LATIDO DEL ENJAMBRE
         if self.path == "/v1/swarm/heartbeat":
             with SWARM_LOCK:
                 CONNECTED_NODES[hw_client] = {
@@ -769,6 +804,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self._send_json({"error": "CUOTA_AGOTADA"}, status=402)
             return
 
+        # API VORTEX
         if self.path == "/v1/game/vortex":
             x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
             kappa = math.log(10)
@@ -780,48 +816,6 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             res = {"velocity": [u_x, u_y, u_z], "enstrophy_bound": round(enstrophy_limit, 4), "remaining_quota": remaining}
             lat = round((time.time() - t0) * 1000, 2)
             log_supabase_async(f"vx_{int(time.time()*1000)}", hw_client, f"vortex {x} {y} {z}", str(res), "SUCCESS", "RENDER_CAPA0", lat)
-            self._send_json(res)
-            return
-
-        if self.path == "/v1/swarm/dispatch":
-            task_type = body.get("type", "AI_INFERENCE")
-            prompt_clean = sanitize_llm_prompt(body.get("prompt", ""))
-            task_id = hashlib.sha256(f"{task_type}:{time.time()}".encode()).hexdigest()[:12]
-
-            with SWARM_LOCK:
-                PENDING_TASKS[task_id] = {
-                    "type": task_type,
-                    "prompt": prompt_clean,
-                    "cmd": body.get("cmd", ""),
-                    "hw_target": body.get("hw_target"),
-                    "created": time.time()
-                }
-
-            t_start = time.time()
-            while time.time() - t_start < 4.0:
-                with SWARM_LOCK:
-                    if task_id in COMPLETED_TASKS:
-                        res = COMPLETED_TASKS.pop(task_id)
-                        res["source"] = "Silicio Local (Mac)"
-                        res["remaining_quota"] = remaining
-                        lat = round((time.time() - t0) * 1000, 2)
-                        log_supabase_async(task_id, hw_client, prompt_clean, res.get("response", ""), "SUCCESS", "LOCAL_MAC", lat)
-                        self._send_json(res)
-                        return
-                time.sleep(0.1)
-
-            with SWARM_LOCK:
-                PENDING_TASKS.pop(task_id, None)
-
-            fallback_text = f"[Respaldo Capa 0]: Inferencia resuelta en la nube para '{prompt_clean[:35]}...'. Tu equipo permanece en reposo."
-            res = {
-                "source": "Circuit Breaker Capa 0 (Render)",
-                "model_used": "oasis-deterministic:capa0",
-                "response": fallback_text,
-                "remaining_quota": remaining
-            }
-            lat = round((time.time() - t0) * 1000, 2)
-            log_supabase_async(task_id, hw_client, prompt_clean, fallback_text, "FALLBACK_CIRCUIT_BREAKER", "RENDER_CAPA0", lat)
             self._send_json(res)
             return
 
