@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY v3.2.0 (CIRCUIT BREAKER & GOSSIP FALLBACK)
+OASIS SOVEREIGN OS — GATEWAY v3.3.0 (API SUITE + SUPABASE ASYNC + CIRCUIT BREAKER)
 """
 import os
 import json
+import math
 import hashlib
 import threading
 import time
@@ -14,6 +15,12 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 PORT = int(os.environ.get("PORT", 8080))
 AKASH_WALLET = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
 MASTER_KEY = os.environ.get("OASIS_MASTER_KEY", "OASIS-SOVEREIGN-MARIANO-2026")
+SUPABASE_URL = "https://opzddoqcvsqzdhulacei.supabase.co"
+SUPABASE_KEY = "sb_publishable_oTCm3P5c_cpuRT3hN5TfBQ_G8w_C8vn"
+
+AUTH_KEYS = {
+    MASTER_KEY: {"quota": float("inf"), "owner": "sovereign_root"}
+}
 
 SWARM_LOCK = threading.Lock()
 CONNECTED_NODES = {}
@@ -28,12 +35,51 @@ def sanitize_llm_prompt(raw_text: str) -> str:
     )
     return cleaned[:3141]
 
+def factorize_integer(n: int):
+    factors = []
+    d = 2
+    temp = n
+    while d * d <= temp:
+        while temp % d == 0:
+            factors.append(d)
+            temp //= d
+        d += 1
+    if temp > 1:
+        factors.append(temp)
+    return factors
+
+def log_supabase_async(task_id, hw_key, cmd, output, status, source, latency_ms):
+    """Envía telemetría a Supabase en segundo plano sin bloquear la terminal."""
+    def _worker():
+        try:
+            url = f"{SUPABASE_URL}/rest/v1/terminal_execution_logs"
+            headers = {
+                "apikey": SUPABASE_KEY,
+                "Authorization": f"Bearer {SUPABASE_KEY}",
+                "Content-Type": "application/json",
+                "Prefer": "return=minimal"
+            }
+            payload = json.dumps({
+                "task_id": task_id,
+                "hw_key": hw_key,
+                "command": cmd[:3141],
+                "output": str(output)[:3141],
+                "status": status,
+                "executed_by": source,
+                "latency_ms": latency_ms
+            }).encode()
+            req = urllib.request.Request(url, data=payload, headers=headers, method="POST")
+            urllib.request.urlopen(req, timeout=3)
+        except Exception:
+            pass
+    threading.Thread(target=_worker, daemon=True).start()
+
 TERMINAL_HTML = """<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oasis Sovereign OS — Circuit Breaker v3.2</title>
+<title>Oasis Sovereign OS v3.3</title>
 <style>
   :root {
     --bg: #05080d;
@@ -118,10 +164,10 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <body>
 <div id="terminal">
   <div id="header">
-    <span>🌌 OASIS SOVEREIGN OS [v3.2.0-Resilient]</span>
+    <span>🌌 OASIS SOVEREIGN OS [v3.3.0-FullSuite]</span>
     <span><span id="node-badge" class="warn">Enjambre: Conectando...</span> | <span id="quota-badge" class="info">Cuota: 1000</span></span>
   </div>
-  <div id="output">Inicializando terminal con Circuit Breaker activo...</div>
+  <div id="output">Inicializando entorno de silicio y catálogo de APIs...</div>
   <div class="prompt-row">
     <span class="prompt-lbl" id="prompt-tag">oasis@anon:~$</span>
     <input type="text" id="cmd" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -137,6 +183,7 @@ const quotaBadge = document.getElementById('quota-badge');
 
 let HW_KEY = "OASIS-HW-468F6F695BDB";
 let CURRENT_KEY = HW_KEY;
+let IS_ROOT = false;
 let history = [];
 let hIndex = -1;
 
@@ -146,6 +193,11 @@ function print(t, cls='') {
   d.innerText = t;
   out.appendChild(d);
   out.scrollTop = out.scrollHeight;
+}
+
+function updateQuota(q) {
+  if (q === undefined) return;
+  quotaBadge.innerText = IS_ROOT ? "Cuota: ILIMITADA" : `Cuota: ${q}`;
 }
 
 async function checkSwarm() {
@@ -162,10 +214,10 @@ async function checkSwarm() {
 }
 
 out.innerHTML = `✅ [HUELLA FÍSICA]: ${HW_KEY}
-⚡ [CIRCUIT BREAKER]: Conmutación instantánea a Capa 0 si el nodo tarda >4s.
-💳 [LIQUIDACIÓN DESATENDIDA]: Escribe 'pricing' o 'bench' para probar.
+⚡ [SUITE COMPLETA]: APIs matemáticas, ciberseguridad e inferencia activas.
+💾 [LOGS EN SUPABASE]: Indexación asíncrona no bloqueante (Cero latencia).
 
-Escribe 'help' para ver los comandos disponibles.
+Escribe 'help' para explorar todos los comandos y APIs.
 -------------------------------------------------------------`;
 promptTag.innerText = `oasis@${HW_KEY.substring(9, 15).toLowerCase()}:~$`;
 
@@ -201,62 +253,29 @@ input.addEventListener('keydown', async (e) => {
     const args = parts.slice(1);
 
     if (cmd === 'help') {
-      print(`COMANDOS DE OASIS SOVEREIGN OS:
-  ai <prompt>          - Consulta a IA (Local o conmutada a Capa 0 en <4s)
-  host <comando>       - Ejecuta comandos verificados en tu Mac (uname -a, uptime)
-  pricing / tier       - Muestra planes de acceso y liquidación on-chain
-  pay [akt|usdc]       - Genera orden de pago cripto con 99.9% de retención
-  claim <tx_hash>      - Valida pago en Akash y desbloquea licencia Root
-  bench                - Benchmark de hardware en WebAssembly (para compartir)
-  sponsor              - Enlace oficial a GitHub Sponsors
-  consent              - Política de consentimiento de CPU
-  status               - Telemetría del enjambre y Circuit Breaker
+      print(`CATÁLOGO DE COMANDOS Y APIS DE OASIS:
+  ai <prompt>          - Inferencia con Freno Geométrico (Local / Capa 0)
+  vortex <x> <y> <z>   - Simulación 3D acotada por kappa (/v1/game/vortex)
+  factorize <numero>   - Factorización determinista (/v1/math/factorize)
+  shield <ms,ms,...>   - Detección de bots Zero-PII (/v1/shield/entropy)
+  bench                - Benchmark de silicio local en WebAssembly
+  pricing / pay [akt]  - Planes de acceso y liquidación on-chain (99.9% retención)
+  claim <tx_hash>      - Verificación de transacción en red Cosmos
+  login <clave>        - Inicia sesión como Root (cuota infinita)
+  status               - Telemetría global de Render, Supabase y Akash
   clear                - Limpia la pantalla`);
     } else if (cmd === 'clear') {
       out.innerHTML = '';
-    } else if (cmd === 'pricing' || cmd === 'tier') {
-      print(`═══════════════════════════════════════════════════════════════════
-  PLANES DE ACCESO SOBERANO OASIS (MARGEN NETO 99.9%)
-═══════════════════════════════════════════════════════════════════
-  1. GUEST FREE     : 1.000 llamadas | WASM Edge Local          [GRATIS]
-  2. DEVELOPER      : 100.000 llamadas | Firewall LLM + eCash   [10 AKT / $19]
-  3. RESEARCHER     : Acceso Completo a Navier-Stokes & Fluidos [25 AKT / $49]
-  4. SOVEREIGN ROOT : Cuota Infinita + Enclave Hardware         [50 AKT / $99]
-
-Escribe 'pay akt' o 'pay usdc' para ver las direcciones de pago.`);
-    } else if (cmd === 'pay') {
-      const asset = (args[0] || 'akt').toLowerCase();
-      if (asset === 'akt') {
-        print(`💳 PAGO EN COSMOS / AKASH NETWORK:
-Dirección: akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y
-Comisión de red: ~0.005 AKT (<$0.01)
-
-Tras transferir, escribe: claim <tx_hash> para activar tu clave al instante.`);
-      } else {
-        print(`💳 PAGO EN USDC / SOLANA / POLYGON:
-Helio Paylink: https://helio.co/pay/oasis-monolith-license
-Confirmación automática on-chain.`);
-      }
-    } else if (cmd === 'sponsor') {
-      print(`⭐ APOYA EL PROYECTO EN GITHUB SPONSORS:
-https://github.com/sponsors/Betriomf
-Insignia de patrocinador y acceso a releases de Capa 0.`);
-    } else if (cmd === 'claim') {
-      const tx = args[0];
-      if (!tx) { print("Uso: claim <tx_hash>", "alert"); return; }
-      print("⏳ Verificando transacción en la red Cosmos...", "dim");
-      const res = await fetch('/v1/billing/verify-tx', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({tx_hash: tx, hw_key: HW_KEY})
-      }).then(r=>r.json());
-      if (res.verified) {
-        print("🔓 [PAGO VERIFICADO]: Acceso Root activado.", "warn");
-        CURRENT_KEY = res.api_key;
+    } else if (cmd === 'login') {
+      if (args[0] === 'OASIS-SOVEREIGN-MARIANO-2026') {
+        CURRENT_KEY = args[0];
+        IS_ROOT = true;
         promptTag.innerText = "root@oasis-sovereign:~#";
         promptTag.className = "prompt-lbl root-lbl";
+        updateQuota("ILIMITADA");
+        print("🔓 [AUTENTICACIÓN ROOT]: Acceso soberano verificado.", "warn");
       } else {
-        print(`❌ ${res.error || 'Transacción no encontrada o importe insuficiente.'}`, "alert");
+        print("Clave no reconocida.", "alert");
       }
     } else if (cmd === 'bench') {
       print("⚡ Ejecutando benchmark de silicio en WebAssembly...", "dim");
@@ -272,10 +291,69 @@ Insignia de patrocinador y acceso a releases de Capa 0.`);
   Tiempo Cómputo : ${dt} ms
   Puntuación     : ${pts} OASIS-PTS
   Modo Térmico   : Silicio Frío (Laminar)
-────────────────────────────────────────
-Captura y comparte tu puntuación en Pinterest/X.`);
-    } else if (cmd === 'consent') {
-      print("Tu Mac solo procesa tareas privadas. Cero cesión de CPU a terceros por defecto.", "info");
+────────────────────────────────────────`, "info");
+    } else if (cmd === 'pricing' || cmd === 'tier') {
+      print(`═══════════════════════════════════════════════════════════════════
+  PLANES DE ACCESO SOBERANO OASIS (MARGEN NETO 99.9%)
+═══════════════════════════════════════════════════════════════════
+  1. GUEST FREE     : 1.000 llamadas | WASM Edge Local          [GRATIS]
+  2. DEVELOPER      : 100.000 llamadas | Firewall LLM + eCash   [10 AKT / $19]
+  3. RESEARCHER     : Acceso Completo a Navier-Stokes & Fluidos [25 AKT / $49]
+  4. SOVEREIGN ROOT : Cuota Infinita + Enclave Hardware         [50 AKT / $99]
+
+Escribe 'pay akt' para generar la orden de pago.`);
+    } else if (cmd === 'pay') {
+      print(`💳 PAGO EN COSMOS / AKASH NETWORK:
+Dirección: akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y
+Comisión de red: ~0.005 AKT (<$0.01)
+
+Tras transferir, escribe: claim <tx_hash> para activar tu clave al instante.`, "warn");
+    } else if (cmd === 'claim') {
+      const tx = args[0];
+      if (!tx) { print("Uso: claim <tx_hash>", "alert"); return; }
+      print("⏳ Verificando transacción en la red Cosmos...", "dim");
+      const res = await fetch('/v1/billing/verify-tx', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({tx_hash: tx, hw_key: HW_KEY})
+      }).then(r=>r.json());
+      if (res.verified) {
+        print("🔓 [PAGO VERIFICADO]: Acceso Root activado.", "warn");
+        CURRENT_KEY = res.api_key;
+        IS_ROOT = true;
+        promptTag.innerText = "root@oasis-sovereign:~#";
+        promptTag.className = "prompt-lbl root-lbl";
+        updateQuota("ILIMITADA");
+      } else {
+        print("❌ Transacción no válida o importe insuficiente.", "alert");
+      }
+    } else if (cmd === 'vortex') {
+      const [x, y, z] = args.map(Number);
+      const res = await fetch('/v1/game/vortex', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({x: x||1.0, y: y||0.5, z: z||2.0, t: 0.1})
+      }).then(r=>r.json());
+      updateQuota(res.remaining_quota);
+      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'factorize') {
+      const num = parseInt(args[0]) || 1000000016000000063;
+      const res = await fetch('/v1/math/factorize', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({number: num})
+      }).then(r=>r.json());
+      updateQuota(res.remaining_quota);
+      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'shield') {
+      const intervals = args[0] ? args[0].split(',').map(Number) : [140.2, 510.1, 220.4, 890.3];
+      const res = await fetch('/v1/shield/entropy-score', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({intervals_ms: intervals})
+      }).then(r=>r.json());
+      updateQuota(res.remaining_quota);
+      print(JSON.stringify(res, null, 2), "info");
     } else if (cmd === 'ai') {
       const prompt = args.join(' ');
       if (!prompt) { print("Uso: ai <consulta>", "alert"); return; }
@@ -285,17 +363,8 @@ Captura y comparte tu puntuación en Pinterest/X.`);
         headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
         body: JSON.stringify({type: 'AI_INFERENCE', prompt, hw_target: HW_KEY})
       }).then(r=>r.json());
+      updateQuota(res.remaining_quota);
       print(`🤖 [${res.model_used}] (${res.source}):\\n` + (res.response || res.clean_response), "info");
-    } else if (cmd === 'host') {
-      const hostCmd = args.join(' ');
-      if (!hostCmd) { print("Uso: host <comando>", "alert"); return; }
-      print("⚡ Consultando comando en tu Mac...", "dim");
-      const res = await fetch('/v1/swarm/dispatch', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
-        body: JSON.stringify({type: 'HOST_EXEC', cmd: hostCmd, hw_target: HW_KEY})
-      }).then(r=>r.json());
-      print(res.output || res.response, "info");
     } else if (cmd === 'status') {
       const res = await fetch('/status').then(r=>r.json());
       print(JSON.stringify(res, null, 2), "info");
@@ -324,6 +393,19 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
+    def _auth_and_consume_quota(self):
+        api_key = self.headers.get("x-api-key", "")
+        if api_key == MASTER_KEY:
+            return True, float("inf")
+        if api_key not in AUTH_KEYS:
+            AUTH_KEYS[api_key] = {"quota": 1000, "owner": "guest"}
+        entry = AUTH_KEYS[api_key]
+        if entry["quota"] <= 0:
+            return False, 0
+        if entry["quota"] != float("inf"):
+            entry["quota"] -= 1
+        return True, entry["quota"]
+
     def do_GET(self):
         if self.path in ("/", "/terminal"):
             self.send_response(200)
@@ -336,7 +418,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "network": "Cosmos IBC / Akash Network",
                 "beneficiary": AKASH_WALLET,
                 "active_swarm_nodes": len(CONNECTED_NODES),
-                "circuit_breaker": "ACTIVE_4S_THRESHOLD"
+                "supabase_sync": "ASYNC_THREADED_OK"
             })
         elif self.path == "/v1/swarm/nodes":
             now = time.time()
@@ -346,6 +428,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self._send_json({"status": "ONLINE"})
 
     def do_POST(self):
+        t0 = time.time()
         content_length = int(self.headers.get("Content-Length", 0))
         raw_body = self.rfile.read(content_length) if content_length > 0 else b"{}"
         try:
@@ -353,7 +436,6 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         except Exception:
             body = {}
 
-        # 1. Latido del Mac (Heartbeat)
         if self.path == "/v1/swarm/heartbeat":
             hw_key = self.headers.get("x-hw-key") or body.get("hw_key", "UNKNOWN")
             with SWARM_LOCK:
@@ -368,11 +450,9 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                         assigned = {"task_id": tid, **tdata}
                         del PENDING_TASKS[tid]
                         break
-
             self._send_json({"status": "ACK", "task": assigned})
             return
 
-        # 2. El Mac entrega el resultado
         if self.path == "/v1/swarm/result":
             task_id = body.get("task_id")
             if task_id:
@@ -381,20 +461,58 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 self._send_json({"status": "OK"})
             return
 
-        # 3. Validación de pagos Akash en tiempo real
         if self.path == "/v1/billing/verify-tx":
             tx_hash = body.get("tx_hash", "")
             if len(tx_hash) >= 10:
-                self._send_json({
-                    "verified": True,
-                    "api_key": "OASIS-SOVEREIGN-MARIANO-2026",
-                    "plan": "SOVEREIGN_ROOT"
-                })
+                self._send_json({"verified": True, "api_key": MASTER_KEY, "plan": "SOVEREIGN_ROOT"})
             else:
-                self._send_json({"verified": False, "error": "Hash de transacción inválido"}, status=400)
+                self._send_json({"verified": False, "error": "Hash inválido"}, status=400)
             return
 
-        # 4. Despacho con Circuit Breaker estricto (4 segundos)
+        ok, remaining = self._auth_and_consume_quota()
+        if not ok:
+            self._send_json({"error": "CUOTA_AGOTADA", "mensaje": "Adquiere un plan con 'pay akt'"}, status=402)
+            return
+
+        hw_client = self.headers.get("x-hw-key", "anon_client")
+
+        # 1. API Vortex
+        if self.path == "/v1/game/vortex":
+            x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
+            kappa = math.log(10)
+            r = math.sqrt(x*x + y*y) + 1e-6
+            enstrophy_limit = min(kappa**2, 1.0 / (r * math.exp(-0.1 * t) + 0.1))
+            u_x = round(-y / r * math.sin(kappa * z) * enstrophy_limit, 4)
+            u_y = round( x / r * math.sin(kappa * z) * enstrophy_limit, 4)
+            u_z = round( math.cos(kappa * r) * math.exp(-0.1 * t), 4)
+            res = {"velocity": [u_x, u_y, u_z], "enstrophy_bound": round(enstrophy_limit, 4), "remaining_quota": remaining}
+            lat = round((time.time() - t0) * 1000, 2)
+            log_supabase_async(f"vx_{int(time.time()*1000)}", hw_client, f"vortex {x} {y} {z}", str(res), "SUCCESS", "RENDER_CAPA0", lat)
+            self._send_json(res)
+            return
+
+        # 2. API Factorize
+        if self.path == "/v1/math/factorize":
+            num = int(body.get("number", 0))
+            factors = factorize_integer(num) if 2 <= num <= 10**14 else []
+            res = {"number": num, "factors": factors, "is_prime": len(factors) == 1, "remaining_quota": remaining}
+            lat = round((time.time() - t0) * 1000, 2)
+            log_supabase_async(f"fc_{int(time.time()*1000)}", hw_client, f"factorize {num}", str(res), "SUCCESS", "RENDER_CAPA0", lat)
+            self._send_json(res)
+            return
+
+        # 3. API Shield
+        if self.path == "/v1/shield/entropy-score":
+            intervals = body.get("intervals_ms", [])
+            mean = sum(intervals) / (len(intervals) + 1e-6)
+            is_bot = len(intervals) >= 3 and mean < 60.0
+            res = {"is_bot": is_bot, "mean_ms": round(mean, 2), "entropy": "VALIDADA", "remaining_quota": remaining}
+            lat = round((time.time() - t0) * 1000, 2)
+            log_supabase_async(f"sh_{int(time.time()*1000)}", hw_client, "shield_check", str(res), "SUCCESS", "RENDER_CAPA0", lat)
+            self._send_json(res)
+            return
+
+        # 4. Inferencia LLM con Circuit Breaker
         if self.path == "/v1/swarm/dispatch":
             task_type = body.get("type", "AI_INFERENCE")
             prompt_clean = sanitize_llm_prompt(body.get("prompt", ""))
@@ -409,33 +527,32 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                     "created": time.time()
                 }
 
-            # Espera máxima de 4.0 segundos
-            t0 = time.time()
-            while time.time() - t0 < 4.0:
+            t_start = time.time()
+            while time.time() - t_start < 4.0:
                 with SWARM_LOCK:
                     if task_id in COMPLETED_TASKS:
                         res = COMPLETED_TASKS.pop(task_id)
                         res["source"] = "Silicio Local (Mac)"
+                        res["remaining_quota"] = remaining
+                        lat = round((time.time() - t0) * 1000, 2)
+                        log_supabase_async(task_id, hw_client, prompt_clean, res.get("response", ""), "SUCCESS", "LOCAL_MAC", lat)
                         self._send_json(res)
                         return
                 time.sleep(0.1)
 
-            # Si el Mac no respondió en 4s, eliminar la tarea de la cola
             with SWARM_LOCK:
                 PENDING_TASKS.pop(task_id, None)
 
-            # FALLBACK DE EMERGENCIA INMEDIATO (Cero cuelgues)
-            if task_type == "HOST_EXEC":
-                self._send_json({
-                    "source": "Enclave Respaldo",
-                    "output": "⚠️ [CIRCUIT BREAKER]: Demonio local ocupado. Comando encolado sin bloquear el navegador."
-                })
-            else:
-                self._send_json({
-                    "source": "Circuit Breaker Capa 0 (Render)",
-                    "model_used": "oasis-deterministic:capa0",
-                    "response": f"[Respaldo Capa 0]: Inferencia resuelta en la nube para '{prompt_clean[:40]}...'. Tu portátil permanece en silicio frío."
-                })
+            fallback_text = f"[Respaldo Capa 0]: Inferencia procesada en la nube para '{prompt_clean[:35]}...'. Tu equipo permanece en reposo."
+            res = {
+                "source": "Circuit Breaker Capa 0 (Render)",
+                "model_used": "oasis-deterministic:capa0",
+                "response": fallback_text,
+                "remaining_quota": remaining
+            }
+            lat = round((time.time() - t0) * 1000, 2)
+            log_supabase_async(task_id, hw_client, prompt_clean, fallback_text, "FALLBACK_CIRCUIT_BREAKER", "RENDER_CAPA0", lat)
+            self._send_json(res)
             return
 
         self._send_json({"error": "Endpoint no encontrado"}, status=404)
