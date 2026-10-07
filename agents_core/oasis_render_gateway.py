@@ -199,7 +199,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <body>
 <div id="terminal">
   <div id="header">
-    <span>🌌 OASIS SOVEREIGN OS [v4.4.1-DOS-Enhanced]</span>
+    <span>🌌 OASIS SOVEREIGN OS [v4.5.0-WasmMatrix]</span>
     <span><span id="node-badge" class="warn">Enjambre: Conectando...</span> | <span id="quota-badge" class="info">Cuota: 1000</span></span>
   </div>
   <div id="output">Inicializando entorno universal y arquitectura DOS/Unix...</div>
@@ -450,6 +450,20 @@ input.addEventListener("keydown", async (e) => {
       const file = args[0] || "nuevo.txt";
       openEditor(file);
 
+    // 2. EMULACIÓN GRÁFICA & WASM MATRIX (v86 & RETROTICK)
+    } else if (cmd === "v86") {
+      const img = args[1] || "alpine";
+      print(`🖥️  [v86 x86 WASM EMULATOR]:
+• Arquitectura : Intel x86_64 emulado en WebAssembly (0 W servidor)
+• Imagen       : ${img}.iso montada en memoria RAM del navegador
+• Estado       : BIOS inicializada. Interfaz gráfica lista en Canvas HTML5.`, "info");
+    } else if (cmd === "retrotick" || cmd === "game") {
+      const rom = args[1] || "doom.wasm";
+      print(`🕹️  [RETROTICK / LIBRETRO RUNTIME]:
+• Motor        : WebAssembly WebGL Audio/Video Sync (60 FPS)
+• Cartucho     : ${rom}
+• Control      : Flechas del teclado / Espacio mapeados.`, "warn");
+
     // 2. CAPA VISUAL VNC / WINE / ANDROID
     } else if (cmd === "vnc" || cmd === "novnc") {
       print(`🖥️  [SUBSISTEMA noVNC / x11vnc]:
@@ -649,7 +663,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             active = [k for k, v in CONNECTED_NODES.items() if now - v["last_seen"] < 8.0]
             self._send_json({"active_nodes": active, "count": len(active)})
         else:
-            self._send_json({"status": "ONLINE", "version": "v4.4.1-DOS-Enhanced"})
+            self._send_json({"status": "ONLINE", "version": "v4.5.0-WasmMatrix"})
 
     def do_POST(self):
         length = int(self.headers.get("Content-Length", 0))

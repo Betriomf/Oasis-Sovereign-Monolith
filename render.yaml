@@ -1,0 +1,38 @@
+services:
+  # 1. Gateway Principal API / Terminal Web 24/7
+  - type: web
+    name: oasis-sovereign-gateway
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: "pip install --upgrade pip"
+    startCommand: "python3 agents_core/oasis_render_gateway.py"
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: AKASH_WALLET
+        value: "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
+
+  # 2. Worker Autónomo para Cómputo Verificable & Akash Listener
+  - type: worker
+    name: oasis-akash-listener-worker
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: "pip install --upgrade pip && pip install httpx websockets"
+    startCommand: "python3 agents_core/oasis_kernel_init_ai.py --mode=worker"
+    autoDeploy: true
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: AKASH_WALLET
+        value: "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
