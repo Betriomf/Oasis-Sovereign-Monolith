@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY v3.3.0 (API SUITE + SUPABASE ASYNC + CIRCUIT BREAKER)
+OASIS SOVEREIGN OS — GATEWAY v3.4.0 (INFRA CONTROL: RENDER API + SUPABASE + CIRCUIT BREAKER)
 """
 import os
 import json
@@ -15,6 +15,10 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 PORT = int(os.environ.get("PORT", 8080))
 AKASH_WALLET = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
 MASTER_KEY = os.environ.get("OASIS_MASTER_KEY", "OASIS-SOVEREIGN-MARIANO-2026")
+
+# Credenciales de Infraestructura
+RENDER_API_KEY = os.environ.get("RENDER_API_KEY", "rnd_KwU5pePN1tk79O0cyoKBfH5FKTDc")
+RENDER_SERVICE_ID = os.environ.get("RENDER_SERVICE_ID", "")
 SUPABASE_URL = "https://opzddoqcvsqzdhulacei.supabase.co"
 SUPABASE_KEY = "sb_publishable_oTCm3P5c_cpuRT3hN5TfBQ_G8w_C8vn"
 
@@ -26,6 +30,84 @@ SWARM_LOCK = threading.Lock()
 CONNECTED_NODES = {}
 PENDING_TASKS = {}
 COMPLETED_TASKS = {}
+
+def get_render_service_id():
+    """Autodescubre el ID del servicio (srv-...) usando la API Key."""
+    global RENDER_SERVICE_ID
+    if RENDER_SERVICE_ID:
+        return RENDER_SERVICE_ID
+    if not RENDER_API_KEY:
+        return None
+    try:
+        url = "https://api.render.com/v1/services?limit=20"
+        req = urllib.request.Request(
+            url,
+            headers={"Authorization": f"Bearer {RENDER_API_KEY}", "Accept": "application/json"}
+        )
+        with urllib.request.urlopen(req, timeout=6) as resp:
+            data = json.loads(resp.read().decode())
+            for item in data:
+                svc = item.get("service", {})
+                nombre = svc.get("name", "").lower()
+                if "oasis" in nombre or "wind" in nombre:
+                    RENDER_SERVICE_ID = svc.get("id")
+                    return RENDER_SERVICE_ID
+            if data:
+                RENDER_SERVICE_ID = data[0].get("service", {}).get("id")
+                return RENDER_SERVICE_ID
+    except Exception as e:
+        print(f"Error autodescubriendo Service ID: {e}")
+    return None
+
+def ejecutar_render_api(action: str):
+    """Controla el servicio en Render mediante su API oficial REST."""
+    sid = get_render_service_id()
+    if not RENDER_API_KEY or not sid:
+        return {"error": "No se pudo resolver el Service ID con la RENDER_API_KEY configurada."}
+
+    headers = {
+        "Authorization": f"Bearer {RENDER_API_KEY}",
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    }
+
+    if action == "status":
+        url = f"https://api.render.com/v1/services/{sid}"
+        req = urllib.request.Request(url, headers=headers)
+    elif action == "deploy":
+        url = f"https://api.render.com/v1/services/{sid}/deploys"
+        req = urllib.request.Request(url, data=b"{}", headers=headers, method="POST")
+    elif action == "restart":
+        url = f"https://api.render.com/v1/services/{sid}/restart"
+        req = urllib.request.Request(url, data=b"{}", headers=headers, method="POST")
+    elif action == "list":
+        url = f"https://api.render.com/v1/services/{sid}/deploys?limit=3"
+        req = urllib.request.Request(url, headers=headers)
+    else:
+        return {"error": f"Accion '{action}' no soportada. Usa: status, deploy, restart o list."}
+
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            return json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        return {"http_code": e.code, "error": e.read().decode()}
+    except Exception as e:
+        return {"error": str(e)}
+
+def consultar_supabase(endpoint_path: str):
+    """Consulta la API REST de Supabase directamente."""
+    url = f"{SUPABASE_URL}/rest/v1/{endpoint_path}"
+    headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": f"Bearer {SUPABASE_KEY}",
+        "Accept": "application/json"
+    }
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            return json.loads(resp.read().decode())
+    except Exception as e:
+        return {"error": str(e)}
 
 def sanitize_llm_prompt(raw_text: str) -> str:
     cleaned = re.sub(
@@ -49,7 +131,6 @@ def factorize_integer(n: int):
     return factors
 
 def log_supabase_async(task_id, hw_key, cmd, output, status, source, latency_ms):
-    """Envía telemetría a Supabase en segundo plano sin bloquear la terminal."""
     def _worker():
         try:
             url = f"{SUPABASE_URL}/rest/v1/terminal_execution_logs"
@@ -79,7 +160,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oasis Sovereign OS v3.3</title>
+<title>Oasis Sovereign OS v3.4</title>
 <style>
   :root {
     --bg: #05080d;
@@ -164,10 +245,10 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <body>
 <div id="terminal">
   <div id="header">
-    <span>🌌 OASIS SOVEREIGN OS [v3.3.0-FullSuite]</span>
+    <span>🌌 OASIS SOVEREIGN OS [v3.4.0-InfraControl]</span>
     <span><span id="node-badge" class="warn">Enjambre: Conectando...</span> | <span id="quota-badge" class="info">Cuota: 1000</span></span>
   </div>
-  <div id="output">Inicializando entorno de silicio y catálogo de APIs...</div>
+  <div id="output">Inicializando consola con control de Render y Supabase...</div>
   <div class="prompt-row">
     <span class="prompt-lbl" id="prompt-tag">oasis@anon:~$</span>
     <input type="text" id="cmd" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
@@ -214,10 +295,10 @@ async function checkSwarm() {
 }
 
 out.innerHTML = `✅ [HUELLA FÍSICA]: ${HW_KEY}
-⚡ [SUITE COMPLETA]: APIs matemáticas, ciberseguridad e inferencia activas.
-💾 [LOGS EN SUPABASE]: Indexación asíncrona no bloqueante (Cero latencia).
+⚡ [INFRAESTRUCTURA]: Control nativo de Render Cloud y Supabase DB disponible.
+🔒 [MODO ROOT]: Escribe 'login OASIS-SOVEREIGN-MARIANO-2026' para administrar la nube.
 
-Escribe 'help' para explorar todos los comandos y APIs.
+Escribe 'help' para explorar el catálogo de comandos.
 -------------------------------------------------------------`;
 promptTag.innerText = `oasis@${HW_KEY.substring(9, 15).toLowerCase()}:~$`;
 
@@ -253,16 +334,16 @@ input.addEventListener('keydown', async (e) => {
     const args = parts.slice(1);
 
     if (cmd === 'help') {
-      print(`CATÁLOGO DE COMANDOS Y APIS DE OASIS:
-  ai <prompt>          - Inferencia con Freno Geométrico (Local / Capa 0)
+      print(`COMANDOS DEL SISTEMA:
+  login <clave>        - Inicia sesión como Root (cuota infinita y control infra)
+  render <accion>      - Control de Render (status, deploy, restart, list)
+  db <accion>          - Control de Supabase (logs [limite], count)
   vortex <x> <y> <z>   - Simulación 3D acotada por kappa (/v1/game/vortex)
-  factorize <numero>   - Factorización determinista (/v1/math/factorize)
-  shield <ms,ms,...>   - Detección de bots Zero-PII (/v1/shield/entropy)
-  bench                - Benchmark de silicio local en WebAssembly
-  pricing / pay [akt]  - Planes de acceso y liquidación on-chain (99.9% retención)
-  claim <tx_hash>      - Verificación de transacción en red Cosmos
-  login <clave>        - Inicia sesión como Root (cuota infinita)
-  status               - Telemetría global de Render, Supabase y Akash
+  factorize <num>      - Factorización determinista (/v1/math/factorize)
+  shield <ms,...>      - Verificación de bot Zero-PII (/v1/shield/entropy)
+  bench                - Benchmark de hardware WebAssembly
+  pricing / pay [akt]  - Planes y pago on-chain (99.9% retención)
+  ai <prompt>          - Inferencia IA con Freno Geométrico
   clear                - Limpia la pantalla`);
     } else if (cmd === 'clear') {
       out.innerHTML = '';
@@ -273,10 +354,31 @@ input.addEventListener('keydown', async (e) => {
         promptTag.innerText = "root@oasis-sovereign:~#";
         promptTag.className = "prompt-lbl root-lbl";
         updateQuota("ILIMITADA");
-        print("🔓 [AUTENTICACIÓN ROOT]: Acceso soberano verificado.", "warn");
+        print("🔓 [AUTENTICACIÓN ROOT]: Reconocido como sovereign_root. Control de infra activo.", "warn");
       } else {
         print("Clave no reconocida.", "alert");
       }
+    } else if (cmd === 'render') {
+      if (!IS_ROOT) { print("🛑 Requiere privilegios Root. Escribe 'login <clave>'.", "alert"); return; }
+      const accion = args[0] || 'status';
+      print(`⚙️  Ejecutando en Render Cloud API [Acción: ${accion}]...`, "dim");
+      const res = await fetch('/v1/admin/render', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({action: accion})
+      }).then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
+    } else if (cmd === 'db') {
+      if (!IS_ROOT) { print("🛑 Requiere privilegios Root. Escribe 'login <clave>'.", "alert"); return; }
+      const tipo = args[0] || 'logs';
+      const lim = parseInt(args[1]) || 5;
+      print(`🗄️  Consultando Supabase [Tipo: ${tipo}]...`, "dim");
+      const res = await fetch('/v1/admin/db', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'x-api-key': CURRENT_KEY},
+        body: JSON.stringify({type: tipo, limit: lim})
+      }).then(r=>r.json());
+      print(JSON.stringify(res, null, 2), "info");
     } else if (cmd === 'bench') {
       print("⚡ Ejecutando benchmark de silicio en WebAssembly...", "dim");
       const t0 = performance.now();
@@ -301,32 +403,11 @@ input.addEventListener('keydown', async (e) => {
   3. RESEARCHER     : Acceso Completo a Navier-Stokes & Fluidos [25 AKT / $49]
   4. SOVEREIGN ROOT : Cuota Infinita + Enclave Hardware         [50 AKT / $99]
 
-Escribe 'pay akt' para generar la orden de pago.`);
+Escribe 'pay akt' para generar la orden.`);
     } else if (cmd === 'pay') {
       print(`💳 PAGO EN COSMOS / AKASH NETWORK:
 Dirección: akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y
-Comisión de red: ~0.005 AKT (<$0.01)
-
-Tras transferir, escribe: claim <tx_hash> para activar tu clave al instante.`, "warn");
-    } else if (cmd === 'claim') {
-      const tx = args[0];
-      if (!tx) { print("Uso: claim <tx_hash>", "alert"); return; }
-      print("⏳ Verificando transacción en la red Cosmos...", "dim");
-      const res = await fetch('/v1/billing/verify-tx', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({tx_hash: tx, hw_key: HW_KEY})
-      }).then(r=>r.json());
-      if (res.verified) {
-        print("🔓 [PAGO VERIFICADO]: Acceso Root activado.", "warn");
-        CURRENT_KEY = res.api_key;
-        IS_ROOT = true;
-        promptTag.innerText = "root@oasis-sovereign:~#";
-        promptTag.className = "prompt-lbl root-lbl";
-        updateQuota("ILIMITADA");
-      } else {
-        print("❌ Transacción no válida o importe insuficiente.", "alert");
-      }
+Comisión: ~0.005 AKT (<$0.01) | Retención: 99.9%`, "warn");
     } else if (cmd === 'vortex') {
       const [x, y, z] = args.map(Number);
       const res = await fetch('/v1/game/vortex', {
@@ -365,9 +446,6 @@ Tras transferir, escribe: claim <tx_hash> para activar tu clave al instante.`, "
       }).then(r=>r.json());
       updateQuota(res.remaining_quota);
       print(`🤖 [${res.model_used}] (${res.source}):\\n` + (res.response || res.clean_response), "info");
-    } else if (cmd === 'status') {
-      const res = await fetch('/status').then(r=>r.json());
-      print(JSON.stringify(res, null, 2), "info");
     } else {
       print(`bash: ${cmd}: orden no encontrada. Escribe 'help'.`, 'alert');
     }
@@ -418,6 +496,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "network": "Cosmos IBC / Akash Network",
                 "beneficiary": AKASH_WALLET,
                 "active_swarm_nodes": len(CONNECTED_NODES),
+                "render_api": "ONLINE" if RENDER_API_KEY else "NO_KEY",
                 "supabase_sync": "ASYNC_THREADED_OK"
             })
         elif self.path == "/v1/swarm/nodes":
@@ -435,6 +514,32 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             body = json.loads(raw_body.decode())
         except Exception:
             body = {}
+
+        api_key = self.headers.get("x-api-key", "")
+
+        # CONTROL DE INFRAESTRUCTURA (Solo Root)
+        if self.path == "/v1/admin/render":
+            if api_key != MASTER_KEY:
+                self._send_json({"error": "ACCESO DENEGADO: Requiere sesion Root"}, status=403)
+                return
+            accion = body.get("action", "status")
+            resultado = ejecutar_render_api(accion)
+            self._send_json(resultado)
+            return
+
+        if self.path == "/v1/admin/db":
+            if api_key != MASTER_KEY:
+                self._send_json({"error": "ACCESO DENEGADO: Requiere sesion Root"}, status=403)
+                return
+            tipo = body.get("type", "logs")
+            lim = body.get("limit", 5)
+            if tipo == "logs":
+                res = consultar_supabase(f"terminal_execution_logs?select=created_at,command,status,latency_ms&order=created_at.desc&limit={lim}")
+                self._send_json({"logs": res})
+            elif tipo == "count":
+                res = consultar_supabase("terminal_execution_logs?select=count")
+                self._send_json({"total_registros": len(res)})
+            return
 
         if self.path == "/v1/swarm/heartbeat":
             hw_key = self.headers.get("x-hw-key") or body.get("hw_key", "UNKNOWN")
@@ -461,14 +566,6 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 self._send_json({"status": "OK"})
             return
 
-        if self.path == "/v1/billing/verify-tx":
-            tx_hash = body.get("tx_hash", "")
-            if len(tx_hash) >= 10:
-                self._send_json({"verified": True, "api_key": MASTER_KEY, "plan": "SOVEREIGN_ROOT"})
-            else:
-                self._send_json({"verified": False, "error": "Hash inválido"}, status=400)
-            return
-
         ok, remaining = self._auth_and_consume_quota()
         if not ok:
             self._send_json({"error": "CUOTA_AGOTADA", "mensaje": "Adquiere un plan con 'pay akt'"}, status=402)
@@ -476,7 +573,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
 
         hw_client = self.headers.get("x-hw-key", "anon_client")
 
-        # 1. API Vortex
+        # API 1: Vortex
         if self.path == "/v1/game/vortex":
             x, y, z, t = float(body.get("x", 1.0)), float(body.get("y", 0.5)), float(body.get("z", 2.0)), float(body.get("t", 0.1))
             kappa = math.log(10)
@@ -491,7 +588,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self._send_json(res)
             return
 
-        # 2. API Factorize
+        # API 2: Factorize
         if self.path == "/v1/math/factorize":
             num = int(body.get("number", 0))
             factors = factorize_integer(num) if 2 <= num <= 10**14 else []
@@ -501,7 +598,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self._send_json(res)
             return
 
-        # 3. API Shield
+        # API 3: Shield
         if self.path == "/v1/shield/entropy-score":
             intervals = body.get("intervals_ms", [])
             mean = sum(intervals) / (len(intervals) + 1e-6)
@@ -512,7 +609,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self._send_json(res)
             return
 
-        # 4. Inferencia LLM con Circuit Breaker
+        # Inferencia con Circuit Breaker
         if self.path == "/v1/swarm/dispatch":
             task_type = body.get("type", "AI_INFERENCE")
             prompt_clean = sanitize_llm_prompt(body.get("prompt", ""))
@@ -543,7 +640,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             with SWARM_LOCK:
                 PENDING_TASKS.pop(task_id, None)
 
-            fallback_text = f"[Respaldo Capa 0]: Inferencia procesada en la nube para '{prompt_clean[:35]}...'. Tu equipo permanece en reposo."
+            fallback_text = f"[Respaldo Capa 0]: Inferencia resuelta en la nube para '{prompt_clean[:35]}...'. Tu equipo permanece en reposo."
             res = {
                 "source": "Circuit Breaker Capa 0 (Render)",
                 "model_used": "oasis-deterministic:capa0",
