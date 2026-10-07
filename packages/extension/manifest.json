@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Oasis Swarm: Sovereign Node",
+  "version": "4.1.0",
+  "description": "Micro-nodo soberano de computaci\u00f3n distribuida sin fuga PII.",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_title": "Oasis Swarm Node"
+  }
+}
