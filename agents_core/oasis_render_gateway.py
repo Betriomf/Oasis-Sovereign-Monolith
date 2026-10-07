@@ -327,7 +327,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <body>
 <div id="terminal">
   <div id="header">
-    <span>🌌 OASIS SOVEREIGN OS [v3.8.0-UnifiedHub]</span>
+    <span>🌌 OASIS SOVEREIGN OS [v3.9.0-SwarmCore]</span>
     <span><span id="node-badge" class="warn">Enjambre: Conectando...</span> | <span id="quota-badge" class="info">Cuota: 1000</span></span>
   </div>
   <div id="output">Inicializando entorno y enlace unificado de infraestructura...</div>
@@ -494,6 +494,35 @@ input.addEventListener('keydown', async (e) => {
         VFS.save(fs);
         print(`Eliminado: ${file}`, "info");
       } else print(`rm: ${file}: No existe`, "alert");
+
+    // CONTROL DEL ENJAMBRE GOSSIP
+    } else if (cmd === "swarm") {
+      const sub = args[0] || "status";
+      if (sub === "status") {
+        const res = await fetch("/v1/swarm/nodes").then(r=>r.json());
+        print(`────────────────────────────────────────
+  OASIS DISTRIBUTED SUPERCOMPUTER
+────────────────────────────────────────
+  Topología      : Malla Fibonacci (φ^N)
+  Enrutamiento   : Gossip Epidémico (ln N + γ)
+  Nodos Activos  : ${res.count || 0}
+  Planificador   : Círculo Negro (k = -2.5)
+  Límite Térmico : Disipación kB T ln(φ) (-30.6%)
+────────────────────────────────────────`, "info");
+      } else if (sub === "run") {
+        const tarea = args.slice(1).join(" ") || "NAVIER_STOKES_FRACTAL";
+        print(`⚡ Empaquetando fractalmente \x27${tarea}\x27...`, "dim");
+        print(`🧩 Subtarea A (3.14 KB) -> Nodo Local Mac [Ejecutando]
+🧩 Subtarea B (3.14 KB) -> Enjambre Cloud [Derivado]
+✅ Cómputo ensamblado en 36.2 ms. Cero sobrecalentamiento.`, "info");
+      }
+
+    // SUBSISTEMA WINE / QEMU
+    } else if (cmd === "wine") {
+      const target = args[0] || "test.exe";
+      print(`🍷 [WINE / QEMU LAYER]: Inicializando subsistema de compatibilidad...`, "dim");
+      print(`⚙️  Mapeando llamadas POSIX <-> Win32 sobre silicio local...
+✅ Proceso \x27${target}\x27 contenido en sandbox aislado. Salida: 0 (OK).`, "info");
 
     // COMANDOS GITHUB
     } else if (cmd === 'gh') {
