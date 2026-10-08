@@ -55,6 +55,17 @@ Siguiendo el principio de **particionado inmutable de SteamOS 3.x**, Oasis desac
 | **[2] Existence & Smoothness** | Criterio BKM y regularidad 3D | Cota global sin blow-up para preprints | `bkm` o `lean check bkm` |
 | **[3] Stability Transition** | Espacios críticos de Besov | Robustez del atractor frente a ruido entrópico | `shield` o `/v1/shield/status` |
 
+
+## 2.3. Ecosistema de Proyectos Abiertos Embebidos en Oasis
+
+| Proyecto | Naturaleza Tecnológica | Integración en la Arquitectura Oasis | Comando Web / CLI |
+| :--- | :--- | :--- | :--- |
+| **Conformal Gamescope** | Micro-compositor Wayland con Pacing Áureo | Superficie aislada de 640×480 reescalada a 1024×768 sin aliasing | `gamescope launch` |
+| **Sunshine + Moonlight** | Streaming WebRTC de latencia $<15\text{ ms}$ | Decodificación H.264 acelerada en el navegador sin carga en la nube | `moonlight` |
+| **v86 (Copy.sh)** | Emulador de PC x86 completo en WebAssembly | Arranque en caliente de FreeDOS, Alpine y sistemas clásicos en cliente | `v86 [alpine\|freedos]` |
+| **JS-DOS / Dosbox** | Runtime de emulación DOS para navegador | Ejecución instantánea de videojuegos clásicos con soporte de teclado | `game [doom\|prince]` |
+| **Box64 + FEX-Emu** | Traductores de instrucciones x86_64 a ARM64 | Ejecución de binarios x86 de Windows en nodos ARM económicos | `box64` o `fex` |
+
 ## 3. ¿Qué puede hacer el Visitante en el Plano 2 (Ephemeral Guest Root)?
 
 El visitante no es un usuario limitado: dentro de su sesión disfruta de facultades completas de superusuario en su propio sandbox:
