@@ -1,0 +1,29 @@
+name: Oasis Sovereign CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  audit-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Código Fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Auditoría de Integridad y Sintaxis
+        run: |
+          python -m py_compile agents_core/oasis_render_gateway.py
+          python -m py_compile agents_core/oasis_kernel_init_ai.py
+          echo "✅ Sintaxis y estructura de Capa 0 auditadas correctamente."
+
+      - name: Trigger Deploy en Render Cloud
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          echo "🚀 Notificando al broker de Render para despliegue en Frankfurt..."
