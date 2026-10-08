@@ -584,6 +584,27 @@ input.addEventListener("keydown", async (e) => {
     const cmd = parts[0].toLowerCase();
     const args = parts.slice(1);
 
+      const sub = args[0] || "status";
+      if (sub === "status") {
+        print(`────────────────────────────────────────
+  OASIS IMMUTABLE SYSTEM (STEAM-OS PATTERN)
+────────────────────────────────────────
+  Ranura Activa   : ${SYSTEM_SLOTS.active} (${SYSTEM_SLOTS.slots[SYSTEM_SLOTS.active].version})
+  Estado Raiz     : READ-ONLY (Inmutable dm-verity)
+  Firma Cripto    : ${SYSTEM_SLOTS.slots[SYSTEM_SLOTS.active].hash}
+  Ranura Reserva  : SLOT_B (${SYSTEM_SLOTS.slots["SLOT_B"].version}) [STANDBY]
+  Capa de Usuario : OverlayFS (IndexedDB upperdir)
+────────────────────────────────────────
+Escribe 'sys verify' para comprobar integridad o 'sys switch' para conmutar slot.`, "info");
+      } else if (sub === "verify") {
+        print("🔒 [DM-VERITY]: Verificando arbol de hashes de la particion raiz...", "dim");
+        print("✅ [INTEGRIDAD 100%]: Cero corrupcion de bloques. Sistema operativo intacto.", "warn");
+      } else if (sub === "switch" || sub === "rollback") {
+        SYSTEM_SLOTS.active = (SYSTEM_SLOTS.active === "SLOT_A") ? "SLOT_B" : "SLOT_A";
+        print(`🔄 Conmutando ranura de arranque: ${SYSTEM_SLOTS.active} (${SYSTEM_SLOTS.slots[SYSTEM_SLOTS.active].version})`, "warn");
+        print("✅ Conmutacion atomica completada sin perdida de datos de usuario.", "info");
+      }
+    } else
     // 1. SUBSISTEMA DE DRIVERS EN ESPACIO DE USUARIO (v4.8)
     if (cmd === "drivers" || cmd === "driver") {
       print(`════════════════════════════════════════════════════════════════

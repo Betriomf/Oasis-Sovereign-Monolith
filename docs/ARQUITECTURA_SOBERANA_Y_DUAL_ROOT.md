@@ -39,6 +39,13 @@ Oasis adopta el paradigma de **micronúcleo y traductores de GNU Hurd / VirtIO**
 
 ---
 
+
+## 2.1. Arquitectura de Almacenamiento Inmutable (SteamOS A/B Pattern)
+
+Siguiendo el principio de **particionado inmutable de SteamOS 3.x**, Oasis desacopla el núcleo del sistema del espacio mutable del usuario mediante **Dual-Slot A/B con OverlayFS**:
+* **Slot A / Slot B:** Dos particiones idénticas de solo lectura con verificación criptográfica dm-verity. Las actualizaciones del sistema se aplican en la ranura inactiva en segundo plano.
+* **OverlayFS:** Los cambios, configuraciones y datos de usuario se almacenan en una capa superior mutable aislada, permitiendo conmutar o restaurar versiones de kernel sin pérdida de datos.
+
 ## 3. ¿Qué puede hacer el Visitante en el Plano 2 (Ephemeral Guest Root)?
 
 El visitante no es un usuario limitado: dentro de su sesión disfruta de facultades completas de superusuario en su propio sandbox:
