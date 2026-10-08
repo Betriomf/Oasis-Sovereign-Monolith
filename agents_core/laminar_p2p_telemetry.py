@@ -71,6 +71,16 @@ class LaminarP2PTelemetry:
                 pass
             time.sleep(round(math.pi / PHI, 2))  # Cadencia áurea ~1.94s
 
+
+    def servir_asset_local(self, filename):
+        rom_dir = os.path.expanduser("~/Oasis-Tools/roms")
+        os.makedirs(rom_dir, exist_ok=True)
+        file_path = os.path.join(rom_dir, filename)
+        if os.path.exists(file_path):
+            with open(file_path, "rb") as f:
+                return f.read()
+        return None
+
     def ejecutar_servidor(self):
         print("🌌 [MAESTRO DARWIN]: Servidor de Telemetría P2P Activo")
         print(f"  ├─ Identidad Silicio : {self.identity}")
