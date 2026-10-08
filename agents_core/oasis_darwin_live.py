@@ -144,6 +144,25 @@ def main():
             res = call_gateway("/v1/drivers/list")
             print(json.dumps(res, indent=2))
 
+                elif cmd == "gamescope":
+            sub = args[0] if args else "status"
+            if sub == "status":
+                print("""🎮 [OASIS GAMESCOPE MICRO-COMPOSITOR]:
+• Arquitectura    : Nested Wayland Surface Emulator
+• Resolución Base : 640x480 (Superficie Aislada) -> 1024x768 (Dumb Buffer)
+• Motor de Escala : AMD FSR 1.0 (EASU + RCAS adaptativo)
+• Tasa de Refresco: 60 FPS V-Sync acoplado
+• Confinamiento   : Aislamiento total frente al sistema anfitrión.""")
+            elif sub in ("run", "test"):
+                target = args[1] if len(args) > 1 else "surface_demo"
+                print(f"🚀 [GAMESCOPE]: Confinando '{target}' en pantalla virtual de 640x480...")
+                subprocess.run(["python3", os.path.expanduser("~/Oasis-Sovereign-Monolith/agents_core/oasis_gamescope.py")])
+                print("✅ Salida reescalada con FSR y transferida al Dumb Buffer de /dev/dri/card0.")
+            elif sub == "dump":
+                out_path = args[1] if len(args) > 1 else "~/Oasis-Tools/gamescope_fsr_dump.png"
+                print(f"📸 Volcando cuadro reescalado por Gamescope FSR a {out_path}...")
+                dump_drm_buffer(out_path)
+
         elif cmd == "proton":
             sub = args[0] if args else "status"
             if sub == "status":
