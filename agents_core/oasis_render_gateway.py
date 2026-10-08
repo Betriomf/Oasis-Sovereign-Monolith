@@ -275,7 +275,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <body>
 <div id="terminal">
   <div id="header">
-    <span>🌌 OASIS SOVEREIGN OS [v4.8.0-DriverMesh]</span>
+    <span>🌌 OASIS SOVEREIGN OS [v4.8.1-UniversalRoot]</span>
     <span><span id="node-badge" class="warn">Enjambre: Conectando...</span> | <span id="quota-badge" class="info">Cuota: 1000</span></span>
   </div>
   <div id="output">Inicializando bus de controladores de espacio de usuario y enlace DRM...</div>
@@ -430,7 +430,23 @@ Escribe 'help' para explorar el catálogo de comandos.
   setInterval(checkSwarm, 3000);
 }
 
-initTerminal();
+
+  // INICIALIZACIÓN CON ROOT POR DEFECTO PARA CUALQUIER VISITANTE
+  const clientHW = await getDeterministicHardwareKey();
+  if (clientHW === "OASIS-HW-468F6F695BDB") {
+    IS_ROOT = true;
+    promptTag.innerText = "root@oasis-sovereign:~#";
+    promptTag.className = "prompt-lbl root-lbl";
+    updateQuota("ILIMITADA");
+  } else {
+    // Visitante externo: Root en su Sandbox Soberano
+    IS_ROOT = true;
+    promptTag.innerText = "root@oasis-guest:~#";
+    promptTag.className = "prompt-lbl root-lbl";
+    updateQuota("SANDBOX-ROOT");
+  }
+
+  initTerminal();
 
 function openVisualModal(title) {
   visualTitle.innerText = title;
@@ -799,7 +815,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                     task = {"task_id": tid, **task_data}
             self._send_json({"task": task})
         else:
-            self._send_json({"status": "ONLINE", "version": "v4.8.0-DriverMesh", "darwin_online": darwin_alive})
+            self._send_json({"status": "ONLINE", "version": "v4.8.1-UniversalRoot", "darwin_online": darwin_alive})
 
     def do_POST(self):
         length = int(self.headers.get("Content-Length", 0))
