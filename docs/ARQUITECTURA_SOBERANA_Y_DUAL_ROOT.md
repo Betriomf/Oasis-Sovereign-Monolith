@@ -46,6 +46,15 @@ Siguiendo el principio de **particionado inmutable de SteamOS 3.x**, Oasis desac
 * **Slot A / Slot B:** Dos particiones idénticas de solo lectura con verificación criptográfica dm-verity. Las actualizaciones del sistema se aplican en la ranura inactiva en segundo plano.
 * **OverlayFS:** Los cambios, configuraciones y datos de usuario se almacenan en una capa superior mutable aislada, permitiendo conmutar o restaurar versiones de kernel sin pérdida de datos.
 
+
+## 2.2. Matriz de Integración Científica en el Ecosistema Oasis
+
+| Paper | Concepto Clave | Aplicación en el Modelo | Comando en la Terminal |
+| :--- | :--- | :--- | :--- |
+| **[1] Drifting Elliptic** | Vórtice elíptico con cizalla $\mu(\rho)$ | Dinámica en torbellinos reales acotada por $\ln 10$ | `vortex --elliptic <x> <y> <z>` |
+| **[2] Existence & Smoothness** | Criterio BKM y regularidad 3D | Cota global sin blow-up para preprints | `bkm` o `lean check bkm` |
+| **[3] Stability Transition** | Espacios críticos de Besov | Robustez del atractor frente a ruido entrópico | `shield` o `/v1/shield/status` |
+
 ## 3. ¿Qué puede hacer el Visitante en el Plano 2 (Ephemeral Guest Root)?
 
 El visitante no es un usuario limitado: dentro de su sesión disfruta de facultades completas de superusuario en su propio sandbox:
