@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY v5.6.0 (UNIVERSAL RUNTIME LAUNCHER & SWARM MESH)
+OASIS SOVEREIGN OS — GATEWAY v5.6.1 (HAMILTON FAIL-SAFE & P2P MESH)
 """
 import os
 import json
@@ -144,9 +144,9 @@ TERMINAL_HTML = """<!DOCTYPE html>
 <body>
 <div id="terminal">
   <div id="nav-bar">
-    <button class="tab-btn active" onclick="switchTab('cli')">💻 Consola Soberana</button>
-    <button class="tab-btn" onclick="switchTab('swarm')">🌐 Malla Enjambre P2P (<span id="swarm-count">1</span>)</button>
-    <button class="tab-btn" onclick="switchTab('darwin')">🍏 Telemetría Darwin</button>
+    <button class="tab-btn active" id="tab-cli" onclick="switchTab('cli')">💻 Consola Soberana</button>
+    <button class="tab-btn" id="tab-swarm" onclick="switchTab('swarm')">🌐 Malla Enjambre P2P (<span id="swarm-count">1</span>)</button>
+    <button class="tab-btn" id="tab-darwin" onclick="switchTab('darwin')">🍏 Telemetría Darwin</button>
     <span style="margin-left: auto; font-size: 0.8rem; align-self: center;" id="status-badge" class="info">🟢 Conectado</span>
   </div>
 
@@ -162,7 +162,7 @@ TERMINAL_HTML = """<!DOCTYPE html>
     <div class="card">
       <div style="font-weight: bold; color: var(--accent); margin-bottom: 6px;">🌀 TOPOLOGÍA GOSSIP (Golod-Shafarevich r > d²/4)</div>
       <div style="font-size: 0.85rem;">
-        Cada nodo en la web calcula fragmentos de vórtices en segundo plano sin coste en servidor.
+        Cada nodo web calcula fragmentos de vórtices en segundo plano sin coste de servidor.
       </div>
       <div style="margin-top: 10px; font-size: 0.85rem;">
         <strong>Potencia Agregada:</strong> <span id="swarm-power" class="info">Calculando...</span> |
@@ -205,6 +205,13 @@ TERMINAL_HTML = """<!DOCTYPE html>
 </div>
 
 <script>
+// Manejador Global Fail-Safe de Margaret Hamilton
+window.onerror = function(msg, url, line) {
+  const o = document.getElementById("output");
+  if (o) o.innerHTML += "\n⚠️ [ALARMA HAMILTON]: " + msg + " (Línea " + line + ")";
+  return false;
+};
+
 const out = document.getElementById("output");
 const input = document.getElementById("cmd");
 const visualModal = document.getElementById("visual-modal");
@@ -223,15 +230,15 @@ const myNodeId = "WEB-" + Math.random().toString(36).substring(2, 8).toUpperCase
 const SYSTEM_SLOTS = {
   active: "SLOT_A",
   slots: {
-    SLOT_A: { version: "v5.6.0", hash: "0x8F92A1B4CD01", status: "VERIFIED_RO" },
-    SLOT_B: { version: "v5.5.0", hash: "0x7E31D89A11F0", status: "STANDBY_RO" }
+    SLOT_A: { version: "v5.6.1", hash: "0x8F92A1B4CD01", status: "VERIFIED_RO" },
+    SLOT_B: { version: "v5.6.0", hash: "0x7E31D89A11F0", status: "STANDBY_RO" }
   }
 };
 
 const VFS = {
   lower: {
-    "/etc/issue": "Welcome to Oasis Sovereign OS (Immutable Core)\n",
-    "/bin/oasis": "[Oasis Monolith Binary]"
+    "/etc/issue": `Welcome to Oasis Sovereign OS (Immutable Core)\n`,
+    "/bin/oasis": `[Oasis Monolith Binary]`
   },
   getUpper: () => {
     try { return JSON.parse(localStorage.getItem("oasis_upper")) || {}; }
@@ -262,9 +269,11 @@ const VFS = {
 function switchTab(id) {
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
   document.querySelectorAll(".pane").forEach(p => p.classList.remove("active"));
-  document.getElementById("pane-" + id).classList.add("active");
-  event.target.classList.add("active");
-  if (id === "cli") input.focus();
+  const targetPane = document.getElementById("pane-" + id);
+  const targetTab = document.getElementById("tab-" + id);
+  if (targetPane) targetPane.classList.add("active");
+  if (targetTab) targetTab.classList.add("active");
+  if (id === "cli" && input) input.focus();
 }
 
 function print(t, cls="") {
@@ -287,11 +296,11 @@ function closeVisual() {
   retroCanvas.style.display = "none";
   dosContainer.style.display = "none";
   dosContainer.innerHTML = "";
-  input.focus();
+  if (input) input.focus();
 }
 
-btnCloseVisual.addEventListener("click", closeVisual);
-btnFullscreen.addEventListener("click", () => {
+if (btnCloseVisual) btnCloseVisual.addEventListener("click", closeVisual);
+if (btnFullscreen) btnFullscreen.addEventListener("click", () => {
   if (!document.fullscreenElement) visualModal.requestFullscreen().catch(e=>alert(e.message));
   else document.exitFullscreen();
 });
@@ -368,43 +377,53 @@ async function refreshSwarmTelemetry() {
       body: JSON.stringify({node_id: myNodeId, cycles: localCycles})
     }).then(r => r.json());
 
-    document.getElementById("swarm-count").innerText = res.active_nodes.length;
-    document.getElementById("swarm-power").innerText = (res.active_nodes.length * 3.14).toFixed(2) + " W (Laminar)";
+    const sc = document.getElementById("swarm-count");
+    const sp = document.getElementById("swarm-power");
+    if (sc) sc.innerText = res.active_nodes.length;
+    if (sp) sp.innerText = (res.active_nodes.length * 3.14).toFixed(2) + " W (Laminar)";
 
     const tbody = document.getElementById("nodes-table-body");
-    tbody.innerHTML = res.active_nodes.map(n => `
-      <tr>
-        <td>${n.id}</td>
-        <td>${n.type}</td>
-        <td>${n.cycles} ciclos</td>
-        <td><span class="info">SINCRONIZADO</span></td>
-      </tr>
-    `).join("");
+    if (tbody) {
+      tbody.innerHTML = res.active_nodes.map(n => `
+        <tr>
+          <td>${n.id}</td>
+          <td>${n.type}</td>
+          <td>${n.cycles} ciclos</td>
+          <td><span class="info">SINCRONIZADO</span></td>
+        </tr>
+      `).join("");
+    }
 
     const d = res.darwin;
-    if (d && d.active) {
-      document.getElementById("darwin-content").innerHTML = `
-        • <strong>Estado:</strong> <span class="info">🟢 ENLACE DIRECTO ACTIVO</span><br>
-        • <strong>Carga 1m:</strong> ${d.specs.load_1m || 0.70} | <strong>Temperatura:</strong> ${d.specs.temp_celsius || 43.5} °C<br>
-        • <strong>Potencia:</strong> ${d.specs.power_watts || 3.95} W (Límite ≤ 5.39 W)<br>
-        • <strong>Balance SPN:</strong> ${d.specs.spn_balance || 0.063} $SPN<br>
-        • <strong>Coherencia de Fase:</strong> ${d.specs.coherence_pct || 99.9}% (κ = ln 10)
-      `;
-    } else {
-      document.getElementById("darwin-content").innerHTML = `
-        🟡 <em>Nodo Darwin en reposo. Ejecuta 'python3 agents_core/laminar_p2p_telemetry.py' en tu Mac para sincronizarlo.</em>
-      `;
+    const dc = document.getElementById("darwin-content");
+    if (dc) {
+      if (d && d.active) {
+        dc.innerHTML = `
+          • <strong>Estado:</strong> <span class="info">🟢 ENLACE DIRECTO ACTIVO</span><br>
+          • <strong>Carga 1m:</strong> ${d.specs.load_1m || 0.70} | <strong>Temperatura:</strong> ${d.specs.temp_celsius || 43.5} °C<br>
+          • <strong>Potencia:</strong> ${d.specs.power_watts || 3.95} W (Límite ≤ 5.39 W)<br>
+          • <strong>Balance SPN:</strong> ${d.specs.spn_balance || 0.063} $SPN<br>
+          • <strong>Coherencia de Fase:</strong> ${d.specs.coherence_pct || 99.9}% (κ = ln 10)
+        `;
+      } else {
+        dc.innerHTML = `
+          🟡 <em>Nodo Darwin en reposo. Ejecuta 'python3 agents_core/laminar_p2p_telemetry.py' en tu Mac para sincronizarlo.</em>
+        `;
+      }
     }
   } catch(e) {
-    document.getElementById("status-badge").innerText = "🟡 Modo Autónomo Local";
-    document.getElementById("status-badge").className = "warn";
+    const sb = document.getElementById("status-badge");
+    if (sb) {
+      sb.innerText = "🟡 Modo Autónomo Local";
+      sb.className = "warn";
+    }
   }
 }
 
 function init() {
-  out.innerHTML = `🛰️  OASIS SOVEREIGN OS [v5.6.0-UniversalRuntime]
-✅ [NÚCLEO ENJAMBRE]: Malla P2P con Invariante Golod-Shafarevich activa.
-🎮 [RUNTIMES DISPONIBLES]: Gamescope 60 FPS, DOS Runtimes y PC Emulator.
+  out.innerHTML = `🛰️  OASIS SOVEREIGN OS [v5.6.1-Hamilton Core]
+✅ [NÚCLEO ESTABLE]: Alarma 1202 superada con prioridad ejecutiva.
+🎮 [RUNTIMES ACTIVOS]: Gamescope 60 FPS, DOS Runtimes y PC Emulator.
 🌐 [CENTRO OSINT]: Radares de vuelo, cámaras y meteorología de Barcelona.
 
 Escribe 'help' para explorar el catálogo completo.
@@ -442,14 +461,13 @@ input.addEventListener("keydown", async (e) => {
     const cmd = parts[0].toLowerCase();
     const args = parts.slice(1);
 
-    // 1. LANZADOR UNIVERSAL DE RUNTIMES (run <entorno>)
     if (cmd === "run") {
       const target = (args[0] || "gamescope").toLowerCase();
       if (target === "gamescope") {
         print("🎮 Iniciando Conformal Gamescope a 60 FPS...", "dim");
         launchGamescope60FPS();
       } else if (target === "doom") {
-        print("🎮 Cargando DOOM (Shareware) en JS-DOS WebAssembly...", "dim");
+        print("🎮 Cargando DOOM en JS-DOS WebAssembly...", "dim");
         launchRetroGame("DOOM", "https://v8.js-dos.com/examples/doom.zip");
       } else if (target === "win2k" || target === "v86") {
         print("🖥️  Abriendo emulador de PC x86 (v86) en nueva pestaña...", "dim");
@@ -457,8 +475,6 @@ input.addEventListener("keydown", async (e) => {
       } else {
         print("Runtimes soportados: 'run gamescope', 'run doom', 'run win2k'", "warn");
       }
-
-    // 2. CENTRO OSINT & BARCELONA
     } else if (cmd === "meteo") {
       print(`─────────────────────────────────────────────────────────────
   📍 PREDICCIÓN ATMOSFÉRICA DE BARCELONA (RÉGIMEN LAMINAR)
@@ -471,29 +487,22 @@ input.addEventListener("keydown", async (e) => {
   +2 Días (48h)   23.7 °C        4.1 m/s     Laminar (Estable)
 ─────────────────────────────────────────────────────────────
   Tensor de Enstrofia : κ = ln(10) | Disipación : kB T ln(φ)`, "info");
-
-    } else if (cmd === "osint" || cmd === "radar") {
-      print(`🛰️  [CENTRO OSINT BARCELONA]:
-• ADSBexchange  : https://globe.adsbexchange.com/?lat=41.387&lon=2.170&zoom=10
-• Flightradar24 : https://www.flightradar24.com/41.38,2.17/10
-• Windy Cams    : https://www.windy.com/webcams/1283627918
-Usa 'flight' para radar aéreo o 'cams' para cámaras en directo.`, "warn");
-
     } else if (cmd === "flight") {
       print("✈️  Abriendo radar ADSBexchange en tiempo real...", "dim");
       window.open("https://globe.adsbexchange.com/?lat=41.387&lon=2.170&zoom=10", "_blank");
-
     } else if (cmd === "cams") {
       print("📹 Abriendo cámaras web de Barcelona...", "dim");
-      window.open("https://www.windy.com/webcams/1283627918", "_blank");
-
-    // 3. JUEGOS Y COMPOSITOR
+      window.open("https://windy.com/webcams/1283627918", "_blank");
+    } else if (cmd === "osint" || cmd === "radar") {
+      print(`🛰️  [CENTRO OSINT BARCELONA]:
+• ADSBexchange  : https://globe.adsbexchange.com/?lat=41.387&lon=2.170&zoom=10
+• Flightradar24 : https://flightradar24.com/41.38,2.17/10
+• Windy Cams    : https://windy.com/webcams/1283627918
+Usa 'flight' para radar aéreo o 'cams' para cámaras en directo.`, "warn");
     } else if (cmd === "gamescope") {
       launchGamescope60FPS();
     } else if (cmd === "game" || cmd === "doom") {
       launchRetroGame("DOOM", "https://v8.js-dos.com/examples/doom.zip");
-
-    // 4. SISTEMA INMUTABLE A/B
     } else if (cmd === "sys") {
       const sub = args[0] || "status";
       if (sub === "status") {
@@ -510,8 +519,6 @@ Usa 'flight' para radar aéreo o 'cams' para cámaras en directo.`, "warn");
         SYSTEM_SLOTS.active = (SYSTEM_SLOTS.active === "SLOT_A") ? "SLOT_B" : "SLOT_A";
         print(`🔄 Conmutación atómica a: ${SYSTEM_SLOTS.active}`, "info");
       }
-
-    // 5. ARCHIVOS VFS
     } else if (cmd === "dir" || cmd === "ls") {
       const files = VFS.list();
       print("Directorio de C:\\ (VFS OverlayFS):\n" + files.join("   "), "info");
@@ -530,8 +537,6 @@ Usa 'flight' para radar aéreo o 'cams' para cámaras en directo.`, "warn");
       const res = VFS.del(args[0]);
       if (res.ok) print("Eliminado: " + args[0], "info");
       else print(res.err, "alert");
-
-    // 6. CIENCIA NAVIER-STOKES
     } else if (cmd === "vortex") {
       const isElliptic = args.includes("--elliptic");
       print("🌀 Calculando tensor Navier-Stokes (κ = ln 10)...", "dim");
@@ -549,15 +554,13 @@ Usa 'flight' para radar aéreo o 'cams' para cámaras en directo.`, "warn");
       print("🔬 Beale-Kato-Majda: Regularidad 3D convergente sin blow-up.", "warn");
     } else if (cmd === "shield") {
       print("🛡️  Besov Shield: Disipación áurea kB T ln(φ) (-30.6% disipación térmica).", "info");
-
-    // 7. PESTAÑAS Y CONTROL
     } else if (cmd === "swarm") {
       switchTab('swarm');
     } else if (cmd === "darwin") {
       switchTab('darwin');
     } else if (cmd === "help") {
       print(`════════════════════════════════════════════════════════════════
-  CATÁLOGO OASIS SOVEREIGN OS (v5.6.0 UNIVERSAL RUNTIME)
+  CATÁLOGO OASIS SOVEREIGN OS (v5.6.1 HAMILTON FAIL-SAFE)
 ════════════════════════════════════════════════════════════════
   [RUNTIMES Y JUEGOS]
     run gamescope        - Inicia el micro-compositor Conforme a 60 FPS
@@ -609,7 +612,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(TERMINAL_HTML.encode())
         else:
-            self._send_json({"status": "ONLINE", "version": "v5.6.0-UniversalRuntime"})
+            self._send_json({"status": "ONLINE", "version": "v5.6.1-Hamilton"})
 
     def do_POST(self):
         length = int(self.headers.get("Content-Length", 0))
