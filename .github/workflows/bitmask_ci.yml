@@ -25,5 +25,7 @@ jobs:
         pip install pytest httpx
 
     - name: Ejecutar Auditoría BitMaskOS
+      env:
+        PYTHONPATH: .
       run: |
-        pytest tests/test_bitmask_security.py -v --durations=5
+        python -m pytest tests/test_bitmask_security.py -v --durations=5
