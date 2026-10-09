@@ -300,7 +300,7 @@ init();
 
 input.addEventListener(\"keydown\", async (e) => {
   if (e.key === \"Enter\") {
-    const raw = input.value.trim();
+    const raw = resolveCommand(input.value.trim());
     if (!raw) return;
     print(\"root@oasis-hurd:~# \" + raw, \"dim\");
     input.value = \"\";
