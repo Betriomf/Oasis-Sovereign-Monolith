@@ -42,7 +42,7 @@ def obtener_datos_sistema():
     return datos
 
 def generar_markdown(datos):
-    return f"""# 🏛️ OASIS SOVEREIGN OS — INFORME DE ESTADO Y FLUIDOS
+    return rf"""# 🏛️ OASIS SOVEREIGN OS — INFORME DE ESTADO Y FLUIDOS
 **Fecha de Emisión:** {datos['timestamp']}  
 **Nodo Generador:** {datos['nodo']}  
 **Régimen Operativo:** Silicio Frío ({datos['potencia_w']} W / {datos['limite_termico']})

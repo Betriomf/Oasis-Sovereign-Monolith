@@ -11,6 +11,17 @@ import time
 import urllib.request
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
+# Importar el validador BitMaskOS
+try:
+    from agents_core.oasis_bitmask_os import verify_capability, parse_caps_header, CAP_VORTEX_RUN, CAP_ECASH_MINT, CAP_P2P_MESH
+except ImportError:
+    def verify_capability(u, r): return (u & r) == r
+    def parse_caps_header(h): return int(h, 16) if h and h.startswith("0x") else 0x0007
+    CAP_VORTEX_RUN = 0x0004
+    CAP_ECASH_MINT = 0x0008
+    CAP_P2P_MESH = 0x0020
+
+
 PORT = int(os.environ.get("PORT", 8080))
 SWARM_LOCK = threading.Lock()
 DARWIN_TELEMETRY = {"active": False, "last_seen": 0, "specs": {}}
@@ -277,7 +288,7 @@ const HURD_TRANSLATORS = {
 };
 
 function init() {
-  out.innerHTML = `🛰️  OASIS SOVEREIGN OS [v6.4.0-HurdReports]
+  out.innerHTML = `🛰️  OASIS SOVEREIGN OS [v6.5.0-BitMaskOS]
 🐧 [HURD TRANSLATORS]: /dev/weather, /dev/cpu y /dev/ecash activos.
 💳 [AKASH ECASH]: Línea de licencias y pagos descentralizados habilitada.
 🧊 [MOTOR VOXEL]: Espacio tridimensional integrado (< 2.5 W silicio frío).
@@ -354,7 +365,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 elif self.path == "/v1/reports/latest":
             self._send_json({
                 "report_id": f"REP-{int(time.time())}",
-                "kernel": "Oasis Sovereign OS v6.4.0-HurdReports",
+                "kernel": "Oasis Sovereign OS v6.5.0-BitMaskOS",
                 "enstrophy_bound": round(math.log(10)**2, 4),
                 "power_watts": 4.15,
                 "status": "LAMINAR_VERIFIED"
@@ -371,13 +382,18 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "status": "READY_FOR_VALIDATION"
             })
         else:
-            self._send_json({"status": "ONLINE", "version": "v6.4.0-HurdReports"})
+            self._send_json({"status": "ONLINE", "version": "v6.5.0-BitMaskOS"})
 
     def do_POST(self):
+        user_caps = parse_caps_header(self.headers.get("x-oasis-caps", "0x0007"))
         length = int(self.headers.get("Content-Length", 0))
         body = json.loads(self.rfile.read(length).decode()) if length > 0 else {}
 
         if self.path == "/v1/game/vortex":
+            if not verify_capability(user_caps, CAP_VORTEX_RUN):
+                self._send_json({"error": "CAPABILITY_DENIED", "required": "0x0004 (CAP_VORTEX_RUN)", "provided": hex(user_caps)}, status=403)
+                return
+
             x = float(body.get("x", 1.5))
             y = float(body.get("y", 0.8))
             z = float(body.get("z", 2.0))
