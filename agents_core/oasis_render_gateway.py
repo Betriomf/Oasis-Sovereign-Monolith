@@ -288,7 +288,7 @@ const HURD_TRANSLATORS = {
 };
 
 function init() {
-  out.innerHTML = `🛰️  OASIS SOVEREIGN OS [v6.5.0-BitMaskOS]
+  out.innerHTML = `🛰️  OASIS SOVEREIGN OS [v6.6.0-UniversalDispatcher]
 🐧 [HURD TRANSLATORS]: /dev/weather, /dev/cpu y /dev/ecash activos.
 💳 [AKASH ECASH]: Línea de licencias y pagos descentralizados habilitada.
 🧊 [MOTOR VOXEL]: Espacio tridimensional integrado (< 2.5 W silicio frío).
@@ -376,7 +376,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         elif self.path == "/v1/reports/latest":
             self._send_json({
                 "report_id": f"REP-{int(time.time())}",
-                "kernel": "Oasis Sovereign OS v6.5.0-BitMaskOS",
+                "kernel": "Oasis Sovereign OS v6.6.0-UniversalDispatcher",
                 "enstrophy_bound": round(math.log(10)**2, 4),
                 "power_watts": 4.15,
                 "status": "LAMINAR_VERIFIED"
@@ -393,7 +393,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "status": "READY_FOR_VALIDATION"
             })
         else:
-            self._send_json({"status": "ONLINE", "version": "v6.5.0-BitMaskOS"})
+            self._send_json({"status": "ONLINE", "version": "v6.6.0-UniversalDispatcher"})
 
     def do_POST(self):
         user_caps = parse_caps_header(self.headers.get("x-oasis-caps", "0x0007"))
