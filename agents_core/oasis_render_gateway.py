@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY v6.3.0 (AKASH ECASH & VOXEL SPATIAL BROKER)
+OASIS SOVEREIGN OS — GATEWAY v6.6.5-SovereignUniversal (AKASH ECASH & VOXEL SPATIAL BROKER)
 """
 import os
 import json
@@ -156,7 +156,7 @@ UI_BYTES = b"""<!DOCTYPE html>
     <button class=\"tab-btn\" id=\"tab-ecash\" onclick=\"switchTab('ecash')\">💳 Akash eCash</button>
     <button class=\"tab-btn\" id=\"tab-voxel\" onclick=\"switchTab('voxel')\">🧊 VFS Voxel 3D</button>
     <button class=\"tab-btn\" id=\"tab-darwin\" onclick=\"switchTab('darwin')\">🍏 Telemetría</button>
-    <span style=\"margin-left: auto; font-size: 0.75rem; align-self: center;\" id=\"status-badge\" class=\"info\">🟢 v6.3.0 Online</span>
+    <span style=\"margin-left: auto; font-size: 0.75rem; align-self: center;\" id=\"status-badge\" class=\"info\">🟢 v6.6.5-SovereignUniversal Online</span>
   </div>
 
   <div id=\"pane-cli\" class=\"pane active\">
@@ -288,7 +288,7 @@ const HURD_TRANSLATORS = {
 };
 
 function init() {
-  out.innerHTML = `🛰️  OASIS SOVEREIGN OS [v6.6.0-UniversalDispatcher]
+  out.innerHTML = `🛰️  OASIS SOVEREIGN OS [v6.6.5-SovereignUniversal]
 🐧 [HURD TRANSLATORS]: /dev/weather, /dev/cpu y /dev/ecash activos.
 💳 [AKASH ECASH]: Línea de licencias y pagos descentralizados habilitada.
 🧊 [MOTOR VOXEL]: Espacio tridimensional integrado (< 2.5 W silicio frío).
@@ -376,7 +376,7 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         elif self.path == "/v1/reports/latest":
             self._send_json({
                 "report_id": f"REP-{int(time.time())}",
-                "kernel": "Oasis Sovereign OS v6.6.0-UniversalDispatcher",
+                "kernel": "Oasis Sovereign OS v6.6.5-SovereignUniversal",
                 "enstrophy_bound": round(math.log(10)**2, 4),
                 "power_watts": 4.15,
                 "status": "LAMINAR_VERIFIED"
@@ -393,13 +393,56 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
                 "status": "READY_FOR_VALIDATION"
             })
         else:
-            self._send_json({"status": "ONLINE", "version": "v6.6.0-UniversalDispatcher"})
+            self._send_json({"status": "ONLINE", "version": "v6.6.5-SovereignUniversal"})
 
     def do_POST(self):
         user_caps = parse_caps_header(self.headers.get("x-oasis-caps", "0x0007"))
         length = int(self.headers.get("Content-Length", 0))
         body = json.loads(self.rfile.read(length).decode()) if length > 0 else {}
 
+                elif self.path == "/v1/ai/guide":
+            length = int(self.headers.get("Content-Length", 0))
+            body = json.loads(self.rfile.read(length).decode()) if length > 0 else {}
+            query = body.get("query", "").lower()
+            
+            # Matriz de razonamiento soberano
+            if "vortice" in query or "vortex" in query or "fluido" in query:
+                resp = {
+                    "explanation": "Para simular Navier-Stokes acotado por ln(10) con deformacion aurea:",
+                    "suggested_cmd": "vortex 1.618 0.8 2.3026",
+                    "required_caps": "0x0004 (CAP_VORTEX_RUN)",
+                    "safety": "LAMINAR_VERIFIED"
+                }
+            elif "clima" in query or "weather" in query:
+                resp = {
+                    "explanation": "Para consultar el traductor reactivo de meteorologia de Barcelona:",
+                    "suggested_cmd": "cat /dev/weather",
+                    "required_caps": "0x0001 (CAP_READ_CAPA0)",
+                    "safety": "READ_ONLY"
+                }
+            elif "memoria" in query or "carpeta" in query or "archivo" in query or "vfs" in query:
+                resp = {
+                    "explanation": "Para gestionar el almacenamiento en memoria VFS residente:",
+                    "suggested_cmd": "mkdir /workspace/datos && touch /workspace/datos/slab.dat",
+                    "required_caps": "0x0002 (CAP_WRITE_RAM)",
+                    "safety": "VOLATILE_RAM"
+                }
+            elif "permiso" in query or "caps" in query or "bitmask" in query:
+                resp = {
+                    "explanation": "Para auditar tu mascara binaria de hardware en O(1):",
+                    "suggested_cmd": "caps 0x0027",
+                    "required_caps": "0x0001 (CAP_READ_CAPA0)",
+                    "safety": "HARDWARE_EVAL"
+                }
+            else:
+                resp = {
+                    "explanation": f"Consulta analizada: '{query[:80]}'. Puedes inspeccionar traductores o verificar el estado global:",
+                    "suggested_cmd": "cat /dev/reports",
+                    "required_caps": "0x0001 (CAP_READ_CAPA0)",
+                    "safety": "SAFE_DEFAULT"
+                }
+            self._send_json(resp)
+            return
         if self.path == "/v1/game/vortex":
             # FILTRO BITMASK-OS EN O(1) (< 1 ns)
             caps_header = self.headers.get("x-oasis-caps", "0x0007")
