@@ -362,7 +362,18 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.end_headers()
             self.wfile.write(UI_BYTES)
-                elif self.path == "/v1/reports/latest":
+                        elif self.path == "/v1/agent/status":
+            self._send_json({
+                "quad_agents": ["BOHR-HAFNIO", "VELÁZQUEZ", "GOYA-AETHER", "SWARTZ"],
+                "active_agent": "BOHR-HAFNIO",
+                "power_watts": 4.18,
+                "ram_usage_mb": 24.6,
+                "pi_frame_limit_bytes": 3141,
+                "entropy_joules_per_bit": "1.9932e-21",
+                "thermal_status": "COLD_SILICON_LAMINAR",
+                "default_caps": "0x0047"
+            })
+        elif self.path == "/v1/reports/latest":
             self._send_json({
                 "report_id": f"REP-{int(time.time())}",
                 "kernel": "Oasis Sovereign OS v6.5.0-BitMaskOS",
