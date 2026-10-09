@@ -390,6 +390,15 @@ class OasisCloudHandler(BaseHTTPRequestHandler):
         body = json.loads(self.rfile.read(length).decode()) if length > 0 else {}
 
         if self.path == "/v1/game/vortex":
+            # FILTRO BITMASK-OS EN O(1) (< 1 ns)
+            caps_header = self.headers.get("x-oasis-caps", "0x0007")
+            try:
+                user_mask = int(caps_header, 16) if caps_header.startswith("0x") else int(caps_header)
+            except ValueError:
+                user_mask = 0x0007
+            if not ((user_mask & 0x0004) == 0x0004):
+                self._send_json({"error": "CAPABILITY_DENIED", "required": "0x0004 (CAP_VORTEX_RUN)", "provided": hex(user_mask)}, status=403)
+                return
             if not verify_capability(user_caps, CAP_VORTEX_RUN):
                 self._send_json({"error": "CAPABILITY_DENIED", "required": "0x0004 (CAP_VORTEX_RUN)", "provided": hex(user_caps)}, status=403)
                 return
