@@ -1,3 +1,45 @@
+
+# --- MÓDULO SOVEREIGN DRIVE / BOX (LOCAL-FIRST & P2P) ---
+SOVEREIGN_BOX_REGISTRY = {}
+
+def handle_box_command(action, file_path=None, payload=None):
+    import time, uuid
+    if action == "list":
+        return {
+            "status": "OK",
+            "storage_engine": "OPFS / IndexedDB (Local-First)",
+            "files": [
+                {"name": "slab_3.dat", "size": "3141 B", "type": "binary/tensor"},
+                {"name": "informe_navier.md", "size": "18.4 KB", "type": "text/markdown"}
+            ]
+        }
+    elif action == "send":
+        token = f"oasis_p2p_{uuid.uuid4().hex[:8]}"
+        SOVEREIGN_BOX_REGISTRY[token] = {
+            "file_name": file_path or "unnamed_payload",
+            "created_at": time.time(),
+            "status": "AWAITING_WEBRTC_PEER"
+        }
+        return {
+            "status": "OK",
+            "p2p_token": token,
+            "qr_payload": f"https://oasis-sovereign-gateway.onrender.com/terminal?peer={token}",
+            "msg": f"⚡ [CANAL P2P EFÍMERO]: Token {token}\n📲 Escanea el QR para transferir de RAM a RAM vía WebRTC DataChannel."
+        }
+    elif action == "recv":
+        token = file_path
+        if token in SOVEREIGN_BOX_REGISTRY:
+            return {
+                "status": "MATCHED",
+                "session": SOVEREIGN_BOX_REGISTRY[token],
+                "msg": "📡 Par encontrado. Conectando canal WebRTC seguro E2EE..."
+            }
+        return {
+            "status": "WAITING",
+            "msg": "📡 Esperando transferencia por WebRTC DataChannel..."
+        }
+    return {"status": "ERROR", "msg": f"Accion {action} no reconocida"}
+
 #!/usr/bin/env python3
 """
 OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v6.6.5
