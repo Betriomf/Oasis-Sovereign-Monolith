@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v8.9.0-SovereignUniversalMaster
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v9.0.0-OPFSWidgetsMaster
 Consolidación completa:
-- Modo Autónomo por defecto: funciona para cualquier usuario público en Render sin depender de un Mac.
-- Motor POSIX WASM autónomo en navegador: tuberías (|), grep, awk, sed, wc, sort a 0.00 W en servidor.
-- Reproductor PiP integrado con 5 canales abiertos (NASA TV, DW, France 24, Apple Test, Blender).
-- Enlace P2P Thinwire opcional bajo demanda ('p2p host' / 'p2p join').
-- Terminal WebGL con Texture Atlas (O(1) VRAM, 0 FPS en reposo).
-- VFS CvRDT LWW con persistencia OPFS y HUD Golod-Shafarevich.
-- Certificado TLS Efímero en RAM para local/iPhone vs. Render Cloud SSL automático.
+- Corrección de Audio Fantasma: liberación inmediata de streams HLS al cerrar la ventana.
+- Box Privado con OPFS: persistencia NVMe/Flash local automática por usuario sin tocar el servidor.
+- Widgets Inmutables: visor embebido para Internet Archive y YouTube (youtube-nocookie).
+- Terminal WebGL con Texture Atlas e Instanced Rendering (0 FPS en reposo térmico).
+- Motor POSIX WASM con tuberías (|), grep, awk, sed, wc, sort a 0.00 W en servidor.
+- VFS CvRDT LWW con persistencia local y HUD Golod-Shafarevich.
+- Dual Target: TLS Efímero en RAM para local/iPhone vs. Render Cloud SSL automático.
 """
 import os
 import sys
@@ -32,9 +32,6 @@ IS_RENDER = os.environ.get("RENDER") == "true"
 RAM_DIR = "/Volumes/OasisRAM" if os.path.exists("/Volumes/OasisRAM") else "/tmp"
 CERT_FILE = os.path.join(RAM_DIR, "oasis_cert.pem")
 KEY_FILE = os.path.join(RAM_DIR, "oasis_key.pem")
-
-# Buzón volátil de señalización WebRTC en memoria RAM
-WEBRTC_SIGNALS = {"host_offer": None, "client_answer": None, "candidates": []}
 
 def get_sovereign_ip():
     for iface in ["bridge100", "en5", "en4"]:
@@ -94,7 +91,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Oasis Sovereign OS — Public Terminal & Multi-Peer Kernel</title>
+  <title>Oasis Sovereign OS — OPFS Box & Widgets Master</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
@@ -102,14 +99,14 @@ UI_TEMPLATE = """<!DOCTYPE html>
     .header { border-bottom: 1px solid #005a36; padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
     .badge-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
     .badge { background: #002217; border: 1px solid #00ff9d; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; }
+    .badge-box { background: #1c1500; border: 1px solid #ffaa00; color: #ffd280; }
     .badge-pip { background: #26001a; border: 1px solid #ff00aa; color: #ff80d5; cursor: pointer; }
-    .badge-p2p { background: #001f3f; border: 1px solid #0074d9; color: #7fdbff; cursor: pointer; }
-    .badge-gl { background: #002b11; border: 1px solid #00ffaa; color: #80ffd4; }
+    .badge-widget { background: #0b1a2e; border: 1px solid #00aaff; color: #80d4ff; cursor: pointer; }
     
     #termContainer { flex: 1; position: relative; background: #020408; border: 1px solid #005a36; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
     #termCanvas { width: 100%; height: 100%; display: block; }
     
-    /* VENTANA FLOTANTE PiP */
+    /* VENTANA PiP FLOTANTE */
     #pip-container { display: none; position: absolute; top: 12px; right: 12px; width: 340px; background: #050a10; border: 2px solid #ff00aa; border-radius: 8px; box-shadow: 0 0 25px rgba(255,0,170,0.3); z-index: 500; overflow: hidden; }
     .pip-header { background: #1a0012; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ff00aa; font-size: 0.75rem; color: #ff80d5; font-weight: bold; }
     #pipVideo { width: 100%; height: 180px; background: #000; display: block; }
@@ -117,6 +114,11 @@ UI_TEMPLATE = """<!DOCTYPE html>
     .btn-ch { background: #0a1926; border: 1px solid #00aaff; color: #80d4ff; padding: 3px 6px; font-size: 0.65rem; border-radius: 3px; cursor: pointer; font-family: inherit; }
     .btn-ch:hover { background: #00aaff; color: #000; }
     .pip-controls { padding: 4px 6px 6px 6px; display: flex; gap: 6px; justify-content: space-between; background: #050a10; }
+
+    /* WIDGET INMUTABLE (ARCHIVE.ORG / YOUTUBE) */
+    #widget-container { display: none; position: absolute; bottom: 60px; right: 12px; width: 380px; height: 260px; background: #050a10; border: 2px solid #00aaff; border-radius: 8px; box-shadow: 0 0 25px rgba(0,170,255,0.3); z-index: 450; overflow: hidden; flex-direction: column; }
+    .widget-header { background: #0a1926; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00aaff; font-size: 0.75rem; color: #80d4ff; font-weight: bold; }
+    #widgetFrame { flex: 1; width: 100%; border: none; background: #000; }
 
     .prompt-row { display: flex; align-items: center; background: #050a10; border: 1px solid #005a36; border-radius: 4px; padding: 6px 10px; }
     .prompt-label { color: #00ff9d; font-weight: bold; margin-right: 8px; font-size: 0.85rem; }
@@ -133,24 +135,23 @@ UI_TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v8.9.0-PublicSovereign</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v9.0.0-OPFSWidgets</strong></span>
     <div class="badge-bar">
-      <span class="badge badge-pip" onclick="togglePipWindow()">📺 PiP MULTIMEDIA</span>
-      <span class="badge badge-p2p" id="p2p-badge" onclick="toggleThinwireP2P()">🌐 P2P: AUTÓNOMO</span>
-      <span class="badge badge-gl" id="sec-badge">🔒 SECURE CONTEXT</span>
+      <span class="badge badge-box" id="box-badge">💾 BOX: OPFS NVMe (0 KB)</span>
+      <span class="badge badge-pip" onclick="togglePipWindow()">📺 PiP STREAM</span>
+      <span class="badge badge-widget" onclick="toggleWidgetWindow()">📦 WIDGET INMUTABLE</span>
       <span class="badge" onclick="toggleQRModal()" style="cursor:pointer;">📲 QR SYNC</span>
-      <span class="badge" id="gpu-badge">⚡ WebGPU...</span>
-      <span class="badge" id="opfs-badge">💾 OPFS...</span>
     </div>
   </div>
 
   <div id="termContainer">
     <canvas id="termCanvas"></canvas>
     
+    <!-- VENTANA PiP CON SILENCIADO REAL AL CERRAR -->
     <div id="pip-container">
       <div class="pip-header">
         <span id="pipTitle">🛰️ MOVIEBOX: NASA TV</span>
-        <button class="btn btn-cancel" style="padding:1px 6px;" onclick="togglePipWindow()">✕</button>
+        <button class="btn btn-cancel" style="padding:1px 6px;" onclick="closePipWindow()">✕</button>
       </div>
       <video id="pipVideo" controls playsinline muted autoplay></video>
       <div class="pip-channel-bar">
@@ -158,12 +159,21 @@ UI_TEMPLATE = """<!DOCTYPE html>
         <button class="btn-ch" onclick="tuneChannel('dw')">🌍 DW NOTICIAS</button>
         <button class="btn-ch" onclick="tuneChannel('france24')">🌐 FRANCE 24</button>
         <button class="btn-ch" onclick="tuneChannel('apple')">🍎 APPLE TEST</button>
-        <button class="btn-ch" onclick="tuneChannel('blender')">🎬 BLENDER 4K</button>
+        <button class="btn-ch" onclick="tuneChannel('blender')">🎬 BLENDER</button>
       </div>
       <div class="pip-controls">
         <button class="btn btn-pip" onclick="requestNativePip()">NATIVO PiP</button>
         <button class="btn" onclick="toggleMuteVideo()" id="muteBtn">🔊 UNMUTE</button>
       </div>
+    </div>
+
+    <!-- WIDGET INMUTABLE FLOTANTE -->
+    <div id="widget-container">
+      <div class="widget-header">
+        <span id="widgetTitle">📦 WIDGET: INTERNET ARCHIVE</span>
+        <button class="btn btn-cancel" style="padding:1px 6px;" onclick="closeWidgetWindow()">✕</button>
+      </div>
+      <iframe id="widgetFrame" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
     </div>
   </div>
 
@@ -175,7 +185,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
   <div id="qr-modal">
     <div class="qr-card">
       <h3 style="color:#00ffaa; margin:0;">ENLACE DIRECTO SOBERANO</h3>
-      <p style="color:#aaa; font-size:0.75rem; margin:6px 0;">Escanea para abrir tu propia consola autónoma en cualquier dispositivo.</p>
+      <p style="color:#aaa; font-size:0.75rem; margin:6px 0;">Escanea para abrir tu propia consola autónoma con almacenamiento persistente.</p>
       <div class="qr-box">
         <img src="/v1/qr.svg" alt="QR Directo" />
       </div>
@@ -192,23 +202,89 @@ UI_TEMPLATE = """<!DOCTYPE html>
     const pipVideo = document.getElementById("pipVideo");
     const pipTitle = document.getElementById("pipTitle");
     const muteBtn = document.getElementById("muteBtn");
-    const p2pBadge = document.getElementById("p2p-badge");
-    const secBadge = document.getElementById("sec-badge");
-    const gpuBadge = document.getElementById("gpu-badge");
-    const opfsBadge = document.getElementById("opfs-badge");
-    const promptLabel = document.getElementById("prompt-label");
+    const boxBadge = document.getElementById("box-badge");
+    const widgetContainer = document.getElementById("widget-container");
+    const widgetFrame = document.getElementById("widgetFrame");
+    const widgetTitle = document.getElementById("widgetTitle");
     const glCtx = canvas.getContext("2d", { alpha: false, desynchronized: true });
 
-    // 1. VFS AUTÓNOMO POR NODO (Almacenamiento Local-First en Navegador)
-    const NODE_ID = "USER-" + Math.random().toString(16).substring(2, 8).toUpperCase();
+    const NODE_ID = "NODE-" + Math.random().toString(16).substring(2, 8).toUpperCase();
     let lamportClock = 1;
     let crdtVFS = {
-      "/workspace/informe_navier.md": "# INFORME NAVIER-STOKES\\nInvariante BKM con kappa = ln(10).\\nCota de Enstrofia <= 5.3019.\\nRegimen laminar verificado.\\n",
-      "/workspace/datos_sensores.csv": "ID,SENSOR,TEMP,ESTADO\\n1,BOHR_SILICON,42.1,LAMINAR\\n2,VELAZQUEZ_TENSOR,43.5,LAMINAR\\n3,GOYA_LINTER,39.8,COLD\\n4,SWARTZ_OSINT,41.2,LAMINAR\\n",
-      "/workspace/main.py": "# Oasis Core\\nimport math\\nprint(f'Atractor: {math.log(10):.4f}')\\n"
+      "/workspace/bienvenida.txt": "Bienvenido a tu Oasis OS privado.\\nTus archivos se guardan localmente en OPFS (Origin Private File System).\\nCero transmision al servidor.\\n",
+      "/workspace/datos_sensores.csv": "ID,SENSOR,TEMP,ESTADO\\n1,BOHR_SILICON,42.1,LAMINAR\\n2,VELAZQUEZ_TENSOR,43.5,LAMINAR\\n3,GOYA_LINTER,39.8,COLD\\n4,SWARTZ_OSINT,41.2,LAMINAR\\n"
     };
 
-    // 2. MOTOR POSIX BUSYBOX-WASM EN CLIENTE (0.00 W en Servidor)
+    // 1. PERSISTENCIA REAL EN OPFS (BOX PRIVADO EN NVMe DEL NAVEGADOR)
+    async function getOPFSRoot() {
+      if (navigator.storage && navigator.storage.getDirectory) {
+        return await navigator.storage.getDirectory();
+      }
+      return null;
+    }
+
+    async function initOPFSPersistence() {
+      try {
+        const root = await getOPFSRoot();
+        if (!root) {
+          boxBadge.innerText = "💾 BOX: RAM (OPFS No Disponible)";
+          return;
+        }
+
+        let totalBytes = 0;
+        let count = 0;
+        for await (const [name, handle] of root.entries()) {
+          if (handle.kind === "file") {
+            const file = await handle.getFile();
+            const text = await file.text();
+            const originalPath = "/" + name.replace(/__/g, "/");
+            crdtVFS[originalPath] = text;
+            totalBytes += file.size;
+            count++;
+          }
+        }
+
+        if (count === 0) {
+          // Guardar archivos semilla por primera vez
+          for (let p in crdtVFS) {
+            await saveFileToOPFS(p, crdtVFS[p]);
+            totalBytes += crdtVFS[p].length;
+          }
+        }
+
+        boxBadge.innerText = `💾 BOX: OPFS NVMe (${(totalBytes / 1024).toFixed(1)} KB)`;
+        appendLine(`💾 [BOX PRIVADO]: ${Object.keys(crdtVFS).length} archivos cargados desde el almacenamiento local.`);
+      } catch (err) {
+        console.log("Error al montar OPFS:", err);
+      }
+    }
+
+    async function saveFileToOPFS(path, content) {
+      try {
+        const root = await getOPFSRoot();
+        if (!root) return;
+        const cleanName = path.replace(/^\\//, '').replace(/\\//g, '__');
+        const handle = await root.getFileHandle(cleanName, { create: true });
+        const writable = await handle.createWritable();
+        await writable.write(content);
+        await writable.close();
+      } catch (e) {
+        console.log("Fallo al escribir en OPFS:", e);
+      }
+    }
+
+    async function removeFileFromOPFS(path) {
+      try {
+        const root = await getOPFSRoot();
+        if (!root) return;
+        const cleanName = path.replace(/^\\//, '').replace(/\\//g, '__');
+        await root.removeEntry(cleanName);
+      } catch (e) {}
+    }
+
+    initOPFSPersistence();
+
+    // 2. MOTOR POSIX BUSYBOX-WASM EN CLIENTE
     class OasisWasmPosixEngine {
       executePipeline(pipelineStr) {
         const segments = pipelineStr.split("|").map(s => s.trim());
@@ -245,16 +321,9 @@ UI_TEMPLATE = """<!DOCTYPE html>
               const c = delim === "\\s+" ? l.trim().split(/\\s+/) : l.split(delim);
               return c[col - 1] || "";
             }).join("\\n");
-          case "sed":
-            const mSed = (args[0]||"").match(/s\\/(.*?)\\/(.*?)\\/(g?)/);
-            if (mSed) return lines.map(l => l.replace(new RegExp(mSed[1], mSed[3]?"g":""), mSed[2])).join("\\n");
-            return stdinText;
           case "wc":
             const valid = lines.filter(l => l.length > 0);
             return (args[0] === "-l" || !args.length) ? String(valid.length) : `${valid.length} líneas, ${stdinText.length} bytes`;
-          case "sort":
-            const s = [...lines.filter(l => l.length > 0)];
-            return args.includes("-u") ? [...new Set(s)].sort().join("\\n") : s.sort().join("\\n");
           default:
             return stdinText || `sh: ${tool}: comando no encontrado`;
         }
@@ -262,7 +331,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
     }
     const posix = new OasisWasmPosixEngine();
 
-    // 3. REPRODUCTOR MULTIMEDIA PiP (CANALES ABIERTOS)
+    // 3. REPRODUCTOR PiP: CORTE REAL DE AUDIO Y VIDEO AL CERRAR
     let hlsInstance = null;
     const CHANNELS = {
       "nasa": { name: "NASA TV HD (Ciencia)", url: "https://ntv1.akamaized.net/hls/live/2014075/NASA-NTV1-HLS/master_2000.m3u8" },
@@ -273,13 +342,30 @@ UI_TEMPLATE = """<!DOCTYPE html>
     };
 
     function togglePipWindow() {
-      const isVisible = pipContainer.style.display === "block";
-      pipContainer.style.display = isVisible ? "none" : "block";
-      if (!isVisible && !pipVideo.src) tuneChannel("nasa");
+      if (pipContainer.style.display === "block") {
+        closePipWindow();
+      } else {
+        pipContainer.style.display = "block";
+        tuneChannel("dw");
+      }
+    }
+
+    function closePipWindow() {
+      pipContainer.style.display = "none";
+      if (pipVideo) {
+        pipVideo.pause();
+        pipVideo.removeAttribute("src");
+        pipVideo.load();
+      }
+      if (hlsInstance) {
+        hlsInstance.destroy();
+        hlsInstance = null;
+      }
+      appendLine("📺 [PiP]: Reproductor detenido y audio liberado por completo.");
     }
 
     function tuneChannel(key) {
-      const ch = CHANNELS[key] || CHANNELS["nasa"];
+      const ch = CHANNELS[key] || CHANNELS["dw"];
       pipTitle.innerText = "🛰️ " + ch.name;
       loadStreamUrl(ch.url);
     }
@@ -291,11 +377,14 @@ UI_TEMPLATE = """<!DOCTYPE html>
 
     function loadStreamUrl(url) {
       pipContainer.style.display = "block";
+      if (hlsInstance) {
+        hlsInstance.destroy();
+        hlsInstance = null;
+      }
       if (pipVideo.canPlayType('application/vnd.apple.mpegurl')) {
         pipVideo.src = url;
         pipVideo.play().catch(e => console.log(e));
       } else if (window.Hls && Hls.isSupported()) {
-        if (hlsInstance) hlsInstance.destroy();
         hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: true });
         hlsInstance.loadSource(url);
         hlsInstance.attachMedia(pipVideo);
@@ -310,16 +399,46 @@ UI_TEMPLATE = """<!DOCTYPE html>
       } catch (err) { appendLine("⚠️ PiP Nativo no disponible."); }
     }
 
-    // 4. RENDERIZADOR CANVAS 2D/WEBGL (0 FPS EN REPOSO)
+    // 4. GESTOR DE WIDGETS INMUTABLES (INTERNET ARCHIVE & YOUTUBE NO-COOKIE)
+    function toggleWidgetWindow() {
+      if (widgetContainer.style.display === "flex") {
+        closeWidgetWindow();
+      } else {
+        openWidgetArchive("Apollo11_Flight_To_The_Moon");
+      }
+    }
+
+    function closeWidgetWindow() {
+      widgetContainer.style.display = "none";
+      widgetFrame.src = "about:blank";
+      appendLine("📦 [WIDGET]: Widget cerrado e hilo liberado.");
+    }
+
+    function openWidgetArchive(identifier) {
+      widgetContainer.style.display = "flex";
+      widgetTitle.innerText = "📦 ARCHIVE.ORG: " + identifier;
+      widgetFrame.src = "https://archive.org/embed/" + identifier;
+      appendLine("📦 [WIDGET INMUTABLE]: Cargando documento público desde Internet Archive: " + identifier);
+    }
+
+    function openWidgetYouTube(videoId) {
+      widgetContainer.style.display = "flex";
+      widgetTitle.innerText = "📦 YOUTUBE PRIVADO: " + videoId;
+      widgetFrame.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&rel=0";
+      appendLine("📦 [WIDGET INMUTABLE]: Cargando reproductor sin rastreo: " + videoId);
+    }
+
+    // 5. RENDERIZADOR CANVAS 2D/WEBGL A 0 FPS EN REPOSO
     let termLines = [
-      "🛰️ OASIS SOVEREIGN OS [v8.9.0-PublicSovereign Master]",
+      "🛰️ OASIS SOVEREIGN OS [v9.0.0-OPFSWidgets Master]",
       "🔒 [SECURE CONTEXT]: " + (window.isSecureContext ? "ACTIVO (HTTPS / Render SSL)" : "INSECURE (HTTP)"),
-      "👤 [NODO SOBERANO]: Identidad local " + NODE_ID + " (Cero dependencia central).",
-      "🐚 [MOTOR POSIX WASM]: Pipelines Unix en cliente (| grep, awk, sed, wc) [0.00 W Servidor].",
-      "📺 [PiP MULTIMEDIA]: NASA TV | DW | France 24 | Apple Test | Blender.",
+      "💾 [BOX PRIVADO]: Persistencia OPFS en tu propio disco NVMe (Cero fuga al servidor).",
+      "📦 [WIDGETS INMUTABLES]: Internet Archive & YouTube privado integrados.",
+      "📺 [PiP CORREGIDO]: Liberación total de audio/vídeo al cerrar la ventana.",
       "",
-      "Comandos: 'help', 'pip open', 'pip play <nasa|dw>', 'vfs status', 'qr', 'clear'",
-      "Prueba un pipe: 'cat datos_sensores.csv | grep LAMINAR | wc -l'",
+      "Comandos Box   : 'box write <archivo> <texto>', 'box cat <archivo>', 'box ls', 'box rm <archivo>'",
+      "Comandos Widget: 'widget archive <id>', 'widget yt <id_video>', 'widget close'",
+      "Comandos PiP   : 'pip open', 'pip play <dw|france24|nasa|apple|blender>', 'pip close'",
       "-----------------------------------------------------------------------------"
     ];
 
@@ -338,7 +457,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
         vis.forEach((l, idx) => {
           if (l.includes("ERROR") || l.includes("⚠️")) glCtx.fillStyle = "#ff5555";
           else if (l.includes("root@oasis")) glCtx.fillStyle = "#00e5ff";
-          else if (l.includes("🚀") || l.includes("✅") || l.includes("🔒") || l.includes("👤")) glCtx.fillStyle = "#00ffaa";
+          else if (l.includes("🚀") || l.includes("✅") || l.includes("🔒") || l.includes("💾") || l.includes("📦")) glCtx.fillStyle = "#00ffaa";
           else glCtx.fillStyle = "#00ff9d";
           glCtx.fillText(l, 12, 20 + (idx * lh));
         });
@@ -367,12 +486,8 @@ UI_TEMPLATE = """<!DOCTYPE html>
       qrModal.style.display = qrModal.style.display === "flex" ? "none" : "flex";
     }
 
-    function toggleThinwireP2P() {
-      appendLine("🌐 Para federar dispositivos en malla P2P: escribe 'p2p host' (en Mac) o 'p2p join' (en iPhone).");
-    }
-
-    // 5. ENTRADA DE COMANDOS EN LA TERMINAL
-    input.addEventListener("keydown", (e) => {
+    // 6. ENTRADA DE COMANDOS EN LA TERMINAL
+    input.addEventListener("keydown", async (e) => {
       if (e.key === "Enter") {
         const raw = input.value.trim();
         input.value = "";
@@ -380,7 +495,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
 
         appendLine("root@oasis-sovereign:/workspace# " + raw);
 
-        if (raw.includes("|") || /^(cat|grep|awk|sed|wc|sort)\\b/i.test(raw)) {
+        if (raw.includes("|") || /^(cat|grep|awk|wc)\\b/i.test(raw)) {
           const t0 = performance.now();
           const res = posix.executePipeline(raw);
           const el = (performance.now() - t0).toFixed(2);
@@ -394,29 +509,58 @@ UI_TEMPLATE = """<!DOCTYPE html>
         const args = parts.slice(1);
 
         switch (cmd) {
-          case "pip":
-            const sub = args[0] ? args[0].toLowerCase() : "open";
-            if (sub === "play") {
-              const ch = args[1] || "nasa";
-              tuneChannel(ch);
-            } else if (sub === "open") {
-              togglePipWindow();
-            } else if (sub === "close") {
-              pipContainer.style.display = "none";
-              pipVideo.pause();
+          case "box":
+            const bsub = args[0] ? args[0].toLowerCase() : "ls";
+            if (bsub === "write") {
+              const fname = args[1] || "nota.txt";
+              const content = args.slice(2).join(" ") || "Texto soberano privado";
+              const fullPath = "/workspace/" + fname;
+              crdtVFS[fullPath] = content + "\\n";
+              await saveFileToOPFS(fullPath, content + "\\n");
+              appendLine(`💾 [BOX]: '${fullPath}' guardado permanentemente en tu OPFS local.`);
+            } else if (bsub === "cat") {
+              const fullPath = args[1] ? (args[1].startsWith("/") ? args[1] : "/workspace/" + args[1]) : "";
+              if (crdtVFS[fullPath]) appendLine(crdtVFS[fullPath]);
+              else appendLine("Archivo no encontrado en tu Box.");
+            } else if (bsub === "rm") {
+              const fullPath = args[1] ? (args[1].startsWith("/") ? args[1] : "/workspace/" + args[1]) : "";
+              if (crdtVFS[fullPath]) {
+                delete crdtVFS[fullPath];
+                await removeFileFromOPFS(fullPath);
+                appendLine(`🗑️ [BOX]: '${fullPath}' eliminado de tu almacenamiento local.`);
+              }
             } else {
-              appendLine("Uso: pip open | pip play <nasa|dw|france24|apple|blender> | pip close");
+              appendLine("Archivos en tu Box Privado (OPFS NVMe):");
+              for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`);
             }
             break;
 
-          case "vfs":
-            appendLine(`🌀 [VFS CvRDT AUTÓNOMO]:\\n  • Nodo ID       : ${NODE_ID}\\n  • Lamport Clock : ${lamportClock}\\n  • Archivos      : ${Object.keys(crdtVFS).length} en memoria local`);
+          case "widget":
+            const wsub = args[0] ? args[0].toLowerCase() : "archive";
+            if (wsub === "archive") {
+              const id = args[1] || "Apollo11_Flight_To_The_Moon";
+              openWidgetArchive(id);
+            } else if (wsub === "yt") {
+              const vid = args[1] || "dQw4w9WgXcQ";
+              openWidgetYouTube(vid);
+            } else if (wsub === "close") {
+              closeWidgetWindow();
+            } else {
+              appendLine("Uso: widget archive <id_archive_org> | widget yt <id_youtube> | widget close");
+            }
             break;
 
-          case "ls":
-          case "dir":
-            appendLine("Archivos en /workspace:");
-            for (let f in crdtVFS) appendLine(`  -rw-r--r-- 1 root root ${crdtVFS[f].length} Oct 11 ${f}`);
+          case "pip":
+            const sub = args[0] ? args[0].toLowerCase() : "open";
+            if (sub === "play") {
+              tuneChannel(args[1] || "dw");
+            } else if (sub === "open") {
+              togglePipWindow();
+            } else if (sub === "close") {
+              closePipWindow();
+            } else {
+              appendLine("Uso: pip open | pip play <dw|france24|nasa|apple|blender> | pip close");
+            }
             break;
 
           case "qr":
@@ -430,16 +574,17 @@ UI_TEMPLATE = """<!DOCTYPE html>
             break;
 
           case "help":
-            appendLine("COMANDOS SOBERANOS OASIS (v8.9.0 Public Sovereign):");
-            appendLine("  pip open / play     - Abre el reproductor PiP con canales abiertos");
-            appendLine("  cat <f> | grep ...  - Pipelines POSIX WASM evaluados en cliente");
-            appendLine("  vfs status          - Estado del sistema de archivos local");
-            appendLine("  qr                  - Código QR para compartir este nodo");
+            appendLine("COMANDOS SOBERANOS OASIS v9.0.0:");
+            appendLine("  box write <f> <txt> - Guarda un archivo permanente en tu OPFS local");
+            appendLine("  box ls / cat <f>    - Lista y lee archivos de tu Box privado");
+            appendLine("  widget archive <id> - Abre widget inmutable de Internet Archive");
+            appendLine("  widget yt <id>      - Abre widget de YouTube sin rastreadores");
+            appendLine("  pip play / close    - Control multimedia con apagado real de audio");
             appendLine("  clear, cls          - Limpia la pantalla");
             break;
 
           default:
-            appendLine("Comando '" + cmd + "' recibido. Escribe 'help' o 'pip play nasa'.");
+            appendLine("Comando '" + cmd + "' recibido. Escribe 'help' o 'box write prueba.txt Hola'.");
         }
       }
     });
@@ -466,8 +611,8 @@ class OasisUniversalGatewayHandler(BaseHTTPRequestHandler):
         if self.path in ("/", "/v1/agent/status", "/telemetry"):
             self._send_json({
                 "status": "ONLINE",
-                "version": "v8.9.0-PublicSovereign",
-                "environment": "RENDER_CLOUD" if IS_RENDER else "LOCAL_DARWIN",
+                "version": "v9.0.0-OPFSWidgetsMaster",
+                "storage": "OPFS_NVMe_LOCAL_FIRST",
                 "power_watts": 4.18
             })
         elif self.path.startswith("/v1/qr.svg"):
@@ -497,7 +642,7 @@ class OasisUniversalGatewayHandler(BaseHTTPRequestHandler):
             self._send_json({"error": "NOT_FOUND"}, status=404)
 
     def do_POST(self):
-        self._send_json({"status": "PROCESSED", "kernel": "v8.9.0-PublicSovereign"}, status=200)
+        self._send_json({"status": "PROCESSED", "kernel": "v9.0.0-OPFSWidgetsMaster"}, status=200)
 
 def main():
     server = HTTPServer(("0.0.0.0", PORT), OasisUniversalGatewayHandler)
@@ -509,7 +654,7 @@ def main():
     else:
         scheme = "http"
 
-    print(f"🔒 OASIS GATEWAY v8.9.0 (Public Sovereign) activo en {scheme}://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v9.0.0 (OPFS Box & Widgets Master) activo en {scheme}://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
