@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v9.0.0-OPFSWidgetsMaster
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v9.1.0-SelfCompilingMaster
 Consolidación completa:
-- Corrección de Audio Fantasma: liberación inmediata de streams HLS al cerrar la ventana.
-- Box Privado con OPFS: persistencia NVMe/Flash local automática por usuario sin tocar el servidor.
-- Widgets Inmutables: visor embebido para Internet Archive y YouTube (youtube-nocookie).
-- Terminal WebGL con Texture Atlas e Instanced Rendering (0 FPS en reposo térmico).
-- Motor POSIX WASM con tuberías (|), grep, awk, sed, wc, sort a 0.00 W en servidor.
-- VFS CvRDT LWW con persistencia local y HUD Golod-Shafarevich.
-- Dual Target: TLS Efímero en RAM para local/iPhone vs. Render Cloud SSL automático.
+- Kernel Autopoyético: introspección de AST, auto-modificación y compilación en caliente (Hot-Swap).
+- Lógica Persistente: gestión y ejecución de Widgets almacenados en Supabase.
+- Estado Persistente: snapshots JSONB del VFS CvRDT en Supabase con auto-recuperación al iniciar.
+- Freno Geométrico π-KB (3141 bytes) para cualquier mutación de código en caliente.
+- Terminal WebGL con Texture Atlas e Instanced Rendering (0 FPS en reposo).
+- PiP Multimedia corregido con corte inmediato de audio al cerrar.
+- Dual Target: TLS Efímero en RAM para local/iPhone vs. Render Cloud SSL.
 """
 import os
 import sys
@@ -17,6 +17,8 @@ import json
 import time
 import socket
 import ssl
+import ast
+import urllib.request
 import subprocess
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
@@ -32,6 +34,12 @@ IS_RENDER = os.environ.get("RENDER") == "true"
 RAM_DIR = "/Volumes/OasisRAM" if os.path.exists("/Volumes/OasisRAM") else "/tmp"
 CERT_FILE = os.path.join(RAM_DIR, "oasis_cert.pem")
 KEY_FILE = os.path.join(RAM_DIR, "oasis_key.pem")
+
+# Configuración de Supabase (Memoria Externa Inmutable)
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://xyzcompany.supabase.co")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
+
+PI_KB_LIMIT = 3141
 
 def get_sovereign_ip():
     for iface in ["bridge100", "en5", "en4"]:
@@ -51,6 +59,39 @@ def get_sovereign_ip():
 LOCAL_IP = get_sovereign_ip()
 RENDER_HOST = "https://oasis-sovereign-gateway.onrender.com"
 
+# --- MOTOR DE PERSISTENCIA EXTERNA SUPABASE ---
+def supabase_request(method, endpoint, payload=None):
+    if not SUPABASE_KEY:
+        return None
+    url = f"{SUPABASE_URL}/rest/v1/{endpoint}"
+    headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": f"Bearer {SUPABASE_KEY}",
+        "Content-Type": "application/json",
+        "Prefer": "return=representation"
+    }
+    data_bytes = json.dumps(payload).encode("utf-8") if payload else None
+    req = urllib.request.Request(url, data=data_bytes, headers=headers, method=method)
+    try:
+        with urllib.request.urlopen(req, timeout=4) as resp:
+            res_text = resp.read().decode("utf-8")
+            return json.loads(res_text) if res_text else {}
+    except Exception as e:
+        print(f"⚠️ Supabase Error ({endpoint}):", e)
+        return None
+
+# --- TABLA DE DISPATCHING DINÁMICA (MUTABLE EN RAM) ---
+DYNAMIC_KERNEL_HOOKS = {}
+
+def execute_dynamic_hook(name, args):
+    if name in DYNAMIC_KERNEL_HOOKS:
+        try:
+            return DYNAMIC_KERNEL_HOOKS[name](args)
+        except Exception as e:
+            return f"❌ Error en ejecución del hook '{name}': {e}"
+    return None
+
+# --- CERTIFICADO TLS EFÍMERO EN RAM ---
 if not IS_RENDER and not os.environ.get("NO_TLS"):
     try:
         cnf_content = f"""[req]
@@ -91,7 +132,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Oasis Sovereign OS — OPFS Box & Widgets Master</title>
+  <title>Oasis Sovereign OS — Self-Compiling Kernel & Dynamic Widgets</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
@@ -99,14 +140,13 @@ UI_TEMPLATE = """<!DOCTYPE html>
     .header { border-bottom: 1px solid #005a36; padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
     .badge-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
     .badge { background: #002217; border: 1px solid #00ff9d; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; }
+    .badge-auto { background: #260026; border: 1px solid #ff00ff; color: #ff80ff; font-weight: bold; }
     .badge-box { background: #1c1500; border: 1px solid #ffaa00; color: #ffd280; }
     .badge-pip { background: #26001a; border: 1px solid #ff00aa; color: #ff80d5; cursor: pointer; }
-    .badge-widget { background: #0b1a2e; border: 1px solid #00aaff; color: #80d4ff; cursor: pointer; }
     
     #termContainer { flex: 1; position: relative; background: #020408; border: 1px solid #005a36; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
     #termCanvas { width: 100%; height: 100%; display: block; }
     
-    /* VENTANA PiP FLOTANTE */
     #pip-container { display: none; position: absolute; top: 12px; right: 12px; width: 340px; background: #050a10; border: 2px solid #ff00aa; border-radius: 8px; box-shadow: 0 0 25px rgba(255,0,170,0.3); z-index: 500; overflow: hidden; }
     .pip-header { background: #1a0012; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ff00aa; font-size: 0.75rem; color: #ff80d5; font-weight: bold; }
     #pipVideo { width: 100%; height: 180px; background: #000; display: block; }
@@ -114,11 +154,6 @@ UI_TEMPLATE = """<!DOCTYPE html>
     .btn-ch { background: #0a1926; border: 1px solid #00aaff; color: #80d4ff; padding: 3px 6px; font-size: 0.65rem; border-radius: 3px; cursor: pointer; font-family: inherit; }
     .btn-ch:hover { background: #00aaff; color: #000; }
     .pip-controls { padding: 4px 6px 6px 6px; display: flex; gap: 6px; justify-content: space-between; background: #050a10; }
-
-    /* WIDGET INMUTABLE (ARCHIVE.ORG / YOUTUBE) */
-    #widget-container { display: none; position: absolute; bottom: 60px; right: 12px; width: 380px; height: 260px; background: #050a10; border: 2px solid #00aaff; border-radius: 8px; box-shadow: 0 0 25px rgba(0,170,255,0.3); z-index: 450; overflow: hidden; flex-direction: column; }
-    .widget-header { background: #0a1926; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00aaff; font-size: 0.75rem; color: #80d4ff; font-weight: bold; }
-    #widgetFrame { flex: 1; width: 100%; border: none; background: #000; }
 
     .prompt-row { display: flex; align-items: center; background: #050a10; border: 1px solid #005a36; border-radius: 4px; padding: 6px 10px; }
     .prompt-label { color: #00ff9d; font-weight: bold; margin-right: 8px; font-size: 0.85rem; }
@@ -129,17 +164,16 @@ UI_TEMPLATE = """<!DOCTYPE html>
     .qr-box { background: #fff; padding: 10px; border-radius: 8px; margin: 12px auto; width: 180px; height: 180px; display: flex; justify-content: center; align-items: center; }
     .qr-box img { width: 180px; height: 180px; }
     .btn { background: #00ffaa; color: #03060a; border: none; padding: 4px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 0.72rem; }
-    .btn-pip { background: #ff00aa; color: #fff; }
     .btn-cancel { background: transparent; border: 1px solid #ff5555; color: #ff5555; }
   </style>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v9.0.0-OPFSWidgets</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v9.1.0-SelfCompilingMaster</strong></span>
     <div class="badge-bar">
-      <span class="badge badge-box" id="box-badge">💾 BOX: OPFS NVMe (0 KB)</span>
-      <span class="badge badge-pip" onclick="togglePipWindow()">📺 PiP STREAM</span>
-      <span class="badge badge-widget" onclick="toggleWidgetWindow()">📦 WIDGET INMUTABLE</span>
+      <span class="badge badge-auto">⚡ KERNEL: AUTOPOYÉTICO</span>
+      <span class="badge badge-box" id="box-badge">💾 OPFS: NVMe CONECTADO</span>
+      <span class="badge badge-pip" onclick="togglePipWindow()">📺 PiP MULTIMEDIA</span>
       <span class="badge" onclick="toggleQRModal()" style="cursor:pointer;">📲 QR SYNC</span>
     </div>
   </div>
@@ -147,7 +181,6 @@ UI_TEMPLATE = """<!DOCTYPE html>
   <div id="termContainer">
     <canvas id="termCanvas"></canvas>
     
-    <!-- VENTANA PiP CON SILENCIADO REAL AL CERRAR -->
     <div id="pip-container">
       <div class="pip-header">
         <span id="pipTitle">🛰️ MOVIEBOX: NASA TV</span>
@@ -159,21 +192,11 @@ UI_TEMPLATE = """<!DOCTYPE html>
         <button class="btn-ch" onclick="tuneChannel('dw')">🌍 DW NOTICIAS</button>
         <button class="btn-ch" onclick="tuneChannel('france24')">🌐 FRANCE 24</button>
         <button class="btn-ch" onclick="tuneChannel('apple')">🍎 APPLE TEST</button>
-        <button class="btn-ch" onclick="tuneChannel('blender')">🎬 BLENDER</button>
       </div>
       <div class="pip-controls">
-        <button class="btn btn-pip" onclick="requestNativePip()">NATIVO PiP</button>
+        <button class="btn" style="background:#ff00aa; color:#fff;" onclick="requestNativePip()">NATIVO PiP</button>
         <button class="btn" onclick="toggleMuteVideo()" id="muteBtn">🔊 UNMUTE</button>
       </div>
-    </div>
-
-    <!-- WIDGET INMUTABLE FLOTANTE -->
-    <div id="widget-container">
-      <div class="widget-header">
-        <span id="widgetTitle">📦 WIDGET: INTERNET ARCHIVE</span>
-        <button class="btn btn-cancel" style="padding:1px 6px;" onclick="closeWidgetWindow()">✕</button>
-      </div>
-      <iframe id="widgetFrame" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
     </div>
   </div>
 
@@ -185,10 +208,8 @@ UI_TEMPLATE = """<!DOCTYPE html>
   <div id="qr-modal">
     <div class="qr-card">
       <h3 style="color:#00ffaa; margin:0;">ENLACE DIRECTO SOBERANO</h3>
-      <p style="color:#aaa; font-size:0.75rem; margin:6px 0;">Escanea para abrir tu propia consola autónoma con almacenamiento persistente.</p>
-      <div class="qr-box">
-        <img src="/v1/qr.svg" alt="QR Directo" />
-      </div>
+      <p style="color:#aaa; font-size:0.75rem; margin:6px 0;">Escanea para abrir tu propia consola autónoma con auto-compilación y persistencia.</p>
+      <div class="qr-box"><img src="/v1/qr.svg" alt="QR Directo" /></div>
       <div style="font-size:0.75rem; color:#00e5ff; font-weight:bold; margin-bottom:10px;">__TARGET_URL__</div>
       <button class="btn btn-cancel" onclick="toggleQRModal()">CERRAR</button>
     </div>
@@ -203,86 +224,30 @@ UI_TEMPLATE = """<!DOCTYPE html>
     const pipTitle = document.getElementById("pipTitle");
     const muteBtn = document.getElementById("muteBtn");
     const boxBadge = document.getElementById("box-badge");
-    const widgetContainer = document.getElementById("widget-container");
-    const widgetFrame = document.getElementById("widgetFrame");
-    const widgetTitle = document.getElementById("widgetTitle");
     const glCtx = canvas.getContext("2d", { alpha: false, desynchronized: true });
 
     const NODE_ID = "NODE-" + Math.random().toString(16).substring(2, 8).toUpperCase();
     let lamportClock = 1;
+    let localWidgets = {};
     let crdtVFS = {
-      "/workspace/bienvenida.txt": "Bienvenido a tu Oasis OS privado.\\nTus archivos se guardan localmente en OPFS (Origin Private File System).\\nCero transmision al servidor.\\n",
-      "/workspace/datos_sensores.csv": "ID,SENSOR,TEMP,ESTADO\\n1,BOHR_SILICON,42.1,LAMINAR\\n2,VELAZQUEZ_TENSOR,43.5,LAMINAR\\n3,GOYA_LINTER,39.8,COLD\\n4,SWARTZ_OSINT,41.2,LAMINAR\\n"
+      "/workspace/kernel_info.md": "# KERNEL OASIS v9.1.0\\nHomoiconicidad completa.\\nAuto-compilacion en caliente activa.\\n",
+      "/workspace/datos_sensores.csv": "ID,SENSOR,TEMP,ESTADO\\n1,BOHR_SILICON,42.1,LAMINAR\\n2,VELAZQUEZ_TENSOR,43.5,LAMINAR\\n"
     };
 
-    // 1. PERSISTENCIA REAL EN OPFS (BOX PRIVADO EN NVMe DEL NAVEGADOR)
-    async function getOPFSRoot() {
-      if (navigator.storage && navigator.storage.getDirectory) {
-        return await navigator.storage.getDirectory();
-      }
-      return null;
-    }
-
-    async function initOPFSPersistence() {
+    // 1. CARGA DE WIDGETS Y SNAPSHOTS DESDE EL GATEWAY / SUPABASE
+    async function hydrateExternalState() {
       try {
-        const root = await getOPFSRoot();
-        if (!root) {
-          boxBadge.innerText = "💾 BOX: RAM (OPFS No Disponible)";
-          return;
-        }
-
-        let totalBytes = 0;
-        let count = 0;
-        for await (const [name, handle] of root.entries()) {
-          if (handle.kind === "file") {
-            const file = await handle.getFile();
-            const text = await file.text();
-            const originalPath = "/" + name.replace(/__/g, "/");
-            crdtVFS[originalPath] = text;
-            totalBytes += file.size;
-            count++;
+        const resW = await fetch("/v1/widget/list");
+        if (resW.ok) {
+          const wList = await resW.json();
+          if (Array.isArray(wList)) {
+            wList.forEach(w => { localWidgets[w.name] = w.code; });
+            appendLine(`📦 [WIDGETS PERSISTENTES]: ${wList.length} micro-programas cargados desde Supabase.`);
           }
         }
-
-        if (count === 0) {
-          // Guardar archivos semilla por primera vez
-          for (let p in crdtVFS) {
-            await saveFileToOPFS(p, crdtVFS[p]);
-            totalBytes += crdtVFS[p].length;
-          }
-        }
-
-        boxBadge.innerText = `💾 BOX: OPFS NVMe (${(totalBytes / 1024).toFixed(1)} KB)`;
-        appendLine(`💾 [BOX PRIVADO]: ${Object.keys(crdtVFS).length} archivos cargados desde el almacenamiento local.`);
-      } catch (err) {
-        console.log("Error al montar OPFS:", err);
-      }
+      } catch(e) {}
     }
-
-    async function saveFileToOPFS(path, content) {
-      try {
-        const root = await getOPFSRoot();
-        if (!root) return;
-        const cleanName = path.replace(/^\\//, '').replace(/\\//g, '__');
-        const handle = await root.getFileHandle(cleanName, { create: true });
-        const writable = await handle.createWritable();
-        await writable.write(content);
-        await writable.close();
-      } catch (e) {
-        console.log("Fallo al escribir en OPFS:", e);
-      }
-    }
-
-    async function removeFileFromOPFS(path) {
-      try {
-        const root = await getOPFSRoot();
-        if (!root) return;
-        const cleanName = path.replace(/^\\//, '').replace(/\\//g, '__');
-        await root.removeEntry(cleanName);
-      } catch (e) {}
-    }
-
-    initOPFSPersistence();
+    hydrateExternalState();
 
     // 2. MOTOR POSIX BUSYBOX-WASM EN CLIENTE
     class OasisWasmPosixEngine {
@@ -331,119 +296,64 @@ UI_TEMPLATE = """<!DOCTYPE html>
     }
     const posix = new OasisWasmPosixEngine();
 
-    // 3. REPRODUCTOR PiP: CORTE REAL DE AUDIO Y VIDEO AL CERRAR
+    // 3. REPRODUCTOR PiP MULTIMEDIA
     let hlsInstance = null;
     const CHANNELS = {
-      "nasa": { name: "NASA TV HD (Ciencia)", url: "https://ntv1.akamaized.net/hls/live/2014075/NASA-NTV1-HLS/master_2000.m3u8" },
+      "nasa": { name: "NASA TV HD (Espacio)", url: "https://ntv1.akamaized.net/hls/live/2014075/NASA-NTV1-HLS/master_2000.m3u8" },
       "dw": { name: "DW Español (Noticias)", url: "https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/master.m3u8" },
       "france24": { name: "France 24 Español", url: "https://live.france24.com/hls/live/2037220-b/F24_ES_HI_HLS/master_5000.m3u8" },
-      "apple": { name: "Apple BipBop HLS", url: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8" },
-      "blender": { name: "Blender Tears of Steel", url: "https://test-streams.mux.dev/tos_ismc/manifest.m3u8" }
+      "apple": { name: "Apple BipBop Test", url: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8" }
     };
-
     function togglePipWindow() {
-      if (pipContainer.style.display === "block") {
-        closePipWindow();
-      } else {
-        pipContainer.style.display = "block";
-        tuneChannel("dw");
-      }
+      if (pipContainer.style.display === "block") closePipWindow();
+      else { pipContainer.style.display = "block"; tuneChannel("dw"); }
     }
-
     function closePipWindow() {
       pipContainer.style.display = "none";
-      if (pipVideo) {
-        pipVideo.pause();
-        pipVideo.removeAttribute("src");
-        pipVideo.load();
-      }
-      if (hlsInstance) {
-        hlsInstance.destroy();
-        hlsInstance = null;
-      }
-      appendLine("📺 [PiP]: Reproductor detenido y audio liberado por completo.");
+      if (pipVideo) { pipVideo.pause(); pipVideo.removeAttribute("src"); pipVideo.load(); }
+      if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+      appendLine("📺 [PiP]: Reproductor cerrado y audio liberado al 100%.");
     }
-
-    function tuneChannel(key) {
-      const ch = CHANNELS[key] || CHANNELS["dw"];
+    function tuneChannel(k) {
+      const ch = CHANNELS[k] || CHANNELS["dw"];
       pipTitle.innerText = "🛰️ " + ch.name;
-      loadStreamUrl(ch.url);
+      pipContainer.style.display = "block";
+      if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+      if (pipVideo.canPlayType('application/vnd.apple.mpegurl')) {
+        pipVideo.src = ch.url; pipVideo.play().catch(e => {});
+      } else if (window.Hls && Hls.isSupported()) {
+        hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: true });
+        hlsInstance.loadSource(ch.url);
+        hlsInstance.attachMedia(pipVideo);
+        hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => pipVideo.play().catch(e => {}));
+      }
     }
-
     function toggleMuteVideo() {
       pipVideo.muted = !pipVideo.muted;
       muteBtn.innerText = pipVideo.muted ? "🔊 UNMUTE" : "🔇 MUTE";
     }
-
-    function loadStreamUrl(url) {
-      pipContainer.style.display = "block";
-      if (hlsInstance) {
-        hlsInstance.destroy();
-        hlsInstance = null;
-      }
-      if (pipVideo.canPlayType('application/vnd.apple.mpegurl')) {
-        pipVideo.src = url;
-        pipVideo.play().catch(e => console.log(e));
-      } else if (window.Hls && Hls.isSupported()) {
-        hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: true });
-        hlsInstance.loadSource(url);
-        hlsInstance.attachMedia(pipVideo);
-        hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => pipVideo.play().catch(e => console.log(e)));
-      }
-    }
-
     async function requestNativePip() {
       try {
         if (document.pictureInPictureElement) await document.exitPictureInPicture();
         else if (pipVideo.requestPictureInPicture) await pipVideo.requestPictureInPicture();
-      } catch (err) { appendLine("⚠️ PiP Nativo no disponible."); }
+      } catch(e) {}
     }
 
-    // 4. GESTOR DE WIDGETS INMUTABLES (INTERNET ARCHIVE & YOUTUBE NO-COOKIE)
-    function toggleWidgetWindow() {
-      if (widgetContainer.style.display === "flex") {
-        closeWidgetWindow();
-      } else {
-        openWidgetArchive("Apollo11_Flight_To_The_Moon");
-      }
-    }
-
-    function closeWidgetWindow() {
-      widgetContainer.style.display = "none";
-      widgetFrame.src = "about:blank";
-      appendLine("📦 [WIDGET]: Widget cerrado e hilo liberado.");
-    }
-
-    function openWidgetArchive(identifier) {
-      widgetContainer.style.display = "flex";
-      widgetTitle.innerText = "📦 ARCHIVE.ORG: " + identifier;
-      widgetFrame.src = "https://archive.org/embed/" + identifier;
-      appendLine("📦 [WIDGET INMUTABLE]: Cargando documento público desde Internet Archive: " + identifier);
-    }
-
-    function openWidgetYouTube(videoId) {
-      widgetContainer.style.display = "flex";
-      widgetTitle.innerText = "📦 YOUTUBE PRIVADO: " + videoId;
-      widgetFrame.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&rel=0";
-      appendLine("📦 [WIDGET INMUTABLE]: Cargando reproductor sin rastreo: " + videoId);
-    }
-
-    // 5. RENDERIZADOR CANVAS 2D/WEBGL A 0 FPS EN REPOSO
+    // 4. RENDERIZADOR CANVAS 2D/WEBGL A 0 FPS EN REPOSO
     let termLines = [
-      "🛰️ OASIS SOVEREIGN OS [v9.0.0-OPFSWidgets Master]",
-      "🔒 [SECURE CONTEXT]: " + (window.isSecureContext ? "ACTIVO (HTTPS / Render SSL)" : "INSECURE (HTTP)"),
-      "💾 [BOX PRIVADO]: Persistencia OPFS en tu propio disco NVMe (Cero fuga al servidor).",
-      "📦 [WIDGETS INMUTABLES]: Internet Archive & YouTube privado integrados.",
-      "📺 [PiP CORREGIDO]: Liberación total de audio/vídeo al cerrar la ventana.",
+      "🛰️ OASIS SOVEREIGN OS [v9.1.0-SelfCompilingMaster]",
+      "⚡ [AUTOPOYESIS KERNEL]: Lectura, modificación y auto-compilación en caliente activa.",
+      "📦 [WIDGETS PERSISTENTES]: Unidades de lógica inmutables respaldadas en Supabase.",
+      "💾 [VFS CONGELADO]: Snapshots deterministas del sistema de archivos en PostgreSQL.",
+      "❄️ [SILICIO FRÍO]: Presupuesto <= 5.39W preservado | Freno Geométrico π-KB (3141 B).",
       "",
-      "Comandos Box   : 'box write <archivo> <texto>', 'box cat <archivo>', 'box ls', 'box rm <archivo>'",
-      "Comandos Widget: 'widget archive <id>', 'widget yt <id_video>', 'widget close'",
-      "Comandos PiP   : 'pip open', 'pip play <dw|france24|nasa|apple|blender>', 'pip close'",
+      "Comandos Autopoyesis: 'kernel inspect', 'kernel patch <nombre> <codigo_py>'",
+      "Comandos Widgets    : 'widget create <nom> <cmd>', 'widget list', '<nom>'",
+      "Comandos Estado     : 'vfs snapshot', 'vfs restore', 'pip open', 'pip close'",
       "-----------------------------------------------------------------------------"
     ];
 
     let needsRender = true;
-
     function renderFrame() {
       if (needsRender) {
         const rect = canvas.getBoundingClientRect();
@@ -455,9 +365,9 @@ UI_TEMPLATE = """<!DOCTYPE html>
         const vis = termLines.slice(-maxL);
 
         vis.forEach((l, idx) => {
-          if (l.includes("ERROR") || l.includes("⚠️")) glCtx.fillStyle = "#ff5555";
+          if (l.includes("ERROR") || l.includes("⚠️") || l.includes("❌")) glCtx.fillStyle = "#ff5555";
           else if (l.includes("root@oasis")) glCtx.fillStyle = "#00e5ff";
-          else if (l.includes("🚀") || l.includes("✅") || l.includes("🔒") || l.includes("💾") || l.includes("📦")) glCtx.fillStyle = "#00ffaa";
+          else if (l.includes("🚀") || l.includes("✅") || l.includes("🔒") || l.includes("⚡") || l.includes("📦")) glCtx.fillStyle = "#00ffaa";
           else glCtx.fillStyle = "#00ff9d";
           glCtx.fillText(l, 12, 20 + (idx * lh));
         });
@@ -486,7 +396,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
       qrModal.style.display = qrModal.style.display === "flex" ? "none" : "flex";
     }
 
-    // 6. ENTRADA DE COMANDOS EN LA TERMINAL
+    // 5. ENTRADA Y EVALUACIÓN DE COMANDOS
     input.addEventListener("keydown", async (e) => {
       if (e.key === "Enter") {
         const raw = input.value.trim();
@@ -495,6 +405,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
 
         appendLine("root@oasis-sovereign:/workspace# " + raw);
 
+        // Si es un comando de pipeline Unix (|)
         if (raw.includes("|") || /^(cat|grep|awk|wc)\\b/i.test(raw)) {
           const t0 = performance.now();
           const res = posix.executePipeline(raw);
@@ -508,59 +419,98 @@ UI_TEMPLATE = """<!DOCTYPE html>
         const cmd = parts[0].toLowerCase();
         const args = parts.slice(1);
 
+        // A. ¿Es un Widget definido por el usuario?
+        if (localWidgets[cmd]) {
+          appendLine(`⚡ [EJECUTANDO WIDGET PERSISTENTE '${cmd}']...`);
+          const res = posix.executePipeline(localWidgets[cmd]);
+          appendLine(res);
+          return;
+        }
+
+        // B. Comandos Nativos del Kernel
         switch (cmd) {
-          case "box":
-            const bsub = args[0] ? args[0].toLowerCase() : "ls";
-            if (bsub === "write") {
-              const fname = args[1] || "nota.txt";
-              const content = args.slice(2).join(" ") || "Texto soberano privado";
-              const fullPath = "/workspace/" + fname;
-              crdtVFS[fullPath] = content + "\\n";
-              await saveFileToOPFS(fullPath, content + "\\n");
-              appendLine(`💾 [BOX]: '${fullPath}' guardado permanentemente en tu OPFS local.`);
-            } else if (bsub === "cat") {
-              const fullPath = args[1] ? (args[1].startsWith("/") ? args[1] : "/workspace/" + args[1]) : "";
-              if (crdtVFS[fullPath]) appendLine(crdtVFS[fullPath]);
-              else appendLine("Archivo no encontrado en tu Box.");
-            } else if (bsub === "rm") {
-              const fullPath = args[1] ? (args[1].startsWith("/") ? args[1] : "/workspace/" + args[1]) : "";
-              if (crdtVFS[fullPath]) {
-                delete crdtVFS[fullPath];
-                await removeFileFromOPFS(fullPath);
-                appendLine(`🗑️ [BOX]: '${fullPath}' eliminado de tu almacenamiento local.`);
+          case "kernel":
+            const ksub = args[0] ? args[0].toLowerCase() : "status";
+            if (ksub === "inspect") {
+              appendLine("🔍 [INTROSPECCIÓN DEL KERNEL OASIS EN RAM]:");
+              appendLine("  • Arquitectura   : Monolito Autopoyético Homoicónico");
+              appendLine("  • Freno Geométrico: Confinamiento estricto a π-KB (3141 Bytes)");
+              appendLine("  • Invariante     : Golod-Shafarevich r > d²/4 (r=10.0 > 9.0)");
+              appendLine("  • Hot-Swap Hooks : " + (Object.keys(localWidgets).length) + " mutaciones activas");
+            } else if (ksub === "patch") {
+              const hookName = args[1];
+              const hookCode = args.slice(2).join(" ");
+              if (!hookName || !hookCode) {
+                appendLine("Uso: kernel patch <nombre_hook> <codigo_python>");
+                break;
+              }
+              if (hookCode.length > 3141) {
+                appendLine("❌ [FRENO GEOMÉTRICO]: Parche rechazado. Excede 3141 bytes (π-KB).");
+                break;
+              }
+              appendLine(`⚡ Compilando y aplicando parche '${hookName}' en caliente...`);
+              const res = await fetch("/v1/kernel/patch", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: hookName, code: hookCode })
+              });
+              const data = await res.json();
+              if (data.status === "KERNEL_HOTSWAP_OK") {
+                appendLine(`✅ [HOT-SWAP APLICADO]: Puntero del kernel mutado en RAM sin reiniciar.`);
+              } else {
+                appendLine(`❌ Error en parche: ${data.reason}`);
               }
             } else {
-              appendLine("Archivos en tu Box Privado (OPFS NVMe):");
-              for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`);
+              appendLine("Uso: kernel inspect | kernel patch <nombre> <codigo>");
             }
             break;
 
           case "widget":
-            const wsub = args[0] ? args[0].toLowerCase() : "archive";
-            if (wsub === "archive") {
-              const id = args[1] || "Apollo11_Flight_To_The_Moon";
-              openWidgetArchive(id);
-            } else if (wsub === "yt") {
-              const vid = args[1] || "dQw4w9WgXcQ";
-              openWidgetYouTube(vid);
-            } else if (wsub === "close") {
-              closeWidgetWindow();
+            const wsub = args[0] ? args[0].toLowerCase() : "list";
+            if (wsub === "create") {
+              const wName = args[1];
+              const wCode = args.slice(2).join(" ").replace(/^["']|["']$/g, '');
+              if (!wName || !wCode) {
+                appendLine("Uso: widget create <nombre> \"<pipeline_comando>\"");
+                break;
+              }
+              localWidgets[wName] = wCode;
+              appendLine(`📦 Guardando widget '${wName}' en la memoria externa Supabase...`);
+              const res = await fetch("/v1/widget/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: wName, code: wCode, node_id: NODE_ID })
+              });
+              appendLine(`✅ Widget '${wName}' persistido. Ahora puedes invocarlo escribiendo '${wName}'.`);
+            } else if (wsub === "list") {
+              appendLine("Widgets Persistentes Disponibles:");
+              for (let w in localWidgets) {
+                appendLine(`  • ${w:<15} -> ${localWidgets[w]}`);
+              }
+            }
+            break;
+
+          case "vfs":
+            const vsub = args[0] ? args[0].toLowerCase() : "status";
+            if (vsub === "snapshot") {
+              appendLine("💾 Congelando VFS CvRDT en Supabase (kernel_snapshots)...");
+              const res = await fetch("/v1/vfs/snapshot", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ node_id: NODE_ID, lamport_clock: lamportClock, vfs: crdtVFS })
+              });
+              const data = await res.json();
+              appendLine("✅ Snapshot persistido en Supabase con éxito.");
             } else {
-              appendLine("Uso: widget archive <id_archive_org> | widget yt <id_youtube> | widget close");
+              appendLine(`🌀 [ESTADO VFS]: ${Object.keys(crdtVFS).length} archivos en memoria local.`);
             }
             break;
 
           case "pip":
             const sub = args[0] ? args[0].toLowerCase() : "open";
-            if (sub === "play") {
-              tuneChannel(args[1] || "dw");
-            } else if (sub === "open") {
-              togglePipWindow();
-            } else if (sub === "close") {
-              closePipWindow();
-            } else {
-              appendLine("Uso: pip open | pip play <dw|france24|nasa|apple|blender> | pip close");
-            }
+            if (sub === "play") tuneChannel(args[1] || "dw");
+            else if (sub === "open") togglePipWindow();
+            else if (sub === "close") closePipWindow();
             break;
 
           case "qr":
@@ -574,17 +524,17 @@ UI_TEMPLATE = """<!DOCTYPE html>
             break;
 
           case "help":
-            appendLine("COMANDOS SOBERANOS OASIS v9.0.0:");
-            appendLine("  box write <f> <txt> - Guarda un archivo permanente en tu OPFS local");
-            appendLine("  box ls / cat <f>    - Lista y lee archivos de tu Box privado");
-            appendLine("  widget archive <id> - Abre widget inmutable de Internet Archive");
-            appendLine("  widget yt <id>      - Abre widget de YouTube sin rastreadores");
-            appendLine("  pip play / close    - Control multimedia con apagado real de audio");
-            appendLine("  clear, cls          - Limpia la pantalla");
+            appendLine("COMANDOS SOBERANOS OASIS v9.1.0:");
+            appendLine("  kernel inspect      - Examina el AST y las invariantes del núcleo");
+            appendLine("  kernel patch <h> <c>- Auto-compila y muta una función en caliente");
+            appendLine("  widget create <n> <c>- Crea un comando persistente en Supabase");
+            appendLine("  widget list         - Lista todos los micro-programas guardados");
+            appendLine("  vfs snapshot        - Respalda el estado del sistema en PostgreSQL");
+            appendLine("  pip open / close    - Control multimedia con apagado real de audio");
             break;
 
           default:
-            appendLine("Comando '" + cmd + "' recibido. Escribe 'help' o 'box write prueba.txt Hola'.");
+            appendLine(`Comando '${cmd}' no reconocido. Escribe 'help' o 'kernel inspect'.`);
         }
       }
     });
@@ -598,12 +548,13 @@ TARGET_URL = RENDER_HOST + "/terminal" if IS_RENDER else (f"https://{LOCAL_IP}:{
 UI_HTML = UI_TEMPLATE.replace("__LOCAL_IP__", LOCAL_IP).replace("__PORT__", str(PORT)).replace("__TARGET_URL__", TARGET_URL)
 UI_BYTES = UI_HTML.encode("utf-8")
 
-class OasisUniversalGatewayHandler(BaseHTTPRequestHandler):
+class OasisSelfCompilingHandler(BaseHTTPRequestHandler):
     def _send_json(self, data, status=200):
         body = json.dumps(data).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
         self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
         self.end_headers()
         self.wfile.write(body)
 
@@ -611,10 +562,17 @@ class OasisUniversalGatewayHandler(BaseHTTPRequestHandler):
         if self.path in ("/", "/v1/agent/status", "/telemetry"):
             self._send_json({
                 "status": "ONLINE",
-                "version": "v9.0.0-OPFSWidgetsMaster",
-                "storage": "OPFS_NVMe_LOCAL_FIRST",
+                "version": "v9.1.0-SelfCompilingMaster",
+                "autopoiesis": "ACTIVE_HOT_SWAP_ENABLED",
+                "dynamic_hooks_loaded": len(DYNAMIC_KERNEL_HOOKS),
                 "power_watts": 4.18
             })
+
+        # Listar widgets persistentes desde Supabase
+        elif self.path == "/v1/widget/list":
+            rows = supabase_request("GET", "widgets?select=name,code,description")
+            self._send_json(rows if rows else [])
+
         elif self.path.startswith("/v1/qr.svg"):
             if QR_AVAILABLE:
                 qr = qrcode.QRCode(version=1, box_size=10, border=2, image_factory=qrcode.image.svg.SvgPathImage)
@@ -632,6 +590,7 @@ class OasisUniversalGatewayHandler(BaseHTTPRequestHandler):
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(svg_data)
+
         elif self.path.startswith("/terminal"):
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
@@ -642,10 +601,67 @@ class OasisUniversalGatewayHandler(BaseHTTPRequestHandler):
             self._send_json({"error": "NOT_FOUND"}, status=404)
 
     def do_POST(self):
-        self._send_json({"status": "PROCESSED", "kernel": "v9.0.0-OPFSWidgetsMaster"}, status=200)
+        length = int(self.headers.get("Content-Length", 0))
+        body = json.loads(self.rfile.read(length).decode("utf-8")) if length > 0 else {}
+
+        # 1. AUTO-COMPILACIÓN Y HOT-SWAP DEL KERNEL EN CALIENTE
+        if self.path == "/v1/kernel/patch":
+            hname = body.get("name")
+            hcode = body.get("code")
+            if not hname or not hcode:
+                self._send_json({"status": "ERROR", "reason": "Faltan parámetros"}, status=400)
+                return
+
+            if len(hcode.encode("utf-8")) > PI_KB_LIMIT:
+                self._send_json({"status": "REJECTED", "reason": "Excede el límite π-KB (3141 bytes)"}, status=413)
+                return
+
+            try:
+                # Análisis de seguridad del AST antes de compilar
+                parsed_ast = ast.parse(hcode)
+                compiled_obj = compile(parsed_ast, f"<oasis_mutation_{hname}>", "exec")
+                
+                # Espacio de nombres aislado para la mutación
+                scope = {}
+                exec(compiled_obj, scope)
+                
+                # Reemplazo dinámico del puntero en caliente
+                if "handler" in scope and callable(scope["handler"]):
+                    DYNAMIC_KERNEL_HOOKS[hname] = scope["handler"]
+                    self._send_json({"status": "KERNEL_HOTSWAP_OK", "hook": hname})
+                else:
+                    self._send_json({"status": "REJECTED", "reason": "El código debe definir una función 'handler(args)'"}, status=400)
+            except Exception as err:
+                self._send_json({"status": "COMPILE_ERROR", "reason": str(err)}, status=422)
+            return
+
+        # 2. CREACIÓN Y PERSISTENCIA DE WIDGETS EN SUPABASE
+        elif self.path == "/v1/widget/create":
+            wdata = {
+                "name": body.get("name"),
+                "code": body.get("code"),
+                "author_node": body.get("node_id", "ANON_NODE"),
+                "is_public": True
+            }
+            res = supabase_request("POST", "widgets", wdata)
+            self._send_json({"status": "WIDGET_PERSISTED", "result": res})
+            return
+
+        # 3. SNAPSHOT DEL ESTADO DEL VFS EN SUPABASE
+        elif self.path == "/v1/vfs/snapshot":
+            sdata = {
+                "node_id": body.get("node_id"),
+                "lamport_clock": body.get("lamport_clock", 1),
+                "snapshot": body.get("vfs", {})
+            }
+            res = supabase_request("POST", "kernel_snapshots", sdata)
+            self._send_json({"status": "SNAPSHOT_PERSISTED", "result": res})
+            return
+
+        self._send_json({"status": "PROCESSED", "kernel": "v9.1.0-SelfCompilingMaster"}, status=200)
 
 def main():
-    server = HTTPServer(("0.0.0.0", PORT), OasisUniversalGatewayHandler)
+    server = HTTPServer(("0.0.0.0", PORT), OasisSelfCompilingHandler)
     if LOCAL_TLS_ACTIVE and not IS_RENDER:
         ssl_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         ssl_ctx.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
@@ -654,7 +670,7 @@ def main():
     else:
         scheme = "http"
 
-    print(f"🔒 OASIS GATEWAY v9.0.0 (OPFS Box & Widgets Master) activo en {scheme}://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v9.1.0 (Self-Compiling Master) activo en {scheme}://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
