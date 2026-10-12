@@ -886,7 +886,7 @@ cx q[0], q[1];</div>
           else togglePipWindow();
         }
       },
-      "doom": { category: "JUEGOS", desc: "Raycaster 3D Wolfenstein", fn: () => toggleDoom() },
+      "dir": { category: "ALMACENAMIENTO", desc: "Lista archivos en VFS", fn: () => { appendLine("Archivos en /workspace:"); for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`); } }, "ls": { category: "ALMACENAMIENTO", desc: "Lista archivos en VFS", fn: () => { appendLine("Archivos en /workspace:"); for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`); } }, "doom": { category: "JUEGOS", desc: "Raycaster 3D Wolfenstein", fn: () => toggleDoom() },
       "clear": { category: "SISTEMA", desc: "Limpia la pantalla", fn: () => { outputDiv.innerHTML = ""; } },
       "help": {
         category: "SISTEMA",
