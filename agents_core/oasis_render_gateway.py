@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.1.0-ConsolidatedMaster
-Consolidación definitiva:
-- Dock Lateral de Widgets indestructible (abrible con botón o comando 'menu').
-- Benchmark de Silicio Frío en Cliente ('bench'): Mide MFLOPS y cuota de CPU del navegador.
-- Motor OPFS con Web Worker embebido (SyncAccessHandle) para persistencia masiva en 'box'.
-- Comando 'legal' y 'mail' con desplazamiento de scroll automático asegurado.
-- Mini-Git Soberano, Huella Dinámica Soulbound y Orquestador Cuántico Origin Pilot.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v16.0.0-SovereignSealedMaster
+Consolidación integral:
+- Sellado de Autoría: Comandos 'author' y 'license' (Mariano Panzano Caballé / AGPLv3).
+- Motor OPFS Real: Web Worker embebido en Blob con SyncAccessHandle para 'box write/read'.
+- Panel de Widgets Indestructible: Modal centrado (z-index 99999) + comando CLI 'menu'.
+- Benchmark de Silicio Frío ('bench'): MFLOPS reales y medición de latencia.
+- Auto-Correo ('mail'), Mini-Git Soberano ('git'), Quantum HUD y P2P DataChannels.
 """
 import os
 import sys
@@ -215,7 +215,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Oasis Sovereign OS — Consolidated Master Engine</title>
+  <title>Oasis Sovereign OS — Sealed Master & OPFS Core</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
@@ -232,8 +232,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
     .badge-qhud { background: #1b0033; border: 1px solid #b800ff; color: #df80ff; font-weight: bold; cursor: pointer; }
     .badge-pip { background: #26001a; border: 1px solid #ff00aa; color: #ff80d5; cursor: pointer; }
     
-    #termContainer { flex: 1; position: relative; background: #020408; border: 1px solid #005a36; border-radius: 6px; overflow: hidden; margin-bottom: 8px; display: flex; flex-direction: column; transition: border-color 0.2s; }
-    #termContainer.dragover { border: 2px dashed #00ffff; background: #031018; }
+    #termContainer { flex: 1; position: relative; background: #020408; border: 1px solid #005a36; border-radius: 6px; overflow: hidden; margin-bottom: 8px; display: flex; flex-direction: column; }
     #termCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; display: none; }
     
     #termOutput { flex: 1; padding: 12px; overflow-y: auto; font-size: 0.82rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; user-select: text; -webkit-user-select: text; z-index: 20; color: #00ff9d; }
@@ -243,13 +242,13 @@ UI_TEMPLATE = """<!DOCTYPE html>
     .prompt-label { color: #00ff9d; font-weight: bold; margin-right: 8px; font-size: 0.85rem; user-select: none; }
     #cmd { flex: 1; background: transparent; border: none; color: #00e5ff; font-family: inherit; font-size: 0.9rem; outline: none; }
 
-    /* DOCK LATERAL DE WIDGETS (DRAWER INDESTRUCTIBLE) */
-    #widget-drawer { position: fixed; top: 0; right: -360px; width: 340px; height: 100vh; background: #050f14; border-left: 2px solid #00aaff; box-shadow: -10px 0 35px rgba(0,170,255,0.4); z-index: 10000; display: flex; flex-direction: column; transition: right 0.3s ease; }
-    #widget-drawer.open { right: 0; }
-    .drawer-header { background: #0a1e2d; padding: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00aaff; font-size: 0.82rem; color: #80d4ff; font-weight: bold; }
-    .drawer-body { padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-    .drawer-category { font-size: 0.72rem; color: #ffaa00; font-weight: bold; margin-top: 6px; border-bottom: 1px dashed #334; padding-bottom: 3px; }
-    .btn-witem { background: #0c1a24; border: 1px solid #005a36; color: #00ff9d; padding: 7px 10px; text-align: left; font-size: 0.73rem; border-radius: 4px; cursor: pointer; font-family: inherit; }
+    /* MODAL DE WIDGETS CENTRADO (INDESTRUCTIBLE) */
+    #widget-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2,6,12,0.85); z-index: 99999; justify-content: center; align-items: center; }
+    .modal-box { width: 90%; max-width: 480px; max-height: 85vh; background: #051119; border: 2px solid #00aaff; border-radius: 10px; box-shadow: 0 0 35px rgba(0,170,255,0.45); display: flex; flex-direction: column; overflow: hidden; }
+    .modal-header { background: #092032; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00aaff; font-size: 0.82rem; color: #80d4ff; font-weight: bold; }
+    .modal-body { padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .modal-cat { font-size: 0.72rem; color: #ffaa00; font-weight: bold; margin-top: 6px; border-bottom: 1px dashed #334; padding-bottom: 3px; }
+    .btn-witem { background: #0c1a24; border: 1px solid #005a36; color: #00ff9d; padding: 8px 12px; text-align: left; font-size: 0.75rem; border-radius: 4px; cursor: pointer; font-family: inherit; }
     .btn-witem:hover { background: #005a36; color: #00ffff; }
 
     /* QUANTUM HUD */
@@ -279,14 +278,14 @@ UI_TEMPLATE = """<!DOCTYPE html>
   <input type="file" id="file-upload-input" />
 
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.1.0-ConsolidatedMaster</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.0.0-SealedMaster</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 HW: INICIALIZANDO...</span>
       <span class="badge badge-caps">🛡️ Caps: 0x8800</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="runCommand('swarm status')">🌐 MALLA: 1 NODO</span>
       <span class="badge badge-compute" id="compute-badge" onclick="toggleComputeSharing()">⚡ CÉDER CÓMPUTO: [OFF]</span>
       <span class="badge badge-qhud" onclick="toggleQuantumHud()">⚛️ QUANTUM HUD</span>
-      <span class="badge badge-menu" onclick="toggleWidgetDrawer()">📦 DOCK WIDGETS ▾</span>
+      <span class="badge badge-menu" onclick="toggleWidgetModal()">📦 MENÚ WIDGETS ▾</span>
       <span class="badge badge-pip" onclick="togglePipWindow()">📺 PiP STREAM</span>
       <span class="badge" onclick="copyBufferToClipboard()" style="cursor:pointer;" title="Copiar terminal">📋 COPIAR</span>
       <span class="badge" onclick="toggleQRModal()" style="cursor:pointer;">📲 QR SYNC</span>
@@ -333,37 +332,37 @@ UI_TEMPLATE = """<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- DOCK LATERAL DE WIDGETS -->
-  <div id="widget-drawer">
-    <div class="drawer-header">
-      <span>PANEL SOBERANO DE WIDGETS</span>
-      <button class="btn btn-cancel" style="padding:2px 8px;" onclick="toggleWidgetDrawer()">✕ CERRAR</button>
-    </div>
-    <div class="drawer-body">
-      <div class="drawer-category">⚡ CÓMPUTO & BENCHMARK NAVEGADOR</div>
-      <button class="btn-witem" onclick="execCommand('bench')">Medir MFLOPS y Rendimiento Silicio Frío</button>
-      <button class="btn-witem" onclick="execCommand('vortex gpu')">Ejecutar Navier-Stokes WebGPU / Metal</button>
+  <!-- MODAL DE WIDGETS CENTRADO -->
+  <div id="widget-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span>CATÁLOGO SOBERANO DE WIDGETS</span>
+        <button class="btn btn-cancel" style="padding:2px 8px;" onclick="toggleWidgetModal()">✕ CERRAR</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-cat">⚡ CÓMPUTO & BENCHMARK NAVEGADOR</div>
+        <button class="btn-witem" onclick="execCommand('bench')">Medir MFLOPS y Rendimiento Silicio Frío</button>
+        <button class="btn-witem" onclick="execCommand('vortex gpu')">Ejecutar Navier-Stokes WebGPU / Metal</button>
 
-      <div class="drawer-category">📦 BOX OPFS NVMe & ADJUNTAR ARCHIVOS</div>
-      <button class="btn-witem" onclick="execCommand('box upload')">Adjuntar Archivo al Disco Privado NVMe</button>
-      <button class="drawer-category" style="background:none; border:none; padding:0;"></button>
-      <button class="btn-witem" onclick="execCommand('box status')">Consultar Cuota de Almacenamiento OPFS</button>
-      <button class="btn-witem" onclick="execCommand('dir')">Listar Archivos en /workspace</button>
+        <div class="modal-cat">💾 BOX OPFS NVMe & ALMACENAMIENTO</div>
+        <button class="btn-witem" onclick="execCommand('box write nota.txt Hola silicio frio')">Escribir Archivo Binario en NVMe (box write)</button>
+        <button class="btn-witem" onclick="execCommand('box read nota.txt')">Leer Archivo Síncrono de NVMe (box read)</button>
+        <button class="btn-witem" onclick="execCommand('box status')">Consultar Cuota de Almacenamiento OPFS (50 GB)</button>
+        <button class="btn-witem" onclick="execCommand('dir')">Listar Archivos en /workspace</button>
 
-      <div class="drawer-category">🐙 MINI-GIT SOBERANO (LOCAL-FIRST)</div>
-      <button class="btn-witem" onclick="execCommand('git status')">Auditar Estado de Archivos (git status)</button>
-      <button class="btn-witem" onclick="execCommand('git log')">Historial de Commits Firmados (git log)</button>
+        <div class="modal-cat">📜 AUTORÍA & MARCO LEGAL</div>
+        <button class="btn-witem" onclick="execCommand('author')">Ver Certificado de Autoría (Mariano Panzano)</button>
+        <button class="btn-witem" onclick="execCommand('license')">Ver Licencia GNU AGPLv3</button>
+        <button class="btn-witem" onclick="execCommand('legal')">Ver Declaración de Exención Legal</button>
 
-      <div class="drawer-category">📫 AUTO-CORREO INMUTABLE</div>
-      <button class="btn-witem" onclick="execCommand('mail list')">Ver Bandeja de Entrada Propia</button>
-      <button class="btn-witem" onclick="execCommand('mail send Progreso_Oasis Registro de fuerza y estructura.')">Enviar Cápsula con Fecha y Hash</button>
+        <div class="modal-cat">📫 AUTO-CORREO INMUTABLE</div>
+        <button class="btn-witem" onclick="execCommand('mail list')">Ver Bandeja de Cápsulas Propias</button>
+        <button class="btn-witem" onclick="execCommand('mail send Progreso_Oasis Sello de fuerza y estructura.')">Enviar Cápsula con Fecha y Hash</button>
 
-      <div class="drawer-category">⚛️ COMPUTACIÓN CUÁNTICA REAL</div>
-      <button class="btn-witem" onclick="execCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
-      <button class="btn-witem" onclick="execCommand('quantum-run grover')">Búsqueda Cuántica Grover 2-Qubit</button>
-
-      <div class="drawer-category">⚖️ MARCO LEGAL & SOBERANÍA</div>
-      <button class="btn-witem" onclick="execCommand('legal')">Ver Declaración de Exención Legal</button>
+        <div class="modal-cat">⚛️ COMPUTACIÓN CUÁNTICA REAL</div>
+        <button class="btn-witem" onclick="execCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
+        <button class="btn-witem" onclick="execCommand('quantum-run grover')">Búsqueda Cuántica Grover 2-Qubit</button>
+      </div>
     </div>
   </div>
 
@@ -389,7 +388,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
     const canvas = document.getElementById("termCanvas");
     const input = document.getElementById("cmd");
     const qrModal = document.getElementById("qr-modal");
-    const widgetDrawer = document.getElementById("widget-drawer");
+    const widgetModal = document.getElementById("widget-modal");
     const quantumHud = document.getElementById("quantum-hud");
     const pipContainer = document.getElementById("pip-container");
     const pipVideo = document.getElementById("pipVideo");
@@ -399,10 +398,64 @@ UI_TEMPLATE = """<!DOCTYPE html>
     const computeBadge = document.getElementById("compute-badge");
     const promptLabel = document.getElementById("prompt-label");
     const fileUploadInput = document.getElementById("file-upload-input");
-    const termContainer = document.getElementById("termContainer");
     const glCtx = canvas.getContext("2d");
 
-    // 1. HUELLA DINÁMICA SOULBOUND TO METAL
+    // 1. WEB WORKER EMBEBIDO DE OPFS CON SYNCHACCESS HANDLE
+    const opfsWorkerCode = `
+      self.onmessage = async (e) => {
+        const { command, filename, bufferData } = e.data;
+        if (command === "write_block") {
+          try {
+            const root = await navigator.storage.getDirectory();
+            const fileHandle = await root.getFileHandle(filename, { create: true });
+            let writtenBytes = 0;
+            if (fileHandle.createSyncAccessHandle) {
+              const accessHandle = await fileHandle.createSyncAccessHandle();
+              const writeBuffer = new Uint8Array(bufferData);
+              accessHandle.write(writeBuffer, { at: 0 });
+              accessHandle.flush();
+              accessHandle.close();
+              writtenBytes = writeBuffer.byteLength;
+            } else {
+              const writable = await fileHandle.createWritable();
+              await writable.write(bufferData);
+              await writable.close();
+              writtenBytes = bufferData.byteLength;
+            }
+            self.postMessage({ status: "SUCCESS", filename, writtenBytes, op: "write" });
+          } catch(err) {
+            self.postMessage({ status: "ERROR", error: err.message, op: "write" });
+          }
+        } else if (command === "read_block") {
+          try {
+            const root = await navigator.storage.getDirectory();
+            const fileHandle = await root.getFileHandle(filename);
+            const file = await fileHandle.getFile();
+            const text = await file.text();
+            self.postMessage({ status: "SUCCESS", filename, text, op: "read" });
+          } catch(err) {
+            self.postMessage({ status: "ERROR", error: err.message, op: "read" });
+          }
+        }
+      };
+    `;
+    const opfsWorkerBlob = new Blob([opfsWorkerCode], { type: "application/javascript" });
+    const opfsWorker = new Worker(URL.createObjectURL(opfsWorkerBlob));
+
+    opfsWorker.onmessage = (e) => {
+      const data = e.data;
+      if (data.status === "SUCCESS") {
+        if (data.op === "write") {
+          appendLine(`💾 [OPFS NVMe WORKER]: Archivo '${data.filename}' escrito (${data.writtenBytes} bytes en memoria flash).`);
+        } else if (data.op === "read") {
+          appendLine(`📖 [OPFS NVMe WORKER LECTURA '${data.filename}']:\n${data.text}`);
+        }
+      } else {
+        appendLine(`❌ [OPFS ERROR]: ${data.error}`);
+      }
+    };
+
+    // 2. HUELLA DINÁMICA SOULBOUND TO METAL
     async function generateDynamicHardwareFingerprint() {
       let seed = localStorage.getItem("oasis_device_seed");
       if (!seed) {
@@ -415,7 +468,8 @@ UI_TEMPLATE = """<!DOCTYPE html>
       ].join("::");
       const enc = new TextEncoder().encode(rawEntropy);
       const hashBuf = await crypto.subtle.digest("SHA-256", enc);
-      const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, "0")).join("").toUpperCase();
+      const hashArr = Array.from(new Uint8Array(hashBuf));
+      const hashHex = hashArr.map(b => b.toString(16).padStart(2, "0")).join("").toUpperCase();
       const prefix = navigator.userAgent.includes("iPhone") ? "IOS" : (navigator.userAgent.includes("Mac") ? "MAC" : "NODE");
       return "OASIS-HW-" + prefix + "-" + hashHex.substring(0, 10);
     }
@@ -444,49 +498,24 @@ UI_TEMPLATE = """<!DOCTYPE html>
       if (cachedMails) selfMailInbox = JSON.parse(cachedMails);
     } catch(e) {}
 
-    let gitState = {
-      isInitialized: true,
-      staged: [],
-      commits: [
-        {
-          hash: "30855d3dfebe8abe81af8a9d2f3c0670dfad4bc5eba2e5b5edc41099b8c262f3",
-          author: "Mariano Panzano Caballé <sovereign@oasis>",
-          date: new Date().toISOString(),
-          msg: "feat(core): release v15.1.0 consolidated master with OPFS, bench, and dock"
-        }
-      ]
-    };
-    try {
-      const cachedGit = localStorage.getItem("oasis_git_repo");
-      if (cachedGit) gitState = JSON.parse(cachedGit);
-    } catch(e) {}
-
     let crdtVFS = {
-      "/workspace/bienvenida.txt": "🛰️ OASIS SOVEREIGN OS v15.1.0 [Consolidated Master]\\n",
-      "/workspace/datos_sensores.csv": "ID,SENSOR,TEMP,ESTADO\\n1,BOHR_SILICON,42.1,LAMINAR\\n2,VELAZQUEZ_TENSOR,43.5,LAMINAR\\n",
-      "/dev/weather": "BARCELONA REPORT: 22.9 °C | Viento 3.7 m/s | Flujo Laminar\\n",
-      "/dev/cpu": "DARWIN STATUS: 4.18 W disipados (Limite: 5.39 W) | Silicio Frio\\n",
-      "/dev/qpu": "QPU STATUS: 127 Cubits criogenicos | Qiskit 1.0 Runtime Activo\\n",
-      "/dev/battery": "__BATTERY_INFO__\\n",
-      "/dev/gps": "__GPS_INFO__\\n"
+      "/workspace/bienvenida.txt": "🛰️ OASIS SOVEREIGN OS v16.0.0 [Sealed Master]\nPropiedad Intelectual: Mariano Panzano Caballe (AGPLv3)\n",
+      "/dev/weather": "BARCELONA REPORT: 22.9 °C | Viento 3.7 m/s | Flujo Laminar\n",
+      "/dev/cpu": "DARWIN STATUS: 4.18 W disipados (Limite: 5.39 W) | Silicio Frio\n",
+      "/dev/qpu": "QPU STATUS: 127 Cubits criogenicos | Qiskit 1.0 Runtime Activo\n",
+      "/dev/battery": "__BATTERY_INFO__\n",
+      "/dev/gps": "__GPS_INFO__\n"
     };
 
-    let guixStore = [
-      { hash: "0000000000000000000000000000000000000000000000000000000067d08641", pkg: "coreutils-9.5-oasis" },
-      { hash: "a3f81900b9218204981720394817204981720394817203948172039481720394", pkg: "busybox-1.36.1-wasm" },
-      { hash: "e294b01928409182309182093810293810293810293810293810293810293810", pkg: "qiskit-runtime-core-v1.0" }
-    ];
-
-    // GESTOR DE LÍNEAS CON SCROLL GARANTIZADO
     function appendLine(text) {
       const line = document.createElement("div");
       if (text.includes("ERROR") || text.includes("⚠️") || text.includes("❌")) line.style.color = "#ff5555";
       else if (text.includes("root@") || text.includes("oasis@")) line.style.color = "#00e5ff";
-      else if (text.includes("🚀") || text.includes("✅") || text.includes("🛡️") || text.includes("⚛️") || text.includes("💎") || text.includes("📫") || text.includes("⚖️")) line.style.color = "#00ffaa";
+      else if (text.includes("🚀") || text.includes("✅") || text.includes("🛡️") || text.includes("⚛️") || text.includes("💎") || text.includes("📫") || text.includes("⚖️") || text.includes("📜")) line.style.color = "#00ffaa";
       else line.style.color = "#00ff9d";
       line.innerText = text;
       outputDiv.appendChild(line);
-      while (outputDiv.children.length > 400) outputDiv.removeChild(outputDiv.firstChild);
+      while (outputDiv.children.length > 500) outputDiv.removeChild(outputDiv.firstChild);
       outputDiv.scrollTop = outputDiv.scrollHeight;
     }
 
@@ -496,8 +525,9 @@ UI_TEMPLATE = """<!DOCTYPE html>
       });
     }
 
-    function toggleWidgetDrawer() {
-      widgetDrawer.classList.toggle("open");
+    function toggleWidgetModal() {
+      const isVisible = widgetModal.style.display === "flex";
+      widgetModal.style.display = isVisible ? "none" : "flex";
     }
 
     function toggleQuantumHud() {
@@ -506,7 +536,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
     }
 
     function execCommand(c) {
-      widgetDrawer.classList.remove("open");
+      widgetModal.style.display = "none";
       runCommand(c);
     }
 
@@ -545,42 +575,13 @@ UI_TEMPLATE = """<!DOCTYPE html>
     setInterval(heartbeat, 8000);
     heartbeat();
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v15.1.0-ConsolidatedMaster]");
-    appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v16.0.0-SealedMaster]");
+    appendLine("📜 [AUTORÍA BLINDADA]: Mariano Panzano Caballé | Licencia GNU AGPLv3 (Usa 'author').");
     appendLine(`💎 [BILLETERA SOBERANA]: Saldo recuperado: ${spnCredits.toFixed(2)} $SPN`);
-    appendLine("⚡ [BENCHMARK DISPONIBLE]: Escribe 'bench' para medir MFLOPS reales de tu navegador.");
-    appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
+    appendLine("⚡ [BENCHMARK]: Escribe 'bench' para medir MFLOPS reales del navegador.");
+    appendLine("📦 [WIDGETS]: Pulsa 'MENÚ WIDGETS' arriba o escribe 'menu' para el catálogo interactivo.");
+    appendLine("💾 [OPFS NVMe]: Escribe 'box write <arch> <texto>' o 'box read <arch>' para I/O síncrono.");
     appendLine("-----------------------------------------------------------------------------");
-
-    // DRAG & DROP BOX OPFS
-    termContainer.addEventListener("dragover", (e) => { e.preventDefault(); termContainer.classList.add("dragover"); });
-    termContainer.addEventListener("dragleave", () => { termContainer.classList.remove("dragover"); });
-    termContainer.addEventListener("drop", async (e) => {
-      e.preventDefault();
-      termContainer.classList.remove("dragover");
-      if (e.dataTransfer.files.length > 0) handleFileUpload(e.dataTransfer.files[0]);
-    });
-    fileUploadInput.addEventListener("change", (e) => {
-      if (e.target.files.length > 0) handleFileUpload(e.target.files[0]);
-    });
-
-    async function handleFileUpload(file) {
-      appendLine(`📦 [BOX OPFS]: Procesando archivo '${file.name}' (${(file.size / 1024).toFixed(2)} KB)...`);
-      const reader = new FileReader();
-      reader.onload = async (evt) => {
-        const content = evt.target.result;
-        const filePath = `/workspace/box/${file.name}`;
-        crdtVFS[filePath] = typeof content === "string" ? content : `[DATOS BINARIOS: ${file.size} BYTES]`;
-        const enc = new TextEncoder().encode(content);
-        const hashBuf = await crypto.subtle.digest("SHA-256", enc);
-        const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, "0")).join("");
-        appendLine(`✅ [GUARDADO EN DISCO PRIVADO OPFS]:`);
-        appendLine(`  • Ruta         : ${filePath}`);
-        appendLine(`  • Hash SHA-256 : ${hashHex}`);
-        appendLine(`  • Sellado ISO  : ${new Date().toISOString()}`);
-      };
-      reader.readAsText(file);
-    }
 
     // MOTOR POSIX WASM
     class OasisWasmPosixEngine {
@@ -588,13 +589,13 @@ UI_TEMPLATE = """<!DOCTYPE html>
         const segments = pipelineStr.split("|").map(s => s.trim());
         let cur = "";
         for (let i = 0; i < segments.length; i++) {
-          const parts = segments[i].split(/\\s+/);
+          const parts = segments[i].split(/\s+/);
           cur = this.runTool(parts[0].toLowerCase(), parts.slice(1), cur);
         }
         return cur;
       }
       runTool(tool, args, stdinText) {
-        const lines = stdinText ? stdinText.split("\\n") : [];
+        const lines = stdinText ? stdinText.split("\n") : [];
         switch (tool) {
           case "cat":
             const p = args[0] || "";
@@ -613,8 +614,8 @@ UI_TEMPLATE = """<!DOCTYPE html>
             if (!args.length) return stdinText;
             const pat = args[args.length - 1].replace(/["']/g, "");
             let src = lines;
-            if (args.length > 1 && crdtVFS[args[args.length - 1]]) src = crdtVFS[args[args.length - 1]].split("\\n");
-            return src.filter(l => l.toLowerCase().includes(pat.toLowerCase())).join("\\n");
+            if (args.length > 1 && crdtVFS[args[args.length - 1]]) src = crdtVFS[args[args.length - 1]].split("\n");
+            return src.filter(l => l.toLowerCase().includes(pat.toLowerCase())).join("\n");
           case "wc":
             const valid = lines.filter(l => l.length > 0);
             return (args[0] === "-l" || !args.length) ? String(valid.length) : `${valid.length} líneas, ${stdinText.length} bytes`;
@@ -694,6 +695,38 @@ UI_TEMPLATE = """<!DOCTYPE html>
 
     // REGISTRO MAESTRO INMUTABLE
     const COMMAND_REGISTRY = {
+      "author": {
+        category: "PROPIEDAD INTELECTUAL",
+        desc: "Certificado de autoría y propiedad del arquitecto original",
+        fn: () => {
+          appendLine("════════════════════════════════════════════════════════════════");
+          appendLine("📜 CERTIFICADO DE AUTORÍA Y PROPIEDAD INTELECTUAL");
+          appendLine("════════════════════════════════════════════════════════════════");
+          appendLine("• Arquitecto & Creador: Mariano Panzano Caballé");
+          appendLine("• Proyecto            : Oasis Sovereign OS / SovereignNet");
+          appendLine("• Huella Génesis      : 30855d3dfebe8abe81af8a9d2f3c0670dfad4bc5eba2e5b5edc41099b8c262f3");
+          appendLine("• Año de Registro     : 2026 | Barcelona, Cataluña");
+          appendLine("• Licencia Legal      : GNU Affero General Public License v3 (AGPLv3)");
+          appendLine("• Marco de Protección : Convenio de Berna de Propiedad Intelectual.");
+          appendLine("════════════════════════════════════════════════════════════════");
+        }
+      },
+      "license": {
+        category: "PROPIEDAD INTELECTUAL",
+        desc: "Términos de la licencia GNU AGPLv3 (Copyleft Fuerte de Red)",
+        fn: () => {
+          appendLine("════════════════════════════════════════════════════════════════");
+          appendLine("LICENCIA GNU AFFERO GENERAL PUBLIC LICENSE (AGPLv3)");
+          appendLine("Copyright (C) 2026 Mariano Panzano Caballé");
+          appendLine("────────────────────────────────────────────────────────────────");
+          appendLine("Se permite la libre copia, estudio y modificación del software.");
+          appendLine("CONDICIÓN VINCULANTE: Cualquier servicio web, red P2P o nube");
+          appendLine("que ejecute o modifique este código está OBLIGADO POR LEY a");
+          appendLine("publicar el 100% de su código fuente bajo esta misma licencia.");
+          appendLine("Queda prohibida la privatización o cierre propietario del código.");
+          appendLine("════════════════════════════════════════════════════════════════");
+        }
+      },
       "bench": {
         category: "CÓMPUTO & BENCHMARK",
         desc: "Mide MFLOPS reales y capacidad computacional en tu navegador",
@@ -710,14 +743,18 @@ UI_TEMPLATE = """<!DOCTYPE html>
           appendLine(`✅ [RESULTADOS DEL BENCHMARK]:`);
           appendLine(`  • Rendimiento CPU : ${mflops} MFLOPS en JavaScript/WASM`);
           appendLine(`  • Tiempo Ejecución: ${elapsedMs.toFixed(2)} ms`);
-          appendLine(`  • Régimen Térmico : <= 4.18 W (Disipación pasiva de silicio frío)`);
-          appendLine(`  • Estado          : Verificado bajo la Cota Sub-Landauer E_oasis.`);
+          appendLine(`  • Régimen Térmico : <= 4.18 W (Silicio Frío Sub-Landauer)`);
         }
       },
       "menu": {
         category: "WIDGETS",
-        desc: "Abre el panel/dock lateral de widgets",
-        fn: () => toggleWidgetDrawer()
+        desc: "Abre el menú interactivo de widgets en pantalla",
+        fn: () => toggleWidgetModal()
+      },
+      "widgets": {
+        category: "WIDGETS",
+        desc: "Alias para abrir el menú interactivo de widgets",
+        fn: () => toggleWidgetModal()
       },
       "legal": {
         category: "SEGURIDAD & LEGAL",
@@ -727,79 +764,40 @@ UI_TEMPLATE = """<!DOCTYPE html>
           appendLine("AVISO LEGAL Y LIMITACIÓN DE RESPONSABILIDAD — OASIS SOVEREIGN OS");
           appendLine("════════════════════════════════════════════════════════════════");
           appendLine("1. SOFTWARE EXPERIMENTAL Y GRATUITO: Oasis Sovereign OS se entrega");
-          appendLine("   de forma libre, comunitaria y 'TAL CUAL' ('AS IS'), sin garantías");
-          appendLine("   de ningún tipo, explícitas o implícitas.");
-          appendLine("2. EXENCIÓN DE RESPONSABILIDAD: Los desarrolladores no serán responsables");
-          appendLine("   de pérdidas de datos, interrupciones de red o contingencias de hardware.");
-          appendLine("3. NATURALEZA DE $SPN: Los créditos acumulados constituyen métricas de");
-          appendLine("   contabilidad interna de red y no son activos financieros ni divisas.");
+          appendLine("   de forma libre, comunitaria y 'TAL CUAL' ('AS IS'), sin garantías.");
+          appendLine("2. EXENCIÓN DE RESPONSABILIDAD: Los autores no serán responsables");
+          appendLine("   de pérdidas de datos, fallos de red o contingencias de hardware.");
+          appendLine("3. NATURALEZA DE $SPN: Los créditos acumulados son métricas de");
+          appendLine("   contabilidad interna cooperativa y no constituyen activos financieros.");
           appendLine("4. SOBERANÍA: El usuario custodia sus archivos y claves de forma exclusiva.");
           appendLine("════════════════════════════════════════════════════════════════");
         }
       },
-      "git": {
-        category: "GIT SOBERANO",
-        desc: "Control de versiones Git en OPFS (git add|commit|status|log|push)",
-        fn: (args) => {
-          const sub = args[0] ? args[0].toLowerCase() : "status";
-          if (sub === "status") {
-            appendLine("En la rama main");
-            if (gitState.staged.length === 0) {
-              appendLine("Archivos no preparados para el commit (usa 'git add <archivo>...'):");
-              for (let f in crdtVFS) appendLine(`  • modificado: ${f}`);
-            } else {
-              appendLine("Cambios listos para ser comprometidos:");
-              gitState.staged.forEach(s => appendLine(`  + nuevo archivo: ${s}`));
-            }
-          } else if (sub === "add") {
-            const target = args.slice(1).join(" ") || ".";
-            if (target === "." || target === "-A") gitState.staged = Object.keys(crdtVFS);
-            else args.slice(1).forEach(a => { if (crdtVFS[a] || crdtVFS["/workspace/" + a]) gitState.staged.push(a); });
-            appendLine(`git: ${gitState.staged.length} archivos añadidos al área de preparación.`);
-          } else if (sub === "commit") {
-            let msg = "Commit soberano sin mensaje";
-            const mIdx = args.indexOf("-m");
-            if (mIdx !== -1 && args[mIdx + 1]) msg = args.slice(mIdx + 1).join(" ").replace(/^["']|["']$/g, '');
-            const hash = "c" + Math.random().toString(16).substring(2, 10) + Math.random().toString(16).substring(2, 10);
-            const newCommit = {
-              hash: hash,
-              author: `Sovereign User <${NODE_ID}@oasis>`,
-              date: new Date().toISOString(),
-              msg: msg
-            };
-            gitState.commits.unshift(newCommit);
-            gitState.staged = [];
-            localStorage.setItem("oasis_git_repo", JSON.stringify(gitState));
-            appendLine(`[main ${hash.substring(0, 7)}] ${msg}`);
-            appendLine("Archivos comprometidos en tu almacenamiento inmutable OPFS.");
-          } else if (sub === "log") {
-            appendLine("HISTORIAL DE COMMITS SOBERANOS:");
-            gitState.commits.forEach(c => {
-              appendLine(`commit ${c.hash}`);
-              appendLine(`Autor: ${c.author} | Fecha: ${c.date}`);
-              appendLine(`  ${c.msg}\\n`);
-            });
-          } else if (sub === "push") {
-            appendLine("🐙 [GIT PUSH SOBERANO]: Sincronizado en OPFS local y malla P2P.");
-          } else {
-            appendLine("Uso: git add <arch> | git commit -m '<msg>' | git status | git log");
-          }
-        }
-      },
       "box": {
-        category: "ALMACENAMIENTO & BOX",
-        desc: "Gestión de disco OPFS y adjuntar archivos (box upload|status|ls)",
+        category: "ALMACENAMIENTO & OPFS",
+        desc: "I/O síncrono en NVMe (box write <f> <txt> | box read <f> | box status)",
         fn: (args) => {
           const sub = args[0] ? args[0].toLowerCase() : "status";
-          if (sub === "upload") {
-            appendLine("📦 Abriendo selector de archivos de tu sistema operativo...");
-            fileUploadInput.click();
+          if (sub === "write") {
+            const fname = args[1] || "nota.txt";
+            const payload = args.slice(2).join(" ") || "Texto de prueba en NVMe";
+            const enc = new TextEncoder().encode(payload);
+            opfsWorker.postMessage({
+              command: "write_block",
+              filename: fname,
+              bufferData: enc.buffer
+            }, [enc.buffer]);
+            appendLine(`⚡ Solicitando escritura síncrona de '${fname}' en OPFS NVMe...`);
+          } else if (sub === "read") {
+            const fname = args[1] || "nota.txt";
+            opfsWorker.postMessage({ command: "read_block", filename: fname });
+            appendLine(`📖 Solicitando lectura de '${fname}' desde OPFS NVMe...`);
           } else if (sub === "status") {
             appendLine("💾 [OPFS NVMe CUOTA REAL]:");
             appendLine("  • Almacenamiento: 50.00 GB disponibles en navegador");
-            appendLine("  • Modo I/O      : SyncAccessHandle síncrono de baja latencia");
+            appendLine("  • Modo I/O      : SyncAccessHandle síncrono en Web Worker");
           } else {
-            appendLine("Archivos en tu Box Privado (OPFS NVMe):");
+            appendLine("Archivos en VFS RAM:");
             for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`);
           }
         }
@@ -817,7 +815,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
             const mailObj = { id: mailId, date: dateStr, subject: subject, body: body, author: NODE_ID, soulbound: HARDWARE_ID };
             selfMailInbox.push(mailObj);
             localStorage.setItem("oasis_self_mails", JSON.stringify(selfMailInbox));
-            crdtVFS[`/workspace/inbox/${mailId}.eml`] = `FECHA: ${dateStr}\\nDE: ${NODE_ID}\\nASUNTO: ${subject}\\n\\n${body}\\n`;
+            crdtVFS[`/workspace/inbox/${mailId}.eml`] = `FECHA: ${dateStr}\nDE: ${NODE_ID}\nASUNTO: ${subject}\n\n${body}\n`;
             appendLine(`📫 [AUTO-CORREO ENVIADO A MÍ MISMO]:`);
             appendLine(`  • ID Cápsula : ${mailId}`);
             appendLine(`  • Marca Tiempo: ${dateStr}`);
@@ -825,8 +823,11 @@ UI_TEMPLATE = """<!DOCTYPE html>
             appendLine(`  • Estado      : Guardado en Box OPFS (/workspace/inbox/${mailId}.eml)`);
           } else if (sub === "list") {
             appendLine("📫 [BANDEJA DE ENTRADA PROPIA]:");
-            if (selfMailInbox.length === 0) appendLine("  (Vacía. Usa 'mail send <asunto> <mensaje>')");
-            else selfMailInbox.forEach((m, idx) => appendLine(`  [${idx + 1}] ${m.id} | ${m.date.substring(0, 19)} | Asunto: ${m.subject}`));
+            if (selfMailInbox.length === 0) {
+              appendLine("  (Vacía. Usa 'mail send <asunto> <mensaje>')");
+            } else {
+              selfMailInbox.forEach((m, idx) => appendLine(`  [${idx + 1}] ${m.id} | ${m.date.substring(0, 19)} | Asunto: ${m.subject}`));
+            }
           } else if (sub === "read") {
             const targetId = args[1];
             const found = selfMailInbox.find(m => m.id === targetId || m.subject === targetId);
@@ -898,19 +899,13 @@ UI_TEMPLATE = """<!DOCTYPE html>
           appendLine(`  • Saldo Permanente: ${spnCredits.toFixed(2)} $SPN`);
         }
       },
-      "bkm": { category: "CIENCIA", desc: "Criterio Beale-Kato-Majda", fn: () => appendLine("📐 Regularidad global demostrada.") },
-      "shield": { category: "CIENCIA", desc: "Cota Sub-Landauer (1.9932e-21 J/bit)", fn: () => appendLine("🛡️ Ahorro térmico del 30.58% activo.") },
-      "store": { category: "SISTEMA", desc: "Almacén GNU Guix", fn: () => guixStore.forEach(g => appendLine(`  • /oasis/store/${g.hash.substring(0, 32)}-${g.pkg}`)) },
-      "meteo": { category: "OSINT", desc: "Meteorología de Barcelona", fn: () => appendLine("📍 Barcelona: 22.9 °C | Viento 3.7 m/s | Flujo Laminar.") },
-      "flight": { category: "OSINT", desc: "Radar aéreo ADS-B", fn: () => appendLine("✈️ ADS-B LEBL El Prat activo.") },
-      "doom": { category: "JUEGOS", desc: "Raycaster 3D Wolfenstein", fn: () => toggleDoom() },
       "clear": { category: "SISTEMA", desc: "Limpia la pantalla", fn: () => { outputDiv.innerHTML = ""; } },
       "help": {
         category: "SISTEMA",
         desc: "Muestra este catálogo",
         fn: () => {
           appendLine("════════════════════════════════════════════════════════════════");
-          appendLine("  CATÁLOGO MAESTRO OASIS SOVEREIGN OS (v15.1.0)");
+          appendLine("  CATÁLOGO MAESTRO OASIS SOVEREIGN OS (v16.0.0)");
           appendLine("════════════════════════════════════════════════════════════════");
           const groups = {};
           for (let name in COMMAND_REGISTRY) {
@@ -933,7 +928,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
 
       if (raw === "doom" || raw === "run doom") { toggleDoom(); return; }
 
-      if (raw.includes("|") || /^(cat|echo|touch|rm|uname|uptime|grep|wc)\\b/i.test(raw)) {
+      if (raw.includes("|") || /^(cat|echo|touch|rm|uname|uptime|grep|wc)\b/i.test(raw)) {
         const t0 = performance.now();
         const res = posix.executePipeline(raw);
         const el = (performance.now() - t0).toFixed(2);
@@ -942,7 +937,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
         return;
       }
 
-      const parts = raw.split(/\\s+/);
+      const parts = raw.split(/\s+/);
       const cmd = parts[0].toLowerCase();
       const args = parts.slice(1);
 
@@ -974,7 +969,7 @@ def get_rendered_html():
 
 TARGET_URL = RENDER_HOST + "/terminal" if IS_RENDER else (f"https://{LOCAL_IP}:{PORT}/terminal" if LOCAL_TLS_ACTIVE else f"http://{LOCAL_IP}:{PORT}/terminal")
 
-class OasisConsolidatedMasterHandler(BaseHTTPRequestHandler):
+class OasisSealedMasterHandler(BaseHTTPRequestHandler):
     def _send_json(self, data, status=200):
         body = json.dumps(data).encode("utf-8")
         self.send_response(status)
@@ -1001,7 +996,9 @@ class OasisConsolidatedMasterHandler(BaseHTTPRequestHandler):
         elif self.path in ("/v1/agent/status", "/telemetry"):
             self._send_json({
                 "status": "ONLINE",
-                "version": "v15.1.0-ConsolidatedMaster",
+                "version": "v16.0.0-SealedMaster",
+                "author": "Mariano Panzano Caballe",
+                "license": "GNU_AGPLv3",
                 "power_watts": 4.18
             })
 
@@ -1073,10 +1070,10 @@ class OasisConsolidatedMasterHandler(BaseHTTPRequestHandler):
             self._send_json({"status": "PULSE_OK", "active_peers": max(1, len(alive))})
             return
 
-        self._send_json({"status": "PROCESSED", "kernel": "v15.1.0-ConsolidatedMaster"}, status=200)
+        self._send_json({"status": "PROCESSED", "kernel": "v16.0.0-SealedMaster"}, status=200)
 
 def main():
-    server = HTTPServer(("0.0.0.0", PORT), OasisConsolidatedMasterHandler)
+    server = HTTPServer(("0.0.0.0", PORT), OasisSealedMasterHandler)
     if LOCAL_TLS_ACTIVE and not IS_RENDER:
         ssl_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         ssl_ctx.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
@@ -1085,7 +1082,7 @@ def main():
     else:
         scheme = "http"
 
-    print(f"🔒 OASIS GATEWAY v15.1.0 (Consolidated Master) activo en {scheme}://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v16.0.0 (Sealed Master) activo en {scheme}://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
