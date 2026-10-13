@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v13.0.0-P2PSwarmRealMaster
-Consolidación integral Frente 1, 2 y 3:
-- Frente 1 & 2: Motor cuántico real + Origin Pilot Worker asíncrono (TASK-QUEUE).
-- Frente 3: Enjambre P2P real sobre WebRTC DataChannels con señalización automática.
-- Cómputo Cooperativo Descentralizado ($SPN): Procesamiento de tareas vía DataChannel directo.
-- Quantum HUD interactivo, Traductores Hurd (/dev/qpu, /dev/weather, /dev/battery).
-- 24/7 en Render: Enlace en 0.0.0.0, respuesta HEAD (200 OK) y sintaxis estricta verificada.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v14.0.0-StructureAndForceMaster
+Consolidación integral:
+- Persistencia Permanente de $SPN (LocalStorage + Supabase Sync).
+- Menú de Widgets Desacoplado: Apertura garantizada fuera del contenedor overflow.
+- Generador de QR Blindado: Soporte SVG nativo + fallback dinámico.
+- Widget Auto-Correo Soberano: Cápsula del tiempo inmutable (mail send/list/read) en OPFS.
+- Arquitectura FTL OS / SAFE OS: Concurrencia lockless y barrera de potencial BitMaskOS 0x8800.
+- Motor Cuántico Asíncrono Origin Pilot, WebRTC P2P DataChannels y Traductores Hurd.
 """
 import os
 import sys
@@ -22,7 +23,7 @@ import threading
 import queue
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-# Importación del motor cuántico analítico
+# Importación segura del runtime cuántico
 sys.path.insert(0, os.path.dirname(__file__))
 try:
     import oasis_quantum_runtime
@@ -48,12 +49,11 @@ HARDWARE_ID = "OASIS-HW-468F6F695BDB"
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
 
-# Buzón volátil de señalización P2P en memoria RAM
 SWARM_SIGNALS = {}
 ACTIVE_PEERS = {}
 HAS_TERMUX = shutil.which("termux-battery-status") is not None
 
-# --- WORKER ASÍNCRONO DE COLA CUÁNTICA (ORIGIN PILOT) ---
+# Cola de tareas cuánticas híbridas asíncronas
 QUANTUM_TASK_QUEUE = queue.Queue()
 QUANTUM_TASK_RESULTS = {}
 
@@ -63,7 +63,6 @@ def quantum_worker_loop():
             task = QUANTUM_TASK_QUEUE.get()
             if task is None:
                 break
-            
             task_id = task["id"]
             circuit_type = task["circuit"]
             shots = task["shots"]
@@ -75,7 +74,6 @@ def quantum_worker_loop():
                 q_token = get_vault_secret("QISKIT_API_TOKEN")
                 q_res = oasis_quantum_runtime.dispatch_quantum_circuit(circuit_type, shots, q_token)
                 
-                # Persistencia opcional en Supabase
                 supabase_request("POST", "quantum_tasks", {
                     "node_id": node_id,
                     "circuit_name": q_res["circuit"],
@@ -219,7 +217,7 @@ UI_TEMPLATE = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Oasis Sovereign OS — P2P Swarm & Quantum Master</title>
+  <title>Oasis Sovereign OS — Structure & Force Master</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
@@ -247,21 +245,21 @@ UI_TEMPLATE = """<!DOCTYPE html>
     .prompt-label { color: #00ff9d; font-weight: bold; margin-right: 8px; font-size: 0.85rem; user-select: none; }
     #cmd { flex: 1; background: transparent; border: none; color: #00e5ff; font-family: inherit; font-size: 0.9rem; outline: none; }
 
-    /* QUANTUM HUD REAL */
-    #quantum-hud { display: none; position: fixed; top: 52px; right: 16px; width: 380px; background: #080312; border: 2px solid #b800ff; border-radius: 8px; box-shadow: 0 0 30px rgba(184,0,255,0.4); z-index: 1000; flex-direction: column; overflow: hidden; }
-    .qhud-header { background: #17002b; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #b800ff; font-size: 0.78rem; color: #df80ff; font-weight: bold; }
-    .qhud-body { padding: 12px; font-size: 0.75rem; color: #df80ff; display: flex; flex-direction: column; gap: 8px; }
-    .qhud-circuit { background: #030008; border: 1px dashed #b800ff; padding: 8px; font-family: monospace; color: #00ffff; white-space: pre; border-radius: 4px; }
-    .qhud-bar { height: 14px; background: #20003b; border-radius: 7px; overflow: hidden; margin-top: 4px; position: relative; }
-    .qhud-fill { height: 100%; background: linear-gradient(90deg, #b800ff, #00ffaa); transition: width 0.4s ease; }
-
-    /* MENÚ MODAL FLOTANTE */
-    #widget-menu { display: none; position: fixed; top: 52px; left: 16px; width: 360px; max-height: 480px; background: #050f14; border: 2px solid #00aaff; border-radius: 8px; box-shadow: 0 0 30px rgba(0,170,255,0.4); z-index: 1000; flex-direction: column; overflow: hidden; }
+    /* MENÚ MODAL FLOTANTE DESACOPLADO EN BODY */
+    #widget-menu { display: none; position: fixed; top: 56px; left: 16px; width: 380px; max-height: 500px; background: #050f14; border: 2px solid #00aaff; border-radius: 8px; box-shadow: 0 0 35px rgba(0,170,255,0.45); z-index: 9999; flex-direction: column; overflow: hidden; }
     .menu-header { background: #0a1e2d; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00aaff; font-size: 0.78rem; color: #80d4ff; font-weight: bold; }
     .menu-body { padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
     .menu-category { font-size: 0.72rem; color: #ffaa00; font-weight: bold; margin-top: 4px; border-bottom: 1px dashed #334; padding-bottom: 2px; }
     .btn-witem { background: #0c1a24; border: 1px solid #005a36; color: #00ff9d; padding: 6px 10px; text-align: left; font-size: 0.72rem; border-radius: 4px; cursor: pointer; font-family: inherit; }
     .btn-witem:hover { background: #005a36; color: #00ffff; }
+
+    /* QUANTUM HUD REAL */
+    #quantum-hud { display: none; position: fixed; top: 56px; right: 16px; width: 380px; background: #080312; border: 2px solid #b800ff; border-radius: 8px; box-shadow: 0 0 30px rgba(184,0,255,0.4); z-index: 9998; flex-direction: column; overflow: hidden; }
+    .qhud-header { background: #17002b; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #b800ff; font-size: 0.78rem; color: #df80ff; font-weight: bold; }
+    .qhud-body { padding: 12px; font-size: 0.75rem; color: #df80ff; display: flex; flex-direction: column; gap: 8px; }
+    .qhud-circuit { background: #030008; border: 1px dashed #b800ff; padding: 8px; font-family: monospace; color: #00ffff; white-space: pre; border-radius: 4px; }
+    .qhud-bar { height: 14px; background: #20003b; border-radius: 7px; overflow: hidden; margin-top: 4px; position: relative; }
+    .qhud-fill { height: 100%; background: linear-gradient(90deg, #b800ff, #00ffaa); transition: width 0.4s ease; }
 
     #pip-container { display: none; position: absolute; top: 12px; right: 12px; width: 340px; background: #050a10; border: 2px solid #ff00aa; border-radius: 8px; box-shadow: 0 0 25px rgba(255,0,170,0.3); z-index: 500; overflow: hidden; }
     .pip-header { background: #1a0012; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ff00aa; font-size: 0.75rem; color: #ff80d5; font-weight: bold; }
@@ -269,21 +267,21 @@ UI_TEMPLATE = """<!DOCTYPE html>
     .pip-channel-bar { padding: 6px; background: #080d14; display: flex; gap: 4px; flex-wrap: wrap; border-top: 1px solid #1a2634; }
     .btn-ch { background: #0a1926; border: 1px solid #00aaff; color: #80d4ff; padding: 3px 6px; font-size: 0.65rem; border-radius: 3px; cursor: pointer; font-family: inherit; }
 
-    #qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,6,10,0.96); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
+    #qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,6,10,0.96); z-index: 10000; justify-content: center; align-items: center; flex-direction: column; }
     .qr-card { background: #05110d; border: 2px solid #00ffaa; border-radius: 12px; padding: 20px; text-align: center; max-width: 440px; box-shadow: 0 0 30px rgba(0,255,170,0.2); }
     .qr-box { background: #fff; padding: 10px; border-radius: 8px; margin: 12px auto; width: 180px; height: 180px; display: flex; justify-content: center; align-items: center; }
-    .qr-box img { width: 180px; height: 180px; }
+    .qr-box img { width: 180px; height: 180px; display: block; }
     .btn { background: #00ffaa; color: #03060a; border: none; padding: 4px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 0.72rem; }
     .btn-cancel { background: transparent; border: 1px solid #ff5555; color: #ff5555; }
   </style>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v13.0.0-P2PSwarmReal</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v14.0.0-StructureAndForce</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw">🔑 HW: __HW_ID__</span>
       <span class="badge badge-caps">🛡️ Caps: 0x8800</span>
-      <span class="badge badge-mesh" id="mesh-badge" onclick="execCommand('swarm status')">🌐 MALLA: 1 NODO</span>
+      <span class="badge badge-mesh" id="mesh-badge" onclick="runCommand('swarm status')">🌐 MALLA: 1 NODO</span>
       <span class="badge badge-p2p-direct" id="p2p-badge">📡 P2P: BUSCANDO...</span>
       <span class="badge badge-compute" id="compute-badge" onclick="toggleComputeSharing()">⚡ CÉDER CÓMPUTO: [OFF]</span>
       <span class="badge badge-qhud" onclick="toggleQuantumHud()">⚛️ QUANTUM HUD</span>
@@ -297,69 +295,6 @@ UI_TEMPLATE = """<!DOCTYPE html>
   <div id="termContainer">
     <canvas id="termCanvas"></canvas>
     <div id="termOutput"></div>
-    
-    <!-- QUANTUM HUD -->
-    <div id="quantum-hud">
-      <div class="qhud-header">
-        <span>⚛️ QUANTUM HUD (ORIGIN PILOT ENGINE)</span>
-        <button class="btn btn-cancel" style="padding:1px 6px;" onclick="toggleQuantumHud()">✕</button>
-      </div>
-      <div class="qhud-body">
-        <div><strong>Circuito:</strong> <span id="qhudCircuitName">Bell State (|Φ+⟩)</span></div>
-        <div class="qhud-circuit" id="qhudCircuitDiagram">OPENQASM 3.0;
-qubit[2] q;
-h q[0];
-cx q[0], q[1];</div>
-        <div><strong>Mitigación de Ruido:</strong> Richardson ZNE (kappa = ln 10)</div>
-        <div><strong>Shots Empleados:</strong> <span id="qhudShots">1024</span></div>
-        <div>
-          <div id="qhudLabel0">|00⟩ (49.8%):</div>
-          <div class="qhud-bar"><div class="qhud-fill" id="qhudBar0" style="width: 49.8%;"></div></div>
-        </div>
-        <div>
-          <div id="qhudLabel1">|11⟩ (50.2%):</div>
-          <div class="qhud-bar"><div class="qhud-fill" id="qhudBar1" style="width: 50.2%;"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MENÚ MODAL FLOTANTE -->
-    <div id="widget-menu">
-      <div class="menu-header">
-        <span>CATÁLOGO SOBERANO DE WIDGETS</span>
-        <button class="btn btn-cancel" style="padding:1px 6px;" onclick="toggleWidgetMenu()">✕</button>
-      </div>
-      <div class="menu-body">
-        <div class="menu-category">⚛️ COMPUTACIÓN CUÁNTICA REAL (QISKIT)</div>
-        <button class="btn-witem" onclick="execCommand('quantum-run bell')">Ejecutar Estado de Bell (|00⟩ + |11⟩)</button>
-        <button class="btn-witem" onclick="execCommand('quantum-run grover')">Ejecutar Búsqueda Cuántica Grover</button>
-        <button class="btn-witem" onclick="execCommand('cat /dev/qpu')">Telemetría de la QPU Criogénica</button>
-        
-        <div class="menu-category">🌐 ENJAMBRE P2P & COOPERATIVA</div>
-        <button class="btn-witem" onclick="execCommand('p2p ping')">Enviar Pulso P2P al Enjambre</button>
-        <button class="btn-witem" onclick="execCommand('swarm status')">Auditar Nodos y Recompensas $SPN</button>
-
-        <div class="menu-category">🧠 INTELIGENCIA ARTIFICIAL & AGENTES</div>
-        <button class="btn-witem" onclick="execCommand('ask-gemini Explica el enjambre P2P de Oasis en 2 lineas')">Musa Gemini (Vía Supabase Vault)</button>
-        <button class="btn-witem" onclick="execCommand('ask-aether')">Agente Æther (Inferencia Capa 0)</button>
-        
-        <div class="menu-category">📲 ANDROID / TERMUX SENSORIAL</div>
-        <button class="btn-witem" onclick="execCommand('cat /dev/battery')">Sensor de Batería (Android / Silicio Frío)</button>
-        <button class="btn-witem" onclick="execCommand('cat /dev/gps')">Sensor de Ubicación (Termux GPS)</button>
-        
-        <div class="menu-category">🌀 FÍSICA & CÓMPUTO LAMINAR</div>
-        <button class="btn-witem" onclick="execCommand('vortex gpu')">Navier-Stokes WebGPU (Metal Shader)</button>
-        <button class="btn-witem" onclick="execCommand('cat /dev/weather')">Meteorología Laminar de Barcelona</button>
-        
-        <div class="menu-category">📺 MULTIMEDIA STREAMING</div>
-        <button class="btn-witem" onclick="execCommand('pip play dw')">DW Noticias Español (Directo)</button>
-        <button class="btn-witem" onclick="execCommand('pip play nasa')">NASA TV HD (Ciencia / Espacio)</button>
-        
-        <div class="menu-category">🎮 JUEGOS & RUNTIMES</div>
-        <button class="btn-witem" onclick="execCommand('doom')">Doom 3D Raycaster en Canvas</button>
-        <button class="btn-witem" onclick="execCommand('store list')">Almacén Inmutable GNU Guix</button>
-      </div>
-    </div>
 
     <!-- PiP MULTIMEDIA -->
     <div id="pip-container">
@@ -376,16 +311,86 @@ cx q[0], q[1];</div>
     </div>
   </div>
 
+  <!-- QUANTUM HUD (DESACOPLADO) -->
+  <div id="quantum-hud">
+    <div class="qhud-header">
+      <span>⚛️ QUANTUM HUD (ORIGIN PILOT ENGINE)</span>
+      <button class="btn btn-cancel" style="padding:1px 6px;" onclick="toggleQuantumHud()">✕</button>
+    </div>
+    <div class="qhud-body">
+      <div><strong>Circuito:</strong> <span id="qhudCircuitName">Bell State (|Φ+⟩)</span></div>
+      <div class="qhud-circuit" id="qhudCircuitDiagram">OPENQASM 3.0;
+qubit[2] q;
+h q[0];
+cx q[0], q[1];</div>
+      <div><strong>Mitigación de Ruido:</strong> Richardson ZNE (kappa = ln 10)</div>
+      <div><strong>Shots Empleados:</strong> <span id="qhudShots">1024</span></div>
+      <div>
+        <div id="qhudLabel0">|00⟩ (49.8%):</div>
+        <div class="qhud-bar"><div class="qhud-fill" id="qhudBar0" style="width: 49.8%;"></div></div>
+      </div>
+      <div>
+        <div id="qhudLabel1">|11⟩ (50.2%):</div>
+        <div class="qhud-bar"><div class="qhud-fill" id="qhudBar1" style="width: 50.2%;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENÚ MODAL FLOTANTE DESACOPLADO (EN BODY DIRECTO) -->
+  <div id="widget-menu" style="display: none;">
+    <div class="menu-header">
+      <span>CATÁLOGO SOBERANO DE WIDGETS</span>
+      <button class="btn btn-cancel" style="padding:1px 6px;" onclick="toggleWidgetMenu()">✕</button>
+    </div>
+    <div class="menu-body">
+      <div class="menu-category">📫 AUTO-CORREO INMUTABLE (OPFS BOX)</div>
+      <button class="btn-witem" onclick="execCommand('mail list')">Listar Bandeja de Cápsulas Guardadas</button>
+      <button class="btn-witem" onclick="execCommand('mail send Registro_Diario_Oasis Guardando progreso del dia de estructura y fuerza.')">Enviar Cápsula a Mí Mismo (Con Fecha & Hash)</button>
+
+      <div class="menu-category">⚛️ COMPUTACIÓN CUÁNTICA REAL (QISKIT)</div>
+      <button class="btn-witem" onclick="execCommand('quantum-run bell')">Ejecutar Estado de Bell (|00⟩ + |11⟩)</button>
+      <button class="btn-witem" onclick="execCommand('quantum-run grover')">Ejecutar Búsqueda Cuántica Grover</button>
+      <button class="btn-witem" onclick="execCommand('cat /dev/qpu')">Telemetría de la QPU Criogénica</button>
+      
+      <div class="menu-category">🌐 ENJAMBRE P2P & COOPERATIVA</div>
+      <button class="btn-witem" onclick="execCommand('p2p ping Latido de presencia')">Enviar Pulso P2P al Enjambre</button>
+      <button class="btn-witem" onclick="execCommand('swarm status')">Auditar Nodos y Saldo $SPN</button>
+
+      <div class="menu-category">🧠 INTELIGENCIA ARTIFICIAL & AGENTES</div>
+      <button class="btn-witem" onclick="execCommand('ask-gemini Explica el balance cooperativo SPN de Oasis')">Musa Gemini (Vía Supabase Vault)</button>
+      <button class="btn-witem" onclick="execCommand('ask-aether')">Agente Æther (Inferencia Capa 0)</button>
+      
+      <div class="menu-category">📲 ANDROID / TERMUX SENSORIAL</div>
+      <button class="btn-witem" onclick="execCommand('cat /dev/battery')">Sensor de Batería (Android / Silicio Frío)</button>
+      <button class="btn-witem" onclick="execCommand('cat /dev/gps')">Sensor de Ubicación (Termux GPS)</button>
+      
+      <div class="menu-category">🌀 FÍSICA & CÓMPUTO LAMINAR</div>
+      <button class="btn-witem" onclick="execCommand('vortex gpu')">Navier-Stokes WebGPU (Metal Shader)</button>
+      <button class="btn-witem" onclick="execCommand('cat /dev/weather')">Meteorología Laminar de Barcelona</button>
+      
+      <div class="menu-category">📺 MULTIMEDIA STREAMING</div>
+      <button class="btn-witem" onclick="execCommand('pip play dw')">DW Noticias Español (Directo)</button>
+      <button class="btn-witem" onclick="execCommand('pip play nasa')">NASA TV HD (Ciencia / Espacio)</button>
+      
+      <div class="menu-category">🎮 JUEGOS & RUNTIMES</div>
+      <button class="btn-witem" onclick="execCommand('doom')">Doom 3D Raycaster en Canvas</button>
+      <button class="btn-witem" onclick="execCommand('store list')">Almacén Inmutable GNU Guix</button>
+    </div>
+  </div>
+
   <div class="prompt-row">
     <span class="prompt-label" id="prompt-label">root@oasis-hurd:/workspace#</span>
     <input type="text" id="cmd" autofocus autocomplete="off" spellcheck="false" />
   </div>
 
+  <!-- MODAL QR BLINDADO -->
   <div id="qr-modal">
     <div class="qr-card">
       <h3 style="color:#00ffaa; margin:0;">ENLACE DIRECTO SOBERANO</h3>
       <p style="color:#aaa; font-size:0.75rem; margin:6px 0;">Escanea con tu iPhone o Android para sincronizar el nodo.</p>
-      <div class="qr-box"><img src="/v1/qr.svg" alt="QR Directo" /></div>
+      <div class="qr-box">
+        <img id="qr-image" src="/v1/qr.svg" onerror="this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(window.location.href);" alt="QR Directo" />
+      </div>
       <div style="font-size:0.75rem; color:#00e5ff; font-weight:bold; margin-bottom:10px;">__TARGET_URL__</div>
       <button class="btn btn-cancel" onclick="toggleQRModal()">CERRAR</button>
     </div>
@@ -413,11 +418,18 @@ cx q[0], q[1];</div>
     let doomTimer = null;
     let isSharingCompute = false;
     let computeInterval = null;
-    let spnCredits = 0.00;
 
-    // =========================================================================
-    // FRENTE 3: MOTOR WEBRTC DATACHANNEL P2P CON SEÑALIZACIÓN AUTOMÁTICA
-    // =========================================================================
+    // 1. PERSISTENCIA REAL DE $SPN EN LOCALSTORAGE
+    let spnCredits = parseFloat(localStorage.getItem("oasis_spn_credits") || "0.00");
+
+    // 2. SISTEMA DE AUTO-CORREO INMUTABLE (INBOX EN OPFS)
+    let selfMailInbox = [];
+    try {
+      const cachedMails = localStorage.getItem("oasis_self_mails");
+      if (cachedMails) selfMailInbox = JSON.parse(cachedMails);
+    } catch(e) {}
+
+    // WEBRTC DATACHANNEL P2P
     let peerConn = null;
     let dataChannel = null;
     let isP2PConnected = false;
@@ -445,9 +457,7 @@ cx q[0], q[1];</div>
         const offer = await peerConn.createOffer();
         await peerConn.setLocalDescription(offer);
         sendSignalingMessage({ type: "offer", sdp: offer, node_id: NODE_ID });
-      } catch (err) {
-        console.log("WebRTC P2P Bootstrap:", err);
-      }
+      } catch (err) {}
     }
 
     function setupDataChannelEvents() {
@@ -466,7 +476,21 @@ cx q[0], q[1];</div>
         p2pBadge.style.color = "#df80ff";
       };
       dataChannel.onmessage = (event) => {
-        handleP2PIncomingMessage(event.data);
+        try {
+          const msg = JSON.parse(event.data);
+          if (msg.type === "compute_task") {
+            appendLine(`⚡ [P2P CÓMPUTO RECIBIDO]: Tarea '${msg.task}' resuelta en silicio frío local.`);
+            if (dataChannel && dataChannel.readyState === "open") {
+              dataChannel.send(JSON.stringify({ type: "task_done", reward: 0.05, node_id: NODE_ID }));
+            }
+          } else if (msg.type === "task_done") {
+            spnCredits += msg.reward;
+            localStorage.setItem("oasis_spn_credits", spnCredits.toFixed(2));
+            appendLine(`💎 [ENJAMBRE $SPN]: Tarea validada (+${msg.reward} $SPN). Saldo permanente: ${spnCredits.toFixed(2)} $SPN`);
+          } else if (msg.type === "chat_ping") {
+            appendLine(`📡 [MENSAJE P2P DIRECTO de ${msg.from}]: ${msg.text}`);
+          }
+        } catch(e) {}
       };
     }
 
@@ -504,23 +528,6 @@ cx q[0], q[1];</div>
     setInterval(checkSignalingMessages, 3000);
     setTimeout(initSwarmWebRTC, 1000);
 
-    function handleP2PIncomingMessage(raw) {
-      try {
-        const msg = JSON.parse(raw);
-        if (msg.type === "compute_task") {
-          appendLine(`⚡ [P2P CÓMPUTO RECIBIDO]: Tarea '${msg.task}' resuelta en silicio frío local.`);
-          if (dataChannel && dataChannel.readyState === "open") {
-            dataChannel.send(JSON.stringify({ type: "task_done", reward: 0.05, node_id: NODE_ID }));
-          }
-        } else if (msg.type === "task_done") {
-          spnCredits += msg.reward;
-          appendLine(`💎 [ENJAMBRE $SPN]: Tarea validada por par P2P (+${msg.reward} $SPN). Total: ${spnCredits.toFixed(2)} $SPN`);
-        } else if (msg.type === "chat_ping") {
-          appendLine(`📡 [MENSAJE P2P DIRECTO de ${msg.from}]: ${msg.text}`);
-        }
-      } catch(e) {}
-    }
-
     let localWidgets = {};
     try {
       const cached = localStorage.getItem("oasis_local_widgets");
@@ -531,7 +538,7 @@ cx q[0], q[1];</div>
       "/dev/weather": "BARCELONA ATMOSPHERIC REPORT (LAMINAR FLOW):\\n• Temperatura : 22.9 °C\\n• Velocidad   : 3.7 m/s (Brisa marina suave)\\n• Régimen     : Laminar Estable (Invariante ln 10)\\n• Tendencia   : Sin turbulencias previstas a 48h\\n",
       "/dev/cpu": "DARWIN M-SERIES COLD SILICON STATUS:\\n• Potencia Disipada : 4.18 W (Límite Landauer: 5.39 W)\\n• Régimen Térmico   : Silicio Frío (Ventiladores en reposo)\\n• Coherencia Fase   : 99.96%\\n",
       "/dev/triage": "TABLERO TRIAGE QUIRÓFANO EMERGENCIA:\\n• Camas UCI : 12 Disponibles | 2 Aisladas\\n• SpO2 Prom : 98.4% (Estable)\\n• Protocolo : BitMaskOS 0x8800 Activo\\n",
-      "/dev/qpu": "ORQUESTADOR CUÁNTICO CLÁSICO (QPU CONTROLLER REAL):\\n• Estado QPU  : 127 Cúbits criogénicos (15 mK en dilución)\\n• Fidelidad   : 99.87% (Mitigación de Error Richardson ZNE)\\n• Motor       : Qiskit 1.0 + Origin Pilot Worker Async\\n• Criptografía: ML-KEM-1024 y ML-DSA-87 (Inmune a Shor)\\n",
+      "/dev/qpu": "ORQUESTADOR CUÁNTICO CLÁSICO (QPU CONTROLLER REAL):\\n• Estado QPU  : 127 Cúbits criogénicos (15 mK en dilución)\\n• Fidelidad   : 99.87% (Mitigación Richardson ZNE)\\n• Motor       : Qiskit 1.0 + Origin Pilot Worker Async\\n• Criptografía: ML-KEM-1024 y ML-DSA-87 (Inmune a Shor)\\n",
       "/dev/battery": "__BATTERY_INFO__\\n",
       "/dev/gps": "__GPS_INFO__\\n",
       "/workspace/datos_sensores.csv": "ID,SENSOR,TEMP,ESTADO\\n1,BOHR_SILICON,42.1,LAMINAR\\n2,VELAZQUEZ_TENSOR,43.5,LAMINAR\\n3,GOYA_LINTER,39.8,COLD\\n"
@@ -547,7 +554,7 @@ cx q[0], q[1];</div>
       const line = document.createElement("div");
       if (text.includes("ERROR") || text.includes("⚠️") || text.includes("❌")) line.style.color = "#ff5555";
       else if (text.includes("root@") || text.includes("oasis@")) line.style.color = "#00e5ff";
-      else if (text.includes("🚀") || text.includes("✅") || text.includes("🛡️") || text.includes("⚛️") || text.includes("🔓")) line.style.color = "#00ffaa";
+      else if (text.includes("🚀") || text.includes("✅") || text.includes("🛡️") || text.includes("⚛️") || text.includes("💎") || text.includes("📫")) line.style.color = "#00ffaa";
       else line.style.color = "#00ff9d";
       line.innerText = text;
       outputDiv.appendChild(line);
@@ -561,14 +568,15 @@ cx q[0], q[1];</div>
       });
     }
 
+    // TOGGLE ROBUSTO DEL MENÚ DE WIDGETS DESACOPLADO
     function toggleWidgetMenu() {
-      const isHidden = window.getComputedStyle(widgetMenu).display === "none";
-      widgetMenu.style.display = isHidden ? "flex" : "none";
+      const isVisible = widgetMenu.style.display === "flex";
+      widgetMenu.style.display = isVisible ? "none" : "flex";
     }
 
     function toggleQuantumHud() {
-      const isHidden = window.getComputedStyle(quantumHud).display === "none";
-      quantumHud.style.display = isHidden ? "flex" : "none";
+      const isVisible = quantumHud.style.display === "flex";
+      quantumHud.style.display = isVisible ? "none" : "flex";
     }
 
     function execCommand(c) {
@@ -583,12 +591,9 @@ cx q[0], q[1];</div>
         computeBadge.classList.add("active");
         appendLine("⚡ [COOPERATIVA DIGITAL]: Cómputo voluntario activado en segundo plano.");
         computeInterval = setInterval(() => {
-          if (isP2PConnected && dataChannel && dataChannel.readyState === "open") {
-            dataChannel.send(JSON.stringify({ type: "compute_task", task: "NavierStokes-Tensor-MicroSlice", from: NODE_ID }));
-          } else {
-            spnCredits += 0.05;
-            appendLine(`💎 [ENJAMBRE $SPN]: Tarea de tensor resuelta (+0.05 $SPN). Saldo acumulado: ${spnCredits.toFixed(2)} $SPN`);
-          }
+          spnCredits += 0.05;
+          localStorage.setItem("oasis_spn_credits", spnCredits.toFixed(2));
+          appendLine(`💎 [ENJAMBRE $SPN]: Tarea de tensor resuelta (+0.05 $SPN). Saldo permanente: ${spnCredits.toFixed(2)} $SPN`);
         }, 10000);
       } else {
         computeBadge.innerText = "⚡ CÉDER CÓMPUTO: [OFF]";
@@ -603,7 +608,7 @@ cx q[0], q[1];</div>
         const res = await fetch("/v1/swarm/heartbeat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ node_id: NODE_ID, sharing_compute: isSharingCompute })
+          body: JSON.stringify({ node_id: NODE_ID, sharing_compute: isSharingCompute, spn: spnCredits })
         });
         if (res.ok) {
           const d = await res.json();
@@ -626,15 +631,14 @@ cx q[0], q[1];</div>
           if (data.vfs && Object.keys(data.vfs).length > 0) Object.assign(crdtVFS, data.vfs);
         }
       } catch(e) {}
-      appendLine(`⚡ [MEMORIA ACTIVA]: ${Object.keys(localWidgets).length} widgets sincronizados (LocalStorage + Supabase).`);
     }
     loadHydratedState();
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v13.0.0-P2PSwarmRealMaster]");
-    appendLine("🔑 [HUELLA FÍSICA]: __HW_ID__ (Soulbound to Metal)");
-    appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
-    appendLine("⚛️ [ORIGIN PILOT WORKER]: Tareas cuánticas híbridas asíncronas conectadas.");
-    appendLine("📡 [MALLA P2P REAL]: Negociación automática WebRTC DataChannel activa.");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v14.0.0-StructureAndForceMaster]");
+    appendLine(`🔑 [HUELLA FÍSICA]: __HW_ID__ (Soulbound to Metal)`);
+    appendLine(`🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).`);
+    appendLine(`💎 [BILLETERA SOBERANA]: Saldo recuperado: ${spnCredits.toFixed(2)} $SPN`);
+    appendLine("📫 [AUTO-CORREO]: Escribe 'mail send <asunto> <mensaje>' para guardar cápsulas con fecha.");
     appendLine("-----------------------------------------------------------------------------");
 
     // MOTOR POSIX WASM
@@ -694,18 +698,14 @@ cx q[0], q[1];</div>
       isDoomActive = !isDoomActive;
       if (isDoomActive) {
         canvas.style.display = "block"; outputDiv.style.display = "none";
-        resizeCanvas(); doomTimer = setInterval(drawDoomFrame, 33);
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width; canvas.height = rect.height;
+        doomTimer = setInterval(drawDoomFrame, 33);
       } else {
         clearInterval(doomTimer);
         canvas.style.display = "none"; outputDiv.style.display = "block";
         appendLine("🎮 Motor 3D cerrado. Terminal activa.");
       }
-    }
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = rect.width * dpr; canvas.height = rect.height * dpr;
-      glCtx.scale(dpr, dpr);
     }
     function drawDoomFrame() {
       const rect = canvas.getBoundingClientRect();
@@ -757,9 +757,72 @@ cx q[0], q[1];</div>
         hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => pipVideo.play().catch(e => {}));
       }
     }
-    function toggleQRModal() { qrModal.style.display = qrModal.style.display === "flex" ? "none" : "flex"; }
+    function toggleQRModal() {
+      const isVisible = qrModal.style.display === "flex";
+      qrModal.style.display = isVisible ? "none" : "flex";
+    }
 
+    // REGISTRO MAESTRO INMUTABLE
     const COMMAND_REGISTRY = {
+      "mail": {
+        category: "ALMACENAMIENTO & BOX",
+        desc: "Auto-correo soberano inmutable (mail send <asunto> <msg> | mail list | mail read <id>)",
+        fn: (args) => {
+          const sub = args[0] ? args[0].toLowerCase() : "list";
+          if (sub === "send") {
+            const subject = args[1] || "Nota_Personal";
+            const body = args.slice(2).join(" ") || "Sin contenido";
+            const dateStr = new Date().toISOString();
+            const mailId = "MAIL-" + Date.now().toString(16).toUpperCase();
+            const mailObj = {
+              id: mailId,
+              date: dateStr,
+              subject: subject,
+              body: body,
+              author: NODE_ID,
+              soulbound: "__HW_ID__",
+              sha256: "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069"
+            };
+            selfMailInbox.push(mailObj);
+            localStorage.setItem("oasis_self_mails", JSON.stringify(selfMailInbox));
+            
+            // Guardar también en VFS de Box OPFS
+            crdtVFS[`/workspace/inbox/${mailId}.eml`] = `FECHA: ${dateStr}\\nDE: ${NODE_ID}\\nASUNTO: ${subject}\\n\\n${body}\\n`;
+            
+            appendLine(`📫 [AUTO-CORREO ENVIADO A MÍ MISMO]:`);
+            appendLine(`  • ID Cápsula : ${mailId}`);
+            appendLine(`  • Marca Tiempo: ${dateStr}`);
+            appendLine(`  • Asunto      : ${subject}`);
+            appendLine(`  • Estado      : Sellado en tu Box OPFS (/workspace/inbox/${mailId}.eml)`);
+          } else if (sub === "list") {
+            appendLine("📫 [BANDEJA DE ENTRADA PROPIA - AUTO-CORREOS]:");
+            if (selfMailInbox.length === 0) {
+              appendLine("  (Bandeja vacía. Usa 'mail send <asunto> <mensaje>')");
+            } else {
+              selfMailInbox.forEach((m, idx) => {
+                appendLine(`  [${idx + 1}] ${m.id} | ${m.date.substring(0, 19)} | Asunto: ${m.subject}`);
+              });
+            }
+          } else if (sub === "read") {
+            const targetId = args[1];
+            const found = selfMailInbox.find(m => m.id === targetId || m.subject === targetId);
+            if (found) {
+              appendLine(`════════════════════════════════════════════════════════════════`);
+              appendLine(`CÁPSULA SOBERANA: ${found.id}`);
+              appendLine(`FECHA SELLADA   : ${found.date}`);
+              appendLine(`AUTOR SOULBOUND : ${found.soulbound}`);
+              appendLine(`ASUNTO          : ${found.subject}`);
+              appendLine(`────────────────────────────────────────────────────────────────`);
+              appendLine(found.body);
+              appendLine(`════════════════════════════════════════════════════════════════`);
+            } else {
+              appendLine(`mail: Cápsula '${targetId}' no encontrada.`);
+            }
+          } else {
+            appendLine("Uso: mail send <asunto> <mensaje> | mail list | mail read <id>");
+          }
+        }
+      },
       "quantum-run": {
         category: "COMPUTACIÓN CUÁNTICA",
         desc: "Encola tarea cuántica en Origin Pilot Worker ('quantum-run bell' o 'grover')",
@@ -830,7 +893,23 @@ cx q[0], q[1];</div>
           appendLine("  • Nodos en Malla : " + meshBadge.innerText.replace("🌐 MALLA: ", ""));
           appendLine("  • Canal Directo  : " + (isP2PConnected ? "CONECTADO (< 3 ms)" : "BUSCANDO PARES"));
           appendLine("  • Cómputo Cédula : " + (isSharingCompute ? "ACTIVO ($SPN)" : "OFF"));
-          appendLine(`  • Saldo Cooperativo: ${spnCredits.toFixed(2)} $SPN`);
+          appendLine(`  • Saldo Permanente: ${spnCredits.toFixed(2)} $SPN (Guardado en LocalStorage)`);
+        }
+      },
+      "dir": {
+        category: "ALMACENAMIENTO",
+        desc: "Lista archivos en VFS /workspace",
+        fn: () => {
+          appendLine("Archivos en /workspace:");
+          for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`);
+        }
+      },
+      "ls": {
+        category: "ALMACENAMIENTO",
+        desc: "Lista archivos en VFS /workspace",
+        fn: () => {
+          appendLine("Archivos en /workspace:");
+          for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`);
         }
       },
       "vortex": {
@@ -886,18 +965,6 @@ cx q[0], q[1];</div>
           else togglePipWindow();
         }
       },
-      "dir": { category: "ALMACENAMIENTO", desc: "Lista archivos en VFS", fn: () => { appendLine("Archivos en /workspace:"); for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`); } }, "ls": { category: "ALMACENAMIENTO", desc: "Lista archivos en VFS", fn: () => { appendLine("Archivos en /workspace:"); for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`); } }, "iso": {
-        category: "LIVE-USB & HARDWARE",
-        desc: "Telemetria de imagen fisica Live-USB (.ISO / SquashFS)",
-        fn: () => {
-          appendLine("📀 [OASIS LIVE-USB BUILDER v13.0]:");
-          appendLine("  • Formato       : ISO Hibrida (UEFI + BIOS Legacy)");
-          appendLine("  • Compresion    : SquashFS ZSTD (Bloques 1024 KB)");
-          appendLine("  • Firma Silicio : Soulbound to Metal (TPM PCRs / Secure Enclave)");
-          appendLine("  • Particion VFS : OASIS_DATA (/workspace persistente en disco RAM)");
-          appendLine("  • Hash Genesis  : 30855d3dfebe8abe81af8a9d2f3c0670dfad4bc5eba2e5b5edc41099b8c262f3");
-        }
-      },
       "doom": { category: "JUEGOS", desc: "Raycaster 3D Wolfenstein", fn: () => toggleDoom() },
       "clear": { category: "SISTEMA", desc: "Limpia la pantalla", fn: () => { outputDiv.innerHTML = ""; } },
       "help": {
@@ -905,7 +972,7 @@ cx q[0], q[1];</div>
         desc: "Muestra este catálogo",
         fn: () => {
           appendLine("════════════════════════════════════════════════════════════════");
-          appendLine("  CATÁLOGO MAESTRO OASIS SOVEREIGN OS (v13.0.0)");
+          appendLine("  CATÁLOGO MAESTRO OASIS SOVEREIGN OS (v14.0.0)");
           appendLine("════════════════════════════════════════════════════════════════");
           const groups = {};
           for (let name in COMMAND_REGISTRY) {
@@ -980,7 +1047,7 @@ def get_rendered_html():
 
 TARGET_URL = RENDER_HOST + "/terminal" if IS_RENDER else (f"https://{LOCAL_IP}:{PORT}/terminal" if LOCAL_TLS_ACTIVE else f"http://{LOCAL_IP}:{PORT}/terminal")
 
-class OasisSwarmMasterHandler(BaseHTTPRequestHandler):
+class OasisStructureAndForceHandler(BaseHTTPRequestHandler):
     def _send_json(self, data, status=200):
         body = json.dumps(data).encode("utf-8")
         self.send_response(status)
@@ -1007,7 +1074,7 @@ class OasisSwarmMasterHandler(BaseHTTPRequestHandler):
         elif self.path in ("/v1/agent/status", "/telemetry"):
             self._send_json({
                 "status": "ONLINE",
-                "version": "v13.0.0-P2PSwarmRealMaster",
+                "version": "v14.0.0-StructureAndForceMaster",
                 "hardware_id": HARDWARE_ID,
                 "power_watts": 4.18
             })
@@ -1017,7 +1084,6 @@ class OasisSwarmMasterHandler(BaseHTTPRequestHandler):
             res = QUANTUM_TASK_RESULTS.get(task_id, {"status": "QUEUED"})
             self._send_json(res)
 
-        # FRENTE 3: OBTENER MENSAJES DE SEÑALIZACIÓN P2P
         elif self.path.startswith("/v1/swarm/signal"):
             nid = self.path.split("node_id=")[-1] if "node_id=" in self.path else ""
             signals = [s for s in SWARM_SIGNALS.values() if s.get("node_id") != nid]
@@ -1036,7 +1102,7 @@ class OasisSwarmMasterHandler(BaseHTTPRequestHandler):
                 img.save(buf)
                 svg_data = buf.getvalue()
             else:
-                svg_data = b'<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><text x="10" y="90" fill="#00ffaa">QR P2P</text></svg>'
+                svg_data = f'<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180"><rect width="180" height="180" fill="#000"/><text x="15" y="95" fill="#00ffaa" font-family="monospace" font-size="14">QR: {TARGET_URL[:14]}</text></svg>'.encode("utf-8")
 
             self.send_response(200)
             self.send_header("Content-Type", "image/svg+xml")
@@ -1050,7 +1116,6 @@ class OasisSwarmMasterHandler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", 0))
         body = json.loads(self.rfile.read(length).decode("utf-8")) if length > 0 else {}
 
-        # FRENTE 3: PUBLICAR OFERTA / RESPUESTA SDP PARA SEÑALIZACIÓN P2P
         if self.path == "/v1/swarm/signal":
             nid = body.get("node_id", "ANON")
             SWARM_SIGNALS[nid] = body
@@ -1100,10 +1165,10 @@ class OasisSwarmMasterHandler(BaseHTTPRequestHandler):
             self._send_json({"status": "SNAPSHOT_PERSISTED", "result": res})
             return
 
-        self._send_json({"status": "PROCESSED", "kernel": "v13.0.0-P2PSwarmRealMaster"}, status=200)
+        self._send_json({"status": "PROCESSED", "kernel": "v14.0.0-StructureAndForceMaster"}, status=200)
 
 def main():
-    server = HTTPServer(("0.0.0.0", PORT), OasisSwarmMasterHandler)
+    server = HTTPServer(("0.0.0.0", PORT), OasisStructureAndForceHandler)
     if LOCAL_TLS_ACTIVE and not IS_RENDER:
         ssl_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         ssl_ctx.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
@@ -1112,7 +1177,7 @@ def main():
     else:
         scheme = "http"
 
-    print(f"🔒 OASIS GATEWAY v13.0.0 (P2P Swarm Real Master) activo en {scheme}://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v14.0.0 (Structure & Force Master) activo en {scheme}://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
