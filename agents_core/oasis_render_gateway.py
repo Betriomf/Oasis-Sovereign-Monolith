@@ -886,7 +886,19 @@ cx q[0], q[1];</div>
           else togglePipWindow();
         }
       },
-      "dir": { category: "ALMACENAMIENTO", desc: "Lista archivos en VFS", fn: () => { appendLine("Archivos en /workspace:"); for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`); } }, "ls": { category: "ALMACENAMIENTO", desc: "Lista archivos en VFS", fn: () => { appendLine("Archivos en /workspace:"); for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`); } }, "doom": { category: "JUEGOS", desc: "Raycaster 3D Wolfenstein", fn: () => toggleDoom() },
+      "dir": { category: "ALMACENAMIENTO", desc: "Lista archivos en VFS", fn: () => { appendLine("Archivos en /workspace:"); for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`); } }, "ls": { category: "ALMACENAMIENTO", desc: "Lista archivos en VFS", fn: () => { appendLine("Archivos en /workspace:"); for (let f in crdtVFS) appendLine(`  -rw-r--r-- ${crdtVFS[f].length} B | ${f}`); } }, "iso": {
+        category: "LIVE-USB & HARDWARE",
+        desc: "Telemetria de imagen fisica Live-USB (.ISO / SquashFS)",
+        fn: () => {
+          appendLine("📀 [OASIS LIVE-USB BUILDER v13.0]:");
+          appendLine("  • Formato       : ISO Hibrida (UEFI + BIOS Legacy)");
+          appendLine("  • Compresion    : SquashFS ZSTD (Bloques 1024 KB)");
+          appendLine("  • Firma Silicio : Soulbound to Metal (TPM PCRs / Secure Enclave)");
+          appendLine("  • Particion VFS : OASIS_DATA (/workspace persistente en disco RAM)");
+          appendLine("  • Hash Genesis  : 30855d3dfebe8abe81af8a9d2f3c0670dfad4bc5eba2e5b5edc41099b8c262f3");
+        }
+      },
+      "doom": { category: "JUEGOS", desc: "Raycaster 3D Wolfenstein", fn: () => toggleDoom() },
       "clear": { category: "SISTEMA", desc: "Limpia la pantalla", fn: () => { outputDiv.innerHTML = ""; } },
       "help": {
         category: "SISTEMA",
