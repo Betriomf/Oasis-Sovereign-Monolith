@@ -1,0 +1,89 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Oasis Sovereign Oracle API",
+    "description": "Oráculos de física determinista, entropía cuántica y deducción en silicio frío (<= 4.18 W) con micro-liquidación L402 en Akash Network.",
+    "version": "15.3.0"
+  },
+  "servers": [
+    {
+      "url": "https://oasis-sovereign-wind-node.onrender.com",
+      "description": "Nodo Global en Producción (Render)"
+    },
+    {
+      "url": "https://127.0.0.1:8080",
+      "description": "Nodo Local Darwin (Apple Silicon Edge)"
+    }
+  ],
+  "paths": {
+    "/v1/oracle/beacon": {
+      "post": {
+        "summary": "Faro de Aleatoriedad Cuántica Web3",
+        "description": "Genera entropía certificada con violación de Bell (CHSH S > 2) para loterías y smart contracts.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tx_hash": { "type": "string", "example": "DEMO_DARWIN_ROOT" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Entropía generada y recibo PoUW" },
+          "402": { "description": "Pago requerido (0.05 AKT)" }
+        }
+      }
+    },
+    "/v1/oracle/bkm": {
+      "post": {
+        "summary": "Auditoría Navier-Stokes (Criterio BKM)",
+        "description": "Evalúa regularidad global y límite de enstrofía acotada por viscosidad decádica (kappa = ln 10).",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "max_vorticity": { "type": "number", "example": 2.1 },
+                  "time_interval": { "type": "number", "example": 1.5 },
+                  "tx_hash": { "type": "string", "example": "DEMO_DARWIN_ROOT" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Dictamen de estabilidad laminar" },
+          "402": { "description": "Pago requerido (0.20 AKT)" }
+        }
+      }
+    },
+    "/v1/oracle/infer": {
+      "post": {
+        "summary": "Inferencia Científica Confidencial (Agente ÆTHER)",
+        "description": "Deducción de física teórica en silicio frío con el modelo local aether:1.5b.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": { "type": "string", "example": "Explica la cota Sub-Landauer." },
+                  "tx_hash": { "type": "string", "example": "DEMO_DARWIN_ROOT" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Deducción formal sellada con PoUW" },
+          "402": { "description": "Pago requerido (0.15 AKT)" }
+        }
+      }
+    }
+  }
+}

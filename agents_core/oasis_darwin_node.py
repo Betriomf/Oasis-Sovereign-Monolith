@@ -40,7 +40,7 @@ TASK_TEMPLATES = [
     {"type": "QUANTUM_BEACON", "name": "Faro de Aleatoriedad para Lotería Web3", "circuit": "grover", "shots": 1024, "akt": 0.10, "spn": 2.40}
 ]
 
-def req_api(endpoint, method="GET", body=None):
+def req_api(endpoint, method="GET", body=None, timeout=35):
     url = f"{BASE_URL}{endpoint}"
     data = json.dumps(body).encode() if body else None
     headers = {"User-Agent": f"OasisDarwin/{VERSION}"}
@@ -49,7 +49,7 @@ def req_api(endpoint, method="GET", body=None):
 
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(req, timeout=5, context=SSL_CTX) as resp:
+        with urllib.request.urlopen(req, timeout=timeout, context=SSL_CTX) as resp:
             return json.loads(resp.read().decode())
     except urllib.error.URLError:
         if BASE_URL.startswith("https://"):

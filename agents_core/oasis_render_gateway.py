@@ -983,7 +983,10 @@ class OasisConsolidatedMasterHandler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
         self.end_headers()
-        self.wfile.write(body)
+        try:
+            self.wfile.write(body)
+        except BrokenPipeError:
+            pass
 
     def do_HEAD(self):
         self.send_response(200)
@@ -998,6 +1001,22 @@ class OasisConsolidatedMasterHandler(BaseHTTPRequestHandler):
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
             self.wfile.write(get_rendered_html().encode("utf-8"))
+
+        elif self.path == "/openapi.json":
+            try:
+                with open("openapi.json", "r", encoding="utf-8") as f_api:
+                    self._send_json(json.load(f_api))
+            except Exception:
+                self._send_json({"error": "OpenAPI spec not found"}, status=404)
+            return
+
+        elif self.path == "/docs":
+            docs_html = """<!DOCTYPE html><html><head><title>Oasis Oracle Swagger UI</title><link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css"></head><body style="margin:0;background:#03060a;"><div id="swagger-ui"></div><script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script><script>SwaggerUIBundle({url: "/openapi.json", dom_id: "#swagger-ui"});</script></body></html>"""
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(docs_html.encode())
+            return
 
         elif self.path in ("/v1/agent/status", "/telemetry"):
             self._send_json({
