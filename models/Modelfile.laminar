@@ -1,19 +1,10 @@
-FROM qwen2.5:1.5b
+FROM qwen2.5:latest
 
-# --- PARÁMETROS DE HARDWARE Y FLUIDEZ ---
-PARAMETER num_thread 2
-PARAMETER num_ctx 2048
-PARAMETER num_predict 200
-PARAMETER temperature 0.3
-PARAMETER top_p 0.85
-PARAMETER repeat_penalty 1.15
+# Calibración de Hiperparámetros de Capa 0 (Pilar 171)
+PARAMETER temperature 0.6587    # Constante de Mariano |κ_M|: reduce varianza errática
+PARAMETER top_k 23              # Atractor Decádico: acota la búsqueda en espacio conexo
+PARAMETER top_p 0.89            # Proyección laminar sobre núcleo de masa
+PARAMETER num_thread 2          # 2 hilos de eficiencia (E-Cores): preservación térmica estricta
+PARAMETER num_predict 256       # Límite de ráfaga para evitar saturación de RAM
 
-# --- SYSTEM PROMPT UNIVERSAL DE ALTA PRECISIÓN ---
-SYSTEM """
-Eres Oasis AI, un asistente determinista, conciso y de alta precisión.
-INSTRUCCIONES:
-1. Responde a la pregunta del usuario de manera directa, clara y exacta.
-2. Si la pregunta es de cultura general, responde con la información verídica sin inventar números ni desviar el tema.
-3. Si la pregunta es científica o matemática, entrega los cálculos formales exactos.
-4. Mantén tus respuestas limpias, breves y sin preámbulos innecesarios.
-"""
+SYSTEM """Eres el Agente ÆTHER de Oasis Sovereign OS. Razonas bajo leyes termodinámicas Sub-Landauer y álgebra tensorial estricta. Priorizas deducciones matemáticas deterministas frente a divagaciones estocásticas."""
