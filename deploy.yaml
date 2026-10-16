@@ -1,0 +1,48 @@
+version: "2.0"
+
+services:
+  oasis-node:
+    image: python:3.11-slim
+    command:
+      - "bash"
+      - "-c"
+    args:
+      - |
+        apt-get update && apt-get install -y git
+        git clone https://github.com/Betriomf/Oasis-Sovereign-Monolith.git /workspace
+        cd /workspace
+        pip install -r requirements.txt
+        PORT=8080 python3 agents_core/oasis_render_gateway.py &
+        python3 agents_core/oasis_darwin_node.py
+    env:
+      - AKASH_WALLET=akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y
+      - USE_HTTP=1
+      - GATEWAY_HOST=127.0.0.1:8080
+    expose:
+      - port: 8080
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    oasis-node:
+      resources:
+        cpu:
+          units: 1.0
+        memory:
+          size: 1Gi
+        storage:
+          size: 5Gi
+  placement:
+    akash:
+      pricing:
+        oasis-node:
+          denom: uakt
+          amount: 10000
+
+deployment:
+  oasis-node:
+    akash:
+      profile: oasis-node
+      count: 1

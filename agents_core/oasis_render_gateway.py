@@ -1,3 +1,37 @@
+
+OPENAPI_SPEC = {
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Oasis Sovereign Oracle API",
+    "description": "Oráculos deterministas, entropía cuántica y auditoría Navier-Stokes en silicio frío (<= 4.18 W) con micro-liquidación L402 en Akash Network.",
+    "version": "15.3.0"
+  },
+  "servers": [
+    {"url": "https://oasis-sovereign-wind-node.onrender.com", "description": "Nodo Global en Producción"},
+    {"url": "https://127.0.0.1:8080", "description": "Nodo Local Darwin"}
+  ],
+  "paths": {
+    "/v1/oracle/beacon": {
+      "post": {
+        "summary": "Faro de Aleatoriedad Cuántica Web3",
+        "responses": {"200": {"description": "Entropía cuántica generada (S > 2)"}, "402": {"description": "0.05 AKT requerido"}}
+      }
+    },
+    "/v1/oracle/bkm": {
+      "post": {
+        "summary": "Auditoría Industrial Navier-Stokes (BKM)",
+        "responses": {"200": {"description": "Dictamen de estabilidad laminar"}, "402": {"description": "0.20 AKT requerido"}}
+      }
+    },
+    "/v1/oracle/infer": {
+      "post": {
+        "summary": "Inferencia Científica Confidencial (ÆTHER)",
+        "responses": {"200": {"description": "Deducción formal sellada"}, "402": {"description": "0.15 AKT requerido"}}
+      }
+    }
+  }
+}
+
 import math
 #!/usr/bin/env python3
 """
@@ -981,13 +1015,13 @@ class OasisConsolidatedMasterHandler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         self.end_headers()
         try:
             self.wfile.write(body)
-        except BrokenPipeError:
+        except Exception:
             pass
-
     def do_HEAD(self):
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
@@ -995,6 +1029,28 @@ class OasisConsolidatedMasterHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        clean_path = self.path.split("?")[0].rstrip("/")
+        if clean_path in ("/docs", "/swagger", "/api-docs"):
+            docs_html = """<!DOCTYPE html><html><head><meta charset="utf-8"><title>Oasis Oracle Swagger</title><link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css"></head><body style="margin:0;background:#0b0f19;"><div id="swagger-ui"></div><script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script><script>SwaggerUIBundle({url: "/openapi.json", dom_id: "#swagger-ui"});</script></body></html>"""
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            try:
+                self.wfile.write(docs_html.encode("utf-8"))
+            except Exception:
+                pass
+            return
+
+        elif clean_path == "/openapi.json":
+            self._send_json(OPENAPI_SPEC)
+            return
+
+        elif clean_path == "":
+            self.send_response(302)
+            self.send_header("Location", "/terminal")
+            self.end_headers()
+            return
         if self.path in ("/", "/terminal") or self.path.startswith("/terminal?"):
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")

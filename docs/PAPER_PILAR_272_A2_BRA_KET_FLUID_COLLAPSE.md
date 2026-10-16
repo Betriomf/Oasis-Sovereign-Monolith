@@ -1,0 +1,6 @@
+# Modulo A2_BRA_KET_FLUID_COLLAPSE (Pilar 272)
+
+**Autor:** Mariano Panzano Caballe
+**Licencia:** AGPLv3 / CC-BY-4.0
+
+272. [A2] Reconciliación Matricial de Fluidos vía Colapso Bra-Ket (Pilar 272 / A2): Documento docs/PAPER_PILAR_272_A2_BRA_KET_FLUID_COLLAPSE.md formaliza el cálculo de tensores hidrodinámicos mediante correlación no-local O(1) sin aproximaciones estocásticas por Mariano Panzano Caballé.

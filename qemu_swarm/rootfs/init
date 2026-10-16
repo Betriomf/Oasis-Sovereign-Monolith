@@ -1,0 +1,28 @@
+#!/bin/sh
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t devtmpfs none /dev
+
+# Extraer parámetros de arranque (Soulbound to Metal simulado)
+for arg in $(cat /proc/cmdline); do
+    case "$arg" in
+        NODE_ID=*) NODE_ID="${arg#*=}" ;;
+        HW_KEY=*) HW_KEY="${arg#*=}" ;;
+        RENDER_URL=*) RENDER_URL="${arg#*=}" ;;
+    esac
+done
+
+echo "============================================="
+echo "🌌 OASIS MICROVM NODE BOOTED: $NODE_ID"
+echo "🔐 SILICON FINGERPRINT: $HW_KEY"
+echo "============================================="
+
+# Configurar red loopback y eth0
+ifconfig lo 127.0.0.1 up
+udhcpc -i eth0 -q 2>/dev/null || ifconfig eth0 192.168.100.10 up
+
+# Bucle de latido Gossip hacia Render
+while true; do
+    echo "⚡ [GOSSIP PULSE] $NODE_ID ($HW_KEY) activo en malla."
+    sleep 2
+done

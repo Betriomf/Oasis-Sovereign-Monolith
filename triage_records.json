@@ -1,0 +1,32 @@
+{
+  "PAC-101": {
+    "priority": "RED",
+    "vitals": {
+      "hr": "132",
+      "rr": "34",
+      "spo2": "87"
+    },
+    "notes": "Hemorragia femoral severa",
+    "updated_at": 1791708813.465447
+  },
+  "PAC-102": {
+    "priority": "YELLOW",
+    "vitals": {
+      "hr": "92",
+      "rr": "20",
+      "spo2": "95"
+    },
+    "notes": "Fractura cerrada antebrazo",
+    "updated_at": 1791708813.5479
+  },
+  "PAC-103": {
+    "priority": "GREEN",
+    "vitals": {
+      "hr": "74",
+      "rr": "15",
+      "spo2": "99"
+    },
+    "notes": "Herida superficial en mano",
+    "updated_at": 1791708813.621459
+  }
+}
