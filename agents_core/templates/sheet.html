@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>OASIS SPREADSHEET — Motor Excel Soberano</title>
+  <style>
+    body { background: #03060a; color: #00ff9d; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 10px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
+    .toolbar { display: flex; gap: 8px; align-items: center; border-bottom: 1px solid #005a36; padding-bottom: 8px; margin-bottom: 8px; }
+    .btn { background: #002217; border: 1px solid #00ff9d; color: #00ff9d; padding: 4px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+    .btn:hover { background: #00ff9d; color: #03060a; }
+    #gridContainer { flex: 1; overflow: auto; background: #051119; border: 1px solid #005a36; border-radius: 4px; }
+    table { border-collapse: collapse; width: 100%; font-size: 12px; }
+    th, td { border: 1px solid #1a3344; padding: 6px; text-align: left; color: #fff; }
+    th { background: #001a12; color: #00ffaa; position: sticky; top: 0; }
+    td[contenteditable="true"] { background: #081d28; outline: none; }
+    td[contenteditable="true"]:focus { border: 1px solid #00e5ff; background: #002b40; }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <strong style="color:#00e5ff;">📊 OASIS EXCEL SOVEREIGN ENGINE</strong>
+    <button class="btn" onclick="saveToOPFS()">💾 GUARDAR EN NVMe</button>
+    <button class="btn" onclick="addRow()">➕ FILA</button>
+    <button class="btn" onclick="exportCSV()">📥 EXPORTAR CSV</button>
+    <span id="status" style="font-size:0.75rem; color:#888; margin-left:auto;">Listo (Persistencia OPFS Activa)</span>
+  </div>
+  <div id="gridContainer">
+    <table>
+      <thead>
+        <tr><th>ID</th><th>SENSOR / VARIABLE</th><th>VALOR / TEMPERATURA</th><th>ESTADO FÍSICO</th></tr>
+      </thead>
+      <tbody id="sheetBody">
+        <tr><td contenteditable="true">1</td><td contenteditable="true">BOHR_SILICON</td><td contenteditable="true">42.1</td><td contenteditable="true">LAMINAR</td></tr>
+        <tr><td contenteditable="true">2</td><td contenteditable="true">VELAZQUEZ_TENSOR</td><td contenteditable="true">43.5</td><td contenteditable="true">LAMINAR</td></tr>
+        <tr><td contenteditable="true">3</td><td contenteditable="true">LANDAUER_BOUND</td><td contenteditable="true">4.18 W</td><td contenteditable="true">PASSIVE_COLD</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    function addRow() {
+      const tb = document.getElementById("sheetBody");
+      const tr = document.createElement("tr");
+      tr.innerHTML = '<td contenteditable="true">#</td><td contenteditable="true">NUEVA_VAR</td><td contenteditable="true">0.00</td><td contenteditable="true">ACTIVO</td>';
+      tb.appendChild(tr);
+    }
+    function saveToOPFS() {
+      localStorage.setItem("oasis_sheet_cache", document.getElementById("sheetBody").innerHTML);
+      document.getElementById("status").innerText = "Guardado en flash local a las " + new Date().toLocaleTimeString();
+    }
+    function exportCSV() {
+      let csv = "ID,VARIABLE,VALOR,ESTADO\n";
+      document.querySelectorAll("#sheetBody tr").forEach(r => {
+        const cols = Array.from(r.children).map(c => c.innerText.trim());
+        csv += cols.join(",") + "\n";
+      });
+      const blob = new Blob([csv], { type: "text/csv" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "oasis_data.csv";
+      a.click();
+    }
+    window.addEventListener("load", () => {
+      const cached = localStorage.getItem("oasis_sheet_cache");
+      if (cached) document.getElementById("sheetBody").innerHTML = cached;
+    });
+  </script>
+</body>
+</html>

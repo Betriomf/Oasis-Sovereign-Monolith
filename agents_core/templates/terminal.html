@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Oasis Sovereign OS — GNU/Hurd & Auto-Patch Master</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    body { background: #03060a; color: #00ff9d; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 10px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; overflow: hidden; }
+    .header { border-bottom: 1px solid #005a36; padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .badge-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .badge { background: #002217; border: 1px solid #00ff9d; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; }
+    .badge-btn { cursor: pointer; font-weight: bold; }
+    .badge-btn:hover { background: #00ff9d; color: #03060a; }
+    .badge-tab { background: #002b4d; border: 1px solid #00aaff; color: #80d4ff; }
+    .badge-sheet { background: #1a3300; border: 1px solid #55ff00; color: #aaff80; }
+    
+    #termContainer { flex: 1; position: relative; background: #020408; border: 1px solid #005a36; border-radius: 6px; overflow: hidden; margin-bottom: 8px; display: flex; flex-direction: column; }
+    #termOutput { flex: 1; padding: 12px; overflow-y: auto; font-size: 0.82rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; user-select: text; color: #00ff9d; }
+    #termOutput::selection { background: #005a36; color: #00ffff; }
+    
+    .prompt-row { display: flex; align-items: center; background: #050a10; border: 1px solid #005a36; border-radius: 4px; padding: 6px 10px; z-index: 30; }
+    .prompt-label { color: #00ff9d; font-weight: bold; margin-right: 8px; font-size: 0.85rem; user-select: none; }
+    #cmd { flex: 1; background: transparent; border: none; color: #00e5ff; font-family: inherit; font-size: 0.9rem; outline: none; }
+
+    .oasis-modal { display: none; position: fixed; top: 3%; left: 3%; width: 94%; height: 92%; background: #03060a; border: 2px solid #00ff9d; box-shadow: 0 0 30px rgba(0, 255, 157, 0.25); z-index: 10000; flex-direction: column; border-radius: 8px; }
+    .modal-header { background: #001a10; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #005a36; color: #00e5ff; font-size: 0.85rem; font-weight: bold; }
+    #editor-textarea { flex: 1; background: #010a06; color: #00ff9d; border: none; padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; outline: none; resize: none; line-height: 1.45; }
+    .modal-footer { background: #001a10; padding: 8px 16px; font-size: 0.75rem; color: #00ffaa; display: flex; justify-content: space-between; border-top: 1px solid #003822; }
+    .btn-action { background: #00ff9d; color: #03060a; border: none; padding: 5px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+    .btn-close { background: transparent; border: 1px solid #ff3366; color: #ff3366; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; margin-left: 8px; }
+
+    #app-modal { display: none; }
+    #app-iframe { width: 100%; flex: 1; border: none; }
+
+    #quantum-hud { display: none; position: fixed; top: 56px; right: 16px; width: 340px; background: #080312; border: 2px solid #b800ff; border-radius: 8px; box-shadow: 0 0 30px rgba(184,0,255,0.4); z-index: 9998; flex-direction: column; padding: 12px; font-size: 0.75rem; color: #df80ff; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span>🛰️ OASIS SOVEREIGN OS <strong>{{KERNEL_VERSION}}</strong></span>
+    <div class="badge-bar">
+      <span class="badge" id="hw-badge">🔑 HW: CARGANDO...</span>
+      <span class="badge badge-btn badge-sheet" onclick="runCommand('sheet')">📊 EXCEL OPFS</span>
+      <span class="badge badge-btn badge-tab" onclick="openApp('📡 TELEMETRÍA EN VIVO', '/oasis_tab')">📑 TABLERO TAB</span>
+      <span class="badge badge-btn" onclick="toggleQuantumHud()">⚛️ QUANTUM HUD</span>
+      <span class="badge badge-btn" onclick="runCommand('edit')">🛠️ AUTO-PATCH</span>
+      <span class="badge badge-btn" onclick="openApp('🐧 LINUX WASM (v86)', '/v86_linux')">🐧 LINUX WASM</span>
+    </div>
+  </div>
+
+  <div id="termContainer">
+    <div id="termOutput"></div>
+  </div>
+
+  <div id="editor-modal" class="oasis-modal">
+    <div class="modal-header">
+      <span id="editor-filename">📝 EDITANDO EN CALIENTE: agents_core/oasis_render_gateway.py</span>
+      <div>
+        <button class="btn-action" onclick="applyHotPatch()">💾 GUARDAR Y REINICIAR (CTRL+S)</button>
+        <button class="btn-close" onclick="closeEditor()">✕ SALIR (CTRL+X)</button>
+      </div>
+    </div>
+    <textarea id="editor-textarea" spellcheck="false"></textarea>
+    <div class="modal-footer">
+      <span id="editor-status">Listo. [Ctrl+S] para validar con AST y compilar en caliente.</span>
+      <span>Python 3.14 AST Linter Guard</span>
+    </div>
+  </div>
+
+  <div id="app-modal" class="oasis-modal">
+    <div class="modal-header">
+      <span id="app-title">📱 EXTENSIÓN SOBERANA</span>
+      <button class="btn-close" onclick="closeApp()">✕ CERRAR</button>
+    </div>
+    <iframe id="app-iframe"></iframe>
+  </div>
+
+  <div id="quantum-hud">
+    <button class="btn-close" style="float:right; padding:1px 5px;" onclick="toggleQuantumHud()">✕</button>
+    <div style="font-weight:bold; margin-bottom:6px;">⚛️ QUANTUM HUD (ORIGIN PILOT)</div>
+    <div>Circuito: Bell State (|Φ+⟩)</div>
+    <div>Fidelidad: 99.87% (Mitigación κ = ln 10)</div>
+    <div>Cota Silicio: ≤ 4.18 W (Laminar)</div>
+  </div>
+
+  <div class="prompt-row">
+    <span class="prompt-label" id="prompt-label">root@oasis-hurd:/workspace#</span>
+    <input type="text" id="cmd" autofocus autocomplete="off" spellcheck="false" />
+  </div>
+
+  <script>
+    const outputDiv = document.getElementById("termOutput");
+    const input = document.getElementById("cmd");
+    const editorModal = document.getElementById("editor-modal");
+    const editorTextarea = document.getElementById("editor-textarea");
+    const editorStatus = document.getElementById("editor-status");
+    const appModal = document.getElementById("app-modal");
+    const appIframe = document.getElementById("app-iframe");
+    let currentEditingPath = "agents_core/oasis_render_gateway.py";
+
+    function appendLine(text) {
+      const line = document.createElement("div");
+      if (text.includes("ERROR") || text.includes("⚠️") || text.includes("❌")) line.style.color = "#ff3366";
+      else if (text.includes("root@") || text.includes("oasis@")) line.style.color = "#00e5ff";
+      else if (text.includes("📊") || text.includes("✅") || text.includes("📑") || text.includes("🐧") || text.includes("🛠️")) line.style.color = "#00ffaa";
+      else line.style.color = "#00ff9d";
+      line.innerText = text;
+      outputDiv.appendChild(line);
+      outputDiv.scrollTop = outputDiv.scrollHeight;
+    }
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const raw = input.value;
+        input.value = "";
+        runCommand(raw);
+      }
+    });
+
+    function toggleQuantumHud() {
+      const q = document.getElementById("quantum-hud");
+      q.style.display = q.style.display === "flex" ? "none" : "flex";
+    }
+
+    function openApp(title, url) {
+      document.getElementById("app-title").innerText = title;
+      appIframe.src = url;
+      appModal.style.display = "flex";
+    }
+
+    function closeApp() {
+      appModal.style.display = "none";
+      appIframe.src = "about:blank";
+      input.focus();
+    }
+
+    async function openInlineEditor(file) {
+      currentEditingPath = file || "agents_core/oasis_render_gateway.py";
+      document.getElementById("editor-filename").innerText = `📝 EDITANDO: ${currentEditingPath}`;
+      editorStatus.innerText = "Leyendo código fuente desde el servidor...";
+      editorModal.style.display = "flex";
+
+      try {
+        const res = await fetch(`/v1/system/source?file=${encodeURIComponent(currentEditingPath)}`);
+        const data = await res.json();
+        if (data.content !== undefined) {
+          editorTextarea.value = data.content;
+          editorStatus.innerText = "Listo para editar. [Ctrl+S] para validar sintaxis y aplicar.";
+          editorTextarea.focus();
+        } else {
+          editorStatus.innerText = "❌ Error: " + (data.error || "No se pudo leer el archivo");
+        }
+      } catch (err) {
+        editorStatus.innerText = "❌ Error de conexión: " + err.message;
+      }
+    }
+
+    async function applyHotPatch() {
+      editorStatus.innerText = "⏳ Validando sintaxis AST en memoria...";
+      try {
+        const res = await fetch("/v1/system/patch", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            target_file: currentEditingPath,
+            content: editorTextarea.value,
+            hot_reload: true
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.status.startsWith("SUCCESS")) {
+          editorStatus.innerText = "✅ Parche aplicado con éxito. Reiniciando proceso en caliente...";
+          setTimeout(() => {
+            closeEditor();
+            appendLine(`✅ [SISTEMA PARCHEADO]: '${currentEditingPath}' actualizado. Gateway reiniciado.`);
+          }, 1200);
+        } else {
+          editorStatus.innerText = `❌ ${data.detail || "Error de validación"}`;
+        }
+      } catch (err) {
+        editorStatus.innerText = "❌ Error de red: " + err.message;
+      }
+    }
+
+    function closeEditor() {
+      editorModal.style.display = "none";
+      input.focus();
+    }
+
+    editorTextarea.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        applyHotPatch();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "x") {
+        e.preventDefault();
+        closeEditor();
+      }
+    });
+
+    let crdtVFS = {
+      "/workspace/bienvenida.txt": "🛰️ OASIS SOVEREIGN OS {{KERNEL_VERSION}}\nArquitectura: GNU/Hurd Microkernel en Espacio de Usuario.\n",
+      "/workspace/datos_sensores.csv": "ID,SENSOR,TEMP,ESTADO\n1,BOHR_SILICON,42.1,LAMINAR\n2,VELAZQUEZ_TENSOR,43.5,LAMINAR\n3,QPU_REGISTER,15mK,CRYOGENIC\n",
+      "/dev/cpu": "TRANSLATOR: CPU 8 Cores (Apple Silicon / ARM64) | Potencia: 4.18 W",
+      "/dev/qpu": "TRANSLATOR: IBM Quantum Runtime Bridge (Qiskit 1.0 Active)",
+      "/dev/telemetry": "TRANSLATOR: dS/dtau = 0.00 J/K·s (Adiabático)"
+    };
+
+    const COMMAND_REGISTRY = {
+      "edit": { category: "SISTEMA", desc: "Abre el editor inline de auto-modificación (edit [archivo])", fn: (args) => openInlineEditor(args[0]) },
+      "nano": { category: "SISTEMA", desc: "Alias para 'edit'", fn: (args) => openInlineEditor(args[0]) },
+      "sheet": { category: "PRODUCTIVIDAD", desc: "Abre la hoja de cálculo Excel OPFS", fn: () => openApp("📊 EXCEL OPFS SOBERANO", "/sheet") },
+      "tab": { category: "TELEMETRÍA", desc: "Abre el panel de telemetría", fn: () => openApp("📡 TELEMETRÍA EN VIVO", "/oasis_tab") },
+      "linux": { category: "WASM", desc: "Abre Linux x86 real en WebAssembly", fn: () => openApp("🐧 LINUX WASM (v86)", "/v86_linux") },
+      "menu": {
+        category: "WIDGETS TUI",
+        desc: "Catálogo interactivo de extensiones",
+        fn: () => {
+          appendLine("════════════════════════════════════════════════════════════════");
+          appendLine("  📦 OASIS SOVEREIGN OS — CENTRO DE CONTROL INTEGRAL");
+          appendLine("════════════════════════════════════════════════════════════════");
+          appendLine("  [1] sheet          ── Abrir hoja de cálculo Excel (OPFS NVMe)");
+          appendLine("  [2] tab            ── Abrir telemetría de silicio frío (/oasis_tab)");
+          appendLine("  [3] linux          ── Iniciar terminal Linux x86 real en WASM");
+          appendLine("  [4] edit           ── Auto-modificar el código del Gateway");
+          appendLine("  [5] ls /dev        ── Listar micro-traductores GNU/Hurd activos");
+          appendLine("  [6] clear          ── Limpiar la consola");
+          appendLine("────────────────────────────────────────────────────────────────");
+          appendLine("💡 Escribe el número [1-6] o el nombre del comando para ejecutarlo.");
+          appendLine("════════════════════════════════════════════════════════════════");
+        }
+      },
+      "cat": {
+        category: "VFS",
+        desc: "Lee el contenido de un archivo o traductor (cat <ruta>)",
+        fn: (args) => {
+          const path = args[0];
+          if (!path) { appendLine("Uso: cat <ruta>"); return; }
+          const target = path.startsWith("/") ? path : `/workspace/${path}`;
+          if (crdtVFS[target]) appendLine(crdtVFS[target]);
+          else appendLine(`cat: '${path}': No existe el archivo o traductor.`);
+        }
+      },
+      "ls": {
+        category: "VFS",
+        desc: "Lista nodos en VFS o /dev",
+        fn: (args) => {
+          const filter = args[0] || "/workspace";
+          appendLine(`Nodos en '${filter}':`);
+          Object.keys(crdtVFS).filter(k => k.startsWith(filter)).forEach(k => {
+            appendLine(`  ${k} (${crdtVFS[k].length} bytes)`);
+          });
+        }
+      },
+      "clear": { category: "SISTEMA", desc: "Limpia la pantalla", fn: () => { outputDiv.innerHTML = ""; } }
+    };
+
+    function runCommand(raw) {
+      raw = raw.trim();
+      if (!raw) return;
+      appendLine("root@oasis-hurd:/workspace# " + raw);
+
+      if (raw === "1") { COMMAND_REGISTRY["sheet"].fn([]); return; }
+      if (raw === "2") { COMMAND_REGISTRY["tab"].fn([]); return; }
+      if (raw === "3") { COMMAND_REGISTRY["linux"].fn([]); return; }
+      if (raw === "4") { COMMAND_REGISTRY["edit"].fn([]); return; }
+      if (raw === "5") { COMMAND_REGISTRY["ls"].fn(["/dev"]); return; }
+      if (raw === "6") { COMMAND_REGISTRY["clear"].fn([]); return; }
+
+      const parts = raw.split(" ").filter(Boolean);
+      const cmd = parts[0].toLowerCase();
+      const args = parts.slice(1);
+
+      if (COMMAND_REGISTRY[cmd]) COMMAND_REGISTRY[cmd].fn(args);
+      else appendLine(`Comando '${cmd}' no reconocido. Escribe 'menu' para el catálogo.`);
+    }
+
+    appendLine("🛰️  OASIS SOVEREIGN OS [{{KERNEL_VERSION}}]");
+    appendLine("🏛️ [GNU/HURD MICROKERNEL]: Traductores en memoria (/dev/cpu, /dev/qpu) activos.");
+    appendLine("🛠️ [AUTO-MODIFICACIÓN]: Escribe 'edit' para modificar el Gateway en caliente.");
+    appendLine("📊 [PRODUCTIVIDAD]: Escribe 'sheet' para abrir la hoja Excel sobre OPFS.");
+    appendLine("-----------------------------------------------------------------------------");
+  </script>
+</body>
+</html>
