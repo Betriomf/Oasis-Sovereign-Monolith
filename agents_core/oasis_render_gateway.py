@@ -32,7 +32,6 @@ def query_verdad_oasis(query_str):
         with open(TRUTH_FILE, "r", encoding="utf-8", errors="ignore") as f:
             lines = f.readlines()
         
-        # Búsqueda por ID numérico
         if query_str.isdigit():
             prefix = f"{query_str}."
             for line in lines:
@@ -40,7 +39,6 @@ def query_verdad_oasis(query_str):
                     return f"📜 [VERDAD_OASIS.txt]: Consultando Pilar {query_str}...\n{line.strip()}"
             return f"ℹ️ Pilar {query_str} no encontrado en VERDAD_OASIS.txt."
         
-        # Búsqueda por texto
         q_low = query_str.lower()
         matches = [l.strip() for l in lines if q_low in l.lower()]
         if matches:
@@ -74,7 +72,7 @@ HTML_CONTENT = f"""<!DOCTYPE html>
     .prompt-row {{ display: flex; align-items: center; background: #050a10; border: 1px solid #005a36; border-radius: 4px; padding: 4px 8px; gap: 8px; margin-top: 8px; }}
     #cmd {{ flex: 1; background: transparent; border: none; color: #00e5ff; font-family: inherit; font-size: 0.88rem; outline: none; }}
 
-    /* PANEL LATERAL DE WIDGETS */
+    /* DOCK LATERAL DE WIDGETS */
     #widget-drawer {{ position: fixed; top: 0; right: 0; width: 340px; height: 100vh; background: #050f17; border-left: 2px solid #00aaff; box-shadow: -10px 0 35px rgba(0,170,255,0.4); z-index: 1000000; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.25s ease; }}
     #widget-drawer.open {{ transform: translateX(0); }}
     .drawer-header {{ background: #0a1e2d; padding: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00aaff; font-size: 0.82rem; color: #80d4ff; font-weight: bold; }}
@@ -140,7 +138,7 @@ HTML_CONTENT = f"""<!DOCTYPE html>
       <div class="drawer-cat">⚡ CÓMPUTO & BENCHMARK</div>
       <button class="btn-witem" onclick="execCommand('bench')">Medir MFLOPS y Rendimiento Silicio Frío</button>
       <button class="btn-witem" onclick="execCommand('vortex gpu')">Ejecutar Navier-Stokes WebGPU / Metal</button>
-      <button class="btn-witem" onclick="execCommand('bin/oasis-core-simulation')">Ejecutar Motor Rust (Conmutador Bony j=8)</button>
+      <button class="btn-witem" onclick="execCommand('bin/oasis-core-simulation')">Ejecutar Motor Rust (Bony j=8)</button>
 
       <div class="drawer-cat">📦 BOX OPFS NVMe (50 GB)</div>
       <button class="btn-witem" onclick="document.getElementById('file-upload').click()">Adjuntar Archivo al Disco Privado NVMe</button>
@@ -224,7 +222,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       output.scrollTop = output.scrollHeight;
     }}
 
-    // === GESTIÓN DEL DRAWER DE WIDGETS ===
+    // === CONTROL DEL DRAWER DE WIDGETS ===
     function toggleDrawer() {{
       drawer.classList.toggle("open");
     }}
@@ -232,10 +230,10 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
     function execCommand(c) {{
       drawer.classList.remove("open");
       appendLine("root@oasis-hurd:/workspace# " + c, "#00ff9d");
-      setTimeout(() => runCommand(c), 60);
+      setTimeout(() => runCommand(c), 50);
     }}
 
-    // === VISOR MODAL OPFS ===
+    // === CONTROL DEL MODAL DE BÓVEDA OPFS ===
     function openVaultModal() {{
       drawer.classList.remove("open");
       modal.style.display = "flex";
@@ -278,7 +276,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       }}
       const root = await navigator.storage.getDirectory();
       let count = 0;
-      filter = filter.toLowerCase();
+      filter = (filter || "").toLowerCase();
 
       for await (const [name, handle] of root.entries()) {{
         if (handle.kind === "file" && (filter === "" || name.toLowerCase().includes(filter))) {{
@@ -383,14 +381,13 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       }}
     }}
 
-    // === EVALUADOR DE COMANDOS DE LA TERMINAL ===
+    // === EJECUCIÓN DE COMANDOS ===
     function runCommand(raw) {{
       raw = raw.trim();
       if (!raw) return;
 
       const low = raw.toLowerCase();
 
-      // Interceptores rápidos locales
       if (low === "clear") {{ output.innerHTML = ""; return; }}
       if (low === "menu") {{ toggleDrawer(); return; }}
       if (low === "boveda" || low === "opfs" || low === "riemann" || low === "digup") {{ openVaultModal(); return; }}
@@ -466,7 +463,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
         return;
       }}
 
-      // Fallback universal a Darwin / Shell Real
+      // Fallback a Darwin / Shell Real
       appendLine("⚙️ [DARWIN EXEC]: Ejecutando '" + raw + "' en el sistema real...", "#88aacc");
       fetch("/v1/darwin/exec", {{
         method: "POST",
@@ -478,7 +475,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       .catch(e => appendLine("❌ Error Darwin: " + e, "#ff5555"));
     }}
 
-    // Atajos de Teclado
     input.addEventListener("keydown", (e) => {{
       if (e.key === "Enter") {{
         const v = input.value;
@@ -498,10 +494,10 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       }}
     }});
 
-    // Bucle de cómputo voluntario cooperativo en segundo plano
+    // Bucle voluntario de recompensas $SPN
     setInterval(() => {{
       spnCredits += 0.05;
-      document.getElementById("spn-badge").innerText = `💎 ${{spnCredits.toFixed(2)}} $SPN`;
+      document.getElementById("spn-badge").innerText = `💎 ${{spnCredits.toFixed(2)}}$SPN`;
     }}, 8000);
 
     appendLine("🛰️  OASIS SOVEREIGN OS [v15.1.0-ConsolidatedMaster]");
@@ -577,7 +573,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = HTTPServer(("0.0.0.0", PORT), OasisMasterHandler)
-    print(f"🔒 OASIS GATEWAY v15.1.0 (Consolidated Master) activo en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v15.1.0 ESTABLE activo en puerto {PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
