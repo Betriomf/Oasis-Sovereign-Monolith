@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.4.0-SovereignMaster
-Monolito Estable: Widgets KWGT Directos, Bóveda OPFS (50GB), Marco Legal Ampliado.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.4.1-ConsolidatedMaster
+Monolito Estable: Sintaxis JS Saneada, Widgets Directos, Bóveda OPFS (50GB).
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, time, subprocess, socket
@@ -52,7 +52,7 @@ RAW_HTML = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v15.4.0-SovereignMaster]</title>
+  <title>OASIS SOVEREIGN OS [v15.4.1-ConsolidatedMaster]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
@@ -82,7 +82,7 @@ RAW_HTML = """<!DOCTYPE html>
     .btn-witem:hover { background: #005a36; color: #00ffff; }
     .btn-close { background: transparent; border: 1px solid #ff5555; color: #ff5555; cursor: pointer; font-size: 0.7rem; border-radius: 3px; padding: 2px 6px; }
 
-    /* VISOR MODAL OPFS (BÓVEDA PRIVADA) */
+    /* VISOR MODAL OPFS */
     #vault-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.88); backdrop-filter: blur(8px); z-index: 2000000; align-items: center; justify-content: center; }
     .modal-box { width: 840px; max-width: 94vw; height: 85vh; background: #040c14; border: 2px solid #00ffff; border-radius: 12px; box-shadow: 0 0 40px rgba(0,255,255,0.3); display: flex; flex-direction: column; overflow: hidden; }
     .modal-header { background: #0c1824; padding: 12px 18px; border-bottom: 1px solid #00ffff; display: flex; justify-content: space-between; align-items: center; }
@@ -100,7 +100,7 @@ RAW_HTML = """<!DOCTYPE html>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.4.0-SovereignMaster</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.4.1-ConsolidatedMaster</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge" style="background:#001a10; border-color:#00ff9d; color:#00ff9d;">🛡️ Caps: 0x8800</span>
@@ -213,7 +213,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       drawer.classList.toggle("open");
     };
 
-    // Despachador universal: sin colisiones con document.execCommand
     window.triggerCommand = function(cmd) {
       drawer.classList.remove("open");
       appendLine("root@oasis-hurd:/workspace# " + cmd, "#00ff9d");
@@ -297,7 +296,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         const t = await f.text();
         document.getElementById("tab-viewer").innerText = `=== ARCHIVO PRIVADO: ${name} ===\\n\\n` + t;
         switchModalTab("viewer");
-      }} catch(e) {
+      } catch(e) {
         alert("Error leyendo archivo: " + e);
       }
     }
@@ -367,7 +366,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     }
 
-    // === EVALUADOR DE COMANDOS ===
     function runCommand(raw) {
       raw = raw.trim();
       if (!raw) return;
@@ -462,7 +460,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         return;
       }
 
-      // Fallback a Darwin / Shell Real
       appendLine("⚙️ [DARWIN EXEC]: Ejecutando '" + raw + "' en el sistema real...", "#88aacc");
       fetch("/v1/darwin/exec", {
         method: "POST",
@@ -498,7 +495,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       document.getElementById("spn-badge").innerText = `💎 ${spnCredits.toFixed(2)} $SPN`;
     }, 8000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v15.4.0-SovereignMaster]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v15.4.1-ConsolidatedMaster]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
@@ -539,7 +536,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v15.4.0-SovereignMaster", "silicon_watts": 3.82})
+                self._send_json({"status": "ONLINE", "version": "v15.4.1-ConsolidatedMaster", "silicon_watts": 3.82})
             elif self.path == "/v1/qr.svg":
                 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
                   <rect width="100%" height="100%" fill="#050a14"/>
@@ -582,7 +579,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisMasterHandler)
-    print(f"🔒 OASIS GATEWAY v15.4.0 ESTABLE activo en puerto {PORT}")
+    print(f"🔒 OASIS GATEWAY v15.4.1 ESTABLE activo en puerto {PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
