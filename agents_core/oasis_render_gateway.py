@@ -497,7 +497,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
     // Bucle voluntario de recompensas $SPN
     setInterval(() => {{
       spnCredits += 0.05;
-      document.getElementById("spn-badge").innerText = `💎 ${{spnCredits.toFixed(2)}}$SPN`;
+      document.getElementById("spn-badge").innerText = `💎 ${{spnCredits.toFixed(2)}} $SPN`;
     }}, 8000);
 
     appendLine("🛰️  OASIS SOVEREIGN OS [v15.1.0-ConsolidatedMaster]");
