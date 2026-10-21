@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.1.0-ConsolidatedMaster
-Monolito Estable: Widgets KWGT, Bóveda OPFS, Pilares O(1), PiP HLS y Motor Darwin.
+Monolito Blindado: Widgets KWGT, Bóveda OPFS, Pilares O(1), Socket Reutilizable.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, time, subprocess, socket
@@ -199,7 +199,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
     let spnCredits = 6.40;
     let hls = null;
 
-    // === HUELLA CRIPTOGRÁFICA SOULBOUND PERMANENTE ===
     function getHardwareId() {{
       let id = localStorage.getItem("oasis_hwid_fixed");
       if (!id) {{
@@ -222,7 +221,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       output.scrollTop = output.scrollHeight;
     }}
 
-    // === CONTROL DEL DRAWER DE WIDGETS ===
     function toggleDrawer() {{
       drawer.classList.toggle("open");
     }}
@@ -233,7 +231,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       setTimeout(() => runCommand(c), 50);
     }}
 
-    // === CONTROL DEL MODAL DE BÓVEDA OPFS ===
     function openVaultModal() {{
       drawer.classList.remove("open");
       modal.style.display = "flex";
@@ -381,7 +378,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       }}
     }}
 
-    // === EJECUCIÓN DE COMANDOS ===
     function runCommand(raw) {{
       raw = raw.trim();
       if (!raw) return;
@@ -494,7 +490,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       }}
     }});
 
-    // Bucle voluntario de recompensas $SPN
     setInterval(() => {{
       spnCredits += 0.05;
       document.getElementById("spn-badge").innerText = `💎 ${{spnCredits.toFixed(2)}} $SPN`;
@@ -509,42 +504,51 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
 </body>
 </html>"""
 
+class ReusableHTTPServer(HTTPServer):
+    allow_reuse_address = True
+
 class OasisMasterHandler(BaseHTTPRequestHandler):
     def _send_json(self, data, status=200):
-        body = json.dumps(data).encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.end_headers()
-        self.wfile.write(body)
+        try:
+            body = json.dumps(data).encode("utf-8")
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
 
     def do_GET(self):
-        if self.path in ("/", "/terminal") or self.path.startswith("/terminal?"):
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
-            self.end_headers()
-            self.wfile.write(HTML_CONTENT.encode("utf-8"))
-        elif self.path.startswith("/v1/pilar"):
-            import urllib.parse
-            parsed = urllib.parse.urlparse(self.path)
-            params = urllib.parse.parse_qs(parsed.query)
-            p_id = params.get("id", ["1"])[0]
-            out = query_verdad_oasis(p_id)
-            self._send_json({"output": out, "id": p_id})
-        elif self.path in ("/v1/agent/status", "/health"):
-            self._send_json({"status": "ONLINE", "version": "v15.1.0-ConsolidatedMaster", "silicon_watts": 3.82})
-        elif self.path == "/v1/qr.svg":
-            svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
-              <rect width="100%" height="100%" fill="#050a14"/>
-              <text x="50%" y="45%" fill="#00ffff" font-family="monospace" font-size="14" text-anchor="middle">OASIS P2P QR SYNC</text>
-              <text x="50%" y="55%" fill="#00ff9d" font-family="monospace" font-size="12" text-anchor="middle">http://{LAN_IP}:8080/terminal</text>
-            </svg>'''
-            self.send_response(200)
-            self.send_header("Content-Type", "image/svg+xml")
-            self.end_headers()
-            self.wfile.write(svg.encode("utf-8"))
-        else:
-            self._send_json({"error": "NOT_FOUND"}, status=404)
+        try:
+            if self.path in ("/", "/terminal") or self.path.startswith("/terminal?"):
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(HTML_CONTENT.encode("utf-8"))
+            elif self.path.startswith("/v1/pilar"):
+                import urllib.parse
+                parsed = urllib.parse.urlparse(self.path)
+                params = urllib.parse.parse_qs(parsed.query)
+                p_id = params.get("id", ["1"])[0]
+                out = query_verdad_oasis(p_id)
+                self._send_json({"output": out, "id": p_id})
+            elif self.path in ("/v1/agent/status", "/health"):
+                self._send_json({"status": "ONLINE", "version": "v15.1.0-ConsolidatedMaster", "silicon_watts": 3.82})
+            elif self.path == "/v1/qr.svg":
+                svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+                  <rect width="100%" height="100%" fill="#050a14"/>
+                  <text x="50%" y="45%" fill="#00ffff" font-family="monospace" font-size="14" text-anchor="middle">OASIS P2P QR SYNC</text>
+                  <text x="50%" y="55%" fill="#00ff9d" font-family="monospace" font-size="12" text-anchor="middle">http://{LAN_IP}:8080/terminal</text>
+                </svg>'''
+                self.send_response(200)
+                self.send_header("Content-Type", "image/svg+xml")
+                self.end_headers()
+                self.wfile.write(svg.encode("utf-8"))
+            else:
+                self._send_json({"error": "NOT_FOUND"}, status=404)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
 
     def do_POST(self):
         length = int(self.headers.get("Content-Length", 0))
@@ -572,7 +576,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
         self._send_json({"status": "PROCESSED"})
 
 if __name__ == "__main__":
-    server = HTTPServer(("0.0.0.0", PORT), OasisMasterHandler)
+    server = ReusableHTTPServer(("0.0.0.0", PORT), OasisMasterHandler)
     print(f"🔒 OASIS GATEWAY v15.1.0 ESTABLE activo en puerto {PORT}")
     try:
         server.serve_forever()
