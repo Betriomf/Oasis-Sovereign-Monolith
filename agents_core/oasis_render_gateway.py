@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.2.0-SovereignMaster
-Monolito Consolidado: Todos los Widgets Operativos, Bóveda OPFS, Nomad Pasivo y Motor Darwin.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.3.0-SovereignMaster
+Monolito Estable: Widgets KWGT Directos, Bóveda OPFS (50GB), Cero Nomad, Silicio Frío.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, time, subprocess, socket
@@ -52,7 +52,7 @@ RAW_HTML = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v15.2.0-SovereignMaster]</title>
+  <title>OASIS SOVEREIGN OS [v15.3.0-SovereignMaster]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
@@ -66,7 +66,6 @@ RAW_HTML = """<!DOCTYPE html>
     .badge-dock { background: #002b4d; border-color: #0088ff; color: #80c4ff; font-weight: bold; }
     .badge-pip { background: #26001a; border-color: #ff00aa; color: #ff80d5; }
     .badge-vault { background: #002233; border-color: #00ffff; color: #00ffff; font-weight: bold; }
-    .badge-nomad { background: #1f1100; border-color: #ff9900; color: #ffcc66; font-weight: bold; }
 
     #termContainer { flex: 1; background: #020408; border: 1px solid #005a36; border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
     #termOutput { flex: 1; padding: 12px; overflow-y: auto; font-size: 0.82rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; color: #00ff9d; }
@@ -74,7 +73,7 @@ RAW_HTML = """<!DOCTYPE html>
     #cmd { flex: 1; background: transparent; border: none; color: #00e5ff; font-family: inherit; font-size: 0.88rem; outline: none; }
 
     /* DOCK LATERAL DE WIDGETS */
-    #widget-drawer { position: fixed; top: 0; right: 0; width: 350px; height: 100vh; background: #050f17; border-left: 2px solid #00aaff; box-shadow: -10px 0 35px rgba(0,170,255,0.4); z-index: 1000000; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.25s ease; }
+    #widget-drawer { position: fixed; top: 0; right: 0; width: 340px; height: 100vh; background: #050f17; border-left: 2px solid #00aaff; box-shadow: -10px 0 35px rgba(0,170,255,0.4); z-index: 1000000; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.22s ease; }
     #widget-drawer.open { transform: translateX(0); }
     .drawer-header { background: #0a1e2d; padding: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00aaff; font-size: 0.82rem; color: #80d4ff; font-weight: bold; }
     .drawer-body { padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
@@ -83,12 +82,7 @@ RAW_HTML = """<!DOCTYPE html>
     .btn-witem:hover { background: #005a36; color: #00ffff; }
     .btn-close { background: transparent; border: 1px solid #ff5555; color: #ff5555; cursor: pointer; font-size: 0.7rem; border-radius: 3px; padding: 2px 6px; }
 
-    /* TARJETA NOMAD DePIN */
-    .nomad-card { background: #120b00; border: 1px solid #ff9900; border-radius: 6px; padding: 10px; margin-top: 4px; display: flex; flex-direction: column; gap: 6px; }
-    .nomad-card-title { color: #ffcc66; font-size: 0.76rem; font-weight: bold; display: flex; justify-content: space-between; }
-    .nomad-stat { font-size: 0.70rem; color: #ddaa77; line-height: 1.35; }
-
-    /* MODAL BÓVEDA PRIVADA OPFS */
+    /* VISOR MODAL OPFS (BÓVEDA PRIVADA) */
     #vault-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.88); backdrop-filter: blur(8px); z-index: 2000000; align-items: center; justify-content: center; }
     .modal-box { width: 840px; max-width: 94vw; height: 85vh; background: #040c14; border: 2px solid #00ffff; border-radius: 12px; box-shadow: 0 0 40px rgba(0,255,255,0.3); display: flex; flex-direction: column; overflow: hidden; }
     .modal-header { background: #0c1824; padding: 12px 18px; border-bottom: 1px solid #00ffff; display: flex; justify-content: space-between; align-items: center; }
@@ -101,18 +95,17 @@ RAW_HTML = """<!DOCTYPE html>
     /* PiP WINDOW */
     #pip-container { display: none; position: absolute; top: 12px; right: 12px; width: 320px; background: #050a10; border: 2px solid #ff00aa; border-radius: 8px; z-index: 50000; overflow: hidden; }
     .pip-header { background: #1a0012; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ff00aa; font-size: 0.75rem; color: #ff80d5; font-weight: bold; }
-    #pipVideo {{ width: 100%; height: 180px; background: #000; display: block; }}
+    #pipVideo { width: 100%; height: 180px; background: #000; display: block; }
   </style>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.2.0-SovereignMaster</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.3.0-SovereignMaster</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
-      <span class="badge badge-mesh" id="mesh-badge" onclick="runCommand('swarm')">🌐 MALLA: 2 NODOS</span>
+      <span class="badge badge-mesh" id="mesh-badge" onclick="runCommand('swarm')">🌐 MALLA: 1 NODO</span>
       <span class="badge badge-mesh" id="spn-badge" style="color:#ffd700; border-color:#ffd700;">💎 6.40 $SPN</span>
       <span class="badge badge-vault" onclick="openVaultModal()">📁 BÓVEDA OPFS</span>
-      <span class="badge badge-nomad" onclick="execCommand('nomad status')">🚀 NOMAD DePIN</span>
       <span class="badge badge-dock" onclick="toggleDrawer()">📦 DOCK WIDGETS ▾</span>
       <span class="badge badge-pip" onclick="togglePip()">📺 PiP STREAM</span>
       <span class="badge" onclick="showQrSyncModal()" style="border-color:#ffaa00; color:#ffd280;">📲 QR SYNC</span>
@@ -135,31 +128,13 @@ RAW_HTML = """<!DOCTYPE html>
     <input type="text" id="cmd" autofocus autocomplete="off" />
   </div>
 
-  <!-- PANEL DE WIDGETS -->
+  <!-- PANEL DE WIDGETS (SIN NOMAD, 100% DIRECTO) -->
   <div id="widget-drawer">
     <div class="drawer-header">
-      <span>PANEL SOBERANO DE WIDGETS (v15.2)</span>
+      <span>PANEL SOBERANO DE WIDGETS</span>
       <button class="btn-close" onclick="toggleDrawer()">✕ CERRAR</button>
     </div>
     <div class="drawer-body">
-
-      <!-- RECUADRO NOMAD DEPIN -->
-      <div class="drawer-cat">🚀 ORQUESTADOR NOMAD DePIN</div>
-      <div class="nomad-card">
-        <div class="nomad-card-title">
-          <span>⚡ CLÚSTER SILICIO FRÍO</span>
-          <span style="color:#00ff9d;">[ONLINE]</span>
-        </div>
-        <div class="nomad-stat">• Planificador: Local (127.0.0.1:4646)</div>
-        <div class="nomad-stat">• Cota Térmica: &lt;= 3.90W (Silicio Frío)</div>
-        <div class="nomad-stat">• Estado Jobs : Gradientes en espera</div>
-        <div style="display:flex; gap:6px; margin-top:4px;">
-          <button class="btn-witem" style="text-align:center; padding:5px;" onclick="execCommand('nomad status')">Estado</button>
-          <button class="btn-witem" style="text-align:center; padding:5px;" onclick="execCommand('nomad jobs')">Jobs</button>
-          <button class="btn-witem" style="text-align:center; padding:5px;" onclick="execCommand('nomad run')">Ejecutar</button>
-        </div>
-      </div>
-
       <div class="drawer-cat">⚡ CÓMPUTO & BENCHMARK</div>
       <button class="btn-witem" onclick="execCommand('bench')">Medir MFLOPS y Rendimiento Silicio Frío</button>
       <button class="btn-witem" onclick="execCommand('vortex gpu')">Ejecutar Navier-Stokes WebGPU / Metal</button>
@@ -178,7 +153,7 @@ RAW_HTML = """<!DOCTYPE html>
 
       <div class="drawer-cat">📫 AUTO-CORREO INMUTABLE</div>
       <button class="btn-witem" onclick="execCommand('mail list')">Ver Bandeja de Entrada Propia</button>
-      <button class="btn-witem" onclick="execCommand('mail send Registro_v15_2 Sello de estabilidad consolidado')">Enviar Cápsula con Fecha y Hash</button>
+      <button class="btn-witem" onclick="execCommand('mail send Registro_v15_3 Sello de estabilidad consolidado')">Enviar Cápsula con Fecha y Hash</button>
 
       <div class="drawer-cat">⚛️ COMPUTACIÓN CUÁNTICA</div>
       <button class="btn-witem" onclick="execCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
@@ -232,28 +207,27 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       output.scrollTop = output.scrollHeight;
     }
 
-    function toggleDrawer() {
+    window.toggleDrawer = function() {
       drawer.classList.toggle("open");
-    }
+    };
 
-    // Despachador universal: Cierra el drawer y ejecuta sin bloqueos
-    function execCommand(c) {
+    window.execCommand = function(c) {
       drawer.classList.remove("open");
       appendLine("root@oasis-hurd:/workspace# " + c, "#00ff9d");
-      setTimeout(() => runCommand(c), 40);
-    }
+      setTimeout(() => runCommand(c), 30);
+    };
 
-    function openVaultModal() {
+    window.openVaultModal = function() {
       drawer.classList.remove("open");
       modal.style.display = "flex";
       switchModalTab("files");
       renderOpfsList("");
       loadRiemannContent();
-    }
+    };
 
-    function closeVaultModal() {
+    window.closeVaultModal = function() {
       modal.style.display = "none";
-    }
+    };
 
     function switchModalTab(tab) {
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -390,7 +364,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     }
 
-    // === EVALUADOR DE COMANDOS ===
     function runCommand(raw) {
       raw = raw.trim();
       if (!raw) return;
@@ -400,35 +373,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (low === "clear") { output.innerHTML = ""; return; }
       if (low === "menu") { toggleDrawer(); return; }
       if (low === "boveda" || low === "opfs" || low === "riemann" || low === "digup") { openVaultModal(); return; }
-      
-      // Comandos de Nomad
-      if (low === "nomad" || low === "nomad status") {
-        appendLine("════════════════════════════════════════════════════════════════", "#ff9900");
-        appendLine("🚀 [NOMAD DePIN CLUSTER - TELEMETRÍA EN SILICIO FRÍO]:", "#ffcc66");
-        appendLine("  • Estado Nodo      : Leader Activo (127.0.0.1:4646)");
-        appendLine("  • Motor Inferencia : oasis-edge:1.5b (CPU/GPU pasivo)");
-        appendLine("  • Presupuesto W    : 3.82 W (<= 4.18 W Sub-Landauer)");
-        appendLine("  • Jobs Asignados   : depin-gradient, vortex-bony, riemann-audit");
-        appendLine("════════════════════════════════════════════════════════════════", "#ff9900");
-        return;
-      }
-
-      if (low === "nomad jobs") {
-        appendLine("ID              TIPO     PRIORIDAD  ESTADO    ASIGNACIÓN", "#ffd700");
-        appendLine("----------------------------------------------------------------", "#888888");
-        appendLine("depin-gradient  service  50         RUNNING   Apple Silicon M-Series", "#00ffaa");
-        appendLine("vortex-bony     batch    80         COMPLETE  Dominancia j=8 Verificada", "#00ffaa");
-        appendLine("riemann-audit   batch    90         STANDBY   OPFS Conexión Segura", "#00e5ff");
-        return;
-      }
-
-      if (low === "nomad run") {
-        appendLine("⏳ [NOMAD]: Despachando micro-lote DePIN en segundo plano...", "#00e5ff");
-        setTimeout(() => {
-          appendLine("✅ [NOMAD]: Job completado sin salto térmico (+0.05 $SPN acreditados).", "#00ffaa");
-        }, 500);
-        return;
-      }
 
       if (low === "bench") {
         const t0 = performance.now();
@@ -537,7 +481,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       document.getElementById("spn-badge").innerText = `💎 ${spnCredits.toFixed(2)} $SPN`;
     }, 8000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v15.2.0-SovereignMaster]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v15.3.0-SovereignMaster]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
@@ -578,7 +522,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v15.2.0-SovereignMaster", "silicon_watts": 3.82})
+                self._send_json({"status": "ONLINE", "version": "v15.3.0-SovereignMaster", "silicon_watts": 3.82})
             elif self.path == "/v1/qr.svg":
                 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
                   <rect width="100%" height="100%" fill="#050a14"/>
@@ -621,7 +565,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisMasterHandler)
-    print(f"🔒 OASIS GATEWAY v15.2.0 ESTABLE activo en puerto {PORT}")
+    print(f"🔒 OASIS GATEWAY v15.3.0 ESTABLE activo en puerto {PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
