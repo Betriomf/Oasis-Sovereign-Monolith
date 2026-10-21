@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.3.0-SovereignMaster
-Monolito Estable: Widgets KWGT Directos, Bóveda OPFS (50GB), Cero Nomad, Silicio Frío.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.4.0-SovereignMaster
+Monolito Estable: Widgets KWGT Directos, Bóveda OPFS (50GB), Marco Legal Ampliado.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, time, subprocess, socket
@@ -52,7 +52,7 @@ RAW_HTML = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v15.3.0-SovereignMaster]</title>
+  <title>OASIS SOVEREIGN OS [v15.4.0-SovereignMaster]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
@@ -100,11 +100,13 @@ RAW_HTML = """<!DOCTYPE html>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.3.0-SovereignMaster</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.4.0-SovereignMaster</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
-      <span class="badge badge-mesh" id="mesh-badge" onclick="runCommand('swarm')">🌐 MALLA: 1 NODO</span>
-      <span class="badge badge-mesh" id="spn-badge" style="color:#ffd700; border-color:#ffd700;">💎 6.40 $SPN</span>
+      <span class="badge" style="background:#001a10; border-color:#00ff9d; color:#00ff9d;">🛡️ Caps: 0x8800</span>
+      <span class="badge badge-mesh" id="mesh-badge" onclick="runCommand('swarm')">🌐 MALLA: 1 NODOS</span>
+      <span class="badge" style="background:#151515; border-color:#666; color:#aaa;">⚡ CÉDER CÓMPUTO: [OFF]</span>
+      <span class="badge" style="background:#1a0033; border-color:#bf55ec; color:#e082ff;" onclick="runCommand('vortex gpu')">⚛️ QUANTUM HUD</span>
       <span class="badge badge-vault" onclick="openVaultModal()">📁 BÓVEDA OPFS</span>
       <span class="badge badge-dock" onclick="toggleDrawer()">📦 DOCK WIDGETS ▾</span>
       <span class="badge badge-pip" onclick="togglePip()">📺 PiP STREAM</span>
@@ -128,7 +130,7 @@ RAW_HTML = """<!DOCTYPE html>
     <input type="text" id="cmd" autofocus autocomplete="off" />
   </div>
 
-  <!-- PANEL DE WIDGETS (SIN NOMAD, 100% DIRECTO) -->
+  <!-- PANEL DE WIDGETS -->
   <div id="widget-drawer">
     <div class="drawer-header">
       <span>PANEL SOBERANO DE WIDGETS</span>
@@ -136,28 +138,28 @@ RAW_HTML = """<!DOCTYPE html>
     </div>
     <div class="drawer-body">
       <div class="drawer-cat">⚡ CÓMPUTO & BENCHMARK</div>
-      <button class="btn-witem" onclick="execCommand('bench')">Medir MFLOPS y Rendimiento Silicio Frío</button>
-      <button class="btn-witem" onclick="execCommand('vortex gpu')">Ejecutar Navier-Stokes WebGPU / Metal</button>
-      <button class="btn-witem" onclick="execCommand('bin/oasis-core-simulation')">Ejecutar Motor Rust (Bony j=8)</button>
+      <button class="btn-witem" onclick="triggerCommand('bench')">Medir MFLOPS y Rendimiento Silicio Frío</button>
+      <button class="btn-witem" onclick="triggerCommand('vortex gpu')">Ejecutar Navier-Stokes WebGPU / Metal</button>
+      <button class="btn-witem" onclick="triggerCommand('bin/oasis-core-simulation')">Ejecutar Motor Rust (Bony j=8)</button>
 
       <div class="drawer-cat">📦 BOX OPFS NVMe (50 GB) & BÓVEDA</div>
       <button class="btn-witem" onclick="openVaultModal()" style="border-left: 3px solid #00ffff; color:#00ffff; background:#081824;">📁 Bóveda Privada OPFS (Ver Mis Archivos)</button>
       <button class="btn-witem" onclick="document.getElementById('file-upload').click()">Adjuntar Archivo al Disco Privado NVMe</button>
-      <button class="btn-witem" onclick="execCommand('box status')">Consultar Cuota de Almacenamiento OPFS</button>
-      <button class="btn-witem" onclick="execCommand('dir')">Listar Archivos en /workspace</button>
+      <button class="btn-witem" onclick="triggerCommand('box status')">Consultar Cuota de Almacenamiento OPFS</button>
+      <button class="btn-witem" onclick="triggerCommand('dir')">Listar Archivos en /workspace</button>
 
       <div class="drawer-cat">🐙 MINI-GIT & SOBERANÍA</div>
-      <button class="btn-witem" onclick="execCommand('git status')">Auditar Estado de Archivos (git status)</button>
-      <button class="btn-witem" onclick="execCommand('git log')">Historial de Commits Firmados (git log)</button>
-      <button class="btn-witem" onclick="execCommand('legal')">Ver Declaración de Exención Legal</button>
+      <button class="btn-witem" onclick="triggerCommand('git status')">Auditar Estado de Archivos (git status)</button>
+      <button class="btn-witem" onclick="triggerCommand('git log')">Historial de Commits Firmados (git log)</button>
+      <button class="btn-witem" onclick="triggerCommand('legal')">Ver Marco Legal y Soberanía Ampliada</button>
 
       <div class="drawer-cat">📫 AUTO-CORREO INMUTABLE</div>
-      <button class="btn-witem" onclick="execCommand('mail list')">Ver Bandeja de Entrada Propia</button>
-      <button class="btn-witem" onclick="execCommand('mail send Registro_v15_3 Sello de estabilidad consolidado')">Enviar Cápsula con Fecha y Hash</button>
+      <button class="btn-witem" onclick="triggerCommand('mail list')">Ver Bandeja de Entrada Propia</button>
+      <button class="btn-witem" onclick="triggerCommand('mail send Registro_v15_4 Sello definitivo de estabilidad')">Enviar Cápsula con Fecha y Hash</button>
 
       <div class="drawer-cat">⚛️ COMPUTACIÓN CUÁNTICA</div>
-      <button class="btn-witem" onclick="execCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
-      <button class="btn-witem" onclick="execCommand('quantum-run grover')">Búsqueda Cuántica Grover 2-Qubit</button>
+      <button class="btn-witem" onclick="triggerCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
+      <button class="btn-witem" onclick="triggerCommand('quantum-run grover')">Búsqueda Cuántica Grover 2-Qubit</button>
     </div>
   </div>
 
@@ -211,10 +213,11 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       drawer.classList.toggle("open");
     };
 
-    window.execCommand = function(c) {
+    // Despachador universal: sin colisiones con document.execCommand
+    window.triggerCommand = function(cmd) {
       drawer.classList.remove("open");
-      appendLine("root@oasis-hurd:/workspace# " + c, "#00ff9d");
-      setTimeout(() => runCommand(c), 30);
+      appendLine("root@oasis-hurd:/workspace# " + cmd, "#00ff9d");
+      setTimeout(() => runCommand(cmd), 30);
     };
 
     window.openVaultModal = function() {
@@ -294,7 +297,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         const t = await f.text();
         document.getElementById("tab-viewer").innerText = `=== ARCHIVO PRIVADO: ${name} ===\\n\\n` + t;
         switchModalTab("viewer");
-      } catch(e) {
+      }} catch(e) {
         alert("Error leyendo archivo: " + e);
       }
     }
@@ -364,6 +367,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     }
 
+    // === EVALUADOR DE COMANDOS ===
     function runCommand(raw) {
       raw = raw.trim();
       if (!raw) return;
@@ -418,11 +422,24 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
 
       if (low === "legal") {
-        appendLine("════════════════════════════════════════════════════════════════");
-        appendLine("AVISO LEGAL Y LIMITACIÓN DE RESPONSABILIDAD — OASIS SOVEREIGN OS");
-        appendLine("1. SOFTWARE EXPERIMENTAL: Entregado 'TAL CUAL' bajo AGPLv3 / CC-BY-4.0.");
-        appendLine("2. SOBERANÍA: El usuario custodia sus claves y archivos exclusivamente.");
-        appendLine("════════════════════════════════════════════════════════════════");
+        appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
+        appendLine("MARCO LEGAL, AUTORÍA Y SOBERANÍA TECNOLÓGICA — OASIS SOVEREIGN OS", "#ffd700");
+        appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
+        appendLine("1. TITULARIDAD & AUTORÍA: Propiedad intelectual original de");
+        appendLine("   Mariano Panzano Caballé. Todos los derechos reservados.");
+        appendLine("2. LICENCIA DUAL: GNU AGPLv3 para código abierto y reciprocidad;");
+        appendLine("   Creative Commons CC-BY-4.0 para tratados científicos y pilares.");
+        appendLine("3. SOBERANÍA CRIPTOGRÁFICA: Las claves privadas (did:key, AGE)");
+        appendLine("   residen exclusivamente en el silicio del usuario (Secure Enclave).");
+        appendLine("   Cero custodia en servidores de terceros.");
+        appendLine("4. DOCTRINA DEL MERO CONDUCTO (Mere Conduit / GDPR): Los nodos de");
+        appendLine("   la malla transmiten tramas cifradas E2E sin acceso a su contenido.");
+        appendLine("5. CONTABILIDAD $SPN: Créditos de balance termodinámico interno");
+        appendLine("   asociados a la Cota Sub-Landauer E_bit = k_B * T * ln(phi).");
+        appendLine("   No constituyen activos financieros, valores ni monedas de curso.");
+        appendLine("6. EXENCIÓN DE RESPONSABILIDAD: Software de alta precisión provisto");
+        appendLine("   'TAL CUAL' ('AS IS') sin garantías explícitas o implícitas.");
+        appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
         return;
       }
 
@@ -481,7 +498,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       document.getElementById("spn-badge").innerText = `💎 ${spnCredits.toFixed(2)} $SPN`;
     }, 8000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v15.3.0-SovereignMaster]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v15.4.0-SovereignMaster]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
@@ -522,7 +539,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v15.3.0-SovereignMaster", "silicon_watts": 3.82})
+                self._send_json({"status": "ONLINE", "version": "v15.4.0-SovereignMaster", "silicon_watts": 3.82})
             elif self.path == "/v1/qr.svg":
                 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
                   <rect width="100%" height="100%" fill="#050a14"/>
@@ -565,7 +582,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisMasterHandler)
-    print(f"🔒 OASIS GATEWAY v15.3.0 ESTABLE activo en puerto {PORT}")
+    print(f"🔒 OASIS GATEWAY v15.4.0 ESTABLE activo en puerto {PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
