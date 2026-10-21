@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.1.0-ConsolidatedMaster
-Monolito Estable: Widgets KWGT, Bóveda OPFS, Recuadro Nomad DePIN y Motor Darwin.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.2.0-SovereignMaster
+Monolito Consolidado: Todos los Widgets Operativos, Bóveda OPFS, Nomad Pasivo y Motor Darwin.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, time, subprocess, socket
@@ -52,7 +52,7 @@ RAW_HTML = """<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v15.1.0-ConsolidatedMaster]</title>
+  <title>OASIS SOVEREIGN OS [v15.2.0-SovereignMaster]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
@@ -83,12 +83,12 @@ RAW_HTML = """<!DOCTYPE html>
     .btn-witem:hover { background: #005a36; color: #00ffff; }
     .btn-close { background: transparent; border: 1px solid #ff5555; color: #ff5555; cursor: pointer; font-size: 0.7rem; border-radius: 3px; padding: 2px 6px; }
 
-    /* RECUADRO NOMAD DEPIN */
+    /* TARJETA NOMAD DePIN */
     .nomad-card { background: #120b00; border: 1px solid #ff9900; border-radius: 6px; padding: 10px; margin-top: 4px; display: flex; flex-direction: column; gap: 6px; }
     .nomad-card-title { color: #ffcc66; font-size: 0.76rem; font-weight: bold; display: flex; justify-content: space-between; }
     .nomad-stat { font-size: 0.70rem; color: #ddaa77; line-height: 1.35; }
 
-    /* VISOR MODAL OPFS (BÓVEDA PRIVADA) */
+    /* MODAL BÓVEDA PRIVADA OPFS */
     #vault-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.88); backdrop-filter: blur(8px); z-index: 2000000; align-items: center; justify-content: center; }
     .modal-box { width: 840px; max-width: 94vw; height: 85vh; background: #040c14; border: 2px solid #00ffff; border-radius: 12px; box-shadow: 0 0 40px rgba(0,255,255,0.3); display: flex; flex-direction: column; overflow: hidden; }
     .modal-header { background: #0c1824; padding: 12px 18px; border-bottom: 1px solid #00ffff; display: flex; justify-content: space-between; align-items: center; }
@@ -101,12 +101,12 @@ RAW_HTML = """<!DOCTYPE html>
     /* PiP WINDOW */
     #pip-container { display: none; position: absolute; top: 12px; right: 12px; width: 320px; background: #050a10; border: 2px solid #ff00aa; border-radius: 8px; z-index: 50000; overflow: hidden; }
     .pip-header { background: #1a0012; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ff00aa; font-size: 0.75rem; color: #ff80d5; font-weight: bold; }
-    #pipVideo { width: 100%; height: 180px; background: #000; display: block; }
+    #pipVideo {{ width: 100%; height: 180px; background: #000; display: block; }}
   </style>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.1.0-ConsolidatedMaster</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.2.0-SovereignMaster</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="runCommand('swarm')">🌐 MALLA: 2 NODOS</span>
@@ -138,25 +138,25 @@ RAW_HTML = """<!DOCTYPE html>
   <!-- PANEL DE WIDGETS -->
   <div id="widget-drawer">
     <div class="drawer-header">
-      <span>PANEL SOBERANO DE WIDGETS</span>
+      <span>PANEL SOBERANO DE WIDGETS (v15.2)</span>
       <button class="btn-close" onclick="toggleDrawer()">✕ CERRAR</button>
     </div>
     <div class="drawer-body">
 
       <!-- RECUADRO NOMAD DEPIN -->
-      <div class="drawer-cat">🚀 RECUADRO NOMAD DePIN ORCHESTRATOR</div>
+      <div class="drawer-cat">🚀 ORQUESTADOR NOMAD DePIN</div>
       <div class="nomad-card">
         <div class="nomad-card-title">
-          <span>⚡ CLÚSTER DE SILICIO FRÍO</span>
-          <span style="color:#00ff9d;">[LEADER ONLINE]</span>
+          <span>⚡ CLÚSTER SILICIO FRÍO</span>
+          <span style="color:#00ff9d;">[ONLINE]</span>
         </div>
-        <div class="nomad-stat">• Scheduler: Local-First (127.0.0.1:4646)</div>
-        <div class="nomad-stat">• Inferencia: oasis-edge:1.5b (<= 3.90W)</div>
-        <div class="nomad-stat">• Jobs Activos: 3 micro-batches en cola</div>
+        <div class="nomad-stat">• Planificador: Local (127.0.0.1:4646)</div>
+        <div class="nomad-stat">• Cota Térmica: &lt;= 3.90W (Silicio Frío)</div>
+        <div class="nomad-stat">• Estado Jobs : Gradientes en espera</div>
         <div style="display:flex; gap:6px; margin-top:4px;">
-          <button class="btn-witem" style="text-align:center; padding:4px;" onclick="execCommand('nomad status')">Estado</button>
-          <button class="btn-witem" style="text-align:center; padding:4px;" onclick="execCommand('nomad jobs')">Ver Jobs</button>
-          <button class="btn-witem" style="text-align:center; padding:4px;" onclick="execCommand('nomad run')">Ejecutar</button>
+          <button class="btn-witem" style="text-align:center; padding:5px;" onclick="execCommand('nomad status')">Estado</button>
+          <button class="btn-witem" style="text-align:center; padding:5px;" onclick="execCommand('nomad jobs')">Jobs</button>
+          <button class="btn-witem" style="text-align:center; padding:5px;" onclick="execCommand('nomad run')">Ejecutar</button>
         </div>
       </div>
 
@@ -166,8 +166,8 @@ RAW_HTML = """<!DOCTYPE html>
       <button class="btn-witem" onclick="execCommand('bin/oasis-core-simulation')">Ejecutar Motor Rust (Bony j=8)</button>
 
       <div class="drawer-cat">📦 BOX OPFS NVMe (50 GB) & BÓVEDA</div>
-      <button class="btn-witem" onclick="document.getElementById('file-upload').click()">Adjuntar Archivo al Disco Privado NVMe</button>
       <button class="btn-witem" onclick="openVaultModal()" style="border-left: 3px solid #00ffff; color:#00ffff; background:#081824;">📁 Bóveda Privada OPFS (Ver Mis Archivos)</button>
+      <button class="btn-witem" onclick="document.getElementById('file-upload').click()">Adjuntar Archivo al Disco Privado NVMe</button>
       <button class="btn-witem" onclick="execCommand('box status')">Consultar Cuota de Almacenamiento OPFS</button>
       <button class="btn-witem" onclick="execCommand('dir')">Listar Archivos en /workspace</button>
 
@@ -178,7 +178,7 @@ RAW_HTML = """<!DOCTYPE html>
 
       <div class="drawer-cat">📫 AUTO-CORREO INMUTABLE</div>
       <button class="btn-witem" onclick="execCommand('mail list')">Ver Bandeja de Entrada Propia</button>
-      <button class="btn-witem" onclick="execCommand('mail send Registro_Activo Estado consolidado de silicio')">Enviar Cápsula con Fecha y Hash</button>
+      <button class="btn-witem" onclick="execCommand('mail send Registro_v15_2 Sello de estabilidad consolidado')">Enviar Cápsula con Fecha y Hash</button>
 
       <div class="drawer-cat">⚛️ COMPUTACIÓN CUÁNTICA</div>
       <button class="btn-witem" onclick="execCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
@@ -190,18 +190,18 @@ RAW_HTML = """<!DOCTYPE html>
   <div id="vault-modal">
     <div class="modal-box">
       <div class="modal-header">
-        <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">📁 BÓVEDA PRIVADA OPFS — EXPLORADOR DE ARCHIVOS LOCALES</span>
+        <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">📁 BÓVEDA PRIVADA OPFS — ARCHIVOS EN DISCO LOCAL</span>
         <button class="btn-close" onclick="closeVaultModal()">✕ CERRAR</button>
       </div>
       <div class="modal-tabs">
-        <button class="tab-btn active" id="tab-btn-files" onclick="switchModalTab('files')">📂 Mis Archivos en OPFS (50 GB)</button>
+        <button class="tab-btn active" id="tab-btn-files" onclick="switchModalTab('files')">📂 Mis Archivos en OPFS</button>
         <button class="tab-btn" id="tab-btn-riemann" onclick="switchModalTab('riemann')">📐 Manuscrito Riemann (Clay)</button>
         <button class="tab-btn" id="tab-btn-viewer" onclick="switchModalTab('viewer')">👁️ Visor de Contenido</button>
       </div>
       <div id="tab-files" class="tab-content active">
         <div style="margin-bottom:12px; display:flex; gap:8px;">
-          <input type="text" id="opfs-filter" placeholder="🔍 Filtrar archivos en tu disco privado (ej. riemann, csv, pilar)..." oninput="renderOpfsList(this.value)" style="flex:1; background:#0a1926; border:1px solid #005a36; color:#00ffff; padding:8px 12px; border-radius:4px; font-family:inherit; outline:none;" />
-          <button onclick="document.getElementById('file-upload').click()" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:8px 14px; border-radius:4px; cursor:pointer; font-weight:bold;">➕ Subir Archivo</button>
+          <input type="text" id="opfs-filter" placeholder="🔍 Filtrar tus archivos guardados..." oninput="renderOpfsList(this.value)" style="flex:1; background:#0a1926; border:1px solid #005a36; color:#00ffff; padding:8px 12px; border-radius:4px; font-family:inherit; outline:none;" />
+          <button onclick="document.getElementById('file-upload').click()" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:8px 14px; border-radius:4px; cursor:pointer; font-weight:bold;">➕ Subir</button>
         </div>
         <div id="opfs-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
@@ -209,7 +209,7 @@ RAW_HTML = """<!DOCTYPE html>
 Cargando demostración formal de Riemann...
       </div>
       <div id="tab-viewer" class="tab-content" style="color:#aaffaa; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">
-Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
+Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       </div>
     </div>
   </div>
@@ -224,20 +224,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
     let spnCredits = 6.40;
     let hls = null;
 
-    function getHardwareId() {
-      let id = localStorage.getItem("oasis_hwid_fixed");
-      if (!id) {
-        const str = navigator.userAgent + screen.width + screen.height + (navigator.hardwareConcurrency || 4);
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) hash = ((hash << 5) - hash) + str.charCodeAt(i);
-        id = "OASIS-HW-MAC-" + Math.abs(hash).toString(16).toUpperCase().padStart(10, '0');
-        localStorage.setItem("oasis_hwid_fixed", id);
-      }
-      return id;
-    }
-    const HARDWARE_ID = getHardwareId();
-    document.getElementById("hw-badge").innerText = "🔑 " + HARDWARE_ID;
-
     function appendLine(text, color) {
       const el = document.createElement("div");
       if (color) el.style.color = color;
@@ -250,10 +236,11 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       drawer.classList.toggle("open");
     }
 
+    // Despachador universal: Cierra el drawer y ejecuta sin bloqueos
     function execCommand(c) {
       drawer.classList.remove("open");
       appendLine("root@oasis-hurd:/workspace# " + c, "#00ff9d");
-      setTimeout(() => runCommand(c), 50);
+      setTimeout(() => runCommand(c), 40);
     }
 
     function openVaultModal() {
@@ -310,7 +297,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
           div.innerHTML = `
             <div>
               <div style="color:#00ffff; font-weight:bold; font-size:0.84rem;">📄 ${name}</div>
-              <div style="color:#88aacc; font-size:0.72rem;">${sz} KB | Disco Privado Local</div>
+              <div style="color:#88aacc; font-size:0.72rem;">${sz} KB | Disco NVMe Privado</div>
             </div>
             <div style="display:flex; gap:8px;">
               <button onclick="viewOpfsDoc('${name}')" style="background:#0c2838; border:1px solid #00aaff; color:#80d4ff; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer;">👁️ Ver</button>
@@ -321,7 +308,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
         }
       }
       if (count === 0) {
-        cont.innerHTML = "<div style='color:#888; text-align:center; padding:20px;'>Tu bóveda privada está vacía. Arrastra archivos a la terminal para guardarlos.</div>";
+        cont.innerHTML = "<div style='color:#888; text-align:center; padding:20px;'>Bóveda privada vacía. Arrastra archivos a la terminal para guardarlos.</div>";
       }
     }
 
@@ -331,7 +318,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
         const h = await root.getFileHandle(name);
         const f = await h.getFile();
         const t = await f.text();
-        document.getElementById("tab-viewer").innerText = `=== ARCHIVO PRIVADO: ${name} ===\n\n` + t;
+        document.getElementById("tab-viewer").innerText = `=== ARCHIVO PRIVADO: ${name} ===\\n\\n` + t;
         switchModalTab("viewer");
       } catch(e) {
         alert("Error leyendo archivo: " + e);
@@ -365,7 +352,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
           const access = await draft.createWritable();
           await access.write(f);
           await access.close();
-          appendLine(`✅ "${f.name}" sellado en OPFS NVMe. Cero fugas a la nube.`, "#00ffaa");
+          appendLine(`✅ "${f.name}" guardado en la Bóveda OPFS. Cero fugas a la nube.`, "#00ffaa");
         } catch(err) {
           appendLine(`❌ Error guardando en OPFS: ${err}`, "#ff5555");
         }
@@ -403,6 +390,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       }
     }
 
+    // === EVALUADOR DE COMANDOS ===
     function runCommand(raw) {
       raw = raw.trim();
       if (!raw) return;
@@ -413,6 +401,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       if (low === "menu") { toggleDrawer(); return; }
       if (low === "boveda" || low === "opfs" || low === "riemann" || low === "digup") { openVaultModal(); return; }
       
+      // Comandos de Nomad
       if (low === "nomad" || low === "nomad status") {
         appendLine("════════════════════════════════════════════════════════════════", "#ff9900");
         appendLine("🚀 [NOMAD DePIN CLUSTER - TELEMETRÍA EN SILICIO FRÍO]:", "#ffcc66");
@@ -437,7 +426,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
         appendLine("⏳ [NOMAD]: Despachando micro-lote DePIN en segundo plano...", "#00e5ff");
         setTimeout(() => {
           appendLine("✅ [NOMAD]: Job completado sin salto térmico (+0.05 $SPN acreditados).", "#00ffaa");
-        }, 600);
+        }, 500);
         return;
       }
 
@@ -512,6 +501,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
         return;
       }
 
+      // Fallback a Darwin / Shell Real
       appendLine("⚙️ [DARWIN EXEC]: Ejecutando '" + raw + "' en el sistema real...", "#88aacc");
       fetch("/v1/darwin/exec", {
         method: "POST",
@@ -547,7 +537,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para inspeccionarlo aquí.
       document.getElementById("spn-badge").innerText = `💎 ${spnCredits.toFixed(2)} $SPN`;
     }, 8000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v15.1.0-ConsolidatedMaster]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v15.2.0-SovereignMaster]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
@@ -588,7 +578,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v15.1.0-ConsolidatedMaster", "silicon_watts": 3.82})
+                self._send_json({"status": "ONLINE", "version": "v15.2.0-SovereignMaster", "silicon_watts": 3.82})
             elif self.path == "/v1/qr.svg":
                 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
                   <rect width="100%" height="100%" fill="#050a14"/>
@@ -631,7 +621,7 @@ class OasisMasterHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisMasterHandler)
-    print(f"🔒 OASIS GATEWAY v15.1.0 ESTABLE activo en puerto {PORT}")
+    print(f"🔒 OASIS GATEWAY v15.2.0 ESTABLE activo en puerto {PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
