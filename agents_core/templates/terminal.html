@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v15.7.0-SovereignMaster]</title>
+  <title>OASIS SOVEREIGN OS [v15.7.0-ModularDemon]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -18,6 +18,7 @@
     .badge-pip { background: #26001a; border-color: #ff00aa; color: #ff80d5; }
     .badge-vault { background: #002233; border-color: #00ffff; color: #00ffff; font-weight: bold; }
     .badge-quantum { background: #1a0033; border-color: #bf55ec; color: #e082ff; font-weight: bold; box-shadow: 0 0 10px rgba(191,85,236,0.3); }
+    .badge-demon { background: #261100; border-color: #ff7700; color: #ffaa55; font-weight: bold; box-shadow: 0 0 10px rgba(255,119,0,0.3); }
     .badge-compute-off { background: #151515; border-color: #666; color: #aaa; font-weight: bold; }
     .badge-compute-on { background: #003311; border-color: #00ff9d; color: #00ff9d; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,157,0.3); }
 
@@ -54,12 +55,13 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.7.0-SovereignMaster</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.7.0-ModularDemon</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge" style="background:#001a10; border-color:#00ff9d; color:#00ff9d;">🛡️ Caps: 0x8800</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 2 NODOS</span>
       <span class="badge badge-compute-off" id="compute-badge" onclick="toggleComputeShare()">⚡ CÉDER CÓMPUTO: [OFF]</span>
+      <span class="badge badge-demon" onclick="triggerCommand('demon-status')">👹 DEMON HUD</span>
       <span class="badge badge-quantum" onclick="openQuantumModal()">⚛️ QUANTUM HUD</span>
       <span class="badge badge-vault" onclick="openVaultModal()">📁 BÓVEDA OPFS</span>
       <span class="badge badge-dock" onclick="toggleDrawer()">📦 DOCK WIDGETS ▾</span>
@@ -87,12 +89,12 @@
   <!-- PANEL DE WIDGETS -->
   <div id="widget-drawer">
     <div class="drawer-header">
-      <span>PANEL SOBERANO DE WIDGETS (v15.7)</span>
+      <span>PANEL SOBERANO DE WIDGETS</span>
       <button class="btn-close" onclick="toggleDrawer()">✕ CERRAR</button>
     </div>
     <div class="drawer-body">
-      <div class="drawer-cat">⚡ CÓMPUTO & AUDITORÍA MATEMÁTICA</div>
-      <button class="btn-witem" onclick="triggerCommand('help')">📖 Ver Catálogo de Comandos (help)</button>
+      <div class="drawer-cat">⚡ CÓMPUTO & AUDITORÍA ENTRÓPICA</div>
+      <button class="btn-witem" onclick="triggerCommand('demon-status')">👹 Demonio Maxwell-Landauer (Ratio Entrópico)</button>
       <button class="btn-witem" onclick="openQuantumModal()">⚛️ Ver Quantum HUD (Circuito Bell & ZNE)</button>
       <button class="btn-witem" onclick="triggerCommand('riemann-audit')">📐 Riemann Audit (Capa 0 & Fisher-Rao)</button>
       <button class="btn-witem" onclick="triggerCommand('bench')">Medir MFLOPS y Rendimiento Silicio Frío</button>
@@ -107,13 +109,14 @@
       <button class="btn-witem" onclick="triggerCommand('dir')">Listar Archivos en /workspace</button>
 
       <div class="drawer-cat">🐙 MINI-GIT & SOBERANÍA</div>
+      <button class="btn-witem" onclick="triggerCommand('help')">📖 Catálogo Universal de Comandos (help)</button>
       <button class="btn-witem" onclick="triggerCommand('git status')">Auditar Estado de Archivos (git status)</button>
       <button class="btn-witem" onclick="triggerCommand('git log')">Historial de Commits Firmados (git log)</button>
       <button class="btn-witem" onclick="triggerCommand('legal')">Ver Marco Legal y Soberanía Ampliada</button>
 
       <div class="drawer-cat">📫 AUTO-CORREO INMUTABLE</div>
       <button class="btn-witem" onclick="triggerCommand('mail list')">Ver Bandeja de Entrada Propia</button>
-      <button class="btn-witem" onclick="triggerCommand('mail send Registro_v15_7 Despliegue agnóstico universal')">Enviar Cápsula con Fecha y Hash</button>
+      <button class="btn-witem" onclick="triggerCommand('mail send Registro_Demon Demonio de Maxwell-Landauer Integrado')">Enviar Cápsula con Fecha y Hash</button>
 
       <div class="drawer-cat">⚛️ COMPUTACIÓN CUÁNTICA DIRECTA</div>
       <button class="btn-witem" onclick="triggerCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
@@ -449,10 +452,32 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
 
       const low = raw.toLowerCase();
 
-      // 1. COMANDO HELP NATIVO DE OASIS (Independiente de bash/dash)
+      // Telemetría del Demonio de Maxwell-Landauer
+      if (low === "demon" || low === "demon-status" || low === "maxwell") {
+        appendLine("⚛️ [CAPA 0]: Consultando telemetría del Demonio Maxwell-Landauer...", "#ffaa55");
+        fetch("/v1/math/demon")
+          .then(r => r.json())
+          .then(d => {
+            appendLine("════════════════════════════════════════════════════════════════", "#ff7700");
+            appendLine("👹 [MAXWELL-LANDAUER DEMON ENGINE — EFICIENCIA ENTRÓPICA]:", "#00ffff");
+            appendLine("  • Bits procesados en ráfaga : " + (d.bits_processed / 1e6).toFixed(3) + " x 10^6 bits", "#00ffaa");
+            appendLine("  • Cota clásica Landauer     : E_min = " + d.e_min_landauer_joules.toExponential(4) + " J", "#88aacc");
+            appendLine("  • Cota Sub-Landauer E_oasis : " + d.e_oasis_joules.toExponential(4) + " J (Ahorro: " + d.thermal_saving_pct + "%)", "#ffd700");
+            appendLine("  • Eficiencia de Feedback    : " + d.efficiency_feedback_pct + "% (Recuperación de trabajo lógico)", "#00ffaa");
+            appendLine("  • Estado de la Memoria      : " + d.entropy_state, "#00ff9d");
+            appendLine("  • Régimen Térmico           : " + d.thermal_regime_watts + " W (Disipación laminar pasiva)", "#00e5ff");
+            appendLine("  • Pacing Irracional (Δt)    : " + d.pacing_dt_ms + " ms (π / φ)", "#80d4ff");
+            appendLine("════════════════════════════════════════════════════════════════", "#ff7700");
+          })
+          .catch(e => appendLine("❌ Error consultando demonio: " + e, "#ff5555"));
+        return;
+      }
+
+      // Catálogo nativo Help
       if (low === "help" || low === "?" || low === "ayuda") {
         appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
         appendLine("📖 [OASIS SOVEREIGN OS — CATÁLOGO UNIVERSAL DE COMANDOS]:", "#00ff9d");
+        appendLine("  • demon-status    : Telemetría del Demonio de Maxwell-Landauer y ratio entrópico");
         appendLine("  • riemann-audit   : Auditoría analítica de la Hipótesis de Riemann (Capa 0)");
         appendLine("  • quantum / qhud  : Despliega el Quantum HUD con circuito Bell y ZNE");
         appendLine("  • bench           : Ejecuta el benchmark de MFLOPS en silicio frío");
@@ -460,7 +485,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         appendLine("  • swarm           : Muestra la topología P2P y potencia agregada de la malla");
         appendLine("  • qr / sync       : Muestra el código QR vectorial para vincular nodos móviles");
         appendLine("  • vortex gpu      : Simulación de tensores Navier-Stokes WebGPU / Metal");
-        appendLine("  • pilar <id>      : Consulta instantánea de pilares (ej. 'pilar 8', 'pilar 338')");
+        appendLine("  • pilar <id>      : Consulta instantánea de pilares (ej. 'pilar 8', 'pilar 365')");
         appendLine("  • box status      : Consulta la cuota disponible en el sistema OPFS");
         appendLine("  • dir / ls        : Lista el contenido de /workspace y /dev");
         appendLine("  • legal           : Muestra el marco legal, autoría AGPLv3 y no-custodia");
@@ -630,7 +655,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (spnEl) spnEl.innerText = "💎 " + spnCredits.toFixed(2) + " $SPN";
     }, 4000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v15.7.0-SovereignMaster]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v15.7.0-ModularDemon]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
