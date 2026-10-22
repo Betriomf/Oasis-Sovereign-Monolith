@@ -9,7 +9,7 @@ import os, sys, json, subprocess, socket
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 PORT = int(os.environ.get("PORT", 8080))
-REPO_ROOT = os.path.expanduser("~/Oasis-Sovereign-Monolith")
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(REPO_ROOT, "agents_core", "templates")
 TRUTH_FILE = os.path.join(REPO_ROOT, "VERDAD_OASIS.txt")
 
