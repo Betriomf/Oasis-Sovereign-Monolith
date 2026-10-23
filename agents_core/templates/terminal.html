@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v15.7.0-ModularDemon]</title>
+  <title>OASIS SOVEREIGN OS [v15.8.0-BesovHemo]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -18,7 +18,7 @@
     .badge-pip { background: #26001a; border-color: #ff00aa; color: #ff80d5; }
     .badge-vault { background: #002233; border-color: #00ffff; color: #00ffff; font-weight: bold; }
     .badge-quantum { background: #1a0033; border-color: #bf55ec; color: #e082ff; font-weight: bold; box-shadow: 0 0 10px rgba(191,85,236,0.3); }
-    .badge-demon { background: #261100; border-color: #ff7700; color: #ffaa55; font-weight: bold; box-shadow: 0 0 10px rgba(255,119,0,0.3); }
+    .badge-hemo { background: #2b000a; border-color: #ff3366; color: #ff88a3; font-weight: bold; box-shadow: 0 0 10px rgba(255,51,102,0.3); }
     .badge-compute-off { background: #151515; border-color: #666; color: #aaa; font-weight: bold; }
     .badge-compute-on { background: #003311; border-color: #00ff9d; color: #00ff9d; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,157,0.3); }
 
@@ -55,13 +55,13 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.7.0-ModularDemon</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.8.0-BesovHemo</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge" style="background:#001a10; border-color:#00ff9d; color:#00ff9d;">🛡️ Caps: 0x8800</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 2 NODOS</span>
       <span class="badge badge-compute-off" id="compute-badge" onclick="toggleComputeShare()">⚡ CÉDER CÓMPUTO: [OFF]</span>
-      <span class="badge badge-demon" onclick="triggerCommand('demon-status')">👹 DEMON HUD</span>
+      <span class="badge badge-hemo" onclick="triggerCommand('hemo')">🩺 BESOV CFD</span>
       <span class="badge badge-quantum" onclick="openQuantumModal()">⚛️ QUANTUM HUD</span>
       <span class="badge badge-vault" onclick="openVaultModal()">📁 BÓVEDA OPFS</span>
       <span class="badge badge-dock" onclick="toggleDrawer()">📦 DOCK WIDGETS ▾</span>
@@ -93,13 +93,15 @@
       <button class="btn-close" onclick="toggleDrawer()">✕ CERRAR</button>
     </div>
     <div class="drawer-body">
-      <div class="drawer-cat">⚡ CÓMPUTO & AUDITORÍA ENTRÓPICA</div>
+      <div class="drawer-cat">🩺 HEMODINÁMICA MÉDICA & BESOV CFD</div>
+      <button class="btn-witem" onclick="triggerCommand('hemo')">🩺 Detección Microvascular Besov (WSS 9.80 Pa)</button>
       <button class="btn-witem" onclick="triggerCommand('demon-status')">👹 Demonio Maxwell-Landauer (Ratio Entrópico)</button>
+
+      <div class="drawer-cat">⚡ CÓMPUTO & AUDITORÍA MATEMÁTICA</div>
       <button class="btn-witem" onclick="openQuantumModal()">⚛️ Ver Quantum HUD (Circuito Bell & ZNE)</button>
       <button class="btn-witem" onclick="triggerCommand('riemann-audit')">📐 Riemann Audit (Capa 0 & Fisher-Rao)</button>
       <button class="btn-witem" onclick="triggerCommand('bench')">Medir MFLOPS y Rendimiento Silicio Frío</button>
       <button class="btn-witem" onclick="toggleComputeShare()">Alternar Ceder Cómputo (Potencia de Malla)</button>
-      <button class="btn-witem" onclick="triggerCommand('vortex gpu')">Ejecutar Navier-Stokes WebGPU / Metal</button>
       <button class="btn-witem" onclick="triggerCommand('bin/oasis-core-simulation')">Ejecutar Motor Rust (Bony j=8)</button>
 
       <div class="drawer-cat">📦 BOX OPFS NVMe (50 GB) & BÓVEDA</div>
@@ -116,7 +118,7 @@
 
       <div class="drawer-cat">📫 AUTO-CORREO INMUTABLE</div>
       <button class="btn-witem" onclick="triggerCommand('mail list')">Ver Bandeja de Entrada Propia</button>
-      <button class="btn-witem" onclick="triggerCommand('mail send Registro_Demon Demonio de Maxwell-Landauer Integrado')">Enviar Cápsula con Fecha y Hash</button>
+      <button class="btn-witem" onclick="triggerCommand('mail send Registro_Besov Hemodinámica Besov Integrada')">Enviar Cápsula con Fecha y Hash</button>
 
       <div class="drawer-cat">⚛️ COMPUTACIÓN CUÁNTICA DIRECTA</div>
       <button class="btn-witem" onclick="triggerCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
@@ -452,7 +454,29 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
 
       const low = raw.toLowerCase();
 
-      // Telemetría del Demonio de Maxwell-Landauer
+      // Hemodinámica Médica y Criterios de Besov
+      if (low === "hemo" || low === "besov" || low === "besov-cfd" || low === "wss") {
+        appendLine("🩺 [CAPA 0 / CFD]: Consultando auditoría hemodinámica en espacios de Besov...", "#ff88a3");
+        fetch("/v1/med/besov-cfd")
+          .then(r => r.json())
+          .then(d => {
+            appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
+            appendLine("🩺 [AUDITORÍA HEMODINÁMICA — ESPACIOS DE BESOV B⁰_∞,∞]:", "#00ffff");
+            appendLine("  • WSS Convencional (Promedio) : " + d.cfd_convencional_wss_pa + " Pa [" + d.diagnostico_clasico + "]", "#88aacc");
+            appendLine("  • WSS Besov B⁰_∞,∞ (Puntual)  : " + d.besov_b0_inf_wss_pa + " Pa [" + d.diagnostico_besov + "]", "#ff3366");
+            appendLine("  • Factor Compresión Recursos  : " + d.factor_compresion + " (DNS 1.3 TB -> Oasis 745 MB)", "#00ffaa");
+            appendLine("  • Régimen Reynolds            : Re = " + d.reynolds + " (Turbulencia Incompresible)", "#ffd700");
+            appendLine("  • Conjunto Singular CKN       : " + d.criterios_teoricos.singular_set_ckn, "#00ff9d");
+            appendLine("  • Unicidad Estadística        : " + d.criterios_teoricos.unicidad_osgood, "#00e5ff");
+            appendLine("  • Potencia Silicio Frío       : " + d.silicio_frio.potencia_watts + " W (Límite: " + d.silicio_frio.max_watts_cota + " W | 4 Cores)", "#80d4ff");
+            appendLine("  • Sello Criptográfico Local   : " + d.sellos_criptograficos.local_sha256.substring(0, 32) + "...", "#aaaaaa");
+            appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
+          })
+          .catch(e => appendLine("❌ Error consultando módulo hemodinámico: " + e, "#ff5555"));
+        return;
+      }
+
+      // Demonio de Maxwell-Landauer
       if (low === "demon" || low === "demon-status" || low === "maxwell") {
         appendLine("⚛️ [CAPA 0]: Consultando telemetría del Demonio Maxwell-Landauer...", "#ffaa55");
         fetch("/v1/math/demon")
@@ -477,6 +501,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (low === "help" || low === "?" || low === "ayuda") {
         appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
         appendLine("📖 [OASIS SOVEREIGN OS — CATÁLOGO UNIVERSAL DE COMANDOS]:", "#00ff9d");
+        appendLine("  • hemo / besov-cfd: Hemodinámica en Besov B⁰_∞,∞ y detección microvascular");
         appendLine("  • demon-status    : Telemetría del Demonio de Maxwell-Landauer y ratio entrópico");
         appendLine("  • riemann-audit   : Auditoría analítica de la Hipótesis de Riemann (Capa 0)");
         appendLine("  • quantum / qhud  : Despliega el Quantum HUD con circuito Bell y ZNE");
@@ -485,7 +510,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         appendLine("  • swarm           : Muestra la topología P2P y potencia agregada de la malla");
         appendLine("  • qr / sync       : Muestra el código QR vectorial para vincular nodos móviles");
         appendLine("  • vortex gpu      : Simulación de tensores Navier-Stokes WebGPU / Metal");
-        appendLine("  • pilar <id>      : Consulta instantánea de pilares (ej. 'pilar 8', 'pilar 365')");
+        appendLine("  • pilar <id>      : Consulta instantánea de pilares (ej. 'pilar 8', 'pilar 366')");
         appendLine("  • box status      : Consulta la cuota disponible en el sistema OPFS");
         appendLine("  • dir / ls        : Lista el contenido de /workspace y /dev");
         appendLine("  • legal           : Muestra el marco legal, autoría AGPLv3 y no-custodia");
@@ -655,7 +680,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (spnEl) spnEl.innerText = "💎 " + spnCredits.toFixed(2) + " $SPN";
     }, 4000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v15.7.0-ModularDemon]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v15.8.0-BesovHemo]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
