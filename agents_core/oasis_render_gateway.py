@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.8.0-BesovHemo
-Monolito Modular: CFD en Espacios de Besov, Demonio Maxwell, Riemann y Bóveda OPFS.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.9.0-RealBiomed
+Monolito Modular: Pipeline 3D VTK Real (TAWSS/OSI/RRT), Laplace-Beltrami Cotangente,
+Auditoría Riemann, Demonio Maxwell y Bóveda OPFS.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, subprocess, socket, math
 from http.server import HTTPServer, BaseHTTPRequestHandler
+
+# Importación del motor de procesamiento 3D
+try:
+    from agents_core.biomed_mesh_engine import analyze_vascular_mesh
+    HAS_BIOMED_ENGINE = True
+except Exception:
+    HAS_BIOMED_ENGINE = False
 
 try:
     import mpmath as mp
@@ -18,6 +26,7 @@ PORT = int(os.environ.get("PORT", 8080))
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(REPO_ROOT, "agents_core", "templates")
 TRUTH_FILE = os.path.join(REPO_ROOT, "VERDAD_OASIS.txt")
+BENCHMARK_MESH = os.path.join(REPO_ROOT, "data", "models", "aneurisma_carotida_test.vtk")
 
 def get_lan_ip():
     try:
@@ -98,33 +107,11 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(html.encode("utf-8"))
             elif self.path == "/v1/med/besov-cfd":
-                self._send_json({
-                    "status": "OK",
-                    "modulo": "Hemodinámica Microvascular en Espacios de Besov",
-                    "cfd_convencional_wss_pa": 2.06,
-                    "diagnostico_clasico": "Falso Seguro (< 3.0 Pa)",
-                    "besov_b0_inf_wss_pa": 9.80,
-                    "diagnostico_besov": "Alerta de Pico Crítico (Riesgo Microvascular)",
-                    "reynolds": 100000,
-                    "dns_tradicional": {"celdas": "1.78e11", "ram_gb": 1300},
-                    "oasis_monolith": {"celdas": "12.2e6", "ram_mb": 745.12},
-                    "factor_compresion": "1820x",
-                    "criterios_teoricos": {
-                        "invariante_S_besov": 0.005301898,
-                        "singular_set_ckn": "S = 0 (Regularidad Verificada)",
-                        "unicidad_osgood": "W1 = 0 (Unicidad Estadística)"
-                    },
-                    "silicio_frio": {
-                        "temperatura_phi_k": 0.6180,
-                        "potencia_watts": 3.81,
-                        "max_watts_cota": 5.39,
-                        "nucleos_eficientes": 4
-                    },
-                    "sellos_criptograficos": {
-                        "local_sha256": "c54b1babff250bf1ccd14a91f27db60ef1adf784cdbd879f9cd5422224de5316",
-                        "master_audit_sha256": "9d844a125d3cbe53b5b9c57d8fc700850f01aca84f6f37ab24368b3793235343"
-                    }
-                })
+                if HAS_BIOMED_ENGINE:
+                    mesh_result = analyze_vascular_mesh(BENCHMARK_MESH)
+                    self._send_json(mesh_result)
+                else:
+                    self._send_json({"status": "ERROR", "message": "Motor biomédico no disponible"})
             elif self.path == "/v1/math/demon":
                 k_B = 1.380649e-23
                 T = 300.0
@@ -168,7 +155,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v15.8.0-BesovHemo", "silicon_watts": 3.81})
+                self._send_json({"status": "ONLINE", "version": "v15.9.0-RealBiomed", "silicon_watts": 3.81})
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
         except (BrokenPipeError, ConnectionResetError):
@@ -212,7 +199,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisModularHandler)
-    print(f"🔒 OASIS GATEWAY v15.8.0 (Besov Hemo) activo en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v15.9.0 (Real Biomed 3D) activo en http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
