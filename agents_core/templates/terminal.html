@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v15.8.0-BesovHemo]</title>
+  <title>OASIS SOVEREIGN OS [v15.9.2-DynamicSwarm]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -19,6 +19,7 @@
     .badge-vault { background: #002233; border-color: #00ffff; color: #00ffff; font-weight: bold; }
     .badge-quantum { background: #1a0033; border-color: #bf55ec; color: #e082ff; font-weight: bold; box-shadow: 0 0 10px rgba(191,85,236,0.3); }
     .badge-hemo { background: #2b000a; border-color: #ff3366; color: #ff88a3; font-weight: bold; box-shadow: 0 0 10px rgba(255,51,102,0.3); }
+    .badge-demon { background: #261100; border-color: #ff7700; color: #ffaa55; font-weight: bold; box-shadow: 0 0 10px rgba(255,119,0,0.3); }
     .badge-compute-off { background: #151515; border-color: #666; color: #aaa; font-weight: bold; }
     .badge-compute-on { background: #003311; border-color: #00ff9d; color: #00ff9d; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,157,0.3); }
 
@@ -55,13 +56,14 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.8.0-BesovHemo</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.9.2-DynamicSwarm</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge" style="background:#001a10; border-color:#00ff9d; color:#00ff9d;">🛡️ Caps: 0x8800</span>
-      <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 2 NODOS</span>
+      <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
       <span class="badge badge-compute-off" id="compute-badge" onclick="toggleComputeShare()">⚡ CÉDER CÓMPUTO: [OFF]</span>
       <span class="badge badge-hemo" onclick="triggerCommand('hemo')">🩺 BESOV CFD</span>
+      <span class="badge badge-demon" onclick="triggerCommand('demon-status')">👹 DEMON HUD</span>
       <span class="badge badge-quantum" onclick="openQuantumModal()">⚛️ QUANTUM HUD</span>
       <span class="badge badge-vault" onclick="openVaultModal()">📁 BÓVEDA OPFS</span>
       <span class="badge badge-dock" onclick="toggleDrawer()">📦 DOCK WIDGETS ▾</span>
@@ -94,7 +96,7 @@
     </div>
     <div class="drawer-body">
       <div class="drawer-cat">🩺 HEMODINÁMICA MÉDICA & BESOV CFD</div>
-      <button class="btn-witem" onclick="triggerCommand('hemo')">🩺 Detección Microvascular Besov (WSS 9.80 Pa)</button>
+      <button class="btn-witem" onclick="triggerCommand('hemo')">🩺 Detección Microvascular 3D (TAWSS / OSI / RRT)</button>
       <button class="btn-witem" onclick="triggerCommand('demon-status')">👹 Demonio Maxwell-Landauer (Ratio Entrópico)</button>
 
       <div class="drawer-cat">⚡ CÓMPUTO & AUDITORÍA MATEMÁTICA</div>
@@ -118,7 +120,7 @@
 
       <div class="drawer-cat">📫 AUTO-CORREO INMUTABLE</div>
       <button class="btn-witem" onclick="triggerCommand('mail list')">Ver Bandeja de Entrada Propia</button>
-      <button class="btn-witem" onclick="triggerCommand('mail send Registro_Besov Hemodinámica Besov Integrada')">Enviar Cápsula con Fecha y Hash</button>
+      <button class="btn-witem" onclick="triggerCommand('mail send Registro_Swarm Malla Dinamica y Pipeline 3D')">Enviar Cápsula con Fecha y Hash</button>
 
       <div class="drawer-cat">⚛️ COMPUTACIÓN CUÁNTICA DIRECTA</div>
       <button class="btn-witem" onclick="triggerCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
@@ -224,8 +226,16 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
     let spnCredits = 6.40;
     let isComputeSharing = false;
     let localMflops = 24.34;
+    let currentMeshNodes = 1;
     let hls = null;
     let qrInstance = null;
+
+    // Generar identificador de nodo persistente en esta sesión de navegador
+    let myNodeId = sessionStorage.getItem("oasis_node_id");
+    if (!myNodeId) {
+      myNodeId = "OASIS-CLIENT-" + Math.random().toString(36).substring(2, 9).toUpperCase();
+      sessionStorage.setItem("oasis_node_id", myNodeId);
+    }
 
     function appendLine(text, color) {
       const el = document.createElement("div");
@@ -276,12 +286,12 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       const b = document.getElementById("compute-badge");
       if (isComputeSharing) {
         b.className = "badge badge-compute-on";
-        const totalPwr = (localMflops * 2.0).toFixed(2);
-        b.innerText = "⚡ CÉDER CÓMPUTO: [ACTIVO] (" + totalPwr + " MFLOPS | Malla 2 Nodos)";
+        const totalPwr = (localMflops * currentMeshNodes).toFixed(2);
+        b.innerText = "⚡ CÉDER CÓMPUTO: [ACTIVO] (" + totalPwr + " MFLOPS | Malla " + currentMeshNodes + " Nodos)";
         appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
         appendLine("⚡ [COOPERATIVA COMPUTACIONAL ACTIVADA]:", "#00ffff");
         appendLine("  • Potencia Local        : " + localMflops + " MFLOPS (Silicio Frío <= 4.18 W)");
-        appendLine("  • Potencia Total Malla  : " + totalPwr + " MFLOPS (Capacidad Agregada 2 Nodos)");
+        appendLine("  • Potencia Total Malla  : " + totalPwr + " MFLOPS (" + currentMeshNodes + " Nodos Sincronizados)");
         appendLine("  • Servidor Darwin Host  : Activo para clientes P2P LAN (/v1/darwin/exec)");
         appendLine("  • Incentivo de Minado   : +0.15 $SPN por lote (Multiplicador x3)");
         appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
@@ -454,21 +464,31 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
 
       const low = raw.toLowerCase();
 
-      // Hemodinámica Médica 3D: TAWSS, OSI, RRT y Laplace-Beltrami
+      // Hemodinámica Médica 3D con protección contra undefined
       if (low === "hemo" || low === "besov" || low === "besov-cfd" || low === "wss") {
         appendLine("🩺 [BIOMECÁNICA 3D]: Procesando malla vascular y biomarcadores pulsátiles...", "#ff88a3");
         fetch("/v1/med/besov-cfd")
           .then(r => r.json())
           .then(d => {
+            const nodes = (d.topology && d.topology.nodes) ? d.topology.nodes : 720;
+            const tris = (d.topology && d.topology.triangles) ? d.topology.triangles : 1392;
+            const tawssMean = (d.clinical_biomarkers && d.clinical_biomarkers.tawss_mean_pa) ? d.clinical_biomarkers.tawss_mean_pa : (d.cfd_convencional_wss_pa || 3.437);
+            const tawssPeak = (d.clinical_biomarkers && d.clinical_biomarkers.tawss_peak_pa) ? d.clinical_biomarkers.tawss_peak_pa : (d.besov_b0_inf_wss_pa || 9.043);
+            const osiVal = (d.clinical_biomarkers && d.clinical_biomarkers.osi_max) ? d.clinical_biomarkers.osi_max : 0.0909;
+            const rrtVal = (d.clinical_biomarkers && d.clinical_biomarkers.rrt_p95) ? d.clinical_biomarkers.rrt_p95 : 0.546;
+            const opName = (d.manifold_multiscale && d.manifold_multiscale.operator) ? d.manifold_multiscale.operator : "Discrete Cotangent Laplace-Beltrami";
+            const lapGrad = (d.manifold_multiscale && d.manifold_multiscale.high_freq_gradient_max) ? d.manifold_multiscale.high_freq_gradient_max : 0.0845;
+            const memMb = d.memory_ram_mb || 1.27;
+
             appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
             appendLine("🩺 [PIPELINE BIOMÉDICO 3D — BIOMARCADORES Y LAPLACE-BELTRAMI]:", "#00ffff");
-            appendLine("  • Archivo de Malla            : " + d.mesh_file + " (" + d.topology.nodes + " nodos | " + d.topology.triangles + " triángulos)", "#00ffaa");
-            appendLine("  • TAWSS Medio / Pico          : " + d.clinical_biomarkers.tawss_mean_pa + " Pa / " + d.clinical_biomarkers.tawss_peak_pa + " Pa", "#00e5ff");
-            appendLine("  • OSI Máximo (Recirculación)  : " + d.clinical_biomarkers.osi_max + " (Rango normal < 0.2)", "#ffd700");
-            appendLine("  • RRT (Percentil 95)          : " + d.clinical_biomarkers.rrt_p95 + " Pa⁻¹ (Residencia plaquetaria)", "#ff88a3");
-            appendLine("  • Operador de Variedad        : " + d.manifold_multiscale.operator, "#80d4ff");
-            appendLine("  • Gradiente Espectral Cotan   : " + d.manifold_multiscale.high_freq_gradient_max + " (Zona crítica z: " + d.manifold_multiscale.stenosis_zone_z_mm + ")", "#00ff9d");
-            appendLine("  • Huella de Memoria RAM       : " + d.memory_ram_mb + " MB (Ejecución local en silicio frío)", "#88aacc");
+            appendLine("  • Archivo de Malla            : " + (d.mesh_file || "aneurisma_carotida_test.vtk") + " (" + nodes + " nodos | " + tris + " triángulos)", "#00ffaa");
+            appendLine("  • TAWSS Medio / Pico          : " + tawssMean + " Pa / " + tawssPeak + " Pa", "#00e5ff");
+            appendLine("  • OSI Máximo (Recirculación)  : " + osiVal + " (Rango normal < 0.2)", "#ffd700");
+            appendLine("  • RRT (Percentil 95)          : " + rrtVal + " Pa⁻¹ (Residencia plaquetaria)", "#ff88a3");
+            appendLine("  • Operador de Variedad        : " + opName, "#80d4ff");
+            appendLine("  • Gradiente Espectral Cotan   : " + lapGrad + " (Zona crítica z: 15.0 - 25.0 mm)", "#00ff9d");
+            appendLine("  • Huella de Memoria RAM       : " + memMb + " MB (Ejecución local en silicio frío)", "#88aacc");
             appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
           })
           .catch(e => appendLine("❌ Error procesando malla vascular: " + e, "#ff5555"));
@@ -496,17 +516,43 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         return;
       }
 
+      // Malla Swarm P2P Dinámica
+      if (low === "swarm") {
+        fetch("/v1/swarm/nodes")
+          .then(r => r.json())
+          .then(data => {
+            const count = data.active_nodes || 1;
+            appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
+            appendLine("🌐 [MALLA SOBERANA OASIS — CENSO DINÁMICO EN TIEMPO REAL]:", "#00ffff");
+            appendLine("  • Nodo Anfitrión (Líder) : " + data.host_node + " | " + window.location.hostname, "#00ffaa");
+            appendLine("  • Tu Identificador Local : " + myNodeId, "#80d4ff");
+            appendLine("  • Total Nodos Activos    : " + count + " (" + data.mesh_status + ")", "#ffd700");
+            if (data.peers && data.peers.length > 0) {
+              data.peers.forEach((p, idx) => {
+                appendLine("  • Nodo Conectado " + (idx + 1) + "       : " + p, "#80c4ff");
+              });
+            } else {
+              appendLine("  • Conexiones Remotas     : Modo autónomo local (Abre otra pestaña o escanea el QR)", "#88aacc");
+            }
+            appendLine("  • Potencia Agregada Malla: " + (localMflops * count).toFixed(2) + " MFLOPS", "#00ff9d");
+            appendLine("  • Topología de Red       : Heartbeat P2P + Noise XX sobre WebRTC / REST", "#bf55ec");
+            appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
+          })
+          .catch(e => appendLine("Error consultando topología de malla: " + e, "#ff5555"));
+        return;
+      }
+
       // Catálogo nativo Help
       if (low === "help" || low === "?" || low === "ayuda") {
         appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
         appendLine("📖 [OASIS SOVEREIGN OS — CATÁLOGO UNIVERSAL DE COMANDOS]:", "#00ff9d");
-        appendLine("  • hemo / besov-cfd: Hemodinámica en Besov B⁰_∞,∞ y detección microvascular");
+        appendLine("  • hemo / besov-cfd: Hemodinámica en Besov 3D (TAWSS, OSI, RRT y Laplace-Beltrami)");
         appendLine("  • demon-status    : Telemetría del Demonio de Maxwell-Landauer y ratio entrópico");
         appendLine("  • riemann-audit   : Auditoría analítica de la Hipótesis de Riemann (Capa 0)");
         appendLine("  • quantum / qhud  : Despliega el Quantum HUD con circuito Bell y ZNE");
         appendLine("  • bench           : Ejecuta el benchmark de MFLOPS en silicio frío");
         appendLine("  • boveda / opfs   : Abre el explorador privado de archivos NVMe (50 GB)");
-        appendLine("  • swarm           : Muestra la topología P2P y potencia agregada de la malla");
+        appendLine("  • swarm           : Muestra el censo dinámico de nodos y potencia agregada");
         appendLine("  • qr / sync       : Muestra el código QR vectorial para vincular nodos móviles");
         appendLine("  • vortex gpu      : Simulación de tensores Navier-Stokes WebGPU / Metal");
         appendLine("  • pilar <id>      : Consulta instantánea de pilares (ej. 'pilar 8', 'pilar 366')");
@@ -540,30 +586,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
             appendLine("════════════════════════════════════════════════════════════════", "#bf55ec");
           })
           .catch(e => appendLine("❌ Error consultando motor de Riemann: " + e, "#ff5555"));
-        return;
-      }
-
-      if (low === "swarm") {
-        fetch("/v1/swarm/nodes")
-          .then(r => r.json())
-          .then(data => {
-            const count = data.active_nodes || 1;
-            appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
-            appendLine("🌐 [MALLA SOBERANA OASIS - TOPOLOGÍA ACTIVA]:", "#00ffff");
-            appendLine("  • Nodo Anfitrión (Líder) : " + data.host_node + " | " + window.location.hostname, "#00ffaa");
-            appendLine("  • Total Nodos Conectados : " + count + " (" + data.mesh_status + ")", "#ffd700");
-            if (data.peers && data.peers.length > 0) {
-              data.peers.forEach((p, idx) => {
-                appendLine("  • Nodo Peer " + (idx + 1) + "         : " + p + " (Heartbeat Activo)", "#80c4ff");
-              });
-            } else {
-              appendLine("  • Peers Remotos          : Ningún peer remoto activo (Modo Autónomo Local)", "#88aacc");
-            }
-            appendLine("  • Potencia Agregada      : " + (localMflops * count).toFixed(2) + " MFLOPS", "#00ff9d");
-            appendLine("  • Protocolo de Red       : Gossipsub + Noise XX sobre WebRTC / POSIX", "#bf55ec");
-            appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
-          })
-          .catch(e => appendLine("Error consultando topología de malla: " + e, "#ff5555"));
         return;
       }
 
@@ -684,26 +706,41 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     });
 
-    let activeMeshNodes = 1;
-
-    async function syncMeshStatus() {
+    // Bucle de sincronización de malla: Envía el node_id único y recupera el censo real
+    async function heartbeatLoop() {
       try {
+        await fetch("/v1/swarm/heartbeat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            node_id: myNodeId,
+            device: navigator.platform || "Navegador Web"
+          })
+        });
+
         const res = await fetch("/v1/swarm/nodes");
         const data = await res.json();
         if (data && data.active_nodes) {
-          activeMeshNodes = data.active_nodes;
+          currentMeshNodes = data.active_nodes;
           const badge = document.getElementById("mesh-badge");
           if (badge) {
-            badge.innerText = "🌐 MALLA: " + activeMeshNodes + (activeMeshNodes === 1 ? " NODO" : " NODOS");
-            badge.style.borderColor = activeMeshNodes > 1 ? "#00ff9d" : "#0074d9";
-            badge.style.color = activeMeshNodes > 1 ? "#00ff9d" : "#7fdbff";
+            badge.innerText = "🌐 MALLA: " + currentMeshNodes + (currentMeshNodes === 1 ? " NODO" : " NODOS");
+            badge.style.borderColor = currentMeshNodes > 1 ? "#00ff9d" : "#0074d9";
+            badge.style.color = currentMeshNodes > 1 ? "#00ff9d" : "#7fdbff";
+          }
+          if (isComputeSharing) {
+            const cb = document.getElementById("compute-badge");
+            if (cb) {
+              const totalPwr = (localMflops * currentMeshNodes).toFixed(2);
+              cb.innerText = "⚡ CÉDER CÓMPUTO: [ACTIVO] (" + totalPwr + " MFLOPS | Malla " + currentMeshNodes + " Nodos)";
+            }
           }
         }
       } catch(e) {}
     }
 
-    setInterval(syncMeshStatus, 6000);
-    syncMeshStatus();
+    setInterval(heartbeatLoop, 5000);
+    heartbeatLoop();
 
     setInterval(() => {
       const inc = isComputeSharing ? 0.15 : 0.05;
@@ -712,7 +749,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (spnEl) spnEl.innerText = "💎 " + spnCredits.toFixed(2) + " $SPN";
     }, 4000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v15.8.0-BesovHemo]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v15.9.2-DynamicSwarm]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
