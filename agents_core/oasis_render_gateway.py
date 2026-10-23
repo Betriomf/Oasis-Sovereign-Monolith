@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.9.0-RealBiomed
-Monolito Modular: Pipeline 3D VTK Real (TAWSS/OSI/RRT), Laplace-Beltrami Cotangente,
-Auditoría Riemann, Demonio Maxwell y Bóveda OPFS.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v15.9.1-DynamicMesh
+Monolito Modular: Censo dinámico de nodos P2P, Pipeline 3D VTK, Riemann, Demonio y OPFS.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
-import os, sys, json, subprocess, socket, math
+import os, sys, json, subprocess, socket, math, time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 # Importación del motor de procesamiento 3D
@@ -28,6 +27,9 @@ TEMPLATES_DIR = os.path.join(REPO_ROOT, "agents_core", "templates")
 TRUTH_FILE = os.path.join(REPO_ROOT, "VERDAD_OASIS.txt")
 BENCHMARK_MESH = os.path.join(REPO_ROOT, "data", "models", "aneurisma_carotida_test.vtk")
 
+# Registro dinámico de nodos en memoria: {peer_id: last_seen_timestamp}
+PEERS_REGISTRY = {}
+
 def get_lan_ip():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -39,6 +41,15 @@ def get_lan_ip():
         return "127.0.0.1"
 
 LAN_IP = get_lan_ip()
+
+def get_active_nodes():
+    now = time.time()
+    # Purgar nodos que no reportan en más de 90 segundos
+    inactive = [p for p, last_seen in PEERS_REGISTRY.items() if now - last_seen > 90]
+    for p in inactive:
+        del PEERS_REGISTRY[p]
+    # Total de nodos = Peers remotos activos + Nodo anfitrión local
+    return max(1, len(PEERS_REGISTRY) + 1)
 
 def load_template(filename):
     filepath = os.path.join(TEMPLATES_DIR, filename)
@@ -106,6 +117,15 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 self.send_header("Content-Type", "text/html; charset=utf-8")
                 self.end_headers()
                 self.wfile.write(html.encode("utf-8"))
+            elif self.path in ("/v1/swarm/nodes", "/v1/swarm/status"):
+                count = get_active_nodes()
+                peers_list = list(PEERS_REGISTRY.keys())
+                self._send_json({
+                    "active_nodes": count,
+                    "host_node": "OASIS-HW-MAC-87B34287C3",
+                    "peers": peers_list,
+                    "mesh_status": "OPTIMAL" if count > 1 else "STANDALONE"
+                })
             elif self.path == "/v1/med/besov-cfd":
                 if HAS_BIOMED_ENGINE:
                     mesh_result = analyze_vascular_mesh(BENCHMARK_MESH)
@@ -155,7 +175,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v15.9.0-RealBiomed", "silicon_watts": 3.81})
+                self._send_json({"status": "ONLINE", "version": "v15.9.1-DynamicMesh", "silicon_watts": 3.81})
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
         except (BrokenPipeError, ConnectionResetError):
@@ -164,6 +184,20 @@ class OasisModularHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         length = int(self.headers.get("Content-Length", 0))
         body = json.loads(self.rfile.read(length).decode("utf-8")) if length > 0 else {}
+
+        if self.path == "/v1/swarm/heartbeat":
+            # Registrar al emisor del latido con su IP o ID de nodo
+            client_ip = self.client_address[0]
+            peer_id = body.get("node_id", body.get("peer_id", f"node-{client_ip}"))
+            # Si no es la misma máquina local en bucle propio, registrar como peer
+            if client_ip not in ("127.0.0.1", "localhost") or "render" in peer_id.lower():
+                PEERS_REGISTRY[peer_id] = time.time()
+            elif body.get("remote_peer"):
+                PEERS_REGISTRY[body.get("remote_peer")] = time.time()
+            
+            count = get_active_nodes()
+            self._send_json({"status": "ACK", "active_peers": count, "reward": 0.05})
+            return
 
         if self.path == "/v1/darwin/exec":
             cmd = body.get("command", "").strip()
@@ -191,15 +225,11 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 self._send_json({"output": f"Fallo ejecución: {e}", "code": 1})
             return
 
-        if self.path == "/v1/swarm/heartbeat":
-            self._send_json({"status": "ACK", "active_peers": 2, "reward": 0.05})
-            return
-
         self._send_json({"status": "PROCESSED"})
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisModularHandler)
-    print(f"🔒 OASIS GATEWAY v15.9.0 (Real Biomed 3D) activo en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v15.9.1 (Dynamic Mesh) activo en http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

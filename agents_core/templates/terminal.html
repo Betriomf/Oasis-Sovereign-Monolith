@@ -544,14 +544,26 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
 
       if (low === "swarm") {
-        appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
-        appendLine("🌐 [MALLA SOBERANA OASIS - TOPOLOGÍA ACTIVA]:", "#00ffff");
-        appendLine("  • Nodo 1 (Host Líder)    : OASIS-HW-MAC-87B34287C3 | 127.0.0.1");
-        appendLine("  • Nodo 2 (Cliente P2P)   : OASIS-P2P-LAN-NODE (WebRTC DataChannel)");
-        appendLine("  • Modo Operativo OS      : Linux Darwin Compartido (POSIX/WASM)");
-        appendLine("  • Latencia RTT           : 0.18 ms | Ancho de Banda: I/O NVMe Local");
-        appendLine("  • Potencia Agregada      : " + (localMflops * (isComputeSharing ? 2.0 : 1.0)).toFixed(2) + " MFLOPS");
-        appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
+        fetch("/v1/swarm/nodes")
+          .then(r => r.json())
+          .then(data => {
+            const count = data.active_nodes || 1;
+            appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
+            appendLine("🌐 [MALLA SOBERANA OASIS - TOPOLOGÍA ACTIVA]:", "#00ffff");
+            appendLine("  • Nodo Anfitrión (Líder) : " + data.host_node + " | " + window.location.hostname, "#00ffaa");
+            appendLine("  • Total Nodos Conectados : " + count + " (" + data.mesh_status + ")", "#ffd700");
+            if (data.peers && data.peers.length > 0) {
+              data.peers.forEach((p, idx) => {
+                appendLine("  • Nodo Peer " + (idx + 1) + "         : " + p + " (Heartbeat Activo)", "#80c4ff");
+              });
+            } else {
+              appendLine("  • Peers Remotos          : Ningún peer remoto activo (Modo Autónomo Local)", "#88aacc");
+            }
+            appendLine("  • Potencia Agregada      : " + (localMflops * count).toFixed(2) + " MFLOPS", "#00ff9d");
+            appendLine("  • Protocolo de Red       : Gossipsub + Noise XX sobre WebRTC / POSIX", "#bf55ec");
+            appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
+          })
+          .catch(e => appendLine("Error consultando topología de malla: " + e, "#ff5555"));
         return;
       }
 
@@ -671,6 +683,27 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         drawer.classList.remove("open");
       }
     });
+
+    let activeMeshNodes = 1;
+
+    async function syncMeshStatus() {
+      try {
+        const res = await fetch("/v1/swarm/nodes");
+        const data = await res.json();
+        if (data && data.active_nodes) {
+          activeMeshNodes = data.active_nodes;
+          const badge = document.getElementById("mesh-badge");
+          if (badge) {
+            badge.innerText = "🌐 MALLA: " + activeMeshNodes + (activeMeshNodes === 1 ? " NODO" : " NODOS");
+            badge.style.borderColor = activeMeshNodes > 1 ? "#00ff9d" : "#0074d9";
+            badge.style.color = activeMeshNodes > 1 ? "#00ff9d" : "#7fdbff";
+          }
+        }
+      } catch(e) {}
+    }
+
+    setInterval(syncMeshStatus, 6000);
+    syncMeshStatus();
 
     setInterval(() => {
       const inc = isComputeSharing ? 0.15 : 0.05;
