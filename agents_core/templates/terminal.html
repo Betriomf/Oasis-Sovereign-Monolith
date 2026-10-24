@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v16.5.0-MasterRestored]</title>
+  <title>OASIS SOVEREIGN OS [v16.5.1-MasterFinal]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -19,7 +19,7 @@
     .badge-vault { background: #002233; border-color: #00ffff; color: #00ffff; font-weight: bold; }
     .badge-quantum { background: #1a0033; border-color: #bf55ec; color: #e082ff; font-weight: bold; }
     .badge-hemo { background: #2b000a; border-color: #ff3366; color: #ff88a3; font-weight: bold; }
-    .badge-3d { background: #2b001a; border-color: #ff00aa; color: #ff80d5; font-weight: bold; }
+    .badge-3d { background: #2b001a; border-color: #ff00aa; color: #ff80d5; font-weight: bold; box-shadow: 0 0 10px rgba(255,0,170,0.3); }
     .badge-demon { background: #261100; border-color: #ff7700; color: #ffaa55; font-weight: bold; }
     .badge-compute-off { background: #151515; border-color: #666; color: #aaa; font-weight: bold; }
     .badge-compute-on { background: #003311; border-color: #00ff9d; color: #00ff9d; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,157,0.4); }
@@ -52,7 +52,7 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.5.0-MasterRestored</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.5.1-MasterFinal</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
@@ -73,20 +73,19 @@
 
   <div class="prompt-row">
     <span class="prompt-prefix">oasis@root:#</span>
-    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: riemann-audit, demon-status, hemo, simulacion, gutenberg 2000, legal..." />
+    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Escribe aquí (ej: mesh3d, hemo, gutenberg 2000, rag-query, riemann-audit)..." />
   </div>
 
-  <!-- PANEL DE WIDGETS -->
+  <!-- PANEL DE WIDGETS LIMPIO -->
   <div id="widget-drawer">
     <div class="drawer-header">
       <span>PANEL SOBERANO DE WIDGETS</span>
       <button class="btn-close" onclick="toggleDrawer()">✕</button>
     </div>
     <div class="drawer-body">
-      <div class="drawer-cat">📚 PROJECT GUTENBERG & RAG LOCAL</div>
-      <button class="btn-witem" onclick="triggerCommand('gutenberg 2000')">📖 Leer Don Quijote (Gutenberg #2000)</button>
-      <button class="btn-witem" onclick="triggerCommand('gutenberg 84')">📖 Leer Frankenstein (Gutenberg #84)</button>
-      <button class="btn-witem" onclick="triggerCommand('rag-query ¿Qué es la cota de Landauer?')">🧠 Consulta RAG Local (Silicio Frío)</button>
+      <div class="drawer-cat">📚 LITERATURA & IA SOBERANA</div>
+      <button class="btn-witem" onclick="promptGutenbergDownload()">📖 Lector Gutenberg (Descargar / Leer por ID)</button>
+      <button class="btn-witem" onclick="triggerCommand('rag-query ¿Qué es la cota de Landauer en Oasis?')">🧠 Asistente RAG Local (Silicio Frío)</button>
 
       <div class="drawer-cat">🩺 BIOMECÁNICA VASCULAR & STREAMLINES</div>
       <button class="btn-witem" onclick="openMesh3dModal()">👁️ Visor 3D WebGL con Partículas y Guía RUO</button>
@@ -113,7 +112,7 @@
     </div>
   </div>
 
-  <!-- MODAL VISOR 3D WEBGL -->
+  <!-- MODAL VISOR 3D WEBGL REDIMENSIONABLE -->
   <div id="mesh3d-modal">
     <div style="width:960px; max-width:96vw; height:88vh; background:#040c14; border:2px solid #ff3366; border-radius:12px; box-shadow:0 0 45px rgba(255,51,102,0.4); display:flex; flex-direction:column; overflow:hidden;">
       <div style="background:#14050a; padding:10px 14px; border-bottom:1px solid #ff3366; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
@@ -168,7 +167,7 @@
     </div>
   </div>
 
-  <!-- MODAL QUANTUM HUD RESTAURADO 100% -->
+  <!-- MODAL QUANTUM HUD RESTAURADO -->
   <div id="quantum-modal">
     <div style="width:620px; max-width:94vw; background:#040c14; border:2px solid #bf55ec; border-radius:12px; padding:18px; box-shadow:0 0 40px rgba(191,85,236,0.35); display:flex; flex-direction:column; gap:12px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #bf55ec; padding-bottom:8px;">
@@ -211,7 +210,7 @@ cx q[0], q[1];</div>
     </div>
   </div>
 
-  <!-- MODAL BÓVEDA OPFS RESTAURADO 100% -->
+  <!-- MODAL BÓVEDA OPFS RESTAURADO -->
   <div id="vault-modal">
     <div class="modal-box">
       <div class="modal-header">
@@ -230,16 +229,12 @@ cx q[0], q[1];</div>
         </div>
         <div id="opfs-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
-      <div id="tab-riemann" class="tab-content" style="color:#d8f8e8; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">
-Cargando demostración formal de Riemann...
-      </div>
-      <div id="tab-viewer" class="tab-content" style="color:#aaffaa; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">
-Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
-      </div>
+      <div id="tab-riemann" class="tab-content" style="color:#d8f8e8; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Cargando demostración formal de Riemann...</div>
+      <div id="tab-viewer" class="tab-content" style="color:#aaffaa; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Selecciona un archivo en 'Mis Archivos' o lee un libro con 'leer <id>'.</div>
     </div>
   </div>
 
-  <!-- MODAL DE QR REAL -->
+  <!-- MODAL DE QR -->
   <div id="qr-modal">
     <div style="background:#040c14; border:2px solid #ffaa00; border-radius:12px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:12px; box-shadow:0 0 40px rgba(255,170,0,0.3); max-width:90vw;">
       <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
@@ -338,7 +333,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     }
 
-    // === OPFS CON COMPRESIÓN STREAMING GZIP ===
     async function compressData(blob) {
       if (window.CompressionStream) {
         const stream = blob.stream().pipeThrough(new CompressionStream("gzip"));
@@ -390,7 +384,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         }
       }
       if (count === 0) {
-        cont.innerHTML = "<div style='color:#888; text-align:center; padding:20px;'>Bóveda privada vacía. Arrastra archivos a la terminal o descarga libros con 'gutenberg 2000'.</div>";
+        cont.innerHTML = "<div style='color:#888; text-align:center; padding:20px;'>Bóveda privada vacía. Arrastra archivos o descarga libros con 'gutenberg <id>'.</div>";
       }
     }
 
@@ -418,7 +412,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-      } catch(e) { alert("Error descargando archivo: " + e); }
+      } catch(e) { alert("Error descargando: " + e); }
     }
 
     async function handleFileUpload(files) {
@@ -450,6 +444,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         appendLine("⚡ [COOPERATIVA COMPUTACIONAL ACTIVADA]:", "#00ffff");
         appendLine("  • Potencia Local        : " + localMflops + " MFLOPS (Silicio Frío <= 4.18 W)");
         appendLine("  • Potencia Total Malla  : " + totalPwr + " MFLOPS (" + currentMeshNodes + " Nodos Sincronizados)");
+        appendLine("  • Modo Operativo        : Servidor Darwin Host Compartido (/v1/darwin/exec)");
         appendLine("  • Incentivo de Minado   : +0.15 $SPN por lote");
         appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
       } else {
@@ -459,18 +454,32 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     };
 
-    // === VISOR 3D WEBGL Y STREAMLINES ===
+    // === VISOR 3D WEBGL CON REDIMENSIONADO AUTOMÁTICO ===
     let mesh3dScene, mesh3dCamera, mesh3dRenderer, mesh3dObject, mesh3dMaterial;
     let particleSystem = null, showParticles = true;
     let isDragging3D = false, prevMouseX = 0, prevMouseY = 0;
     let cachedMeshGeometry = null, currentMeshMode = "tawss";
+
+    function resizeMesh3D() {
+      const container = document.getElementById("webgl-canvas-box");
+      if (!container || !mesh3dRenderer || !mesh3dCamera) return;
+      const w = container.clientWidth || 920;
+      const h = container.clientHeight || 540;
+      if (w > 0 && h > 0) {
+        mesh3dCamera.aspect = w / h;
+        mesh3dCamera.updateProjectionMatrix();
+        mesh3dRenderer.setSize(w, h);
+      }
+    }
 
     window.openMesh3dModal = function() {
       drawer.classList.remove("open");
       const m = document.getElementById("mesh3d-modal");
       m.style.display = "flex";
       switchViewerTab("3d");
-      setTimeout(() => initMesh3DViewer(), 60);
+      initMesh3DViewer();
+      setTimeout(resizeMesh3D, 80);
+      setTimeout(resizeMesh3D, 250);
     };
     window.closeMesh3dModal = function() { document.getElementById("mesh3d-modal").style.display = "none"; };
 
@@ -478,12 +487,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       document.getElementById("viewer-tab-3d").style.display = tab === "3d" ? "flex" : "none";
       document.getElementById("viewer-tab-guide").style.display = tab === "guide" ? "block" : "none";
       document.getElementById("viewer-tab-legal").style.display = tab === "legal" ? "block" : "none";
-      if (tab === "3d" && mesh3dRenderer) {
-        const container = document.getElementById("webgl-canvas-box");
-        mesh3dCamera.aspect = container.clientWidth / container.clientHeight;
-        mesh3dCamera.updateProjectionMatrix();
-        mesh3dRenderer.setSize(container.clientWidth, container.clientHeight);
-      }
+      if (tab === "3d") setTimeout(resizeMesh3D, 50);
     };
 
     window.setMeshMode = function(mode) {
@@ -534,16 +538,21 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         mesh3dScene = new THREE.Scene();
         mesh3dScene.background = new THREE.Color(0x020408);
         mesh3dCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-        mesh3dCamera.position.set(0, 25, 95);
+        mesh3dCamera.position.set(0, 20, 85);
 
-        mesh3dRenderer = new THREE.WebGLRenderer({ antialias: true });
+        mesh3dRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
         mesh3dRenderer.setSize(width, height);
+        mesh3dRenderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(mesh3dRenderer.domElement);
 
-        mesh3dScene.add(new THREE.AmbientLight(0xffffff, 0.65));
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
-        dirLight.position.set(20, 50, 40);
+        mesh3dScene.add(new THREE.AmbientLight(0xffffff, 0.70));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.90);
+        dirLight.position.set(30, 60, 50);
         mesh3dScene.add(dirLight);
+
+        const pointLight = new THREE.PointLight(0x00e5ff, 1.2, 100);
+        pointLight.position.set(-20, 10, 30);
+        mesh3dScene.add(pointLight);
 
         container.addEventListener("pointerdown", (e) => { isDragging3D = true; prevMouseX = e.clientX; prevMouseY = e.clientY; });
         window.addEventListener("pointerup", () => isDragging3D = false);
@@ -559,24 +568,24 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
           prevMouseY = e.clientY;
         });
 
-        const pCount = 650;
+        const pCount = 750;
         const pGeom = new THREE.BufferGeometry();
         const pPos = new Float32Array(pCount * 3);
         const pSpeeds = new Float32Array(pCount);
         for (let i = 0; i < pCount; i++) {
-          pPos[i*3] = (Math.random() - 0.5) * 5.0;
-          pPos[i*3+1] = (Math.random() - 0.5) * 5.0;
+          pPos[i*3] = (Math.random() - 0.5) * 4.5;
+          pPos[i*3+1] = (Math.random() - 0.5) * 4.5;
           pPos[i*3+2] = (Math.random() * 60.0) - 30.0;
-          pSpeeds[i] = 0.2 + Math.random() * 0.25;
+          pSpeeds[i] = 0.22 + Math.random() * 0.28;
         }
         pGeom.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
-        particleSystem = new THREE.Points(pGeom, new THREE.PointsMaterial({ color: 0x00ffff, size: 1.3, transparent: true, opacity: 0.8 }));
+        particleSystem = new THREE.Points(pGeom, new THREE.PointsMaterial({ color: 0x00ffff, size: 1.5, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending }));
         mesh3dScene.add(particleSystem);
 
         function animate3D() {
           requestAnimationFrame(animate3D);
           if (mesh3dObject && !isDragging3D) {
-            mesh3dObject.rotation.y += 0.002;
+            mesh3dObject.rotation.y += 0.0025;
             if (particleSystem) particleSystem.rotation.y = mesh3dObject.rotation.y;
           }
           if (particleSystem && showParticles) {
@@ -602,67 +611,29 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
           geom.setIndex(new THREE.BufferAttribute(new Uint32Array(d.indices), 1));
           geom.computeVertexNormals();
           geom.center();
-          mesh3dMaterial = new THREE.MeshPhongMaterial({ vertexColors: true, side: THREE.DoubleSide, transparent: true, opacity: 0.88 });
+          mesh3dMaterial = new THREE.MeshPhongMaterial({ vertexColors: true, side: THREE.DoubleSide, transparent: true, opacity: 0.90, shininess: 50 });
           mesh3dObject = new THREE.Mesh(geom, mesh3dMaterial);
           mesh3dScene.add(mesh3dObject);
           applyMeshColoring();
-          document.getElementById("mesh3d-status").innerText = d.file + " (" + d.num_nodes + " nodos)";
+          resizeMesh3D();
+          document.getElementById("mesh3d-status").innerText = d.file + " (" + d.num_nodes + " nodos | " + d.num_triangles + " triángulos)";
         })
         .catch(e => { document.getElementById("mesh3d-status").innerText = "Error: " + e; });
     }
 
-    window.loadUserMeshFile = function(file) {
-      if (!file) return;
-      document.getElementById("mesh3d-status").innerText = "Cargando " + file.name + "...";
-      appendLine("🩺 [INGESTA CLÍNICA]: Leyendo malla '" + file.name + "'...", "#00ffff");
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const lines = e.target.result.split("\n");
-        const points = [];
-        const indices = [];
-        let readingPoints = false;
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i].trim();
-          if (line.startsWith("POINTS")) { readingPoints = true; continue; }
-          if (line.startsWith("POLYGONS")) { readingPoints = false; continue; }
-          if (readingPoints) {
-            const p = line.split(/\s+/);
-            if (p.length >= 3) points.push(parseFloat(p[0]), parseFloat(p[1]), parseFloat(p[2]));
-          } else if (!readingPoints && line.startsWith("3 ")) {
-            const p = line.split(/\s+/);
-            if (p.length >= 4) indices.push(parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
-          }
-        }
-        const numNodes = points.length / 3;
-        const tawssSynt = [];
-        const osiSynt = [];
-        for (let i = 0; i < numNodes; i++) {
-          tawssSynt.push(parseFloat((2.0 + Math.random() * 6.5).toFixed(3)));
-          osiSynt.push(parseFloat((Math.random() * 0.42).toFixed(4)));
-        }
-        cachedMeshGeometry = { file: file.name, num_nodes: numNodes, points: points, indices: indices, tawss: tawssSynt, osi: osiSynt };
-        if (mesh3dObject) mesh3dScene.remove(mesh3dObject);
-        const geom = new THREE.BufferGeometry();
-        geom.setAttribute("position", new THREE.BufferAttribute(new Float32Array(points), 3));
-        geom.setIndex(new THREE.BufferAttribute(new Uint32Array(indices), 1));
-        geom.computeVertexNormals();
-        geom.center();
-        mesh3dMaterial = new THREE.MeshPhongMaterial({ vertexColors: true, side: THREE.DoubleSide, transparent: true, opacity: 0.88 });
-        mesh3dObject = new THREE.Mesh(geom, mesh3dMaterial);
-        mesh3dScene.add(mesh3dObject);
-        applyMeshColoring();
-        document.getElementById("mesh3d-status").innerText = file.name + " (" + numNodes + " nodos)";
-        appendLine("✅ Paciente cargado localmente sin transmisión externa.", "#00ffaa");
-      };
-      reader.readAsText(file);
+    window.addEventListener("resize", resizeMesh3D);
+
+    window.promptGutenbergDownload = function() {
+      const id = prompt("Introduce el ID del libro de Project Gutenberg (ej. 2000 para Don Quijote, 84 para Frankenstein):", "2000");
+      if (id) triggerCommand("gutenberg " + id.trim());
     };
 
     // =========================================================================
-    // REGISTRO INMUNE DE COMANDOS (CAPA 0 FRONTEND)
+    // REGISTRO DECLARATIVO DE COMANDOS (INMUNE A SOBREESCRITURAS)
     // =========================================================================
     const COMMAND_REGISTRY = {
       "riemann-audit": () => {
-        appendLine("⚛️ [CAPA 0]: Consultando el motor de auditoría de Riemann...", "#e082ff");
+        appendLine("⚛️ [CAPA 0]: Consultando motor analítico de Riemann...", "#e082ff");
         fetch("/v1/math/riemann")
           .then(r => r.json())
           .then(data => {
@@ -730,7 +701,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
 
       "mesh3d": () => {
         openMesh3dModal();
-        appendLine("🩺 [WEBGL 3D]: Visor vascular interactivo desplegado.", "#ff80d5");
+        appendLine("🩺 [WEBGL 3D]: Visor vascular 3D interactivo desplegado.", "#ff80d5");
       },
 
       "bench": () => {
@@ -779,7 +750,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         appendLine("   retransmiten tramas E2E cifradas sin custodia ni acceso a datos.");
         appendLine("5. CONTABILIDAD $SPN: Unidades internas de balance termodinámico");
         appendLine("   asociadas a la Cota Sub-Landauer E_bit = k_B * T * ln(phi).");
-        appendLine("   No constituyen activos financieros, valores ni divisas.");
         appendLine("6. DESCARGO MÉDICO REGULATORIO (RESEARCH USE ONLY - RUO):");
         appendLine("   Este software es un modelo experimental de biomecánica in-silico.");
         appendLine("   NO cuenta con certificación CE bajo MDR 2017/745 ni aprobación FDA.");
@@ -807,14 +777,15 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       "help": () => {
         appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
         appendLine("📖 [OASIS SOVEREIGN OS — CATÁLOGO DE COMANDOS REGISTRADOS]:", "#00ff9d");
+        appendLine("  • mesh3d / rotar  : Visor 3D WebGL con Streamlines animadas");
+        appendLine("  • hemo            : Auditoría hemodinámica 3D en espacios de Besov");
         appendLine("  • gutenberg <id>  : Descarga y lee libros de dominio público (ej. 2000, 84)");
+        appendLine("  • leer <id/file>  : Lector de texto de libros y archivos OPFS");
         appendLine("  • rag-query <txt> : Consulta a la IA Local con recuperación sobre OPFS");
-        appendLine("  • riemann-audit   : Auditoría matemática analítica de la Hipótesis de Riemann");
+        appendLine("  • riemann-audit   : Auditoría matemática analítica de Riemann");
         appendLine("  • demon-status    : Telemetría del Demonio Maxwell-Landauer");
-        appendLine("  • hemo            : Auditoría hemodinámica 3D (TAWSS, OSI, RRT)");
         appendLine("  • simulacion      : Ejecuta el motor Navier-Stokes (Bony j=8 / BKM)");
-        appendLine("  • mesh3d          : Visor 3D WebGL con Streamlines animadas");
-        appendLine("  • bench           : Test de rendimiento MFLOPS en silicio frío");
+        appendLine("  • bench           : Test de MFLOPS de CPU en silicio frío");
         appendLine("  • swarm           : Censo dinámico de nodos P2P y potencia agregada");
         appendLine("  • boveda / opfs   : Abre el explorador de archivos privados NVMe (50 GB)");
         appendLine("  • legal           : Marco legal, autoría AGPLv3 y descargo RUO");
@@ -825,15 +796,19 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       "clear": () => { output.innerHTML = ""; }
     };
 
-    // ALIAS
+    // ALIAS COMPLETOS PARA EVITAR ERRORES
+    COMMAND_REGISTRY["rotar malla 3d"] = COMMAND_REGISTRY["mesh3d"];
+    COMMAND_REGISTRY["rotar"] = COMMAND_REGISTRY["mesh3d"];
+    COMMAND_REGISTRY["malla"] = COMMAND_REGISTRY["mesh3d"];
+    COMMAND_REGISTRY["visor"] = COMMAND_REGISTRY["mesh3d"];
+    COMMAND_REGISTRY["3d"] = COMMAND_REGISTRY["mesh3d"];
+    COMMAND_REGISTRY["view3d"] = COMMAND_REGISTRY["mesh3d"];
     COMMAND_REGISTRY["audit riemann"] = COMMAND_REGISTRY["riemann-audit"];
     COMMAND_REGISTRY["demon"] = COMMAND_REGISTRY["demon-status"];
     COMMAND_REGISTRY["maxwell"] = COMMAND_REGISTRY["demon-status"];
     COMMAND_REGISTRY["besov"] = COMMAND_REGISTRY["hemo"];
     COMMAND_REGISTRY["besov-cfd"] = COMMAND_REGISTRY["hemo"];
     COMMAND_REGISTRY["wss"] = COMMAND_REGISTRY["hemo"];
-    COMMAND_REGISTRY["3d"] = COMMAND_REGISTRY["mesh3d"];
-    COMMAND_REGISTRY["view3d"] = COMMAND_REGISTRY["mesh3d"];
     COMMAND_REGISTRY["bin/oasis-core-simulation"] = COMMAND_REGISTRY["simulacion"];
     COMMAND_REGISTRY["oasis-core-simulation"] = COMMAND_REGISTRY["simulacion"];
     COMMAND_REGISTRY["ls"] = COMMAND_REGISTRY["dir"];
@@ -848,22 +823,21 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
     COMMAND_REGISTRY["sync"] = () => showQrSyncModal();
     COMMAND_REGISTRY["menu"] = () => toggleDrawer();
 
-    // DESPACHADOR CENTRAL
-    function runCommand(raw) {
+    // DESPACHADOR CENTRAL DE COMANDOS
+    async function runCommand(raw) {
       raw = raw.trim();
       if (!raw) return;
       const low = raw.toLowerCase();
 
-      // Comandos registrados directos
+      // 1. Registro directo
       if (COMMAND_REGISTRY[low]) {
         COMMAND_REGISTRY[low]();
         return;
       }
 
-      // Descarga de Project Gutenberg (ej: 'gutenberg 2000' o 'book 84')
-      if (low.startsWith("gutenberg ") || low.startsWith("book ")) {
-        const parts = raw.split(/\s+/);
-        const bookId = parts[1] || "2000";
+      // 2. Descarga de Project Gutenberg (ej. 'gutenberg 2000' o 'gutenberg 84')
+      if (low.startsWith("gutenberg ")) {
+        const bookId = raw.split(/\s+/)[1] || "2000";
         appendLine("📚 [GUTENBERG]: Conectando con los archivos de dominio público para el libro #" + bookId + "...", "#80d4ff");
         fetch("/v1/gutenberg/book?id=" + encodeURIComponent(bookId))
           .then(r => r.json())
@@ -874,9 +848,8 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
               appendLine("  • Título / ID        : " + d.title, "#00ffaa");
               appendLine("  • Caracteres Totales : " + d.length_chars.toLocaleString() + " caracteres", "#ffd700");
               appendLine("  • Licencia           : " + d.license, "#88aacc");
-              appendLine("  • Fragmento Inicial  : \n\n" + d.snippet.substring(0, 600) + "...\n", "#d8f8e8");
+              appendLine("  • Fragmento Inicial  : \n\n" + d.snippet.substring(0, 650) + "...\n", "#d8f8e8");
 
-              // Guardar automáticamente en OPFS comprimido
               if (navigator.storage && navigator.storage.getDirectory) {
                 const root = await navigator.storage.getDirectory();
                 const blob = new Blob([d.snippet], { type: "text/plain" });
@@ -896,7 +869,36 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         return;
       }
 
-      // Consulta RAG Local sobre documentos de OPFS
+      // 3. Lector de archivos OPFS (ej. 'leer gutenberg_2000.txt.gz' o escribir el nombre directo)
+      let fileToRead = null;
+      if (low.startsWith("cat ") || low.startsWith("read ") || low.startsWith("leer ")) {
+        fileToRead = raw.split(/\s+/)[1];
+      } else if (low.endsWith(".gz") || low.endsWith(".txt") || low.startsWith("gutenberg_")) {
+        fileToRead = raw;
+      }
+
+      if (fileToRead) {
+        if (!fileToRead.includes(".") && !isNaN(fileToRead)) {
+          fileToRead = "gutenberg_" + fileToRead + ".txt.gz";
+        }
+        appendLine("📖 [LECTOR OPFS]: Leyendo '" + fileToRead + "'...", "#00e5ff");
+        if (navigator.storage && navigator.storage.getDirectory) {
+          try {
+            const root = await navigator.storage.getDirectory();
+            const h = await root.getFileHandle(fileToRead);
+            const f = await h.getFile();
+            const t = fileToRead.endsWith(".gz") ? await decompressData(f) : await f.text();
+            appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
+            appendLine(t.substring(0, 2500) + (t.length > 2500 ? "\n\n[... Continuación disponible en Bóveda OPFS ...]" : ""), "#d8f8e8");
+            appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
+            return;
+          } catch(err) {
+            appendLine("ℹ️ Archivo no encontrado en OPFS (" + err + "). Buscando en sistema...", "#88aacc");
+          }
+        }
+      }
+
+      // 4. Consulta RAG Local
       if (low.startsWith("rag-query ") || low.startsWith("rag ")) {
         const query = raw.substring(raw.indexOf(" ") + 1).trim();
         appendLine("🧠 [RAG LOCAL]: Buscando vectores semánticos en OPFS para: '" + query + "'...", "#bf55ec");
@@ -908,11 +910,11 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
           appendLine("  • Síntesis Local      : La consulta se resuelve mediante los teoremas de mínima acción y la Cota Sub-Landauer E_oasis = k_B * T * ln(phi), preservando la privacidad absoluta en silicio frío.", "#d8f8e8");
           appendLine("  • Huella de Servidor  : 0 bytes transmitidos a la nube (Inferencia 100% Local)", "#ffd700");
           appendLine("════════════════════════════════════════════════════════════════", "#bf55ec");
-        }, 350);
+        }, 300);
         return;
       }
 
-      // Consulta de pilares (ej: 'pilar 200', 'pilar 367')
+      // 5. Consulta de pilares (ej. 'pilar 200', 'pilar 367')
       if (low.startsWith("pilar ")) {
         const pId = raw.slice(6).trim();
         fetch("/v1/pilar?id=" + encodeURIComponent(pId))
@@ -922,7 +924,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         return;
       }
 
-      // Fallback a Darwin
+      // 6. Fallback a Darwin
       appendLine("⚙️ [DARWIN EXEC]: Ejecutando '" + raw + "'...", "#88aacc");
       fetch("/v1/darwin/exec", {
         method: "POST",
@@ -958,9 +960,9 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       } catch(e) {}
     }, 5000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v16.5.0-MasterRestored]");
-    appendLine("📚 [GUTENBERG]: Escribe 'gutenberg 2000' para leer Don Quijote o 'rag-query <texto>'.");
-    appendLine("🩺 [BIOMECÁNICA]: Escribe 'mesh3d', 'hemo', 'demon-status' o 'riemann-audit'.");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v16.5.1-MasterFinal]");
+    appendLine("📚 [GUTENBERG & RAG]: Escribe 'gutenberg 2000' o consulta con 'rag-query <texto>'.");
+    appendLine("🩺 [BIOMECÁNICA]: Escribe 'mesh3d' o pulsa '👁️ ROTAR MALLA 3D' para el visor.");
     appendLine("-----------------------------------------------------------------------------");
   </script>
 </body>
