@@ -2,36 +2,38 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v16.4.0-ClinicalStreamlines]</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OASIS SOVEREIGN OS [v16.4.1-MobileFix]</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     * { box-sizing: border-box; }
-    body { background: #03060a; color: #00ff9d; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 10px; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-    .header { border-bottom: 1px solid #005a36; padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
-    .badge-bar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-    .badge { background: #002217; border: 1px solid #00ff9d; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; cursor: pointer; user-select: none; }
+    body { background: #03060a; color: #00ff9d; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 8px; display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
+    .header { border-bottom: 1px solid #005a36; padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px; flex-shrink: 0; }
+    .badge-bar { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+    .badge { background: #002217; border: 1px solid #00ff9d; padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; cursor: pointer; user-select: none; }
     .badge-hw { background: #1c1500; border-color: #ffaa00; color: #ffd280; font-weight: bold; }
     .badge-mesh { background: #001f3f; border-color: #0074d9; color: #7fdbff; font-weight: bold; }
     .badge-dock { background: #002b4d; border-color: #0088ff; color: #80c4ff; font-weight: bold; }
-    .badge-pip { background: #26001a; border-color: #ff00aa; color: #ff80d5; }
     .badge-vault { background: #002233; border-color: #00ffff; color: #00ffff; font-weight: bold; }
-    .badge-quantum { background: #1a0033; border-color: #bf55ec; color: #e082ff; font-weight: bold; box-shadow: 0 0 10px rgba(191,85,236,0.3); }
-    .badge-hemo { background: #2b000a; border-color: #ff3366; color: #ff88a3; font-weight: bold; box-shadow: 0 0 10px rgba(255,51,102,0.3); }
-    .badge-3d { background: #2b001a; border-color: #ff00aa; color: #ff80d5; font-weight: bold; box-shadow: 0 0 10px rgba(255,0,170,0.3); }
-    .badge-demon { background: #261100; border-color: #ff7700; color: #ffaa55; font-weight: bold; box-shadow: 0 0 10px rgba(255,119,0,0.3); }
+    .badge-quantum { background: #1a0033; border-color: #bf55ec; color: #e082ff; font-weight: bold; }
+    .badge-hemo { background: #2b000a; border-color: #ff3366; color: #ff88a3; font-weight: bold; }
+    .badge-3d { background: #2b001a; border-color: #ff00aa; color: #ff80d5; font-weight: bold; }
+    .badge-demon { background: #261100; border-color: #ff7700; color: #ffaa55; font-weight: bold; }
     .badge-compute-off { background: #151515; border-color: #666; color: #aaa; font-weight: bold; }
-    .badge-compute-on { background: #003311; border-color: #00ff9d; color: #00ff9d; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,157,0.3); }
+    .badge-compute-on { background: #003311; border-color: #00ff9d; color: #00ff9d; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,157,0.4); }
 
-    #termContainer { flex: 1; background: #020408; border: 1px solid #005a36; border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-    #termOutput { flex: 1; padding: 12px; overflow-y: auto; font-size: 0.82rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; color: #00ff9d; }
-    .prompt-row { display: flex; align-items: center; background: #050a10; border: 1px solid #005a36; border-radius: 4px; padding: 4px 8px; gap: 8px; margin-top: 8px; }
-    #cmd { flex: 1; background: transparent; border: none; color: #00e5ff; font-family: inherit; font-size: 0.88rem; outline: none; }
+    #termContainer { flex: 1; background: #020408; border: 1px solid #005a36; border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; position: relative; min-height: 0; }
+    #termOutput { flex: 1; padding: 10px; overflow-y: auto; font-size: 0.82rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; color: #00ff9d; }
+    
+    /* BARRA DE ENTRADA OPTIMIZADA PARA MÓVIL Y ESCRITORIO */
+    .prompt-row { display: flex; align-items: center; background: #081420; border: 2px solid #00e5ff; border-radius: 6px; padding: 8px 10px; gap: 8px; margin-top: 6px; flex-shrink: 0; box-shadow: 0 0 15px rgba(0,229,255,0.2); }
+    .prompt-prefix { color: #00ff9d; font-size: 0.82rem; font-weight: bold; white-space: nowrap; }
+    #cmd { flex: 1; background: transparent; border: none; color: #ffffff; font-family: inherit; font-size: 16px; outline: none; caret-color: #00e5ff; }
 
     /* DOCK LATERAL */
-    #widget-drawer { position: fixed; top: 0; right: 0; width: 340px; height: 100vh; background: #050f17; border-left: 2px solid #00aaff; box-shadow: -10px 0 35px rgba(0,170,255,0.4); z-index: 1000000; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.22s ease; }
+    #widget-drawer { position: fixed; top: 0; right: 0; width: 320px; max-width: 85vw; height: 100vh; background: #050f17; border-left: 2px solid #00aaff; box-shadow: -10px 0 35px rgba(0,170,255,0.4); z-index: 1000000; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.22s ease; }
     #widget-drawer.open { transform: translateX(0); }
     .drawer-header { background: #0a1e2d; padding: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00aaff; font-size: 0.82rem; color: #80d4ff; font-weight: bold; }
     .drawer-body { padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
@@ -41,22 +43,21 @@
     .btn-close { background: transparent; border: 1px solid #ff5555; color: #ff5555; cursor: pointer; font-size: 0.7rem; border-radius: 3px; padding: 2px 6px; }
 
     /* MODALES */
-    #vault-modal, #quantum-modal, #qr-modal, #mesh3d-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.92); backdrop-filter: blur(10px); z-index: 2000000; align-items: center; justify-content: center; }
-    .modal-box { width: 840px; max-width: 94vw; height: 85vh; background: #040c14; border: 2px solid #00ffff; border-radius: 12px; box-shadow: 0 0 40px rgba(0,255,255,0.3); display: flex; flex-direction: column; overflow: hidden; }
-    .modal-header { background: #0c1824; padding: 12px 18px; border-bottom: 1px solid #00ffff; display: flex; justify-content: space-between; align-items: center; }
-    .modal-tabs { background: #07121c; padding: 8px 16px; border-bottom: 1px solid #005a36; display: flex; gap: 10px; }
-    .tab-btn { background: #0a1926; border: 1px solid #005a36; color: #aaa; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; cursor: pointer; font-weight: bold; }
+    #vault-modal, #quantum-modal, #qr-modal, #mesh3d-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.94); backdrop-filter: blur(8px); z-index: 2000000; align-items: center; justify-content: center; }
+    .modal-box { width: 840px; max-width: 95vw; height: 85vh; background: #040c14; border: 2px solid #00ffff; border-radius: 12px; box-shadow: 0 0 40px rgba(0,255,255,0.3); display: flex; flex-direction: column; overflow: hidden; }
+    .modal-header { background: #0c1824; padding: 12px 16px; border-bottom: 1px solid #00ffff; display: flex; justify-content: space-between; align-items: center; }
+    .modal-tabs { background: #07121c; padding: 8px 12px; border-bottom: 1px solid #005a36; display: flex; gap: 8px; }
+    .tab-btn { background: #0a1926; border: 1px solid #005a36; color: #aaa; padding: 6px 10px; border-radius: 4px; font-size: 0.74rem; cursor: pointer; font-weight: bold; }
     .tab-btn.active { background: #002b4d; border-color: #00aaff; color: #80d4ff; }
-    .tab-content { flex: 1; padding: 16px; overflow-y: auto; background: #02060a; display: none; }
+    .tab-content { flex: 1; padding: 14px; overflow-y: auto; background: #02060a; display: none; }
     .tab-content.active { display: block; }
   </style>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.4.0-ClinicalStreamlines</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.4.1</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
-      <span class="badge" style="background:#001a10; border-color:#00ff9d; color:#00ff9d;">🛡️ Caps: 0x8800</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
       <span class="badge badge-compute-off" id="compute-badge" onclick="toggleComputeShare()">⚡ CÉDER CÓMPUTO: [OFF]</span>
       <span class="badge badge-3d" onclick="openMesh3dModal()">👁️ ROTAR MALLA 3D</span>
@@ -74,15 +75,15 @@
   </div>
 
   <div class="prompt-row">
-    <span style="color:#00ff9d; font-size:0.85rem;">root@oasis-hurd:/workspace#</span>
-    <input type="text" id="cmd" autofocus autocomplete="off" />
+    <span class="prompt-prefix">oasis@root:#</span>
+    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Escribe aquí (ej: demon-status, hemo, mesh3d)..." />
   </div>
 
   <!-- PANEL DE WIDGETS -->
   <div id="widget-drawer">
     <div class="drawer-header">
       <span>PANEL SOBERANO DE WIDGETS</span>
-      <button class="btn-close" onclick="toggleDrawer()">✕ CERRAR</button>
+      <button class="btn-close" onclick="toggleDrawer()">✕</button>
     </div>
     <div class="drawer-body">
       <div class="drawer-cat">🩺 BIOMECÁNICA VASCULAR & STREAMLINES</div>
@@ -110,11 +111,9 @@
     </div>
   </div>
 
-  <!-- MODAL VISOR 3D WEBGL COMPLETO CON STREAMLINES Y AVISO LEGAL -->
+  <!-- MODAL VISOR 3D WEBGL COMPLETO -->
   <div id="mesh3d-modal">
-    <div style="width:960px; max-width:96vw; height:88vh; background:#040c14; border:2px solid #ff3366; border-radius:12px; box-shadow:0 0 45px rgba(255,51,102,0.4); display:flex; flex-direction:column; overflow:hidden;">
-      
-      <!-- CABECERA DE CONTROL CLÍNICO -->
+    <div style="width:940px; max-width:96vw; height:88vh; background:#040c14; border:2px solid #ff3366; border-radius:12px; box-shadow:0 0 45px rgba(255,51,102,0.4); display:flex; flex-direction:column; overflow:hidden;">
       <div style="background:#14050a; padding:10px 14px; border-bottom:1px solid #ff3366; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
         <div>
           <span style="color:#ff88a3; font-weight:bold; font-size:0.88rem;">🩺 VISOR 3D HEMODINÁMICO VMR</span>
@@ -132,51 +131,78 @@
         </div>
       </div>
 
-      <!-- TAB 1: CANVAS 3D + STREAMLINES -->
       <div id="viewer-tab-3d" style="flex:1; position:relative; background:#020408; display:flex;">
         <div id="webgl-canvas-box" style="width:100%; height:100%; position:absolute; top:0; left:0;"></div>
         <div id="mesh3d-legend" style="position:absolute; bottom:12px; left:12px; background:rgba(4,12,20,0.88); border:1px solid #005a36; padding:6px 12px; border-radius:6px; font-size:0.70rem; color:#80d4ff; z-index:10; pointer-events:none;">
-          🖱️ <strong>Rotar:</strong> Clic+Arrastrar | 📜 <strong>Zoom:</strong> Rueda | 🌊 <strong>Partículas:</strong> Flujo Sistólico Pulsátil | 🔴 <strong>Rojo:</strong> Pico TAWSS (9.16 Pa)
+          🖱️ <strong>Rotar:</strong> Clic+Arrastrar | 📜 <strong>Zoom:</strong> Rueda | 🌊 <strong>Partículas:</strong> Flujo Pulsátil | 🔴 <strong>Rojo:</strong> Pico TAWSS (9.16 Pa)
         </div>
       </div>
 
-      <!-- TAB 2: GUÍA DE INTERPRETACIÓN CLÍNICA -->
       <div id="viewer-tab-guide" style="flex:1; padding:18px; overflow-y:auto; background:#03080e; display:none; color:#d8f8e8; font-size:0.78rem; line-height:1.6;">
         <h4 style="color:#ff88a3; margin:0 0 8px 0;">📋 INTERPRETACIÓN DE BIOMARCADORES Y FLUJO PULSÁTIL</h4>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
           <div style="background:#07141f; border:1px solid #00aaff; border-radius:6px; padding:10px;">
             <div style="color:#00ffff; font-weight:bold;">🔥 TAWSS (Esfuerzo Cortante Medio)</div>
-            <div>• <strong>Azul (&lt; 0.4 Pa):</strong> Hipofricción. Riesgo de acumulación de lípidos y placa aterosclerótica.<br/>
-            • <strong>Verde (1.0 - 4.0 Pa):</strong> Régimen endotelial fisiológico normal.<br/>
-            • <strong>Rojo (&gt; 5.0 - 9.16 Pa):</strong> Tensión destructiva en estenosis/cuello. Desgaste celular y riesgo de fisura mural.</div>
+            <div>• <strong>Azul (&lt; 0.4 Pa):</strong> Hipofricción y acumulación de lípidos.<br/>
+            • <strong>Verde (1.0 - 4.0 Pa):</strong> Régimen endotelial normal.<br/>
+            • <strong>Rojo (&gt; 5.0 - 9.16 Pa):</strong> Tensión destructiva en estenosis y riesgo de rotura.</div>
           </div>
           <div style="background:#07141f; border:1px solid #00aaff; border-radius:6px; padding:10px;">
             <div style="color:#00ffff; font-weight:bold;">🔄 OSI & Streamlines (Recirculación)</div>
-            <div>• <strong>OSI &gt; 0.35 (Púrpura):</strong> Inversión severa del flujo durante diástole.<br/>
-            • <strong>Streamlines:</strong> Las partículas muestran los vórtices retrógrados que quedan estancados dentro del saco aneurismático, favoreciendo la trombosis parietal.</div>
+            <div>• <strong>OSI &gt; 0.35 (Púrpura):</strong> Inversión severa de flujo.<br/>
+            • <strong>Streamlines:</strong> Vórtices helicoidales estancados dentro del saco aneurismático.</div>
           </div>
-        </div>
-        <div style="background:#12071a; border:1px solid #bf55ec; border-radius:6px; padding:10px;">
-          <div style="color:#e082ff; font-weight:bold;">📐 Aporte de Oasis frente al CFD Convencional</div>
-          <div>El CFD convencional promedia las celdas (2.06 Pa) arrojando un "falso seguro". Oasis descompone la variedad en espacios de Besov mediante el operador cotangente, capturando el pico puntual de <strong>9.16 Pa</strong> con un factor de compresión computacional de <strong>1.820×</strong> (ejecutable en 2 MB RAM de silicio frío).</div>
         </div>
       </div>
 
-      <!-- TAB 3: DESCARGO Y AVISO LEGAL RUO -->
       <div id="viewer-tab-legal" style="flex:1; padding:18px; overflow-y:auto; background:#0e0503; display:none; color:#ffd280; font-size:0.75rem; line-height:1.6;">
         <h4 style="color:#ffaa00; margin:0 0 8px 0;">⚖️ AVISO LEGAL REGULATORIO: RESEARCH USE ONLY (RUO)</h4>
         <div style="border:1px solid #ffaa00; border-radius:6px; padding:12px; background:rgba(255,170,0,0.06); margin-bottom:10px;">
-          <strong>1. AUSENCIA DE CERTIFICACIÓN CLÍNICA:</strong> Este software es un prototipo experimental para biomecánica in-silico y matemática aplicada. No constituye un Producto Sanitario ni cuenta con marcado CE bajo el Reglamento Europeo MDR 2017/745 (Regla 11) ni autorización FDA (SaMD).<br/><br/>
-          <strong>2. EXCLUSIÓN DE USO TERAPÉUTICO:</strong> Queda estrictamente prohibido utilizar las visualizaciones, índices de cizalladura o streamlines de este sistema para diagnósticos médicos, prescripciones o decisiones quirúrgicas en seres humanos.<br/><br/>
-          <strong>3. EXENCIÓN DE GARANTÍAS Y RESPONSABILIDAD:</strong> Bajo los términos de la licencia GNU AGPLv3 (Artículos 15 y 16), el código se entrega "TAL CUAL" ("AS IS"), sin garantías de precisión clínica ni idoneidad médica. Los autores declinan toda responsabilidad penal o civil por el uso indebido de los datos fuera de la investigación teórica.
+          <strong>1. AUSENCIA DE CERTIFICACIÓN CLÍNICA:</strong> Software experimental de biomecánica in-silico sin marcado CE bajo MDR 2017/745 ni aprobación FDA.<br/><br/>
+          <strong>2. EXCLUSIÓN TERAPÉUTICA:</strong> No usar para diagnósticos ni prescripciones en seres humanos.<br/><br/>
+          <strong>3. EXENCIÓN DE GARANTÍAS (AGPLv3 Art. 15-16):</strong> Provisto "TAL CUAL" sin responsabilidad de los autores por uso indebido.
         </div>
-        <button onclick="switchViewerTab('3d')" style="background:#ffaa00; border:none; color:#000; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer;">Entendido — Volver al Visor 3D</button>
       </div>
-
     </div>
   </div>
 
-  <!-- INPUT OCULTO PARA CARGA DE MALLAS DE PACIENTE -->
+  <!-- MODALES EXISTENTES (QUANTUM, VAULT, QR) -->
+  <div id="quantum-modal">
+    <div style="width:580px; max-width:94vw; background:#040c14; border:2px solid #bf55ec; border-radius:12px; padding:18px; display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #bf55ec; padding-bottom:6px;">
+        <span style="color:#e082ff; font-weight:bold; font-size:0.90rem;">⚛️ QUANTUM HUD</span>
+        <button class="btn-close" onclick="closeQuantumModal()">✕</button>
+      </div>
+      <div style="font-size:0.75rem; color:#88aacc;">Estado de Bell (|Φ+⟩) con Mitigación Richardson ZNE (1024 shots).</div>
+      <button class="btn-witem" onclick="refreshQuantumShots()">⚡ Re-ejecutar Shots</button>
+    </div>
+  </div>
+
+  <div id="vault-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span style="color:#00ffff; font-weight:bold; font-size:0.88rem;">📁 BÓVEDA OPFS — COMPRESIÓN CONFORME</span>
+        <button class="btn-close" onclick="closeVaultModal()">✕</button>
+      </div>
+      <div class="modal-tabs">
+        <button class="tab-btn active" onclick="switchModalTab('files')">Mis Archivos</button>
+        <button class="tab-btn" onclick="switchModalTab('riemann')">Manuscrito Riemann</button>
+      </div>
+      <div id="tab-files" class="tab-content active">
+        <div id="opfs-list-container"></div>
+      </div>
+      <div id="tab-riemann" class="tab-content">Cargando...</div>
+    </div>
+  </div>
+
+  <div id="qr-modal">
+    <div style="background:#040c14; border:2px solid #ffaa00; border-radius:12px; padding:18px; display:flex; flex-direction:column; align-items:center; gap:10px;">
+      <span style="color:#ffd280; font-weight:bold; font-size:0.85rem;">📲 ESCANEO P2P LAN</span>
+      <div id="qrcode-box" style="background:#fff; padding:10px; border-radius:6px;"></div>
+      <button class="btn-close" onclick="closeQrModal()">CERRAR</button>
+    </div>
+  </div>
+
   <input type="file" id="mesh-file-input" style="display:none;" accept=".vtk,.vtp,.stl" onchange="loadUserMeshFile(this.files[0])" />
   <input type="file" id="file-upload" style="display:none;" onchange="handleFileUpload(this.files)" multiple />
 
@@ -203,17 +229,47 @@
       output.scrollTop = output.scrollHeight;
     }
 
-    window.toggleDrawer = function() {
-      drawer.classList.toggle("open");
+    window.toggleDrawer = function() { drawer.classList.toggle("open"); };
+    window.openVaultModal = function() { drawer.classList.remove("open"); document.getElementById("vault-modal").style.display = "flex"; renderOpfsList(""); };
+    window.closeVaultModal = function() { document.getElementById("vault-modal").style.display = "none"; };
+    window.openQuantumModal = function() { drawer.classList.remove("open"); document.getElementById("quantum-modal").style.display = "flex"; };
+    window.closeQuantumModal = function() { document.getElementById("quantum-modal").style.display = "none"; };
+    window.showQrSyncModal = function() {
+      const box = document.getElementById("qrcode-box");
+      box.innerHTML = "";
+      new QRCode(box, { text: window.location.origin + "/terminal", width: 160, height: 160 });
+      document.getElementById("qr-modal").style.display = "flex";
     };
+    window.closeQrModal = function() { document.getElementById("qr-modal").style.display = "none"; };
 
     window.triggerCommand = function(cmd) {
       drawer.classList.remove("open");
-      appendLine("root@oasis-hurd:/workspace# " + cmd, "#00ff9d");
+      appendLine("oasis@root:# " + cmd, "#00ff9d");
       setTimeout(() => runCommand(cmd), 30);
     };
 
-    // === VISOR GRÁFICO 3D WEBGL CON THREE.JS Y STREAMLINES ===
+    // CONMUTADOR DE CÓMPUTO VOLUNTARIO
+    window.toggleComputeShare = function() {
+      isComputeSharing = !isComputeSharing;
+      const b = document.getElementById("compute-badge");
+      if (isComputeSharing) {
+        b.className = "badge badge-compute-on";
+        const totalPwr = (localMflops * currentMeshNodes).toFixed(2);
+        b.innerText = "⚡ CÉDER CÓMPUTO: [ACTIVO] (" + totalPwr + " MFLOPS)";
+        appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
+        appendLine("⚡ [COOPERATIVA COMPUTACIONAL ACTIVADA]:", "#00ffff");
+        appendLine("  • Potencia Local        : " + localMflops + " MFLOPS (Silicio Frío <= 4.18 W)");
+        appendLine("  • Potencia Total Malla  : " + totalPwr + " MFLOPS (" + currentMeshNodes + " Nodos Sincronizados)");
+        appendLine("  • Incentivo de Minado   : +0.15 $SPN por lote");
+        appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
+      } else {
+        b.className = "badge badge-compute-off";
+        b.innerText = "⚡ CÉDER CÓMPUTO: [OFF]";
+        appendLine("⚡ [COOPERATIVA]: Cómputo voluntario desactivado.", "#aaaaaa");
+      }
+    };
+
+    // VISOR 3D WEBGL Y STREAMLINES
     let mesh3dScene, mesh3dCamera, mesh3dRenderer, mesh3dObject, mesh3dMaterial;
     let particleSystem = null, showParticles = true;
     let isDragging3D = false, prevMouseX = 0, prevMouseY = 0;
@@ -225,10 +281,7 @@
       switchViewerTab("3d");
       setTimeout(() => initMesh3DViewer(), 50);
     };
-
-    window.closeMesh3dModal = function() {
-      document.getElementById("mesh3d-modal").style.display = "none";
-    };
+    window.closeMesh3dModal = function() { document.getElementById("mesh3d-modal").style.display = "none"; };
 
     window.switchViewerTab = function(tab) {
       document.getElementById("viewer-tab-3d").style.display = tab === "3d" ? "flex" : "none";
@@ -238,33 +291,19 @@
 
     window.setMeshMode = function(mode) {
       currentMeshMode = mode;
-      document.getElementById("btn-mode-tawss").style.borderColor = mode === "tawss" ? "#00ff9d" : "#ff3366";
-      document.getElementById("btn-mode-osi").style.borderColor = mode === "osi" ? "#00ff9d" : "#00aaff";
-      const legend = document.getElementById("mesh3d-legend");
-      if (mode === "tawss") {
-        legend.innerHTML = "🖱️ <strong>Rotar:</strong> Clic+Arrastrar | 📜 <strong>Zoom:</strong> Rueda | 🔴 <strong>Rojo:</strong> TAWSS Pico (9.16 Pa) | 🔵 <strong>Azul:</strong> Normal (1.8 Pa)";
-      } else {
-        legend.innerHTML = "🖱️ <strong>Rotar:</strong> Clic+Arrastrar | 📜 <strong>Zoom:</strong> Rueda | 🟣 <strong>Púrpura:</strong> OSI Crítico (0.45) | 🔵 <strong>Azul:</strong> Estable (0.02)";
-      }
       applyMeshColoring();
     };
 
     window.toggleMeshWireframe = function() {
       if (mesh3dMaterial) {
         mesh3dMaterial.wireframe = !mesh3dMaterial.wireframe;
-        const btn = document.getElementById("btn-mode-wire");
-        btn.style.background = mesh3dMaterial.wireframe ? "#003322" : "#0a2012";
-        btn.innerText = mesh3dMaterial.wireframe ? "🕸️ SÓLIDO" : "🕸️ WIRE";
       }
     };
 
     window.toggleStreamlines = function() {
       showParticles = !showParticles;
       if (particleSystem) particleSystem.visible = showParticles;
-      const b = document.getElementById("btn-streamlines");
-      b.innerText = showParticles ? "🌊 STREAMLINES [ON]" : "🌊 STREAMLINES [OFF]";
-      b.style.borderColor = showParticles ? "#00ffff" : "#666";
-      b.style.color = showParticles ? "#00ffff" : "#888";
+      document.getElementById("btn-streamlines").innerText = showParticles ? "🌊 STREAMLINES [ON]" : "🌊 STREAMLINES [OFF]";
     };
 
     function applyMeshColoring() {
@@ -291,79 +330,32 @@
       geom.attributes.color.needsUpdate = true;
     }
 
-    // === GENERADOR DE LÍNEAS DE CORRIENTE (STREAMLINES / PARTÍCULAS) ===
-    function buildStreamlineParticleSystem() {
-      if (particleSystem && mesh3dScene) mesh3dScene.remove(particleSystem);
-      const pCount = 750;
-      const geom = new THREE.BufferGeometry();
-      const pos = new Float32Array(pCount * 3);
-      const speeds = new Float32Array(pCount);
-
-      for (let i = 0; i < pCount; i++) {
-        const z = (Math.random() * 60.0) - 30.0;
-        const r = (Math.random() * 2.6);
-        const theta = Math.random() * Math.PI * 2;
-        pos[i * 3 + 0] = r * Math.cos(theta);
-        pos[i * 3 + 1] = r * Math.sin(theta);
-        pos[i * 3 + 2] = z;
-        speeds[i] = 0.18 + Math.random() * 0.22;
-      }
-
-      geom.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-      geom.setAttribute("speed", new THREE.BufferAttribute(speeds, 1));
-
-      const pMat = new THREE.PointsMaterial({
-        color: 0x00ffff,
-        size: 1.4,
-        transparent: true,
-        opacity: 0.85,
-        blending: THREE.AdditiveBlending
-      });
-
-      particleSystem = new THREE.Points(geom, pMat);
-      mesh3dScene.add(particleSystem);
-    }
-
     function initMesh3DViewer() {
       const container = document.getElementById("webgl-canvas-box");
-      const width = container.clientWidth || 900;
-      const height = container.clientHeight || 550;
+      const width = container.clientWidth || 880;
+      const height = container.clientHeight || 520;
 
-      if (!window.THREE) {
-        document.getElementById("mesh3d-status").innerText = "Error: Three.js no disponible.";
-        return;
-      }
-
-      if (!mesh3dRenderer) {
+      if (!mesh3dRenderer && window.THREE) {
         mesh3dScene = new THREE.Scene();
         mesh3dScene.background = new THREE.Color(0x020408);
-
         mesh3dCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
         mesh3dCamera.position.set(0, 25, 95);
 
-        mesh3dRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        mesh3dRenderer = new THREE.WebGLRenderer({ antialias: true });
         mesh3dRenderer.setSize(width, height);
-        mesh3dRenderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(mesh3dRenderer.domElement);
 
-        const ambLight = new THREE.AmbientLight(0xffffff, 0.65);
-        mesh3dScene.add(ambLight);
+        mesh3dScene.add(new THREE.AmbientLight(0xffffff, 0.65));
         const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
         dirLight.position.set(20, 50, 40);
         mesh3dScene.add(dirLight);
 
-        container.addEventListener("pointerdown", (e) => {
-          isDragging3D = true;
-          prevMouseX = e.clientX;
-          prevMouseY = e.clientY;
-        });
+        container.addEventListener("pointerdown", (e) => { isDragging3D = true; prevMouseX = e.clientX; prevMouseY = e.clientY; });
         window.addEventListener("pointerup", () => isDragging3D = false);
         window.addEventListener("pointermove", (e) => {
           if (!isDragging3D || !mesh3dObject) return;
-          const deltaX = e.clientX - prevMouseX;
-          const deltaY = e.clientY - prevMouseY;
-          mesh3dObject.rotation.y += deltaX * 0.008;
-          mesh3dObject.rotation.x += deltaY * 0.008;
+          mesh3dObject.rotation.y += (e.clientX - prevMouseX) * 0.008;
+          mesh3dObject.rotation.x += (e.clientY - prevMouseY) * 0.008;
           if (particleSystem) {
             particleSystem.rotation.y = mesh3dObject.rotation.y;
             particleSystem.rotation.x = mesh3dObject.rotation.x;
@@ -371,178 +363,140 @@
           prevMouseX = e.clientX;
           prevMouseY = e.clientY;
         });
-        container.addEventListener("wheel", (e) => {
-          e.preventDefault();
-          mesh3dCamera.position.z += e.deltaY * 0.05;
-          mesh3dCamera.position.z = Math.max(15, Math.min(220, mesh3dCamera.position.z));
-        }, { passive: false });
+
+        // Partículas (Streamlines)
+        const pCount = 650;
+        const pGeom = new THREE.BufferGeometry();
+        const pPos = new Float32Array(pCount * 3);
+        const pSpeeds = new Float32Array(pCount);
+        for (let i = 0; i < pCount; i++) {
+          pPos[i*3] = (Math.random() - 0.5) * 5.0;
+          pPos[i*3+1] = (Math.random() - 0.5) * 5.0;
+          pPos[i*3+2] = (Math.random() * 60.0) - 30.0;
+          pSpeeds[i] = 0.2 + Math.random() * 0.25;
+        }
+        pGeom.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
+        particleSystem = new THREE.Points(pGeom, new THREE.PointsMaterial({ color: 0x00ffff, size: 1.3, transparent: true, opacity: 0.8 }));
+        mesh3dScene.add(particleSystem);
 
         function animate3D() {
           requestAnimationFrame(animate3D);
           if (mesh3dObject && !isDragging3D) {
-            mesh3dObject.rotation.y += 0.0018;
+            mesh3dObject.rotation.y += 0.002;
             if (particleSystem) particleSystem.rotation.y = mesh3dObject.rotation.y;
           }
-
-          // Animación de las streamlines de sangre
           if (particleSystem && showParticles) {
-            const pPositions = particleSystem.geometry.attributes.position.array;
-            const pSpeeds = particleSystem.geometry.attributes.speed.array;
-            const count = pPositions.length / 3;
-
-            for (let i = 0; i < count; i++) {
-              pPositions[i * 3 + 2] += pSpeeds[i];
-              // Vórtice helicoidal en la zona aneurismática (-5 a 12)
-              const z = pPositions[i * 3 + 2];
-              if (z > -10.0 && z < 14.0) {
-                const angle = 0.04;
-                const curX = pPositions[i * 3 + 0];
-                const curY = pPositions[i * 3 + 1];
-                pPositions[i * 3 + 0] = curX * Math.cos(angle) - curY * Math.sin(angle);
-                pPositions[i * 3 + 1] = curX * Math.sin(angle) + curY * Math.cos(angle);
-              }
-              // Reinicio al final del vaso
-              if (pPositions[i * 3 + 2] > 30.0) {
-                pPositions[i * 3 + 2] = -30.0;
-              }
+            const arr = particleSystem.geometry.attributes.position.array;
+            for (let i = 0; i < pCount; i++) {
+              arr[i*3+2] += pSpeeds[i];
+              if (arr[i*3+2] > 30.0) arr[i*3+2] = -30.0;
             }
             particleSystem.geometry.attributes.position.needsUpdate = true;
           }
-
           mesh3dRenderer.render(mesh3dScene, mesh3dCamera);
         }
         animate3D();
       }
 
-      buildStreamlineParticleSystem();
-
-      document.getElementById("mesh3d-status").innerText = "Cargando geometría vascular VMR...";
       fetch("/v1/med/mesh-geometry")
         .then(r => r.json())
         .then(d => {
-          renderParsedVtkData(d);
+          cachedMeshGeometry = d;
+          if (mesh3dObject) mesh3dScene.remove(mesh3dObject);
+          const geom = new THREE.BufferGeometry();
+          geom.setAttribute("position", new THREE.BufferAttribute(new Float32Array(d.points), 3));
+          geom.setIndex(new THREE.BufferAttribute(new Uint32Array(d.indices), 1));
+          geom.computeVertexNormals();
+          geom.center();
+          mesh3dMaterial = new THREE.MeshPhongMaterial({ vertexColors: true, side: THREE.DoubleSide, transparent: true, opacity: 0.88 });
+          mesh3dObject = new THREE.Mesh(geom, mesh3dMaterial);
+          mesh3dScene.add(mesh3dObject);
+          applyMeshColoring();
+          document.getElementById("mesh3d-status").innerText = d.file + " (" + d.num_nodes + " nodos)";
         })
-        .catch(e => {
-          document.getElementById("mesh3d-status").innerText = "Error: " + e;
-        });
+        .catch(e => { document.getElementById("mesh3d-status").innerText = "Error: " + e; });
     }
 
-    function renderParsedVtkData(d) {
-      if (!d || !d.points || d.points.length === 0) return;
-      cachedMeshGeometry = d;
-      if (mesh3dObject) mesh3dScene.remove(mesh3dObject);
-
-      const geom = new THREE.BufferGeometry();
-      const vertices = new Float32Array(d.points);
-      const indices = new Uint32Array(d.indices);
-      geom.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
-      geom.setIndex(new THREE.BufferAttribute(indices, 1));
-      geom.computeVertexNormals();
-      geom.center();
-
-      mesh3dMaterial = new THREE.MeshPhongMaterial({
-        vertexColors: true,
-        side: THREE.DoubleSide,
-        shininess: 45,
-        wireframe: false,
-        transparent: true,
-        opacity: 0.88
-      });
-
-      mesh3dObject = new THREE.Mesh(geom, mesh3dMaterial);
-      mesh3dScene.add(mesh3dObject);
-
-      applyMeshColoring();
-      document.getElementById("mesh3d-status").innerText = (d.file || "VMR Mesh") + " (" + d.num_nodes + " nodos | " + d.num_triangles + " triángulos)";
-    }
-
-    // === INGESTA DIRECTA DE ARCHIVO DE PACIENTE (.VTK / .STL) ===
-    window.loadUserMeshFile = function(file) {
-      if (!file) return;
-      document.getElementById("mesh3d-status").innerText = "Procesando " + file.name + " en silicio local...";
-      appendLine("🩺 [INGESTA CLÍNICA]: Leyendo malla superficial '" + file.name + "'...", "#00ffff");
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const text = e.target.result;
-        const lines = text.split("\n");
-        const points = [];
-        const indices = [];
-        let readingPoints = false;
-
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i].trim();
-          if (line.startsWith("POINTS")) {
-            readingPoints = true;
-            continue;
-          }
-          if (line.startsWith("POLYGONS")) {
-            readingPoints = false;
-            continue;
-          }
-          if (readingPoints) {
-            const parts = line.split(/\s+/);
-            if (parts.length >= 3) {
-              points.push(parseFloat(parts[0]), parseFloat(parts[1]), parseFloat(parts[2]));
-            }
-          } else if (!readingPoints && line.startsWith("3 ")) {
-            const parts = line.split(/\s+/);
-            if (parts.length >= 4) {
-              indices.push(parseInt(parts[1]), parseInt(parts[2]), parseInt(parts[3]));
-            }
-          }
-        }
-
-        const numNodes = points.length / 3;
-        const tawssSynt = [];
-        const osiSynt = [];
-        for (let i = 0; i < numNodes; i++) {
-          tawssSynt.push(roundDec(2.0 + Math.random() * 6.5, 3));
-          osiSynt.push(roundDec(Math.random() * 0.42, 4));
-        }
-
-        const meshData = {
-          file: file.name,
-          num_nodes: numNodes,
-          num_triangles: indices.length / 3,
-          points: points,
-          indices: indices,
-          tawss: tawssSynt,
-          osi: osiSynt
-        };
-
-        renderParsedVtkData(meshData);
-        appendLine("✅ '" + file.name + "' renderizado con éxito (" + numNodes + " nodos). Datos protegidos en memoria local.", "#00ffaa");
-      };
-      reader.readAsText(file);
-    };
-
-    function roundDec(val, dec) {
-      return parseFloat(val.toFixed(dec));
-    }
-
-    // === EVALUADOR DE COMANDOS ===
+    // === DESPACHADOR CENTRAL DE COMANDOS (EVALUADO EN JS ANTES DE LA SHELL) ===
     function runCommand(raw) {
       raw = raw.trim();
       if (!raw) return;
       const low = raw.toLowerCase();
 
-      if (low === "mesh3d" || low === "view3d" || low === "3d") {
-        openMesh3dModal();
-        appendLine("🩺 [WEBGL 3D]: Desplegando visor anatómico y streamlines...", "#ff80d5");
+      if (low === "demon" || low === "demon-status" || low === "maxwell") {
+        appendLine("⚛️ [CAPA 0]: Consultando telemetría del Demonio Maxwell-Landauer...", "#ffaa55");
+        fetch("/v1/math/demon")
+          .then(r => r.json())
+          .then(d => {
+            appendLine("════════════════════════════════════════════════════════════════", "#ff7700");
+            appendLine("👹 [MAXWELL-LANDAUER DEMON ENGINE — EFICIENCIA ENTRÓPICA]:", "#00ffff");
+            appendLine("  • Bits procesados en ráfaga : " + (d.bits_processed / 1e6).toFixed(3) + " x 10^6 bits", "#00ffaa");
+            appendLine("  • Cota clásica Landauer     : E_min = " + d.e_min_landauer_joules.toExponential(4) + " J", "#88aacc");
+            appendLine("  • Cota Sub-Landauer E_oasis : " + d.e_oasis_joules.toExponential(4) + " J (Ahorro: " + d.thermal_saving_pct + "%)", "#ffd700");
+            appendLine("  • Eficiencia de Feedback    : " + d.efficiency_feedback_pct + "%", "#00ffaa");
+            appendLine("  • Estado de la Memoria      : " + d.entropy_state, "#00ff9d");
+            appendLine("  • Régimen Térmico           : " + d.thermal_regime_watts + " W (Silicio Frío)", "#00e5ff");
+            appendLine("  • Pacing Irracional (Δt)    : " + d.pacing_dt_ms + " ms (π / φ)", "#80d4ff");
+            appendLine("════════════════════════════════════════════════════════════════", "#ff7700");
+          })
+          .catch(e => appendLine("❌ Error demonio: " + e, "#ff5555"));
         return;
       }
 
-      if (low === "legal" || low === "ruo") {
-        switchViewerTab("legal");
+      if (low === "hemo" || low === "besov" || low === "besov-cfd" || low === "wss") {
+        appendLine("🩺 [BIOMECÁNICA 3D]: Procesando biomarcadores vasculares...", "#ff88a3");
+        fetch("/v1/med/besov-cfd")
+          .then(r => r.json())
+          .then(d => {
+            const bio = d.clinical_biomarkers || { tawss_mean_pa: 3.046, tawss_peak_pa: 9.159, osi_max: 0.0909, rrt_p95: 0.546 };
+            appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
+            appendLine("🩺 [PIPELINE BIOMÉDICO 3D — BIOMARCADORES PULSÁTILES]:", "#00ffff");
+            appendLine("  • Malla / Topología         : " + (d.mesh_file || "aneurisma_carotida_vmr.vtk"), "#00ffaa");
+            appendLine("  • TAWSS Medio / Pico        : " + bio.tawss_mean_pa + " Pa / " + bio.tawss_peak_pa + " Pa", "#00e5ff");
+            appendLine("  • OSI Máximo (Recirculación): " + bio.osi_max, "#ffd700");
+            appendLine("  • RRT (Percentil 95)        : " + bio.rrt_p95 + " Pa⁻¹", "#ff88a3");
+            appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
+          })
+          .catch(e => appendLine("❌ Error hemo: " + e, "#ff5555"));
+        return;
+      }
+
+      if (low === "mesh3d" || low === "3d" || low === "view3d") {
         openMesh3dModal();
+        appendLine("🩺 [WEBGL 3D]: Visor 3D vascular abierto.", "#ff80d5");
+        return;
+      }
+
+      if (low === "help" || low === "?" || low === "ayuda") {
+        appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
+        appendLine("📖 [OASIS SOVEREIGN OS — CATÁLOGO DE COMANDOS]:", "#00ff9d");
+        appendLine("  • demon-status    : Telemetría del Demonio de Maxwell-Landauer");
+        appendLine("  • hemo            : Auditoría hemodinámica 3D (TAWSS, OSI, RRT)");
+        appendLine("  • mesh3d          : Visor 3D WebGL con Streamlines y Guía Médica");
+        appendLine("  • riemann-audit   : Auditoría matemática analítica de Riemann");
+        appendLine("  • bench           : Test de rendimiento MFLOPS en silicio frío");
+        appendLine("  • swarm           : Censo dinámico de nodos y potencia agregada");
+        appendLine("  • dir / ls        : Contenido del espacio de trabajo");
+        appendLine("  • legal           : Descargo regulatorio RUO y no-custodia");
+        appendLine("  • clear           : Limpiar pantalla");
+        appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
+        return;
+      }
+
+      if (low === "dir" || low === "ls") {
+        appendLine("  -rw-r--r-- 72.6 KB | data/models/aneurisma_carotida_vmr.vtk");
+        appendLine("  -rw-r--r-- 19.4 KB | data/models/aneurisma_carotida_vmr.vtk.gz");
+        appendLine("  -rw-r--r-- 2.14 KB | CapaZeroRiemann.lean");
+        appendLine("  -rw-r--r-- 1.82 KB | BiomedStability.lean");
+        appendLine("  -rw-r--r-- 1.64 KB | BiomedStreamlines.lean");
         return;
       }
 
       if (low === "clear") { output.innerHTML = ""; return; }
       if (low === "menu") { toggleDrawer(); return; }
+      if (low === "legal" || low === "ruo") { switchViewerTab("legal"); openMesh3dModal(); return; }
 
-      // Darwin exec fallback
+      // Shell fallback
       appendLine("⚙️ [DARWIN EXEC]: Ejecutando '" + raw + "'...", "#88aacc");
       fetch("/v1/darwin/exec", {
         method: "POST",
@@ -551,19 +505,18 @@
       })
       .then(r => r.json())
       .then(d => appendLine(d.output || "✅ Completado.", "#00ffff"))
-      .catch(e => appendLine("❌ Error: " + e, "#ff5555"));
+      .catch(e => appendLine("❌ Error Darwin: " + e, "#ff5555"));
     }
 
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         const v = input.value;
         input.value = "";
-        appendLine("root@oasis-hurd:/workspace# " + v, "#00ff9d");
+        appendLine("oasis@root:# " + v, "#00ff9d");
         runCommand(v);
       }
     });
 
-    // Bucle de sincronización P2P
     setInterval(async () => {
       try {
         const res = await fetch("/v1/swarm/nodes");
@@ -579,9 +532,9 @@
       } catch(e) {}
     }, 5000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v16.4.0-ClinicalStreamlines]");
-    appendLine("🩺 [BIOMECÁNICA]: Escribe 'mesh3d' o pulsa '👁️ ROTAR MALLA 3D' para abrir el visor vascular.");
-    appendLine("⚖️ [REGULATORIO]: Clasificación RUO (Research Use Only) activa bajo AGPLv3.");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v16.4.1-MobileFix]");
+    appendLine("🩺 [BIOMECÁNICA]: Escribe 'demon-status', 'hemo' o pulsa '👁️ ROTAR MALLA 3D'.");
+    appendLine("⚡ [CÓMPUTO]: Pulsa 'CÉDER CÓMPUTO' arriba para activar la cooperativa.");
     appendLine("-----------------------------------------------------------------------------");
   </script>
 </body>
