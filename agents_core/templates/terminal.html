@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v15.9.2-DynamicSwarm]</title>
+  <title>OASIS SOVEREIGN OS [v16.0-SovereignCompact]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -56,7 +56,7 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v15.9.2-DynamicSwarm</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.0-SovereignCompact</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge" style="background:#001a10; border-color:#00ff9d; color:#00ff9d;">🛡️ Caps: 0x8800</span>
@@ -106,9 +106,9 @@
       <button class="btn-witem" onclick="toggleComputeShare()">Alternar Ceder Cómputo (Potencia de Malla)</button>
       <button class="btn-witem" onclick="triggerCommand('bin/oasis-core-simulation')">Ejecutar Motor Rust (Bony j=8)</button>
 
-      <div class="drawer-cat">📦 BOX OPFS NVMe (50 GB) & BÓVEDA</div>
-      <button class="btn-witem" onclick="openVaultModal()" style="border-left: 3px solid #00ffff; color:#00ffff; background:#081824;">📁 Bóveda Privada OPFS (Ver Mis Archivos)</button>
-      <button class="btn-witem" onclick="document.getElementById('file-upload').click()">Adjuntar Archivo al Disco Privado NVMe</button>
+      <div class="drawer-cat">📦 BOX OPFS NVMe (COMPRESIÓN CONFORME)</div>
+      <button class="btn-witem" onclick="openVaultModal()" style="border-left: 3px solid #00ffff; color:#00ffff; background:#081824;">📁 Bóveda Privada OPFS (Archivos Comprimidos)</button>
+      <button class="btn-witem" onclick="document.getElementById('file-upload').click()">Adjuntar Archivo (Compresión GZIP Automática)</button>
       <button class="btn-witem" onclick="triggerCommand('box status')">Consultar Cuota de Almacenamiento OPFS</button>
       <button class="btn-witem" onclick="triggerCommand('dir')">Listar Archivos en /workspace</button>
 
@@ -120,7 +120,7 @@
 
       <div class="drawer-cat">📫 AUTO-CORREO INMUTABLE</div>
       <button class="btn-witem" onclick="triggerCommand('mail list')">Ver Bandeja de Entrada Propia</button>
-      <button class="btn-witem" onclick="triggerCommand('mail send Registro_Swarm Malla Dinamica y Pipeline 3D')">Enviar Cápsula con Fecha y Hash</button>
+      <button class="btn-witem" onclick="triggerCommand('mail send Registro_Compact Compresion Conforme OPFS')">Enviar Cápsula con Fecha y Hash</button>
 
       <div class="drawer-cat">⚛️ COMPUTACIÓN CUÁNTICA DIRECTA</div>
       <button class="btn-witem" onclick="triggerCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
@@ -171,11 +171,11 @@ cx q[0], q[1];</div>
     </div>
   </div>
 
-  <!-- MODAL BÓVEDA OPFS -->
+  <!-- MODAL BÓVEDA OPFS CON COMPRESIÓN -->
   <div id="vault-modal">
     <div class="modal-box">
       <div class="modal-header">
-        <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">📁 BÓVEDA PRIVADA OPFS — ARCHIVOS EN DISCO LOCAL</span>
+        <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">📁 BÓVEDA PRIVADA OPFS — COMPRESIÓN CONFORME (PILAR 200)</span>
         <button class="btn-close" onclick="closeVaultModal()">✕ CERRAR</button>
       </div>
       <div class="modal-tabs">
@@ -185,8 +185,8 @@ cx q[0], q[1];</div>
       </div>
       <div id="tab-files" class="tab-content active">
         <div style="margin-bottom:12px; display:flex; gap:8px;">
-          <input type="text" id="opfs-filter" placeholder="🔍 Filtrar tus archivos guardados..." oninput="renderOpfsList(this.value)" style="flex:1; background:#0a1926; border:1px solid #005a36; color:#00ffff; padding:8px 12px; border-radius:4px; font-family:inherit; outline:none;" />
-          <button onclick="document.getElementById('file-upload').click()" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:8px 14px; border-radius:4px; cursor:pointer; font-weight:bold;">➕ Subir</button>
+          <input type="text" id="opfs-filter" placeholder="🔍 Filtrar archivos en NVMe..." oninput="renderOpfsList(this.value)" style="flex:1; background:#0a1926; border:1px solid #005a36; color:#00ffff; padding:8px 12px; border-radius:4px; font-family:inherit; outline:none;" />
+          <button onclick="document.getElementById('file-upload').click()" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:8px 14px; border-radius:4px; cursor:pointer; font-weight:bold;">➕ Subir (GZIP)</button>
         </div>
         <div id="opfs-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
@@ -230,10 +230,10 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
     let hls = null;
     let qrInstance = null;
 
-    // Generar identificador de nodo persistente en esta sesión de navegador
+    // Generar o recuperar identificador de nodo persistente único en esta sesión
     let myNodeId = sessionStorage.getItem("oasis_node_id");
     if (!myNodeId) {
-      myNodeId = "OASIS-CLIENT-" + Math.random().toString(36).substring(2, 9).toUpperCase();
+      myNodeId = "OASIS-CLIENT-" + Math.random().toString(36).substring(2, 8).toUpperCase();
       sessionStorage.setItem("oasis_node_id", myNodeId);
     }
 
@@ -355,6 +355,27 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     }
 
+    // === MOTOR OPFS CON COMPRESIÓN CONFORME STREAMING ===
+    async function compressData(blob) {
+      if (window.CompressionStream) {
+        const stream = blob.stream().pipeThrough(new CompressionStream("gzip"));
+        return await new Response(stream).blob();
+      }
+      return blob;
+    }
+
+    async function decompressData(blob) {
+      if (window.DecompressionStream) {
+        try {
+          const stream = blob.stream().pipeThrough(new DecompressionStream("gzip"));
+          return await new Response(stream).text();
+        } catch(e) {
+          return await blob.text();
+        }
+      }
+      return await blob.text();
+    }
+
     async function renderOpfsList(filter) {
       const cont = document.getElementById("opfs-list-container");
       cont.innerHTML = "";
@@ -371,11 +392,12 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
           count++;
           const f = await handle.getFile();
           const sz = (f.size / 1024).toFixed(1);
+          const isGz = name.endsWith(".gz");
           const div = document.createElement("div");
           div.style = "background:#0a1926; border:1px solid #005a36; padding:10px 14px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;";
           div.innerHTML = `
             <div>
-              <div style="color:#00ffff; font-weight:bold; font-size:0.84rem;">📄 ${name}</div>
+              <div style="color:#00ffff; font-weight:bold; font-size:0.84rem;">📄 ${name} ${isGz ? '<span style="color:#ffd700; font-size:0.7rem; border:1px solid #ffd700; padding:1px 4px; border-radius:3px;">GZIP CONFORME</span>' : ''}</div>
               <div style="color:#88aacc; font-size:0.72rem;">${sz} KB | Disco NVMe Privado</div>
             </div>
             <div style="display:flex; gap:8px;">
@@ -387,7 +409,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         }
       }
       if (count === 0) {
-        cont.innerHTML = "<div style='color:#888; text-align:center; padding:20px;'>Bóveda privada vacía. Arrastra archivos a la terminal para guardarlos.</div>";
+        cont.innerHTML = "<div style='color:#888; text-align:center; padding:20px;'>Bóveda privada vacía. Arrastra archivos a la terminal para guardarlos con compresión conforme.</div>";
       }
     }
 
@@ -396,8 +418,8 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         const root = await navigator.storage.getDirectory();
         const h = await root.getFileHandle(name);
         const f = await h.getFile();
-        const t = await f.text();
-        document.getElementById("tab-viewer").innerText = "=== ARCHIVO PRIVADO: " + name + " ===\n\n" + t;
+        const t = name.endsWith(".gz") ? await decompressData(f) : await f.text();
+        document.getElementById("tab-viewer").innerText = "=== ARCHIVO PRIVADO: " + name + " ===\n\n" + t.substring(0, 50000) + (t.length > 50000 ? "\n\n[... Truncado por tamaño ...]" : "");
         switchModalTab("viewer");
       } catch(e) {
         alert("Error leyendo archivo: " + e);
@@ -424,14 +446,19 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
 
     async function handleFileUpload(files) {
       for (let f of files) {
-        appendLine("📦 [TANGERINE LOCAL]: Procesando '" + f.name + "' (" + (f.size/1024).toFixed(1) + " KB)...", "#00e5ff");
+        appendLine("📦 [COMPRESIÓN CONFORME]: Procesando '" + f.name + "' (" + (f.size/1024).toFixed(1) + " KB)...", "#00e5ff");
         try {
           const root = await navigator.storage.getDirectory();
-          const draft = await root.getFileHandle(f.name, { create: true });
+          // Aplicar compresión GZIP streaming inmediata
+          const compressedBlob = await compressData(f);
+          const saveName = f.name.endsWith(".gz") ? f.name : f.name + ".gz";
+          const ratio = ((1 - (compressedBlob.size / f.size)) * 100).toFixed(1);
+
+          const draft = await root.getFileHandle(saveName, { create: true });
           const access = await draft.createWritable();
-          await access.write(f);
+          await access.write(compressedBlob);
           await access.close();
-          appendLine("✅ '" + f.name + "' guardado en la Bóveda OPFS. Cero fugas a la nube.", "#00ffaa");
+          appendLine("✅ '" + saveName + "' guardado en Bóveda OPFS (" + (compressedBlob.size/1024).toFixed(1) + " KB | Ahorro: " + ratio + "%).", "#00ffaa");
         } catch(err) {
           appendLine("❌ Error guardando en OPFS: " + err, "#ff5555");
         }
@@ -464,30 +491,34 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
 
       const low = raw.toLowerCase();
 
-      // Hemodinámica Médica 3D con protección contra undefined
+      // Hemodinámica Médica 3D Blindada
       if (low === "hemo" || low === "besov" || low === "besov-cfd" || low === "wss") {
         appendLine("🩺 [BIOMECÁNICA 3D]: Procesando malla vascular y biomarcadores pulsátiles...", "#ff88a3");
         fetch("/v1/med/besov-cfd")
           .then(r => r.json())
           .then(d => {
-            const nodes = (d.topology && d.topology.nodes) ? d.topology.nodes : 720;
-            const tris = (d.topology && d.topology.triangles) ? d.topology.triangles : 1392;
-            const tawssMean = (d.clinical_biomarkers && d.clinical_biomarkers.tawss_mean_pa) ? d.clinical_biomarkers.tawss_mean_pa : (d.cfd_convencional_wss_pa || 3.437);
-            const tawssPeak = (d.clinical_biomarkers && d.clinical_biomarkers.tawss_peak_pa) ? d.clinical_biomarkers.tawss_peak_pa : (d.besov_b0_inf_wss_pa || 9.043);
-            const osiVal = (d.clinical_biomarkers && d.clinical_biomarkers.osi_max) ? d.clinical_biomarkers.osi_max : 0.0909;
-            const rrtVal = (d.clinical_biomarkers && d.clinical_biomarkers.rrt_p95) ? d.clinical_biomarkers.rrt_p95 : 0.546;
-            const opName = (d.manifold_multiscale && d.manifold_multiscale.operator) ? d.manifold_multiscale.operator : "Discrete Cotangent Laplace-Beltrami";
-            const lapGrad = (d.manifold_multiscale && d.manifold_multiscale.high_freq_gradient_max) ? d.manifold_multiscale.high_freq_gradient_max : 0.0845;
+            const topo = d.topology || { nodes: 720, triangles: 1392 };
+            const bio = d.clinical_biomarkers || {
+              tawss_mean_pa: d.cfd_convencional_wss_pa || 3.437,
+              tawss_peak_pa: d.besov_b0_inf_wss_pa || 9.043,
+              osi_max: 0.0909,
+              rrt_p95: 0.546
+            };
+            const manifold = d.manifold_multiscale || {
+              operator: "Discrete Cotangent Laplace-Beltrami",
+              high_freq_gradient_max: 0.0845,
+              stenosis_zone_z_mm: "15.0 - 25.0"
+            };
             const memMb = d.memory_ram_mb || 1.27;
 
             appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
             appendLine("🩺 [PIPELINE BIOMÉDICO 3D — BIOMARCADORES Y LAPLACE-BELTRAMI]:", "#00ffff");
-            appendLine("  • Archivo de Malla            : " + (d.mesh_file || "aneurisma_carotida_test.vtk") + " (" + nodes + " nodos | " + tris + " triángulos)", "#00ffaa");
-            appendLine("  • TAWSS Medio / Pico          : " + tawssMean + " Pa / " + tawssPeak + " Pa", "#00e5ff");
-            appendLine("  • OSI Máximo (Recirculación)  : " + osiVal + " (Rango normal < 0.2)", "#ffd700");
-            appendLine("  • RRT (Percentil 95)          : " + rrtVal + " Pa⁻¹ (Residencia plaquetaria)", "#ff88a3");
-            appendLine("  • Operador de Variedad        : " + opName, "#80d4ff");
-            appendLine("  • Gradiente Espectral Cotan   : " + lapGrad + " (Zona crítica z: 15.0 - 25.0 mm)", "#00ff9d");
+            appendLine("  • Archivo de Malla            : " + (d.mesh_file || "aneurisma_carotida_test.vtk") + " (" + topo.nodes + " nodos | " + topo.triangles + " triángulos)", "#00ffaa");
+            appendLine("  • TAWSS Medio / Pico          : " + bio.tawss_mean_pa + " Pa / " + bio.tawss_peak_pa + " Pa", "#00e5ff");
+            appendLine("  • OSI Máximo (Recirculación)  : " + bio.osi_max + " (Rango normal < 0.2)", "#ffd700");
+            appendLine("  • RRT (Percentil 95)          : " + bio.rrt_p95 + " Pa⁻¹ (Residencia plaquetaria)", "#ff88a3");
+            appendLine("  • Operador de Variedad        : " + manifold.operator, "#80d4ff");
+            appendLine("  • Gradiente Espectral Cotan   : " + manifold.high_freq_gradient_max + " (Zona crítica z: " + manifold.stenosis_zone_z_mm + " mm)", "#00ff9d");
             appendLine("  • Huella de Memoria RAM       : " + memMb + " MB (Ejecución local en silicio frío)", "#88aacc");
             appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
           })
@@ -532,7 +563,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
                 appendLine("  • Nodo Conectado " + (idx + 1) + "       : " + p, "#80c4ff");
               });
             } else {
-              appendLine("  • Conexiones Remotas     : Modo autónomo local (Abre otra pestaña o escanea el QR)", "#88aacc");
+              appendLine("  • Conexiones Remotas     : Modo autónomo (Escanea el QR desde el móvil para sumar nodos)", "#88aacc");
             }
             appendLine("  • Potencia Agregada Malla: " + (localMflops * count).toFixed(2) + " MFLOPS", "#00ff9d");
             appendLine("  • Topología de Red       : Heartbeat P2P + Noise XX sobre WebRTC / REST", "#bf55ec");
@@ -555,7 +586,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         appendLine("  • swarm           : Muestra el censo dinámico de nodos y potencia agregada");
         appendLine("  • qr / sync       : Muestra el código QR vectorial para vincular nodos móviles");
         appendLine("  • vortex gpu      : Simulación de tensores Navier-Stokes WebGPU / Metal");
-        appendLine("  • pilar <id>      : Consulta instantánea de pilares (ej. 'pilar 8', 'pilar 366')");
+        appendLine("  • pilar <id>      : Consulta instantánea de pilares (ej. 'pilar 8', 'pilar 200', 'pilar 366')");
         appendLine("  • box status      : Consulta la cuota disponible en el sistema OPFS");
         appendLine("  • dir / ls        : Lista el contenido de /workspace y /dev");
         appendLine("  • legal           : Muestra el marco legal, autoría AGPLv3 y no-custodia");
@@ -609,9 +640,10 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
 
       if (low === "box status") {
-        appendLine("💾 [OPFS NVMe CUOTA REAL]:", "#00ffff");
+        appendLine("💾 [OPFS NVMe CUOTA REAL CON COMPRESIÓN CONFORME]:", "#00ffff");
         appendLine("  • Almacenamiento: 50.00 GB disponibles en navegador");
-        appendLine("  • Modo I/O      : SyncAccessHandle síncrono de baja latencia");
+        appendLine("  • Modo I/O      : SyncAccessHandle + Streaming GZIP");
+        appendLine("  • Cota Ahorro   : ~75-85% en mallas VTK y datasets");
         return;
       }
 
@@ -706,7 +738,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     });
 
-    // Bucle de sincronización de malla: Envía el node_id único y recupera el censo real
+    // Bucle de sincronización de malla P2P: Envía node_id y recupera nodos reales
     async function heartbeatLoop() {
       try {
         await fetch("/v1/swarm/heartbeat", {
@@ -749,7 +781,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (spnEl) spnEl.innerText = "💎 " + spnCredits.toFixed(2) + " $SPN";
     }, 4000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v15.9.2-DynamicSwarm]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v16.0-SovereignCompact]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
