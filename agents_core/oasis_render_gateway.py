@@ -115,6 +115,9 @@ class OasisModularHandler(BaseHTTPRequestHandler):
         except (BrokenPipeError, ConnectionResetError):
             pass
 
+    def do_HEAD(self):
+        self.do_GET()
+
     def do_GET(self):
         try:
             # 1. Rutas Estáticas Desacopladas (/static/*)
