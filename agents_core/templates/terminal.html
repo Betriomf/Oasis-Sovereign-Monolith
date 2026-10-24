@@ -2,10 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v16.0-SovereignCompact]</title>
+  <title>OASIS SOVEREIGN OS [v16.2.0-WebGlControls]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     * { box-sizing: border-box; }
     body { background: #03060a; color: #00ff9d; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 10px; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
@@ -19,6 +20,7 @@
     .badge-vault { background: #002233; border-color: #00ffff; color: #00ffff; font-weight: bold; }
     .badge-quantum { background: #1a0033; border-color: #bf55ec; color: #e082ff; font-weight: bold; box-shadow: 0 0 10px rgba(191,85,236,0.3); }
     .badge-hemo { background: #2b000a; border-color: #ff3366; color: #ff88a3; font-weight: bold; box-shadow: 0 0 10px rgba(255,51,102,0.3); }
+    .badge-3d { background: #2b001a; border-color: #ff00aa; color: #ff80d5; font-weight: bold; box-shadow: 0 0 10px rgba(255,0,170,0.3); }
     .badge-demon { background: #261100; border-color: #ff7700; color: #ffaa55; font-weight: bold; box-shadow: 0 0 10px rgba(255,119,0,0.3); }
     .badge-compute-off { background: #151515; border-color: #666; color: #aaa; font-weight: bold; }
     .badge-compute-on { background: #003311; border-color: #00ff9d; color: #00ff9d; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,157,0.3); }
@@ -38,8 +40,8 @@
     .btn-witem:hover { background: #005a36; color: #00ffff; }
     .btn-close { background: transparent; border: 1px solid #ff5555; color: #ff5555; cursor: pointer; font-size: 0.7rem; border-radius: 3px; padding: 2px 6px; }
 
-    /* MODALES: BÓVEDA, QUANTUM Y QR */
-    #vault-modal, #quantum-modal, #qr-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.88); backdrop-filter: blur(8px); z-index: 2000000; align-items: center; justify-content: center; }
+    /* MODALES */
+    #vault-modal, #quantum-modal, #qr-modal, #mesh3d-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.92); backdrop-filter: blur(10px); z-index: 2000000; align-items: center; justify-content: center; }
     .modal-box { width: 840px; max-width: 94vw; height: 85vh; background: #040c14; border: 2px solid #00ffff; border-radius: 12px; box-shadow: 0 0 40px rgba(0,255,255,0.3); display: flex; flex-direction: column; overflow: hidden; }
     .modal-header { background: #0c1824; padding: 12px 18px; border-bottom: 1px solid #00ffff; display: flex; justify-content: space-between; align-items: center; }
     .modal-tabs { background: #07121c; padding: 8px 16px; border-bottom: 1px solid #005a36; display: flex; gap: 10px; }
@@ -56,12 +58,13 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.0-SovereignCompact</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.2.0-WebGlControls</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge" style="background:#001a10; border-color:#00ff9d; color:#00ff9d;">🛡️ Caps: 0x8800</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
       <span class="badge badge-compute-off" id="compute-badge" onclick="toggleComputeShare()">⚡ CÉDER CÓMPUTO: [OFF]</span>
+      <span class="badge badge-3d" onclick="openMesh3dModal()">👁️ ROTAR MALLA 3D</span>
       <span class="badge badge-hemo" onclick="triggerCommand('hemo')">🩺 BESOV CFD</span>
       <span class="badge badge-demon" onclick="triggerCommand('demon-status')">👹 DEMON HUD</span>
       <span class="badge badge-quantum" onclick="openQuantumModal()">⚛️ QUANTUM HUD</span>
@@ -95,7 +98,8 @@
       <button class="btn-close" onclick="toggleDrawer()">✕ CERRAR</button>
     </div>
     <div class="drawer-body">
-      <div class="drawer-cat">🩺 HEMODINÁMICA MÉDICA & BESOV CFD</div>
+      <div class="drawer-cat">🩺 HEMODINÁMICA MÉDICA & VISOR 3D</div>
+      <button class="btn-witem" onclick="openMesh3dModal()">👁️ Abrir Visor 3D WebGL (Aneurisma VMR)</button>
       <button class="btn-witem" onclick="triggerCommand('hemo')">🩺 Detección Microvascular 3D (TAWSS / OSI / RRT)</button>
       <button class="btn-witem" onclick="triggerCommand('demon-status')">👹 Demonio Maxwell-Landauer (Ratio Entrópico)</button>
 
@@ -120,11 +124,34 @@
 
       <div class="drawer-cat">📫 AUTO-CORREO INMUTABLE</div>
       <button class="btn-witem" onclick="triggerCommand('mail list')">Ver Bandeja de Entrada Propia</button>
-      <button class="btn-witem" onclick="triggerCommand('mail send Registro_Compact Compresion Conforme OPFS')">Enviar Cápsula con Fecha y Hash</button>
+      <button class="btn-witem" onclick="triggerCommand('mail send Registro_3D Visor WebGL y Controles de Flujo')">Enviar Cápsula con Fecha y Hash</button>
 
       <div class="drawer-cat">⚛️ COMPUTACIÓN CUÁNTICA DIRECTA</div>
       <button class="btn-witem" onclick="triggerCommand('quantum-run bell')">Estado de Bell (|00⟩ + |11⟩) Qiskit</button>
       <button class="btn-witem" onclick="triggerCommand('quantum-run grover')">Búsqueda Cuántica Grover 2-Qubit</button>
+    </div>
+  </div>
+
+  <!-- MODAL VISOR 3D WEBGL (MALLA VMR ANEURISMA) -->
+  <div id="mesh3d-modal">
+    <div style="width:900px; max-width:96vw; height:85vh; background:#040c14; border:2px solid #ff3366; border-radius:12px; box-shadow:0 0 45px rgba(255,51,102,0.4); display:flex; flex-direction:column; overflow:hidden;">
+      <div style="background:#14050a; padding:12px 18px; border-bottom:1px solid #ff3366; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <span style="color:#ff88a3; font-weight:bold; font-size:0.92rem;">🩺 VISOR 3D WEBGL — BIOMECÁNICA VASCULAR VMR</span>
+          <span style="color:#88aacc; font-size:0.75rem; margin-left:12px;" id="mesh3d-status">Cargando geometría...</span>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button id="btn-mode-tawss" onclick="setMeshMode('tawss')" style="background:#220a14; border:1px solid #ff3366; color:#ff88a3; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">🔥 TAWSS</button>
+          <button id="btn-mode-osi" onclick="setMeshMode('osi')" style="background:#0a1926; border:1px solid #00aaff; color:#80d4ff; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">🔄 OSI</button>
+          <button id="btn-mode-wire" onclick="toggleMeshWireframe()" style="background:#0a2012; border:1px solid #00ff9d; color:#00ff9d; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">🕸️ WIREFRAME</button>
+          <button class="btn-close" onclick="closeMesh3dModal()">✕ CERRAR</button>
+        </div>
+      </div>
+      <div style="flex:1; position:relative; background:#020408;" id="webgl-canvas-box">
+        <div id="mesh3d-legend" style="position:absolute; bottom:12px; left:12px; background:rgba(4,12,20,0.88); border:1px solid #005a36; padding:8px 14px; border-radius:6px; font-size:0.72rem; color:#80d4ff; z-index:10; pointer-events:none;">
+          🖱️ <strong>Arrastrar:</strong> Rotar 3D | 📜 <strong>Rueda:</strong> Zoom | 🔴 <strong>Rojo:</strong> TAWSS Pico (9.16 Pa) | 🔵 <strong>Azul:</strong> Flujo Laminar
+        </div>
+      </div>
     </div>
   </div>
 
@@ -230,7 +257,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
     let hls = null;
     let qrInstance = null;
 
-    // Generar o recuperar identificador de nodo persistente único en esta sesión
     let myNodeId = sessionStorage.getItem("oasis_node_id");
     if (!myNodeId) {
       myNodeId = "OASIS-CLIENT-" + Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -355,7 +381,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     }
 
-    // === MOTOR OPFS CON COMPRESIÓN CONFORME STREAMING ===
     async function compressData(blob) {
       if (window.CompressionStream) {
         const stream = blob.stream().pipeThrough(new CompressionStream("gzip"));
@@ -449,7 +474,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         appendLine("📦 [COMPRESIÓN CONFORME]: Procesando '" + f.name + "' (" + (f.size/1024).toFixed(1) + " KB)...", "#00e5ff");
         try {
           const root = await navigator.storage.getDirectory();
-          // Aplicar compresión GZIP streaming inmediata
           const compressedBlob = await compressData(f);
           const saveName = f.name.endsWith(".gz") ? f.name : f.name + ".gz";
           const ratio = ((1 - (compressedBlob.size / f.size)) * 100).toFixed(1);
@@ -484,6 +508,158 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     }
 
+    // === VISOR GRÁFICO 3D WEBGL (THREE.JS) CON CONTROLES TAWSS / OSI / WIREFRAME ===
+    let mesh3dScene, mesh3dCamera, mesh3dRenderer, mesh3dObject, mesh3dMaterial;
+    let isDragging3D = false, prevMouseX = 0, prevMouseY = 0;
+    let cachedMeshGeometry = null;
+    let currentMeshMode = "tawss";
+
+    window.openMesh3dModal = function() {
+      drawer.classList.remove("open");
+      const m = document.getElementById("mesh3d-modal");
+      m.style.display = "flex";
+      initMesh3DViewer();
+    };
+
+    window.closeMesh3dModal = function() {
+      const m = document.getElementById("mesh3d-modal");
+      m.style.display = "none";
+    };
+
+    window.setMeshMode = function(mode) {
+      currentMeshMode = mode;
+      document.getElementById("btn-mode-tawss").style.borderColor = mode === "tawss" ? "#00ff9d" : "#ff3366";
+      document.getElementById("btn-mode-osi").style.borderColor = mode === "osi" ? "#00ff9d" : "#00aaff";
+      const legend = document.getElementById("mesh3d-legend");
+      if (mode === "tawss") {
+        legend.innerHTML = "🖱️ <strong>Arrastrar:</strong> Rotar 3D | 📜 <strong>Rueda:</strong> Zoom | 🔴 <strong>Rojo:</strong> TAWSS Pico (9.16 Pa) | 🔵 <strong>Azul:</strong> Flujo Laminar (1.8 Pa)";
+      } else {
+        legend.innerHTML = "🖱️ <strong>Arrastrar:</strong> Rotar 3D | 📜 <strong>Rueda:</strong> Zoom | 🟣 <strong>Púrpura:</strong> OSI Crítico (0.45) | 🔵 <strong>Azul:</strong> Flujo Estable (0.02)";
+      }
+      applyMeshColoring();
+    };
+
+    window.toggleMeshWireframe = function() {
+      if (mesh3dMaterial) {
+        mesh3dMaterial.wireframe = !mesh3dMaterial.wireframe;
+        const btn = document.getElementById("btn-mode-wire");
+        btn.style.background = mesh3dMaterial.wireframe ? "#003322" : "#0a2012";
+        btn.innerText = mesh3dMaterial.wireframe ? "🕸️ SÓLIDO" : "🕸️ WIREFRAME";
+      }
+    };
+
+    function applyMeshColoring() {
+      if (!cachedMeshGeometry || !mesh3dObject) return;
+      const geom = mesh3dObject.geometry;
+      const colors = [];
+      const numPts = cachedMeshGeometry.num_nodes;
+      const vals = currentMeshMode === "tawss" ? cachedMeshGeometry.tawss : cachedMeshGeometry.osi;
+      const minVal = currentMeshMode === "tawss" ? 1.8 : 0.02;
+      const maxVal = currentMeshMode === "tawss" ? 9.159 : 0.45;
+
+      for (let i = 0; i < numPts; i++) {
+        const val = vals[i] !== undefined ? vals[i] : minVal;
+        const norm = Math.max(0, Math.min(1, (val - minVal) / (maxVal - minVal + 1e-6)));
+        const col = new THREE.Color();
+        if (currentMeshMode === "tawss") {
+          col.setHSL((1.0 - norm) * 0.65, 1.0, 0.5); // Azul -> Verde -> Rojo
+        } else {
+          col.setHSL(0.55 + norm * 0.35, 1.0, 0.45 + norm * 0.15); // Cian -> Violeta -> Magenta
+        }
+        colors.push(col.r, col.g, col.b);
+      }
+
+      geom.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+      geom.attributes.color.needsUpdate = true;
+    }
+
+    function initMesh3DViewer() {
+      const container = document.getElementById("webgl-canvas-box");
+      const width = container.clientWidth || 880;
+      const height = container.clientHeight || 550;
+
+      if (!mesh3dRenderer) {
+        mesh3dScene = new THREE.Scene();
+        mesh3dScene.background = new THREE.Color(0x020408);
+
+        mesh3dCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+        mesh3dCamera.position.set(0, 25, 90);
+
+        mesh3dRenderer = new THREE.WebGLRenderer({ antialias: true });
+        mesh3dRenderer.setSize(width, height);
+        mesh3dRenderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(mesh3dRenderer.domElement);
+
+        const ambLight = new THREE.AmbientLight(0xffffff, 0.65);
+        mesh3dScene.add(ambLight);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
+        dirLight.position.set(20, 50, 40);
+        mesh3dScene.add(dirLight);
+
+        container.addEventListener("pointerdown", (e) => {
+          isDragging3D = true;
+          prevMouseX = e.clientX;
+          prevMouseY = e.clientY;
+        });
+        window.addEventListener("pointerup", () => isDragging3D = false);
+        window.addEventListener("pointermove", (e) => {
+          if (!isDragging3D || !mesh3dObject) return;
+          const deltaX = e.clientX - prevMouseX;
+          const deltaY = e.clientY - prevMouseY;
+          mesh3dObject.rotation.y += deltaX * 0.008;
+          mesh3dObject.rotation.x += deltaY * 0.008;
+          prevMouseX = e.clientX;
+          prevMouseY = e.clientY;
+        });
+        container.addEventListener("wheel", (e) => {
+          e.preventDefault();
+          mesh3dCamera.position.z += e.deltaY * 0.05;
+          mesh3dCamera.position.z = Math.max(15, Math.min(200, mesh3dCamera.position.z));
+        }, { passive: false });
+
+        function animate3D() {
+          requestAnimationFrame(animate3D);
+          if (mesh3dObject && !isDragging3D) {
+            mesh3dObject.rotation.y += 0.002;
+          }
+          mesh3dRenderer.render(mesh3dScene, mesh3dCamera);
+        }
+        animate3D();
+      }
+
+      document.getElementById("mesh3d-status").innerText = "Transfiriendo geometría vascular VMR...";
+      fetch("/v1/med/mesh-geometry")
+        .then(r => r.json())
+        .then(d => {
+          cachedMeshGeometry = d;
+          if (mesh3dObject) mesh3dScene.remove(mesh3dObject);
+
+          const geom = new THREE.BufferGeometry();
+          const vertices = new Float32Array(d.points);
+          const indices = new Uint32Array(d.indices);
+          geom.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+          geom.setIndex(new THREE.BufferAttribute(indices, 1));
+          geom.computeVertexNormals();
+          geom.center();
+
+          mesh3dMaterial = new THREE.MeshPhongMaterial({
+            vertexColors: true,
+            side: THREE.DoubleSide,
+            shininess: 45,
+            wireframe: false
+          });
+
+          mesh3dObject = new THREE.Mesh(geom, mesh3dMaterial);
+          mesh3dScene.add(mesh3dObject);
+
+          applyMeshColoring();
+          document.getElementById("mesh3d-status").innerText = d.file + " (" + d.num_nodes + " nodos | " + d.num_triangles + " triángulos)";
+        })
+        .catch(e => {
+          document.getElementById("mesh3d-status").innerText = "Error cargando geometría: " + e;
+        });
+    }
+
     // === EVALUADOR DE COMANDOS DE OASIS ===
     function runCommand(raw) {
       raw = raw.trim();
@@ -491,29 +667,36 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
 
       const low = raw.toLowerCase();
 
+      // Abrir visor 3D
+      if (low === "mesh3d" || low === "view3d" || low === "3d") {
+        openMesh3dModal();
+        appendLine("🩺 [WEBGL 3D]: Desplegando visor anatómico interactivo...", "#ff80d5");
+        return;
+      }
+
       // Hemodinámica Médica 3D Blindada
       if (low === "hemo" || low === "besov" || low === "besov-cfd" || low === "wss") {
         appendLine("🩺 [BIOMECÁNICA 3D]: Procesando malla vascular y biomarcadores pulsátiles...", "#ff88a3");
         fetch("/v1/med/besov-cfd")
           .then(r => r.json())
           .then(d => {
-            const topo = d.topology || { nodes: 720, triangles: 1392 };
+            const topo = d.topology || { nodes: 1440, triangles: 2816 };
             const bio = d.clinical_biomarkers || {
-              tawss_mean_pa: d.cfd_convencional_wss_pa || 3.437,
-              tawss_peak_pa: d.besov_b0_inf_wss_pa || 9.043,
+              tawss_mean_pa: 3.046,
+              tawss_peak_pa: 9.159,
               osi_max: 0.0909,
               rrt_p95: 0.546
             };
             const manifold = d.manifold_multiscale || {
               operator: "Discrete Cotangent Laplace-Beltrami",
-              high_freq_gradient_max: 0.0845,
-              stenosis_zone_z_mm: "15.0 - 25.0"
+              high_freq_gradient_max: 0.1962,
+              stenosis_zone_z_mm: "15.0 - 42.0"
             };
             const memMb = d.memory_ram_mb || 1.27;
 
             appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
             appendLine("🩺 [PIPELINE BIOMÉDICO 3D — BIOMARCADORES Y LAPLACE-BELTRAMI]:", "#00ffff");
-            appendLine("  • Archivo de Malla            : " + (d.mesh_file || "aneurisma_carotida_test.vtk") + " (" + topo.nodes + " nodos | " + topo.triangles + " triángulos)", "#00ffaa");
+            appendLine("  • Archivo de Malla            : " + (d.mesh_file || "aneurisma_carotida_vmr.vtk") + " (" + topo.nodes + " nodos | " + topo.triangles + " triángulos)", "#00ffaa");
             appendLine("  • TAWSS Medio / Pico          : " + bio.tawss_mean_pa + " Pa / " + bio.tawss_peak_pa + " Pa", "#00e5ff");
             appendLine("  • OSI Máximo (Recirculación)  : " + bio.osi_max + " (Rango normal < 0.2)", "#ffd700");
             appendLine("  • RRT (Percentil 95)          : " + bio.rrt_p95 + " Pa⁻¹ (Residencia plaquetaria)", "#ff88a3");
@@ -577,6 +760,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (low === "help" || low === "?" || low === "ayuda") {
         appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
         appendLine("📖 [OASIS SOVEREIGN OS — CATÁLOGO UNIVERSAL DE COMANDOS]:", "#00ff9d");
+        appendLine("  • mesh3d / view3d : Despliega el visor gráfico interactivo 3D con TAWSS y OSI");
         appendLine("  • hemo / besov-cfd: Hemodinámica en Besov 3D (TAWSS, OSI, RRT y Laplace-Beltrami)");
         appendLine("  • demon-status    : Telemetría del Demonio de Maxwell-Landauer y ratio entrópico");
         appendLine("  • riemann-audit   : Auditoría analítica de la Hipótesis de Riemann (Capa 0)");
@@ -705,7 +889,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         return;
       }
 
-      // Fallback a Darwin / Shell Real
       appendLine("⚙️ [DARWIN EXEC]: Ejecutando '" + raw + "' en el sistema real...", "#88aacc");
       fetch("/v1/darwin/exec", {
         method: "POST",
@@ -733,12 +916,12 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       } else if (e.key === "Escape") {
         closeVaultModal();
         closeQuantumModal();
+        closeMesh3dModal();
         closeQrModal();
         drawer.classList.remove("open");
       }
     });
 
-    // Bucle de sincronización de malla P2P: Envía node_id y recupera nodos reales
     async function heartbeatLoop() {
       try {
         await fetch("/v1/swarm/heartbeat", {
@@ -781,7 +964,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (spnEl) spnEl.innerText = "💎 " + spnCredits.toFixed(2) + " $SPN";
     }, 4000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v16.0-SovereignCompact]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v16.2.0-WebGlControls]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
