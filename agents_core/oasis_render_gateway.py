@@ -287,7 +287,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 self._send_json({"output": "", "code": 0})
                 return
 
-            if cmd == "bin/oasis-core-simulation":
+            if cmd in ("bin/oasis-core-simulation", "oasis-core-simulation", "simulacion", "simulation"):
                 binary_path = os.path.join(REPO_ROOT, "bin", "oasis-core-simulation")
                 if os.path.exists(binary_path) and sys.platform == "darwin":
                     res = subprocess.run(binary_path, shell=True, capture_output=True, text=True, cwd=REPO_ROOT)
