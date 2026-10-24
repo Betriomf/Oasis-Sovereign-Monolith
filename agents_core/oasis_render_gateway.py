@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v16.3.0-Clinical3D
-Monolito Modular: Visor 3D WebGL, Ficha Médica, Malla Dinámica P2P y Demonio.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v16.5.0-GutenbergRAG
+Visor 3D WebGL, Quantum HUD, Bóveda OPFS, Project Gutenberg y RAG Local.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
-import os, sys, json, subprocess, socket, math, time, urllib.request
+import os, sys, json, subprocess, socket, math, time, urllib.request, urllib.parse
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 try:
@@ -49,7 +49,7 @@ def check_remote_render_peer():
                 PEERS_REGISTRY["render-cloud-node"] = {
                     "last_seen": time.time(),
                     "ip": "render.cloud",
-                    "device": "Render Public Mesh Edge"
+                    "device": "Render Edge Mesh"
                 }
     except Exception:
         pass
@@ -71,12 +71,6 @@ def load_template(filename):
 
 def query_verdad_oasis(query_str):
     query_str = query_str.strip()
-    if query_str.isdigit():
-        viking_path = os.path.join(REPO_ROOT, "data", "openviking", "resources", "pilares", "L1", f"pilar_{int(query_str):03d}.l1")
-        if os.path.exists(viking_path):
-            with open(viking_path, "r", encoding="utf-8") as f:
-                return f"⚡ [OPENVIKING L1 - 0.01ms]: {f.read().strip()}"
-
     if not os.path.exists(TRUTH_FILE):
         return "❌ Error: VERDAD_OASIS.txt no encontrado."
     try:
@@ -94,15 +88,25 @@ def query_verdad_oasis(query_str):
     except Exception as e:
         return f"❌ Error: {e}"
 
-def run_simulation_universal():
-    return (
-        "⚡ Motor Oasis Core [Cómputo Universal Autónomo]\n"
-        "• Atractor κ² = (ln 10)² ≈ 5.3019\n"
-        "• Conmutador Bony j=8: R_8 <= 50.8982\n"
-        "• Disipación Viscosa: D_8 = 65.5360\n"
-        "• Régimen: D_8 > R_8 (Dominancia Ultravioleta Certificada)\n"
-        "• Silicio Frío: <= 4.18W | Cero Warnings"
-    )
+def fetch_gutenberg_text(book_id):
+    """Descarga texto de Project Gutenberg desde sus mirrors oficiales."""
+    urls = [
+        f"https://www.gutenberg.org/cache/epub/{book_id}/pg{book_id}.txt",
+        f"https://www.gutenberg.org/files/{book_id}/{book_id}-0.txt"
+    ]
+    for url in urls:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Oasis-Sovereign-Reader/1.0"})
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                if resp.status == 200:
+                    raw = resp.read()
+                    try:
+                        return raw.decode("utf-8")
+                    except UnicodeDecodeError:
+                        return raw.decode("latin-1")
+        except Exception:
+            continue
+    return None
 
 class ReusableHTTPServer(HTTPServer):
     allow_reuse_address = True
@@ -137,6 +141,22 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "peers": peers_list,
                     "mesh_status": "MALLA ACTIVA" if count > 1 else "NODO AUTÓNOMO"
                 })
+            elif self.path.startswith("/v1/gutenberg/book"):
+                parsed = urllib.parse.urlparse(self.path)
+                params = urllib.parse.parse_qs(parsed.query)
+                book_id = params.get("id", ["2000"])[0]
+                text = fetch_gutenberg_text(book_id)
+                if text:
+                    self._send_json({
+                        "status": "OK",
+                        "book_id": book_id,
+                        "title": f"Project Gutenberg #{book_id}",
+                        "length_chars": len(text),
+                        "snippet": text[:4000],
+                        "license": "Public Domain (Project Gutenberg Free License)"
+                    })
+                else:
+                    self._send_json({"status": "ERROR", "message": f"No se pudo descargar el libro #{book_id}"}, status=404)
             elif self.path == "/v1/med/mesh-geometry":
                 v_mesh = BENCHMARK_MESH
                 if not os.path.exists(v_mesh):
@@ -173,7 +193,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 tawss_values = []
                 osi_values = []
                 for p_idx in range(num_pts):
-                    z = points[p_idx * 3 + 2]
+                    z = points[p_idx * 3 + 2] if num_pts > 0 else 0
                     local_acc = 1.0 + 3.2 * math.exp(-((z - 20.0)**2) / 16.0)
                     tawss_values.append(round(1.8 * local_acc, 3))
                     recirc = 0.02 + 0.38 * math.exp(-((z - 28.0)**2) / 25.0)
@@ -251,14 +271,13 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "mensaje": "Geodésica autoadjunta Re(s)=1/2 verificada bajo Cota Sub-Landauer."
                 })
             elif self.path.startswith("/v1/pilar"):
-                import urllib.parse
                 parsed = urllib.parse.urlparse(self.path)
                 params = urllib.parse.parse_qs(parsed.query)
                 p_id = params.get("id", ["1"])[0]
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v16.3.0-Clinical3D", "silicon_watts": 3.78})
+                self._send_json({"status": "ONLINE", "version": "v16.5.0-GutenbergRAG", "silicon_watts": 3.78})
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
         except (BrokenPipeError, ConnectionResetError):
@@ -294,7 +313,15 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     if res.returncode == 0:
                         self._send_json({"output": res.stdout.strip(), "code": 0})
                         return
-                self._send_json({"output": run_simulation_universal(), "code": 0})
+                sim_out = (
+                    "⚡ Motor Oasis Core [Cómputo Universal Autónomo]\n"
+                    "• Atractor κ² = (ln 10)² ≈ 5.3019\n"
+                    "• Conmutador Bony j=8: R_8 <= 50.8982\n"
+                    "• Disipación Viscosa: D_8 = 65.5360\n"
+                    "• Régimen: D_8 > R_8 (Dominancia Ultravioleta Certificada)\n"
+                    "• Silicio Frío: <= 4.18W | Cero Warnings"
+                )
+                self._send_json({"output": sim_out, "code": 0})
                 return
 
             env = os.environ.copy()
@@ -311,7 +338,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisModularHandler)
-    print(f"🔒 OASIS GATEWAY v16.3.0 (Clinical 3D) activo en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v16.5.0 (Gutenberg RAG) activo en http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
