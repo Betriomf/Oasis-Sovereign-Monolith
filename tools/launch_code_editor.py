@@ -29,6 +29,8 @@ HTML = """<!DOCTYPE html>
     <select id="fileSelect" onchange="loadFile()">
       <option value="">Selecciona archivo para editar...</option>
       <option value="oasis-core-simulation/src/main.rs">oasis-core-simulation/src/main.rs (Rust)</option>
+      <option value="KozonoTaniuchiLogBound.lean">KozonoTaniuchiLogBound.lean (Lean 4)</option>
+      <option value="BonyCommutatorDyadic.lean">BonyCommutatorDyadic.lean (Lean 4)</option>
       <option value="agents_core/oasis_render_gateway.py">agents_core/oasis_render_gateway.py (Gateway)</option>
       <option value="VERDAD_OASIS.txt">VERDAD_OASIS.txt (Pilares)</option>
       <option value="datasets_lean/oasis_lean4_formal_reasoning.jsonl">oasis_lean4_formal_reasoning.jsonl</option>
@@ -69,8 +71,14 @@ HTML = """<!DOCTYPE html>
         .then(r => r.json())
         .then(d => {
           editor.setValue(d.content);
-          const lang = f.endsWith('.rs') ? 'rust' : (f.endsWith('.py') ? 'python' : (f.endsWith('.lean') ? 'lean' : 'markdown'));
-          monaco.editor.setModelLanguage(editor.getModel(), lang);
+          let lang = 'plaintext';
+          if (f.endsWith('.rs')) lang = 'rust';
+          else if (f.endsWith('.py')) lang = 'python';
+          else if (f.endsWith('.lean')) lang = 'lean';
+          else if (f.endsWith('.jsonl') || f.endsWith('.json')) lang = 'json';
+          else if (f.endsWith('.txt')) lang = 'markdown';
+          
+          monaco.editor.setModelLanguage(editor.getModel(), lang === 'lean' ? 'rust' : lang);
           document.getElementById('status').innerText = 'Cargado: ' + f;
         });
     }

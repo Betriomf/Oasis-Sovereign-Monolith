@@ -24,7 +24,7 @@ PORT = int(os.environ.get("PORT", 8080))
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(REPO_ROOT, "agents_core", "templates")
 TRUTH_FILE = os.path.join(REPO_ROOT, "VERDAD_OASIS.txt")
-BENCHMARK_MESH = os.path.join(REPO_ROOT, "data", "models", "aneurisma_carotida_test.vtk")
+BENCHMARK_MESH = os.path.join(REPO_ROOT, "data", "models", "aneurisma_carotida_vmr.vtk")
 
 # Registro dinámico de nodos activos: {node_id: {"last_seen": timestamp, "ip": ip, "device": name}}
 PEERS_REGISTRY = {}
@@ -149,7 +149,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     # Garantía absoluta de estructura compatible
                     data = {
                         "status": "OK",
-                        "mesh_file": "aneurisma_carotida_test.vtk",
+                        "mesh_file": "aneurisma_carotida_vmr.vtk",
                         "topology": {"nodes": 720, "triangles": 1392},
                         "clinical_biomarkers": {
                             "tawss_mean_pa": 3.437,
