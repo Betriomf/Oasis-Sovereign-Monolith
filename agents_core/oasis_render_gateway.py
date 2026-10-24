@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v16.2.0-WebGlControls
-Monolito Modular: Visualizador 3D WebGL (TAWSS/OSI/Wireframe), Malla Dinámica P2P, Demonio y Riemann.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v16.3.0-Clinical3D
+Monolito Modular: Visor 3D WebGL, Ficha Médica, Malla Dinámica P2P y Demonio.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, subprocess, socket, math, time, urllib.request
@@ -144,30 +144,30 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 
                 points = []
                 triangles = []
-                with open(v_mesh, "r", encoding="utf-8") as mf:
-                    lines = mf.readlines()
-                
-                idx = 0
-                while idx < len(lines):
-                    line = lines[idx].strip()
-                    if line.startswith("POINTS"):
-                        count = int(line.split()[1])
-                        idx += 1
-                        for _ in range(count):
-                            coords = [float(x) for x in lines[idx].split()]
-                            points.extend(coords)
+                if os.path.exists(v_mesh):
+                    with open(v_mesh, "r", encoding="utf-8") as mf:
+                        lines = mf.readlines()
+                    idx = 0
+                    while idx < len(lines):
+                        line = lines[idx].strip()
+                        if line.startswith("POINTS"):
+                            count = int(line.split()[1])
                             idx += 1
-                        continue
-                    if line.startswith("POLYGONS"):
-                        count = int(line.split()[1])
-                        idx += 1
-                        for _ in range(count):
-                            parts = [int(x) for x in lines[idx].split()]
-                            if parts[0] == 3:
-                                triangles.extend(parts[1:4])
+                            for _ in range(count):
+                                coords = [float(x) for x in lines[idx].split()]
+                                points.extend(coords)
+                                idx += 1
+                            continue
+                        if line.startswith("POLYGONS"):
+                            count = int(line.split()[1])
                             idx += 1
-                        continue
-                    idx += 1
+                            for _ in range(count):
+                                parts = [int(x) for x in lines[idx].split()]
+                                if parts[0] == 3:
+                                    triangles.extend(parts[1:4])
+                                idx += 1
+                            continue
+                        idx += 1
 
                 num_pts = len(points) // 3
                 tawss_values = []
@@ -258,7 +258,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v16.2.0-WebGlControls", "silicon_watts": 3.78})
+                self._send_json({"status": "ONLINE", "version": "v16.3.0-Clinical3D", "silicon_watts": 3.78})
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
         except (BrokenPipeError, ConnectionResetError):
@@ -272,7 +272,6 @@ class OasisModularHandler(BaseHTTPRequestHandler):
             client_ip = self.client_address[0]
             node_id = body.get("node_id", f"node-{client_ip}")
             device = body.get("device", "Navegador Web")
-            
             PEERS_REGISTRY[node_id] = {
                 "last_seen": time.time(),
                 "ip": client_ip,
@@ -312,7 +311,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisModularHandler)
-    print(f"🔒 OASIS GATEWAY v16.2.0 (WebGL Controls) activo en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v16.3.0 (Clinical 3D) activo en http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v16.2.0-WebGlControls]</title>
+  <title>OASIS SOVEREIGN OS [v16.3.0-Clinical3D]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -58,7 +58,7 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.2.0-WebGlControls</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.3.0-Clinical3D</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge" style="background:#001a10; border-color:#00ff9d; color:#00ff9d;">🛡️ Caps: 0x8800</span>
@@ -99,7 +99,7 @@
     </div>
     <div class="drawer-body">
       <div class="drawer-cat">🩺 HEMODINÁMICA MÉDICA & VISOR 3D</div>
-      <button class="btn-witem" onclick="openMesh3dModal()">👁️ Abrir Visor 3D WebGL (Aneurisma VMR)</button>
+      <button class="btn-witem" onclick="openMesh3dModal()">👁️ Abrir Visor 3D WebGL y Guía Médica</button>
       <button class="btn-witem" onclick="triggerCommand('hemo')">🩺 Detección Microvascular 3D (TAWSS / OSI / RRT)</button>
       <button class="btn-witem" onclick="triggerCommand('demon-status')">👹 Demonio Maxwell-Landauer (Ratio Entrópico)</button>
 
@@ -132,24 +132,75 @@
     </div>
   </div>
 
-  <!-- MODAL VISOR 3D WEBGL (MALLA VMR ANEURISMA) -->
+  <!-- MODAL VISOR 3D WEBGL Y GUÍA MÉDICA INTEGRADA -->
   <div id="mesh3d-modal">
-    <div style="width:900px; max-width:96vw; height:85vh; background:#040c14; border:2px solid #ff3366; border-radius:12px; box-shadow:0 0 45px rgba(255,51,102,0.4); display:flex; flex-direction:column; overflow:hidden;">
-      <div style="background:#14050a; padding:12px 18px; border-bottom:1px solid #ff3366; display:flex; justify-content:space-between; align-items:center;">
+    <div style="width:920px; max-width:96vw; height:88vh; background:#040c14; border:2px solid #ff3366; border-radius:12px; box-shadow:0 0 45px rgba(255,51,102,0.4); display:flex; flex-direction:column; overflow:hidden;">
+      
+      <!-- CABECERA DEL VISOR -->
+      <div style="background:#14050a; padding:10px 16px; border-bottom:1px solid #ff3366; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
         <div>
-          <span style="color:#ff88a3; font-weight:bold; font-size:0.92rem;">🩺 VISOR 3D WEBGL — BIOMECÁNICA VASCULAR VMR</span>
-          <span style="color:#88aacc; font-size:0.75rem; margin-left:12px;" id="mesh3d-status">Cargando geometría...</span>
+          <span style="color:#ff88a3; font-weight:bold; font-size:0.90rem;">🩺 BIOMECÁNICA VASCULAR 3D — ANATOMÍA VMR</span>
+          <span style="color:#88aacc; font-size:0.72rem; margin-left:10px;" id="mesh3d-status">Inicializando visor...</span>
         </div>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <button id="btn-mode-tawss" onclick="setMeshMode('tawss')" style="background:#220a14; border:1px solid #ff3366; color:#ff88a3; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">🔥 TAWSS</button>
-          <button id="btn-mode-osi" onclick="setMeshMode('osi')" style="background:#0a1926; border:1px solid #00aaff; color:#80d4ff; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">🔄 OSI</button>
-          <button id="btn-mode-wire" onclick="toggleMeshWireframe()" style="background:#0a2012; border:1px solid #00ff9d; color:#00ff9d; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">🕸️ WIREFRAME</button>
-          <button class="btn-close" onclick="closeMesh3dModal()">✕ CERRAR</button>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button id="btn-tab-view" onclick="switchViewerTab('3d')" style="background:#2b001a; border:1px solid #ff00aa; color:#ff80d5; padding:4px 8px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">👁️ VISTA 3D</button>
+          <button id="btn-tab-guide" onclick="switchViewerTab('guide')" style="background:#0a1926; border:1px solid #00aaff; color:#80d4ff; padding:4px 8px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">📋 GUÍA CLÍNICA</button>
+          <button id="btn-mode-tawss" onclick="setMeshMode('tawss')" style="background:#220a14; border:1px solid #ff3366; color:#ff88a3; padding:4px 8px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">🔥 TAWSS</button>
+          <button id="btn-mode-osi" onclick="setMeshMode('osi')" style="background:#0a1926; border:1px solid #00aaff; color:#80d4ff; padding:4px 8px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">🔄 OSI</button>
+          <button id="btn-mode-wire" onclick="toggleMeshWireframe()" style="background:#0a2012; border:1px solid #00ff9d; color:#00ff9d; padding:4px 8px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">🕸️ WIRE</button>
+          <button class="btn-close" onclick="closeMesh3dModal()">✕</button>
         </div>
       </div>
-      <div style="flex:1; position:relative; background:#020408;" id="webgl-canvas-box">
+
+      <!-- CUERPO TAB 1: CANVAS WEBGL 3D -->
+      <div id="viewer-tab-3d" style="flex:1; position:relative; background:#020408; display:flex;">
+        <div id="webgl-canvas-box" style="width:100%; height:100%; position:absolute; top:0; left:0;"></div>
         <div id="mesh3d-legend" style="position:absolute; bottom:12px; left:12px; background:rgba(4,12,20,0.88); border:1px solid #005a36; padding:8px 14px; border-radius:6px; font-size:0.72rem; color:#80d4ff; z-index:10; pointer-events:none;">
-          🖱️ <strong>Arrastrar:</strong> Rotar 3D | 📜 <strong>Rueda:</strong> Zoom | 🔴 <strong>Rojo:</strong> TAWSS Pico (9.16 Pa) | 🔵 <strong>Azul:</strong> Flujo Laminar
+          🖱️ <strong>Arrastrar:</strong> Rotar | 📜 <strong>Rueda:</strong> Zoom | 🔴 <strong>Rojo:</strong> TAWSS Pico (9.16 Pa) | 🔵 <strong>Azul:</strong> Flujo Normal (1.8 Pa)
+        </div>
+      </div>
+
+      <!-- CUERPO TAB 2: FICHA Y GUÍA CLÍNICA PARA MÉDICOS (DIVULGATIVA) -->
+      <div id="viewer-tab-guide" style="flex:1; padding:20px; overflow-y:auto; background:#03080e; display:none; color:#d8f8e8; font-size:0.80rem; line-height:1.6;">
+        <div style="border-bottom:1px solid #ff3366; padding-bottom:8px; margin-bottom:12px;">
+          <h3 style="color:#ff88a3; margin:0 0 4px 0; font-size:0.95rem;">🩺 GUÍA DE INTERPRETACIÓN HEMODINÁMICA Y USO CLÍNICO (IN-SILICO)</h3>
+          <span style="color:#88aacc; font-size:0.72rem;">Herramienta para especialistas en angiología, neurocirugía y cardiología intervencionista.</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:16px;">
+          <div style="background:#07141f; border:1px solid #00aaff; border-radius:8px; padding:12px;">
+            <div style="color:#00ffff; font-weight:bold; margin-bottom:6px;">🔥 1. TAWSS (Time-Averaged Wall Shear Stress)</div>
+            <div><strong>¿Qué mide?</strong> La fricción tangencial media que ejerce la sangre sobre el endotelio vascular durante el ciclo cardíaco completo.</div>
+            <div style="margin-top:4px;"><strong>Criterio diagnóstico:</strong></div>
+            <ul style="margin:4px 0; padding-left:18px;">
+              <li><span style="color:#80d4ff;">Azul (&lt; 0.4 Pa):</span> Fricción muy baja. Predispone a aterosclerosis y acumulación lipídica.</li>
+              <li><span style="color:#00ff9d;">Verde (1.0 - 4.0 Pa):</span> Rango fisiológico normal y endotelio estable.</li>
+              <li><span style="color:#ff5555;">Rojo (&gt; 5.0 - 9.16 Pa):</span> Fricción destructiva en cuello o estenosis. Provoca apoptosis celular y riesgo de fisura o rotura mural.</li>
+            </ul>
+          </div>
+
+          <div style="background:#07141f; border:1px solid #00aaff; border-radius:8px; padding:12px;">
+            <div style="color:#00ffff; font-weight:bold; margin-bottom:6px;">🔄 2. OSI (Oscillatory Shear Index)</div>
+            <div><strong>¿Qué mide?</strong> El grado de inversión y cambio de dirección del flujo en la pared (recirculación y vórtices retrógrados).</div>
+            <div style="margin-top:4px;"><strong>Criterio diagnóstico:</strong></div>
+            <ul style="margin:4px 0; padding-left:18px;">
+              <li><span style="color:#80d4ff;">Cian (0.0 - 0.1):</span> Flujo unidireccional y laminar sin turbulencias.</li>
+              <li><span style="color:#ffd700;">Amarillo (0.1 - 0.3):</span> Oscilación moderada.</li>
+              <li><span style="color:#e082ff;">Púrpura (&gt; 0.35 - 0.48):</span> Flujo caótico y recirculación severa dentro del saco aneurismático. Causa inflamación endotelial crónica.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background:#12071a; border:1px solid #bf55ec; border-radius:8px; padding:12px; margin-bottom:14px;">
+          <div style="color:#e082ff; font-weight:bold; margin-bottom:4px;">📐 3. El Aporte de Oasis: Análisis Multiescala sobre la Variedad (Laplace-Beltrami)</div>
+          <div>El CFD convencional promedia las celdas y reporta un valor plano (ej. 2.06 Pa) que clasifica el vaso erróneamente como seguro. Mediante el operador cotangente sobre la superficie 3D (espacios de Besov), Oasis aísla las perturbaciones locales de alta frecuencia y detecta el pico real de <strong>9.16 Pa</strong> en el cuello estenótico, evitando el falso negativo.</div>
+        </div>
+
+        <div style="background:#051410; border:1px solid #00ff9d; border-radius:8px; padding:12px;">
+          <div style="color:#00ff9d; font-weight:bold; margin-bottom:4px;">🎮 Instrucciones de Navegación para el Médico</div>
+          <div>• <strong>Rotación:</strong> Haz clic sobre la arteria y arrastra con el ratón o trackpad para estudiar el saco desde cualquier perspectiva anatómica.</div>
+          <div>• <strong>Zoom:</strong> Usa la rueda del ratón o el gesto de dos dedos para acercarte a la zona de estenosis o adelgazamiento.</div>
+          <div>• <strong>Alternar Parámetros:</strong> Usa los botones superiores <strong>TAWSS</strong> y <strong>OSI</strong> para comparar el mapa de fricción frente al mapa de recirculación, o <strong>WIREFRAME</strong> para verificar la densidad de la malla.</div>
         </div>
       </div>
     </div>
@@ -508,7 +559,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       }
     }
 
-    // === VISOR GRÁFICO 3D WEBGL (THREE.JS) CON CONTROLES TAWSS / OSI / WIREFRAME ===
+    // === VISOR GRÁFICO 3D WEBGL Y GUÍA MÉDICA ===
     let mesh3dScene, mesh3dCamera, mesh3dRenderer, mesh3dObject, mesh3dMaterial;
     let isDragging3D = false, prevMouseX = 0, prevMouseY = 0;
     let cachedMeshGeometry = null;
@@ -518,12 +569,36 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       drawer.classList.remove("open");
       const m = document.getElementById("mesh3d-modal");
       m.style.display = "flex";
-      initMesh3DViewer();
+      switchViewerTab("3d");
+      setTimeout(() => initMesh3DViewer(), 60);
     };
 
     window.closeMesh3dModal = function() {
       const m = document.getElementById("mesh3d-modal");
       m.style.display = "none";
+    };
+
+    window.switchViewerTab = function(tab) {
+      const v3d = document.getElementById("viewer-tab-3d");
+      const vGuide = document.getElementById("viewer-tab-guide");
+      const btn3d = document.getElementById("btn-tab-view");
+      const btnGuide = document.getElementById("btn-tab-guide");
+
+      if (tab === "3d") {
+        v3d.style.display = "flex";
+        vGuide.style.display = "none";
+        btn3d.style.borderColor = "#ff00aa";
+        btn3d.style.color = "#ff80d5";
+        btnGuide.style.borderColor = "#00aaff";
+        btnGuide.style.color = "#80d4ff";
+      } else {
+        v3d.style.display = "none";
+        vGuide.style.display = "block";
+        btnGuide.style.borderColor = "#00ff9d";
+        btnGuide.style.color = "#00ff9d";
+        btn3d.style.borderColor = "#444";
+        btn3d.style.color = "#888";
+      }
     };
 
     window.setMeshMode = function(mode) {
@@ -532,9 +607,9 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       document.getElementById("btn-mode-osi").style.borderColor = mode === "osi" ? "#00ff9d" : "#00aaff";
       const legend = document.getElementById("mesh3d-legend");
       if (mode === "tawss") {
-        legend.innerHTML = "🖱️ <strong>Arrastrar:</strong> Rotar 3D | 📜 <strong>Rueda:</strong> Zoom | 🔴 <strong>Rojo:</strong> TAWSS Pico (9.16 Pa) | 🔵 <strong>Azul:</strong> Flujo Laminar (1.8 Pa)";
+        legend.innerHTML = "🖱️ <strong>Arrastrar:</strong> Rotar | 📜 <strong>Rueda:</strong> Zoom | 🔴 <strong>Rojo:</strong> TAWSS Pico (9.16 Pa) | 🔵 <strong>Azul:</strong> Flujo Normal (1.8 Pa)";
       } else {
-        legend.innerHTML = "🖱️ <strong>Arrastrar:</strong> Rotar 3D | 📜 <strong>Rueda:</strong> Zoom | 🟣 <strong>Púrpura:</strong> OSI Crítico (0.45) | 🔵 <strong>Azul:</strong> Flujo Estable (0.02)";
+        legend.innerHTML = "🖱️ <strong>Arrastrar:</strong> Rotar | 📜 <strong>Rueda:</strong> Zoom | 🟣 <strong>Púrpura:</strong> OSI Crítico (0.45) | 🔵 <strong>Azul:</strong> Flujo Estable (0.02)";
       }
       applyMeshColoring();
     };
@@ -544,7 +619,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         mesh3dMaterial.wireframe = !mesh3dMaterial.wireframe;
         const btn = document.getElementById("btn-mode-wire");
         btn.style.background = mesh3dMaterial.wireframe ? "#003322" : "#0a2012";
-        btn.innerText = mesh3dMaterial.wireframe ? "🕸️ SÓLIDO" : "🕸️ WIREFRAME";
+        btn.innerText = mesh3dMaterial.wireframe ? "🕸️ SÓLIDO" : "🕸️ WIRE";
       }
     };
 
@@ -562,9 +637,9 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         const norm = Math.max(0, Math.min(1, (val - minVal) / (maxVal - minVal + 1e-6)));
         const col = new THREE.Color();
         if (currentMeshMode === "tawss") {
-          col.setHSL((1.0 - norm) * 0.65, 1.0, 0.5); // Azul -> Verde -> Rojo
+          col.setHSL((1.0 - norm) * 0.65, 1.0, 0.5);
         } else {
-          col.setHSL(0.55 + norm * 0.35, 1.0, 0.45 + norm * 0.15); // Cian -> Violeta -> Magenta
+          col.setHSL(0.55 + norm * 0.35, 1.0, 0.45 + norm * 0.15);
         }
         colors.push(col.r, col.g, col.b);
       }
@@ -578,59 +653,73 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       const width = container.clientWidth || 880;
       const height = container.clientHeight || 550;
 
-      if (!mesh3dRenderer) {
-        mesh3dScene = new THREE.Scene();
-        mesh3dScene.background = new THREE.Color(0x020408);
-
-        mesh3dCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-        mesh3dCamera.position.set(0, 25, 90);
-
-        mesh3dRenderer = new THREE.WebGLRenderer({ antialias: true });
-        mesh3dRenderer.setSize(width, height);
-        mesh3dRenderer.setPixelRatio(window.devicePixelRatio);
-        container.appendChild(mesh3dRenderer.domElement);
-
-        const ambLight = new THREE.AmbientLight(0xffffff, 0.65);
-        mesh3dScene.add(ambLight);
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
-        dirLight.position.set(20, 50, 40);
-        mesh3dScene.add(dirLight);
-
-        container.addEventListener("pointerdown", (e) => {
-          isDragging3D = true;
-          prevMouseX = e.clientX;
-          prevMouseY = e.clientY;
-        });
-        window.addEventListener("pointerup", () => isDragging3D = false);
-        window.addEventListener("pointermove", (e) => {
-          if (!isDragging3D || !mesh3dObject) return;
-          const deltaX = e.clientX - prevMouseX;
-          const deltaY = e.clientY - prevMouseY;
-          mesh3dObject.rotation.y += deltaX * 0.008;
-          mesh3dObject.rotation.x += deltaY * 0.008;
-          prevMouseX = e.clientX;
-          prevMouseY = e.clientY;
-        });
-        container.addEventListener("wheel", (e) => {
-          e.preventDefault();
-          mesh3dCamera.position.z += e.deltaY * 0.05;
-          mesh3dCamera.position.z = Math.max(15, Math.min(200, mesh3dCamera.position.z));
-        }, { passive: false });
-
-        function animate3D() {
-          requestAnimationFrame(animate3D);
-          if (mesh3dObject && !isDragging3D) {
-            mesh3dObject.rotation.y += 0.002;
-          }
-          mesh3dRenderer.render(mesh3dScene, mesh3dCamera);
-        }
-        animate3D();
+      if (!window.THREE) {
+        document.getElementById("mesh3d-status").innerText = "Error: Three.js CDN no disponible.";
+        return;
       }
 
-      document.getElementById("mesh3d-status").innerText = "Transfiriendo geometría vascular VMR...";
+      if (!mesh3dRenderer) {
+        try {
+          mesh3dScene = new THREE.Scene();
+          mesh3dScene.background = new THREE.Color(0x020408);
+
+          mesh3dCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+          mesh3dCamera.position.set(0, 25, 90);
+
+          mesh3dRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+          mesh3dRenderer.setSize(width, height);
+          mesh3dRenderer.setPixelRatio(window.devicePixelRatio);
+          container.appendChild(mesh3dRenderer.domElement);
+
+          const ambLight = new THREE.AmbientLight(0xffffff, 0.65);
+          mesh3dScene.add(ambLight);
+          const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
+          dirLight.position.set(20, 50, 40);
+          mesh3dScene.add(dirLight);
+
+          container.addEventListener("pointerdown", (e) => {
+            isDragging3D = true;
+            prevMouseX = e.clientX;
+            prevMouseY = e.clientY;
+          });
+          window.addEventListener("pointerup", () => isDragging3D = false);
+          window.addEventListener("pointermove", (e) => {
+            if (!isDragging3D || !mesh3dObject) return;
+            const deltaX = e.clientX - prevMouseX;
+            const deltaY = e.clientY - prevMouseY;
+            mesh3dObject.rotation.y += deltaX * 0.008;
+            mesh3dObject.rotation.x += deltaY * 0.008;
+            prevMouseX = e.clientX;
+            prevMouseY = e.clientY;
+          });
+          container.addEventListener("wheel", (e) => {
+            e.preventDefault();
+            mesh3dCamera.position.z += e.deltaY * 0.05;
+            mesh3dCamera.position.z = Math.max(15, Math.min(200, mesh3dCamera.position.z));
+          }, { passive: false });
+
+          function animate3D() {
+            requestAnimationFrame(animate3D);
+            if (mesh3dObject && !isDragging3D) {
+              mesh3dObject.rotation.y += 0.002;
+            }
+            mesh3dRenderer.render(mesh3dScene, mesh3dCamera);
+          }
+          animate3D();
+        } catch(err) {
+          document.getElementById("mesh3d-status").innerText = "Fallo WebGL: " + err;
+          return;
+        }
+      }
+
+      document.getElementById("mesh3d-status").innerText = "Cargando geometría vascular VMR...";
       fetch("/v1/med/mesh-geometry")
         .then(r => r.json())
         .then(d => {
+          if (!d || !d.points || d.points.length === 0) {
+            document.getElementById("mesh3d-status").innerText = "Error: Geometría no disponible.";
+            return;
+          }
           cachedMeshGeometry = d;
           if (mesh3dObject) mesh3dScene.remove(mesh3dObject);
 
@@ -653,10 +742,10 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
           mesh3dScene.add(mesh3dObject);
 
           applyMeshColoring();
-          document.getElementById("mesh3d-status").innerText = d.file + " (" + d.num_nodes + " nodos | " + d.num_triangles + " triángulos)";
+          document.getElementById("mesh3d-status").innerText = (d.file || "VMR Mesh") + " (" + d.num_nodes + " nodos | " + d.num_triangles + " triángulos)";
         })
         .catch(e => {
-          document.getElementById("mesh3d-status").innerText = "Error cargando geometría: " + e;
+          document.getElementById("mesh3d-status").innerText = "Error de conexión: " + e;
         });
     }
 
@@ -667,14 +756,12 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
 
       const low = raw.toLowerCase();
 
-      // Abrir visor 3D
       if (low === "mesh3d" || low === "view3d" || low === "3d") {
         openMesh3dModal();
         appendLine("🩺 [WEBGL 3D]: Desplegando visor anatómico interactivo...", "#ff80d5");
         return;
       }
 
-      // Hemodinámica Médica 3D Blindada
       if (low === "hemo" || low === "besov" || low === "besov-cfd" || low === "wss") {
         appendLine("🩺 [BIOMECÁNICA 3D]: Procesando malla vascular y biomarcadores pulsátiles...", "#ff88a3");
         fetch("/v1/med/besov-cfd")
@@ -709,7 +796,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         return;
       }
 
-      // Demonio de Maxwell-Landauer
       if (low === "demon" || low === "demon-status" || low === "maxwell") {
         appendLine("⚛️ [CAPA 0]: Consultando telemetría del Demonio Maxwell-Landauer...", "#ffaa55");
         fetch("/v1/math/demon")
@@ -730,7 +816,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         return;
       }
 
-      // Malla Swarm P2P Dinámica
       if (low === "swarm") {
         fetch("/v1/swarm/nodes")
           .then(r => r.json())
@@ -756,7 +841,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
         return;
       }
 
-      // Catálogo nativo Help
       if (low === "help" || low === "?" || low === "ayuda") {
         appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
         appendLine("📖 [OASIS SOVEREIGN OS — CATÁLOGO UNIVERSAL DE COMANDOS]:", "#00ff9d");
@@ -785,7 +869,6 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (low === "quantum" || low === "quantum-hud" || low === "qhud") { openQuantumModal(); return; }
       if (low === "qr" || low === "sync") { showQrSyncModal(); return; }
 
-      // Auditoría de Riemann
       if (low === "riemann-audit" || low === "audit riemann") {
         appendLine("⚛️ [CAPA 0]: Consultando el motor de auditoría de Riemann...", "#e082ff");
         fetch("/v1/math/riemann")
@@ -964,7 +1047,7 @@ Selecciona un archivo en la pestaña 'Mis Archivos' para visualizarlo aquí.
       if (spnEl) spnEl.innerText = "💎 " + spnCredits.toFixed(2) + " $SPN";
     }, 4000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v16.2.0-WebGlControls]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v16.3.0-Clinical3D]");
     appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo (Coulomb Inverso & Stefan-Boltzmann).");
     appendLine("💎 [BILLETERA SOBERANA]: Saldo recuperado: 6.40 $SPN");
     appendLine("📦 [WIDGETS]: Pulsa 'DOCK WIDGETS' arriba o escribe 'menu' para abrir el panel.");
