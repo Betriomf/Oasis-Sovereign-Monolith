@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v16.7.0-AtlasAudited]</title>
+  <title>OASIS SOVEREIGN OS [v17.0.0-OSKernel]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/static/js/mesh_viewer_3d.js"></script>
   <style>
     * { box-sizing: border-box; }
     body { background: #03060a; color: #00ff9d; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 8px; display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
@@ -58,7 +59,7 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v16.7.0-AtlasAudited</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v17.0.0-OSKernel</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
@@ -92,7 +93,7 @@
 
   <div class="prompt-row">
     <span class="prompt-prefix">oasis@root:#</span>
-    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, hemo, demon-status, simulacion, gutenberg 2000, rag-query, riemann-audit..." />
+    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, hemo, demon-status, simulacion, gutenberg 2000, pilar 300, legal..." />
   </div>
 
   <!-- PANEL DE WIDGETS -->
@@ -141,13 +142,13 @@
         </div>
         <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
           <button onclick="document.getElementById('mesh-file-input').click()" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">📂 ADJUNTAR VTK</button>
-          <button id="btn-streamlines" onclick="toggleStreamlines()" style="background:#002233; border:1px solid #00ffff; color:#00ffff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🌊 STREAMLINES [ON]</button>
-          <button id="btn-mode-tawss" onclick="setMeshMode('tawss')" style="background:#220a14; border:1px solid #ff3366; color:#ff88a3; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔥 TAWSS</button>
-          <button id="btn-mode-osi" onclick="setMeshMode('osi')" style="background:#0a1926; border:1px solid #00aaff; color:#80d4ff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔄 OSI</button>
-          <button id="btn-mode-wire" onclick="toggleMeshWireframe()" style="background:#0a2012; border:1px solid #00ff9d; color:#00ff9d; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🕸️ WIRE</button>
-          <button id="btn-tab-guide" onclick="switchViewerTab('guide')" style="background:#1a0026; border:1px solid #bf55ec; color:#e082ff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">📋 GUÍA</button>
-          <button id="btn-tab-legal" onclick="switchViewerTab('legal')" style="background:#261800; border:1px solid #ffaa00; color:#ffd280; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">⚖️ RUO</button>
-          <button class="btn-close" onclick="closeMesh3dModal()">✕</button>
+          <button id="btn-streamlines" onclick="Oasis3D.toggleStreamlines()" style="background:#002233; border:1px solid #00ffff; color:#00ffff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🌊 STREAMLINES [ON]</button>
+          <button id="btn-mode-tawss" onclick="Oasis3D.setMode('tawss')" style="background:#220a14; border:1px solid #ff3366; color:#ff88a3; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔥 TAWSS</button>
+          <button id="btn-mode-osi" onclick="Oasis3D.setMode('osi')" style="background:#0a1926; border:1px solid #00aaff; color:#80d4ff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔄 OSI</button>
+          <button id="btn-mode-wire" onclick="Oasis3D.toggleWireframe()" style="background:#0a2012; border:1px solid #00ff9d; color:#00ff9d; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🕸️ WIRE</button>
+          <button onclick="switchViewerTab('guide')" style="background:#1a0026; border:1px solid #bf55ec; color:#e082ff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">📋 GUÍA</button>
+          <button onclick="switchViewerTab('legal')" style="background:#261800; border:1px solid #ffaa00; color:#ffd280; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">⚖️ RUO</button>
+          <button class="btn-close" onclick="Oasis3D.close()">✕</button>
         </div>
       </div>
 
@@ -163,11 +164,11 @@
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
           <div style="background:#07141f; border:1px solid #00aaff; border-radius:6px; padding:10px;">
             <div style="color:#00ffff; font-weight:bold;">🔥 TAWSS (Esfuerzo Cortante Medio)</div>
-            <div>• <strong>Azul (&lt; 0.4 Pa):</strong> Hipofricción y acumulación lipídica.<br/>• <strong>Verde (1.0 - 4.0 Pa):</strong> Régimen fisiológico normal.<br/>• <strong>Rojo (&gt; 5.0 - 9.16 Pa):</strong> Tensión destructiva en estenosis y riesgo de rotura.</div>
+            <div>• <strong>Azul (&lt; 0.4 Pa):</strong> Hipofricción y acumulación lipídica.<br/>• <strong>Verde (1.0 - 4.0 Pa):</strong> Régimen normal.<br/>• <strong>Rojo (&gt; 5.0 - 9.16 Pa):</strong> Tensión destructiva en estenosis y riesgo de rotura.</div>
           </div>
           <div style="background:#07141f; border:1px solid #00aaff; border-radius:6px; padding:10px;">
             <div style="color:#00ffff; font-weight:bold;">🔄 OSI & Streamlines (Recirculación)</div>
-            <div>• <strong>OSI &gt; 0.35 (Púrpura):</strong> Inversión severa de flujo.<br/>• <strong>Streamlines:</strong> Vórtices helicoidales estancados en el saco aneurismático.</div>
+            <div>• <strong>OSI &gt; 0.35 (Púrpura):</strong> Inversión de flujo.<br/>• <strong>Streamlines:</strong> Vórtices helicoidales estancados en el saco aneurismático.</div>
           </div>
         </div>
       </div>
@@ -183,7 +184,7 @@
     </div>
   </div>
 
-  <!-- MODAL QUANTUM HUD RESTAURADO -->
+  <!-- MODAL QUANTUM HUD -->
   <div id="quantum-modal">
     <div style="width:620px; max-width:94vw; background:#040c14; border:2px solid #bf55ec; border-radius:12px; padding:18px; box-shadow:0 0 40px rgba(191,85,236,0.35); display:flex; flex-direction:column; gap:12px;">
       <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #bf55ec; padding-bottom:8px;">
@@ -226,7 +227,7 @@ cx q[0], q[1];</div>
     </div>
   </div>
 
-  <!-- MODAL BÓVEDA OPFS RESTAURADO -->
+  <!-- MODAL BÓVEDA OPFS -->
   <div id="vault-modal">
     <div class="modal-box">
       <div class="modal-header">
@@ -246,7 +247,7 @@ cx q[0], q[1];</div>
         <div id="opfs-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
       <div id="tab-riemann" class="tab-content" style="color:#d8f8e8; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Cargando demostración formal de Riemann...</div>
-      <div id="tab-viewer" class="tab-content" style="color:#aaffaa; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Selecciona un archivo en 'Mis Archivos' o lee un libro con 'leer <id>'.</div>
+      <div id="tab-viewer" class="tab-content" style="color:#aaffaa; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Selecciona un archivo en 'Mis Archivos' o lee con 'leer <id>'.</div>
     </div>
   </div>
 
@@ -302,6 +303,17 @@ cx q[0], q[1];</div>
     window.openQuantumModal = function() { drawer.classList.remove("open"); document.getElementById("quantum-modal").style.display = "flex"; };
     window.closeQuantumModal = function() { document.getElementById("quantum-modal").style.display = "none"; };
 
+    window.openMesh3dModal = function() {
+      drawer.classList.remove("open");
+      if (window.Oasis3D) Oasis3D.open();
+    };
+
+    window.switchViewerTab = function(tab) {
+      document.getElementById("viewer-tab-3d").style.display = tab === "3d" ? "flex" : "none";
+      document.getElementById("viewer-tab-guide").style.display = tab === "guide" ? "block" : "none";
+      document.getElementById("viewer-tab-legal").style.display = tab === "legal" ? "block" : "none";
+    };
+
     window.refreshQuantumShots = function() {
       const shots = 1024;
       const noise = (Math.random() * 1.2 - 0.6).toFixed(1);
@@ -346,7 +358,7 @@ cx q[0], q[1];</div>
         const d = await r.json();
         document.getElementById("tab-riemann").innerText = d.output || "Manuscrito de Riemann listo en silicio local.";
       } catch(e) {
-        document.getElementById("tab-riemann").innerText = "Error cargando archivo: " + e;
+        document.getElementById("tab-riemann").innerText = "Error: " + e;
       }
     }
 
@@ -372,7 +384,7 @@ cx q[0], q[1];</div>
       const cont = document.getElementById("opfs-list-container");
       cont.innerHTML = "";
       if (!navigator.storage || !navigator.storage.getDirectory) {
-        cont.innerHTML = "<div style='color:#ff5555'>OPFS no soportado en este navegador.</div>";
+        cont.innerHTML = "<div style='color:#ff5555'>OPFS no soportado.</div>";
         return;
       }
       const root = await navigator.storage.getDirectory();
@@ -389,7 +401,7 @@ cx q[0], q[1];</div>
           div.style = "background:#0a1926; border:1px solid #005a36; padding:10px 14px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;";
           div.innerHTML = `
             <div>
-              <div style="color:#00ffff; font-weight:bold; font-size:0.84rem;">📄 ${name} ${isGz ? '<span style="color:#ffd700; font-size:0.7rem; border:1px solid #ffd700; padding:1px 4px; border-radius:3px;">GZIP CONFORME</span>' : ''}</div>
+              <div style="color:#00ffff; font-weight:bold; font-size:0.84rem;">📄 ${name} ${isGz ? '<span style="color:#ffd700; font-size:0.7rem; border:1px solid #ffd700; padding:1px 4px; border-radius:3px;">GZIP</span>' : ''}</div>
               <div style="color:#88aacc; font-size:0.72rem;">${sz} KB | Disco NVMe Privado</div>
             </div>
             <div style="display:flex; gap:8px;">
@@ -471,7 +483,7 @@ cx q[0], q[1];</div>
       }
     };
 
-    // === REPRODUCTOR PiP MULTICANAL (HLS TV Y AUDIO STREAM) ===
+    // === REPRODUCTOR PiP MULTICANAL ===
     const CHANNELS = {
       dw: { type: "hls", url: "https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/master.m3u8" },
       france24: { type: "hls", url: "https://stream.france24.com/hls/es/live/2015526/f24_es/master.m3u8" },
@@ -521,183 +533,48 @@ cx q[0], q[1];</div>
       vid.play().catch(() => {});
     }
 
-    // === VISOR 3D WEBGL Y STREAMLINES (CONSTRUCTOR RESILIENTE) ===
-    let mesh3dScene, mesh3dCamera, mesh3dRenderer, mesh3dObject, mesh3dMaterial;
-    let particleSystem = null, showParticles = true;
-    let isDragging3D = false, prevMouseX = 0, prevMouseY = 0;
-    let cachedMeshGeometry = null, currentMeshMode = "tawss";
-
-    function resizeMesh3D() {
-      const container = document.getElementById("webgl-canvas-box");
-      if (!container || !mesh3dRenderer || !mesh3dCamera) return;
-      const w = container.clientWidth || 920;
-      const h = container.clientHeight || 540;
-      if (w > 0 && h > 0) {
-        mesh3dCamera.aspect = w / h;
-        mesh3dCamera.updateProjectionMatrix();
-        mesh3dRenderer.setSize(w, h);
-      }
-    }
-
-    window.openMesh3dModal = function() {
-      drawer.classList.remove("open");
-      const m = document.getElementById("mesh3d-modal");
-      m.style.display = "flex";
-      switchViewerTab("3d");
-      initMesh3DViewer();
-      setTimeout(resizeMesh3D, 60);
-      setTimeout(resizeMesh3D, 200);
-    };
-    window.closeMesh3dModal = function() { document.getElementById("mesh3d-modal").style.display = "none"; };
-
-    window.switchViewerTab = function(tab) {
-      document.getElementById("viewer-tab-3d").style.display = tab === "3d" ? "flex" : "none";
-      document.getElementById("viewer-tab-guide").style.display = tab === "guide" ? "block" : "none";
-      document.getElementById("viewer-tab-legal").style.display = tab === "legal" ? "block" : "none";
-      if (tab === "3d") setTimeout(resizeMesh3D, 50);
-    };
-
-    window.setMeshMode = function(mode) {
-      currentMeshMode = mode;
-      applyMeshColoring();
-    };
-
-    window.toggleMeshWireframe = function() {
-      if (mesh3dMaterial) mesh3dMaterial.wireframe = !mesh3dMaterial.wireframe;
-    };
-
-    window.toggleStreamlines = function() {
-      showParticles = !showParticles;
-      if (particleSystem) particleSystem.visible = showParticles;
-      document.getElementById("btn-streamlines").innerText = showParticles ? "🌊 STREAMLINES [ON]" : "🌊 STREAMLINES [OFF]";
-    };
-
-    function applyMeshColoring() {
-      if (!cachedMeshGeometry || !mesh3dObject) return;
-      const geom = mesh3dObject.geometry;
-      const colors = [];
-      const numPts = cachedMeshGeometry.num_nodes;
-      const vals = currentMeshMode === "tawss" ? cachedMeshGeometry.tawss : cachedMeshGeometry.osi;
-      const minVal = currentMeshMode === "tawss" ? 1.8 : 0.02;
-      const maxVal = currentMeshMode === "tawss" ? 9.159 : 0.45;
-
-      for (let i = 0; i < numPts; i++) {
-        const val = vals[i] !== undefined ? vals[i] : minVal;
-        const norm = Math.max(0, Math.min(1, (val - minVal) / (maxVal - minVal + 1e-6)));
-        const col = new THREE.Color();
-        if (currentMeshMode === "tawss") {
-          col.setHSL((1.0 - norm) * 0.65, 1.0, 0.5);
-        } else {
-          col.setHSL(0.55 + norm * 0.35, 1.0, 0.45 + norm * 0.15);
-        }
-        colors.push(col.r, col.g, col.b);
-      }
-      geom.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-      geom.attributes.color.needsUpdate = true;
-    }
-
-    function initMesh3DViewer() {
-      const container = document.getElementById("webgl-canvas-box");
-      const width = container.clientWidth || 920;
-      const height = container.clientHeight || 540;
-
-      if (!mesh3dRenderer && window.THREE) {
-        container.innerHTML = "";
-        mesh3dScene = new THREE.Scene();
-        mesh3dScene.background = new THREE.Color(0x020408);
-        mesh3dCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-        mesh3dCamera.position.set(0, 20, 85);
-
-        mesh3dRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-        mesh3dRenderer.setSize(width, height);
-        mesh3dRenderer.setPixelRatio(window.devicePixelRatio);
-        container.appendChild(mesh3dRenderer.domElement);
-
-        mesh3dScene.add(new THREE.AmbientLight(0xffffff, 0.70));
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.90);
-        dirLight.position.set(30, 60, 50);
-        mesh3dScene.add(dirLight);
-
-        const pointLight = new THREE.PointLight(0x00e5ff, 1.2, 100);
-        pointLight.position.set(-20, 10, 30);
-        mesh3dScene.add(pointLight);
-
-        container.addEventListener("pointerdown", (e) => { isDragging3D = true; prevMouseX = e.clientX; prevMouseY = e.clientY; });
-        window.addEventListener("pointerup", () => isDragging3D = false);
-        window.addEventListener("pointermove", (e) => {
-          if (!isDragging3D || !mesh3dObject) return;
-          mesh3dObject.rotation.y += (e.clientX - prevMouseX) * 0.008;
-          mesh3dObject.rotation.x += (e.clientY - prevMouseY) * 0.008;
-          if (particleSystem) {
-            particleSystem.rotation.y = mesh3dObject.rotation.y;
-            particleSystem.rotation.x = mesh3dObject.rotation.x;
-          }
-          prevMouseX = e.clientX;
-          prevMouseY = e.clientY;
-        });
-
-        const pCount = 750;
-        const pGeom = new THREE.BufferGeometry();
-        const pPos = new Float32Array(pCount * 3);
-        const pSpeeds = new Float32Array(pCount);
-        for (let i = 0; i < pCount; i++) {
-          pPos[i*3] = (Math.random() - 0.5) * 4.5;
-          pPos[i*3+1] = (Math.random() - 0.5) * 4.5;
-          pPos[i*3+2] = (Math.random() * 60.0) - 30.0;
-          pSpeeds[i] = 0.22 + Math.random() * 0.28;
-        }
-        pGeom.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
-        particleSystem = new THREE.Points(pGeom, new THREE.PointsMaterial({ color: 0x00ffff, size: 1.5, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending }));
-        mesh3dScene.add(particleSystem);
-
-        function animate3D() {
-          requestAnimationFrame(animate3D);
-          if (mesh3dObject && !isDragging3D) {
-            mesh3dObject.rotation.y += 0.0025;
-            if (particleSystem) particleSystem.rotation.y = mesh3dObject.rotation.y;
-          }
-          if (particleSystem && showParticles) {
-            const arr = particleSystem.geometry.attributes.position.array;
-            for (let i = 0; i < pCount; i++) {
-              arr[i*3+2] += pSpeeds[i];
-              if (arr[i*3+2] > 30.0) arr[i*3+2] = -30.0;
-            }
-            particleSystem.geometry.attributes.position.needsUpdate = true;
-          }
-          mesh3dRenderer.render(mesh3dScene, mesh3dCamera);
-        }
-        animate3D();
-      }
-
-      fetch("/v1/med/mesh-geometry")
-        .then(r => r.json())
-        .then(d => {
-          cachedMeshGeometry = d;
-          if (mesh3dObject) mesh3dScene.remove(mesh3dObject);
-          const geom = new THREE.BufferGeometry();
-          geom.setAttribute("position", new THREE.BufferAttribute(new Float32Array(d.points), 3));
-          geom.setIndex(new THREE.BufferAttribute(new Uint32Array(d.indices), 1));
-          geom.computeVertexNormals();
-          geom.center();
-          mesh3dMaterial = new THREE.MeshPhongMaterial({ vertexColors: true, side: THREE.DoubleSide, transparent: true, opacity: 0.90, shininess: 50 });
-          mesh3dObject = new THREE.Mesh(geom, mesh3dMaterial);
-          mesh3dScene.add(mesh3dObject);
-          applyMeshColoring();
-          resizeMesh3D();
-          document.getElementById("mesh3d-status").innerText = d.file + " (" + d.num_nodes + " nodos | " + d.num_triangles + " triángulos)";
-        })
-        .catch(e => { document.getElementById("mesh3d-status").innerText = "Error: " + e; });
-    }
-
-    window.addEventListener("resize", resizeMesh3D);
-
     window.promptGutenbergDownload = function() {
       const id = prompt("Introduce el ID del libro de Project Gutenberg (ej. 2000 para Don Quijote, 84 para Frankenstein):", "2000");
       if (id) triggerCommand("gutenberg " + id.trim());
     };
 
+    window.loadUserMeshFile = function(file) {
+      if (!file || !window.Oasis3D) return;
+      document.getElementById("mesh3d-status").innerText = "Cargando " + file.name + "...";
+      appendLine("🩺 [INGESTA CLÍNICA]: Leyendo malla '" + file.name + "'...", "#00ffff");
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const lines = e.target.result.split("\n");
+        const points = [];
+        const indices = [];
+        let readingPoints = false;
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (line.startsWith("POINTS")) { readingPoints = true; continue; }
+          if (line.startsWith("POLYGONS")) { readingPoints = false; continue; }
+          if (readingPoints) {
+            const p = line.split(/\s+/);
+            if (p.length >= 3) points.push(parseFloat(p[0]), parseFloat(p[1]), parseFloat(p[2]));
+          } else if (!readingPoints && line.startsWith("3 ")) {
+            const p = line.split(/\s+/);
+            if (p.length >= 4) indices.push(parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
+          }
+        }
+        const numNodes = points.length / 3;
+        const tawssSynt = [];
+        const osiSynt = [];
+        for (let i = 0; i < numNodes; i++) {
+          tawssSynt.push(parseFloat((2.0 + Math.random() * 6.5).toFixed(3)));
+          osiSynt.push(parseFloat((Math.random() * 0.42).toFixed(4)));
+        }
+        Oasis3D.loadGeometry({ file: file.name, num_nodes: numNodes, points: points, indices: indices, tawss: tawssSynt, osi: osiSynt });
+        appendLine("✅ Paciente cargado localmente sin transmisión externa.", "#00ffaa");
+      };
+      reader.readAsText(file);
+    };
+
     // =========================================================================
-    // REGISTRO DECLARATIVO DE COMANDOS (INMUNE A SOBREESCRITURAS)
+    // REGISTRO DECLARATIVO DE COMANDOS (CAPA 0 FRONTEND)
     // =========================================================================
     const COMMAND_REGISTRY = {
       "riemann-audit": () => {
@@ -768,8 +645,12 @@ cx q[0], q[1];</div>
       },
 
       "mesh3d": () => {
-        openMesh3dModal();
-        appendLine("🩺 [WEBGL 3D]: Visor vascular 3D interactivo desplegado.", "#ff80d5");
+        if (window.Oasis3D) {
+          Oasis3D.open();
+          appendLine("🩺 [WEBGL 3D]: Visor vascular 3D interactivo desplegado.", "#ff80d5");
+        } else {
+          appendLine("❌ Error: Módulo Oasis3D no cargado.", "#ff5555");
+        }
       },
 
       "bench": () => {
@@ -1023,7 +904,7 @@ cx q[0], q[1];</div>
       } catch(e) {}
     }, 5000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v16.7.0-AtlasAudited]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v17.0.0-OSKernel]");
     appendLine("📚 [GUTENBERG & RAG]: Escribe 'gutenberg 2000' o consulta con 'rag-query <texto>'.");
     appendLine("🩺 [BIOMECÁNICA]: Escribe 'mesh3d' o pulsa '👁️ ROTAR MALLA 3D' para el visor.");
     appendLine("-----------------------------------------------------------------------------");

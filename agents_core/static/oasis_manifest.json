@@ -1,0 +1,11 @@
+{
+  "os_name": "Oasis Sovereign OS",
+  "version": "v17.0.0-OSKernel",
+  "kernel": "Darwin/Linux Hybrid WASM",
+  "modules": [
+    { "id": "mesh3d", "name": "Visor 3D WebGL VMR", "enabled": true, "entry": "/static/js/mesh_viewer_3d.js" },
+    { "id": "demon", "name": "Demonio Maxwell-Landauer", "enabled": true, "api": "/v1/math/demon" },
+    { "id": "hemo", "name": "Hemodinámica Besov 3D", "enabled": true, "api": "/v1/med/besov-cfd" },
+    { "id": "gutenberg", "name": "Project Gutenberg RAG", "enabled": true, "api": "/v1/gutenberg/book" }
+  ]
+}

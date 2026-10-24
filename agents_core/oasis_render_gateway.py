@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v16.5.0-GutenbergRAG
-Visor 3D WebGL, Quantum HUD, Bóveda OPFS, Project Gutenberg y RAG Local.
+OASIS SOVEREIGN OS — GATEWAY MODULAR v17.0.0-OSKernel
+Arquitectura Desacoplada: Static File Server, REST Endpoints, Lean 4 y Swarm.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
-import os, sys, json, subprocess, socket, math, time, urllib.request, urllib.parse
+import os, sys, json, subprocess, socket, math, time, urllib.request, urllib.parse, mimetypes
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 try:
@@ -23,6 +23,7 @@ except ImportError:
 PORT = int(os.environ.get("PORT", 8080))
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(REPO_ROOT, "agents_core", "templates")
+STATIC_DIR = os.path.join(REPO_ROOT, "agents_core", "static")
 TRUTH_FILE = os.path.join(REPO_ROOT, "VERDAD_OASIS.txt")
 BENCHMARK_MESH = os.path.join(REPO_ROOT, "data", "models", "aneurisma_carotida_vmr.vtk")
 
@@ -61,14 +62,6 @@ def get_active_nodes():
         del PEERS_REGISTRY[k]
     return max(1, len(PEERS_REGISTRY) + 1)
 
-def load_template(filename):
-    filepath = os.path.join(TEMPLATES_DIR, filename)
-    if not os.path.exists(filepath):
-        return f"<h1>Error 404: Plantilla '{filename}' no encontrada</h1>"
-    with open(filepath, "r", encoding="utf-8") as f:
-        content = f.read()
-    return content.replace("{{LAN_IP}}", LAN_IP)
-
 def query_verdad_oasis(query_str):
     query_str = query_str.strip()
     if not os.path.exists(TRUTH_FILE):
@@ -89,14 +82,13 @@ def query_verdad_oasis(query_str):
         return f"❌ Error: {e}"
 
 def fetch_gutenberg_text(book_id):
-    """Descarga texto de Project Gutenberg desde sus mirrors oficiales."""
     urls = [
         f"https://www.gutenberg.org/cache/epub/{book_id}/pg{book_id}.txt",
         f"https://www.gutenberg.org/files/{book_id}/{book_id}-0.txt"
     ]
     for url in urls:
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "Oasis-Sovereign-Reader/1.0"})
+            req = urllib.request.Request(url, headers={"User-Agent": "Oasis-Reader/1.0"})
             with urllib.request.urlopen(req, timeout=5) as resp:
                 if resp.status == 200:
                     raw = resp.read()
@@ -125,12 +117,40 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         try:
+            # 1. Rutas Estáticas Desacopladas (/static/*)
+            if self.path.startswith("/static/"):
+                rel_path = self.path[8:].split("?")[0]
+                file_path = os.path.join(STATIC_DIR, rel_path)
+                if os.path.exists(file_path) and os.path.isfile(file_path):
+                    mime, _ = mimetypes.guess_type(file_path)
+                    mime = mime or "application/octet-stream"
+                    with open(file_path, "rb") as f:
+                        data = f.read()
+                    self.send_response(200)
+                    self.send_header("Content-Type", mime)
+                    self.send_header("Content-Length", str(len(data)))
+                    self.send_header("Cache-Control", "no-cache")
+                    self.end_headers()
+                    self.wfile.write(data)
+                    return
+                else:
+                    self.send_error(404, f"Archivo estático no encontrado: {rel_path}")
+                    return
+
+            # 2. Vistas HTML
             if self.path in ("/", "/terminal") or self.path.startswith("/terminal?"):
-                html = load_template("terminal.html")
-                self.send_response(200)
-                self.send_header("Content-Type", "text/html; charset=utf-8")
-                self.end_headers()
-                self.wfile.write(html.encode("utf-8"))
+                tpl_path = os.path.join(TEMPLATES_DIR, "terminal.html")
+                if os.path.exists(tpl_path):
+                    with open(tpl_path, "r", encoding="utf-8") as f:
+                        html = f.read()
+                    html = html.replace("{{LAN_IP}}", LAN_IP)
+                    self.send_response(200)
+                    self.send_header("Content-Type", "text/html; charset=utf-8")
+                    self.end_headers()
+                    self.wfile.write(html.encode("utf-8"))
+                    return
+
+            # 3. Malla P2P Swarm
             elif self.path in ("/v1/swarm/nodes", "/v1/swarm/status"):
                 check_remote_render_peer()
                 count = get_active_nodes()
@@ -141,6 +161,8 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "peers": peers_list,
                     "mesh_status": "MALLA ACTIVA" if count > 1 else "NODO AUTÓNOMO"
                 })
+
+            # 4. Project Gutenberg
             elif self.path.startswith("/v1/gutenberg/book"):
                 parsed = urllib.parse.urlparse(self.path)
                 params = urllib.parse.parse_qs(parsed.query)
@@ -153,10 +175,12 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                         "title": f"Project Gutenberg #{book_id}",
                         "length_chars": len(text),
                         "snippet": text[:4000],
-                        "license": "Public Domain (Project Gutenberg Free License)"
+                        "license": "Public Domain"
                     })
                 else:
-                    self._send_json({"status": "ERROR", "message": f"No se pudo descargar el libro #{book_id}"}, status=404)
+                    self._send_json({"status": "ERROR", "message": "Libro no disponible"}, status=404)
+
+            # 5. Geometría 3D de la Malla (VMR)
             elif self.path == "/v1/med/mesh-geometry":
                 v_mesh = BENCHMARK_MESH
                 if not os.path.exists(v_mesh):
@@ -209,6 +233,8 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "tawss": tawss_values,
                     "osi": osi_values
                 })
+
+            # 6. Biomarcadores Besov
             elif self.path == "/v1/med/besov-cfd":
                 data = None
                 if HAS_BIOMED and os.path.exists(BENCHMARK_MESH):
@@ -235,6 +261,8 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                         "memory_ram_mb": 1.27
                     }
                 self._send_json(data)
+
+            # 7. Demonio Maxwell-Landauer
             elif self.path == "/v1/math/demon":
                 k_B = 1.380649e-23
                 T = 300.0
@@ -250,10 +278,12 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "e_oasis_joules": e_oasis_bound,
                     "efficiency_feedback_pct": 94.2,
                     "thermal_saving_pct": round(eff_ratio, 2),
-                    "entropy_state": "Confinada en OPFS NVMe (SyncAccessHandle)",
+                    "entropy_state": "Confinada en OPFS NVMe",
                     "thermal_regime_watts": 3.78,
                     "pacing_dt_ms": 1.938
                 })
+
+            # 8. Riemann Capa 0
             elif self.path == "/v1/math/riemann":
                 cero_t = 14.134725141734693
                 if HAS_MPMATH:
@@ -270,14 +300,17 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "entropia_fisher_rao": 0.0,
                     "mensaje": "Geodésica autoadjunta Re(s)=1/2 verificada bajo Cota Sub-Landauer."
                 })
+
+            # 9. Pilares VERDAD_OASIS
             elif self.path.startswith("/v1/pilar"):
                 parsed = urllib.parse.urlparse(self.path)
                 params = urllib.parse.parse_qs(parsed.query)
                 p_id = params.get("id", ["1"])[0]
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
+
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v16.5.0-GutenbergRAG", "silicon_watts": 3.78})
+                self._send_json({"status": "ONLINE", "version": "v17.0.0-OSKernel", "silicon_watts": 3.78})
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
         except (BrokenPipeError, ConnectionResetError):
@@ -338,7 +371,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisModularHandler)
-    print(f"🔒 OASIS GATEWAY v16.5.0 (Gutenberg RAG) activo en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v17.0.0 (OS Kernel Mode) activo en http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
