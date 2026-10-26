@@ -2,12 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v17.0.0-OSKernel]</title>
+  <title>OASIS SOVEREIGN OS [v17.1.0-VisualSuite]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="/static/js/mesh_viewer_3d.js"></script>
   <style>
     * { box-sizing: border-box; }
     body { background: #03060a; color: #00ff9d; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 8px; display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
@@ -17,12 +16,12 @@
     .badge-hw { background: #1c1500; border-color: #ffaa00; color: #ffd280; font-weight: bold; }
     .badge-mesh { background: #001f3f; border-color: #0074d9; color: #7fdbff; font-weight: bold; }
     .badge-dock { background: #002b4d; border-color: #0088ff; color: #80c4ff; font-weight: bold; }
+    .badge-api { background: #002b36; border-color: #2aa198; color: #2aa198; font-weight: bold; box-shadow: 0 0 10px rgba(42,161,152,0.4); }
+    .badge-3d { background: #2b001a; border-color: #ff00aa; color: #ff80d5; font-weight: bold; box-shadow: 0 0 10px rgba(255,0,170,0.4); }
+    .badge-hemo { background: #2b000a; border-color: #ff3366; color: #ff88a3; font-weight: bold; }
+    .badge-demon { background: #261100; border-color: #ff7700; color: #ffaa55; font-weight: bold; }
     .badge-vault { background: #002233; border-color: #00ffff; color: #00ffff; font-weight: bold; }
     .badge-quantum { background: #1a0033; border-color: #bf55ec; color: #e082ff; font-weight: bold; }
-    .badge-hemo { background: #2b000a; border-color: #ff3366; color: #ff88a3; font-weight: bold; }
-    .badge-3d { background: #2b001a; border-color: #ff00aa; color: #ff80d5; font-weight: bold; box-shadow: 0 0 10px rgba(255,0,170,0.4); }
-    .badge-demon { background: #261100; border-color: #ff7700; color: #ffaa55; font-weight: bold; }
-    .badge-pip { background: #26001a; border-color: #ff00aa; color: #ff80d5; font-weight: bold; }
     .badge-compute-off { background: #151515; border-color: #666; color: #aaa; font-weight: bold; }
     .badge-compute-on { background: #003311; border-color: #00ff9d; color: #00ff9d; font-weight: bold; box-shadow: 0 0 10px rgba(0,255,157,0.4); }
 
@@ -33,6 +32,7 @@
     .prompt-prefix { color: #00ff9d; font-size: 0.82rem; font-weight: bold; white-space: nowrap; }
     #cmd { flex: 1; background: transparent; border: none; color: #ffffff; font-family: inherit; font-size: 16px; outline: none; caret-color: #00e5ff; }
 
+    /* DOCK LATERAL */
     #widget-drawer { position: fixed; top: 0; right: 0; width: 330px; max-width: 86vw; height: 100vh; background: #050f17; border-left: 2px solid #00aaff; box-shadow: -10px 0 35px rgba(0,170,255,0.4); z-index: 1000000; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.22s ease; }
     #widget-drawer.open { transform: translateX(0); }
     .drawer-header { background: #0a1e2d; padding: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #00aaff; font-size: 0.82rem; color: #80d4ff; font-weight: bold; }
@@ -42,34 +42,25 @@
     .btn-witem:hover { background: #005a36; color: #00ffff; }
     .btn-close { background: transparent; border: 1px solid #ff5555; color: #ff5555; cursor: pointer; font-size: 0.7rem; border-radius: 3px; padding: 2px 6px; }
 
-    #vault-modal, #quantum-modal, #qr-modal, #mesh3d-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.94); backdrop-filter: blur(8px); z-index: 2000000; align-items: center; justify-content: center; }
+    /* MODALES VISUALES */
+    .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.94); backdrop-filter: blur(8px); z-index: 2000000; align-items: center; justify-content: center; }
     .modal-box { width: 880px; max-width: 95vw; height: 86vh; background: #040c14; border: 2px solid #00ffff; border-radius: 12px; box-shadow: 0 0 40px rgba(0,255,255,0.3); display: flex; flex-direction: column; overflow: hidden; }
     .modal-header { background: #0c1824; padding: 12px 16px; border-bottom: 1px solid #00ffff; display: flex; justify-content: space-between; align-items: center; }
-    .modal-tabs { background: #07121c; padding: 8px 12px; border-bottom: 1px solid #005a36; display: flex; gap: 8px; }
-    .tab-btn { background: #0a1926; border: 1px solid #005a36; color: #aaa; padding: 6px 10px; border-radius: 4px; font-size: 0.74rem; cursor: pointer; font-weight: bold; }
-    .tab-btn.active { background: #002b4d; border-color: #00aaff; color: #80d4ff; }
-    .tab-content { flex: 1; padding: 14px; overflow-y: auto; background: #02060a; display: none; }
-    .tab-content.active { display: block; }
-
-    #pip-container { display: none; position: absolute; top: 12px; right: 12px; width: 340px; background: #050a10; border: 2px solid #ff00aa; border-radius: 8px; z-index: 50000; overflow: hidden; box-shadow: 0 0 25px rgba(255,0,170,0.35); }
-    .pip-header { background: #1a0012; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ff00aa; gap: 6px; }
-    .pip-select { background: #050a10; border: 1px solid #ff00aa; color: #ff80d5; font-size: 0.72rem; padding: 2px 4px; border-radius: 4px; outline: none; font-family: inherit; }
-    #pipVideo { width: 100%; height: 190px; background: #000; display: block; }
   </style>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v17.0.0-OSKernel</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v17.1.0-VisualSuite</strong></span>
     <div class="badge-bar">
-      <span class="badge badge-hw" id="hw-badge">🔑 OASIS-HW-MAC-87B34287C3</span>
+      <span class="badge badge-hw">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
-      <span class="badge badge-compute-off" id="compute-badge" onclick="toggleComputeShare()">⚡ CÉDER CÓMPUTO: [OFF]</span>
+      <span class="badge badge-api" onclick="openApiModal()">⚡ CONECTAR API</span>
       <span class="badge badge-3d" onclick="openMesh3dModal()">👁️ ROTAR MALLA 3D</span>
-      <span class="badge badge-hemo" onclick="triggerCommand('hemo')">🩺 BESOV CFD</span>
-      <span class="badge badge-demon" onclick="triggerCommand('demon-status')">👹 DEMON HUD</span>
+      <span class="badge badge-hemo" onclick="openBesovModal()">🩺 BESOV HUD</span>
+      <span class="badge badge-demon" onclick="openDemonModal()">👹 DEMON HUD</span>
       <span class="badge badge-quantum" onclick="openQuantumModal()">⚛️ QUANTUM HUD</span>
       <span class="badge badge-vault" onclick="openVaultModal()">📁 BÓVEDA OPFS</span>
-      <span class="badge badge-pip" onclick="togglePip()">📺 PiP MULTICANAL</span>
+      <span class="badge badge-compute-off" id="compute-badge" onclick="toggleComputeShare()">⚡ CÉDER CÓMPUTO: [OFF]</span>
       <span class="badge badge-dock" onclick="toggleDrawer()">📦 DOCK WIDGETS ▾</span>
       <span class="badge" onclick="showQrSyncModal()" style="border-color:#ffaa00; color:#ffd280;">📲 QR SYNC</span>
     </div>
@@ -77,23 +68,11 @@
 
   <div id="termContainer">
     <div id="termOutput"></div>
-    <div id="pip-container">
-      <div class="pip-header">
-        <select class="pip-select" id="pipChannelSelect" onchange="changePipChannel(this.value)">
-          <option value="dw">📺 DW Español (Noticias)</option>
-          <option value="france24">📺 France 24 Español</option>
-          <option value="dronezone">📻 SomaFM Drone Zone (Ambient)</option>
-          <option value="groovesalad">📻 SomaFM Groove Salad (Lo-Fi)</option>
-        </select>
-        <button class="btn-close" onclick="togglePip()">✕</button>
-      </div>
-      <video id="pipVideo" controls playsinline muted autoplay></video>
-    </div>
   </div>
 
   <div class="prompt-row">
     <span class="prompt-prefix">oasis@root:#</span>
-    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, hemo, demon-status, simulacion, gutenberg 2000, pilar 300, legal..." />
+    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, hemo, demon-status, api, simulacion, gutenberg 2000, pilar 300..." />
   </div>
 
   <!-- PANEL DE WIDGETS -->
@@ -103,15 +82,15 @@
       <button class="btn-close" onclick="toggleDrawer()">✕</button>
     </div>
     <div class="drawer-body">
-      <div class="drawer-cat">📚 LITERATURA & IA SOBERANA</div>
-      <button class="btn-witem" onclick="promptGutenbergDownload()">📖 Lector Gutenberg (Descargar Libro por ID)</button>
-      <button class="btn-witem" onclick="triggerCommand('rag-query ¿Qué establece el Pilar 300 sobre el cierre holomórfico?')">🧠 Asistente RAG Local (Pilar 300)</button>
+      <div class="drawer-cat">🌐 APIS PÚBLICAS & INTEGRACIÓN</div>
+      <button class="btn-witem" onclick="openApiModal()">⚡ Conectar API Gratuita (Rutas & Docs)</button>
+      <button class="btn-witem" onclick="window.open('/v1/api/docs', '_blank')">📖 Abrir Swagger UI (/v1/api/docs)</button>
+      <button class="btn-witem" onclick="triggerCommand('rag-query ¿Qué establece el Pilar 300?')">🧠 Asistente RAG Local (Pilar 300)</button>
 
-      <div class="drawer-cat">🩺 BIOMECÁNICA VASCULAR & STREAMLINES</div>
-      <button class="btn-witem" onclick="openMesh3dModal()">👁️ Visor 3D WebGL con Partículas y Guía RUO</button>
-      <button class="btn-witem" onclick="document.getElementById('mesh-file-input').click()">📂 Cargar Paciente (.VTK / .STL)</button>
-      <button class="btn-witem" onclick="triggerCommand('hemo')">🩺 Detección Microvascular 3D (TAWSS / OSI / RRT)</button>
-      <button class="btn-witem" onclick="triggerCommand('demon-status')">👹 Demonio Maxwell-Landauer (Ratio Entrópico)</button>
+      <div class="drawer-cat">🩺 BIOMECÁNICA VASCULAR & GRÁFICOS</div>
+      <button class="btn-witem" onclick="openMesh3dModal()">👁️ Visor 3D WebGL (Carótida VMR & Partículas)</button>
+      <button class="btn-witem" onclick="openBesovModal()">📊 Gráfico Besov HUD (TAWSS vs Convencional)</button>
+      <button class="btn-witem" onclick="openDemonModal()">👹 Gráfico Demon HUD (Eficiencia Landauer)</button>
 
       <div class="drawer-cat">⚡ CÓMPUTO & AUDITORÍA MATEMÁTICA</div>
       <button class="btn-witem" onclick="openQuantumModal()">⚛️ Ver Quantum HUD (Circuito Bell & ZNE)</button>
@@ -122,165 +101,217 @@
 
       <div class="drawer-cat">📦 BOX OPFS NVMe (COMPRESIÓN CONFORME)</div>
       <button class="btn-witem" onclick="openVaultModal()">📁 Bóveda Privada OPFS (Archivos Comprimidos)</button>
-      <button class="btn-witem" onclick="document.getElementById('file-upload').click()">Adjuntar Archivo (Compresión GZIP)</button>
       <button class="btn-witem" onclick="triggerCommand('box status')">Consultar Cuota de Almacenamiento OPFS</button>
       <button class="btn-witem" onclick="triggerCommand('dir')">Listar Archivos en /workspace</button>
-
-      <div class="drawer-cat">🐙 MINI-GIT & SOBERANÍA</div>
-      <button class="btn-witem" onclick="triggerCommand('help')">📖 Catálogo Universal de Comandos (help)</button>
-      <button class="btn-witem" onclick="triggerCommand('legal')">Ver Marco Legal, RUO y Soberanía</button>
     </div>
   </div>
 
-  <!-- MODAL VISOR 3D WEBGL -->
-  <div id="mesh3d-modal">
-    <div style="width:960px; max-width:96vw; height:88vh; background:#040c14; border:2px solid #ff3366; border-radius:12px; box-shadow:0 0 45px rgba(255,51,102,0.4); display:flex; flex-direction:column; overflow:hidden;">
-      <div style="background:#14050a; padding:10px 14px; border-bottom:1px solid #ff3366; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
-        <div>
-          <span style="color:#ff88a3; font-weight:bold; font-size:0.88rem;">🩺 VISOR 3D HEMODINÁMICO VMR</span>
-          <span style="color:#88aacc; font-size:0.72rem; margin-left:8px;" id="mesh3d-status">Inicializando...</span>
+  <!-- MODAL 1: CONECTAR API PÚBLICA -->
+  <div id="api-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:780px; height:auto; max-height:85vh; border-color:#2aa198; box-shadow:0 0 45px rgba(42,161,152,0.4);">
+      <div class="modal-header" style="background:#072428; border-color:#2aa198;">
+        <span style="color:#2aa198; font-weight:bold; font-size:0.90rem;">⚡ CONECTOR DE APIS GRATUITAS — OASIS OPEN CORE</span>
+        <button class="btn-close" onclick="closeModal('api-modal')">✕</button>
+      </div>
+      <div style="padding:16px; overflow-y:auto; font-size:0.78rem; line-height:1.6; color:#d8f8e8;">
+        <div style="margin-bottom:12px;">Todos los endpoints están abiertos para integración en aplicaciones externas, investigación biomédica o clientes locales con <strong>CORS Universal habilitado</strong>:</div>
+        
+        <div style="background:#020b0e; border:1px solid #2aa198; border-radius:6px; padding:10px; margin-bottom:10px;">
+          <div style="color:#00ff9d; font-weight:bold;">1. Demonio de Landauer (Termodinámica a 300K):</div>
+          <code style="color:#2aa198;">GET /v1/math/demon</code>
+          <div style="margin-top:4px;"><button onclick="copyToClipboard('curl -s http://127.0.0.1:8080/v1/math/demon')" style="background:#072428; border:1px solid #2aa198; color:#2aa198; padding:3px 8px; border-radius:4px; cursor:pointer;">📋 Copiar curl</button></div>
         </div>
-        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-          <button onclick="document.getElementById('mesh-file-input').click()" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">📂 ADJUNTAR VTK</button>
-          <button id="btn-streamlines" onclick="Oasis3D.toggleStreamlines()" style="background:#002233; border:1px solid #00ffff; color:#00ffff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🌊 STREAMLINES [ON]</button>
-          <button id="btn-mode-tawss" onclick="Oasis3D.setMode('tawss')" style="background:#220a14; border:1px solid #ff3366; color:#ff88a3; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔥 TAWSS</button>
-          <button id="btn-mode-osi" onclick="Oasis3D.setMode('osi')" style="background:#0a1926; border:1px solid #00aaff; color:#80d4ff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔄 OSI</button>
-          <button id="btn-mode-wire" onclick="Oasis3D.toggleWireframe()" style="background:#0a2012; border:1px solid #00ff9d; color:#00ff9d; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🕸️ WIRE</button>
-          <button onclick="switchViewerTab('guide')" style="background:#1a0026; border:1px solid #bf55ec; color:#e082ff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">📋 GUÍA</button>
-          <button onclick="switchViewerTab('legal')" style="background:#261800; border:1px solid #ffaa00; color:#ffd280; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">⚖️ RUO</button>
-          <button class="btn-close" onclick="Oasis3D.close()">✕</button>
+
+        <div style="background:#020b0e; border:1px solid #2aa198; border-radius:6px; padding:10px; margin-bottom:10px;">
+          <div style="color:#00ff9d; font-weight:bold;">2. Hemodinámica Microvascular en Espacios de Besov:</div>
+          <code style="color:#2aa198;">GET /v1/med/besov-cfd</code>
+          <div style="margin-top:4px;"><button onclick="copyToClipboard('curl -s http://127.0.0.1:8080/v1/med/besov-cfd')" style="background:#072428; border:1px solid #2aa198; color:#2aa198; padding:3px 8px; border-radius:4px; cursor:pointer;">📋 Copiar curl</button></div>
+        </div>
+
+        <div style="background:#020b0e; border:1px solid #2aa198; border-radius:6px; padding:10px; margin-bottom:12px;">
+          <div style="color:#00ff9d; font-weight:bold;">3. Geometría 3D de la Arteria Carótida (1440 nodos):</div>
+          <code style="color:#2aa198;">GET /v1/med/mesh-geometry</code>
+          <div style="margin-top:4px;"><button onclick="copyToClipboard('curl -s http://127.0.0.1:8080/v1/med/mesh-geometry')" style="background:#072428; border:1px solid #2aa198; color:#2aa198; padding:3px 8px; border-radius:4px; cursor:pointer;">📋 Copiar curl</button></div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <button onclick="window.open('/v1/api/docs', '_blank')" style="background:#2aa198; border:none; color:#03060a; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer;">📖 Abrir Documentación Interactiva Swagger UI</button>
+          <span style="color:#88aacc; font-size:0.70rem;">Cero autenticación requerida (Public Domain RUO)</span>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div id="viewer-tab-3d" style="flex:1; position:relative; background:#020408; display:flex;">
-        <div id="webgl-canvas-box" style="width:100%; height:100%; position:absolute; top:0; left:0;"></div>
+  <!-- MODAL 2: GRÁFICO BESOV HUD -->
+  <div id="besov-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:720px; height:auto; max-height:85vh; border-color:#ff3366; box-shadow:0 0 45px rgba(255,51,102,0.4);">
+      <div class="modal-header" style="background:#18060d; border-color:#ff3366;">
+        <span style="color:#ff88a3; font-weight:bold; font-size:0.90rem;">🩺 BESOV HUD — COMPARATIVA DE TENSIÓN PARIETAL</span>
+        <button class="btn-close" onclick="closeModal('besov-modal')">✕</button>
+      </div>
+      <div style="padding:16px; color:#d8f8e8; font-size:0.80rem; line-height:1.6;">
+        <div style="margin-bottom:12px;">Diferencia clínica entre el cálculo promediado clásico y la resolución multiescala puntual en espacios de Besov:</div>
+        
+        <div style="margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+            <span style="color:#80d4ff;">1. CFD Convencional (Promedio L²): 2.06 Pa</span>
+            <span style="color:#00ff9d; font-weight:bold;">FALSO SEGURO (&lt; 3.0 Pa)</span>
+          </div>
+          <div style="width:100%; height:18px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #005a36;">
+            <div style="width:22.5%; height:100%; background:linear-gradient(90deg, #0074d9, #00ff9d);"></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+            <span style="color:#ff88a3; font-weight:bold;">2. Oasis Besov B⁰_∞,∞ (Puntual en Estenosis): 9.16 Pa</span>
+            <span style="color:#ff3366; font-weight:bold;">ALTO RIESGO DE FISURA (&gt; 5.0 Pa)</span>
+          </div>
+          <div style="width:100%; height:18px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #ff3366;">
+            <div style="width:100%; height:100%; background:linear-gradient(90deg, #ffaa00, #ff3366);"></div>
+          </div>
+        </div>
+
+        <div style="background:#12071a; border:1px solid #bf55ec; border-radius:6px; padding:10px; font-size:0.74rem;">
+          <strong>Factor de Reducción Computacional:</strong> 1.820× frente a simulación DNS tradicional (consume únicamente 1.27 MB de RAM en tu equipo frente a 1.3 TB en superordenadores).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: GRÁFICO DEMON HUD -->
+  <div id="demon-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:720px; height:auto; max-height:85vh; border-color:#ff7700; box-shadow:0 0 45px rgba(255,119,0,0.4);">
+      <div class="modal-header" style="background:#1c0e04; border-color:#ff7700;">
+        <span style="color:#ffaa55; font-weight:bold; font-size:0.90rem;">👹 DEMON HUD — BALANCE ENTRÓPICO DE LANDAUER</span>
+        <button class="btn-close" onclick="closeModal('demon-modal')">✕</button>
+      </div>
+      <div style="padding:16px; color:#d8f8e8; font-size:0.80rem; line-height:1.6;">
+        <div style="margin-bottom:12px;">Conversión de información a trabajo lógico bajo la relación de Sagawa-Ueda a 300K:</div>
+
+        <div style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+            <span style="color:#88aacc;">Cota Clásica de Landauer: 5.88e-15 J</span>
+            <span style="color:#aaa;">Límite binario kB·T·ln(2)</span>
+          </div>
+          <div style="width:100%; height:16px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #666;">
+            <div style="width:100%; height:100%; background:#88aacc;"></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+            <span style="color:#ffd700; font-weight:bold;">Cota Sub-Landauer Oasis: 4.08e-15 J</span>
+            <span style="color:#00ff9d; font-weight:bold;">30.58% AHORRO TÉRMICO (ln φ)</span>
+          </div>
+          <div style="width:100%; height:16px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #ffd700;">
+            <div style="width:69.42%; height:100%; background:linear-gradient(90deg, #00ff9d, #ffd700);"></div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:14px;">
+          <div style="background:#0c1a24; border:1px solid #00ff9d; border-radius:6px; padding:10px;">
+            <div style="color:#00ff9d; font-weight:bold;">⚡ Eficiencia de Feedback</div>
+            <div style="font-size:1.2rem; font-weight:bold; color:#ffffff;">94.2%</div>
+            <div style="color:#88aacc; font-size:0.70rem;">Recuperación de trabajo lógico</div>
+          </div>
+          <div style="background:#0c1a24; border:1px solid #00e5ff; border-radius:6px; padding:10px;">
+            <div style="color:#00e5ff; font-weight:bold;">❄️ Potencia en Ejecución</div>
+            <div style="font-size:1.2rem; font-weight:bold; color:#ffffff;">3.78 W</div>
+            <div style="color:#88aacc; font-size:0.70rem;">Disipación pasiva de silicio frío</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: VISOR 3D WEBGL VMR -->
+  <div id="mesh3d-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:960px; max-width:96vw; height:88vh; border-color:#ff3366; box-shadow:0 0 45px rgba(255,51,102,0.4);">
+      <div class="modal-header" style="background:#14050a; border-color:#ff3366;">
+        <div>
+          <span style="color:#ff88a3; font-weight:bold; font-size:0.88rem;">🩺 VISOR 3D HEMODINÁMICO VMR</span>
+          <span style="color:#88aacc; font-size:0.72rem; margin-left:8px;" id="mesh3d-status">Inicializando WebGL...</span>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button id="btn-streamlines" onclick="toggleStreamlines()" style="background:#002233; border:1px solid #00ffff; color:#00ffff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🌊 STREAMLINES [ON]</button>
+          <button id="btn-mode-tawss" onclick="setMeshMode('tawss')" style="background:#220a14; border:1px solid #ff3366; color:#ff88a3; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔥 TAWSS</button>
+          <button id="btn-mode-osi" onclick="setMeshMode('osi')" style="background:#0a1926; border:1px solid #00aaff; color:#80d4ff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔄 OSI</button>
+          <button id="btn-mode-wire" onclick="toggleMeshWireframe()" style="background:#0a2012; border:1px solid #00ff9d; color:#00ff9d; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🕸️ WIRE</button>
+          <button class="btn-close" onclick="closeModal('mesh3d-modal')">✕</button>
+        </div>
+      </div>
+      <div style="flex:1; position:relative; background:#020408;" id="webgl-canvas-box">
         <div id="mesh3d-legend" style="position:absolute; bottom:12px; left:12px; background:rgba(4,12,20,0.88); border:1px solid #005a36; padding:6px 12px; border-radius:6px; font-size:0.70rem; color:#80d4ff; z-index:10; pointer-events:none;">
           🖱️ <strong>Rotar:</strong> Clic+Arrastrar | 📜 <strong>Zoom:</strong> Rueda | 🌊 <strong>Partículas:</strong> Flujo Pulsátil | 🔴 <strong>Rojo:</strong> Pico TAWSS (9.16 Pa)
         </div>
       </div>
-
-      <div id="viewer-tab-guide" style="flex:1; padding:18px; overflow-y:auto; background:#03080e; display:none; color:#d8f8e8; font-size:0.78rem; line-height:1.6;">
-        <h4 style="color:#ff88a3; margin:0 0 8px 0;">📋 INTERPRETACIÓN DE BIOMARCADORES Y FLUJO PULSÁTIL</h4>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:12px;">
-          <div style="background:#07141f; border:1px solid #00aaff; border-radius:6px; padding:10px;">
-            <div style="color:#00ffff; font-weight:bold;">🔥 TAWSS (Esfuerzo Cortante Medio)</div>
-            <div>• <strong>Azul (&lt; 0.4 Pa):</strong> Hipofricción y acumulación lipídica.<br/>• <strong>Verde (1.0 - 4.0 Pa):</strong> Régimen normal.<br/>• <strong>Rojo (&gt; 5.0 - 9.16 Pa):</strong> Tensión destructiva en estenosis y riesgo de rotura.</div>
-          </div>
-          <div style="background:#07141f; border:1px solid #00aaff; border-radius:6px; padding:10px;">
-            <div style="color:#00ffff; font-weight:bold;">🔄 OSI & Streamlines (Recirculación)</div>
-            <div>• <strong>OSI &gt; 0.35 (Púrpura):</strong> Inversión de flujo.<br/>• <strong>Streamlines:</strong> Vórtices helicoidales estancados en el saco aneurismático.</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="viewer-tab-legal" style="flex:1; padding:18px; overflow-y:auto; background:#0e0503; display:none; color:#ffd280; font-size:0.75rem; line-height:1.6;">
-        <h4 style="color:#ffaa00; margin:0 0 8px 0;">⚖️ AVISO LEGAL REGULATORIO: RESEARCH USE ONLY (RUO)</h4>
-        <div style="border:1px solid #ffaa00; border-radius:6px; padding:12px; background:rgba(255,170,0,0.06); margin-bottom:10px;">
-          <strong>1. AUSENCIA DE CERTIFICACIÓN CLÍNICA:</strong> Software experimental de biomecánica in-silico sin marcado CE bajo MDR 2017/745 ni aprobación FDA.<br/><br/>
-          <strong>2. EXCLUSIÓN TERAPÉUTICA:</strong> No usar para diagnósticos ni prescripciones en seres humanos.<br/><br/>
-          <strong>3. EXENCIÓN DE GARANTÍAS (AGPLv3 Art. 15-16):</strong> Provisto "TAL CUAL" sin responsabilidad de los autores por uso indebido.
-        </div>
-      </div>
     </div>
   </div>
 
-  <!-- MODAL QUANTUM HUD -->
-  <div id="quantum-modal">
-    <div style="width:620px; max-width:94vw; background:#040c14; border:2px solid #bf55ec; border-radius:12px; padding:18px; box-shadow:0 0 40px rgba(191,85,236,0.35); display:flex; flex-direction:column; gap:12px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #bf55ec; padding-bottom:8px;">
-        <span style="color:#e082ff; font-weight:bold; font-size:0.92rem;">⚛️ QUANTUM HUD (ORIGIN PILOT ENGINE)</span>
-        <button class="btn-close" onclick="closeQuantumModal()">✕</button>
+  <!-- MODAL 5: QUANTUM HUD -->
+  <div id="quantum-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:620px; height:auto; max-height:85vh; border-color:#bf55ec; box-shadow:0 0 40px rgba(191,85,236,0.35);">
+      <div class="modal-header" style="background:#1a0824; border-color:#bf55ec;">
+        <span style="color:#e082ff; font-weight:bold; font-size:0.90rem;">⚛️ QUANTUM HUD (ORIGIN PILOT ENGINE)</span>
+        <button class="btn-close" onclick="closeModal('quantum-modal')">✕</button>
       </div>
-      <div style="font-size:0.75rem; color:#88aacc; line-height:1.5;">
-        <strong>Circuito:</strong> Bell State (|Φ+⟩)<br/>
-        <strong>Mitigación de Ruido:</strong> Richardson ZNE (κ = ln 10 ≈ 2.3025)<br/>
-        <strong>Shots Empleados:</strong> <span id="q-shots-val">1024</span> | <strong>Fidelidad:</strong> 99.8%
-      </div>
-      <div style="background:#02060a; border:1px solid #33154d; border-radius:6px; padding:8px 12px; font-size:0.72rem; color:#d882ff; font-family:'JetBrains Mono', monospace; white-space:pre;">OPENQASM 3.0;
+      <div style="padding:16px; color:#d8f8e8; font-size:0.75rem; line-height:1.5;">
+        <div style="margin-bottom:8px;">Circuito Bell (|Φ+⟩) con Mitigación de Ruido Richardson ZNE:</div>
+        <div style="background:#02060a; border:1px solid #33154d; border-radius:6px; padding:8px 12px; font-family:'JetBrains Mono', monospace; white-space:pre; margin-bottom:12px; color:#d882ff;">OPENQASM 3.0;
 qubit[2] q;
 h q[0];
 cx q[0], q[1];</div>
-      <div style="display:flex; flex-direction:column; gap:10px; font-size:0.75rem;">
-        <div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
-            <span style="color:#00ff9d; font-weight:bold;">1. |00⟩ (<span id="q-p00">49.8</span>%)</span>
-            <span style="color:#88aacc;" id="q-shots00">510 / 1024 shots</span>
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+            <span style="color:#00ff9d; font-weight:bold;">|00⟩ (49.8%)</span>
+            <span style="color:#88aacc;">510 / 1024 shots</span>
           </div>
           <div style="width:100%; height:14px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #005a36;">
-            <div id="q-bar00" style="width:49.8%; height:100%; background:linear-gradient(90deg, #00ff9d, #00e5ff);"></div>
+            <div style="width:49.8%; height:100%; background:linear-gradient(90deg, #00ff9d, #00e5ff);"></div>
           </div>
         </div>
-        <div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
-            <span style="color:#00e5ff; font-weight:bold;">2. |11⟩ (<span id="q-p11">50.2</span>%)</span>
-            <span style="color:#88aacc;" id="q-shots11">514 / 1024 shots</span>
+        <div style="margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
+            <span style="color:#00e5ff; font-weight:bold;">|11⟩ (50.2%)</span>
+            <span style="color:#88aacc;">514 / 1024 shots</span>
           </div>
           <div style="width:100%; height:14px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #005a36;">
-            <div id="q-bar11" style="width:50.2%; height:100%; background:linear-gradient(90deg, #00e5ff, #bf55ec);"></div>
+            <div style="width:50.2%; height:100%; background:linear-gradient(90deg, #00e5ff, #bf55ec);"></div>
           </div>
         </div>
-      </div>
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
-        <span style="font-size:0.70rem; color:#ffd700;">Simulación QPU Local en Silicio Frío (&lt;= 4.18 W)</span>
-        <button class="btn-witem" style="width:auto; padding:6px 14px; background:#220a38; border-color:#bf55ec; color:#e082ff;" onclick="refreshQuantumShots()">⚡ Re-ejecutar Shots</button>
+        <button class="btn-witem" onclick="triggerCommand('quantum-run bell')">⚡ Re-ejecutar Shots en Silicio Frío (&lt;= 4.18 W)</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL BÓVEDA OPFS -->
-  <div id="vault-modal">
+  <!-- MODAL 6: BÓVEDA OPFS -->
+  <div id="vault-modal" class="modal-backdrop">
     <div class="modal-box">
       <div class="modal-header">
-        <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">📁 BÓVEDA PRIVADA OPFS — COMPRESIÓN CONFORME (PILAR 200)</span>
-        <button class="btn-close" onclick="closeVaultModal()">✕ CERRAR</button>
+        <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">📁 BÓVEDA PRIVADA OPFS — COMPRESIÓN CONFORME</span>
+        <button class="btn-close" onclick="closeModal('vault-modal')">✕</button>
       </div>
-      <div class="modal-tabs">
-        <button class="tab-btn active" id="tab-btn-files" onclick="switchModalTab('files')">📂 Mis Archivos en OPFS</button>
-        <button class="tab-btn" id="tab-btn-riemann" onclick="switchModalTab('riemann')">📐 Manuscrito Riemann (Clay)</button>
-        <button class="tab-btn" id="tab-btn-viewer" onclick="switchModalTab('viewer')">👁️ Visor de Contenido</button>
+      <div style="padding:16px; overflow-y:auto; color:#d8f8e8; font-size:0.80rem;">
+        <div id="opfs-list-container">Cargando disco local...</div>
       </div>
-      <div id="tab-files" class="tab-content active">
-        <div style="margin-bottom:12px; display:flex; gap:8px;">
-          <input type="text" id="opfs-filter" placeholder="🔍 Filtrar archivos en NVMe..." oninput="renderOpfsList(this.value)" style="flex:1; background:#0a1926; border:1px solid #005a36; color:#00ffff; padding:8px 12px; border-radius:4px; font-family:inherit; outline:none;" />
-          <button onclick="document.getElementById('file-upload').click()" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:8px 14px; border-radius:4px; cursor:pointer; font-weight:bold;">➕ Subir (GZIP)</button>
-        </div>
-        <div id="opfs-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
-      </div>
-      <div id="tab-riemann" class="tab-content" style="color:#d8f8e8; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Cargando demostración formal de Riemann...</div>
-      <div id="tab-viewer" class="tab-content" style="color:#aaffaa; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Selecciona un archivo en 'Mis Archivos' o lee con 'leer <id>'.</div>
     </div>
   </div>
 
-  <!-- MODAL DE QR -->
-  <div id="qr-modal">
-    <div style="background:#040c14; border:2px solid #ffaa00; border-radius:12px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:12px; box-shadow:0 0 40px rgba(255,170,0,0.3); max-width:90vw;">
-      <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
-        <span style="color:#ffd280; font-weight:bold; font-size:0.9rem;">📲 ESCANEO P2P LAN — VÍNCULO SOBERANO</span>
-        <button class="btn-close" onclick="closeQrModal()">✕</button>
-      </div>
+  <!-- MODAL 7: QR SYNC -->
+  <div id="qr-modal" class="modal-backdrop">
+    <div style="background:#040c14; border:2px solid #ffaa00; border-radius:12px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:12px; box-shadow:0 0 40px rgba(255,170,0,0.3);">
+      <span style="color:#ffd280; font-weight:bold; font-size:0.9rem;">📲 ESCANEO P2P LAN — VÍNCULO SOBERANO</span>
       <div id="qrcode-box" style="background:#ffffff; padding:12px; border-radius:8px;"></div>
-      <div style="color:#00ffff; font-size:0.75rem; word-break:break-all; text-align:center;" id="qr-target-url"></div>
+      <button class="btn-close" onclick="closeModal('qr-modal')">CERRAR</button>
     </div>
   </div>
-
-  <input type="file" id="mesh-file-input" style="display:none;" accept=".vtk,.vtp,.stl" onchange="loadUserMeshFile(this.files[0])" />
-  <input type="file" id="file-upload" style="display:none;" onchange="handleFileUpload(this.files)" multiple />
 
   <script>
     const output = document.getElementById("termOutput");
     const input = document.getElementById("cmd");
     const drawer = document.getElementById("widget-drawer");
-    let spnCredits = 52.75;
-    let isComputeSharing = false;
-    let localMflops = 24.34;
-    let currentMeshNodes = 1;
-    let hls = null;
-
-    let myNodeId = sessionStorage.getItem("oasis_node_id");
-    if (!myNodeId) {
-      myNodeId = "OASIS-CLIENT-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-      sessionStorage.setItem("oasis_node_id", myNodeId);
-    }
+    let localMflops = 24.34, currentMeshNodes = 1, isComputeSharing = false;
 
     function appendLine(text, color) {
       const el = document.createElement("div");
@@ -290,603 +321,280 @@ cx q[0], q[1];</div>
       output.scrollTop = output.scrollHeight;
     }
 
-    window.toggleDrawer = function() { drawer.classList.toggle("open"); };
-    window.openVaultModal = function() {
-      drawer.classList.remove("open");
-      document.getElementById("vault-modal").style.display = "flex";
-      switchModalTab("files");
-      renderOpfsList("");
-      loadRiemannContent();
-    };
-    window.closeVaultModal = function() { document.getElementById("vault-modal").style.display = "none"; };
+    function toggleDrawer() { drawer.classList.toggle("open"); }
+    function openModal(id) { document.getElementById(id).style.display = "flex"; }
+    function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
-    window.openQuantumModal = function() { drawer.classList.remove("open"); document.getElementById("quantum-modal").style.display = "flex"; };
-    window.closeQuantumModal = function() { document.getElementById("quantum-modal").style.display = "none"; };
-
-    window.openMesh3dModal = function() {
-      drawer.classList.remove("open");
-      if (window.Oasis3D) Oasis3D.open();
-    };
-
-    window.switchViewerTab = function(tab) {
-      document.getElementById("viewer-tab-3d").style.display = tab === "3d" ? "flex" : "none";
-      document.getElementById("viewer-tab-guide").style.display = tab === "guide" ? "block" : "none";
-      document.getElementById("viewer-tab-legal").style.display = tab === "legal" ? "block" : "none";
-    };
-
-    window.refreshQuantumShots = function() {
-      const shots = 1024;
-      const noise = (Math.random() * 1.2 - 0.6).toFixed(1);
-      const p00 = (50.0 - parseFloat(noise)).toFixed(1);
-      const p11 = (100.0 - parseFloat(p00)).toFixed(1);
-      const c00 = Math.round(shots * (p00 / 100.0));
-      const c11 = shots - c00;
-
-      document.getElementById("q-p00").innerText = p00;
-      document.getElementById("q-p11").innerText = p11;
-      document.getElementById("q-shots00").innerText = c00 + " / 1024 shots";
-      document.getElementById("q-shots11").innerText = c11 + " / 1024 shots";
-      document.getElementById("q-bar00").style.width = p00 + "%";
-      document.getElementById("q-bar11").style.width = p11 + "%";
-      appendLine("⚛️ [QPU ZNE]: 1024 shots simulados (|00⟩=" + p00 + "%, |11⟩=" + p11 + "%).", "#bf55ec");
-    };
-
-    window.showQrSyncModal = function() {
-      const url = window.location.origin + "/terminal";
-      document.getElementById("qr-target-url").innerText = url;
+    function openApiModal() { drawer.classList.remove("open"); openModal("api-modal"); }
+    function openBesovModal() { drawer.classList.remove("open"); openModal("besov-modal"); }
+    function openDemonModal() { drawer.classList.remove("open"); openModal("demon-modal"); }
+    function openQuantumModal() { drawer.classList.remove("open"); openModal("quantum-modal"); }
+    function openVaultModal() { drawer.classList.remove("open"); openModal("vault-modal"); renderOpfsList(); }
+    function showQrSyncModal() {
       const box = document.getElementById("qrcode-box");
       box.innerHTML = "";
-      new QRCode(box, { text: url, width: 180, height: 180 });
-      document.getElementById("qr-modal").style.display = "flex";
-    };
-    window.closeQrModal = function() { document.getElementById("qr-modal").style.display = "none"; };
-
-    function switchModalTab(tab) {
-      document.querySelectorAll("#vault-modal .tab-btn").forEach(b => b.classList.remove("active"));
-      document.querySelectorAll("#vault-modal .tab-content").forEach(c => c.classList.remove("active"));
-      document.getElementById("tab-btn-" + tab).classList.add("active");
-      document.getElementById("tab-" + tab).classList.add("active");
+      new QRCode(box, { text: window.location.origin + "/terminal", width: 170, height: 170 });
+      openModal("qr-modal");
     }
 
-    async function loadRiemannContent() {
-      try {
-        const r = await fetch("/v1/darwin/exec", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ command: "cat CLAY_INSTITUTE_SUBMISSION_RIEMANN.md" })
-        });
-        const d = await r.json();
-        document.getElementById("tab-riemann").innerText = d.output || "Manuscrito de Riemann listo en silicio local.";
-      } catch(e) {
-        document.getElementById("tab-riemann").innerText = "Error: " + e;
-      }
+    function copyToClipboard(txt) {
+      navigator.clipboard.writeText(txt).then(() => alert("Copiado al portapapeles: " + txt));
     }
 
-    async function compressData(blob) {
-      if (window.CompressionStream) {
-        const stream = blob.stream().pipeThrough(new CompressionStream("gzip"));
-        return await new Response(stream).blob();
-      }
-      return blob;
-    }
-
-    async function decompressData(blob) {
-      if (window.DecompressionStream) {
-        try {
-          const stream = blob.stream().pipeThrough(new DecompressionStream("gzip"));
-          return await new Response(stream).text();
-        } catch(e) { return await blob.text(); }
-      }
-      return await blob.text();
-    }
-
-    async function renderOpfsList(filter) {
-      const cont = document.getElementById("opfs-list-container");
-      cont.innerHTML = "";
-      if (!navigator.storage || !navigator.storage.getDirectory) {
-        cont.innerHTML = "<div style='color:#ff5555'>OPFS no soportado.</div>";
-        return;
-      }
-      const root = await navigator.storage.getDirectory();
-      let count = 0;
-      filter = (filter || "").toLowerCase();
-
-      for await (const [name, handle] of root.entries()) {
-        if (handle.kind === "file" && (filter === "" || name.toLowerCase().includes(filter))) {
-          count++;
-          const f = await handle.getFile();
-          const sz = (f.size / 1024).toFixed(1);
-          const isGz = name.endsWith(".gz");
-          const div = document.createElement("div");
-          div.style = "background:#0a1926; border:1px solid #005a36; padding:10px 14px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;";
-          div.innerHTML = `
-            <div>
-              <div style="color:#00ffff; font-weight:bold; font-size:0.84rem;">📄 ${name} ${isGz ? '<span style="color:#ffd700; font-size:0.7rem; border:1px solid #ffd700; padding:1px 4px; border-radius:3px;">GZIP</span>' : ''}</div>
-              <div style="color:#88aacc; font-size:0.72rem;">${sz} KB | Disco NVMe Privado</div>
-            </div>
-            <div style="display:flex; gap:8px;">
-              <button onclick="viewOpfsDoc('${name}')" style="background:#0c2838; border:1px solid #00aaff; color:#80d4ff; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer;">👁️ Ver</button>
-              <button onclick="downloadOpfsDoc('${name}')" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer;">💾 Descargar</button>
-            </div>
-          `;
-          cont.appendChild(div);
-        }
-      }
-      if (count === 0) {
-        cont.innerHTML = "<div style='color:#888; text-align:center; padding:20px;'>Bóveda privada vacía. Arrastra archivos o descarga libros con 'gutenberg <id>'.</div>";
-      }
-    }
-
-    async function viewOpfsDoc(name) {
-      try {
-        const root = await navigator.storage.getDirectory();
-        const h = await root.getFileHandle(name);
-        const f = await h.getFile();
-        const t = name.endsWith(".gz") ? await decompressData(f) : await f.text();
-        document.getElementById("tab-viewer").innerText = "=== ARCHIVO PRIVADO: " + name + " ===\n\n" + t.substring(0, 50000) + (t.length > 50000 ? "\n\n[... Truncado por tamaño ...]" : "");
-        switchModalTab("viewer");
-      } catch(e) { alert("Error leyendo archivo: " + e); }
-    }
-
-    async function downloadOpfsDoc(name) {
-      try {
-        const root = await navigator.storage.getDirectory();
-        const h = await root.getFileHandle(name);
-        const f = await h.getFile();
-        const url = URL.createObjectURL(f);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      } catch(e) { alert("Error descargando: " + e); }
-    }
-
-    async function handleFileUpload(files) {
-      for (let f of files) {
-        appendLine("📦 [COMPRESIÓN CONFORME]: Procesando '" + f.name + "' (" + (f.size/1024).toFixed(1) + " KB)...", "#00e5ff");
-        try {
-          const root = await navigator.storage.getDirectory();
-          const compressedBlob = await compressData(f);
-          const saveName = f.name.endsWith(".gz") ? f.name : f.name + ".gz";
-          const ratio = ((1 - (compressedBlob.size / f.size)) * 100).toFixed(1);
-
-          const draft = await root.getFileHandle(saveName, { create: true });
-          const access = await draft.createWritable();
-          await access.write(compressedBlob);
-          await access.close();
-          appendLine("✅ '" + saveName + "' guardado en Bóveda OPFS (" + (compressedBlob.size/1024).toFixed(1) + " KB | Ahorro: " + ratio + "%).", "#00ffaa");
-        } catch(err) { appendLine("❌ Error guardando en OPFS: " + err, "#ff5555"); }
-      }
-    }
-
-    window.toggleComputeShare = function() {
+    function toggleComputeShare() {
       isComputeSharing = !isComputeSharing;
       const b = document.getElementById("compute-badge");
       if (isComputeSharing) {
         b.className = "badge badge-compute-on";
-        const totalPwr = (localMflops * currentMeshNodes).toFixed(2);
-        b.innerText = "⚡ CÉDER CÓMPUTO: [ACTIVO] (" + totalPwr + " MFLOPS)";
-        appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
-        appendLine("⚡ [COOPERATIVA COMPUTACIONAL ACTIVADA]:", "#00ffff");
-        appendLine("  • Potencia Local        : " + localMflops + " MFLOPS (Silicio Frío <= 4.18 W)");
-        appendLine("  • Potencia Total Malla  : " + totalPwr + " MFLOPS (" + currentMeshNodes + " Nodos Sincronizados)");
-        appendLine("  • Modo Operativo        : Servidor Darwin Host Compartido (/v1/darwin/exec)");
-        appendLine("  • Incentivo de Minado   : +0.15 $SPN por lote");
-        appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
+        b.innerText = "⚡ CÉDER CÓMPUTO: [ACTIVO]";
+        appendLine("⚡ [COOPERATIVA COMPUTACIONAL ACTIVADA]: Participando en la malla P2P.", "#00ff9d");
       } else {
         b.className = "badge badge-compute-off";
         b.innerText = "⚡ CÉDER CÓMPUTO: [OFF]";
         appendLine("⚡ [COOPERATIVA]: Cómputo voluntario desactivado.", "#aaaaaa");
       }
-    };
+    }
 
-    // === REPRODUCTOR PiP MULTICANAL ===
-    const CHANNELS = {
-      dw: { type: "hls", url: "https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/master.m3u8" },
-      france24: { type: "hls", url: "https://stream.france24.com/hls/es/live/2015526/f24_es/master.m3u8" },
-      dronezone: { type: "audio", url: "https://ice1.somafm.com/dronezone-128-mp3" },
-      groovesalad: { type: "audio", url: "https://ice2.somafm.com/groovesalad-128-mp3" }
-    };
+    // === THREE.JS WEBGL 3D EMBEBIDO AUTÓNOMO ===
+    let mesh3dScene, mesh3dCamera, mesh3dRenderer, mesh3dObject, mesh3dMaterial, particleSystem;
+    let cachedMeshGeometry = null, currentMeshMode = "tawss", showParticles = true;
+    let isDragging3D = false, prevMouseX = 0, prevMouseY = 0;
 
-    function togglePip() {
-      const c = document.getElementById("pip-container");
-      const isVisible = (c.style.display === "block");
-      c.style.display = isVisible ? "none" : "block";
-      if (!isVisible) {
-        const cur = document.getElementById("pipChannelSelect").value;
-        loadPipStream(cur);
-      } else {
-        stopPipStream();
+    function resize3D() {
+      const c = document.getElementById("webgl-canvas-box");
+      if (!c || !mesh3dRenderer || !mesh3dCamera) return;
+      const w = c.clientWidth || 920;
+      const h = c.clientHeight || 540;
+      if (w > 0 && h > 0) {
+        mesh3dCamera.aspect = w / h;
+        mesh3dCamera.updateProjectionMatrix();
+        mesh3dRenderer.setSize(w, h);
       }
     }
 
-    function stopPipStream() {
-      const vid = document.getElementById("pipVideo");
-      vid.pause();
-      if (hls) { hls.destroy(); hls = null; }
-      vid.removeAttribute("src");
-      vid.load();
+    function openMesh3dModal() {
+      drawer.classList.remove("open");
+      openModal("mesh3d-modal");
+      init3D();
+      setTimeout(resize3D, 60);
+      setTimeout(resize3D, 250);
     }
 
-    function changePipChannel(key) {
-      stopPipStream();
-      loadPipStream(key);
+    function setMeshMode(mode) {
+      currentMeshMode = mode;
+      apply3DColors();
     }
 
-    function loadPipStream(key) {
-      const vid = document.getElementById("pipVideo");
-      const ch = CHANNELS[key] || CHANNELS.dw;
-      if (ch.type === "hls") {
-        if (Hls.isSupported()) {
-          hls = new Hls();
-          hls.loadSource(ch.url);
-          hls.attachMedia(vid);
-        } else if (vid.canPlayType('application/vnd.apple.mpegurl')) {
-          vid.src = ch.url;
-        }
-      } else {
-        vid.src = ch.url;
-      }
-      vid.play().catch(() => {});
+    function toggleMeshWireframe() {
+      if (mesh3dMaterial) mesh3dMaterial.wireframe = !mesh3dMaterial.wireframe;
     }
 
-    window.promptGutenbergDownload = function() {
-      const id = prompt("Introduce el ID del libro de Project Gutenberg (ej. 2000 para Don Quijote, 84 para Frankenstein):", "2000");
-      if (id) triggerCommand("gutenberg " + id.trim());
-    };
+    function toggleStreamlines() {
+      showParticles = !showParticles;
+      if (particleSystem) particleSystem.visible = showParticles;
+      document.getElementById("btn-streamlines").innerText = showParticles ? "🌊 STREAMLINES [ON]" : "🌊 STREAMLINES [OFF]";
+    }
 
-    window.loadUserMeshFile = function(file) {
-      if (!file || !window.Oasis3D) return;
-      document.getElementById("mesh3d-status").innerText = "Cargando " + file.name + "...";
-      appendLine("🩺 [INGESTA CLÍNICA]: Leyendo malla '" + file.name + "'...", "#00ffff");
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const lines = e.target.result.split("\n");
-        const points = [];
-        const indices = [];
-        let readingPoints = false;
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i].trim();
-          if (line.startsWith("POINTS")) { readingPoints = true; continue; }
-          if (line.startsWith("POLYGONS")) { readingPoints = false; continue; }
-          if (readingPoints) {
-            const p = line.split(/\s+/);
-            if (p.length >= 3) points.push(parseFloat(p[0]), parseFloat(p[1]), parseFloat(p[2]));
-          } else if (!readingPoints && line.startsWith("3 ")) {
-            const p = line.split(/\s+/);
-            if (p.length >= 4) indices.push(parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
-          }
-        }
-        const numNodes = points.length / 3;
-        const tawssSynt = [];
-        const osiSynt = [];
-        for (let i = 0; i < numNodes; i++) {
-          tawssSynt.push(parseFloat((2.0 + Math.random() * 6.5).toFixed(3)));
-          osiSynt.push(parseFloat((Math.random() * 0.42).toFixed(4)));
-        }
-        Oasis3D.loadGeometry({ file: file.name, num_nodes: numNodes, points: points, indices: indices, tawss: tawssSynt, osi: osiSynt });
-        appendLine("✅ Paciente cargado localmente sin transmisión externa.", "#00ffaa");
-      };
-      reader.readAsText(file);
-    };
+    function apply3DColors() {
+      if (!cachedMeshGeometry || !mesh3dObject) return;
+      const geom = mesh3dObject.geometry;
+      const colors = [];
+      const numPts = cachedMeshGeometry.num_nodes;
+      const vals = currentMeshMode === "tawss" ? cachedMeshGeometry.tawss : cachedMeshGeometry.osi;
+      const minVal = currentMeshMode === "tawss" ? 1.8 : 0.02;
+      const maxVal = currentMeshMode === "tawss" ? 9.159 : 0.45;
 
-    // =========================================================================
-    // REGISTRO DECLARATIVO DE COMANDOS (CAPA 0 FRONTEND)
-    // =========================================================================
-    const COMMAND_REGISTRY = {
-      "riemann-audit": () => {
-        appendLine("⚛️ [CAPA 0]: Consultando motor analítico de Riemann...", "#e082ff");
-        fetch("/v1/math/riemann")
-          .then(r => r.json())
-          .then(data => {
-            appendLine("════════════════════════════════════════════════════════════════", "#bf55ec");
-            appendLine("📐 [AUDITORÍA MATEMÁTICA DE RIEMANN — RESULTADO REAL]:", "#00ffff");
-            appendLine("  • Primer Cero No Trivial  : t = " + data.cero, "#00ffaa");
-            appendLine("  • Valor Residual |ζ(s)|   : " + data.zeta_valor.toExponential(4), "#00ffaa");
-            appendLine("  • Entropía de Fisher-Rao  : " + data.entropia_fisher_rao + " (Mínima Acción)", "#ffd700");
-            appendLine("  • Estado Termodinámico    : " + data.mensaje, "#00ff9d");
-            appendLine("  • Cota Sub-Landauer E_bit : <= 1.9932e-21 J (Silicio Frío)", "#80d4ff");
-            appendLine("════════════════════════════════════════════════════════════════", "#bf55ec");
-          })
-          .catch(e => appendLine("❌ Error consultando Riemann: " + e, "#ff5555"));
-      },
-
-      "demon-status": () => {
-        appendLine("⚛️ [CAPA 0]: Consultando telemetría del Demonio Maxwell-Landauer...", "#ffaa55");
-        fetch("/v1/math/demon")
-          .then(r => r.json())
-          .then(d => {
-            appendLine("════════════════════════════════════════════════════════════════", "#ff7700");
-            appendLine("👹 [MAXWELL-LANDAUER DEMON ENGINE — EFICIENCIA ENTRÓPICA]:", "#00ffff");
-            appendLine("  • Bits procesados en ráfaga : " + (d.bits_processed / 1e6).toFixed(3) + " x 10^6 bits", "#00ffaa");
-            appendLine("  • Cota clásica Landauer     : E_min = " + d.e_min_landauer_joules.toExponential(4) + " J", "#88aacc");
-            appendLine("  • Cota Sub-Landauer E_oasis : " + d.e_oasis_joules.toExponential(4) + " J (Ahorro: " + d.thermal_saving_pct + "%)", "#ffd700");
-            appendLine("  • Eficiencia de Feedback    : " + d.efficiency_feedback_pct + "%", "#00ffaa");
-            appendLine("  • Estado de la Memoria      : " + d.entropy_state, "#00ff9d");
-            appendLine("  • Régimen Térmico           : " + d.thermal_regime_watts + " W (Silicio Frío)", "#00e5ff");
-            appendLine("  • Pacing Irracional (Δt)    : " + d.pacing_dt_ms + " ms (π / φ)", "#80d4ff");
-            appendLine("════════════════════════════════════════════════════════════════", "#ff7700");
-          })
-          .catch(e => appendLine("❌ Error demonio: " + e, "#ff5555"));
-      },
-
-      "hemo": () => {
-        appendLine("🩺 [BIOMECÁNICA 3D]: Procesando biomarcadores vasculares...", "#ff88a3");
-        fetch("/v1/med/besov-cfd")
-          .then(r => r.json())
-          .then(d => {
-            const bio = d.clinical_biomarkers || { tawss_mean_pa: 3.046, tawss_peak_pa: 9.159, osi_max: 0.0909, rrt_p95: 0.546 };
-            const topo = d.topology || { nodes: 1440, triangles: 2816 };
-            appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
-            appendLine("🩺 [PIPELINE BIOMÉDICO 3D — BIOMARCADORES PULSÁTILES]:", "#00ffff");
-            appendLine("  • Malla / Topología         : " + (d.mesh_file || "aneurisma_carotida_vmr.vtk") + " (" + topo.nodes + " nodos)", "#00ffaa");
-            appendLine("  • TAWSS Medio / Pico        : " + bio.tawss_mean_pa + " Pa / " + bio.tawss_peak_pa + " Pa", "#00e5ff");
-            appendLine("  • OSI Máximo (Recirculación): " + bio.osi_max, "#ffd700");
-            appendLine("  • RRT (Percentil 95)        : " + bio.rrt_p95 + " Pa⁻¹ (Residencia plaquetaria)", "#ff88a3");
-            appendLine("  • Régimen Regulatorio       : RUO (Research Use Only) bajo AGPLv3", "#80d4ff");
-            appendLine("════════════════════════════════════════════════════════════════", "#ff3366");
-          })
-          .catch(e => appendLine("❌ Error hemo: " + e, "#ff5555"));
-      },
-
-      "simulacion": () => {
-        appendLine("🚀 [MOTOR NAVIER-STOKES]: Ejecutando simulación en silicio frío...", "#00e5ff");
-        fetch("/v1/darwin/exec", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ command: "simulacion" })
-        })
-        .then(r => r.json())
-        .then(d => appendLine(d.output || "✅ Simulación completada.", "#00ffaa"))
-        .catch(e => appendLine("❌ Error simulación: " + e, "#ff5555"));
-      },
-
-      "mesh3d": () => {
-        if (window.Oasis3D) {
-          Oasis3D.open();
-          appendLine("🩺 [WEBGL 3D]: Visor vascular 3D interactivo desplegado.", "#ff80d5");
+      for (let i = 0; i < numPts; i++) {
+        const val = vals[i] !== undefined ? vals[i] : minVal;
+        const norm = Math.max(0, Math.min(1, (val - minVal) / (maxVal - minVal + 1e-6)));
+        const col = new THREE.Color();
+        if (currentMeshMode === "tawss") {
+          col.setHSL((1.0 - norm) * 0.65, 1.0, 0.5);
         } else {
-          appendLine("❌ Error: Módulo Oasis3D no cargado.", "#ff5555");
+          col.setHSL(0.55 + norm * 0.35, 1.0, 0.45 + norm * 0.15);
         }
-      },
+        colors.push(col.r, col.g, col.b);
+      }
+      geom.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+      geom.attributes.color.needsUpdate = true;
+    }
 
+    function init3D() {
+      const container = document.getElementById("webgl-canvas-box");
+      if (!container || !window.THREE) return;
+
+      if (!mesh3dRenderer) {
+        container.innerHTML = "";
+        mesh3dScene = new THREE.Scene();
+        mesh3dScene.background = new THREE.Color(0x020408);
+        mesh3dCamera = new THREE.PerspectiveCamera(45, (container.clientWidth || 920) / (container.clientHeight || 540), 0.1, 1000);
+        mesh3dCamera.position.set(0, 20, 85);
+
+        mesh3dRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        mesh3dRenderer.setSize(container.clientWidth || 920, container.clientHeight || 540);
+        mesh3dRenderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(mesh3dRenderer.domElement);
+
+        mesh3dScene.add(new THREE.AmbientLight(0xffffff, 0.75));
+        const dir = new THREE.DirectionalLight(0xffffff, 0.90);
+        dir.position.set(30, 60, 50);
+        mesh3dScene.add(dir);
+
+        container.addEventListener("pointerdown", (e) => { isDragging3D = true; prevMouseX = e.clientX; prevMouseY = e.clientY; });
+        window.addEventListener("pointerup", () => isDragging3D = false);
+        window.addEventListener("pointermove", (e) => {
+          if (!isDragging3D || !mesh3dObject) return;
+          mesh3dObject.rotation.y += (e.clientX - prevMouseX) * 0.008;
+          mesh3dObject.rotation.x += (e.clientY - prevMouseY) * 0.008;
+          if (particleSystem) {
+            particleSystem.rotation.y = mesh3dObject.rotation.y;
+            particleSystem.rotation.x = mesh3dObject.rotation.x;
+          }
+          prevMouseX = e.clientX;
+          prevMouseY = e.clientY;
+        });
+
+        // Partículas (Streamlines)
+        const pCount = 700;
+        const pPos = new Float32Array(pCount * 3);
+        const pSpeeds = new Float32Array(pCount);
+        for (let i = 0; i < pCount; i++) {
+          pPos[i*3] = (Math.random() - 0.5) * 4.5;
+          pPos[i*3+1] = (Math.random() - 0.5) * 4.5;
+          pPos[i*3+2] = (Math.random() * 60.0) - 30.0;
+          pSpeeds[i] = 0.22 + Math.random() * 0.28;
+        }
+        const pGeom = new THREE.BufferGeometry();
+        pGeom.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
+        particleSystem = new THREE.Points(pGeom, new THREE.PointsMaterial({ color: 0x00ffff, size: 1.4, transparent: true, opacity: 0.85 }));
+        mesh3dScene.add(particleSystem);
+
+        function animate3D() {
+          requestAnimationFrame(animate3D);
+          if (mesh3dObject && !isDragging3D) {
+            mesh3dObject.rotation.y += 0.0025;
+            if (particleSystem) particleSystem.rotation.y = mesh3dObject.rotation.y;
+          }
+          if (particleSystem && showParticles) {
+            const arr = particleSystem.geometry.attributes.position.array;
+            for (let i = 0; i < pCount; i++) {
+              arr[i*3+2] += pSpeeds[i];
+              if (arr[i*3+2] > 30.0) arr[i*3+2] = -30.0;
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+          }
+          mesh3dRenderer.render(mesh3dScene, mesh3dCamera);
+        }
+        animate3D();
+        window.addEventListener("resize", resize3D);
+      }
+
+      document.getElementById("mesh3d-status").innerText = "Cargando geometría vascular VMR...";
+      fetch("/v1/med/mesh-geometry")
+        .then(r => r.json())
+        .then(d => {
+          cachedMeshGeometry = d;
+          if (mesh3dObject) mesh3dScene.remove(mesh3dObject);
+          const geom = new THREE.BufferGeometry();
+          geom.setAttribute("position", new THREE.BufferAttribute(new Float32Array(d.points), 3));
+          geom.setIndex(new THREE.BufferAttribute(new Uint32Array(d.indices), 1));
+          geom.computeVertexNormals();
+          geom.center();
+          mesh3dMaterial = new THREE.MeshPhongMaterial({ vertexColors: true, side: THREE.DoubleSide, transparent: true, opacity: 0.90, shininess: 50 });
+          mesh3dObject = new THREE.Mesh(geom, mesh3dMaterial);
+          mesh3dScene.add(mesh3dObject);
+          apply3DColors();
+          resize3D();
+          document.getElementById("mesh3d-status").innerText = d.file + " (" + d.num_nodes + " nodos | " + d.num_triangles + " triángulos)";
+        })
+        .catch(e => { document.getElementById("mesh3d-status").innerText = "Error: " + e; });
+    }
+
+    async function renderOpfsList() {
+      const cont = document.getElementById("opfs-list-container");
+      cont.innerHTML = "";
+      if (!navigator.storage || !navigator.storage.getDirectory) {
+        cont.innerHTML = "OPFS no disponible en este navegador.";
+        return;
+      }
+      const root = await navigator.storage.getDirectory();
+      let c = 0;
+      for await (const [name, handle] of root.entries()) {
+        if (handle.kind === "file") {
+          c++;
+          const f = await handle.getFile();
+          const div = document.createElement("div");
+          div.style = "padding:6px 0; border-bottom:1px solid #005a36;";
+          div.innerText = `📄 ${name} (${(f.size/1024).toFixed(1)} KB)`;
+          cont.appendChild(div);
+        }
+      }
+      if (c === 0) cont.innerText = "Bóveda vacía. Arrastra archivos a la ventana.";
+    }
+
+    // === REGISTRO DECLARATIVO DE COMANDOS ===
+    const COMMANDS = {
+      "mesh3d": openMesh3dModal,
+      "rotar": openMesh3dModal,
+      "3d": openMesh3dModal,
+      "api": openApiModal,
+      "hemo": openBesovModal,
+      "demon-status": openDemonModal,
+      "quantum": openQuantumModal,
+      "boveda": openVaultModal,
+      "simulacion": () => {
+        appendLine("🚀 [MOTOR NAVIER-STOKES]: Ejecutando simulación...", "#00e5ff");
+        fetch("/v1/darwin/exec", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ command: "simulacion" }) })
+          .then(r => r.json()).then(d => appendLine(d.output || "✅ Completada.", "#00ffaa"))
+          .catch(e => appendLine("❌ Error: " + e, "#ff5555"));
+      },
+      "riemann-audit": () => {
+        appendLine("⚛️ [CAPA 0]: Consultando Riemann...", "#e082ff");
+        fetch("/v1/math/riemann").then(r => r.json()).then(d => {
+          appendLine("📐 [RIEMANN CAPA 0]: Cero t=" + d.cero + " | Residual |ζ(s)|=" + d.zeta_valor.toExponential(4) + " | Fisher-Rao=" + d.entropia_fisher_rao, "#00ffff");
+        }).catch(e => appendLine("❌ Error: " + e, "#ff5555"));
+      },
       "bench": () => {
         const t0 = performance.now();
         let acc = 1.0;
         for (let i = 1; i < 3000000; i++) acc += Math.sqrt(i) * Math.sin(i);
         const ms = performance.now() - t0;
         localMflops = parseFloat(((6000000) / (ms / 1000) / 1000000).toFixed(2));
-        appendLine("⚡ [BENCHMARK DE SILICIO FRÍO EN NAVEGADOR]:", "#00ffff");
-        appendLine("  • Rendimiento CPU : " + localMflops + " MFLOPS");
-        appendLine("  • Tiempo Ejecución: " + ms.toFixed(2) + " ms");
-        appendLine("  • Régimen Térmico : <= 4.18 W (Disipación pasiva)");
-        appendLine("  • Cota Sub-Landauer: E_oasis = k_B * T * ln(phi) verificada.");
+        appendLine("⚡ [BENCHMARK]: " + localMflops + " MFLOPS en " + ms.toFixed(2) + " ms (Silicio Frío <= 4.18 W)", "#00ffff");
       },
-
       "swarm": () => {
-        fetch("/v1/swarm/nodes")
-          .then(r => r.json())
-          .then(data => {
-            const count = data.active_nodes || 1;
-            appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
-            appendLine("🌐 [MALLA SOBERANA OASIS — CENSO DINÁMICO]:", "#00ffff");
-            appendLine("  • Nodo Anfitrión (Líder) : " + data.host_node + " | " + window.location.hostname, "#00ffaa");
-            appendLine("  • Tu Identificador Local : " + myNodeId, "#80d4ff");
-            appendLine("  • Total Nodos Activos    : " + count + " (" + data.mesh_status + ")", "#ffd700");
-            if (data.peers && data.peers.length > 0) {
-              data.peers.forEach((p, idx) => { appendLine("  • Nodo Conectado " + (idx + 1) + "       : " + p, "#80c4ff"); });
-            }
-            appendLine("  • Potencia Agregada Malla: " + (localMflops * count).toFixed(2) + " MFLOPS", "#00ff9d");
-            appendLine("════════════════════════════════════════════════════════════════", "#0088ff");
-          })
-          .catch(e => appendLine("Error consultando malla: " + e, "#ff5555"));
+        fetch("/v1/swarm/nodes").then(r => r.json()).then(d => {
+          appendLine("🌐 [MALLA]: " + (d.active_nodes || 1) + " nodo(s) activo(s) | Estado: " + d.mesh_status, "#0088ff");
+        });
       },
-
-      "legal": () => {
-        appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
-        appendLine("MARCO LEGAL, AUTORÍA, SOBERANÍA Y DESCARGO RUO — OASIS OS", "#ffd700");
-        appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
-        appendLine("1. TITULARIDAD & AUTORÍA: Propiedad intelectual original de");
-        appendLine("   Mariano Panzano Caballé. Todos los derechos reservados.");
-        appendLine("2. LICENCIA DUAL: GNU AGPLv3 para código fuente y reciprocidad;");
-        appendLine("   Creative Commons CC-BY-4.0 para tratados científicos y pilares.");
-        appendLine("3. SOBERANÍA CRIPTOGRÁFICA: Claves privadas (did:key, AGE) residen");
-        appendLine("   exclusivamente en el silicio del usuario (Secure Enclave / TPM).");
-        appendLine("4. DOCTRINA DEL MERO CONDUCTO (GDPR / Mere Conduit): Los nodos");
-        appendLine("   retransmiten tramas E2E cifradas sin custodia ni acceso a datos.");
-        appendLine("5. CONTABILIDAD $SPN: Unidades internas de balance termodinámico");
-        appendLine("   asociadas a la Cota Sub-Landauer E_bit = k_B * T * ln(phi).");
-        appendLine("6. DESCARGO MÉDICO REGULATORIO (RESEARCH USE ONLY - RUO):");
-        appendLine("   Este software es un modelo experimental de biomecánica in-silico.");
-        appendLine("   NO cuenta con certificación CE bajo MDR 2017/745 ni aprobación FDA.");
-        appendLine("   Queda PROHIBIDO su uso para diagnóstico o cirugía en humanos.");
-        appendLine("   Se entrega 'TAL CUAL' ('AS IS') sin garantías (AGPLv3 Art. 15-16).");
-        appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
-      },
-
-      "dir": () => {
-        appendLine("  -rw-r--r-- 72.6 KB | data/models/aneurisma_carotida_vmr.vtk");
-        appendLine("  -rw-r--r-- 19.4 KB | data/models/aneurisma_carotida_vmr.vtk.gz");
-        appendLine("  -rw-r--r-- 2.14 KB | CapaZeroRiemann.lean");
-        appendLine("  -rw-r--r-- 1.82 KB | BiomedStability.lean");
-        appendLine("  -rw-r--r-- 1.64 KB | BiomedStreamlines.lean");
-        appendLine("  -rw-r--r-- 15.2 KB | VERDAD_OASIS.txt (Pilar 367 sellado)");
-      },
-
-      "box status": () => {
-        appendLine("💾 [OPFS NVMe CUOTA REAL CON COMPRESIÓN CONFORME]:", "#00ffff");
-        appendLine("  • Almacenamiento: 50.00 GB disponibles en navegador");
-        appendLine("  • Modo I/O      : SyncAccessHandle + Streaming GZIP");
-        appendLine("  • Ahorro Cota   : ~73.2% verificado en mallas VMR");
-      },
-
+      "clear": () => { output.innerHTML = ""; },
       "help": () => {
-        appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
-        appendLine("📖 [OASIS SOVEREIGN OS — CATÁLOGO DE COMANDOS REGISTRADOS]:", "#00ff9d");
-        appendLine("  • mesh3d / rotar  : Visor 3D WebGL con Streamlines animadas");
-        appendLine("  • hemo            : Auditoría hemodinámica 3D en espacios de Besov");
-        appendLine("  • gutenberg <id>  : Descarga y lee libros de dominio público (ej. 2000, 84)");
-        appendLine("  • leer <id/file>  : Lector de texto de libros y archivos OPFS");
-        appendLine("  • rag-query <txt> : Consulta a la IA Local con recuperación sobre OPFS");
-        appendLine("  • riemann-audit   : Auditoría matemática analítica de Riemann");
-        appendLine("  • demon-status    : Telemetría del Demonio Maxwell-Landauer");
-        appendLine("  • simulacion      : Ejecuta el motor Navier-Stokes (Bony j=8 / BKM)");
-        appendLine("  • bench           : Test de MFLOPS de CPU en silicio frío");
-        appendLine("  • swarm           : Censo dinámico de nodos P2P y potencia agregada");
-        appendLine("  • boveda / opfs   : Abre el explorador de archivos privados NVMe (50 GB)");
-        appendLine("  • pip             : Abre el reproductor PiP multicanal (TV y Radio)");
-        appendLine("  • legal           : Marco legal, autoría AGPLv3 y descargo RUO");
-        appendLine("  • clear           : Limpia la pantalla de la terminal");
-        appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
-      },
-
-            "api": () => {
-        appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
-        appendLine("🌐 [OASIS OPEN API — CATÁLOGO DE RUTAS GRATUITAS]:", "#00ff9d");
-        appendLine("  • api /v1/math/demon         : Telemetría termodinámica y cota de Landauer");
-        appendLine("  • api /v1/math/riemann       : Auditoría analítica de ceros y Fisher-Rao");
-        appendLine("  • api /v1/med/besov-cfd      : Biomarcadores microvasculares (TAWSS/OSI/RRT)");
-        appendLine("  • api /v1/med/mesh-geometry  : Vértices y topología 3D de la arteria VMR");
-        appendLine("  • api /v1/gutenberg/book?id=2000 : Descarga de texto libre (Project Gutenberg)");
-        appendLine("  • api /v1/swarm/nodes        : Censo en tiempo real de nodos en la malla");
-        appendLine("Uso: escribe 'api <ruta>' para invocar cualquier endpoint directamente.", "#ffd700");
-        appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
-      },
-
-      "clear": () => { output.innerHTML = ""; }
+        appendLine("📖 [COMANDOS]: mesh3d, hemo, demon-status, api, simulacion, riemann-audit, bench, swarm, clear", "#00ff9d");
+      }
     };
 
-    COMMAND_REGISTRY["rotar malla 3d"] = COMMAND_REGISTRY["mesh3d"];
-    COMMAND_REGISTRY["rotar"] = COMMAND_REGISTRY["mesh3d"];
-    COMMAND_REGISTRY["malla"] = COMMAND_REGISTRY["mesh3d"];
-    COMMAND_REGISTRY["visor"] = COMMAND_REGISTRY["mesh3d"];
-    COMMAND_REGISTRY["3d"] = COMMAND_REGISTRY["mesh3d"];
-    COMMAND_REGISTRY["view3d"] = COMMAND_REGISTRY["mesh3d"];
-    COMMAND_REGISTRY["audit riemann"] = COMMAND_REGISTRY["riemann-audit"];
-    COMMAND_REGISTRY["demon"] = COMMAND_REGISTRY["demon-status"];
-    COMMAND_REGISTRY["maxwell"] = COMMAND_REGISTRY["demon-status"];
-    COMMAND_REGISTRY["besov"] = COMMAND_REGISTRY["hemo"];
-    COMMAND_REGISTRY["besov-cfd"] = COMMAND_REGISTRY["hemo"];
-    COMMAND_REGISTRY["wss"] = COMMAND_REGISTRY["hemo"];
-    COMMAND_REGISTRY["bin/oasis-core-simulation"] = COMMAND_REGISTRY["simulacion"];
-    COMMAND_REGISTRY["oasis-core-simulation"] = COMMAND_REGISTRY["simulacion"];
-    COMMAND_REGISTRY["ls"] = COMMAND_REGISTRY["dir"];
-    COMMAND_REGISTRY["?"] = COMMAND_REGISTRY["help"];
-    COMMAND_REGISTRY["ayuda"] = COMMAND_REGISTRY["help"];
-    COMMAND_REGISTRY["ruo"] = COMMAND_REGISTRY["legal"];
-    COMMAND_REGISTRY["boveda"] = () => openVaultModal();
-    COMMAND_REGISTRY["opfs"] = () => openVaultModal();
-    COMMAND_REGISTRY["quantum"] = () => openQuantumModal();
-    COMMAND_REGISTRY["qhud"] = () => openQuantumModal();
-    COMMAND_REGISTRY["qr"] = () => showQrSyncModal();
-    COMMAND_REGISTRY["sync"] = () => showQrSyncModal();
-    COMMAND_REGISTRY["menu"] = () => toggleDrawer();
-    COMMAND_REGISTRY["pip"] = () => togglePip();
+    function triggerCommand(cmd) {
+      appendLine("oasis@root:# " + cmd, "#00ff9d");
+      runCommand(cmd);
+    }
 
-    // DESPACHADOR CENTRAL DE COMANDOS
-    async function runCommand(raw) {
+    function runCommand(raw) {
       raw = raw.trim();
       if (!raw) return;
       const low = raw.toLowerCase();
 
-            // Invocación dinámica de la API gratuita: 'api <ruta>'
+      if (COMMANDS[low]) {
+        COMMANDS[low]();
+        return;
+      }
+
       if (low.startsWith("api ")) {
         const route = raw.slice(4).trim();
         appendLine("🌐 [API FETCH]: Consultando '" + route + "'...", "#80d4ff");
-        const url = route.startsWith("http") ? route : window.location.origin + (route.startsWith("/") ? route : "/" + route);
-        fetch(url)
+        fetch(route.startsWith("http") ? route : window.location.origin + (route.startsWith("/") ? route : "/" + route))
           .then(r => r.json())
-          .then(data => {
-            appendLine("════════════════════════════════════════════════════════════════", "#00aaff");
-            appendLine("HTTP 200 OK — " + route, "#00ffaa");
-            appendLine(JSON.stringify(data, null, 2), "#d8f8e8");
-            appendLine("════════════════════════════════════════════════════════════════", "#00aaff");
-          })
-          .catch(e => appendLine("❌ Error API: " + e, "#ff5555"));
-        return;
-      }
-
-      if (COMMAND_REGISTRY[low]) {
-        COMMAND_REGISTRY[low]();
-        return;
-      }
-
-      if (low.startsWith("gutenberg ")) {
-        const bookId = raw.split(/\s+/)[1] || "2000";
-        appendLine("📚 [GUTENBERG]: Conectando con los archivos de dominio público para el libro #" + bookId + "...", "#80d4ff");
-        fetch("/v1/gutenberg/book?id=" + encodeURIComponent(bookId))
-          .then(r => r.json())
-          .then(async d => {
-            if (d.status === "OK") {
-              appendLine("════════════════════════════════════════════════════════════════", "#00aaff");
-              appendLine("📖 [PROJECT GUTENBERG — DESCARGA EXITOSA]:", "#00ffff");
-              appendLine("  • Título / ID        : " + d.title, "#00ffaa");
-              appendLine("  • Caracteres Totales : " + d.length_chars.toLocaleString() + " caracteres", "#ffd700");
-              appendLine("  • Licencia           : " + d.license, "#88aacc");
-              appendLine("  • Fragmento Inicial  : \n\n" + d.snippet.substring(0, 650) + "...\n", "#d8f8e8");
-
-              if (navigator.storage && navigator.storage.getDirectory) {
-                const root = await navigator.storage.getDirectory();
-                const blob = new Blob([d.snippet], { type: "text/plain" });
-                const gzBlob = await compressData(blob);
-                const fh = await root.getFileHandle("gutenberg_" + bookId + ".txt.gz", { create: true });
-                const wr = await fh.createWritable();
-                await wr.write(gzBlob);
-                await wr.close();
-                appendLine("✅ Libro indexado y comprimido en Bóveda OPFS (gutenberg_" + bookId + ".txt.gz).", "#00ffaa");
-              }
-              appendLine("════════════════════════════════════════════════════════════════", "#00aaff");
-            } else {
-              appendLine("❌ Error Gutenberg: " + (d.message || "Fallo en descarga."), "#ff5555");
-            }
-          })
-          .catch(e => appendLine("❌ Error conectando con Gutenberg: " + e, "#ff5555"));
-        return;
-      }
-
-      let fileToRead = null;
-      if (low.startsWith("cat ") || low.startsWith("read ") || low.startsWith("leer ")) {
-        fileToRead = raw.split(/\s+/)[1];
-      } else if (low.endsWith(".gz") || low.endsWith(".txt") || low.startsWith("gutenberg_")) {
-        fileToRead = raw;
-      }
-
-      if (fileToRead) {
-        if (!fileToRead.includes(".") && !isNaN(fileToRead)) {
-          fileToRead = "gutenberg_" + fileToRead + ".txt.gz";
-        }
-        appendLine("📖 [LECTOR OPFS]: Leyendo '" + fileToRead + "'...", "#00e5ff");
-        if (navigator.storage && navigator.storage.getDirectory) {
-          try {
-            const root = await navigator.storage.getDirectory();
-            const h = await root.getFileHandle(fileToRead);
-            const f = await h.getFile();
-            const t = fileToRead.endsWith(".gz") ? await decompressData(f) : await f.text();
-            appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
-            appendLine(t.substring(0, 2500) + (t.length > 2500 ? "\n\n[... Continuación disponible en Bóveda OPFS ...]" : ""), "#d8f8e8");
-            appendLine("════════════════════════════════════════════════════════════════", "#00e5ff");
-            return;
-          } catch(err) {
-            appendLine("ℹ️ Archivo no encontrado en OPFS (" + err + "). Buscando en sistema...", "#88aacc");
-          }
-        }
-      }
-
-      if (low.startsWith("rag-query ") || low.startsWith("rag ")) {
-        const query = raw.substring(raw.indexOf(" ") + 1).trim();
-        appendLine("🧠 [RAG LOCAL]: Buscando vectores semánticos en OPFS para: '" + query + "'...", "#bf55ec");
-        setTimeout(() => {
-          appendLine("════════════════════════════════════════════════════════════════", "#bf55ec");
-          appendLine("🧠 [RESPUESTA DE IA LOCAL — ZERO-KNOWLEDGE RAG]:", "#00ffff");
-          appendLine("  • Contexto Extraído   : Bóveda OPFS (Gutenberg + Pilar 300 Cierre Holomórfico)", "#80d4ff");
-          appendLine("  • Similitud Coseno    : 0.958 (Top-1 Fragmento Relevante)", "#00ffaa");
-          appendLine("  • Síntesis Local      : Según el Pilar 300, el Cierre Holomórfico integra la simetría analítica de Riemann con el atractor de disipación finita de Navier-Stokes y la cota termodinámica Sub-Landauer E_bit = k_B * T * ln(phi), preservando la estabilidad del kernel en silicio frío.", "#d8f8e8");
-          appendLine("  • Huella de Servidor  : 0 bytes transmitidos a la nube (Inferencia 100% Local)", "#ffd700");
-          appendLine("════════════════════════════════════════════════════════════════", "#bf55ec");
-        }, 300);
+          .then(d => appendLine(JSON.stringify(d, null, 2), "#d8f8e8"))
+          .catch(e => appendLine("❌ Error: " + e, "#ff5555"));
         return;
       }
 
@@ -894,8 +602,7 @@ cx q[0], q[1];</div>
         const pId = raw.slice(6).trim();
         fetch("/v1/pilar?id=" + encodeURIComponent(pId))
           .then(r => r.json())
-          .then(d => appendLine(d.output || "Pilar no disponible.", "#ffd700"))
-          .catch(e => appendLine("Error consultando pilar: " + e, "#ff5555"));
+          .then(d => appendLine(d.output || "Pilar no disponible.", "#ffd700"));
         return;
       }
 
@@ -907,7 +614,7 @@ cx q[0], q[1];</div>
       })
       .then(r => r.json())
       .then(d => appendLine(d.output || "✅ Completado.", "#00ffff"))
-      .catch(e => appendLine("❌ Error Darwin: " + e, "#ff5555"));
+      .catch(e => appendLine("❌ Error: " + e, "#ff5555"));
     }
 
     input.addEventListener("keydown", (e) => {
@@ -934,9 +641,9 @@ cx q[0], q[1];</div>
       } catch(e) {}
     }, 5000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v17.0.0-OSKernel]");
-    appendLine("📚 [GUTENBERG & RAG]: Escribe 'gutenberg 2000' o consulta con 'rag-query <texto>'.");
-    appendLine("🩺 [BIOMECÁNICA]: Escribe 'mesh3d' o pulsa '👁️ ROTAR MALLA 3D' para el visor.");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v17.1.0-VisualSuite]");
+    appendLine("⚡ [API]: Pulsa 'CONECTAR API' para rutas gratuitas y documentación Swagger.");
+    appendLine("🩺 [BIOMECÁNICA]: Pulsa 'ROTAR MALLA 3D' o 'BESOV HUD' para los gráficos visuales.");
     appendLine("-----------------------------------------------------------------------------");
   </script>
 </body>

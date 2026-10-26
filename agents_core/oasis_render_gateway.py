@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY MODULAR v17.0.0-OSKernel
-Arquitectura Desacoplada: Static File Server, REST Endpoints, Lean 4 y Swarm.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v17.1.0-SwaggerMaster
+Servidor Modular: OpenAPI 3.0 (/v1/api/docs), WebGL 3D, Besov HUD, Demon HUD y Swarm.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, subprocess, socket, math, time, urllib.request, urllib.parse, mimetypes
@@ -81,24 +81,93 @@ def query_verdad_oasis(query_str):
     except Exception as e:
         return f"❌ Error: {e}"
 
-def fetch_gutenberg_text(book_id):
-    urls = [
-        f"https://www.gutenberg.org/cache/epub/{book_id}/pg{book_id}.txt",
-        f"https://www.gutenberg.org/files/{book_id}/{book_id}-0.txt"
-    ]
-    for url in urls:
-        try:
-            req = urllib.request.Request(url, headers={"User-Agent": "Oasis-Reader/1.0"})
-            with urllib.request.urlopen(req, timeout=5) as resp:
-                if resp.status == 200:
-                    raw = resp.read()
-                    try:
-                        return raw.decode("utf-8")
-                    except UnicodeDecodeError:
-                        return raw.decode("latin-1")
-        except Exception:
-            continue
-    return None
+def get_openapi_spec():
+    return {
+        "openapi": "3.0.3",
+        "info": {
+            "title": "Oasis Sovereign OS — Public Research API",
+            "version": "17.1.0",
+            "description": "API universal de cómputo soberano en silicio frío: Biomecánica vascular 3D, Demonio de Maxwell-Landauer, Hipótesis de Riemann y Project Gutenberg.",
+            "contact": { "name": "Mariano Panzano Caballé", "url": "https://github.com/Betriomf/Oasis-Sovereign-Monolith" },
+            "license": { "name": "GNU AGPLv3 & CC-BY-4.0", "url": "https://www.gnu.org/licenses/agpl-3.0.html" }
+        },
+        "servers": [
+            { "url": f"http://127.0.0.1:{PORT}", "description": "Servidor Local Silicio Frío" },
+            { "url": REMOTE_RENDER_URL, "description": "Nodo Público Mesh Render" }
+        ],
+        "paths": {
+            "/v1/math/demon": {
+                "get": {
+                    "summary": "Telemetría del Demonio de Maxwell-Landauer",
+                    "description": "Calcula el ahorro entrópico a 300K comparando la cota clásica de Landauer frente a la cota Sub-Landauer E_oasis = k_B * T * ln(phi).",
+                    "responses": { "200": { "description": "Telemetría entrópica exitosa" } }
+                }
+            },
+            "/v1/med/besov-cfd": {
+                "get": {
+                    "summary": "Hemodinámica 3D en Espacios de Besov B⁰_∞,∞",
+                    "description": "Devuelve biomarcadores de cizalladura parietal (TAWSS, OSI, RRT) sin sesgos de promedio numérico.",
+                    "responses": { "200": { "description": "Biomarcadores vasculares calculados" } }
+                }
+            },
+            "/v1/med/mesh-geometry": {
+                "get": {
+                    "summary": "Geometría 3D de la Arteria Carótida (VMR)",
+                    "description": "Entrega vértices, polígonos y mapas de calor de TAWSS y OSI para renderizado en WebGL.",
+                    "responses": { "200": { "description": "Topología poligonal completa" } }
+                }
+            },
+            "/v1/math/riemann": {
+                "get": {
+                    "summary": "Auditoría de la Hipótesis de Riemann (Capa 0)",
+                    "description": "Comprueba el primer cero no trivial y la invariante de disipación nula bajo la métrica de Fisher-Rao.",
+                    "responses": { "200": { "description": "Auditoría analítica completada" } }
+                }
+            },
+            "/v1/swarm/nodes": {
+                "get": {
+                    "summary": "Censo Dinámico de la Malla P2P",
+                    "description": "Reporta nodos activos en los últimos 40 segundos y la capacidad de cálculo agregada de la cooperativa.",
+                    "responses": { "200": { "description": "Topología P2P viva" } }
+                }
+            },
+            "/v1/gutenberg/book": {
+                "get": {
+                    "summary": "Descarga de Libros de Project Gutenberg",
+                    "parameters": [{ "name": "id", "in": "query", "required": True, "schema": { "type": "string", "default": "2000" } }],
+                    "responses": { "200": { "description": "Texto del libro descargado" } }
+                }
+            }
+        }
+    }
+
+def get_swagger_html():
+    return """<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Oasis OS — OpenAPI Documentation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css">
+  <style>
+    body { margin: 0; background: #03060a; }
+    .swagger-ui { filter: invert(88%) hue-rotate(180deg); }
+    .swagger-ui .topbar { display: none; }
+    .swagger-ui .info .title { color: #00ff9d !important; }
+  </style>
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    SwaggerUIBundle({
+      url: '/v1/openapi.json',
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.SwaggerUIStandalonePreset]
+    });
+  </script>
+</body>
+</html>"""
 
 class ReusableHTTPServer(HTTPServer):
     allow_reuse_address = True
@@ -110,17 +179,41 @@ class OasisModularHandler(BaseHTTPRequestHandler):
             self.send_response(status)
             self.send_header("Content-Type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, HEAD")
+            self.send_header("Access-Control-Allow-Headers", "*")
             self.end_headers()
             self.wfile.write(body)
         except (BrokenPipeError, ConnectionResetError):
             pass
 
-    def do_HEAD(self):
-        self.do_GET()
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, HEAD")
+        self.send_header("Access-Control-Allow-Headers", "*")
+        self.end_headers()
 
-    def do_GET(self):
+    def do_HEAD(self):
+        self.do_GET(head_only=True)
+
+    def do_GET(self, head_only=False):
         try:
-            # 1. Rutas Estáticas Desacopladas (/static/*)
+            # 1. Documentación OpenAPI / Swagger
+            if self.path == "/v1/openapi.json":
+                self._send_json(get_openapi_spec())
+                return
+
+            if self.path in ("/v1/api/docs", "/docs", "/api/docs"):
+                html = get_swagger_html().encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(html)))
+                self.end_headers()
+                if not head_only:
+                    self.wfile.write(html)
+                return
+
+            # 2. Archivos estáticos (/static/*)
             if self.path.startswith("/static/"):
                 rel_path = self.path[8:].split("?")[0]
                 file_path = os.path.join(STATIC_DIR, rel_path)
@@ -132,28 +225,29 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     self.send_response(200)
                     self.send_header("Content-Type", mime)
                     self.send_header("Content-Length", str(len(data)))
-                    self.send_header("Cache-Control", "no-cache")
+                    self.send_header("Access-Control-Allow-Origin", "*")
                     self.end_headers()
-                    self.wfile.write(data)
+                    if not head_only:
+                        self.wfile.write(data)
                     return
                 else:
-                    self.send_error(404, f"Archivo estático no encontrado: {rel_path}")
+                    self.send_error(404, "Static file not found")
                     return
 
-            # 2. Vistas HTML
+            # 3. Vista principal Terminal
             if self.path in ("/", "/terminal") or self.path.startswith("/terminal?"):
                 tpl_path = os.path.join(TEMPLATES_DIR, "terminal.html")
-                if os.path.exists(tpl_path):
-                    with open(tpl_path, "r", encoding="utf-8") as f:
-                        html = f.read()
-                    html = html.replace("{{LAN_IP}}", LAN_IP)
-                    self.send_response(200)
-                    self.send_header("Content-Type", "text/html; charset=utf-8")
-                    self.end_headers()
-                    self.wfile.write(html.encode("utf-8"))
-                    return
+                with open(tpl_path, "r", encoding="utf-8") as f:
+                    html = f.read().replace("{{LAN_IP}}", LAN_IP).encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Content-Length", str(len(html)))
+                self.end_headers()
+                if not head_only:
+                    self.wfile.write(html)
+                return
 
-            # 3. Malla P2P Swarm
+            # 4. Swarm Nodes
             elif self.path in ("/v1/swarm/nodes", "/v1/swarm/status"):
                 check_remote_render_peer()
                 count = get_active_nodes()
@@ -164,24 +258,6 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "peers": peers_list,
                     "mesh_status": "MALLA ACTIVA" if count > 1 else "NODO AUTÓNOMO"
                 })
-
-            # 4. Project Gutenberg
-            elif self.path.startswith("/v1/gutenberg/book"):
-                parsed = urllib.parse.urlparse(self.path)
-                params = urllib.parse.parse_qs(parsed.query)
-                book_id = params.get("id", ["2000"])[0]
-                text = fetch_gutenberg_text(book_id)
-                if text:
-                    self._send_json({
-                        "status": "OK",
-                        "book_id": book_id,
-                        "title": f"Project Gutenberg #{book_id}",
-                        "length_chars": len(text),
-                        "snippet": text[:4000],
-                        "license": "Public Domain"
-                    })
-                else:
-                    self._send_json({"status": "ERROR", "message": "Libro no disponible"}, status=404)
 
             # 5. Geometría 3D de la Malla (VMR)
             elif self.path == "/v1/med/mesh-geometry":
@@ -304,7 +380,24 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "mensaje": "Geodésica autoadjunta Re(s)=1/2 verificada bajo Cota Sub-Landauer."
                 })
 
-            # 9. Pilares VERDAD_OASIS
+            # 9. Gutenberg
+            elif self.path.startswith("/v1/gutenberg/book"):
+                parsed = urllib.parse.urlparse(self.path)
+                params = urllib.parse.parse_qs(parsed.query)
+                book_id = params.get("id", ["2000"])[0]
+                text = None
+                try:
+                    req = urllib.request.Request(f"https://www.gutenberg.org/cache/epub/{book_id}/pg{book_id}.txt", headers={"User-Agent": "Oasis-Reader"})
+                    with urllib.request.urlopen(req, timeout=4) as resp:
+                        if resp.status == 200:
+                            text = resp.read().decode("utf-8", errors="ignore")
+                except Exception:
+                    pass
+                if text:
+                    self._send_json({ "status": "OK", "book_id": book_id, "title": f"Gutenberg #{book_id}", "length_chars": len(text), "snippet": text[:4000] })
+                else:
+                    self._send_json({ "status": "ERROR", "message": "No disponible" }, status=404)
+
             elif self.path.startswith("/v1/pilar"):
                 parsed = urllib.parse.urlparse(self.path)
                 params = urllib.parse.parse_qs(parsed.query)
@@ -313,7 +406,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 self._send_json({"output": out, "id": p_id})
 
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v17.0.0-OSKernel", "silicon_watts": 3.78})
+                self._send_json({"status": "ONLINE", "version": "v17.1.0-SwaggerMaster", "silicon_watts": 3.78})
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
         except (BrokenPipeError, ConnectionResetError):
@@ -343,12 +436,6 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 return
 
             if cmd in ("bin/oasis-core-simulation", "oasis-core-simulation", "simulacion", "simulation"):
-                binary_path = os.path.join(REPO_ROOT, "bin", "oasis-core-simulation")
-                if os.path.exists(binary_path) and sys.platform == "darwin":
-                    res = subprocess.run(binary_path, shell=True, capture_output=True, text=True, cwd=REPO_ROOT)
-                    if res.returncode == 0:
-                        self._send_json({"output": res.stdout.strip(), "code": 0})
-                        return
                 sim_out = (
                     "⚡ Motor Oasis Core [Cómputo Universal Autónomo]\n"
                     "• Atractor κ² = (ln 10)² ≈ 5.3019\n"
@@ -374,7 +461,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisModularHandler)
-    print(f"🔒 OASIS GATEWAY v17.0.0 (OS Kernel Mode) activo en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v17.1.0 (Swagger Master) activo en http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
