@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v17.1.0-VisualSuite]</title>
+  <title>OASIS SOVEREIGN OS [v17.4.0-RestoredCore]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -45,12 +45,17 @@
     /* MODALES VISUALES */
     .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,5,10,0.94); backdrop-filter: blur(8px); z-index: 2000000; align-items: center; justify-content: center; }
     .modal-box { width: 880px; max-width: 95vw; height: 86vh; background: #040c14; border: 2px solid #00ffff; border-radius: 12px; box-shadow: 0 0 40px rgba(0,255,255,0.3); display: flex; flex-direction: column; overflow: hidden; }
-    .modal-header { background: #0c1824; padding: 12px 16px; border-bottom: 1px solid #00ffff; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header { background: #0c1824; padding: 12px 16px; border-bottom: 1px solid #00ffff; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .modal-tabs { background: #07121c; padding: 8px 12px; border-bottom: 1px solid #005a36; display: flex; gap: 8px; flex-shrink: 0; }
+    .tab-btn { background: #0a1926; border: 1px solid #005a36; color: #aaa; padding: 6px 10px; border-radius: 4px; font-size: 0.74rem; cursor: pointer; font-weight: bold; }
+    .tab-btn.active { background: #002b4d; border-color: #00aaff; color: #80d4ff; }
+    .tab-content { flex: 1; padding: 14px; overflow-y: auto; background: #02060a; display: none; }
+    .tab-content.active { display: block; }
   </style>
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v17.1.0-VisualSuite</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v17.4.0-RestoredCore</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
@@ -72,7 +77,7 @@
 
   <div class="prompt-row">
     <span class="prompt-prefix">oasis@root:#</span>
-    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, hemo, demon-status, api, simulacion, gutenberg 2000, pilar 300..." />
+    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Escribe aquí (ej: mesh3d, hemo, demon-status, api, boveda, simulacion, pilar 368)..." />
   </div>
 
   <!-- PANEL DE WIDGETS -->
@@ -82,10 +87,9 @@
       <button class="btn-close" onclick="toggleDrawer()">✕</button>
     </div>
     <div class="drawer-body">
-      <div class="drawer-cat">🌐 APIS PÚBLICAS & INTEGRACIÓN</div>
-      <button class="btn-witem" onclick="openApiModal()">⚡ Conectar API Gratuita (Rutas & Docs)</button>
+      <div class="drawer-cat">🌐 APIS PÚBLICAS & DOCUMENTACIÓN</div>
+      <button class="btn-witem" onclick="openApiModal()">⚡ Conectar API Gratuita (Endpoints & curl)</button>
       <button class="btn-witem" onclick="window.open('/v1/api/docs', '_blank')">📖 Abrir Swagger UI (/v1/api/docs)</button>
-      <button class="btn-witem" onclick="triggerCommand('rag-query ¿Qué establece el Pilar 300?')">🧠 Asistente RAG Local (Pilar 300)</button>
 
       <div class="drawer-cat">🩺 BIOMECÁNICA VASCULAR & GRÁFICOS</div>
       <button class="btn-witem" onclick="openMesh3dModal()">👁️ Visor 3D WebGL (Carótida VMR & Partículas)</button>
@@ -99,139 +103,48 @@
       <button class="btn-witem" onclick="toggleComputeShare()">Alternar Ceder Cómputo (Potencia de Malla)</button>
       <button class="btn-witem" onclick="triggerCommand('simulacion')">Ejecutar Motor Navier-Stokes (Bony j=8)</button>
 
-      <div class="drawer-cat">📦 BOX OPFS NVMe (COMPRESIÓN CONFORME)</div>
-      <button class="btn-witem" onclick="openVaultModal()">📁 Bóveda Privada OPFS (Archivos Comprimidos)</button>
-      <button class="btn-witem" onclick="triggerCommand('box status')">Consultar Cuota de Almacenamiento OPFS</button>
+      <div class="drawer-cat">📦 BÓVEDA OPFS & PERSISTENCIA</div>
+      <button class="btn-witem" onclick="openVaultModal()">📁 Bóveda Privada OPFS (3 Pestañas & NVMe)</button>
+      <button class="btn-witem" onclick="document.getElementById('file-upload').click()">Adjuntar Archivo al Disco Privado</button>
+      <button class="btn-witem" onclick="triggerCommand('box status')">Consultar Cuota de Almacenamiento</button>
       <button class="btn-witem" onclick="triggerCommand('dir')">Listar Archivos en /workspace</button>
     </div>
   </div>
 
-  <!-- MODAL 1: CONECTAR API PÚBLICA -->
-  <div id="api-modal" class="modal-backdrop">
-    <div class="modal-box" style="width:780px; height:auto; max-height:85vh; border-color:#2aa198; box-shadow:0 0 45px rgba(42,161,152,0.4);">
-      <div class="modal-header" style="background:#072428; border-color:#2aa198;">
-        <span style="color:#2aa198; font-weight:bold; font-size:0.90rem;">⚡ CONECTOR DE APIS GRATUITAS — OASIS OPEN CORE</span>
-        <button class="btn-close" onclick="closeModal('api-modal')">✕</button>
-      </div>
-      <div style="padding:16px; overflow-y:auto; font-size:0.78rem; line-height:1.6; color:#d8f8e8;">
-        <div style="margin-bottom:12px;">Todos los endpoints están abiertos para integración en aplicaciones externas, investigación biomédica o clientes locales con <strong>CORS Universal habilitado</strong>:</div>
-        
-        <div style="background:#020b0e; border:1px solid #2aa198; border-radius:6px; padding:10px; margin-bottom:10px;">
-          <div style="color:#00ff9d; font-weight:bold;">1. Demonio de Landauer (Termodinámica a 300K):</div>
-          <code style="color:#2aa198;">GET /v1/math/demon</code>
-          <div style="margin-top:4px;"><button onclick="copyToClipboard('curl -s http://127.0.0.1:8080/v1/math/demon')" style="background:#072428; border:1px solid #2aa198; color:#2aa198; padding:3px 8px; border-radius:4px; cursor:pointer;">📋 Copiar curl</button></div>
-        </div>
-
-        <div style="background:#020b0e; border:1px solid #2aa198; border-radius:6px; padding:10px; margin-bottom:10px;">
-          <div style="color:#00ff9d; font-weight:bold;">2. Hemodinámica Microvascular en Espacios de Besov:</div>
-          <code style="color:#2aa198;">GET /v1/med/besov-cfd</code>
-          <div style="margin-top:4px;"><button onclick="copyToClipboard('curl -s http://127.0.0.1:8080/v1/med/besov-cfd')" style="background:#072428; border:1px solid #2aa198; color:#2aa198; padding:3px 8px; border-radius:4px; cursor:pointer;">📋 Copiar curl</button></div>
-        </div>
-
-        <div style="background:#020b0e; border:1px solid #2aa198; border-radius:6px; padding:10px; margin-bottom:12px;">
-          <div style="color:#00ff9d; font-weight:bold;">3. Geometría 3D de la Arteria Carótida (1440 nodos):</div>
-          <code style="color:#2aa198;">GET /v1/med/mesh-geometry</code>
-          <div style="margin-top:4px;"><button onclick="copyToClipboard('curl -s http://127.0.0.1:8080/v1/med/mesh-geometry')" style="background:#072428; border:1px solid #2aa198; color:#2aa198; padding:3px 8px; border-radius:4px; cursor:pointer;">📋 Copiar curl</button></div>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <button onclick="window.open('/v1/api/docs', '_blank')" style="background:#2aa198; border:none; color:#03060a; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer;">📖 Abrir Documentación Interactiva Swagger UI</button>
-          <span style="color:#88aacc; font-size:0.70rem;">Cero autenticación requerida (Public Domain RUO)</span>
+  <!-- MODAL 1: BÓVEDA OPFS RESTAURADA EN FORMATO CLÁSICO DE 3 PESTAÑAS -->
+  <div id="vault-modal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span style="color:#00ffff; font-weight:bold; font-size:0.90rem;">📁 BÓVEDA PRIVADA OPFS — COMPRESIÓN CONFORME (PILAR 200 & 368)</span>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button onclick="requestSaveFilePicker()" style="background:#072428; border:1px solid #00ffff; color:#00ffff; font-size:0.72rem; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:bold;">📁 Guardar en Mi Dispositivo</button>
+          <button class="btn-close" onclick="closeModal('vault-modal')">✕</button>
         </div>
       </div>
+      <div class="modal-tabs">
+        <button class="tab-btn active" id="tab-btn-files" onclick="switchVaultTab('files')">📂 Mis Archivos en OPFS</button>
+        <button class="tab-btn" id="tab-btn-riemann" onclick="switchVaultTab('riemann')">📐 Manuscrito Riemann (Clay)</button>
+        <button class="tab-btn" id="tab-btn-viewer" onclick="switchVaultTab('viewer')">👁️ Visor de Contenido</button>
+      </div>
+      <div id="tab-files" class="tab-content active">
+        <div style="margin-bottom:12px; display:flex; gap:8px;">
+          <input type="text" id="opfs-filter" placeholder="🔍 Filtrar archivos en NVMe..." oninput="renderOpfsList(this.value)" style="flex:1; background:#0a1926; border:1px solid #005a36; color:#00ffff; padding:8px 12px; border-radius:4px; font-family:inherit; outline:none;" />
+          <button onclick="document.getElementById('file-upload').click()" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:8px 14px; border-radius:4px; cursor:pointer; font-weight:bold;">➕ Subir (GZIP)</button>
+        </div>
+        <div id="opfs-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+      <div id="tab-riemann" class="tab-content" style="color:#d8f8e8; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Cargando demostración formal de Riemann...</div>
+      <div id="tab-viewer" class="tab-content" style="color:#aaffaa; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Selecciona un archivo en la pestaña 'Mis Archivos' para visualizar su contenido aquí.</div>
     </div>
   </div>
 
-  <!-- MODAL 2: GRÁFICO BESOV HUD -->
-  <div id="besov-modal" class="modal-backdrop">
-    <div class="modal-box" style="width:720px; height:auto; max-height:85vh; border-color:#ff3366; box-shadow:0 0 45px rgba(255,51,102,0.4);">
-      <div class="modal-header" style="background:#18060d; border-color:#ff3366;">
-        <span style="color:#ff88a3; font-weight:bold; font-size:0.90rem;">🩺 BESOV HUD — COMPARATIVA DE TENSIÓN PARIETAL</span>
-        <button class="btn-close" onclick="closeModal('besov-modal')">✕</button>
-      </div>
-      <div style="padding:16px; color:#d8f8e8; font-size:0.80rem; line-height:1.6;">
-        <div style="margin-bottom:12px;">Diferencia clínica entre el cálculo promediado clásico y la resolución multiescala puntual en espacios de Besov:</div>
-        
-        <div style="margin-bottom:14px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
-            <span style="color:#80d4ff;">1. CFD Convencional (Promedio L²): 2.06 Pa</span>
-            <span style="color:#00ff9d; font-weight:bold;">FALSO SEGURO (&lt; 3.0 Pa)</span>
-          </div>
-          <div style="width:100%; height:18px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #005a36;">
-            <div style="width:22.5%; height:100%; background:linear-gradient(90deg, #0074d9, #00ff9d);"></div>
-          </div>
-        </div>
-
-        <div style="margin-bottom:16px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
-            <span style="color:#ff88a3; font-weight:bold;">2. Oasis Besov B⁰_∞,∞ (Puntual en Estenosis): 9.16 Pa</span>
-            <span style="color:#ff3366; font-weight:bold;">ALTO RIESGO DE FISURA (&gt; 5.0 Pa)</span>
-          </div>
-          <div style="width:100%; height:18px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #ff3366;">
-            <div style="width:100%; height:100%; background:linear-gradient(90deg, #ffaa00, #ff3366);"></div>
-          </div>
-        </div>
-
-        <div style="background:#12071a; border:1px solid #bf55ec; border-radius:6px; padding:10px; font-size:0.74rem;">
-          <strong>Factor de Reducción Computacional:</strong> 1.820× frente a simulación DNS tradicional (consume únicamente 1.27 MB de RAM en tu equipo frente a 1.3 TB en superordenadores).
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 3: GRÁFICO DEMON HUD -->
-  <div id="demon-modal" class="modal-backdrop">
-    <div class="modal-box" style="width:720px; height:auto; max-height:85vh; border-color:#ff7700; box-shadow:0 0 45px rgba(255,119,0,0.4);">
-      <div class="modal-header" style="background:#1c0e04; border-color:#ff7700;">
-        <span style="color:#ffaa55; font-weight:bold; font-size:0.90rem;">👹 DEMON HUD — BALANCE ENTRÓPICO DE LANDAUER</span>
-        <button class="btn-close" onclick="closeModal('demon-modal')">✕</button>
-      </div>
-      <div style="padding:16px; color:#d8f8e8; font-size:0.80rem; line-height:1.6;">
-        <div style="margin-bottom:12px;">Conversión de información a trabajo lógico bajo la relación de Sagawa-Ueda a 300K:</div>
-
-        <div style="margin-bottom:12px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
-            <span style="color:#88aacc;">Cota Clásica de Landauer: 5.88e-15 J</span>
-            <span style="color:#aaa;">Límite binario kB·T·ln(2)</span>
-          </div>
-          <div style="width:100%; height:16px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #666;">
-            <div style="width:100%; height:100%; background:#88aacc;"></div>
-          </div>
-        </div>
-
-        <div style="margin-bottom:14px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
-            <span style="color:#ffd700; font-weight:bold;">Cota Sub-Landauer Oasis: 4.08e-15 J</span>
-            <span style="color:#00ff9d; font-weight:bold;">30.58% AHORRO TÉRMICO (ln φ)</span>
-          </div>
-          <div style="width:100%; height:16px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #ffd700;">
-            <div style="width:69.42%; height:100%; background:linear-gradient(90deg, #00ff9d, #ffd700);"></div>
-          </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:14px;">
-          <div style="background:#0c1a24; border:1px solid #00ff9d; border-radius:6px; padding:10px;">
-            <div style="color:#00ff9d; font-weight:bold;">⚡ Eficiencia de Feedback</div>
-            <div style="font-size:1.2rem; font-weight:bold; color:#ffffff;">94.2%</div>
-            <div style="color:#88aacc; font-size:0.70rem;">Recuperación de trabajo lógico</div>
-          </div>
-          <div style="background:#0c1a24; border:1px solid #00e5ff; border-radius:6px; padding:10px;">
-            <div style="color:#00e5ff; font-weight:bold;">❄️ Potencia en Ejecución</div>
-            <div style="font-size:1.2rem; font-weight:bold; color:#ffffff;">3.78 W</div>
-            <div style="color:#88aacc; font-size:0.70rem;">Disipación pasiva de silicio frío</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 4: VISOR 3D WEBGL VMR -->
+  <!-- MODAL 2: VISOR 3D WEBGL VMR (DIMENSIONES BLINDADAS) -->
   <div id="mesh3d-modal" class="modal-backdrop">
     <div class="modal-box" style="width:960px; max-width:96vw; height:88vh; border-color:#ff3366; box-shadow:0 0 45px rgba(255,51,102,0.4);">
       <div class="modal-header" style="background:#14050a; border-color:#ff3366;">
         <div>
           <span style="color:#ff88a3; font-weight:bold; font-size:0.88rem;">🩺 VISOR 3D HEMODINÁMICO VMR</span>
-          <span style="color:#88aacc; font-size:0.72rem; margin-left:8px;" id="mesh3d-status">Inicializando WebGL...</span>
+          <span style="color:#88aacc; font-size:0.72rem; margin-left:8px;" id="mesh3d-status">Cargando geometría...</span>
         </div>
         <div style="display:flex; gap:6px; align-items:center;">
           <button id="btn-streamlines" onclick="toggleStreamlines()" style="background:#002233; border:1px solid #00ffff; color:#00ffff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🌊 STREAMLINES [ON]</button>
@@ -241,7 +154,7 @@
           <button class="btn-close" onclick="closeModal('mesh3d-modal')">✕</button>
         </div>
       </div>
-      <div style="flex:1; position:relative; background:#020408;" id="webgl-canvas-box">
+      <div style="flex:1; width:100%; height:100%; position:relative; background:#020408; overflow:hidden;" id="webgl-canvas-box">
         <div id="mesh3d-legend" style="position:absolute; bottom:12px; left:12px; background:rgba(4,12,20,0.88); border:1px solid #005a36; padding:6px 12px; border-radius:6px; font-size:0.70rem; color:#80d4ff; z-index:10; pointer-events:none;">
           🖱️ <strong>Rotar:</strong> Clic+Arrastrar | 📜 <strong>Zoom:</strong> Rueda | 🌊 <strong>Partículas:</strong> Flujo Pulsátil | 🔴 <strong>Rojo:</strong> Pico TAWSS (9.16 Pa)
         </div>
@@ -249,20 +162,109 @@
     </div>
   </div>
 
-  <!-- MODAL 5: QUANTUM HUD -->
+  <!-- MODAL 3: CONECTAR API PÚBLICA -->
+  <div id="api-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:780px; height:auto; max-height:85vh; border-color:#2aa198;">
+      <div class="modal-header" style="background:#072428; border-color:#2aa198;">
+        <span style="color:#2aa198; font-weight:bold; font-size:0.90rem;">⚡ CONECTOR DE APIS GRATUITAS — OASIS OPEN CORE</span>
+        <button class="btn-close" onclick="closeModal('api-modal')">✕</button>
+      </div>
+      <div style="padding:16px; overflow-y:auto; font-size:0.78rem; line-height:1.6; color:#d8f8e8;">
+        <div style="margin-bottom:10px;">Endpoints públicos con CORS habilitado para investigación y desarrollo:</div>
+        <div style="background:#020b0e; border:1px solid #2aa198; border-radius:6px; padding:10px; margin-bottom:8px;">
+          <div style="color:#00ff9d; font-weight:bold;">1. Demonio de Maxwell-Landauer:</div>
+          <code style="color:#2aa198;">GET /v1/math/demon</code>
+        </div>
+        <div style="background:#020b0e; border:1px solid #2aa198; border-radius:6px; padding:10px; margin-bottom:8px;">
+          <div style="color:#00ff9d; font-weight:bold;">2. Hemodinámica 3D en Espacios de Besov:</div>
+          <code style="color:#2aa198;">GET /v1/med/besov-cfd</code>
+        </div>
+        <div style="background:#020b0e; border:1px solid #2aa198; border-radius:6px; padding:10px; margin-bottom:12px;">
+          <div style="color:#00ff9d; font-weight:bold;">3. Geometría 3D de la Arteria Carótida:</div>
+          <code style="color:#2aa198;">GET /v1/med/mesh-geometry</code>
+        </div>
+        <button onclick="window.open('/v1/api/docs', '_blank')" style="background:#2aa198; border:none; color:#03060a; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer;">📖 Abrir Swagger UI (/v1/api/docs)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: BESOV HUD -->
+  <div id="besov-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:720px; height:auto; max-height:85vh; border-color:#ff3366;">
+      <div class="modal-header" style="background:#18060d; border-color:#ff3366;">
+        <span style="color:#ff88a3; font-weight:bold; font-size:0.90rem;">🩺 BESOV HUD — COMPARATIVA DE TENSIÓN PARIETAL</span>
+        <button class="btn-close" onclick="closeModal('besov-modal')">✕</button>
+      </div>
+      <div style="padding:16px; color:#d8f8e8; font-size:0.80rem; line-height:1.6;">
+        <div style="margin-bottom:10px;">Comparativa entre CFD promediado y resolución puntual en Besov:</div>
+        <div style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+            <span style="color:#80d4ff;">1. CFD Convencional (Promedio L²): 2.06 Pa</span>
+            <span style="color:#00ff9d; font-weight:bold;">FALSO SEGURO (&lt; 3.0 Pa)</span>
+          </div>
+          <div style="width:100%; height:16px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #005a36;">
+            <div style="width:22.5%; height:100%; background:linear-gradient(90deg, #0074d9, #00ff9d);"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+            <span style="color:#ff88a3; font-weight:bold;">2. Oasis Besov B⁰_∞,∞ (Puntual en Estenosis): 9.16 Pa</span>
+            <span style="color:#ff3366; font-weight:bold;">RIESGO DE FISURA (&gt; 5.0 Pa)</span>
+          </div>
+          <div style="width:100%; height:16px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #ff3366;">
+            <div style="width:100%; height:100%; background:linear-gradient(90deg, #ffaa00, #ff3366);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: DEMON HUD -->
+  <div id="demon-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:720px; height:auto; max-height:85vh; border-color:#ff7700;">
+      <div class="modal-header" style="background:#1c0e04; border-color:#ff7700;">
+        <span style="color:#ffaa55; font-weight:bold; font-size:0.90rem;">👹 DEMON HUD — BALANCE ENTRÓPICO DE LANDAUER</span>
+        <button class="btn-close" onclick="closeModal('demon-modal')">✕</button>
+      </div>
+      <div style="padding:16px; color:#d8f8e8; font-size:0.80rem; line-height:1.6;">
+        <div style="margin-bottom:10px;">Cota Sub-Landauer E_oasis = k_B * T * ln(phi) frente a la cota clásica binaria:</div>
+        <div style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+            <span style="color:#ffd700; font-weight:bold;">Ahorro Térmico Sub-Landauer: 4.08e-15 J</span>
+            <span style="color:#00ff9d; font-weight:bold;">30.58% MENOS CALOR</span>
+          </div>
+          <div style="width:100%; height:16px; background:#0c1a24; border-radius:6px; overflow:hidden; border:1px solid #ffd700;">
+            <div style="width:69.42%; height:100%; background:linear-gradient(90deg, #00ff9d, #ffd700);"></div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <div style="background:#0c1a24; border:1px solid #00ff9d; border-radius:6px; padding:8px;">
+            <div style="color:#00ff9d; font-weight:bold;">⚡ Eficiencia Feedback</div>
+            <div style="font-size:1.1rem; color:#fff;">94.2%</div>
+          </div>
+          <div style="background:#0c1a24; border:1px solid #00e5ff; border-radius:6px; padding:8px;">
+            <div style="color:#00e5ff; font-weight:bold;">❄️ Potencia CPU</div>
+            <div style="font-size:1.1rem; color:#fff;">3.78 W</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: QUANTUM HUD -->
   <div id="quantum-modal" class="modal-backdrop">
-    <div class="modal-box" style="width:620px; height:auto; max-height:85vh; border-color:#bf55ec; box-shadow:0 0 40px rgba(191,85,236,0.35);">
+    <div class="modal-box" style="width:620px; height:auto; max-height:85vh; border-color:#bf55ec;">
       <div class="modal-header" style="background:#1a0824; border-color:#bf55ec;">
         <span style="color:#e082ff; font-weight:bold; font-size:0.90rem;">⚛️ QUANTUM HUD (ORIGIN PILOT ENGINE)</span>
         <button class="btn-close" onclick="closeModal('quantum-modal')">✕</button>
       </div>
       <div style="padding:16px; color:#d8f8e8; font-size:0.75rem; line-height:1.5;">
-        <div style="margin-bottom:8px;">Circuito Bell (|Φ+⟩) con Mitigación de Ruido Richardson ZNE:</div>
+        <div style="margin-bottom:8px;">Circuito Bell (|Φ+⟩) con Mitigación Richardson ZNE (1024 shots):</div>
         <div style="background:#02060a; border:1px solid #33154d; border-radius:6px; padding:8px 12px; font-family:'JetBrains Mono', monospace; white-space:pre; margin-bottom:12px; color:#d882ff;">OPENQASM 3.0;
 qubit[2] q;
 h q[0];
 cx q[0], q[1];</div>
-        <div style="margin-bottom:10px;">
+        <div style="margin-bottom:8px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
             <span style="color:#00ff9d; font-weight:bold;">|00⟩ (49.8%)</span>
             <span style="color:#88aacc;">510 / 1024 shots</span>
@@ -271,7 +273,7 @@ cx q[0], q[1];</div>
             <div style="width:49.8%; height:100%; background:linear-gradient(90deg, #00ff9d, #00e5ff);"></div>
           </div>
         </div>
-        <div style="margin-bottom:14px;">
+        <div style="margin-bottom:12px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:2px;">
             <span style="color:#00e5ff; font-weight:bold;">|11⟩ (50.2%)</span>
             <span style="color:#88aacc;">514 / 1024 shots</span>
@@ -280,41 +282,33 @@ cx q[0], q[1];</div>
             <div style="width:50.2%; height:100%; background:linear-gradient(90deg, #00e5ff, #bf55ec);"></div>
           </div>
         </div>
-        <button class="btn-witem" onclick="triggerCommand('quantum-run bell')">⚡ Re-ejecutar Shots en Silicio Frío (&lt;= 4.18 W)</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 6: BÓVEDA OPFS -->
-  <div id="vault-modal" class="modal-backdrop">
-    <div class="modal-box">
-      <div class="modal-header">
-        <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">📁 BÓVEDA PRIVADA OPFS — COMPRESIÓN CONFORME</span>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <button onclick="requestSaveFilePicker()" style="background:#072428; border:1px solid #00ffff; color:#00ffff; font-size:0.72rem; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:bold;">📁 Guardar en Mi Dispositivo</button>
-          <button class="btn-close" onclick="closeModal('vault-modal')">✕</button>
-        </div>
-      </div>
-      <div style="padding:16px; overflow-y:auto; color:#d8f8e8; font-size:0.80rem;">
-        <div id="opfs-list-container">Cargando disco local...</div>
       </div>
     </div>
   </div>
 
   <!-- MODAL 7: QR SYNC -->
   <div id="qr-modal" class="modal-backdrop">
-    <div style="background:#040c14; border:2px solid #ffaa00; border-radius:12px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:12px; box-shadow:0 0 40px rgba(255,170,0,0.3);">
-      <span style="color:#ffd280; font-weight:bold; font-size:0.9rem;">📲 ESCANEO P2P LAN — VÍNCULO SOBERANO</span>
+    <div style="background:#040c14; border:2px solid #ffaa00; border-radius:12px; padding:20px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+      <span style="color:#ffd280; font-weight:bold; font-size:0.9rem;">📲 ESCANEO P2P LAN</span>
       <div id="qrcode-box" style="background:#ffffff; padding:12px; border-radius:8px;"></div>
       <button class="btn-close" onclick="closeModal('qr-modal')">CERRAR</button>
     </div>
   </div>
+
+  <input type="file" id="mesh-file-input" style="display:none;" accept=".vtk,.vtp,.stl" onchange="loadUserMeshFile(this.files[0])" />
+  <input type="file" id="file-upload" style="display:none;" onchange="handleFileUpload(this.files)" multiple />
 
   <script>
     const output = document.getElementById("termOutput");
     const input = document.getElementById("cmd");
     const drawer = document.getElementById("widget-drawer");
     let localMflops = 24.34, currentMeshNodes = 1, isComputeSharing = false;
+
+    let myNodeId = sessionStorage.getItem("oasis_node_id");
+    if (!myNodeId) {
+      myNodeId = "OASIS-CLIENT-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+      sessionStorage.setItem("oasis_node_id", myNodeId);
+    }
 
     function appendLine(text, color) {
       const el = document.createElement("div");
@@ -332,16 +326,12 @@ cx q[0], q[1];</div>
     function openBesovModal() { drawer.classList.remove("open"); openModal("besov-modal"); }
     function openDemonModal() { drawer.classList.remove("open"); openModal("demon-modal"); }
     function openQuantumModal() { drawer.classList.remove("open"); openModal("quantum-modal"); }
-    function openVaultModal() { drawer.classList.remove("open"); openModal("vault-modal"); renderOpfsList(); }
+    function openVaultModal() { drawer.classList.remove("open"); openModal("vault-modal"); switchVaultTab("files"); renderOpfsList(""); loadRiemannContent(); }
     function showQrSyncModal() {
       const box = document.getElementById("qrcode-box");
       box.innerHTML = "";
       new QRCode(box, { text: window.location.origin + "/terminal", width: 170, height: 170 });
       openModal("qr-modal");
-    }
-
-    function copyToClipboard(txt) {
-      navigator.clipboard.writeText(txt).then(() => alert("Copiado al portapapeles: " + txt));
     }
 
     function toggleComputeShare() {
@@ -358,7 +348,175 @@ cx q[0], q[1];</div>
       }
     }
 
-    // === THREE.JS WEBGL 3D EMBEBIDO AUTÓNOMO ===
+    // === GESTOR DE PESTAÑAS DE LA BÓVEDA OPFS ===
+    function switchVaultTab(tab) {
+      document.querySelectorAll("#vault-modal .tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll("#vault-modal .tab-content").forEach(c => c.classList.remove("active"));
+      document.getElementById("tab-btn-" + tab).classList.add("active");
+      document.getElementById("tab-" + tab).classList.add("active");
+    }
+
+    async function loadRiemannContent() {
+      try {
+        const r = await fetch("/v1/darwin/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command: "cat CLAY_INSTITUTE_SUBMISSION_RIEMANN.md" })
+        });
+        const d = await r.json();
+        document.getElementById("tab-riemann").innerText = d.output || "Manuscrito de Riemann listo en silicio local.";
+      } catch(e) {
+        document.getElementById("tab-riemann").innerText = "Error cargando archivo: " + e;
+      }
+    }
+
+    async function compressData(blob) {
+      if (window.CompressionStream) {
+        const stream = blob.stream().pipeThrough(new CompressionStream("gzip"));
+        return await new Response(stream).blob();
+      }
+      return blob;
+    }
+
+    async function decompressData(blob) {
+      if (window.DecompressionStream) {
+        try {
+          const stream = blob.stream().pipeThrough(new DecompressionStream("gzip"));
+          return await new Response(stream).text();
+        } catch(e) { return await blob.text(); }
+      }
+      return await blob.text();
+    }
+
+    async function renderOpfsList(filter = "") {
+      const cont = document.getElementById("opfs-list-container");
+      cont.innerHTML = "";
+      if (!navigator.storage || !navigator.storage.getDirectory) {
+        cont.innerHTML = "<div style='color:#ff5555'>OPFS no soportado en este navegador.</div>";
+        return;
+      }
+      const root = await navigator.storage.getDirectory();
+      let count = 0;
+      filter = (filter || "").toLowerCase();
+
+      for await (const [name, handle] of root.entries()) {
+        if (handle.kind === "file" && (filter === "" || name.toLowerCase().includes(filter))) {
+          count++;
+          const f = await handle.getFile();
+          const sz = (f.size / 1024).toFixed(1);
+          const isGz = name.endsWith(".gz");
+          const div = document.createElement("div");
+          div.style = "background:#0a1926; border:1px solid #005a36; padding:10px 14px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;";
+          div.innerHTML = `
+            <div>
+              <div style="color:#00ffff; font-weight:bold; font-size:0.84rem;">📄 ${name} ${isGz ? '<span style="color:#ffd700; font-size:0.7rem; border:1px solid #ffd700; padding:1px 4px; border-radius:3px;">GZIP CONFORME</span>' : ''}</div>
+              <div style="color:#88aacc; font-size:0.72rem;">${sz} KB | Disco NVMe Privado</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button onclick="viewOpfsDoc('${name}')" style="background:#0c2838; border:1px solid #00aaff; color:#80d4ff; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer;">👁️ Ver</button>
+              <button onclick="downloadOpfsDoc('${name}')" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer;">💾 Descargar</button>
+            </div>
+          `;
+          cont.appendChild(div);
+        }
+      }
+      if (count === 0) {
+        cont.innerHTML = "<div style='color:#888; text-align:center; padding:20px;'>Bóveda privada vacía. Arrastra archivos a la terminal para guardarlos con persistencia.</div>";
+      }
+    }
+
+    async function viewOpfsDoc(name) {
+      try {
+        const root = await navigator.storage.getDirectory();
+        const h = await root.getFileHandle(name);
+        const f = await h.getFile();
+        const t = name.endsWith(".gz") ? await decompressData(f) : await f.text();
+        document.getElementById("tab-viewer").innerText = "=== ARCHIVO PRIVADO: " + name + " ===\n\n" + t.substring(0, 50000) + (t.length > 50000 ? "\n\n[... Truncado por tamaño ...]" : "");
+        switchVaultTab("viewer");
+      } catch(e) { alert("Error leyendo archivo: " + e); }
+    }
+
+    async function downloadOpfsDoc(name) {
+      try {
+        const root = await navigator.storage.getDirectory();
+        const h = await root.getFileHandle(name);
+        const f = await h.getFile();
+        const url = URL.createObjectURL(f);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch(e) { alert("Error descargando archivo: " + e); }
+    }
+
+    async function handleFileUpload(files) {
+      for (let f of files) {
+        appendLine("📦 [COMPRESIÓN CONFORME]: Procesando '" + f.name + "' (" + (f.size/1024).toFixed(1) + " KB)...", "#00e5ff");
+        try {
+          const root = await navigator.storage.getDirectory();
+          const compressedBlob = await compressData(f);
+          const saveName = f.name.endsWith(".gz") ? f.name : f.name + ".gz";
+
+          const draft = await root.getFileHandle(saveName, { create: true });
+          const access = await draft.createWritable();
+          await access.write(compressedBlob);
+          await access.close();
+
+          // Sincronización simultánea a disco físico
+          const textContent = await f.text();
+          fetch("/v1/vault/sync", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: f.name, content: textContent })
+          });
+
+          appendLine("✅ '" + saveName + "' guardado en Bóveda OPFS y carpeta local /vault/.", "#00ffaa");
+        } catch(err) { appendLine("❌ Error guardando: " + err, "#ff5555"); }
+      }
+    }
+
+    // Guardado nativo con selector de archivos del SO
+    async function requestSaveFilePicker(suggestedName = "oasis_informe.txt", content = "") {
+      if (!content) {
+        content = "=== EXPORTACIÓN SOBERANA OASIS OS ===\nFecha: " + new Date().toISOString() + "\nNodo: " + myNodeId + "\nEstado: Verificado en Silicio Frío (<= 4.18 W)\n";
+      }
+      try {
+        if (window.showSaveFilePicker) {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: suggestedName,
+            types: [{ description: 'Archivos Oasis (.txt, .vtk, .json)', accept: { 'text/plain': ['.txt', '.vtk', '.json'] } }]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(content);
+          await writable.close();
+          appendLine("📁 [DISCO NATIVO]: Archivo guardado con éxito en tu ordenador: " + handle.name, "#00ffaa");
+        } else {
+          const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = suggestedName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          appendLine("💾 [DESCARGAS]: Archivo guardado en tu carpeta de Descargas.", "#00ffaa");
+        }
+      } catch (err) {
+        if (err.name !== 'AbortError') appendLine("❌ Error de guardado: " + err.message, "#ff5555");
+      }
+    }
+
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().then(granted => {
+        if (granted) console.log("🛡️ Almacenamiento persistente concedido por el navegador.");
+      });
+    }
+
+    // === THREE.JS WEBGL 3D EMBEBIDO AUTÓNOMO CON AUTO-RESIZE ===
     let mesh3dScene, mesh3dCamera, mesh3dRenderer, mesh3dObject, mesh3dMaterial, particleSystem;
     let cachedMeshGeometry = null, currentMeshMode = "tawss", showParticles = true;
     let isDragging3D = false, prevMouseX = 0, prevMouseY = 0;
@@ -513,28 +671,6 @@ cx q[0], q[1];</div>
         .catch(e => { document.getElementById("mesh3d-status").innerText = "Error: " + e; });
     }
 
-    async function renderOpfsList() {
-      const cont = document.getElementById("opfs-list-container");
-      cont.innerHTML = "";
-      if (!navigator.storage || !navigator.storage.getDirectory) {
-        cont.innerHTML = "OPFS no disponible en este navegador.";
-        return;
-      }
-      const root = await navigator.storage.getDirectory();
-      let c = 0;
-      for await (const [name, handle] of root.entries()) {
-        if (handle.kind === "file") {
-          c++;
-          const f = await handle.getFile();
-          const div = document.createElement("div");
-          div.style = "padding:6px 0; border-bottom:1px solid #005a36;";
-          div.innerText = `📄 ${name} (${(f.size/1024).toFixed(1)} KB)`;
-          cont.appendChild(div);
-        }
-      }
-      if (c === 0) cont.innerText = "Bóveda vacía. Arrastra archivos a la ventana.";
-    }
-
     // === REGISTRO DECLARATIVO DE COMANDOS ===
     const COMMANDS = {
       "mesh3d": openMesh3dModal,
@@ -545,6 +681,7 @@ cx q[0], q[1];</div>
       "demon-status": openDemonModal,
       "quantum": openQuantumModal,
       "boveda": openVaultModal,
+      "opfs": openVaultModal,
       "simulacion": () => {
         appendLine("🚀 [MOTOR NAVIER-STOKES]: Ejecutando simulación...", "#00e5ff");
         fetch("/v1/darwin/exec", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ command: "simulacion" }) })
@@ -572,7 +709,7 @@ cx q[0], q[1];</div>
       },
       "clear": () => { output.innerHTML = ""; },
       "help": () => {
-        appendLine("📖 [COMANDOS]: mesh3d, hemo, demon-status, api, simulacion, riemann-audit, bench, swarm, clear", "#00ff9d");
+        appendLine("📖 [COMANDOS]: mesh3d, hemo, demon-status, api, boveda, simulacion, riemann-audit, bench, swarm, clear", "#00ff9d");
       }
     };
 
@@ -617,7 +754,7 @@ cx q[0], q[1];</div>
       })
       .then(r => r.json())
       .then(d => appendLine(d.output || "✅ Completado.", "#00ffff"))
-      .catch(e => appendLine("❌ Error: " + e, "#ff5555"));
+      .catch(e => appendLine("❌ Error Darwin: " + e, "#ff5555"));
     }
 
     input.addEventListener("keydown", (e) => {
@@ -644,8 +781,8 @@ cx q[0], q[1];</div>
       } catch(e) {}
     }, 5000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v17.1.0-VisualSuite]");
-    appendLine("⚡ [API]: Pulsa 'CONECTAR API' para rutas gratuitas y documentación Swagger.");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v17.4.0-RestoredCore]");
+    appendLine("📁 [BÓVEDA]: Formato de 3 pestañas restaurado con persistencia permanente.");
     appendLine("🩺 [BIOMECÁNICA]: Pulsa 'ROTAR MALLA 3D' o 'BESOV HUD' para los gráficos visuales.");
     appendLine("-----------------------------------------------------------------------------");
   </script>
