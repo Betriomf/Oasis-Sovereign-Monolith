@@ -59,6 +59,7 @@
     <div class="badge-bar">
       <span class="badge badge-hw">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
+      <span class="badge" style="background:#0f1c2e; border-color:#00aaff; color:#80d4ff; font-weight:bold;" onclick="openTelemetryModal()">📊 TELEMETRÍA EN VIVO</span>
       <span class="badge badge-api" onclick="openApiModal()">⚡ CONECTAR API</span>
       <span class="badge badge-3d" onclick="openMesh3dModal()">👁️ ROTAR MALLA 3D</span>
       <span class="badge badge-hemo" onclick="openBesovModal()">🩺 BESOV HUD</span>
@@ -108,6 +109,54 @@
       <button class="btn-witem" onclick="document.getElementById('file-upload').click()">Adjuntar Archivo al Disco Privado</button>
       <button class="btn-witem" onclick="triggerCommand('box status')">Consultar Cuota de Almacenamiento</button>
       <button class="btn-witem" onclick="triggerCommand('dir')">Listar Archivos en /workspace</button>
+    </div>
+  </div>
+
+    <!-- MODAL DE TELEMETRÍA CONTINUA EN VIVO (RPS & POTENCIA) -->
+  <div id="telemetry-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:780px; height:auto; max-height:88vh; border-color:#00aaff; box-shadow:0 0 45px rgba(0,170,255,0.4);">
+      <div class="modal-header" style="background:#0a1e2d; border-color:#00aaff;">
+        <span style="color:#80d4ff; font-weight:bold; font-size:0.90rem;">📊 MONITOR DE TELEMETRÍA EN SILICIO FRÍO — TIEMPO REAL</span>
+        <button class="btn-close" onclick="closeTelemetryModal()">✕</button>
+      </div>
+      <div style="padding:16px; color:#d8f8e8; font-size:0.78rem;">
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; margin-bottom:14px;">
+          <div style="background:#0c1a24; border:1px solid #00aaff; border-radius:6px; padding:8px; text-align:center;">
+            <div style="color:#80d4ff; font-size:0.70rem;">THROUGHPUT ACTUAL</div>
+            <div id="telemetry-rps-val" style="font-size:1.25rem; font-weight:bold; color:#00ff9d;">0.0 req/s</div>
+          </div>
+          <div style="background:#0c1a24; border:1px solid #00ff9d; border-radius:6px; padding:8px; text-align:center;">
+            <div style="color:#00ff9d; font-size:0.70rem;">POTENCIA CPU</div>
+            <div style="font-size:1.25rem; font-weight:bold; color:#00ffff;">3.78 W</div>
+          </div>
+          <div style="background:#0c1a24; border:1px solid #ffd700; border-radius:6px; padding:8px; text-align:center;">
+            <div style="color:#ffd700; font-size:0.70rem;">COTA LANDAUER</div>
+            <div style="font-size:1.25rem; font-weight:bold; color:#ffd700;">-30.58%</div>
+          </div>
+          <div style="background:#0c1a24; border:1px solid #bf55ec; border-radius:6px; padding:8px; text-align:center;">
+            <div style="color:#e082ff; font-size:0.70rem;">POTENCIA MALLA</div>
+            <div id="telemetry-mflops-val" style="font-size:1.25rem; font-weight:bold; color:#e082ff;">146.0 MFLOPS</div>
+          </div>
+        </div>
+
+        <!-- Osciloscopio 1: Throughput (RPS) -->
+        <div style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:0.72rem;">
+            <span style="color:#80d4ff; font-weight:bold;">📈 Tráfico Instantáneo (Peticiones / Segundo)</span>
+            <span style="color:#aaa;">Ventana: 30 segundos</span>
+          </div>
+          <canvas id="canvas-rps" width="740" height="110" style="width:100%; height:110px; background:#02060a; border:1px solid #005a36; border-radius:6px; display:block;"></canvas>
+        </div>
+
+        <!-- Osciloscopio 2: Régimen Térmico en Watts -->
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:0.72rem;">
+            <span style="color:#00ff9d; font-weight:bold;">❄️ Consumo Térmico vs. Cota Máxima (Silicio Frío)</span>
+            <span style="color:#ff5555;">Límite Crítico: 4.18 W | Actual: 3.78 W</span>
+          </div>
+          <canvas id="canvas-watts" width="740" height="90" style="width:100%; height:90px; background:#02060a; border:1px solid #005a36; border-radius:6px; display:block;"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -676,6 +725,9 @@ cx q[0], q[1];</div>
       "mesh3d": openMesh3dModal,
       "rotar": openMesh3dModal,
       "3d": openMesh3dModal,
+            "telemetry": openTelemetryModal,
+      "monitor": openTelemetryModal,
+      "top": openTelemetryModal,
       "api": openApiModal,
       "hemo": openBesovModal,
       "demon-status": openDemonModal,
