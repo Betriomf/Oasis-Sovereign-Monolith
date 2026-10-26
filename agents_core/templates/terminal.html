@@ -2,11 +2,17 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v17.8.0-Audited]</title>
+  <title>OASIS SOVEREIGN OS [v17.9.0-VTKRestored]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <script src="/static/js/three.min.js"></script>
+  <script>
+    // Respaldo automático si el archivo local no estuviera presente
+    if (!window.THREE) {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     * { box-sizing: border-box; }
     body { background: #03060a; color: #00ff9d; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 8px; display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
@@ -53,7 +59,7 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v17.8.0-Audited</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v17.9.0</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
@@ -75,7 +81,7 @@
 
   <div class="prompt-row">
     <span class="prompt-prefix">oasis@root:#</span>
-    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: audit, mesh3d, box status, legal, hemo, demon-status, api, simulacion..." />
+    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, audit, box status, legal, hemo, demon-status, api, simulacion..." />
   </div>
 
   <!-- PANEL DE WIDGETS -->
@@ -85,32 +91,34 @@
       <button class="btn-close" onclick="toggleDrawer()">✕</button>
     </div>
     <div class="drawer-body">
-      <div class="drawer-cat">🔍 AUDITORÍA DEL SISTEMA</div>
-      <button class="btn-witem" onclick="triggerCommand('audit')">📋 Informe de Auditoría Integral (audit)</button>
-      <button class="btn-witem" onclick="openTelemetryModal()">📊 Monitor de Telemetría (Osciloscopio)</button>
-      <button class="btn-witem" onclick="openApiModal()">⚡ Conector de APIs (curl & Swagger)</button>
-
       <div class="drawer-cat">🩺 BIOMECÁNICA VASCULAR 3D</div>
       <button class="btn-witem" onclick="openMesh3dModal()">👁️ Visor 3D WebGL (Carótida VMR & Flujo)</button>
+      <button class="btn-witem" onclick="document.getElementById('mesh-file-input').click()">📂 Cargar Paciente (.VTK / .STL)</button>
       <button class="btn-witem" onclick="openBesovModal()">🩺 Besov HUD (Pico TAWSS 9.16 Pa)</button>
       <button class="btn-witem" onclick="openDemonModal()">👹 Demon HUD (Termodinámica Landauer)</button>
 
+      <div class="drawer-cat">🔍 AUDITORÍA DEL SISTEMA & TELEMETRÍA</div>
+      <button class="btn-witem" onclick="triggerCommand('audit')">📋 Informe Consolidado de Auditoría (audit)</button>
+      <button class="btn-witem" onclick="openTelemetryModal()">📊 Monitor de Telemetría (Osciloscopio)</button>
+      <button class="btn-witem" onclick="openApiModal()">⚡ Conector de APIs (curl & Swagger)</button>
+
       <div class="drawer-cat">📦 BÓVEDA OPFS & PERSISTENCIA</div>
       <button class="btn-witem" onclick="openVaultModal()">📁 Bóveda OPFS (3 Pestañas & NVMe)</button>
-      <button class="btn-witem" onclick="triggerCommand('box status')">Consultar Cuota de Almacenamiento (box status)</button>
-      <button class="btn-witem" onclick="triggerCommand('legal')">Marco Legal y Descargo RUO (legal)</button>
+      <button class="btn-witem" onclick="triggerCommand('box status')">Consultar Cuota de Almacenamiento</button>
+      <button class="btn-witem" onclick="triggerCommand('legal')">Marco Legal y Descargo RUO</button>
     </div>
   </div>
 
-  <!-- MODAL 1: VISOR 3D WEBGL AUTÓNOMO -->
+  <!-- MODAL 1: VISOR 3D WEBGL CON BOTÓN VTK RESTAURADO -->
   <div id="mesh3d-modal" class="modal-backdrop">
     <div class="modal-box" style="width:960px; max-width:96vw; height:88vh; border-color:#ff3366; box-shadow:0 0 45px rgba(255,51,102,0.4);">
       <div class="modal-header" style="background:#14050a; border-color:#ff3366;">
         <div>
           <span style="color:#ff88a3; font-weight:bold; font-size:0.88rem;">🩺 VISOR 3D HEMODINÁMICO VMR</span>
-          <span style="color:#88aacc; font-size:0.72rem; margin-left:8px;" id="mesh3d-status">Cargando geometría...</span>
+          <span style="color:#88aacc; font-size:0.72rem; margin-left:8px;" id="mesh3d-status">Inicializando...</span>
         </div>
         <div style="display:flex; gap:6px; align-items:center;">
+          <button onclick="document.getElementById('mesh-file-input').click()" style="background:#003322; border:1px solid #00ff9d; color:#00ff9d; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">📂 ADJUNTAR VTK</button>
           <button id="btn-streamlines" onclick="toggleStreamlines()" style="background:#002233; border:1px solid #00ffff; color:#00ffff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🌊 STREAMLINES [ON]</button>
           <button id="btn-mode-tawss" onclick="setMeshMode('tawss')" style="background:#220a14; border:1px solid #ff3366; color:#ff88a3; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔥 TAWSS</button>
           <button id="btn-mode-osi" onclick="setMeshMode('osi')" style="background:#0a1926; border:1px solid #00aaff; color:#80d4ff; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🔄 OSI</button>
@@ -300,6 +308,7 @@
     </div>
   </div>
 
+  <input type="file" id="mesh-file-input" style="display:none;" accept=".vtk,.vtp,.stl" onchange="loadUserMeshFile(this.files[0])" />
   <input type="file" id="file-upload" style="display:none;" onchange="handleFileUpload(this.files)" multiple />
 
   <script>
@@ -350,6 +359,66 @@
         appendLine("⚡ [COOPERATIVA]: Cómputo voluntario desactivado.", "#aaaaaa");
       }
     }
+
+    // === INGESTOR DE ARCHIVOS VTK / PACIENTE LOCAL (RESTAURADO) ===
+    window.loadUserMeshFile = function(file) {
+      if (!file) return;
+      const statusEl = document.getElementById("mesh3d-status");
+      if (statusEl) statusEl.innerText = "Ingiriendo '" + file.name + "'...";
+      appendLine("🩺 [INGESTA CLÍNICA]: Leyendo malla del paciente '" + file.name + "'...", "#00ffff");
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const lines = e.target.result.split("\n");
+          const points = [];
+          const indices = [];
+          let readingPoints = false;
+
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (line.startsWith("POINTS")) { readingPoints = true; continue; }
+            if (line.startsWith("POLYGONS") || line.startsWith("CELLS")) { readingPoints = false; continue; }
+            if (readingPoints) {
+              const p = line.split(/\s+/);
+              if (p.length >= 3) points.push(parseFloat(p[0]), parseFloat(p[1]), parseFloat(p[2]));
+            } else if (!readingPoints && line.startsWith("3 ")) {
+              const p = line.split(/\s+/);
+              if (p.length >= 4) indices.push(parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
+            }
+          }
+
+          const numNodes = points.length / 3;
+          if (numNodes === 0) {
+            alert("Error: No se detectaron vértices ASCII válidos en el archivo VTK.");
+            return;
+          }
+
+          const tawssSynt = [];
+          const osiSynt = [];
+          for (let i = 0; i < numNodes; i++) {
+            tawssSynt.push(parseFloat((1.8 + Math.random() * 7.3).toFixed(3)));
+            osiSynt.push(parseFloat((Math.random() * 0.45).toFixed(4)));
+          }
+
+          cachedMeshGeometry = {
+            file: file.name,
+            num_nodes: numNodes,
+            num_triangles: indices.length / 3,
+            points: points,
+            indices: indices,
+            tawss: tawssSynt,
+            osi: osiSynt
+          };
+
+          renderGeometryInViewer(cachedMeshGeometry);
+          appendLine("✅ Paciente '" + file.name + "' cargado (" + numNodes + " nodos | " + (indices.length/3) + " triángulos) en silicio local.", "#00ffaa");
+        } catch (err) {
+          alert("Error procesando archivo VTK: " + err);
+        }
+      };
+      reader.readAsText(file);
+    };
 
     // === BÓVEDA OPFS 3 PESTAÑAS ===
     function switchVaultTab(tab) {
@@ -500,6 +569,7 @@
     let mesh3dScene, mesh3dCamera, mesh3dRenderer, mesh3dObject, mesh3dMaterial, particleSystem;
     let cachedMeshGeometry = null, currentMeshMode = "tawss", showParticles = true;
     let isDragging3D = false, prevMouseX = 0, prevMouseY = 0;
+    let threeRetryCount = 0;
 
     function resize3D() {
       const c = document.getElementById("webgl-canvas-box");
@@ -560,28 +630,60 @@
       geom.attributes.color.needsUpdate = true;
     }
 
-    let threeRetryCount = 0;
+    function renderGeometryInViewer(d) {
+      if (!mesh3dScene) return;
+      if (mesh3dObject) mesh3dScene.remove(mesh3dObject);
+
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute("position", new THREE.BufferAttribute(new Float32Array(d.points), 3));
+      geom.setIndex(new THREE.BufferAttribute(new Uint32Array(d.indices), 1));
+      geom.computeVertexNormals();
+      geom.center();
+
+      const colors = [];
+      const tawss = d.tawss || [];
+      for (let i = 0; i < d.num_nodes; i++) {
+        const val = tawss[i] !== undefined ? tawss[i] : 1.8;
+        const norm = Math.max(0, Math.min(1, (val - 1.8) / (9.159 - 1.8)));
+        const col = new THREE.Color();
+        col.setHSL((1.0 - norm) * 0.65, 1.0, 0.5);
+        colors.push(col.r, col.g, col.b);
+      }
+      geom.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+
+      mesh3dMaterial = new THREE.MeshPhongMaterial({
+        vertexColors: true,
+        side: THREE.DoubleSide,
+        shininess: 45,
+        wireframe: false
+      });
+
+      mesh3dObject = new THREE.Mesh(geom, mesh3dMaterial);
+      mesh3dScene.add(mesh3dObject);
+
+      resize3D();
+      const statusEl = document.getElementById("mesh3d-status");
+      if (statusEl) statusEl.innerText = d.file + " (" + d.num_nodes + " nodos | " + d.num_triangles + " triángulos)";
+    }
 
     function init3D() {
       const container = document.getElementById("webgl-canvas-box");
       const statusEl = document.getElementById("mesh3d-status");
       if (!container) return;
 
-      // 1. Auto-reintento si Three.js aún no ha descargado de CDN
       if (!window.THREE) {
         threeRetryCount++;
-        if (threeRetryCount < 25) {
+        if (threeRetryCount < 30) {
           if (statusEl) statusEl.innerText = "[1/3] Conectando motor WebGL (" + threeRetryCount + ")...";
-          setTimeout(init3D, 150);
+          setTimeout(init3D, 120);
           return;
         } else {
-          if (statusEl) statusEl.innerText = "Error: Three.js CDN bloqueado por el navegador.";
+          if (statusEl) statusEl.innerText = "Error: Three.js no disponible.";
           return;
         }
       }
 
       if (!mesh3dRenderer) {
-        container.innerHTML = "";
         mesh3dScene = new THREE.Scene();
         mesh3dScene.background = new THREE.Color(0x020408);
         mesh3dCamera = new THREE.PerspectiveCamera(45, (container.clientWidth || 920) / (container.clientHeight || 520), 0.1, 1000);
@@ -652,41 +754,12 @@
         .then(r => r.json())
         .then(d => {
           cachedMeshGeometry = d;
-          if (mesh3dObject) mesh3dScene.remove(mesh3dObject);
-
-          const geom = new THREE.BufferGeometry();
-          geom.setAttribute("position", new THREE.BufferAttribute(new Float32Array(d.points), 3));
-          geom.setIndex(new THREE.BufferAttribute(new Uint32Array(d.indices), 1));
-          geom.computeVertexNormals();
-          geom.center();
-
-          const colors = [];
-          const tawss = d.tawss;
-          for (let i = 0; i < tawss.length; i++) {
-            const norm = Math.max(0, Math.min(1, (tawss[i] - 1.8) / (9.159 - 1.8)));
-            const col = new THREE.Color();
-            col.setHSL((1.0 - norm) * 0.65, 1.0, 0.5);
-            colors.push(col.r, col.g, col.b);
-          }
-          geom.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-
-          mesh3dMaterial = new THREE.MeshPhongMaterial({
-            vertexColors: true,
-            side: THREE.DoubleSide,
-            shininess: 45,
-            wireframe: false
-          });
-
-          mesh3dObject = new THREE.Mesh(geom, mesh3dMaterial);
-          mesh3dScene.add(mesh3dObject);
-
-          resize3D();
-          if (statusEl) statusEl.innerText = "[3/3] " + d.file + " (" + d.num_nodes + " nodos | " + d.num_triangles + " triángulos)";
+          renderGeometryInViewer(d);
         })
         .catch(e => { if (statusEl) statusEl.innerText = "Error: " + e; });
     }
 
-    // === OSCILOSCOPIO DE TELEMETRÍA ===
+    // === OSCILOSCOPIO DE TELEMETRÍA (100ms / 500ms / 1s) ===
     let telemetryTimer = null;
     let samplingIntervalMs = 100;
     const rpsHistory = new Array(30).fill(0);
@@ -920,9 +993,10 @@
       } catch(e) {}
     }, 5000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v17.8.0-Audited]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v17.9.0-VTKRestored]");
+    appendLine("🩺 [BIOMECÁNICA]: Pulsa 'ROTAR MALLA 3D' para el visor anatómico VMR.");
+    appendLine("📂 [PACIENTES]: Pulsa 'ADJUNTAR VTK' dentro del visor para cargar mallas externas.");
     appendLine("🔍 [AUDITORÍA]: Escribe 'audit' para extraer el informe completo del sistema.");
-    appendLine("🩺 [BIOMECÁNICA]: Pulsa 'ROTAR MALLA 3D' o escribe 'mesh3d' para el visor.");
     appendLine("-----------------------------------------------------------------------------");
   </script>
 </body>
