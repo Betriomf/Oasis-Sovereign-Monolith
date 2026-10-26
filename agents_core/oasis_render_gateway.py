@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v17.1.0-SwaggerMaster
-Servidor Modular: OpenAPI 3.0 (/v1/api/docs), WebGL 3D, Besov HUD, Demon HUD y Swarm.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v17.3.0-FilePicker
+Servidor Modular: OpenAPI 3.0, WebGL 3D, Persistencia Dual, Demonio y Riemann.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, subprocess, socket, math, time, urllib.request, urllib.parse, mimetypes
@@ -24,8 +24,14 @@ PORT = int(os.environ.get("PORT", 8080))
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(REPO_ROOT, "agents_core", "templates")
 STATIC_DIR = os.path.join(REPO_ROOT, "agents_core", "static")
+VAULT_DIR = os.path.join(REPO_ROOT, "vault")
 TRUTH_FILE = os.path.join(REPO_ROOT, "VERDAD_OASIS.txt")
 BENCHMARK_MESH = os.path.join(REPO_ROOT, "data", "models", "aneurisma_carotida_vmr.vtk")
+
+# Protección contra colisión archivo/carpeta
+if os.path.exists(VAULT_DIR) and not os.path.isdir(VAULT_DIR):
+    os.remove(VAULT_DIR)
+os.makedirs(VAULT_DIR, exist_ok=True)
 
 PEERS_REGISTRY = {}
 REMOTE_RENDER_URL = "https://oasis-sovereign-gateway.onrender.com"
@@ -86,8 +92,8 @@ def get_openapi_spec():
         "openapi": "3.0.3",
         "info": {
             "title": "Oasis Sovereign OS — Public Research API",
-            "version": "17.1.0",
-            "description": "API universal de cómputo soberano en silicio frío: Biomecánica vascular 3D, Demonio de Maxwell-Landauer, Hipótesis de Riemann y Project Gutenberg.",
+            "version": "17.3.0",
+            "description": "API universal de cómputo soberano: Biomecánica 3D, Demonio de Maxwell-Landauer, Riemann y Persistencia.",
             "contact": { "name": "Mariano Panzano Caballé", "url": "https://github.com/Betriomf/Oasis-Sovereign-Monolith" },
             "license": { "name": "GNU AGPLv3 & CC-BY-4.0", "url": "https://www.gnu.org/licenses/agpl-3.0.html" }
         },
@@ -96,48 +102,12 @@ def get_openapi_spec():
             { "url": REMOTE_RENDER_URL, "description": "Nodo Público Mesh Render" }
         ],
         "paths": {
-            "/v1/math/demon": {
-                "get": {
-                    "summary": "Telemetría del Demonio de Maxwell-Landauer",
-                    "description": "Calcula el ahorro entrópico a 300K comparando la cota clásica de Landauer frente a la cota Sub-Landauer E_oasis = k_B * T * ln(phi).",
-                    "responses": { "200": { "description": "Telemetría entrópica exitosa" } }
-                }
-            },
-            "/v1/med/besov-cfd": {
-                "get": {
-                    "summary": "Hemodinámica 3D en Espacios de Besov B⁰_∞,∞",
-                    "description": "Devuelve biomarcadores de cizalladura parietal (TAWSS, OSI, RRT) sin sesgos de promedio numérico.",
-                    "responses": { "200": { "description": "Biomarcadores vasculares calculados" } }
-                }
-            },
-            "/v1/med/mesh-geometry": {
-                "get": {
-                    "summary": "Geometría 3D de la Arteria Carótida (VMR)",
-                    "description": "Entrega vértices, polígonos y mapas de calor de TAWSS y OSI para renderizado en WebGL.",
-                    "responses": { "200": { "description": "Topología poligonal completa" } }
-                }
-            },
-            "/v1/math/riemann": {
-                "get": {
-                    "summary": "Auditoría de la Hipótesis de Riemann (Capa 0)",
-                    "description": "Comprueba el primer cero no trivial y la invariante de disipación nula bajo la métrica de Fisher-Rao.",
-                    "responses": { "200": { "description": "Auditoría analítica completada" } }
-                }
-            },
-            "/v1/swarm/nodes": {
-                "get": {
-                    "summary": "Censo Dinámico de la Malla P2P",
-                    "description": "Reporta nodos activos en los últimos 40 segundos y la capacidad de cálculo agregada de la cooperativa.",
-                    "responses": { "200": { "description": "Topología P2P viva" } }
-                }
-            },
-            "/v1/gutenberg/book": {
-                "get": {
-                    "summary": "Descarga de Libros de Project Gutenberg",
-                    "parameters": [{ "name": "id", "in": "query", "required": True, "schema": { "type": "string", "default": "2000" } }],
-                    "responses": { "200": { "description": "Texto del libro descargado" } }
-                }
-            }
+            "/v1/math/demon": { "get": { "summary": "Telemetría del Demonio Maxwell-Landauer", "responses": { "200": { "description": "OK" } } } },
+            "/v1/med/besov-cfd": { "get": { "summary": "Hemodinámica 3D en Espacios de Besov", "responses": { "200": { "description": "OK" } } } },
+            "/v1/med/mesh-geometry": { "get": { "summary": "Geometría 3D de la Arteria Carótida (VMR)", "responses": { "200": { "description": "OK" } } } },
+            "/v1/math/riemann": { "get": { "summary": "Auditoría de Riemann (Capa 0)", "responses": { "200": { "description": "OK" } } } },
+            "/v1/vault/list": { "get": { "summary": "Listado de archivos físicos en disco local", "responses": { "200": { "description": "OK" } } } },
+            "/v1/swarm/nodes": { "get": { "summary": "Censo Dinámico de la Malla P2P", "responses": { "200": { "description": "OK" } } } }
         }
     }
 
@@ -198,7 +168,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
     def do_GET(self, head_only=False):
         try:
-            # 1. Documentación OpenAPI / Swagger
+            # OpenAPI / Swagger
             if self.path == "/v1/openapi.json":
                 self._send_json(get_openapi_spec())
                 return
@@ -213,7 +183,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     self.wfile.write(html)
                 return
 
-            # 2. Archivos estáticos (/static/*)
+            # Archivos Estáticos (/static/*)
             if self.path.startswith("/static/"):
                 rel_path = self.path[8:].split("?")[0]
                 file_path = os.path.join(STATIC_DIR, rel_path)
@@ -234,7 +204,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     self.send_error(404, "Static file not found")
                     return
 
-            # 3. Vista principal Terminal
+            # Terminal Web
             if self.path in ("/", "/terminal") or self.path.startswith("/terminal?"):
                 tpl_path = os.path.join(TEMPLATES_DIR, "terminal.html")
                 with open(tpl_path, "r", encoding="utf-8") as f:
@@ -247,7 +217,18 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     self.wfile.write(html)
                 return
 
-            # 4. Swarm Nodes
+            # Listado Físico de Bóveda
+            elif self.path == "/v1/vault/list":
+                files = []
+                if os.path.exists(VAULT_DIR):
+                    for fname in os.listdir(VAULT_DIR):
+                        fpath = os.path.join(VAULT_DIR, fname)
+                        if os.path.isfile(fpath):
+                            files.append({"name": fname, "size": os.path.getsize(fpath)})
+                self._send_json({"status": "OK", "files": files})
+                return
+
+            # Nodos de Malla P2P
             elif self.path in ("/v1/swarm/nodes", "/v1/swarm/status"):
                 check_remote_render_peer()
                 count = get_active_nodes()
@@ -258,8 +239,9 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "peers": peers_list,
                     "mesh_status": "MALLA ACTIVA" if count > 1 else "NODO AUTÓNOMO"
                 })
+                return
 
-            # 5. Geometría 3D de la Malla (VMR)
+            # Geometría 3D de la Malla (VMR)
             elif self.path == "/v1/med/mesh-geometry":
                 v_mesh = BENCHMARK_MESH
                 if not os.path.exists(v_mesh):
@@ -312,8 +294,9 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "tawss": tawss_values,
                     "osi": osi_values
                 })
+                return
 
-            # 6. Biomarcadores Besov
+            # Hemodinámica Besov 3D
             elif self.path == "/v1/med/besov-cfd":
                 data = None
                 if HAS_BIOMED and os.path.exists(BENCHMARK_MESH):
@@ -340,8 +323,9 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                         "memory_ram_mb": 1.27
                     }
                 self._send_json(data)
+                return
 
-            # 7. Demonio Maxwell-Landauer
+            # Demonio Maxwell-Landauer
             elif self.path == "/v1/math/demon":
                 k_B = 1.380649e-23
                 T = 300.0
@@ -361,8 +345,9 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "thermal_regime_watts": 3.78,
                     "pacing_dt_ms": 1.938
                 })
+                return
 
-            # 8. Riemann Capa 0
+            # Riemann Capa 0
             elif self.path == "/v1/math/riemann":
                 cero_t = 14.134725141734693
                 if HAS_MPMATH:
@@ -379,24 +364,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     "entropia_fisher_rao": 0.0,
                     "mensaje": "Geodésica autoadjunta Re(s)=1/2 verificada bajo Cota Sub-Landauer."
                 })
-
-            # 9. Gutenberg
-            elif self.path.startswith("/v1/gutenberg/book"):
-                parsed = urllib.parse.urlparse(self.path)
-                params = urllib.parse.parse_qs(parsed.query)
-                book_id = params.get("id", ["2000"])[0]
-                text = None
-                try:
-                    req = urllib.request.Request(f"https://www.gutenberg.org/cache/epub/{book_id}/pg{book_id}.txt", headers={"User-Agent": "Oasis-Reader"})
-                    with urllib.request.urlopen(req, timeout=4) as resp:
-                        if resp.status == 200:
-                            text = resp.read().decode("utf-8", errors="ignore")
-                except Exception:
-                    pass
-                if text:
-                    self._send_json({ "status": "OK", "book_id": book_id, "title": f"Gutenberg #{book_id}", "length_chars": len(text), "snippet": text[:4000] })
-                else:
-                    self._send_json({ "status": "ERROR", "message": "No disponible" }, status=404)
+                return
 
             elif self.path.startswith("/v1/pilar"):
                 parsed = urllib.parse.urlparse(self.path)
@@ -404,9 +372,11 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 p_id = params.get("id", ["1"])[0]
                 out = query_verdad_oasis(p_id)
                 self._send_json({"output": out, "id": p_id})
+                return
 
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v17.1.0-SwaggerMaster", "silicon_watts": 3.78})
+                self._send_json({"status": "ONLINE", "version": "v17.3.0-FilePicker", "silicon_watts": 3.78})
+                return
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
         except (BrokenPipeError, ConnectionResetError):
@@ -415,6 +385,17 @@ class OasisModularHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         length = int(self.headers.get("Content-Length", 0))
         body = json.loads(self.rfile.read(length).decode("utf-8")) if length > 0 else {}
+
+        # Sincronización física en disco ~/Oasis-Sovereign-Monolith/vault/
+        if self.path == "/v1/vault/sync":
+            filename = body.get("name", "archivo_oasis.dat")
+            content = body.get("content", "")
+            safe_name = os.path.basename(filename)
+            dest_path = os.path.join(VAULT_DIR, safe_name)
+            with open(dest_path, "w", encoding="utf-8") as f:
+                f.write(content)
+            self._send_json({"status": "OK", "saved": safe_name, "bytes": len(content)})
+            return
 
         if self.path == "/v1/swarm/heartbeat":
             client_ip = self.client_address[0]
@@ -461,7 +442,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisModularHandler)
-    print(f"🔒 OASIS GATEWAY v17.1.0 (Swagger Master) activo en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v17.3.0 (FilePicker Active) en http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

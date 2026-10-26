@@ -290,7 +290,10 @@ cx q[0], q[1];</div>
     <div class="modal-box">
       <div class="modal-header">
         <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">📁 BÓVEDA PRIVADA OPFS — COMPRESIÓN CONFORME</span>
-        <button class="btn-close" onclick="closeModal('vault-modal')">✕</button>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <button onclick="requestSaveFilePicker()" style="background:#072428; border:1px solid #00ffff; color:#00ffff; font-size:0.72rem; padding:4px 8px; border-radius:4px; cursor:pointer; font-weight:bold;">📁 Guardar en Mi Dispositivo</button>
+          <button class="btn-close" onclick="closeModal('vault-modal')">✕</button>
+        </div>
       </div>
       <div style="padding:16px; overflow-y:auto; color:#d8f8e8; font-size:0.80rem;">
         <div id="opfs-list-container">Cargando disco local...</div>
