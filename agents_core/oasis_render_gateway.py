@@ -48,10 +48,17 @@ def get_lan_ip():
 
 LAN_IP = get_lan_ip()
 
+LAST_PEER_CHECK = 0
+
 def check_remote_render_peer():
+    global LAST_PEER_CHECK
+    now = time.time()
+    if now - LAST_PEER_CHECK < 60:
+        return
+    LAST_PEER_CHECK = now
     try:
         req = urllib.request.Request(f"{REMOTE_RENDER_URL}/health", headers={"User-Agent": "Oasis-Host-Ping"})
-        with urllib.request.urlopen(req, timeout=1.5) as resp:
+        with urllib.request.urlopen(req, timeout=0.8) as resp:
             if resp.status == 200:
                 PEERS_REGISTRY["render-cloud-node"] = {
                     "last_seen": time.time(),
@@ -92,7 +99,7 @@ def get_openapi_spec():
         "openapi": "3.0.3",
         "info": {
             "title": "Oasis Sovereign OS — Public Research API",
-            "version": "17.3.0",
+            "version": "17.6.0",
             "description": "API universal de cómputo soberano: Biomecánica 3D, Demonio de Maxwell-Landauer, Riemann y Persistencia.",
             "contact": { "name": "Mariano Panzano Caballé", "url": "https://github.com/Betriomf/Oasis-Sovereign-Monolith" },
             "license": { "name": "GNU AGPLv3 & CC-BY-4.0", "url": "https://www.gnu.org/licenses/agpl-3.0.html" }
@@ -375,7 +382,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 return
 
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v17.3.0-FilePicker", "silicon_watts": 3.78})
+                self._send_json({"status": "ONLINE", "version": "v17.6.0-Master", "silicon_watts": 3.78})
                 return
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
@@ -442,7 +449,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisModularHandler)
-    print(f"🔒 OASIS GATEWAY v17.3.0 (FilePicker Active) en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v17.6.0 (Master Unified) en http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

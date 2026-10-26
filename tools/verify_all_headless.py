@@ -3,11 +3,14 @@
 """
 OASIS COMPLETE HEADLESS VERIFIER — DETERMINISTIC SUITE
 Audita de forma integral el kernel, endpoints REST, persistencia física y Lean 4.
+Resistente a invocaciones mediante enlaces simbólicos (os.path.realpath).
 """
 import urllib.request, json, os, time, subprocess, sys
 
 BASE_URL = "http://127.0.0.1:8080"
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# os.path.realpath resuelve el destino del enlace simbólico de forma absoluta
+REAL_SCRIPT_PATH = os.path.realpath(__file__)
+REPO_ROOT = os.path.dirname(os.path.dirname(REAL_SCRIPT_PATH))
 VAULT_DIR = os.path.join(REPO_ROOT, "vault")
 os.makedirs(VAULT_DIR, exist_ok=True)
 
@@ -54,9 +57,9 @@ with urllib.request.urlopen(post_req, timeout=3.0) as resp:
     sync_res = json.loads(resp.read())
     assert sync_res["status"] == "OK", "Fallo al sincronizar archivo en disco"
 
-# Verificar que el archivo existe físicamente en el Mac
+# Comprobación de existencia física en el directorio resuelto
 physical_file_path = os.path.join(VAULT_DIR, test_file_name)
-assert os.path.exists(physical_file_path), "El archivo no se escribió en disco"
+assert os.path.exists(physical_file_path), f"El archivo no se escribió en {physical_file_path}"
 
 v_list = test_endpoint("/v1/vault/list", "Listado Físico /v1/vault/list")
 files_on_disk = os.listdir(VAULT_DIR)
@@ -66,7 +69,7 @@ print("  ✅ Persistencia física verificada: lectura y escritura atómica compr
 
 # [3/4] EXPORTACIÓN Y SELLADO CRIPTOGRÁFICO SHA-256
 print("\n[3/4] EXPORTACIÓN Y SELLADO CRIPTOGRÁFICO SHA-256:")
-res = subprocess.run([sys.executable, "tools/export_clinical_report.py"], capture_output=True, text=True, cwd=REPO_ROOT)
+res = subprocess.run([sys.executable, os.path.join(REPO_ROOT, "tools", "export_clinical_report.py")], capture_output=True, text=True, cwd=REPO_ROOT)
 print(res.stdout.strip())
 assert res.returncode == 0, "Fallo al exportar informe clínico"
 
