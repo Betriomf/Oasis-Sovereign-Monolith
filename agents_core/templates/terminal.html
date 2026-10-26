@@ -743,6 +743,19 @@ cx q[0], q[1];</div>
         appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
       },
 
+            "api": () => {
+        appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
+        appendLine("🌐 [OASIS OPEN API — CATÁLOGO DE RUTAS GRATUITAS]:", "#00ff9d");
+        appendLine("  • api /v1/math/demon         : Telemetría termodinámica y cota de Landauer");
+        appendLine("  • api /v1/math/riemann       : Auditoría analítica de ceros y Fisher-Rao");
+        appendLine("  • api /v1/med/besov-cfd      : Biomarcadores microvasculares (TAWSS/OSI/RRT)");
+        appendLine("  • api /v1/med/mesh-geometry  : Vértices y topología 3D de la arteria VMR");
+        appendLine("  • api /v1/gutenberg/book?id=2000 : Descarga de texto libre (Project Gutenberg)");
+        appendLine("  • api /v1/swarm/nodes        : Censo en tiempo real de nodos en la malla");
+        appendLine("Uso: escribe 'api <ruta>' para invocar cualquier endpoint directamente.", "#ffd700");
+        appendLine("════════════════════════════════════════════════════════════════", "#00ffff");
+      },
+
       "clear": () => { output.innerHTML = ""; }
     };
 
@@ -778,6 +791,23 @@ cx q[0], q[1];</div>
       raw = raw.trim();
       if (!raw) return;
       const low = raw.toLowerCase();
+
+            // Invocación dinámica de la API gratuita: 'api <ruta>'
+      if (low.startsWith("api ")) {
+        const route = raw.slice(4).trim();
+        appendLine("🌐 [API FETCH]: Consultando '" + route + "'...", "#80d4ff");
+        const url = route.startsWith("http") ? route : window.location.origin + (route.startsWith("/") ? route : "/" + route);
+        fetch(url)
+          .then(r => r.json())
+          .then(data => {
+            appendLine("════════════════════════════════════════════════════════════════", "#00aaff");
+            appendLine("HTTP 200 OK — " + route, "#00ffaa");
+            appendLine(JSON.stringify(data, null, 2), "#d8f8e8");
+            appendLine("════════════════════════════════════════════════════════════════", "#00aaff");
+          })
+          .catch(e => appendLine("❌ Error API: " + e, "#ff5555"));
+        return;
+      }
 
       if (COMMAND_REGISTRY[low]) {
         COMMAND_REGISTRY[low]();
