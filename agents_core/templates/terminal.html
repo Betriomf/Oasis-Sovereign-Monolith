@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v18.1.0-RestoredSuite]</title>
+  <title>OASIS SOVEREIGN OS [v18.3.0-Production3D]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     * { box-sizing: border-box; }
-    body { background: #03060a; color: #00ff9d; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 8px; display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
+    body { background: #03060a; color: #00ff9d; font-family: "JetBrains Mono", monospace; margin: 0; padding: 8px; display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
     .header { border-bottom: 1px solid #005a36; padding-bottom: 6px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px; flex-shrink: 0; }
     .badge-bar { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
     .badge { background: #002217; border: 1px solid #00ff9d; padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; cursor: pointer; user-select: none; }
@@ -50,7 +50,7 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v18.1.0</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v18.3.0</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
@@ -70,7 +70,7 @@
 
   <div class="prompt-row">
     <span class="prompt-prefix">oasis@root:#</span>
-    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, bench, vortex, hemo, demon-status, ai <pregunta>, boveda, audit, legal..." />
+    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, bench, vortex, hemo, demon-status, ai <pregunta>, audit, boveda, legal..." />
   </div>
 
   <!-- DOCK LATERAL -->
@@ -220,7 +220,7 @@
       openModal("qr-modal");
     }
 
-    // === THREE.JS WEBGL 3D EMBEBIDO AUTÓNOMO ===
+    // === MOTOR THREE.JS WEBGL 3D ===
     let mesh3dScene, mesh3dCamera, mesh3dRenderer, mesh3dObject, mesh3dMaterial, particleSystem;
     let cachedMeshGeometry = null, currentMeshMode = "tawss", showParticles = true;
     let isDragging3D = false, prevMouseX = 0, prevMouseY = 0;
@@ -228,13 +228,11 @@
     function resize3D() {
       const c = document.getElementById("webgl-canvas-box");
       if (!c || !mesh3dRenderer || !mesh3dCamera) return;
-      const w = c.clientWidth || 920;
-      const h = c.clientHeight || 520;
-      if (w > 0 && h > 0) {
-        mesh3dCamera.aspect = w / h;
-        mesh3dCamera.updateProjectionMatrix();
-        mesh3dRenderer.setSize(w, h);
-      }
+      const w = Math.max(c.clientWidth, 600);
+      const h = Math.max(c.clientHeight, 400);
+      mesh3dCamera.aspect = w / h;
+      mesh3dCamera.updateProjectionMatrix();
+      mesh3dRenderer.setSize(w, h);
     }
 
     function openMesh3dModal() {
@@ -324,13 +322,12 @@
       if (!file) return;
       const statusEl = document.getElementById("mesh3d-status");
       if (statusEl) statusEl.innerText = "Ingiriendo " + file.name + "...";
-      appendLine("🩺 [INGESTA CLÍNICA]: Leyendo malla '" + file.name + "'...", "#00ffff");
+      appendLine("🩺 [INGESTA CLÍNICA]: Leyendo malla \x27" + file.name + "\x27...", "#00ffff");
 
       const reader = new FileReader();
       reader.onload = function(e) {
         try {
-          const lines = e.target.result.split("
-");
+          const lines = e.target.result.split("\n");
           const points = [];
           const indices = [];
           let readingPoints = false;
@@ -367,7 +364,7 @@
           };
 
           renderGeometryInViewer(cachedMeshGeometry);
-          appendLine("✅ Paciente '" + file.name + "' cargado en memoria local sin fugas.", "#00ffaa");
+          appendLine("✅ Paciente \x27" + file.name + "\x27 cargado en memoria local sin fugas.", "#00ffaa");
         } catch(err) {
           alert("Error procesando archivo VTK: " + err);
         }
@@ -381,7 +378,7 @@
       if (!container) return;
 
       if (!window.THREE) {
-        if (statusEl) statusEl.innerText = "Error: Three.js no ha cargado.";
+        if (statusEl) statusEl.innerText = "Error: Three.js no disponible.";
         return;
       }
 
@@ -485,7 +482,7 @@
       const cont = document.getElementById("opfs-list-container");
       cont.innerHTML = "";
       if (!navigator.storage || !navigator.storage.getDirectory) {
-        cont.innerHTML = "<div style='color:#ff5555'>OPFS no disponible.</div>";
+        cont.innerHTML = "<div style=\x27color:#ff5555\x27>OPFS no disponible.</div>";
         return;
       }
       const root = await navigator.storage.getDirectory();
@@ -496,11 +493,11 @@
           const f = await handle.getFile();
           const div = document.createElement("div");
           div.style = "background:#0a1926; border:1px solid #005a36; padding:8px 12px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;";
-          div.innerHTML = "<div><span style='color:#00ffff; font-weight:bold;'>📄 " + name + "</span> <span style='color:#88aacc; font-size:0.7rem;'>(" + (f.size/1024).toFixed(1) + " KB)</span></div>";
+          div.innerHTML = "<div><span style=\x27color:#00ffff; font-weight:bold;\x27>📄 " + name + "</span> <span style=\x27color:#88aacc; font-size:0.7rem;\x27>(" + (f.size/1024).toFixed(1) + " KB)</span></div>";
           cont.appendChild(div);
         }
       }
-      if (count === 0) cont.innerHTML = "<div style='color:#888; text-align:center; padding:15px;'>Bóveda vacía.</div>";
+      if (count === 0) cont.innerHTML = "<div style=\x27color:#888; text-align:center; padding:15px;\x27>Bóveda vacía. Sube archivos o usa el comando sync.</div>";
     }
 
     // === TELEMETRÍA OSCILOSCOPIO ===
@@ -558,7 +555,7 @@
       ctx.stroke();
     }
 
-    // === CATÁLOGO UNIVERSAL DE COMANDOS (REGISTRO PROTEGIDO) ===
+    // === CATÁLOGO UNIVERSAL DE COMANDOS REGISTRADOS ===
     const COMMANDS = {
       "mesh3d": openMesh3dModal,
       "rotar": openMesh3dModal,
@@ -712,7 +709,7 @@
         return;
       }
 
-      appendLine("⚙️ [DARWIN]: Ejecutando '" + raw + "'...", "#88aacc");
+      appendLine("⚙️ [DARWIN]: Ejecutando \x27" + raw + "\x27...", "#88aacc");
       fetch("/v1/darwin/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -747,10 +744,10 @@
       } catch(e) {}
     }, 5000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v18.1.0-RestoredSuite]");
-    appendLine("🩺 [BIOMECÁNICA]: Escribe 'mesh3d' o pulsa 'ROTAR MALLA 3D' para el visor anatómico.");
-    appendLine("⚡ [CÓMPUTO]: 'bench' (MFLOPS), 'vortex' (Navier-Stokes), 'hemo' (Besov CFD).");
-    appendLine("🧠 [AGENTE IA]: Escribe 'ai <pregunta>' para consultar al modelo local.");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v18.3.0-Production3D]");
+    appendLine("🩺 [BIOMECÁNICA]: Escribe \x27mesh3d\x27 o pulsa \x27ROTAR MALLA 3D\x27 para el visor anatómico.");
+    appendLine("⚡ [CÓMPUTO]: \x27bench\x27 (MFLOPS), \x27vortex\x27 (Navier-Stokes), \x27hemo\x27 (Besov CFD).");
+    appendLine("🧠 [AGENTE IA]: Escribe \x27ai <pregunta>\x27 para consultar al modelo local.");
     appendLine("-----------------------------------------------------------------------------");
   </script>
 </body>
