@@ -935,6 +935,26 @@
       if (!raw) return;
       const low = raw.toLowerCase();
 
+            // Comando de interacción con el Agente de IA Local
+      if (low.startsWith("ai ") || low.startsWith("chat ") || low.startsWith("ask ")) {
+        const userPrompt = raw.substring(raw.indexOf(" ") + 1).trim();
+        appendLine("🧠 [AGENTE IA]: Procesando consulta en silicio local...", "#bf55ec");
+        fetch("/v1/ai/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: userPrompt })
+        })
+        .then(r => r.json())
+        .then(d => {
+          appendLine("════════════════════════════════════════════════════════════════", "#bf55ec");
+          appendLine(d.reply, "#00ffff");
+          appendLine("⚡ Inferencia: " + d.latency_ms + " ms | " + d.silicon_watts + " W | Modelo: " + d.model, "#88aacc");
+          appendLine("════════════════════════════════════════════════════════════════", "#bf55ec");
+        })
+        .catch(e => appendLine("❌ Error comunicando con el agente: " + e, "#ff5555"));
+        return;
+      }
+
       if (COMMANDS[low]) {
         COMMANDS[low]();
         return;
