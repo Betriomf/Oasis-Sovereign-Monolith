@@ -55,6 +55,7 @@
       <span class="badge badge-hw">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
       <span class="badge badge-3d" onclick="openMesh3dModal()">👁️ ROTAR MALLA 3D</span>
+      <span class="badge" style="background:#001f3f; border-color:#00ffff; color:#00ffff; font-weight:bold; box-shadow:0 0 10px rgba(0,255,255,0.3);" onclick="openWaterModal()">🌊 OCÉANO 3D</span>
       <span class="badge badge-telemetry" onclick="openTelemetryModal()">📊 TELEMETRÍA EN VIVO</span>
       <span class="badge badge-hemo" onclick="triggerCommand('hemo')">🩺 BESOV HUD</span>
       <span class="badge badge-demon" onclick="triggerCommand('demon-status')">👹 DEMON HUD</span>
@@ -96,6 +97,27 @@
       <button class="btn-witem" onclick="openVaultModal()">📁 Bóveda OPFS (3 Pestañas & NVMe)</button>
       <button class="btn-witem" onclick="triggerCommand('box status')">Consultar Cuota de Almacenamiento (box status)</button>
       <button class="btn-witem" onclick="triggerCommand('legal')">Marco Legal y Descargo RUO (legal)</button>
+    </div>
+  </div>
+
+    <!-- MODAL FLUIDOS: OCÉANO HIPERREALISTA GERSTNER (60 FPS) -->
+  <div id="water-modal" class="modal-backdrop">
+    <div class="modal-box" style="width:960px; max-width:96vw; height:88vh; border-color:#00e5ff; box-shadow:0 0 45px rgba(0,229,255,0.4);">
+      <div class="modal-header" style="background:#03121c; border-color:#00e5ff;">
+        <div>
+          <span style="color:#00e5ff; font-weight:bold; font-size:0.88rem;">🌊 MOTOR DE FLUIDOS — OCÉANO GERSTNER & ÓPTICA FRESNEL</span>
+          <span style="color:#88aacc; font-size:0.72rem; margin-left:8px;">Shader GLSL GPU | Silicio Frío &lt;= 3.78 W</span>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button id="btn-water-wire" onclick="toggleWaterWire()" style="background:#0a2012; border:1px solid #00ff9d; color:#00ff9d; padding:4px 8px; border-radius:4px; font-size:0.70rem; cursor:pointer; font-weight:bold;">🕸️ MALLA VERTEX</button>
+          <button class="btn-close" onclick="closeWaterModal()">✕</button>
+        </div>
+      </div>
+      <div style="flex:1; width:100%; height:100%; min-height:480px; position:relative; background:#010408; overflow:hidden;" id="webgl-water-box">
+        <div style="position:absolute; bottom:12px; left:12px; background:rgba(3,18,28,0.88); border:1px solid #00e5ff; padding:6px 12px; border-radius:6px; font-size:0.70rem; color:#80d4ff; z-index:10; pointer-events:none;">
+          🖱️ <strong>Rotar Vista:</strong> Clic + Arrastrar | 📜 <strong>Zoom:</strong> Rueda | 🌊 <strong>Física:</strong> 4 Olas Trocoidales | ☀️ <strong>Óptica:</strong> Reflexión Schlick PBR
+        </div>
+      </div>
     </div>
   </div>
 
@@ -557,6 +579,9 @@
 
     // === CATÁLOGO UNIVERSAL DE COMANDOS REGISTRADOS ===
     const COMMANDS = {
+            "water": openWaterModal,
+      "ocean": openWaterModal,
+      "agua": openWaterModal,
       "mesh3d": openMesh3dModal,
       "rotar": openMesh3dModal,
       "3d": openMesh3dModal,
