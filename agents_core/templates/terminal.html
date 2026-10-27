@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v18.2.0-SovereignSuite]</title>
+  <title>OASIS SOVEREIGN OS [v18.1.0-RestoredSuite]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -50,7 +50,7 @@
 </head>
 <body>
   <div class="header">
-    <span>🛰️ OASIS SOVEREIGN OS <strong>v18.2.0</strong></span>
+    <span>🛰️ OASIS SOVEREIGN OS <strong>v18.1.0</strong></span>
     <div class="badge-bar">
       <span class="badge badge-hw">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
@@ -70,7 +70,7 @@
 
   <div class="prompt-row">
     <span class="prompt-prefix">oasis@root:#</span>
-    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, bench, vortex, hemo, demon-status, ai <pregunta>, audit, boveda, legal..." />
+    <input type="text" id="cmd" autofocus autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text" placeholder="Comandos: mesh3d, bench, vortex, hemo, demon-status, ai <pregunta>, boveda, audit, legal..." />
   </div>
 
   <!-- DOCK LATERAL -->
@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  <!-- MODAL 1: VISOR 3D WEBGL AUTÓNOMO CON AUTO-RESIZE Y ADJUNTAR VTK -->
+  <!-- MODAL 1: VISOR 3D WEBGL AUTÓNOMO -->
   <div id="mesh3d-modal" class="modal-backdrop">
     <div class="modal-box" style="border-color:#ff3366; box-shadow:0 0 45px rgba(255,51,102,0.4);">
       <div class="modal-header" style="background:#14050a; border-color:#ff3366;">
@@ -156,7 +156,7 @@
     </div>
   </div>
 
-  <!-- MODAL 3: BÓVEDA OPFS 3 PESTAÑAS -->
+  <!-- MODAL 3: BÓVEDA OPFS -->
   <div id="vault-modal" class="modal-backdrop">
     <div class="modal-box">
       <div class="modal-header">
@@ -228,11 +228,13 @@
     function resize3D() {
       const c = document.getElementById("webgl-canvas-box");
       if (!c || !mesh3dRenderer || !mesh3dCamera) return;
-      const w = Math.max(c.clientWidth, 600);
-      const h = Math.max(c.clientHeight, 400);
-      mesh3dCamera.aspect = w / h;
-      mesh3dCamera.updateProjectionMatrix();
-      mesh3dRenderer.setSize(w, h);
+      const w = c.clientWidth || 920;
+      const h = c.clientHeight || 520;
+      if (w > 0 && h > 0) {
+        mesh3dCamera.aspect = w / h;
+        mesh3dCamera.updateProjectionMatrix();
+        mesh3dRenderer.setSize(w, h);
+      }
     }
 
     function openMesh3dModal() {
@@ -379,7 +381,7 @@
       if (!container) return;
 
       if (!window.THREE) {
-        if (statusEl) statusEl.innerText = "Error: Three.js no disponible.";
+        if (statusEl) statusEl.innerText = "Error: Three.js no ha cargado.";
         return;
       }
 
@@ -498,7 +500,7 @@
           cont.appendChild(div);
         }
       }
-      if (count === 0) cont.innerHTML = "<div style='color:#888; text-align:center; padding:15px;'>Bóveda vacía. Sube archivos o usa el comando sync.</div>";
+      if (count === 0) cont.innerHTML = "<div style='color:#888; text-align:center; padding:15px;'>Bóveda vacía.</div>";
     }
 
     // === TELEMETRÍA OSCILOSCOPIO ===
@@ -745,7 +747,7 @@
       } catch(e) {}
     }, 5000);
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v18.2.0-SovereignSuite]");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v18.1.0-RestoredSuite]");
     appendLine("🩺 [BIOMECÁNICA]: Escribe 'mesh3d' o pulsa 'ROTAR MALLA 3D' para el visor anatómico.");
     appendLine("⚡ [CÓMPUTO]: 'bench' (MFLOPS), 'vortex' (Navier-Stokes), 'hemo' (Besov CFD).");
     appendLine("🧠 [AGENTE IA]: Escribe 'ai <pregunta>' para consultar al modelo local.");
