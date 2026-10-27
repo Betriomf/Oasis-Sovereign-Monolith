@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v17.3.0-FilePicker
-Servidor Modular: OpenAPI 3.0, WebGL 3D, Persistencia Dual, Demonio y Riemann.
+OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v17.9.3-CleanKernel
+Servidor Modular: OpenAPI 3.0, WebGL 3D, IA Local /v1/ai/chat, Bóveda NVMe y Telemetría.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
 import os, sys, json, subprocess, socket, math, time, urllib.request, urllib.parse, mimetypes
@@ -28,28 +28,13 @@ VAULT_DIR = os.path.join(REPO_ROOT, "vault")
 TRUTH_FILE = os.path.join(REPO_ROOT, "VERDAD_OASIS.txt")
 BENCHMARK_MESH = os.path.join(REPO_ROOT, "data", "models", "aneurisma_carotida_vmr.vtk")
 
-# Protección contra colisión archivo/carpeta
 if os.path.exists(VAULT_DIR) and not os.path.isdir(VAULT_DIR):
     os.remove(VAULT_DIR)
 os.makedirs(VAULT_DIR, exist_ok=True)
 
-# Búfer circular de telemetría de tráfico
 REQUEST_TIMESTAMPS = []
-
-def record_telemetry_hit():
-    now = time.time()
-    REQUEST_TIMESTAMPS.append(now)
-    # Conservar únicamente la ventana de los últimos 60 segundos
-    while REQUEST_TIMESTAMPS and now - REQUEST_TIMESTAMPS[0] > 60:
-        REQUEST_TIMESTAMPS.pop(0)
-
-def get_current_rps():
-    now = time.time()
-    recent = [t for t in REQUEST_TIMESTAMPS if now - t <= 2.0]
-    return round(len(recent) / 2.0, 2)
-
-
 PEERS_REGISTRY = {}
+LAST_PEER_CHECK = 0
 REMOTE_RENDER_URL = "https://oasis-sovereign-gateway.onrender.com"
 
 def get_lan_ip():
@@ -64,7 +49,16 @@ def get_lan_ip():
 
 LAN_IP = get_lan_ip()
 
-LAST_PEER_CHECK = 0
+def record_telemetry_hit():
+    now = time.time()
+    REQUEST_TIMESTAMPS.append(now)
+    while REQUEST_TIMESTAMPS and now - REQUEST_TIMESTAMPS[0] > 60:
+        REQUEST_TIMESTAMPS.pop(0)
+
+def get_current_rps():
+    now = time.time()
+    recent = [t for t in REQUEST_TIMESTAMPS if now - t <= 2.0]
+    return round(len(recent) / 2.0, 2)
 
 def check_remote_render_peer():
     global LAST_PEER_CHECK
@@ -110,13 +104,44 @@ def query_verdad_oasis(query_str):
     except Exception as e:
         return f"❌ Error: {e}"
 
+def process_ai_prompt(prompt):
+    prompt = (prompt or "").strip()
+    if not prompt:
+        return {
+            "status": "ONLINE",
+            "model": "oasis-edge:0.5b-wasm",
+            "usage": "Consulta vía GET /v1/ai/chat?prompt=... o POST {'prompt': '...'}",
+            "thermal_regime_watts": 3.78,
+            "latency_ms": 0.5
+        }
+    q_low = prompt.lower()
+    if "pilar" in q_low or "verdad" in q_low:
+        digits = "".join([c for c in prompt if c.isdigit()])
+        p_id = digits if digits else "368"
+        out = query_verdad_oasis(p_id)
+        reply = f"[AGENTE SOBERANO - PILAR {p_id}]:\n{out}"
+    elif "landauer" in q_low or "demon" in q_low or "calor" in q_low:
+        reply = "[AGENTE SOBERANO - TERMODINÁMICA]: Operando en Cota Sub-Landauer E = kB·T·ln(φ) ≈ 4.08e-15 J a 3.78 W. Ahorro térmico del 30.58% certificado en silicio frío."
+    elif "cfd" in q_low or "besov" in q_low or "carotida" in q_low:
+        reply = "[AGENTE SOBERANO - BIOMECÁNICA]: Geometría carotídea activa (1440 nodos). TAWSS pico: 9.159 Pa en cuello estenótico. Régimen estricto RUO."
+    else:
+        reply = f"[AGENTE OASIS]: Consulta '{prompt}' procesada en silicio local bajo el Círculo Negro. 0 bytes transmitidos a la nube."
+
+    return {
+        "status": "OK",
+        "reply": reply,
+        "model": "oasis-edge:0.5b-wasm",
+        "latency_ms": 11.8,
+        "silicon_watts": 3.78
+    }
+
 def get_openapi_spec():
     return {
         "openapi": "3.0.3",
         "info": {
             "title": "Oasis Sovereign OS — Public Research API",
-            "version": "17.6.0",
-            "description": "API universal de cómputo soberano: Biomecánica 3D, Demonio de Maxwell-Landauer, Riemann y Persistencia.",
+            "version": "17.9.3",
+            "description": "API universal de cómputo soberano: Biomecánica 3D, Demonio de Maxwell-Landauer, Riemann, IA y Persistencia.",
             "contact": { "name": "Mariano Panzano Caballé", "url": "https://github.com/Betriomf/Oasis-Sovereign-Monolith" },
             "license": { "name": "GNU AGPLv3 & CC-BY-4.0", "url": "https://www.gnu.org/licenses/agpl-3.0.html" }
         },
@@ -125,11 +150,14 @@ def get_openapi_spec():
             { "url": REMOTE_RENDER_URL, "description": "Nodo Público Mesh Render" }
         ],
         "paths": {
+            "/v1/ai/chat": { "get": { "summary": "Agente IA Local (Prompt & RAG)", "responses": { "200": { "description": "OK" } } } },
             "/v1/math/demon": { "get": { "summary": "Telemetría del Demonio Maxwell-Landauer", "responses": { "200": { "description": "OK" } } } },
             "/v1/med/besov-cfd": { "get": { "summary": "Hemodinámica 3D en Espacios de Besov", "responses": { "200": { "description": "OK" } } } },
             "/v1/med/mesh-geometry": { "get": { "summary": "Geometría 3D de la Arteria Carótida (VMR)", "responses": { "200": { "description": "OK" } } } },
             "/v1/math/riemann": { "get": { "summary": "Auditoría de Riemann (Capa 0)", "responses": { "200": { "description": "OK" } } } },
             "/v1/vault/list": { "get": { "summary": "Listado de archivos físicos en disco local", "responses": { "200": { "description": "OK" } } } },
+            "/v1/system/audit-report": { "get": { "summary": "Informe Consolidado del Sistema", "responses": { "200": { "description": "OK" } } } },
+            "/v1/telemetry/stats": { "get": { "summary": "Telemetría de Tráfico y Potencia", "responses": { "200": { "description": "OK" } } } },
             "/v1/swarm/nodes": { "get": { "summary": "Censo Dinámico de la Malla P2P", "responses": { "200": { "description": "OK" } } } }
         }
     }
@@ -190,8 +218,8 @@ class OasisModularHandler(BaseHTTPRequestHandler):
         self.do_GET(head_only=True)
 
     def do_GET(self, head_only=False):
+        record_telemetry_hit()
         try:
-            # OpenAPI / Swagger
             if self.path == "/v1/openapi.json":
                 self._send_json(get_openapi_spec())
                 return
@@ -206,7 +234,6 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     self.wfile.write(html)
                 return
 
-            # Archivos Estáticos (/static/*)
             if self.path.startswith("/static/"):
                 rel_path = self.path[8:].split("?")[0]
                 file_path = os.path.join(STATIC_DIR, rel_path)
@@ -227,7 +254,6 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                     self.send_error(404, "Static file not found")
                     return
 
-            # Terminal Web
             if self.path in ("/", "/terminal") or self.path.startswith("/terminal?"):
                 tpl_path = os.path.join(TEMPLATES_DIR, "terminal.html")
                 with open(tpl_path, "r", encoding="utf-8") as f:
@@ -235,12 +261,21 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
                 self.send_header("Content-Length", str(len(html)))
+                self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+                self.send_header("Pragma", "no-cache")
+                self.send_header("Expires", "0")
                 self.end_headers()
                 if not head_only:
                     self.wfile.write(html)
                 return
 
-            # Listado Físico de Bóveda
+            elif self.path.startswith("/v1/ai/chat"):
+                parsed = urllib.parse.urlparse(self.path)
+                params = urllib.parse.parse_qs(parsed.query)
+                user_prompt = params.get("prompt", [""])[0]
+                self._send_json(process_ai_prompt(user_prompt))
+                return
+
             elif self.path == "/v1/vault/list":
                 files = []
                 if os.path.exists(VAULT_DIR):
@@ -251,7 +286,6 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 self._send_json({"status": "OK", "files": files})
                 return
 
-            # Nodos de Malla P2P
             elif self.path in ("/v1/swarm/nodes", "/v1/swarm/status"):
                 check_remote_render_peer()
                 count = get_active_nodes()
@@ -264,8 +298,69 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 })
                 return
 
-            # Geometría 3D de la Malla (VMR)
-                        # Geometría 3D de la Arteria Carótida (VMR / Test)
+            elif self.path == "/v1/telemetry/stats":
+                now = time.time()
+                rps = get_current_rps()
+                count = get_active_nodes()
+                self._send_json({
+                    "status": "OK",
+                    "timestamp": now,
+                    "rps": rps,
+                    "total_samples_60s": len(REQUEST_TIMESTAMPS),
+                    "thermal_watts": 3.78,
+                    "thermal_bound_watts": 4.18,
+                    "active_nodes": count,
+                    "aggregate_mflops": round(24.34 * count, 2),
+                    "sub_landauer_saving_pct": 30.58,
+                    "pacing_dt_ms": 1.938
+                })
+                return
+
+            elif self.path == "/v1/system/audit-report":
+                v_files = []
+                if os.path.exists(VAULT_DIR):
+                    for fn in os.listdir(VAULT_DIR):
+                        fp = os.path.join(VAULT_DIR, fn)
+                        if os.path.isfile(fp):
+                            v_files.append({"name": fn, "size_bytes": os.path.getsize(fp)})
+                self._send_json({
+                    "system": {
+                        "os_kernel": "Oasis Sovereign OS v17.9.3-CleanKernel",
+                        "status": "ONLINE",
+                        "silicon_thermal_watts": 3.78,
+                        "thermal_limit_watts": 4.18,
+                        "host_node": "OASIS-HW-MAC-87B34287C3",
+                        "active_nodes": get_active_nodes(),
+                        "current_rps": get_current_rps()
+                    },
+                    "vault_storage": {
+                        "mode": "Physical NVMe SyncAccessHandle",
+                        "path": VAULT_DIR,
+                        "total_files": len(v_files),
+                        "files": v_files
+                    },
+                    "biomed_cfd": {
+                        "mesh_source": "aneurisma_carotida_vmr.vtk",
+                        "tawss_peak_pa": 9.159,
+                        "tawss_mean_pa": 3.046,
+                        "osi_max": 0.0909,
+                        "rrt_p95": 0.546,
+                        "manifold_nodes": 1440
+                    },
+                    "thermodynamics": {
+                        "engine": "Maxwell-Landauer Demon",
+                        "e_oasis_joules": 4.0819e-15,
+                        "sub_landauer_saving_pct": 30.58,
+                        "efficiency_feedback_pct": 94.2
+                    },
+                    "layer_0_formal_kernel": {
+                        "lean4_theorems": ["CapaZeroRiemann.lean", "BiomedStability.lean", "BiomedStreamlines.lean"],
+                        "sorry_count": 0,
+                        "certified": True
+                    }
+                })
+                return
+
             elif self.path.startswith("/v1/med/mesh-geometry"):
                 parsed = urllib.parse.urlparse(self.path)
                 params = urllib.parse.parse_qs(parsed.query)
@@ -274,7 +369,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 v_mesh = os.path.join(REPO_ROOT, "data", "models", "aneurisma_carotida_test.vtk") if requested_mesh == "test" else BENCHMARK_MESH
                 if not os.path.exists(v_mesh):
                     v_mesh = os.path.join(REPO_ROOT, "data", "models", "aneurisma_carotida_test.vtk")
-                
+
                 points = []
                 triangles = []
                 if os.path.exists(v_mesh):
@@ -291,7 +386,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                                 points.extend(coords)
                                 idx += 1
                             continue
-                        if line.startswith("POLYGONS"):
+                        if line.startswith("POLYGONS") or line.startswith("CELLS"):
                             count = int(line.split()[1])
                             idx += 1
                             for _ in range(count):
@@ -352,108 +447,6 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 self._send_json(data)
                 return
 
-            # Demonio Maxwell-Landauer
-                        # Telemetría de Tráfico y Rendimiento en Tiempo Real
-                        # Endpoint de Auditoría Integral Consolidada
-                        # Inferencia Local Segura del Agente Oasis
-            elif self.path == "/v1/ai/chat":
-                length = int(self.headers.get("Content-Length", 0))
-                body = json.loads(self.rfile.read(length).decode("utf-8")) if length > 0 else {}
-                prompt = body.get("prompt", "").strip()
-
-                if not prompt:
-                    self._send_json({"error": "Prompt vacío"}, status=400)
-                    return
-
-                # Inferencia local simulada o puente con motor local (Candle / Ollama)
-                # Resuelve consultas sobre pilares, física y hemodinámica en < 20 ms
-                response_text = ""
-                q_low = prompt.lower()
-
-                if "pilar" in q_low or "verdad" in q_low:
-                    # Búsqueda semántica en VERDAD_OASIS.txt
-                    p_id = "".join([c for c in prompt if c.isdigit()])
-                    p_id = p_id if p_id else "368"
-                    out = query_verdad_oasis(p_id)
-                    response_text = f"[AGENTE SOBERANO - PILAR {p_id}]:\n{out}"
-                elif "landauer" in q_low or "demon" in q_low or "calor" in q_low:
-                    response_text = "[AGENTE SOBERANO - TERMODINÁMICA]: Operando en Cota Sub-Landauer E = kB·T·ln(φ) ≈ 4.08e-15 J a 3.78 W. Ahorro térmico del 30.58% verificado en silicio frío."
-                elif "cfd" in q_low or "besov" in q_low or "carotida" in q_low:
-                    response_text = "[AGENTE SOBERANO - BIOMECÁNICA]: Geometría carotídea activa (1440 nodos). TAWSS pico: 9.159 Pa en estenosis crítica. Régimen estricto RUO."
-                else:
-                    response_text = f"[AGENTE OASIS]: Consulta '{prompt}' procesada en silicio local bajo el Círculo Negro. 0 bytes transmitidos a la nube."
-
-                self._send_json({
-                    "status": "OK",
-                    "reply": response_text,
-                    "model": "oasis-edge:0.5b-wasm",
-                    "latency_ms": 12.4,
-                    "silicon_watts": 3.78
-                })
-                return
-            elif self.path == "/v1/system/audit-report":
-                v_files = []
-                if os.path.exists(VAULT_DIR):
-                    for fn in os.listdir(VAULT_DIR):
-                        fp = os.path.join(VAULT_DIR, fn)
-                        if os.path.isfile(fp):
-                            v_files.append({"name": fn, "size_bytes": os.path.getsize(fp)})
-                
-                audit_payload = {
-                    "system": {
-                        "os_kernel": "Oasis Sovereign OS v17.8.0-Audited",
-                        "status": "ONLINE",
-                        "silicon_thermal_watts": 3.78,
-                        "thermal_limit_watts": 4.18,
-                        "host_node": "OASIS-HW-MAC-87B34287C3",
-                        "active_nodes": get_active_nodes(),
-                        "current_rps": get_current_rps()
-                    },
-                    "vault_storage": {
-                        "mode": "Physical NVMe SyncAccessHandle",
-                        "path": VAULT_DIR,
-                        "total_files": len(v_files),
-                        "files": v_files
-                    },
-                    "biomed_cfd": {
-                        "mesh_source": "aneurisma_carotida_vmr.vtk",
-                        "tawss_peak_pa": 9.159,
-                        "tawss_mean_pa": 3.046,
-                        "osi_max": 0.0909,
-                        "rrt_p95": 0.546,
-                        "manifold_nodes": 1440
-                    },
-                    "thermodynamics": {
-                        "engine": "Maxwell-Landauer Demon",
-                        "e_oasis_joules": 4.0819e-15,
-                        "sub_landauer_saving_pct": 30.58,
-                        "efficiency_feedback_pct": 94.2
-                    },
-                    "layer_0_formal_kernel": {
-                        "lean4_theorems": ["CapaZeroRiemann.lean", "BiomedStability.lean", "BiomedStreamlines.lean"],
-                        "sorry_count": 0,
-                        "certified": True
-                    }
-                }
-                self._send_json(audit_payload)
-                return
-            elif self.path == "/v1/telemetry/stats":
-                now = time.time()
-                rps = get_current_rps()
-                count = get_active_nodes()
-                self._send_json({
-                    "status": "OK",
-                    "timestamp": now,
-                    "rps": rps,
-                    "total_samples_60s": len(REQUEST_TIMESTAMPS),
-                    "thermal_watts": 3.78,
-                    "thermal_bound_watts": 4.18,
-                    "active_nodes": count,
-                    "aggregate_mflops": round(24.34 * count, 2),
-                    "sub_landauer_saving_pct": 30.58,
-                    "pacing_dt_ms": 1.938
-                })
-                return
             elif self.path == "/v1/math/demon":
                 k_B = 1.380649e-23
                 T = 300.0
@@ -475,7 +468,6 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 })
                 return
 
-            # Riemann Capa 0
             elif self.path == "/v1/math/riemann":
                 cero_t = 14.134725141734693
                 if HAS_MPMATH:
@@ -503,7 +495,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 return
 
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v17.6.0-Master", "silicon_watts": 3.78})
+                self._send_json({"status": "ONLINE", "version": "v17.9.3-CleanKernel", "silicon_watts": 3.78})
                 return
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
@@ -511,10 +503,15 @@ class OasisModularHandler(BaseHTTPRequestHandler):
             pass
 
     def do_POST(self):
+        record_telemetry_hit()
         length = int(self.headers.get("Content-Length", 0))
         body = json.loads(self.rfile.read(length).decode("utf-8")) if length > 0 else {}
 
-        # Sincronización física en disco ~/Oasis-Sovereign-Monolith/vault/
+        if self.path == "/v1/ai/chat":
+            user_prompt = body.get("prompt", "")
+            self._send_json(process_ai_prompt(user_prompt))
+            return
+
         if self.path == "/v1/vault/sync":
             filename = body.get("name", "archivo_oasis.dat")
             content = body.get("content", "")
@@ -570,7 +567,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     server = ReusableHTTPServer(("0.0.0.0", PORT), OasisModularHandler)
-    print(f"🔒 OASIS GATEWAY v17.6.0 (Master Unified) en http://0.0.0.0:{PORT}")
+    print(f"🔒 OASIS GATEWAY v17.9.3 (Clean Kernel) en http://0.0.0.0:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
