@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "title": "Informe de Auditoría Biomecánica In-Silico",
+    "regulatory_status": "RESEARCH USE ONLY (RUO) — MDR 2017/745",
+    "software_kernel": "Oasis Sovereign OS v17.4",
+    "timestamp": "2026-10-28 09:22:38 UTC",
+    "host_node": "OASIS-HW-MAC-87B34287C3"
+  },
+  "vascular_geometry": {
+    "source_model": "aneurisma_carotida_vmr.vtk",
+    "nodes_count": 1440,
+    "polygons_count": 2816,
+    "stenosis_zone_z_mm": "15.0 - 42.0"
+  },
+  "hemodynamic_biomarkers": {
+    "tawss_mean_pa": 3.046,
+    "tawss_peak_pa": 9.159,
+    "osi_max": 0.0909,
+    "rrt_p95_pa_inv": 0.546,
+    "cotangent_laplace_beltrami_gradient": 0.1962
+  },
+  "clinical_diagnosis_in_silico": {
+    "mural_rupture_risk": "ALTO (TAWSS > 5.0 Pa localizado en cuello estenótico)",
+    "platelet_residence": "MODERADO (RRT = 0.546 Pa⁻¹)",
+    "recirculation_severity": "BAJO (OSI < 0.2)"
+  },
+  "digital_seal": {
+    "hash_algorithm": "SHA-256",
+    "sha256": "7b87be8d7c435285a8eafb73081d429b573564d966c09f5fd9c4d08a0da6a12c",
+    "signed_by": "Mariano Panzano Caballé",
+    "license": "GNU AGPLv3 / CC-BY-4.0"
+  }
+}
