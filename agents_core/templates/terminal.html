@@ -157,6 +157,7 @@
   <div class="header">
     <span>🛰️ OASIS SOVEREIGN OS <strong>v18.7.6</strong></span>
     <div class="badge-bar">
+      <span class="badge" id="yield-badge" style="background:#1a1000; border-color:#ffaa00; color:#ffaa00; cursor:pointer;" onclick="toggleYieldCompute()">⚡ CEDER CÓMPUTO: OFF</span>
       <span class="badge badge-hw">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
       <span class="badge badge-3d" onclick="openMesh3dModal()">👁️ ROTAR MALLA 3D</span>
@@ -837,6 +838,174 @@
     }
 
     
+    
+    // === ESTADO SOBERANO: CEDER CÓMPUTO ===
+    let yieldComputeActive = false;
+
+    function toggleYieldCompute() {
+      yieldComputeActive = !yieldComputeActive;
+      const b = document.getElementById("yield-badge");
+      if (yieldComputeActive) {
+        b.style.background = "#002812";
+        b.style.borderColor = "#00ff9d";
+        b.style.color = "#00ff9d";
+        b.innerText = "⚡ CEDER CÓMPUTO: ACTIVO";
+        appendLine("⚡ [SOBERANÍA]: Modo ceder cómputo ACTIVADO. El nodo aceptará resolver sub-mallas CFD para la red bajo cota de 3.78 W.", "#00ff9d");
+      } else {
+        b.style.background = "#1a1000";
+        b.style.borderColor = "#ffaa00";
+        b.style.color = "#ffaa00";
+        b.innerText = "⚡ CEDER CÓMPUTO: OFF";
+        appendLine("🔒 [SOBERANÍA]: Modo ceder cómputo DESACTIVADO. Silicio 100% insular y privado.", "#ffaa00");
+      }
+      fetch("/v1/swarm/heartbeat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ yield_compute: yieldComputeActive })
+      }).catch(() => {});
+    }
+
+    // === MOTOR 3D A 2D ISOMÉTRICO (ZERO-WEBGL / INFALIBLE) ===
+    let meshPoints = [];
+    let meshIndices = [];
+    let meshTawss = [];
+    let rotX = 0.4;
+    let rotY = -0.6;
+    let isDraggingMesh = false;
+    let prevPointerX = 0;
+    let prevPointerY = 0;
+    let animFrame2D = null;
+
+    function initIsometricScene() {
+      const canvas = document.getElementById("canvas-2d-carotida");
+      if (!canvas) return;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+
+      if (meshPoints.length === 0) {
+        fetch("/v1/med/mesh-geometry")
+          .then(r => r.json())
+          .then(d => {
+            meshPoints = d.points || [];
+            meshIndices = d.indices || [];
+            meshTawss = d.tawss || [];
+            document.getElementById("lbl-nodes").innerText = d.num_nodes || (meshPoints.length / 3);
+            document.getElementById("lbl-tris").innerText = d.num_triangles || (meshIndices.length / 3);
+            start2DRenderLoop();
+          })
+          .catch(e => appendLine("❌ Error cargando geometría: " + e, "#ff5555"));
+      } else {
+        start2DRenderLoop();
+      }
+
+      // Eventos de ratón y táctiles
+      canvas.onpointerdown = (e) => {
+        isDraggingMesh = true;
+        prevPointerX = e.clientX;
+        prevPointerY = e.clientY;
+        canvas.style.cursor = "grabbing";
+      };
+      window.onpointerup = () => {
+        isDraggingMesh = false;
+        if (canvas) canvas.style.cursor = "grab";
+      };
+      window.onpointermove = (e) => {
+        if (!isDraggingMesh) return;
+        rotY += (e.clientX - prevPointerX) * 0.008;
+        rotX += (e.clientY - prevPointerY) * 0.008;
+        prevPointerX = e.clientX;
+        prevPointerY = e.clientY;
+      };
+    }
+
+    function start2DRenderLoop() {
+      if (animFrame2D) cancelAnimationFrame(animFrame2D);
+      const canvas = document.getElementById("canvas-2d-carotida");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      function renderFrame() {
+        const modal = document.getElementById("modal-3d");
+        if (!modal || modal.style.display !== "flex") return;
+
+        // Auto-rotación suave si no se arrastra
+        if (!isDraggingMesh) {
+          rotY += 0.003;
+        }
+
+        ctx.fillStyle = "#010408";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+        const scale = Math.min(canvas.width, canvas.height) * 0.015;
+
+        const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+        const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+
+        const numNodes = meshPoints.length / 3;
+        const proj = new Float32Array(numNodes * 2);
+
+        // Proyección ortogonal de nodos
+        for (let i = 0; i < numNodes; i++) {
+          let x = meshPoints[i * 3];
+          let y = meshPoints[i * 3 + 1];
+          let z = meshPoints[i * 3 + 2] - 25.0; // Centrar Z
+
+          // Rotación Y
+          let x1 = x * cosY + z * sinY;
+          let z1 = -x * sinY + z * cosY;
+
+          // Rotación X
+          let y2 = y * cosX - z1 * sinX;
+          let z2 = y * sinX + z1 * cosX;
+
+          proj[i * 2] = cx + x1 * scale;
+          proj[i * 2 + 1] = cy - y2 * scale;
+        }
+
+        // Trazado de aristas triangulares con mapa de calor hemodinámico
+        ctx.lineWidth = 0.6;
+        const numTris = Math.min(meshIndices.length / 3, 2816);
+
+        for (let t = 0; t < numTris; t++) {
+          const i0 = meshIndices[t * 3];
+          const i1 = meshIndices[t * 3 + 1];
+          const i2 = meshIndices[t * 3 + 2];
+
+          const tawssVal = meshTawss[i0] || 2.0;
+          // Mapa de color: TAWSS bajo = cian/verde, alto (estenosis) = amarillo/rojo
+          if (tawssVal > 6.0) {
+            ctx.strokeStyle = "rgba(255, 75, 75, 0.45)";
+          } else if (tawssVal > 3.5) {
+            ctx.strokeStyle = "rgba(255, 215, 0, 0.35)";
+          } else {
+            ctx.strokeStyle = "rgba(0, 255, 157, 0.25)";
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(proj[i0 * 2], proj[i0 * 2 + 1]);
+          ctx.lineTo(proj[i1 * 2], proj[i1 * 2 + 1]);
+          ctx.lineTo(proj[i2 * 2], proj[i2 * 2 + 1]);
+          ctx.closePath();
+          ctx.stroke();
+        }
+
+        animFrame2D = requestAnimationFrame(renderFrame);
+      }
+
+      renderFrame();
+    }
+
+    // Redirigir apertura del modal a la escena isométrica 2D
+    function openMesh3dModal() {
+      const m = document.getElementById("modal-3d");
+      if (!m) return;
+      m.style.display = "flex";
+      setTimeout(initIsometricScene, 50);
+    }
+
     // Controladores de Modales 3D
     function closeModal3D() {
       const m = document.getElementById("modal-3d");
@@ -1181,14 +1350,23 @@
     appendLine("-----------------------------------------------------------------------------");
   </script>
 
-  <!-- MODAL VISOR 3D CARÓTIDA VMR -->
-  <div id="modal-3d" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,12,0.92); z-index:9999; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
-    <div style="width:92%; max-width:960px; height:80vh; background:#040c14; border:1px solid #00ff9d; border-radius:8px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 0 35px rgba(0,255,157,0.25);">
+  
+  <!-- MODAL ANATÓMICO 2D ISOMÉTRICO (ZERO-WEBGL / INFALIBLE) -->
+  <div id="modal-3d" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,12,0.94); z-index:9999; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+    <div style="width:94%; max-width:980px; height:82vh; background:#03080e; border:1px solid #00ff9d; border-radius:8px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 0 35px rgba(0,255,157,0.25);">
       <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:#071622; border-bottom:1px solid #005a36;">
-        <span style="color:#00ff9d; font-weight:bold; font-size:0.9rem;">🩺 VISOR ANATÓMICO 3D — ARTERIA CARÓTIDA VMR (1440 NODOS)</span>
+        <span style="color:#00ff9d; font-weight:bold; font-size:0.88rem;">🩺 VISOR ANATÓMICO ISOMÉTRICO — CARÓTIDA VMR (PROYECCIÓN MATEMÁTICA PURA)</span>
         <button onclick="closeModal3D()" style="background:#160505; border:1px solid #ff5555; color:#ff5555; padding:4px 12px; border-radius:4px; cursor:pointer; font-weight:bold;">✕ CERRAR</button>
       </div>
-      <div id="canvas-container-3d" style="flex:1; position:relative; width:100%; height:100%; background:#020508;"></div>
+      <div style="padding:6px 16px; background:#05101a; display:flex; gap:16px; font-size:0.75rem; color:#88aacc; border-bottom:1px solid #082218;">
+        <span>Nodos: <strong id="lbl-nodes" style="color:#00ff9d;">1440</strong></span>
+        <span>Triángulos: <strong id="lbl-tris" style="color:#00ff9d;">2816</strong></span>
+        <span>Motor: <strong style="color:#ffd700;">Canvas 2D CPU/Matrix (Zero GPU Crash)</strong></span>
+        <span>Arrastra para rotar en cualquier pantalla</span>
+      </div>
+      <div style="flex:1; position:relative; width:100%; height:100%; background:#010408; display:flex; align-items:center; justify-content:center;">
+        <canvas id="canvas-2d-carotida" style="display:block; cursor:grab;"></canvas>
+      </div>
     </div>
   </div>
 
