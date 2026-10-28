@@ -5,6 +5,7 @@
   <title>OASIS SOVEREIGN OS [v18.3.0-Production3D]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
@@ -46,6 +47,67 @@
     .tab-btn.active { background: #002b4d; border-color: #00aaff; color: #80d4ff; }
     .tab-content { flex: 1; padding: 14px; overflow-y: auto; background: #02060a; display: none; }
     .tab-content.active { display: block; }
+  
+    /* Estilos Visor PDF.js Soberano */
+    #pdf-drop-zone {
+      border: 2px dashed #00ff9d;
+      border-radius: 8px;
+      padding: 30px;
+      text-align: center;
+      background: rgba(0, 34, 23, 0.4);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 12px;
+    }
+    #pdf-drop-zone.dragover {
+      background: rgba(0, 255, 157, 0.2);
+      border-color: #00ffff;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    .pdf-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0a1926;
+      border: 1px solid #005a36;
+      border-radius: 6px;
+      padding: 6px 12px;
+      margin-bottom: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pdf-btn {
+      background: #0c1a24;
+      border: 1px solid #00ff9d;
+      color: #00ff9d;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: inherit;
+    }
+    .pdf-btn:hover {
+      background: #005a36;
+      color: #ffffff;
+    }
+    #pdf-canvas-container {
+      display: none;
+      text-align: center;
+      overflow-x: auto;
+      background: #020408;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #003322;
+    }
+    #pdf-render-canvas {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #005a36;
+      border-radius: 4px;
+      box-shadow: 0 0 25px rgba(0, 255, 157, 0.15);
+    }
+
   </style>
 </head>
 <body>
@@ -193,8 +255,33 @@
       <div id="tab-files" class="tab-content active">
         <div id="opfs-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
-      <div id="tab-riemann" class="tab-content" style="color:#d8f8e8; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Cargando demostración formal de Riemann...</div>
-      <div id="tab-viewer" class="tab-content" style="color:#aaffaa; font-size:0.82rem; line-height:1.6; white-space:pre-wrap;">Selecciona un archivo para ver su contenido.</div>
+            <div id="tab-riemann" class="tab-content">
+        <div class="pdf-toolbar">
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button class="pdf-btn" onclick="document.getElementById('pdf-file-input').click()">📂 ABRIR PDF</button>
+            <button class="pdf-btn" onclick="onPrevPdfPage()">◀ ANTERIOR</button>
+            <span style="font-size:0.75rem; color:#88aacc;">Pág: <strong id="pdf-page-num" style="color:#00ff9d;">0</strong> / <span id="pdf-page-count">0</span></span>
+            <button class="pdf-btn" onclick="onNextPdfPage()">SIGUIENTE ▶</button>
+          </div>
+          <div style="display:flex; gap:6px; align-items:center;">
+            <button class="pdf-btn" onclick="zoomPdf(-0.15)">🔍 -</button>
+            <button class="pdf-btn" onclick="zoomPdf(0.15)">🔍 +</button>
+            <span id="pdf-file-name" style="font-size:0.72rem; color:#ffd700; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Sin archivo</span>
+          </div>
+        </div>
+
+        <input type="file" id="pdf-file-input" style="display:none;" accept=".pdf" onchange="handlePdfFileInput(this.files[0])" />
+
+        <div id="pdf-drop-zone" onclick="document.getElementById('pdf-file-input').click()">
+          <div style="font-size:1.8rem; margin-bottom:8px;">📄</div>
+          <div style="color:#00ff9d; font-weight:bold; font-size:0.85rem;">ARRASTRA AQUÍ UN DOCUMENTO PDF CLÍNICO O TÉCNICO</div>
+          <div style="color:#88aacc; font-size:0.72rem; margin-top:4px;">Renderizado síncrono en memoria RAM local (Capa 0 Zero-Cloud)</div>
+        </div>
+
+        <div id="pdf-canvas-container">
+          <canvas id="pdf-render-canvas"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -480,6 +567,123 @@
         .catch(e => { if (statusEl) statusEl.innerText = "Error: " + e; });
     }
 
+    
+    // === MOTOR CLIENT-SIDE PDF.JS SOBERANO ===
+    let pdfDoc = null;
+    let pdfPageNum = 1;
+    let pdfPageRendering = false;
+    let pdfNumPending = null;
+    let pdfScale = 1.15;
+
+    function initPdfWorker() {
+      if (window.pdfjsLib && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+    }
+
+    function loadPdfFromBuffer(arrayBuffer, fileName) {
+      initPdfWorker();
+      const nameEl = document.getElementById('pdf-file-name');
+      if (nameEl) nameEl.innerText = fileName || "documento.pdf";
+      appendLine("📄 [BÓVEDA PDF]: Procesando " + (fileName || "documento") + " en RAM...", "#00ffff");
+
+      pdfjsLib.getDocument({ data: arrayBuffer }).promise.then((doc) => {
+        pdfDoc = doc;
+        pdfPageNum = 1;
+        document.getElementById('pdf-page-count').innerText = doc.numPages;
+        document.getElementById('pdf-drop-zone').style.display = 'none';
+        document.getElementById('pdf-canvas-container').style.display = 'block';
+        renderPdfPage(pdfPageNum);
+        appendLine("✅ PDF cargado con éxito (" + doc.numPages + " páginas). 0 bytes filtrados a la red.", "#00ffaa");
+      }).catch((err) => {
+        appendLine("❌ Error abriendo PDF: " + err.message, "#ff5555");
+      });
+    }
+
+    function renderPdfPage(num) {
+      if (!pdfDoc) return;
+      pdfPageRendering = true;
+      pdfDoc.getPage(num).then((page) => {
+        const canvas = document.getElementById('pdf-render-canvas');
+        const ctx = canvas.getContext('2d');
+        const viewport = page.getViewport({ scale: pdfScale });
+
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+
+        page.render(renderContext).promise.then(() => {
+          pdfPageRendering = false;
+          if (pdfNumPending !== null) {
+            renderPdfPage(pdfNumPending);
+            pdfNumPending = null;
+          }
+        });
+      });
+      document.getElementById('pdf-page-num').innerText = num;
+    }
+
+    function queueRenderPdfPage(num) {
+      if (pdfPageRendering) {
+        pdfNumPending = num;
+      } else {
+        renderPdfPage(num);
+      }
+    }
+
+    function onPrevPdfPage() {
+      if (!pdfDoc || pdfPageNum <= 1) return;
+      pdfPageNum--;
+      queueRenderPdfPage(pdfPageNum);
+    }
+
+    function onNextPdfPage() {
+      if (!pdfDoc || pdfPageNum >= pdfDoc.numPages) return;
+      pdfPageNum++;
+      queueRenderPdfPage(pdfPageNum);
+    }
+
+    function zoomPdf(delta) {
+      if (!pdfDoc) return;
+      pdfScale = Math.max(0.6, Math.min(2.5, pdfScale + delta));
+      queueRenderPdfPage(pdfPageNum);
+    }
+
+    function handlePdfFileInput(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => loadPdfFromBuffer(e.target.result, file.name);
+      reader.readAsArrayBuffer(file);
+    }
+
+    // Configuración de Drag & Drop sobre la zona de carga
+    document.addEventListener("DOMContentLoaded", () => {
+      const dropZone = document.getElementById("pdf-drop-zone");
+      if (!dropZone) return;
+
+      dropZone.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropZone.classList.add("dragover");
+      });
+      dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+      dropZone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("dragover");
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          const file = e.dataTransfer.files[0];
+          if (file.name.toLowerCase().endsWith(".pdf")) {
+            handlePdfFileInput(file);
+          } else {
+            appendLine("⚠️ Por favor, arrastra un archivo con extensión .pdf", "#ffaa00");
+          }
+        }
+      });
+    });
+
     // === BÓVEDA OPFS ===
     function switchVaultTab(tab) {
       document.querySelectorAll("#vault-modal .tab-btn").forEach(b => b.classList.remove("active"));
@@ -707,6 +911,14 @@
       // 1. Alias de Sistema
       if (low === "dir") { COMMANDS["ls"] ? COMMANDS["ls"]() : runCommand("ls"); return; }
       if (low === "cls") { COMMANDS["clear"](); return; }
+
+            // Interceptor de Documentos PDF
+      if (low.endsWith(".pdf")) {
+        appendLine("📄 [INTERCEPTOR PDF]: Abriendo documento en la Bóveda...", "#00ffff");
+        openVaultModal();
+        switchVaultTab("riemann");
+        return;
+      }
 
       // 2. Interceptor de Mallas 3D (.vtk, .vtp, .stl)
       if (low.endsWith(".vtk") || low.endsWith(".vtp") || low.endsWith(".stl")) {
