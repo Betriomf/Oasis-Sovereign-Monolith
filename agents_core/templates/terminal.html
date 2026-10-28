@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
+  <script>
+    // === VIGILANTE FORENSE DE ERRORES CLIENTE (REPORTE AUTOMÁTICO A DARWIN) ===
+    window.onerror = function(message, source, lineno, colno, error) {
+      const errPayload = {
+        error: message,
+        source: source ? source.split('/').pop() : 'inline',
+        line: lineno
+      };
+      fetch('/v1/telemetry/client-error', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(errPayload)
+      }).catch(() => {});
+      return false;
+    };
+  </script>
+
   <meta charset="UTF-8">
   <title>OASIS SOVEREIGN OS [v18.3.0-Production3D]</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -982,6 +1000,15 @@
       .then(d => appendLine(d.output || "✅ Completado.", "#00ffff"))
       .catch(e => appendLine("❌ Error Darwin: " + e, "#ff5555"));
     }
+
+    
+    // Foco garantizado en cualquier clic para evitar bloqueos
+    document.addEventListener("click", (e) => {
+      const modalOpen = document.querySelector(".modal-backdrop[style*='display: flex']");
+      if (!modalOpen && document.activeElement !== input) {
+        input.focus();
+      }
+    });
 
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {

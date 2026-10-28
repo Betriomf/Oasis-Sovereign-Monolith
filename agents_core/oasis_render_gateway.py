@@ -33,6 +33,7 @@ if os.path.exists(VAULT_DIR) and not os.path.isdir(VAULT_DIR):
 os.makedirs(VAULT_DIR, exist_ok=True)
 
 REQUEST_TIMESTAMPS = []
+CLIENT_ERRORS = []
 PEERS_REGISTRY = {}
 LAST_PEER_CHECK = 0
 REMOTE_RENDER_URL = "https://oasis-sovereign-gateway.onrender.com"
@@ -319,6 +320,10 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 })
                 return
 
+            
+            elif self.path == "/v1/telemetry/client-error":
+                self._send_json({"status": "OK", "total_errors": len(CLIENT_ERRORS), "errors": CLIENT_ERRORS})
+                return
             elif self.path == "/v1/telemetry/stats":
                 now = time.time()
                 rps = get_current_rps()
@@ -528,6 +533,18 @@ class OasisModularHandler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", 0))
         body = json.loads(self.rfile.read(length).decode("utf-8")) if length > 0 else {}
 
+        
+        if self.path == "/v1/telemetry/client-error":
+            CLIENT_ERRORS.append({
+                "timestamp": time.time(),
+                "error": body.get("error", "Error desconocido"),
+                "source": body.get("source", "browser"),
+                "line": body.get("line", 0)
+            })
+            while len(CLIENT_ERRORS) > 50:
+                CLIENT_ERRORS.pop(0)
+            self._send_json({"status": "LOGGED"})
+            return
         if self.path == "/v1/ai/chat":
             user_prompt = body.get("prompt", "")
             self._send_json(process_ai_rag(user_prompt))
