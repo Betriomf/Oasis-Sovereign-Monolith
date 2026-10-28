@@ -1,0 +1,1 @@
+PILAR 14: Protocolo Oasis-QUIC (O-QUIC) y Pacing Áureo (Pilar 14): Documento docs/PAPER_PILAR_014_OASIS_QUIC_PACER_AUREO.md formaliza la modulación temporal de paquetes en Delta_t = pi/phi (1.94ms), suprimiendo el jitter P99 a 0.08ms en micro-tramas pi KB bajo AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballé.

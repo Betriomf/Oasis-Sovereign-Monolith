@@ -1,0 +1,5 @@
+{
+  "pilar_num": 339,
+  "question": "Desarrolla con rigor de análisis funcional: 1) Explica por qué para f=0 el ratio Q_f = ||\\dot{\\Delta}_j \\nabla f||_{L^\\infty} / (\\nu 2^{2j} ||\\dot{\\Delta}_j S||_{L^\\infty}) es idénticamente nulo. 2) Formula la condición BKM real mediante la integral temporal de la norma L-infinito de la vorticidad y su control diádico en Besov sin saltos algebraicos heurísticos.",
+  "model": "oasis-phi3-laminar:latest"
+}

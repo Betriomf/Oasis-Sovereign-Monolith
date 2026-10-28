@@ -1,0 +1,1 @@
+PILAR 147: Filtrado de Tráfico Saliente y Mitigación de Telemetría (Pilar 147): Módulo 'agents_core/oasis_firewall_rules.py' audita y suprime sockets salientes no autorizados para evitar acumulación de cachés remotas bajo Licencia AGPLv3.

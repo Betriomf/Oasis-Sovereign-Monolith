@@ -1,0 +1,1 @@
+PILAR 119: Simulador ÆTHER con Constante de Mariano kappa_M (Pilar 119): Módulo 'agents_core/aether_mariano_asymmetry_solver.py' integra kappa_M (-0.6587) como amortiguador de fricción de fase en el borrado de Landauer-Oasis, demostrando la convergencia exacta al 9.02% (phi^-5) a 5.39W bajo Licencia AGPLv3.

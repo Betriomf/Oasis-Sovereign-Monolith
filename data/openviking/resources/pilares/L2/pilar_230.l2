@@ -1,0 +1,1 @@
+PILAR 230: Compilación de Mínima Acción, Unity Builds y Silicio Frío (Pilar 230): Documento docs/PAPER_PILAR_230_MINIMAL_ACTION_COMPILATION.md formaliza la reducción del 90% en tiempos de compilación mediante single-compilation-units, pipes en RAM (-pipe) y eliminación de I/O redundante por Mariano Panzano Caballé. Licencia AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballé.

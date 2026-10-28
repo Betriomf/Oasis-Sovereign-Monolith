@@ -1,0 +1,1 @@
+PILAR 41: Rastreador de Literatura y Auditor de Papers: Módulo 'agents_core/oasis_paper_watcher.py' implementa el motor de auditoría de papers recientes de arXiv y repositorios abiertos, validando los datos observacionales externos contra las predicciones en φ y el Reloj de Euler. Licencia AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballé.

@@ -1,0 +1,1 @@
+PILAR 108: Integración Graphify-Labs e Indexación de Grafo (Pilar 108): Módulo 'agents_core/oasis_graphify_connector.py' conecta el repositorio 'graphify-Labs/graphify' y NetworkX con la masa de verdad y bases Lincos, generando 'data/lincos_db/oasis_knowledge_graph.json' a 5.39W bajo Licencia AGPLv3.

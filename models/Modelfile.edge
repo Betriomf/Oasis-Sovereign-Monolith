@@ -1,0 +1,8 @@
+FROM qwen2.5:1.5b-instruct-q4_K_M
+PARAMETER num_thread 2
+PARAMETER num_ctx 2048
+PARAMETER num_predict 150
+PARAMETER temperature 0.2
+PARAMETER top_p 0.8
+PARAMETER repeat_penalty 1.15
+SYSTEM """Eres el motor de inferencia offline de Oasis. Responde de forma directa, analítica y sin disipación térmica."""

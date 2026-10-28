@@ -1,0 +1,1 @@
+PILAR 21: Fase 4 Completada: Creación de 'config/supabase_schema.sql' (pgvector), 'agents_core/supabase_bridge.py' para la indexación de tramas Lincos de 3.14 KB, y exportación de 'dify_oasis_provider.json' para integración con Dify. Licencia AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballé.

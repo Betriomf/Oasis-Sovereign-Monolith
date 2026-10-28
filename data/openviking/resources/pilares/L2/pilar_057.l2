@@ -1,0 +1,1 @@
+PILAR 57: Oráculo Merkle y Consenso Multisig 3-de-5: Módulo 'agents_core/oasis_merkle_oracle.py' empaqueta las pruebas de trabajo off-chain de los nodos Boundary en un Árbol de Merkle y valida la firma descentralizada para la emisión de $SPN en L2 bajo la Licencia AGPLv3.

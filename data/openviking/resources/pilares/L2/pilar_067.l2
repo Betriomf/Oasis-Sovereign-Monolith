@@ -1,0 +1,1 @@
+PILAR 67: Kernel Tesla-Landauer para Lubuntu y Monetización PowerDrop Búnker 84: Módulo 'agents_core/lubuntu_tesla_landauer_setup.sh' configura el Kernel de Linux (BBR, MTU 1300, vfs_cache_pressure=161, ZRAM LZ4) para flujo laminar de red, y 'agents_core/powerdrop_monetizer.py' liquida las recompensas $SPN cifradas en AES-256-CBC en Búnker 84 bajo Licencia AGPLv3.

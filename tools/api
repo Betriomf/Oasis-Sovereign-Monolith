@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+OASIS NATIVE DARWIN CLI — UNICODE & URL-ENCODED COMPLIANT
+Permite invocar endpoints o prompts con caracteres UTF-8 sin errores de códec ASCII.
+"""
+import sys, urllib.request, urllib.parse, json
+
+BASE_URL = "http://127.0.0.1:8080"
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
+        print("Uso: ./api <ruta_o_prompt> (ej: ./api /v1/system/audit-report)")
+        sys.exit(0)
+
+    raw_arg = sys.argv[1].strip()
+    if not raw_arg.startswith("/"):
+        raw_arg = "/v1/ai/chat?prompt=" + urllib.parse.quote(raw_arg)
+
+    # Separar ruta y parámetros para codificación segura RFC 3986
+    parsed = urllib.parse.urlsplit(raw_arg)
+    safe_path = urllib.parse.quote(parsed.path, safe="/")
+    safe_query = urllib.parse.quote(parsed.query, safe="=&+?")
+    
+    url = f"{BASE_URL}{safe_path}"
+    if safe_query:
+        url += f"?{safe_query}"
+
+    req = urllib.request.Request(url, headers={"User-Agent": "Oasis-Darwin-CLI/1.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=8.0) as resp:
+            raw_body = resp.read().decode("utf-8")
+            try:
+                data = json.loads(raw_body)
+                print(json.dumps(data, indent=2, ensure_ascii=False))
+            except Exception:
+                print(raw_body)
+    except Exception as e:
+        print(f"❌ Error al consultar {url}: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

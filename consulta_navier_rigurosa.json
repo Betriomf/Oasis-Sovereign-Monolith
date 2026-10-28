@@ -1,0 +1,10 @@
+{
+  "model": "oasis-phi3-laminar:latest",
+  "prompt": "INSTRUCTION: Escribe exclusivamente derivaciones en LaTeX estándar. Cero prosa en lenguaje natural. Cero introducciones.\n\n[AXIOMA_NAVIER_STOKES_3D]\nEcuación de Vorticidad: \\partial_t \\omega + (u \\cdot \\nabla)\\omega = (\\omega \\cdot \\nabla)u + \\nu \\Delta \\omega\nCriterio BKM: \\int_0^T ||\\omega(t)||_{L^\\infty} dt < \\infty\nTecho de Enstrofia Oasis: \\sup \\tilde{\\Omega}(t) \\le \\kappa^2 \\approx 5.298, \\quad \\kappa = \\ln(10) \\approx 2.3026\n\n[TAREA_MATEMATICA]\n1. Escribe la desigualdad diferencial de enstrofia d/dt ||\\omega||_{L^2}^2 + 2\\nu ||\\nabla \\omega||_{L^2}^2 \\le 2 |\\int (\\omega \\cdot \\nabla u) \\cdot \\omega dx|.\n2. Aplica el paraproducto de Bony para acotar el termino de estiramiento en el espacio de Besov dot{B}^0_{\\infty,\\infty}.\n3. Demuestra como la cota \\tilde{\\Omega}(t) \\le \\kappa^2 satura la integral temporal BKM previniendo el blow-up.\n\nLaTeX Output:",
+  "options": {
+    "temperature": 0.05,
+    "num_predict": 450,
+    "stop": ["INSTRUCTION:", "User:", "Human:"]
+  },
+  "stream": false
+}

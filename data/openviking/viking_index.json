@@ -1,0 +1,3869 @@
+{
+  "total_pilares": 552,
+  "records": [
+    {
+      "id": 1,
+      "title": "L\u00edmite de Landauer-Oasis",
+      "uri_l0": "viking://resources/pilares/L0/pilar_001.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_001.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_001.l2"
+    },
+    {
+      "id": 1,
+      "title": "L\u00edmite de Landauer-Oasis",
+      "uri_l0": "viking://resources/pilares/L0/pilar_001.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_001.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_001.l2"
+    },
+    {
+      "id": 2,
+      "title": "Ahorro Estructural por Bit",
+      "uri_l0": "viking://resources/pilares/L0/pilar_002.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_002.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_002.l2"
+    },
+    {
+      "id": 2,
+      "title": "Ahorro Estructural por Bit",
+      "uri_l0": "viking://resources/pilares/L0/pilar_002.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_002.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_002.l2"
+    },
+    {
+      "id": 3,
+      "title": "Principio Hologr\u00e1fico (AdS/CFT)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_003.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_003.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_003.l2"
+    },
+    {
+      "id": 3,
+      "title": "Principio Hologr\u00e1fico (AdS/CFT)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_003.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_003.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_003.l2"
+    },
+    {
+      "id": 4,
+      "title": "Ecuaci\u00f3n de Calor Total",
+      "uri_l0": "viking://resources/pilares/L0/pilar_004.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_004.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_004.l2"
+    },
+    {
+      "id": 4,
+      "title": "Ecuaci\u00f3n de Calor Total",
+      "uri_l0": "viking://resources/pilares/L0/pilar_004.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_004.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_004.l2"
+    },
+    {
+      "id": 5,
+      "title": "Topolog\u00eda de Primos (Ulam-Fibonacci)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_005.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_005.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_005.l2"
+    },
+    {
+      "id": 5,
+      "title": "Topolog\u00eda de Primos (Ulam-Fibonacci)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_005.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_005.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_005.l2"
+    },
+    {
+      "id": 6,
+      "title": "Validaci\u00f3n Emp\u00edrica de Primos (N=1000)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_006.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_006.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_006.l2"
+    },
+    {
+      "id": 6,
+      "title": "Validaci\u00f3n Emp\u00edrica de Primos (N=1000)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_006.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_006.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_006.l2"
+    },
+    {
+      "id": 7,
+      "title": "Demostraci\u00f3n del Atractor 2.3",
+      "uri_l0": "viking://resources/pilares/L0/pilar_007.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_007.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_007.l2"
+    },
+    {
+      "id": 7,
+      "title": "Demostraci\u00f3n del Atractor 2.3",
+      "uri_l0": "viking://resources/pilares/L0/pilar_007.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_007.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_007.l2"
+    },
+    {
+      "id": 8,
+      "title": "Tratado de Unificaci\u00f3n Hologr\u00e1fica",
+      "uri_l0": "viking://resources/pilares/L0/pilar_008.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_008.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_008.l2"
+    },
+    {
+      "id": 9,
+      "title": "Cota de Compresi\u00f3n Conforme Chen-Panzano (Pilar 9)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_009.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_009.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_009.l2"
+    },
+    {
+      "id": 10,
+      "title": "Motor de Unificaci\u00f3n (TypeScript)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_010.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_010.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_010.l2"
+    },
+    {
+      "id": 10,
+      "title": "Motor de Unificaci\u00f3n (TypeScript)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_010.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_010.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_010.l2"
+    },
+    {
+      "id": 11,
+      "title": "Orquestador del Kernel (TypeScript)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_011.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_011.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_011.l2"
+    },
+    {
+      "id": 11,
+      "title": "Orquestador del Kernel (TypeScript)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_011.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_011.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_011.l2"
+    },
+    {
+      "id": 12,
+      "title": "Miner\u00eda de Gradientes L2 & Puente Nomad/Dify",
+      "uri_l0": "viking://resources/pilares/L0/pilar_012.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_012.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_012.l2"
+    },
+    {
+      "id": 12,
+      "title": "Miner\u00eda de Gradientes L2 & Puente Nomad/Dify",
+      "uri_l0": "viking://resources/pilares/L0/pilar_012.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_012.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_012.l2"
+    },
+    {
+      "id": 13,
+      "title": "Fase 1 & 2 Completadas",
+      "uri_l0": "viking://resources/pilares/L0/pilar_013.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_013.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_013.l2"
+    },
+    {
+      "id": 13,
+      "title": "Fase 1 & 2 Completadas",
+      "uri_l0": "viking://resources/pilares/L0/pilar_013.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_013.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_013.l2"
+    },
+    {
+      "id": 14,
+      "title": "Protocolo Oasis-QUIC (O-QUIC) y Pacing \u00c1ureo (Pilar 14)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_014.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_014.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_014.l2"
+    },
+    {
+      "id": 15,
+      "title": "C\u00e1lculo de Tensi\u00f3n de Cuerda (Nambu-Goto)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_015.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_015.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_015.l2"
+    },
+    {
+      "id": 15,
+      "title": "C\u00e1lculo de Tensi\u00f3n de Cuerda (Nambu-Goto)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_015.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_015.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_015.l2"
+    },
+    {
+      "id": 16,
+      "title": "Reporte NotebookLM (Nambu-Goto & Masa Neutrino)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_016.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_016.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_016.l2"
+    },
+    {
+      "id": 16,
+      "title": "Reporte NotebookLM (Nambu-Goto & Masa Neutrino)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_016.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_016.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_016.l2"
+    },
+    {
+      "id": 17,
+      "title": "Demostraci\u00f3n del Solver \u00c6THER",
+      "uri_l0": "viking://resources/pilares/L0/pilar_017.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_017.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_017.l2"
+    },
+    {
+      "id": 17,
+      "title": "Demostraci\u00f3n del Solver \u00c6THER",
+      "uri_l0": "viking://resources/pilares/L0/pilar_017.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_017.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_017.l2"
+    },
+    {
+      "id": 18,
+      "title": "L\u00edmite de Landauer-Oasis y Silicio Fr\u00edo (Pilar 18)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_018.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_018.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_018.l2"
+    },
+    {
+      "id": 19,
+      "title": "Fase 2 Completada",
+      "uri_l0": "viking://resources/pilares/L0/pilar_019.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_019.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_019.l2"
+    },
+    {
+      "id": 19,
+      "title": "Fase 2 Completada",
+      "uri_l0": "viking://resources/pilares/L0/pilar_019.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_019.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_019.l2"
+    },
+    {
+      "id": 20,
+      "title": "Fase 3 Completada",
+      "uri_l0": "viking://resources/pilares/L0/pilar_020.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_020.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_020.l2"
+    },
+    {
+      "id": 20,
+      "title": "Fase 3 Completada",
+      "uri_l0": "viking://resources/pilares/L0/pilar_020.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_020.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_020.l2"
+    },
+    {
+      "id": 21,
+      "title": "Fase 4 Completada",
+      "uri_l0": "viking://resources/pilares/L0/pilar_021.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_021.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_021.l2"
+    },
+    {
+      "id": 21,
+      "title": "Fase 4 Completada",
+      "uri_l0": "viking://resources/pilares/L0/pilar_021.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_021.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_021.l2"
+    },
+    {
+      "id": 22,
+      "title": "Fase 5 Completada",
+      "uri_l0": "viking://resources/pilares/L0/pilar_022.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_022.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_022.l2"
+    },
+    {
+      "id": 22,
+      "title": "Fase 5 Completada",
+      "uri_l0": "viking://resources/pilares/L0/pilar_022.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_022.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_022.l2"
+    },
+    {
+      "id": 23,
+      "title": "Fase 6 y Pipeline de 23 Pasos Completado",
+      "uri_l0": "viking://resources/pilares/L0/pilar_023.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_023.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_023.l2"
+    },
+    {
+      "id": 23,
+      "title": "Fase 6 y Pipeline de 23 Pasos Completado",
+      "uri_l0": "viking://resources/pilares/L0/pilar_023.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_023.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_023.l2"
+    },
+    {
+      "id": 24,
+      "title": "Ecuaci\u00f3n de Calor Total y Holograf\u00eda de Frontera (Pilar 24)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_024.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_024.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_024.l2"
+    },
+    {
+      "id": 25,
+      "title": "Protecciones de Nube y Escudo Bohr-Hafnium",
+      "uri_l0": "viking://resources/pilares/L0/pilar_025.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_025.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_025.l2"
+    },
+    {
+      "id": 25,
+      "title": "Protecciones de Nube y Escudo Bohr-Hafnium",
+      "uri_l0": "viking://resources/pilares/L0/pilar_025.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_025.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_025.l2"
+    },
+    {
+      "id": 26,
+      "title": "Defensa Anti-Sybil y Movimiento Browniano",
+      "uri_l0": "viking://resources/pilares/L0/pilar_026.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_026.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_026.l2"
+    },
+    {
+      "id": 26,
+      "title": "Defensa Anti-Sybil y Movimiento Browniano",
+      "uri_l0": "viking://resources/pilares/L0/pilar_026.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_026.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_026.l2"
+    },
+    {
+      "id": 27,
+      "title": "Orquestaci\u00f3n Sentinel y M\u00e9trica de Minkowski",
+      "uri_l0": "viking://resources/pilares/L0/pilar_027.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_027.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_027.l2"
+    },
+    {
+      "id": 27,
+      "title": "Orquestaci\u00f3n Sentinel y M\u00e9trica de Minkowski",
+      "uri_l0": "viking://resources/pilares/L0/pilar_027.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_027.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_027.l2"
+    },
+    {
+      "id": 28,
+      "title": "Arquitectura de Licencia Dual",
+      "uri_l0": "viking://resources/pilares/L0/pilar_028.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_028.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_028.l2"
+    },
+    {
+      "id": 28,
+      "title": "Arquitectura de Licencia Dual",
+      "uri_l0": "viking://resources/pilares/L0/pilar_028.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_028.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_028.l2"
+    },
+    {
+      "id": 29,
+      "title": "Comunicaciones H\u00edbridas (I2P SSU2 + BitChat Mesh)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_029.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_029.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_029.l2"
+    },
+    {
+      "id": 29,
+      "title": "Comunicaciones H\u00edbridas (I2P SSU2 + BitChat Mesh)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_029.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_029.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_029.l2"
+    },
+    {
+      "id": 30,
+      "title": "Pila Tecnol\u00f3gica de 7 Capas y QUIC/Nostr/ZeroNet",
+      "uri_l0": "viking://resources/pilares/L0/pilar_030.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_030.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_030.l2"
+    },
+    {
+      "id": 30,
+      "title": "Pila Tecnol\u00f3gica de 7 Capas y QUIC/Nostr/ZeroNet",
+      "uri_l0": "viking://resources/pilares/L0/pilar_030.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_030.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_030.l2"
+    },
+    {
+      "id": 31,
+      "title": "An\u00e1lisis de Keller y Conjetura Jacobiana",
+      "uri_l0": "viking://resources/pilares/L0/pilar_031.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_031.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_031.l2"
+    },
+    {
+      "id": 31,
+      "title": "An\u00e1lisis de Keller y Conjetura Jacobiana",
+      "uri_l0": "viking://resources/pilares/L0/pilar_031.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_031.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_031.l2"
+    },
+    {
+      "id": 32,
+      "title": "Resoluci\u00f3n Cosmol\u00f3gica de \u00c6THER",
+      "uri_l0": "viking://resources/pilares/L0/pilar_032.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_032.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_032.l2"
+    },
+    {
+      "id": 32,
+      "title": "Resoluci\u00f3n Cosmol\u00f3gica de \u00c6THER",
+      "uri_l0": "viking://resources/pilares/L0/pilar_032.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_032.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_032.l2"
+    },
+    {
+      "id": 33,
+      "title": "Motor Unificado DePIN e IA Soberana",
+      "uri_l0": "viking://resources/pilares/L0/pilar_033.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_033.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_033.l2"
+    },
+    {
+      "id": 33,
+      "title": "Motor Unificado DePIN e IA Soberana",
+      "uri_l0": "viking://resources/pilares/L0/pilar_033.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_033.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_033.l2"
+    },
+    {
+      "id": 34,
+      "title": "Telemetr\u00eda T\u00e9rmica y Liquidaci\u00f3n L2",
+      "uri_l0": "viking://resources/pilares/L0/pilar_034.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_034.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_034.l2"
+    },
+    {
+      "id": 34,
+      "title": "Telemetr\u00eda T\u00e9rmica y Liquidaci\u00f3n L2",
+      "uri_l0": "viking://resources/pilares/L0/pilar_034.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_034.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_034.l2"
+    },
+    {
+      "id": 35,
+      "title": "Fidelidad Cu\u00e1ntica y Slashing de Gobernanza",
+      "uri_l0": "viking://resources/pilares/L0/pilar_035.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_035.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_035.l2"
+    },
+    {
+      "id": 35,
+      "title": "Fidelidad Cu\u00e1ntica y Slashing de Gobernanza",
+      "uri_l0": "viking://resources/pilares/L0/pilar_035.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_035.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_035.l2"
+    },
+    {
+      "id": 36,
+      "title": "Unificaci\u00f3n de Estructura Fina y Materia Oscura",
+      "uri_l0": "viking://resources/pilares/L0/pilar_036.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_036.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_036.l2"
+    },
+    {
+      "id": 36,
+      "title": "Unificaci\u00f3n de Estructura Fina y Materia Oscura",
+      "uri_l0": "viking://resources/pilares/L0/pilar_036.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_036.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_036.l2"
+    },
+    {
+      "id": 37,
+      "title": "Reloj de Fase de Euler y Resoluci\u00f3n de NotebookLM",
+      "uri_l0": "viking://resources/pilares/L0/pilar_037.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_037.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_037.l2"
+    },
+    {
+      "id": 37,
+      "title": "Reloj de Fase de Euler y Resoluci\u00f3n de NotebookLM",
+      "uri_l0": "viking://resources/pilares/L0/pilar_037.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_037.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_037.l2"
+    },
+    {
+      "id": 38,
+      "title": "Mercado PowerDrop con Fase de Euler",
+      "uri_l0": "viking://resources/pilares/L0/pilar_038.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_038.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_038.l2"
+    },
+    {
+      "id": 38,
+      "title": "Mercado PowerDrop con Fase de Euler",
+      "uri_l0": "viking://resources/pilares/L0/pilar_038.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_038.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_038.l2"
+    },
+    {
+      "id": 39,
+      "title": "Manifiesto y Paper Cosmol\u00f3gico PDF",
+      "uri_l0": "viking://resources/pilares/L0/pilar_039.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_039.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_039.l2"
+    },
+    {
+      "id": 39,
+      "title": "Manifiesto y Paper Cosmol\u00f3gico PDF",
+      "uri_l0": "viking://resources/pilares/L0/pilar_039.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_039.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_039.l2"
+    },
+    {
+      "id": 40,
+      "title": "Motor Euler Zero Point y Ajuste Hubble",
+      "uri_l0": "viking://resources/pilares/L0/pilar_040.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_040.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_040.l2"
+    },
+    {
+      "id": 40,
+      "title": "Motor Euler Zero Point y Ajuste Hubble",
+      "uri_l0": "viking://resources/pilares/L0/pilar_040.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_040.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_040.l2"
+    },
+    {
+      "id": 41,
+      "title": "Rastreador de Literatura y Auditor de Papers",
+      "uri_l0": "viking://resources/pilares/L0/pilar_041.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_041.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_041.l2"
+    },
+    {
+      "id": 41,
+      "title": "Rastreador de Literatura y Auditor de Papers",
+      "uri_l0": "viking://resources/pilares/L0/pilar_041.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_041.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_041.l2"
+    },
+    {
+      "id": 42,
+      "title": "Tratado de Espinores de Weyl, Matching Bra-Ket y Rotaci\u00f3n Espinorial (Pilar 42)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_042.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_042.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_042.l2"
+    },
+    {
+      "id": 43,
+      "title": "Auditor\u00eda Cient\u00edfica Cruzada DESI/Euler",
+      "uri_l0": "viking://resources/pilares/L0/pilar_043.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_043.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_043.l2"
+    },
+    {
+      "id": 43,
+      "title": "Auditor\u00eda Cient\u00edfica Cruzada DESI/Euler",
+      "uri_l0": "viking://resources/pilares/L0/pilar_043.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_043.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_043.l2"
+    },
+    {
+      "id": 44,
+      "title": "Comparaci\u00f3n Metodol\u00f3gica y Licencia Dual",
+      "uri_l0": "viking://resources/pilares/L0/pilar_044.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_044.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_044.l2"
+    },
+    {
+      "id": 44,
+      "title": "Comparaci\u00f3n Metodol\u00f3gica y Licencia Dual",
+      "uri_l0": "viking://resources/pilares/L0/pilar_044.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_044.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_044.l2"
+    },
+    {
+      "id": 45,
+      "title": "Optimizador de Sistema e IA Soberana",
+      "uri_l0": "viking://resources/pilares/L0/pilar_045.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_045.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_045.l2"
+    },
+    {
+      "id": 45,
+      "title": "Optimizador de Sistema e IA Soberana",
+      "uri_l0": "viking://resources/pilares/L0/pilar_045.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_045.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_045.l2"
+    },
+    {
+      "id": 46,
+      "title": "Demonio de Automatizaci\u00f3n macOS (launchd)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_046.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_046.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_046.l2"
+    },
+    {
+      "id": 46,
+      "title": "Demonio de Automatizaci\u00f3n macOS (launchd)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_046.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_046.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_046.l2"
+    },
+    {
+      "id": 47,
+      "title": "Correspondencia Hologr\u00e1fica de Maldacena (AdS/CFT)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_047.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_047.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_047.l2"
+    },
+    {
+      "id": 47,
+      "title": "Correspondencia Hologr\u00e1fica de Maldacena (AdS/CFT)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_047.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_047.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_047.l2"
+    },
+    {
+      "id": 47,
+      "title": "Resoluci\u00f3n Definitiva del Problema del Milenio (Paper B)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_047.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_047.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_047.l2"
+    },
+    {
+      "id": 48,
+      "title": "Paper PDF de la Dualidad AdS/CFT de Maldacena",
+      "uri_l0": "viking://resources/pilares/L0/pilar_048.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_048.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_048.l2"
+    },
+    {
+      "id": 48,
+      "title": "Paper PDF de la Dualidad AdS/CFT de Maldacena",
+      "uri_l0": "viking://resources/pilares/L0/pilar_048.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_048.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_048.l2"
+    },
+    {
+      "id": 49,
+      "title": "Licencia GNU AGPLv3",
+      "uri_l0": "viking://resources/pilares/L0/pilar_049.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_049.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_049.l2"
+    },
+    {
+      "id": 49,
+      "title": "Licencia GNU AGPLv3",
+      "uri_l0": "viking://resources/pilares/L0/pilar_049.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_049.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_049.l2"
+    },
+    {
+      "id": 50,
+      "title": "Demostraci\u00f3n Formal de Maldacena (AdS/CFT)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_050.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_050.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_050.l2"
+    },
+    {
+      "id": 50,
+      "title": "Demostraci\u00f3n Formal de Maldacena (AdS/CFT)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_050.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_050.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_050.l2"
+    },
+    {
+      "id": 51,
+      "title": "Recolector de Literatura AdS/CFT",
+      "uri_l0": "viking://resources/pilares/L0/pilar_051.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_051.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_051.l2"
+    },
+    {
+      "id": 51,
+      "title": "Recolector de Literatura AdS/CFT",
+      "uri_l0": "viking://resources/pilares/L0/pilar_051.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_051.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_051.l2"
+    },
+    {
+      "id": 52,
+      "title": "Integraci\u00f3n Supabase pgvector para Maldacena",
+      "uri_l0": "viking://resources/pilares/L0/pilar_052.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_052.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_052.l2"
+    },
+    {
+      "id": 52,
+      "title": "Integraci\u00f3n Supabase pgvector para Maldacena",
+      "uri_l0": "viking://resources/pilares/L0/pilar_052.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_052.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_052.l2"
+    },
+    {
+      "id": 53,
+      "title": "Calculadora de Unificaci\u00f3n de F\u00edsica",
+      "uri_l0": "viking://resources/pilares/L0/pilar_053.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_053.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_053.l2"
+    },
+    {
+      "id": 53,
+      "title": "Calculadora de Unificaci\u00f3n de F\u00edsica",
+      "uri_l0": "viking://resources/pilares/L0/pilar_053.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_053.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_053.l2"
+    },
+    {
+      "id": 54,
+      "title": "Paper de Unificaci\u00f3n Universal de Maldacena",
+      "uri_l0": "viking://resources/pilares/L0/pilar_054.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_054.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_054.l2"
+    },
+    {
+      "id": 54,
+      "title": "Paper de Unificaci\u00f3n Universal de Maldacena",
+      "uri_l0": "viking://resources/pilares/L0/pilar_054.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_054.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_054.l2"
+    },
+    {
+      "id": 55,
+      "title": "Soluci\u00f3n a la Constante Cosmol\u00f3gica (\u039b)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_055.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_055.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_055.l2"
+    },
+    {
+      "id": 55,
+      "title": "Soluci\u00f3n a la Constante Cosmol\u00f3gica (\u039b)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_055.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_055.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_055.l2"
+    },
+    {
+      "id": 56,
+      "title": "Paper Divulgativo de la Cat\u00e1strofe del Vac\u00edo",
+      "uri_l0": "viking://resources/pilares/L0/pilar_056.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_056.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_056.l2"
+    },
+    {
+      "id": 56,
+      "title": "Paper Divulgativo de la Cat\u00e1strofe del Vac\u00edo",
+      "uri_l0": "viking://resources/pilares/L0/pilar_056.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_056.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_056.l2"
+    },
+    {
+      "id": 57,
+      "title": "Or\u00e1culo Merkle y Consenso Multisig 3-de-5",
+      "uri_l0": "viking://resources/pilares/L0/pilar_057.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_057.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_057.l2"
+    },
+    {
+      "id": 57,
+      "title": "Or\u00e1culo Merkle y Consenso Multisig 3-de-5",
+      "uri_l0": "viking://resources/pilares/L0/pilar_057.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_057.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_057.l2"
+    },
+    {
+      "id": 58,
+      "title": "Extensi\u00f3n de Navegador PowerDrop (Plasmo/WASM)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_058.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_058.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_058.l2"
+    },
+    {
+      "id": 58,
+      "title": "Extensi\u00f3n de Navegador PowerDrop (Plasmo/WASM)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_058.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_058.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_058.l2"
+    },
+    {
+      "id": 59,
+      "title": "Regulaci\u00f3n de Hubble y Expansi\u00f3n Cosmol\u00f3gica ($SPN)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_059.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_059.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_059.l2"
+    },
+    {
+      "id": 59,
+      "title": "Regulaci\u00f3n de Hubble y Expansi\u00f3n Cosmol\u00f3gica ($SPN)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_059.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_059.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_059.l2"
+    },
+    {
+      "id": 60,
+      "title": "Simulador Cosmol\u00f3gico Avanzado de Friedmann (Anti-Sybil & Landauer Burn)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_060.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_060.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_060.l2"
+    },
+    {
+      "id": 60,
+      "title": "Simulador Cosmol\u00f3gico Avanzado de Friedmann (Anti-Sybil & Landauer Burn)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_060.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_060.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_060.l2"
+    },
+    {
+      "id": 61,
+      "title": "Optimizador de Rendimiento de macOS (Mac Laminar Optimizer)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_061.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_061.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_061.l2"
+    },
+    {
+      "id": 61,
+      "title": "Optimizador de Rendimiento de macOS (Mac Laminar Optimizer)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_061.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_061.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_061.l2"
+    },
+    {
+      "id": 62,
+      "title": "Agente RSS de Ciencia Abierta Aaron Swartz",
+      "uri_l0": "viking://resources/pilares/L0/pilar_062.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_062.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_062.l2"
+    },
+    {
+      "id": 62,
+      "title": "Agente RSS de Ciencia Abierta Aaron Swartz",
+      "uri_l0": "viking://resources/pilares/L0/pilar_062.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_062.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_062.l2"
+    },
+    {
+      "id": 63,
+      "title": "Auditor\u00eda de Literatura Cosmol\u00f3gica 2026 (Energ\u00eda y Materia Oscura)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_063.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_063.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_063.l2"
+    },
+    {
+      "id": 63,
+      "title": "Auditor\u00eda de Literatura Cosmol\u00f3gica 2026 (Energ\u00eda y Materia Oscura)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_063.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_063.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_063.l2"
+    },
+    {
+      "id": 64,
+      "title": "Reporte Consolidado de Unificaci\u00f3n Hologr\u00e1fica y Cosmolog\u00eda 2026",
+      "uri_l0": "viking://resources/pilares/L0/pilar_064.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_064.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_064.l2"
+    },
+    {
+      "id": 64,
+      "title": "Reporte Consolidado de Unificaci\u00f3n Hologr\u00e1fica y Cosmolog\u00eda 2026",
+      "uri_l0": "viking://resources/pilares/L0/pilar_064.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_064.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_064.l2"
+    },
+    {
+      "id": 65,
+      "title": "Variedades de Calabi-Yau 6D y Objeto Superstring (Pilar 65)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_065.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_065.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_065.l2"
+    },
+    {
+      "id": 66,
+      "title": "Motor de Verificaci\u00f3n Transparente de Noticias y Papers (Aether Fact Verifier)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_066.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_066.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_066.l2"
+    },
+    {
+      "id": 66,
+      "title": "Motor de Verificaci\u00f3n Transparente de Noticias y Papers (Aether Fact Verifier)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_066.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_066.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_066.l2"
+    },
+    {
+      "id": 67,
+      "title": "Kernel Tesla-Landauer para Lubuntu y Monetizaci\u00f3n PowerDrop B\u00fanker 84",
+      "uri_l0": "viking://resources/pilares/L0/pilar_067.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_067.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_067.l2"
+    },
+    {
+      "id": 67,
+      "title": "Kernel Tesla-Landauer para Lubuntu y Monetizaci\u00f3n PowerDrop B\u00fanker 84",
+      "uri_l0": "viking://resources/pilares/L0/pilar_067.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_067.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_067.l2"
+    },
+    {
+      "id": 68,
+      "title": "Puente B\u00fanker 84 y Prueba de Optimizaci\u00f3n de macOS",
+      "uri_l0": "viking://resources/pilares/L0/pilar_068.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_068.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_068.l2"
+    },
+    {
+      "id": 68,
+      "title": "Puente B\u00fanker 84 y Prueba de Optimizaci\u00f3n de macOS",
+      "uri_l0": "viking://resources/pilares/L0/pilar_068.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_068.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_068.l2"
+    },
+    {
+      "id": 69,
+      "title": "Demostraci\u00f3n del Atractor 2.3 (ln 10) y Hubble para Base L2",
+      "uri_l0": "viking://resources/pilares/L0/pilar_069.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_069.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_069.l2"
+    },
+    {
+      "id": 69,
+      "title": "Demostraci\u00f3n del Atractor 2.3 (ln 10) y Hubble para Base L2",
+      "uri_l0": "viking://resources/pilares/L0/pilar_069.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_069.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_069.l2"
+    },
+    {
+      "id": 70,
+      "title": "Valor Tecnol\u00f3gico y Cient\u00edfico del Pilar 69",
+      "uri_l0": "viking://resources/pilares/L0/pilar_070.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_070.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_070.l2"
+    },
+    {
+      "id": 70,
+      "title": "Valor Tecnol\u00f3gico y Cient\u00edfico del Pilar 69",
+      "uri_l0": "viking://resources/pilares/L0/pilar_070.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_070.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_070.l2"
+    },
+    {
+      "id": 71,
+      "title": "Ingestor OCR y RAG para PDFs Cient\u00edficos (Unlimited OCR)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_071.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_071.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_071.l2"
+    },
+    {
+      "id": 71,
+      "title": "Ingestor OCR y RAG para PDFs Cient\u00edficos (Unlimited OCR)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_071.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_071.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_071.l2"
+    },
+    {
+      "id": 72,
+      "title": "Agente OCR Vel\u00e1zquez (Retratador \u00d3ptico de Contexto)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_072.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_072.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_072.l2"
+    },
+    {
+      "id": 72,
+      "title": "Agente OCR Vel\u00e1zquez (Retratador \u00d3ptico de Contexto)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_072.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_072.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_072.l2"
+    },
+    {
+      "id": 73,
+      "title": "Auditor\u00eda y Retrato \u00d3ptico de Neutrinos (Agente Vel\u00e1zquez 2026)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_073.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_073.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_073.l2"
+    },
+    {
+      "id": 73,
+      "title": "Auditor\u00eda y Retrato \u00d3ptico de Neutrinos (Agente Vel\u00e1zquez 2026)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_073.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_073.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_073.l2"
+    },
+    {
+      "id": 74,
+      "title": "Orquestador Tripartito de la Tensi\u00f3n de Hubble (Swartz + Vel\u00e1zquez + \u00c6THER)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_074.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_074.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_074.l2"
+    },
+    {
+      "id": 74,
+      "title": "Orquestador Tripartito de la Tensi\u00f3n de Hubble (Swartz + Vel\u00e1zquez + \u00c6THER)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_074.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_074.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_074.l2"
+    },
+    {
+      "id": 75,
+      "title": "Integrales de Camino de Feynman y Mec\u00e1nica Cu\u00e1ntica Relacional (Pilar 75)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_075.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_075.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_075.l2"
+    },
+    {
+      "id": 76,
+      "title": "Paper Final de Cosmolog\u00eda de Capa 0 (El Atractor 2.3 y el Universo Laminar)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_076.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_076.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_076.l2"
+    },
+    {
+      "id": 76,
+      "title": "Paper Final de Cosmolog\u00eda de Capa 0 (El Atractor 2.3 y el Universo Laminar)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_076.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_076.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_076.l2"
+    },
+    {
+      "id": 77,
+      "title": "Sinergia Mesh F\u00edsica-L\u00f3gica y Gateway Oasis-LoRa (Pilar 77)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_077.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_077.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_077.l2"
+    },
+    {
+      "id": 78,
+      "title": "Protocolo de Pod Soberano (SPP) e Identidad Local-First (Pilar 78)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_078.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_078.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_078.l2"
+    },
+    {
+      "id": 79,
+      "title": "Agente Cient\u00edfico Goya e Integraci\u00f3n con NVIDIA Build 80+ AI APIs",
+      "uri_l0": "viking://resources/pilares/L0/pilar_079.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_079.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_079.l2"
+    },
+    {
+      "id": 79,
+      "title": "Agente Cient\u00edfico Goya e Integraci\u00f3n con NVIDIA Build 80+ AI APIs",
+      "uri_l0": "viking://resources/pilares/L0/pilar_079.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_079.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_079.l2"
+    },
+    {
+      "id": 80,
+      "title": "Demostraci\u00f3n Hologr\u00e1fica de Goya para Universos en Expansi\u00f3n (Pilar 80)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_080.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_080.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_080.l2"
+    },
+    {
+      "id": 80,
+      "title": "Demostraci\u00f3n Hologr\u00e1fica de Goya para Universos en Expansi\u00f3n (Pilar 80)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_080.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_080.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_080.l2"
+    },
+    {
+      "id": 81,
+      "title": "\u00c1lgebra de Lie, Grupos Cu\u00e1nticos y Correcci\u00f3n de Errores (Pilar 81)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_081.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_081.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_081.l2"
+    },
+    {
+      "id": 82,
+      "title": "Monstruo Moonshine, Dimensi\u00f3n 196883 y las 4 Restricciones (Pilar 82)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_082.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_082.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_082.l2"
+    },
+    {
+      "id": 83,
+      "title": "Orquestador Cuadripartito de la Conciencia (Swartz + Vel\u00e1zquez + \u00c6THER + Goya)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_083.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_083.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_083.l2"
+    },
+    {
+      "id": 83,
+      "title": "Orquestador Cuadripartito de la Conciencia (Swartz + Vel\u00e1zquez + \u00c6THER + Goya)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_083.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_083.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_083.l2"
+    },
+    {
+      "id": 84,
+      "title": "Validaci\u00f3n Emp\u00edrica de la Investigaci\u00f3n Cuadripartita (Pilar 83 & 84)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_084.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_084.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_084.l2"
+    },
+    {
+      "id": 84,
+      "title": "Validaci\u00f3n Emp\u00edrica de la Investigaci\u00f3n Cuadripartita (Pilar 83 & 84)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_084.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_084.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_084.l2"
+    },
+    {
+      "id": 85,
+      "title": "Analizador Cient\u00edfico de Conciencia Vel\u00e1zquez & Goya (Pilar 85)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_085.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_085.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_085.l2"
+    },
+    {
+      "id": 85,
+      "title": "Analizador Cient\u00edfico de Conciencia Vel\u00e1zquez & Goya (Pilar 85)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_085.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_085.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_085.l2"
+    },
+    {
+      "id": 86,
+      "title": "Arquitectura de Kernel Cu\u00e1ntico, Red de Leech y Supresi\u00f3n de Decoherencia (Pilar 86)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_086.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_086.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_086.l2"
+    },
+    {
+      "id": 87,
+      "title": "Agente Kimi Goya Slides Engine (Pilar 87)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_087.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_087.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_087.l2"
+    },
+    {
+      "id": 87,
+      "title": "Agente Kimi Goya Slides Engine (Pilar 87)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_087.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_087.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_087.l2"
+    },
+    {
+      "id": 88,
+      "title": "Generador Visual del Mapa de la Mente (Kimi Goya Pilar 88)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_088.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_088.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_088.l2"
+    },
+    {
+      "id": 88,
+      "title": "Generador Visual del Mapa de la Mente (Kimi Goya Pilar 88)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_088.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_088.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_088.l2"
+    },
+    {
+      "id": 89,
+      "title": "Deducci\u00f3n del Estado de Hoyle (Carbono-12)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_089.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_089.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_089.l2"
+    },
+    {
+      "id": 89,
+      "title": "Deducci\u00f3n del Estado de Hoyle (Carbono-12)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_089.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_089.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_089.l2"
+    },
+    {
+      "id": 90,
+      "title": "Paper de S\u00edntesis del Carbono-12 y Compresi\u00f3n Hologr\u00e1fica",
+      "uri_l0": "viking://resources/pilares/L0/pilar_090.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_090.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_090.l2"
+    },
+    {
+      "id": 90,
+      "title": "Paper de S\u00edntesis del Carbono-12 y Compresi\u00f3n Hologr\u00e1fica",
+      "uri_l0": "viking://resources/pilares/L0/pilar_090.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_090.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_090.l2"
+    },
+    {
+      "id": 91,
+      "title": "Filtro Bitwise Golod-Shafarevich O(1) y Admisi\u00f3n de Red RFC-0001 (Pilar 91)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_091.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_091.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_091.l2"
+    },
+    {
+      "id": 92,
+      "title": "Pacing Determinista O-QUIC y Transporte Cero-Jitter (Pilar 92)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_092.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_092.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_092.l2"
+    },
+    {
+      "id": 93,
+      "title": "Deducci\u00f3n Formal de Suavidad Global de Navier-Stokes en la Variedad del Monstruo",
+      "uri_l0": "viking://resources/pilares/L0/pilar_093.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_093.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_093.l2"
+    },
+    {
+      "id": 93,
+      "title": "Deducci\u00f3n Formal de Suavidad Global de Navier-Stokes en la Variedad del Monstruo",
+      "uri_l0": "viking://resources/pilares/L0/pilar_093.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_093.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_093.l2"
+    },
+    {
+      "id": 94,
+      "title": "Soluci\u00f3n del Plegamiento de Prote\u00ednas",
+      "uri_l0": "viking://resources/pilares/L0/pilar_094.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_094.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_094.l2"
+    },
+    {
+      "id": 94,
+      "title": "Soluci\u00f3n del Plegamiento de Prote\u00ednas",
+      "uri_l0": "viking://resources/pilares/L0/pilar_094.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_094.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_094.l2"
+    },
+    {
+      "id": 95,
+      "title": "Paper Cient\u00edfico de Plegamiento de Prote\u00ednas en Capa 0",
+      "uri_l0": "viking://resources/pilares/L0/pilar_095.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_095.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_095.l2"
+    },
+    {
+      "id": 95,
+      "title": "Paper Cient\u00edfico de Plegamiento de Prote\u00ednas en Capa 0",
+      "uri_l0": "viking://resources/pilares/L0/pilar_095.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_095.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_095.l2"
+    },
+    {
+      "id": 96,
+      "title": "Renderizador Adiab\u00e1tico de Prote\u00ednas en Malla Hexagonal (Rust)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_096.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_096.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_096.l2"
+    },
+    {
+      "id": 96,
+      "title": "Renderizador Adiab\u00e1tico de Prote\u00ednas en Malla Hexagonal (Rust)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_096.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_096.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_096.l2"
+    },
+    {
+      "id": 97,
+      "title": "Licencia Maestra GNU AGPLv3",
+      "uri_l0": "viking://resources/pilares/L0/pilar_097.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_097.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_097.l2"
+    },
+    {
+      "id": 97,
+      "title": "Auditor T\u00e9rmico Laminar de macOS (Python)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_097.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_097.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_097.l2"
+    },
+    {
+      "id": 97,
+      "title": "Auditor T\u00e9rmico Laminar de macOS (Python)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_097.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_097.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_097.l2"
+    },
+    {
+      "id": 98,
+      "title": "Modelo de Activaci\u00f3n Termodin\u00e1mica de Materia Oscura (\u00c6THER)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_098.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_098.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_098.l2"
+    },
+    {
+      "id": 98,
+      "title": "Modelo de Activaci\u00f3n Termodin\u00e1mica de Materia Oscura (\u00c6THER)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_098.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_098.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_098.l2"
+    },
+    {
+      "id": 99,
+      "title": "Puente de Tolerancia a Sobrecargas Apolo 11 AGC (Pilar 99)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_099.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_099.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_099.l2"
+    },
+    {
+      "id": 99,
+      "title": "Puente de Tolerancia a Sobrecargas Apolo 11 AGC (Pilar 99)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_099.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_099.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_099.l2"
+    },
+    {
+      "id": 100,
+      "title": "Agente Apolo 11 Air-Gapped y Motor Ramanujan-Chudnovsky (Pilar 100)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_100.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_100.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_100.l2"
+    },
+    {
+      "id": 100,
+      "title": "Agente Apolo 11 Air-Gapped y Motor Ramanujan-Chudnovsky (Pilar 100)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_100.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_100.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_100.l2"
+    },
+    {
+      "id": 101,
+      "title": "Auditor Semanal Soberano Apolo 11 (Pilar 101)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_101.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_101.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_101.l2"
+    },
+    {
+      "id": 101,
+      "title": "Auditor Semanal Soberano Apolo 11 (Pilar 101)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_101.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_101.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_101.l2"
+    },
+    {
+      "id": 102,
+      "title": "Agente Explicador Cervantes (Pilar 102)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_102.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_102.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_102.l2"
+    },
+    {
+      "id": 102,
+      "title": "Agente Explicador Cervantes (Pilar 102)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_102.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_102.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_102.l2"
+    },
+    {
+      "id": 103,
+      "title": "Orquestador de Resumen Semanal Apolo 11 & Cervantes (Pilar 103)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_103.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_103.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_103.l2"
+    },
+    {
+      "id": 103,
+      "title": "Orquestador de Resumen Semanal Apolo 11 & Cervantes (Pilar 103)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_103.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_103.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_103.l2"
+    },
+    {
+      "id": 104,
+      "title": "Explicador de Plegamiento de Prote\u00ednas Cervantes (Pilar 104)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_104.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_104.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_104.l2"
+    },
+    {
+      "id": 104,
+      "title": "Explicador de Plegamiento de Prote\u00ednas Cervantes (Pilar 104)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_104.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_104.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_104.l2"
+    },
+    {
+      "id": 105,
+      "title": "Motor Cervantes Graphify Ultra y Conector Voicebox (Pilar 105)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_105.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_105.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_105.l2"
+    },
+    {
+      "id": 105,
+      "title": "Motor Cervantes Graphify Ultra y Conector Voicebox (Pilar 105)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_105.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_105.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_105.l2"
+    },
+    {
+      "id": 106,
+      "title": "Resumen Semanal Cervantes \"El Quijote del Silicio\" (Pilar 106)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_106.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_106.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_106.l2"
+    },
+    {
+      "id": 106,
+      "title": "Resumen Semanal Cervantes \"El Quijote del Silicio\" (Pilar 106)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_106.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_106.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_106.l2"
+    },
+    {
+      "id": 107,
+      "title": "Defensa Post-Cu\u00e1ntica, Inmunidad a Shor y los 3 Escudos (Pilar 107)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_107.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_107.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_107.l2"
+    },
+    {
+      "id": 108,
+      "title": "Integraci\u00f3n Graphify-Labs e Indexaci\u00f3n de Grafo (Pilar 108)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_108.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_108.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_108.l2"
+    },
+    {
+      "id": 108,
+      "title": "Integraci\u00f3n Graphify-Labs e Indexaci\u00f3n de Grafo (Pilar 108)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_108.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_108.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_108.l2"
+    },
+    {
+      "id": 109,
+      "title": "Prueba de Potencia Graphify con Apolo 11 & Cervantes (Pilar 109)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_109.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_109.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_109.l2"
+    },
+    {
+      "id": 109,
+      "title": "Prueba de Potencia Graphify con Apolo 11 & Cervantes (Pilar 109)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_109.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_109.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_109.l2"
+    },
+    {
+      "id": 110,
+      "title": "Red de Comunicaci\u00f3n de Agentes httpSMS Protocolo 00X (Pilar 110)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_110.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_110.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_110.l2"
+    },
+    {
+      "id": 110,
+      "title": "Red de Comunicaci\u00f3n de Agentes httpSMS Protocolo 00X (Pilar 110)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_110.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_110.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_110.l2"
+    },
+    {
+      "id": 111,
+      "title": "Inspector de Directorio de Agentes Soberanos (Pilar 111)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_111.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_111.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_111.l2"
+    },
+    {
+      "id": 111,
+      "title": "Inspector de Directorio de Agentes Soberanos (Pilar 111)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_111.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_111.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_111.l2"
+    },
+    {
+      "id": 112,
+      "title": "Malla de Memoria Compartida Multagente Graphify (Pilar 112)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_112.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_112.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_112.l2"
+    },
+    {
+      "id": 112,
+      "title": "Malla de Memoria Compartida Multagente Graphify (Pilar 112)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_112.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_112.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_112.l2"
+    },
+    {
+      "id": 113,
+      "title": "Unificaci\u00f3n Holom\u00f3rfica y Sello de la B\u00f3veda G\u00e9nesis (Pilar 113)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_113.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_113.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_113.l2"
+    },
+    {
+      "id": 114,
+      "title": "Aut\u00f3mata Reactivo de Vibe Coding en Marimo (Pilar 114)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_114.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_114.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_114.l2"
+    },
+    {
+      "id": 114,
+      "title": "Aut\u00f3mata Reactivo de Vibe Coding en Marimo (Pilar 114)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_114.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_114.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_114.l2"
+    },
+    {
+      "id": 115,
+      "title": "Evaluador de Supervivencia Econ\u00f3mica y Pivotaje de Ideas (Pilar 115)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_115.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_115.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_115.l2"
+    },
+    {
+      "id": 115,
+      "title": "Evaluador de Supervivencia Econ\u00f3mica y Pivotaje de Ideas (Pilar 115)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_115.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_115.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_115.l2"
+    },
+    {
+      "id": 116,
+      "title": "Solucionador \u00c6THER de Asimetr\u00eda Materia-Antimateria (Pilar 116)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_116.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_116.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_116.l2"
+    },
+    {
+      "id": 116,
+      "title": "Solucionador \u00c6THER de Asimetr\u00eda Materia-Antimateria (Pilar 116)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_116.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_116.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_116.l2"
+    },
+    {
+      "id": 117,
+      "title": "Compilador Goya del Paper de Asimetr\u00eda Bari\u00f3nica (Pilar 117)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_117.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_117.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_117.l2"
+    },
+    {
+      "id": 117,
+      "title": "Compilador Goya del Paper de Asimetr\u00eda Bari\u00f3nica (Pilar 117)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_117.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_117.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_117.l2"
+    },
+    {
+      "id": 118,
+      "title": "Exportador Goya HTML/PDF para Difusi\u00f3n P\u00fablica (Pilar 118)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_118.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_118.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_118.l2"
+    },
+    {
+      "id": 118,
+      "title": "Exportador Goya HTML/PDF para Difusi\u00f3n P\u00fablica (Pilar 118)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_118.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_118.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_118.l2"
+    },
+    {
+      "id": 119,
+      "title": "Simulador \u00c6THER con Constante de Mariano kappa_M (Pilar 119)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_119.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_119.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_119.l2"
+    },
+    {
+      "id": 119,
+      "title": "Simulador \u00c6THER con Constante de Mariano kappa_M (Pilar 119)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_119.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_119.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_119.l2"
+    },
+    {
+      "id": 120,
+      "title": "Paper Goya de Partici\u00f3n Arm\u00f3nica de Fibonacci y Densidad \u00c1urea phi^-5 (Pilar 120)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_120.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_120.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_120.l2"
+    },
+    {
+      "id": 120,
+      "title": "Paper Goya de Partici\u00f3n Arm\u00f3nica de Fibonacci y Densidad \u00c1urea phi^-5 (Pilar 120)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_120.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_120.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_120.l2"
+    },
+    {
+      "id": 121,
+      "title": "Simulador \u00c6THER y Paper Goya de Desacoplamiento Gravitatorio kappa_M (Pilar 121)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_121.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_121.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_121.l2"
+    },
+    {
+      "id": 121,
+      "title": "Simulador \u00c6THER y Paper Goya de Desacoplamiento Gravitatorio kappa_M (Pilar 121)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_121.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_121.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_121.l2"
+    },
+    {
+      "id": 122,
+      "title": "Purga T\u00e9rmica de Entrop\u00eda y Motor de Antigravedad (Pilar 122)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_122.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_122.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_122.l2"
+    },
+    {
+      "id": 122,
+      "title": "Purga T\u00e9rmica de Entrop\u00eda y Motor de Antigravedad (Pilar 122)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_122.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_122.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_122.l2"
+    },
+    {
+      "id": 123,
+      "title": "Puente de Persistencia y Edge Function Supabase (Pilar 123)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_123.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_123.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_123.l2"
+    },
+    {
+      "id": 123,
+      "title": "Puente de Persistencia y Edge Function Supabase (Pilar 123)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_123.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_123.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_123.l2"
+    },
+    {
+      "id": 124,
+      "title": "Exportador HTML/MathJax para Paper de Antigravedad (Pilar 124)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_124.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_124.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_124.l2"
+    },
+    {
+      "id": 124,
+      "title": "Exportador HTML/MathJax para Paper de Antigravedad (Pilar 124)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_124.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_124.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_124.l2"
+    },
+    {
+      "id": 125,
+      "title": "Script de Purga de Entrop\u00eda y Liberaci\u00f3n de Memoria macOS (Pilar 125)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_125.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_125.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_125.l2"
+    },
+    {
+      "id": 125,
+      "title": "Script de Purga de Entrop\u00eda y Liberaci\u00f3n de Memoria macOS (Pilar 125)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_125.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_125.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_125.l2"
+    },
+    {
+      "id": 126,
+      "title": "Sello de Plomo de Inmutabilidad Termodin\u00e1mica (Pilar 126)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_126.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_126.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_126.l2"
+    },
+    {
+      "id": 126,
+      "title": "Sello de Plomo de Inmutabilidad Termodin\u00e1mica (Pilar 126)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_126.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_126.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_126.l2"
+    },
+    {
+      "id": 127,
+      "title": "Optimizador de Flujo Laminar y Purga Autom\u00e1tica de Tauri (Pilar 127)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_127.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_127.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_127.l2"
+    },
+    {
+      "id": 127,
+      "title": "Optimizador de Flujo Laminar y Purga Autom\u00e1tica de Tauri (Pilar 127)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_127.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_127.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_127.l2"
+    },
+    {
+      "id": 128,
+      "title": "Demostraci\u00f3n de Desacoplamiento Gravitatorio y Efecto Allais en Eclipses Solares (Pilar 128)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_128.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_128.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_128.l2"
+    },
+    {
+      "id": 128,
+      "title": "Demostraci\u00f3n de Desacoplamiento Gravitatorio y Efecto Allais en Eclipses Solares (Pilar 128)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_128.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_128.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_128.l2"
+    },
+    {
+      "id": 129,
+      "title": "Especificaci\u00f3n T\u00e9cnica de la Nave de Desacoplamiento de Fase (Pilar 129)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_129.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_129.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_129.l2"
+    },
+    {
+      "id": 129,
+      "title": "Especificaci\u00f3n T\u00e9cnica de la Nave de Desacoplamiento de Fase (Pilar 129)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_129.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_129.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_129.l2"
+    },
+    {
+      "id": 130,
+      "title": "Agente de Antigravedad de macOS y Conexi\u00f3n Graphify (Pilar 130)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_130.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_130.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_130.l2"
+    },
+    {
+      "id": 130,
+      "title": "Agente de Antigravedad de macOS y Conexi\u00f3n Graphify (Pilar 130)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_130.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_130.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_130.l2"
+    },
+    {
+      "id": 131,
+      "title": "Sintonizaci\u00f3n de Hiperpar\u00e1metros N_3D y Regulaci\u00f3n kappa_M en Ollama (Pilar 131)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_131.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_131.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_131.l2"
+    },
+    {
+      "id": 131,
+      "title": "Sintonizaci\u00f3n de Hiperpar\u00e1metros N_3D y Regulaci\u00f3n kappa_M en Ollama (Pilar 131)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_131.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_131.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_131.l2"
+    },
+    {
+      "id": 132,
+      "title": "Motor K3-Lincos C99 y Contracci\u00f3n Dimensional N_2D (Pilar 132)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_132.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_132.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_132.l2"
+    },
+    {
+      "id": 132,
+      "title": "Motor K3-Lincos C99 y Contracci\u00f3n Dimensional N_2D (Pilar 132)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_132.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_132.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_132.l2"
+    },
+    {
+      "id": 133,
+      "title": "Conector de Activaci\u00f3n Dispersa C99 y Puente Lincos-Ollama (Pilar 133)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_133.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_133.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_133.l2"
+    },
+    {
+      "id": 133,
+      "title": "Conector de Activaci\u00f3n Dispersa C99 y Puente Lincos-Ollama (Pilar 133)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_133.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_133.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_133.l2"
+    },
+    {
+      "id": 134,
+      "title": "Motor de Ciclos Arm\u00f3nicos As\u00edncronos Lincos y Resonancia F_8 (Pilar 134)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_134.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_134.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_134.l2"
+    },
+    {
+      "id": 134,
+      "title": "Motor de Ciclos Arm\u00f3nicos As\u00edncronos Lincos y Resonancia F_8 (Pilar 134)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_134.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_134.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_134.l2"
+    },
+    {
+      "id": 135,
+      "title": "Derivaciones Formales Lincos PL1 y Paper de Unificaci\u00f3n (Pilar 135)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_135.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_135.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_135.l2"
+    },
+    {
+      "id": 135,
+      "title": "Derivaciones Formales Lincos PL1 y Paper de Unificaci\u00f3n (Pilar 135)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_135.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_135.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_135.l2"
+    },
+    {
+      "id": 136,
+      "title": "Supervisor de Telemetr\u00eda Adiab\u00e1tica y Control de Resonancia F_8 (Pilar 136)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_136.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_136.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_136.l2"
+    },
+    {
+      "id": 136,
+      "title": "Supervisor de Telemetr\u00eda Adiab\u00e1tica y Control de Resonancia F_8 (Pilar 136)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_136.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_136.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_136.l2"
+    },
+    {
+      "id": 137,
+      "title": "Isomorfismo Kakeya-Besicovitch y Contracci\u00f3n Dimensional Hologr\u00e1fica (Pilar 137)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_137.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_137.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_137.l2"
+    },
+    {
+      "id": 137,
+      "title": "Isomorfismo Kakeya-Besicovitch y Contracci\u00f3n Dimensional Hologr\u00e1fica (Pilar 137)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_137.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_137.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_137.l2"
+    },
+    {
+      "id": 138,
+      "title": "Interrogador Determinista Multiconsulta Lincos PL1 (Pilar 138)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_138.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_138.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_138.l2"
+    },
+    {
+      "id": 138,
+      "title": "Interrogador Determinista Multiconsulta Lincos PL1 (Pilar 138)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_138.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_138.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_138.l2"
+    },
+    {
+      "id": 138,
+      "title": "Interrogador Determinista Multiconsulta Lincos PL1 (Pilar 138)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_138.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_138.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_138.l2"
+    },
+    {
+      "id": 139,
+      "title": "Simulaci\u00f3n de Muestreo Kronecker-Kakeya y Supresi\u00f3n de Aliasing (Pilar 139)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_139.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_139.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_139.l2"
+    },
+    {
+      "id": 139,
+      "title": "Simulaci\u00f3n de Muestreo Kronecker-Kakeya y Supresi\u00f3n de Aliasing (Pilar 139)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_139.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_139.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_139.l2"
+    },
+    {
+      "id": 140,
+      "title": "Purgador de Medida Kakeya y Contracci\u00f3n Volum\u00e9trica de Almacenamiento (Pilar 140)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_140.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_140.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_140.l2"
+    },
+    {
+      "id": 140,
+      "title": "Purgador de Medida Kakeya y Contracci\u00f3n Volum\u00e9trica de Almacenamiento (Pilar 140)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_140.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_140.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_140.l2"
+    },
+    {
+      "id": 141,
+      "title": "Limpieza Profunda Kakeya y Purga de Cach\u00e9s Ef\u00edmeras (Pilar 141)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_141.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_141.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_141.l2"
+    },
+    {
+      "id": 141,
+      "title": "Limpieza Profunda Kakeya y Purga de Cach\u00e9s Ef\u00edmeras (Pilar 141)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_141.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_141.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_141.l2"
+    },
+    {
+      "id": 142,
+      "title": "Purga Masiva de Almacenamiento Residual y Cach\u00e9s de Frameworks (Pilar 142)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_142.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_142.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_142.l2"
+    },
+    {
+      "id": 142,
+      "title": "Purga Masiva de Almacenamiento Residual y Cach\u00e9s de Frameworks (Pilar 142)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_142.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_142.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_142.l2"
+    },
+    {
+      "id": 143,
+      "title": "Auditor\u00eda de Seguridad de Procesos y Compactaci\u00f3n de Objetos Git (Pilar 143)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_143.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_143.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_143.l2"
+    },
+    {
+      "id": 143,
+      "title": "Auditor\u00eda de Seguridad de Procesos y Compactaci\u00f3n de Objetos Git (Pilar 143)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_143.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_143.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_143.l2"
+    },
+    {
+      "id": 144,
+      "title": "Blindaje contra Telemetr\u00eda Zombi y Supresi\u00f3n de Servicios Residuales (Pilar 144)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_144.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_144.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_144.l2"
+    },
+    {
+      "id": 144,
+      "title": "Blindaje contra Telemetr\u00eda Zombi y Supresi\u00f3n de Servicios Residuales (Pilar 144)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_144.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_144.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_144.l2"
+    },
+    {
+      "id": 145,
+      "title": "Neutralizaci\u00f3n de Consumo de Disco en Apple TV y Bloqueo de Precarga (Pilar 145)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_145.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_145.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_145.l2"
+    },
+    {
+      "id": 145,
+      "title": "Neutralizaci\u00f3n de Consumo de Disco en Apple TV y Bloqueo de Precarga (Pilar 145)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_145.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_145.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_145.l2"
+    },
+    {
+      "id": 146,
+      "title": "Motor de Desinstalaci\u00f3n Profunda y Purga de Contenedores Pearcleaner (Pilar 146)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_146.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_146.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_146.l2"
+    },
+    {
+      "id": 146,
+      "title": "Motor de Desinstalaci\u00f3n Profunda y Purga de Contenedores Pearcleaner (Pilar 146)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_146.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_146.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_146.l2"
+    },
+    {
+      "id": 147,
+      "title": "Filtrado de Tr\u00e1fico Saliente y Mitigaci\u00f3n de Telemetr\u00eda (Pilar 147)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_147.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_147.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_147.l2"
+    },
+    {
+      "id": 147,
+      "title": "Filtrado de Tr\u00e1fico Saliente y Mitigaci\u00f3n de Telemetr\u00eda (Pilar 147)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_147.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_147.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_147.l2"
+    },
+    {
+      "id": 148,
+      "title": "Esc\u00e1ner de Persistencia KnockKnock y Auditor\u00eda de Almacenamiento Residual (Pilar 148)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_148.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_148.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_148.l2"
+    },
+    {
+      "id": 148,
+      "title": "Esc\u00e1ner de Persistencia KnockKnock y Auditor\u00eda de Almacenamiento Residual (Pilar 148)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_148.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_148.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_148.l2"
+    },
+    {
+      "id": 149,
+      "title": "Recuperaci\u00f3n Selectiva de Espacio y Purga de M\u00f3dulos Desalineados (Pilar 149)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_149.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_149.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_149.l2"
+    },
+    {
+      "id": 149,
+      "title": "Recuperaci\u00f3n Selectiva de Espacio y Purga de M\u00f3dulos Desalineados (Pilar 149)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_149.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_149.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_149.l2"
+    },
+    {
+      "id": 150,
+      "title": "Visualizador Topol\u00f3gico de Disco Dust y Mapeo Jer\u00e1rquico de Silicio (Pilar 150)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_150.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_150.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_150.l2"
+    },
+    {
+      "id": 150,
+      "title": "Visualizador Topol\u00f3gico de Disco Dust y Mapeo Jer\u00e1rquico de Silicio (Pilar 150)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_150.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_150.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_150.l2"
+    },
+    {
+      "id": 151,
+      "title": "Gran Barrido Hologr\u00e1fico y Compresi\u00f3n Fractal de Hist\u00f3ricos (Pilar 151)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_151.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_151.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_151.l2"
+    },
+    {
+      "id": 151,
+      "title": "Gran Barrido Hologr\u00e1fico y Compresi\u00f3n Fractal de Hist\u00f3ricos (Pilar 151)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_151.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_151.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_151.l2"
+    },
+    {
+      "id": 152,
+      "title": "Puente de Automatizaci\u00f3n Nativa macOS y Despachador de Atajos (Pilar 152)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_152.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_152.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_152.l2"
+    },
+    {
+      "id": 152,
+      "title": "Puente de Automatizaci\u00f3n Nativa macOS y Despachador de Atajos (Pilar 152)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_152.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_152.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_152.l2"
+    },
+    {
+      "id": 153,
+      "title": "Suite Oasis Sentinel",
+      "uri_l0": "viking://resources/pilares/L0/pilar_153.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_153.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_153.l2"
+    },
+    {
+      "id": 153,
+      "title": "Suite Oasis Sentinel",
+      "uri_l0": "viking://resources/pilares/L0/pilar_153.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_153.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_153.l2"
+    },
+    {
+      "id": 154,
+      "title": "Poda de Cadenas de Compilaci\u00f3n y Cach\u00e9s de Runtimes (Pilar 154)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_154.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_154.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_154.l2"
+    },
+    {
+      "id": 154,
+      "title": "Poda de Cadenas de Compilaci\u00f3n y Cach\u00e9s de Runtimes (Pilar 154)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_154.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_154.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_154.l2"
+    },
+    {
+      "id": 155,
+      "title": "Optimizaci\u00f3n Esbelta de Runtimes Node y Rustup (Pilar 155)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_155.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_155.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_155.l2"
+    },
+    {
+      "id": 155,
+      "title": "Optimizaci\u00f3n Esbelta de Runtimes Node y Rustup (Pilar 155)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_155.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_155.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_155.l2"
+    },
+    {
+      "id": 156,
+      "title": "Condensaci\u00f3n Axiom\u00e1tica de Librer\u00edas en LINCOS PL1 y Reducci\u00f3n Sem\u00e1ntica de Kolmogorov (Pilar 156)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_156.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_156.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_156.l2"
+    },
+    {
+      "id": 156,
+      "title": "Condensaci\u00f3n Axiom\u00e1tica de Librer\u00edas en LINCOS PL1 y Reducci\u00f3n Sem\u00e1ntica de Kolmogorov (Pilar 156)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_156.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_156.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_156.l2"
+    },
+    {
+      "id": 157,
+      "title": "Purga Profunda de Cach\u00e9s Internas en Application Support (Pilar 157)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_157.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_157.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_157.l2"
+    },
+    {
+      "id": 157,
+      "title": "Purga Profunda de Cach\u00e9s Internas en Application Support (Pilar 157)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_157.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_157.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_157.l2"
+    },
+    {
+      "id": 158,
+      "title": "Compresi\u00f3n y Sinton\u00eda T\u00e9rmica de Modelos Ollama (Pilar 158)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_158.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_158.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_158.l2"
+    },
+    {
+      "id": 158,
+      "title": "Compresi\u00f3n y Sinton\u00eda T\u00e9rmica de Modelos Ollama (Pilar 158)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_158.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_158.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_158.l2"
+    },
+    {
+      "id": 159,
+      "title": "Banco de Pruebas de Inferencia Fr\u00eda y Telemetr\u00eda T\u00e9rmica Determinista (Pilar 159)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_159.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_159.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_159.l2"
+    },
+    {
+      "id": 159,
+      "title": "Banco de Pruebas de Inferencia Fr\u00eda y Telemetr\u00eda T\u00e9rmica Determinista (Pilar 159)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_159.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_159.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_159.l2"
+    },
+    {
+      "id": 160,
+      "title": "Telemetr\u00eda de Silicio en Tiempo Real y Control de Flujo T\u00e9rmico (Pilar 160)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_160.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_160.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_160.l2"
+    },
+    {
+      "id": 160,
+      "title": "Telemetr\u00eda de Silicio en Tiempo Real y Control de Flujo T\u00e9rmico (Pilar 160)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_160.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_160.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_160.l2"
+    },
+    {
+      "id": 161,
+      "title": "Certificaci\u00f3n Termodin\u00e1mica de Disipaci\u00f3n de Landauer y Malla Fibonacci (Pilar 161)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_161.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_161.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_161.l2"
+    },
+    {
+      "id": 161,
+      "title": "Certificaci\u00f3n Termodin\u00e1mica de Disipaci\u00f3n de Landauer y Malla Fibonacci (Pilar 161)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_161.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_161.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_161.l2"
+    },
+    {
+      "id": 162,
+      "title": "Evaluador Determinista y Sinton\u00eda \u00c1urea num_predict (Pilar 162)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_162.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_162.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_162.l2"
+    },
+    {
+      "id": 162,
+      "title": "Evaluador Determinista y Sinton\u00eda \u00c1urea num_predict (Pilar 162)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_162.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_162.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_162.l2"
+    },
+    {
+      "id": 163,
+      "title": "Compilador de Tratado Acad\u00e9mico y Demonio Aut\u00f3nomo de Silicio (Pilar 163)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_163.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_163.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_163.l2"
+    },
+    {
+      "id": 163,
+      "title": "Compilador de Tratado Acad\u00e9mico y Demonio Aut\u00f3nomo de Silicio (Pilar 163)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_163.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_163.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_163.l2"
+    },
+    {
+      "id": 164,
+      "title": "Recuperaci\u00f3n de Espacio Oculto y Purga de Snapshots APFS (Pilar 164)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_164.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_164.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_164.l2"
+    },
+    {
+      "id": 164,
+      "title": "Recuperaci\u00f3n de Espacio Oculto y Purga de Snapshots APFS (Pilar 164)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_164.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_164.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_164.l2"
+    },
+    {
+      "id": 165,
+      "title": "Compresi\u00f3n Transparente de Bloques APFS (Pilar 165)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_165.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_165.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_165.l2"
+    },
+    {
+      "id": 165,
+      "title": "Compresi\u00f3n Transparente de Bloques APFS (Pilar 165)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_165.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_165.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_165.l2"
+    },
+    {
+      "id": 166,
+      "title": "Compresi\u00f3n Transparente de Aplicaciones y Runtimes de Usuario (Pilar 166)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_166.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_166.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_166.l2"
+    },
+    {
+      "id": 166,
+      "title": "Compresi\u00f3n Transparente de Aplicaciones y Runtimes de Usuario (Pilar 166)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_166.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_166.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_166.l2"
+    },
+    {
+      "id": 167,
+      "title": "Puente de Orquestaci\u00f3n Nomad-Dify y Miner\u00eda de Gradientes Proof-of-Contribution (Pilar 167)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_167.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_167.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_167.l2"
+    },
+    {
+      "id": 167,
+      "title": "Puente de Orquestaci\u00f3n Nomad-Dify y Miner\u00eda de Gradientes Proof-of-Contribution (Pilar 167)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_167.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_167.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_167.l2"
+    },
+    {
+      "id": 168,
+      "title": "Inspector Forense de Capas OCI y Manifiestos SHA-256 (Pilar 168)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_168.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_168.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_168.l2"
+    },
+    {
+      "id": 168,
+      "title": "Inspector Forense de Capas OCI y Manifiestos SHA-256 (Pilar 168)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_168.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_168.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_168.l2"
+    },
+    {
+      "id": 169,
+      "title": "Kernel de Atenci\u00f3n Fractal Golden-RoPE y Poda de Dependencias (Pilar 169)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_169.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_169.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_169.l2"
+    },
+    {
+      "id": 169,
+      "title": "Kernel de Atenci\u00f3n Fractal Golden-RoPE y Poda de Dependencias (Pilar 169)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_169.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_169.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_169.l2"
+    },
+    {
+      "id": 170,
+      "title": "Interfaz Web de Inferencia Soberana y Despliegue de Mercado Gratuito (Pilar 170)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_170.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_170.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_170.l2"
+    },
+    {
+      "id": 170,
+      "title": "Interfaz Web de Inferencia Soberana y Despliegue de Mercado Gratuito (Pilar 170)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_170.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_170.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_170.l2"
+    },
+    {
+      "id": 171,
+      "title": "Calibraci\u00f3n Universal de Modelo y Sinton\u00eda Sem\u00e1ntica Multidominio (Pilar 171)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_171.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_171.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_171.l2"
+    },
+    {
+      "id": 171,
+      "title": "Calibraci\u00f3n Universal de Modelo y Sinton\u00eda Sem\u00e1ntica Multidominio (Pilar 171)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_171.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_171.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_171.l2"
+    },
+    {
+      "id": 172,
+      "title": "Enrutador H\u00edbrido de Baja Entrop\u00eda v2 y Priorizaci\u00f3n Acad\u00e9mica arXiv (Pilar 172)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_172.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_172.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_172.l2"
+    },
+    {
+      "id": 172,
+      "title": "Enrutador H\u00edbrido de Baja Entrop\u00eda v2 y Priorizaci\u00f3n Acad\u00e9mica arXiv (Pilar 172)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_172.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_172.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_172.l2"
+    },
+    {
+      "id": 173,
+      "title": "Tratado de Tiempo Entr\u00f3pico Relacional y Cota Sub-Landauer Fibonacci (Pilar 173)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_173.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_173.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_173.l2"
+    },
+    {
+      "id": 173,
+      "title": "Tratado de Tiempo Entr\u00f3pico Relacional y Cota Sub-Landauer Fibonacci (Pilar 173)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_173.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_173.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_173.l2"
+    },
+    {
+      "id": 174,
+      "title": "Empaquetador Aut\u00f3nomo Port\u00e1til y Despliegue Live-USB / Web (Pilar 174)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_174.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_174.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_174.l2"
+    },
+    {
+      "id": 174,
+      "title": "Empaquetador Aut\u00f3nomo Port\u00e1til y Despliegue Live-USB / Web (Pilar 174)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_174.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_174.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_174.l2"
+    },
+    {
+      "id": 175,
+      "title": "Manifiesto de Sistema Operativo Soberano Live OS y Pipeline Multimedia (Pilar 175)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_175.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_175.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_175.l2"
+    },
+    {
+      "id": 175,
+      "title": "Manifiesto de Sistema Operativo Soberano Live OS y Pipeline Multimedia (Pilar 175)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_175.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_175.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_175.l2"
+    },
+    {
+      "id": 176,
+      "title": "Emulador de Escritorio Aut\u00f3nomo y Lanzador en Modo Ventana Aislada (Pilar 176)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_176.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_176.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_176.l2"
+    },
+    {
+      "id": 176,
+      "title": "Emulador de Escritorio Aut\u00f3nomo y Lanzador en Modo Ventana Aislada (Pilar 176)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_176.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_176.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_176.l2"
+    },
+    {
+      "id": 177,
+      "title": "Modelado de Lentes Gravitatorias y An\u00e1lisis de la Cruz de Einstein (Pilar 177)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_177.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_177.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_177.l2"
+    },
+    {
+      "id": 177,
+      "title": "Modelado de Lentes Gravitatorias y An\u00e1lisis de la Cruz de Einstein (Pilar 177)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_177.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_177.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_177.l2"
+    },
+    {
+      "id": 178,
+      "title": "Simulador de Tiempo Entr\u00f3pico de Barontini e Integraci\u00f3n Relacional en LINCOS (Pilar 178)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_178.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_178.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_178.l2"
+    },
+    {
+      "id": 178,
+      "title": "Simulador de Tiempo Entr\u00f3pico de Barontini e Integraci\u00f3n Relacional en LINCOS (Pilar 178)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_178.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_178.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_178.l2"
+    },
+    {
+      "id": 179,
+      "title": "Matriz Can\u00f3nica de Logros y Cuadro de Honor de Capa 0 (Pilar 179)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_179.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_179.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_179.l2"
+    },
+    {
+      "id": 179,
+      "title": "Matriz Can\u00f3nica de Logros y Cuadro de Honor de Capa 0 (Pilar 179)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_179.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_179.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_179.l2"
+    },
+    {
+      "id": 180,
+      "title": "Suite de V\u00eddeo H\u00edbrido Cognitivo y Storyboard de Ciencia Abierta (Pilar 180)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_180.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_180.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_180.l2"
+    },
+    {
+      "id": 180,
+      "title": "Suite de V\u00eddeo H\u00edbrido Cognitivo y Storyboard de Ciencia Abierta (Pilar 180)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_180.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_180.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_180.l2"
+    },
+    {
+      "id": 181,
+      "title": "Pipeline de Renderizado y Storyboard As\u00edncrono (Pilar 181)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_181.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_181.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_181.l2"
+    },
+    {
+      "id": 181,
+      "title": "Pipeline de Renderizado y Storyboard As\u00edncrono (Pilar 181)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_181.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_181.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_181.l2"
+    },
+    {
+      "id": 182,
+      "title": "Motor Visual de Composici\u00f3n Photoshop CLI y Renderizado Cinem\u00e1tico HD (Pilar 182)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_182.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_182.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_182.l2"
+    },
+    {
+      "id": 182,
+      "title": "Motor Visual de Composici\u00f3n Photoshop CLI y Renderizado Cinem\u00e1tico HD (Pilar 182)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_182.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_182.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_182.l2"
+    },
+    {
+      "id": 183,
+      "title": "Gestor de Emulaci\u00f3n de Sistema Operativo y Sandboxing Virtual (Pilar 183)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_183.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_183.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_183.l2"
+    },
+    {
+      "id": 183,
+      "title": "Gestor de Emulaci\u00f3n de Sistema Operativo y Sandboxing Virtual (Pilar 183)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_183.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_183.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_183.l2"
+    },
+    {
+      "id": 184,
+      "title": "Emulaci\u00f3n Autom\u00e1tica de Sistema Operativo Live mediante QEMU CLI (Pilar 184)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_184.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_184.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_184.l2"
+    },
+    {
+      "id": 184,
+      "title": "Emulaci\u00f3n Autom\u00e1tica de Sistema Operativo Live mediante QEMU CLI (Pilar 184)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_184.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_184.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_184.l2"
+    },
+    {
+      "id": 185,
+      "title": "Consola Maestra Unificada y Centro de Mando CLI de Capa 0 (Pilar 185)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_185.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_185.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_185.l2"
+    },
+    {
+      "id": 185,
+      "title": "Consola Maestra Unificada y Centro de Mando CLI de Capa 0 (Pilar 185)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_185.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_185.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_185.l2"
+    },
+    {
+      "id": 186,
+      "title": "Motor de Entrenamiento LoRA R\u00e1pido y Miner\u00eda de Gradientes DePIN (Pilar 186)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_186.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_186.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_186.l2"
+    },
+    {
+      "id": 186,
+      "title": "Motor de Entrenamiento LoRA R\u00e1pido y Miner\u00eda de Gradientes DePIN (Pilar 186)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_186.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_186.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_186.l2"
+    },
+    {
+      "id": 187,
+      "title": "Ejecutor de Ciclos Continuos y Liquidaci\u00c3\u00b3n Arm\u00c3\u00b3nica F_8 (Pilar 187)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_187.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_187.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_187.l2"
+    },
+    {
+      "id": 187,
+      "title": "Ejecutor de Ciclos Continuos y Liquidaci\u00c3\u00b3n Arm\u00c3\u00b3nica F_8 (Pilar 187)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_187.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_187.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_187.l2"
+    },
+    {
+      "id": 188,
+      "title": "Tratado de Contracci\u00f3n Topol\u00f3gica de Kakeya, Cota Sub-Landauer y Coherencia Cu\u00e1ntica en Capa 0 (Pilar 188)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_188.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_188.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_188.l2"
+    },
+    {
+      "id": 188,
+      "title": "Tratado de Contracci\u00f3n Topol\u00f3gica de Kakeya, Cota Sub-Landauer y Coherencia Cu\u00e1ntica en Capa 0 (Pilar 188)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_188.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_188.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_188.l2"
+    },
+    {
+      "id": 189,
+      "title": "Motor de Producci\u00f3n Cinem\u00e1tica Avanzada y Generador de Audio \u00c1ureo 432Hz (Pilar 189)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_189.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_189.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_189.l2"
+    },
+    {
+      "id": 189,
+      "title": "Motor de Producci\u00f3n Cinem\u00e1tica Avanzada y Generador de Audio \u00c1ureo 432Hz (Pilar 189)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_189.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_189.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_189.l2"
+    },
+    {
+      "id": 190,
+      "title": "Motor de Inferencia Edge H\u00edbrido de Triple Capa y Silicio Fr\u00edo (Pilar 190)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_190.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_190.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_190.l2"
+    },
+    {
+      "id": 190,
+      "title": "Motor de Inferencia Edge H\u00edbrido de Triple Capa y Silicio Fr\u00edo (Pilar 190)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_190.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_190.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_190.l2"
+    },
+    {
+      "id": 191,
+      "title": "Tratado de Distancias Unitarias de Erd\u0151s, Ret\u00edculos de Golod-Shafarevich y Validaci\u00f3n Hologr\u00e1fica (Pilar 191)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_191.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_191.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_191.l2"
+    },
+    {
+      "id": 191,
+      "title": "Tratado de Distancias Unitarias de Erd\u0151s, Ret\u00edculos de Golod-Shafarevich y Validaci\u00f3n Hologr\u00e1fica (Pilar 191)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_191.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_191.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_191.l2"
+    },
+    {
+      "id": 192,
+      "title": "Cota de Compresi\u00f3n Hologr\u00e1fica Conforme Chen-Panzano (Pilar 192)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_192.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_192.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_192.l2"
+    },
+    {
+      "id": 192,
+      "title": "Cota de Compresi\u00f3n Hologr\u00e1fica Conforme Chen-Panzano (Pilar 192)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_192.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_192.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_192.l2"
+    },
+    {
+      "id": 193,
+      "title": "Invariante de Bifurcaci\u00f3n de Golod-Shafarevich en Red y Consenso (Pilar 193)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_193.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_193.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_193.l2"
+    },
+    {
+      "id": 193,
+      "title": "Invariante de Bifurcaci\u00f3n de Golod-Shafarevich en Red y Consenso (Pilar 193)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_193.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_193.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_193.l2"
+    },
+    {
+      "id": 194,
+      "title": "Tratado de Desacoplamiento de Entrop\u00eda T\u00e9rmica y Memoria Reversible (Pilar 194)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_194.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_194.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_194.l2"
+    },
+    {
+      "id": 195,
+      "title": "Topolog\u00eda Conforme de Red y Transmisi\u00f3n de Baja Impedancia (Pilar 195)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_195.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_195.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_195.l2"
+    },
+    {
+      "id": 196,
+      "title": "Implementaci\u00f3n de Referencia y Benchmark Comparativo OGSP (Pilar 196)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_196.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_196.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_196.l2"
+    },
+    {
+      "id": 196,
+      "title": "Implementaci\u00f3n de Referencia y Benchmark Comparativo OGSP (Pilar 196)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_196.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_196.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_196.l2"
+    },
+    {
+      "id": 197,
+      "title": "Fundamentaci\u00f3n Hologr\u00e1fica de Maldacena, Relatividad y Termodin\u00e1mica Cu\u00e1ntica en Capa 0 (Pilar 197)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_197.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_197.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_197.l2"
+    },
+    {
+      "id": 197,
+      "title": "Fundamentaci\u00f3n Hologr\u00e1fica de Maldacena, Relatividad y Termodin\u00e1mica Cu\u00e1ntica en Capa 0 (Pilar 197)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_197.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_197.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_197.l2"
+    },
+    {
+      "id": 198,
+      "title": "Parche Oficial del Kernel Linux y Ecosistema de Silicio Fr\u00edo (Pilar 198)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_198.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_198.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_198.l2"
+    },
+    {
+      "id": 198,
+      "title": "Parche Oficial del Kernel Linux y Ecosistema de Silicio Fr\u00edo (Pilar 198)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_198.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_198.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_198.l2"
+    },
+    {
+      "id": 199,
+      "title": "Tratado de Capa 0",
+      "uri_l0": "viking://resources/pilares/L0/pilar_199.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_199.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_199.l2"
+    },
+    {
+      "id": 199,
+      "title": "Tratado de Capa 0",
+      "uri_l0": "viking://resources/pilares/L0/pilar_199.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_199.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_199.l2"
+    },
+    {
+      "id": 200,
+      "title": "Tratado de Unificacion Calabi-Yau 10D y Correspondencia Conforme (Pilar 200)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_200.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_200.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_200.l2"
+    },
+    {
+      "id": 200,
+      "title": "Tratado de Unificacion Calabi-Yau 10D y Correspondencia Conforme (Pilar 200)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_200.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_200.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_200.l2"
+    },
+    {
+      "id": 201,
+      "title": "Metodolog\u00eda Experimental de Inferencia y Telemetr\u00eda de Silicio (Pilar 201)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_201.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_201.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_201.l2"
+    },
+    {
+      "id": 201,
+      "title": "Metodolog\u00eda Experimental de Inferencia y Telemetr\u00eda de Silicio (Pilar 201)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_201.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_201.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_201.l2"
+    },
+    {
+      "id": 202,
+      "title": "Tratado de Gravedad Entr\u00f3pica y Flecha Hologr\u00e1fica del Tiempo (Pilar 202)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_202.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_202.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_202.l2"
+    },
+    {
+      "id": 202,
+      "title": "Tratado de Gravedad Entr\u00f3pica y Flecha Hologr\u00e1fica del Tiempo (Pilar 202)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_202.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_202.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_202.l2"
+    },
+    {
+      "id": 203,
+      "title": "Topolog\u00eda de Malla Hexagonal d=6 y Sincronizaci\u00f3n de Fase \u00c1urea (Pilar 203)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_203.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_203.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_203.l2"
+    },
+    {
+      "id": 203,
+      "title": "Topolog\u00eda de Malla Hexagonal d=6 y Sincronizaci\u00f3n de Fase \u00c1urea (Pilar 203)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_203.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_203.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_203.l2"
+    },
+    {
+      "id": 204,
+      "title": "Tratado de Grandes Unificaciones Tecnol\u00f3gicas y Dimensi\u00f3n 196883 (Pilar 204)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_204.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_204.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_204.l2"
+    },
+    {
+      "id": 204,
+      "title": "Tratado de Grandes Unificaciones Tecnol\u00f3gicas y Dimensi\u00f3n 196883 (Pilar 204)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_204.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_204.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_204.l2"
+    },
+    {
+      "id": 205,
+      "title": "Tratado Maestro de Disrupciones de Capa 0 y Cinco Novedades Mundiales (Pilar 205)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_205.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_205.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_205.l2"
+    },
+    {
+      "id": 206,
+      "title": "Validaci\u00f3n Espectral de Crouzeix C=2 y Acotaci\u00f3n de Operadores No Normales (Pilar 206)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_206.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_206.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_206.l2"
+    },
+    {
+      "id": 207,
+      "title": "Isomorfismo Mec\u00e1nico-Termodin\u00e1mico de Capa 0 (Pilar 207)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_207.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_207.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_207.l2"
+    },
+    {
+      "id": 208,
+      "title": "Unificaci\u00f3n Espectral Operacional (Fourier, Laplace y Z) en Capa 0 (Pilar 208)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_208.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_208.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_208.l2"
+    },
+    {
+      "id": 209,
+      "title": "C\u00e1lculo Operacional de Laplace y Control Algebraico en Silicio (Pilar 209)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_209.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_209.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_209.l2"
+    },
+    {
+      "id": 210,
+      "title": "\u00c1lgebra Combinatoria de Pascal, Diagonales de Fibonacci y Mallas Cuasiperi\u00f3dicas (Pilar 210)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_210.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_210.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_210.l2"
+    },
+    {
+      "id": 211,
+      "title": "Curva de Lorenz, Factor Relativista gamma y Confinamiento Espectral (Pilar 211)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_211.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_211.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_211.l2"
+    },
+    {
+      "id": 212,
+      "title": "Isomorfismo Qu\u00edmico-Cu\u00e1ntico, Grados de Valencia y Silicio de Hafnio (Pilar 212)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_212.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_212.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_212.l2"
+    },
+    {
+      "id": 213,
+      "title": "Tratado de Unificaci\u00f3n de las 17 Ecuaciones Fundamentales en Capa 0 (Pilar 213)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_213.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_213.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_213.l2"
+    },
+    {
+      "id": 214,
+      "title": "Parche de Aislamiento Darwin y Ejecucion Nativa en Silicio Frio (Pilar 214)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_214.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_214.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_214.l2"
+    },
+    {
+      "id": 215,
+      "title": "Gen\u00f3mica Conforme de Capa 0 y Aceleraci\u00f3n Pangen\u00f3mica en Silicio Fr\u00edo (Pilar 215)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_215.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_215.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_215.l2"
+    },
+    {
+      "id": 216,
+      "title": "Resoluci\u00f3n de Cuellos de Botella Gen\u00f3micos y Pangen\u00f3mica No Lineal (Pilar 216)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_216.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_216.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_216.l2"
+    },
+    {
+      "id": 217,
+      "title": "Topolog\u00eda de Burbujas Pangen\u00f3micas y Tensores de Pulso F\u00edsico en Silicio Fr\u00edo (Pilar 217)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_217.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_217.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_217.l2"
+    },
+    {
+      "id": 218,
+      "title": "Principio de M\u00ednima Acci\u00f3n en Faseo Gen\u00f3mico y Pulido con PHARAOH/DeepPolisher (Pilar 218)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_218.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_218.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_218.l2"
+    },
+    {
+      "id": 219,
+      "title": "F\u00edsica de Dispositivos Conformes, \u00c1lgebra Funcional y Silicio Fr\u00edo (Pilar 219)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_219.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_219.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_219.l2"
+    },
+    {
+      "id": 220,
+      "title": "Modelo de Transferencia Tecnol\u00f3gica Deep Tech y Econom\u00eda de Silicio Fr\u00edo (Pilar 220)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_220.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_220.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_220.l2"
+    },
+    {
+      "id": 221,
+      "title": "Optimizaci\u00f3n Determinista de Videojuegos, Rollback Netcode y Modelo BaaS (Pilar 221)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_221.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_221.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_221.l2"
+    },
+    {
+      "id": 222,
+      "title": "Arquitectura de Red para Mundos Abiertos Masivos y Middleware RAGE (Pilar 222)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_222.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_222.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_222.l2"
+    },
+    {
+      "id": 223,
+      "title": "Plataforma Aut\u00f3noma de Gaming en PC, Overlay de Silicio y Modelo Direct-to-Consumer (Pilar 223)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_223.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_223.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_223.l2"
+    },
+    {
+      "id": 224,
+      "title": "Micro-Sistema Operativo Embebido Portable y Runtime Universal de Gaming (Pilar 224)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_224.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_224.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_224.l2"
+    },
+    {
+      "id": 225,
+      "title": "Arquitectura de SO con Kernel Linux e Init de IA Autoejecutable (Pilar 225)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_225.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_225.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_225.l2"
+    },
+    {
+      "id": 226,
+      "title": "Arquitectura Token-Gated DePIN y Activaci\u00f3n Criptogr\u00e1fica de Silicio Fr\u00edo (Pilar 226)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_226.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_226.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_226.l2"
+    },
+    {
+      "id": 227,
+      "title": "Protocolo Oasis-QUIC (O-QUIC), Pacing \u00c1ureo y Supresi\u00f3n de Sobrecarga UDP (Pilar 227)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_227.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_227.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_227.l2"
+    },
+    {
+      "id": 228,
+      "title": "Parche de Transporte QUIC de Baja Latencia para Motores de Videojuegos (Pilar 228)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_228.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_228.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_228.l2"
+    },
+    {
+      "id": 229,
+      "title": "Comunicaci\u00f3n Inter-IA sobre Transporte QUIC Multiplexado y Auto-Mejora en Enjambre (Pilar 229)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_229.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_229.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_229.l2"
+    },
+    {
+      "id": 230,
+      "title": "Compilaci\u00f3n de M\u00ednima Acci\u00f3n, Unity Builds y Silicio Fr\u00edo (Pilar 230)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_230.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_230.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_230.l2"
+    },
+    {
+      "id": 231,
+      "title": "Resoluci\u00f3n Determinista de Homopol\u00edmeros y Se\u00f1ales Electroqu\u00edmicas Gen\u00f3micas en Plano Z (Pilar 231)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_231.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_231.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_231.l2"
+    },
+    {
+      "id": 232,
+      "title": "Software M\u00e9dico Abierto, Aceleraci\u00f3n Biom\u00e9dica en Darwin y Tensores Cl\u00ednicos (Pilar 232)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_232.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_232.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_232.l2"
+    },
+    {
+      "id": 233,
+      "title": "Integraci\u00f3n de Transporte O-QUIC, Gen\u00f3mica Cl\u00ednica de Capa 0 y Diagn\u00f3stico Biom\u00e9dico (Pilar 233)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_233.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_233.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_233.l2"
+    },
+    {
+      "id": 234,
+      "title": "Integraci\u00f3n de Polygon CDK, Aceleraci\u00f3n ZK en Metal y Soberan\u00eda Darwin (Pilar 234)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_234.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_234.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_234.l2"
+    },
+    {
+      "id": 235,
+      "title": "Mercado Descentralizado de Tecnolog\u00eda Oasis sobre Polygon y Control Darwin (Pilar 235)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_235.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_235.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_235.l2"
+    },
+    {
+      "id": 236,
+      "title": "Billetera Criptogr\u00e1fica Soberana, Auditor\u00eda de Contratos en Polygon y Negocio de Silicio Fr\u00edo (Pilar 236)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_236.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_236.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_236.l2"
+    },
+    {
+      "id": 237,
+      "title": "Monetizaci\u00f3n en Polygon, Nodos de Inferencia DePIN y Liquidaci\u00f3n Soberana L2 (Pilar 237)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_237.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_237.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_237.l2"
+    },
+    {
+      "id": 238,
+      "title": "Despliegue de Tienda Web3 Soberana en Polygon y Validaci\u00f3n Benchmark (Pilar 238)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_238.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_238.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_238.l2"
+    },
+    {
+      "id": 239,
+      "title": "Primer Producto Comercial de Silicio Fr\u00edo y Licenciamiento Token-Gated (Pilar 239)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_239.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_239.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_239.l2"
+    },
+    {
+      "id": 240,
+      "title": "Paquete Comercial Entregable de Silicio Fr\u00edo y Despliegue de Tienda Index (Pilar 240)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_240.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_240.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_240.l2"
+    },
+    {
+      "id": 241,
+      "title": "Motor Aut\u00f3nomo de C\u00f3mputo en RAM y Entrega Comercial de Silicio Fr\u00edo (Pilar 241)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_241.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_241.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_241.l2"
+    },
+    {
+      "id": 242,
+      "title": "Sinton\u00eda de Fase en FPU, Termodin\u00e1mica Landauer-Oasis (30.576%) y Motor Fast Build V2 (Pilar 242)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_242.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_242.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_242.l2"
+    },
+    {
+      "id": 243,
+      "title": "Aceleraci\u00f3n Multiplataforma Windows/Darwin y Supresi\u00f3n de Sobrecarga NTFS (Pilar 243)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_243.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_243.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_243.l2"
+    },
+    {
+      "id": 244,
+      "title": "Estructura de Precios Multi-Nivel y Despliegue Comercial en Polygon (Pilar 244)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_244.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_244.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_244.l2"
+    },
+    {
+      "id": 245,
+      "title": "Estrategia de Penetraci\u00f3n de Precios y Validaci\u00f3n de Mercado en Silicio Fr\u00edo (Pilar 245)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_245.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_245.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_245.l2"
+    },
+    {
+      "id": 246,
+      "title": "Cat\u00e1logo Progresivo y Tarificaci\u00f3n Diferencial de Silicio Fr\u00edo (Pilar 246)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_246.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_246.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_246.l2"
+    },
+    {
+      "id": 247,
+      "title": "Validaci\u00f3n Comercial del O-QUIC Pacer y Supresi\u00f3n de Jitter P99 al 72% (Pilar 247)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_247.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_247.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_247.l2"
+    },
+    {
+      "id": 248,
+      "title": "Protocolo O-QUIC Pacer V2 para Videojuegos y Despliegue de Cat\u00e1logo Triple en Polygon (Pilar 248)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_248.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_248.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_248.l2"
+    },
+    {
+      "id": 249,
+      "title": "Clave Maestra de Autor\u00eda, Derechos de Explotaci\u00f3n Soberana y Canje O-QUIC a 60 POL (Pilar 249)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_249.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_249.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_249.l2"
+    },
+    {
+      "id": 250,
+      "title": "Proxy UDP para Videojuegos de Mundo Abierto y Runtime de Gaming O-QUIC (Pilar 250)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_250.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_250.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_250.l2"
+    },
+    {
+      "id": 251,
+      "title": "Despliegue de Cat\u00e1logo Cu\u00e1druple y Monetizaci\u00f3n del Gaming UDP Proxy a 60 POL (Pilar 251)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_251.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_251.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_251.l2"
+    },
+    {
+      "id": 252,
+      "title": "Verificaci\u00f3n de Disponibilidad en GitHub API y Auditor\u00eda de Descarga del Cat\u00e1logo (Pilar 252)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_252.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_252.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_252.l2"
+    },
+    {
+      "id": 253,
+      "title": "Verificaci\u00f3n Exitosa de la API de GitHub e Integridad del Monolito Cu\u00e1druple (Pilar 253)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_253.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_253.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_253.l2"
+    },
+    {
+      "id": 254,
+      "title": "Tratado de la Flecha del Tiempo Entr\u00f3pica (Barontini 2026) y Unificaci\u00f3n de Neutrinos por Malla Fibonacci (Pilar 254)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_254.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_254.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_254.l2"
+    },
+    {
+      "id": 255,
+      "title": "Separaci\u00f3n de Ciencia Dura y Filosof\u00eda en la Consciencia e Informaci\u00f3n (Pilar 255)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_255.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_255.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_255.l2"
+    },
+    {
+      "id": 256,
+      "title": "El Tiempo Hologr\u00e1fico, Minkowski Firewall, Latido phi y Bifurcaciones de Everett (Pilar 256)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_256.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_256.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_256.l2"
+    },
+    {
+      "id": 257,
+      "title": "Bifurcaciones de Everett y Ejecuci\u00f3n Especulativa Local en Sandboxes (Pilar 257)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_257.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_257.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_257.l2"
+    },
+    {
+      "id": 258,
+      "title": "Comercializaci\u00f3n del Chronos Everett Engine a 150 POL en Cat\u00e1logo Qu\u00edntuple (Pilar 258)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_258.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_258.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_258.l2"
+    },
+    {
+      "id": 259,
+      "title": "Motor M\u00e9dico Everett para Alineaci\u00f3n Pangen\u00f3mica y Diagn\u00f3stico en RAM (Pilar 259)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_259.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_259.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_259.l2"
+    },
+    {
+      "id": 260,
+      "title": "Chronos Everett Netcode Engine con Minkowski Firewall y Fusi\u00f3n Bra-Ket (Pilar 260)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_260.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_260.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_260.l2"
+    },
+    {
+      "id": 261,
+      "title": "Darwin RAM Liberator y Compresi\u00f3n Conforme Chen-Panzano al 10.14% (Pilar 261)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_261.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_261.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_261.l2"
+    },
+    {
+      "id": 262,
+      "title": "Conciencia, Rastro Hologr\u00e1fico y Motor SAP Transaccional de Capa 0 (Pilar 262)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_262.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_262.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_262.l2"
+    },
+    {
+      "id": 263,
+      "title": "Validaci\u00f3n y Canje de Licencias del Conscious Ledger (Pilar 263)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_263.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_263.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_263.l2"
+    },
+    {
+      "id": 264,
+      "title": "Manifiesto de Silicio Fr\u00edo y la Econom\u00eda de la Soberan\u00eda (Pilar 264)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_264.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_264.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_264.l2"
+    },
+    {
+      "id": 265,
+      "title": "Validaci\u00f3n de Mec\u00e1nica Estad\u00edstica y Movimiento Browniano (Pilar 265)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_265.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_265.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_265.l2"
+    },
+    {
+      "id": 266,
+      "title": "Resoluci\u00f3n Hologr\u00e1fica de la Paradoja de la Informaci\u00f3n y Unitariedad Cu\u00e1ntica (Pilar 266)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_266.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_266.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_266.l2"
+    },
+    {
+      "id": 267,
+      "title": "Resoluci\u00f3n Informacional a la Paradoja de la Baja Entrop\u00eda y Relajaci\u00f3n de Fisher-Rao (Pilar 267)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_267.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_267.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_267.l2"
+    },
+    {
+      "id": 268,
+      "title": "Tratado del Tiempo Emergente y Cosmolog\u00eda en el Espacio de Fisher-Rao (Pilar 268)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_268.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_268.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_268.l2"
+    },
+    {
+      "id": 269,
+      "title": "Resoluci\u00f3n del Problema de los Tres Cuerpos como Consenso Distribuido (Pilar 269)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_269.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_269.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_269.l2"
+    },
+    {
+      "id": 270,
+      "title": "Tratado de Cosmolog\u00eda Hologr\u00e1fica Integral y F\u00edsica de Capa 0 (Pilar 270)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_270.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_270.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_270.l2"
+    },
+    {
+      "id": 271,
+      "title": "[A1] Filtro Causal As\u00edncrono de Inferencia y Supresi\u00f3n de Swap (Pilar 271 / A1)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_271.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_271.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_271.l2"
+    },
+    {
+      "id": 272,
+      "title": "[A2] Reconciliaci\u00f3n Matricial de Fluidos v\u00eda Colapso Bra-Ket (Pilar 272 / A2)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_272.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_272.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_272.l2"
+    },
+    {
+      "id": 273,
+      "title": "[A3] Arquitectura de M\u00ednima Acci\u00f3n y Concurrencia Darwin (Pilar 273 / A3)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_273.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_273.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_273.l2"
+    },
+    {
+      "id": 274,
+      "title": "Gravedad Entr\u00f3pica, Din\u00e1mica de Fase y Desacoplamiento (Pilar 274)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_274.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_274.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_274.l2"
+    },
+    {
+      "id": 275,
+      "title": "Deducci\u00f3n del Segundo Axioma de Euclides y Prolongaci\u00f3n de Geod\u00e9sicas (Pilar 275)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_275.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_275.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_275.l2"
+    },
+    {
+      "id": 276,
+      "title": "Desacoplamiento Gravitatorio Holom\u00f3rfico y Flotabilidad Estacionaria (Pilar 276)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_276.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_276.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_276.l2"
+    },
+    {
+      "id": 277,
+      "title": "Deducci\u00f3n del Tercer Axioma de Euclides y Horizontes de Fase en Red (Pilar 277)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_277.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_277.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_277.l2"
+    },
+    {
+      "id": 278,
+      "title": "Criptograf\u00eda en Ret\u00edculos, Agilidad WASM e Inmunidad Shor/GNFS (Pilar 278)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_278.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_278.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_278.l2"
+    },
+    {
+      "id": 279,
+      "title": "Migraci\u00f3n Activa, Noise XX PFS y Fragmentaci\u00f3n Hologr\u00e1fica (Pilar 279)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_279.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_279.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_279.l2"
+    },
+    {
+      "id": 280,
+      "title": "Confinamiento SU(3) RGB y Buz\u00f3n Confidencial RFC 822 (Pilar 280)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_280.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_280.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_280.l2"
+    },
+    {
+      "id": 281,
+      "title": "Escudo B\u00e1sico Soberano para Nodos Dom\u00e9sticos (Pilar 281)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_281.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_281.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_281.l2"
+    },
+    {
+      "id": 282,
+      "title": "Deducci\u00f3n del Cuarto Axioma de Euclides y Ortogonalidad Informacional (Pilar 282)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_282.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_282.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_282.l2"
+    },
+    {
+      "id": 283,
+      "title": "Ortogonalidad Cu\u00e1ntica Universal e Inmunidad al Crosstalk (Pilar 283)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_283.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_283.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_283.l2"
+    },
+    {
+      "id": 284,
+      "title": "Isomorfismo Cu\u00e1ntico-Euclidiano y Cierre de Hilbert (Pilar 284)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_284.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_284.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_284.l2"
+    },
+    {
+      "id": 285,
+      "title": "Deducci\u00f3n del Quinto Postulado de Euclides y Canales Paralelos Asint\u00f3ticos (Pilar 285)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_285.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_285.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_285.l2"
+    },
+    {
+      "id": 286,
+      "title": "Deducci\u00f3n del Teorema de Pit\u00e1goras y Conservaci\u00f3n Conforme L2 (Pilar 286)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_286.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_286.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_286.l2"
+    },
+    {
+      "id": 287,
+      "title": "Derivaci\u00f3n Anal\u00edtica de la Estructura Fina desde Phi (Pilar 287)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_287.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_287.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_287.l2"
+    },
+    {
+      "id": 288,
+      "title": "Deducci\u00f3n de c, Masa de Planck e Impedancia Alfa en ARPANET (Pilar 288)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_288.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_288.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_288.l2"
+    },
+    {
+      "id": 289,
+      "title": "Deducci\u00f3n de la Constante de Gravitaci\u00f3n G (Pilar 289)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_289.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_289.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_289.l2"
+    },
+    {
+      "id": 290,
+      "title": "S\u00edntesis de Gravitaci\u00f3n Cu\u00e1ntica y Cierre Holom\u00f3rfico (Pilar 290)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_290.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_290.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_290.l2"
+    },
+    {
+      "id": 291,
+      "title": "Deducci\u00f3n de la Constante Cosmol\u00f3gica Lambda, Temperatura TH y M\u00e9trica de Fisher-Rao (Pilar 291)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_291.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_291.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_291.l2"
+    },
+    {
+      "id": 292,
+      "title": "Deducci\u00f3n de la Flecha Termodin\u00e1mica del Tiempo (Pilar 292)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_292.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_292.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_292.l2"
+    },
+    {
+      "id": 293,
+      "title": "Hip\u00f3tesis del Tiempo Discreto, Conciencia y L\u00edmites G\u00f6del-Omega (Pilar 293)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_293.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_293.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_293.l2"
+    },
+    {
+      "id": 294,
+      "title": "Deducci\u00f3n de la Raz\u00f3n de Masas Prot\u00f3n-Electr\u00f3n (Pilar 294)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_294.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_294.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_294.l2"
+    },
+    {
+      "id": 295,
+      "title": "Deducci\u00f3n de la Masa de Higgs y Jerarqu\u00eda de Quarks (Pilar 295)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_295.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_295.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_295.l2"
+    },
+    {
+      "id": 296,
+      "title": "Deducci\u00f3n de la Matriz CKM y Violaci\u00f3n CP (Pilar 296)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_296.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_296.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_296.l2"
+    },
+    {
+      "id": 297,
+      "title": "Deducci\u00f3n de la Matriz PMNS de Oscilaci\u00f3n de Neutrinos (Pilar 297)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_297.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_297.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_297.l2"
+    },
+    {
+      "id": 298,
+      "title": "Deducci\u00f3n de la Asimetr\u00eda Materia-Antimateria Bariog\u00e9nesis (Pilar 298)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_298.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_298.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_298.l2"
+    },
+    {
+      "id": 299,
+      "title": "Deducci\u00f3n de la Ruptura de Simetr\u00eda GUT SU(5)/SO(10) (Pilar 299)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_299.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_299.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_299.l2"
+    },
+    {
+      "id": 300,
+      "title": "Teor\u00eda del Todo",
+      "uri_l0": "viking://resources/pilares/L0/pilar_300.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_300.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_300.l2"
+    },
+    {
+      "id": 301,
+      "title": "Extensi\u00f3n Unificada",
+      "uri_l0": "viking://resources/pilares/L0/pilar_301.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_301.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_301.l2"
+    },
+    {
+      "id": 302,
+      "title": "Deducci\u00f3n del CMB Cold Spot como V\u00f3rtice Topol\u00f3gico (Pilar 302)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_302.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_302.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_302.l2"
+    },
+    {
+      "id": 303,
+      "title": "Deducci\u00f3n de la Hip\u00f3tesis de Riemann en Capa 0 (Pilar 303)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_303.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_303.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_303.l2"
+    },
+    {
+      "id": 304,
+      "title": "Demostraci\u00f3n de la Conjetura de Collatz en Capa 0 (Pilar 304)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_304.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_304.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_304.l2"
+    },
+    {
+      "id": 305,
+      "title": "Demostraci\u00f3n de Navier-Stokes y Regularidad Suave Global (Pilar 305)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_305.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_305.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_305.l2"
+    },
+    {
+      "id": 306,
+      "title": "Demostraci\u00f3n de la Conjetura de Hodge en Capa 0 (Pilar 306)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_306.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_306.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_306.l2"
+    },
+    {
+      "id": 307,
+      "title": "Demostraci\u00f3n de la Conjetura de Birch y Swinnerton-Dyer (Pilar 307)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_307.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_307.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_307.l2"
+    },
+    {
+      "id": 308,
+      "title": "Demostraci\u00f3n de la Separaci\u00f3n Formal P != NP en Capa 0 (Pilar 308)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_308.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_308.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_308.l2"
+    },
+    {
+      "id": 309,
+      "title": "Demostraci\u00f3n de Poincar\u00e9 y Geometrizaci\u00f3n de Thurston en Capa 0 (Pilar 309)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_309.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_309.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_309.l2"
+    },
+    {
+      "id": 310,
+      "title": "Existencia de Yang-Mills y Salto de Masa Cu\u00e1ntico (Pilar 310)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_310.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_310.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_310.l2"
+    },
+    {
+      "id": 311,
+      "title": "Demostraci\u00f3n de la Conjetura ABC en Capa 0 (Pilar 311)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_311.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_311.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_311.l2"
+    },
+    {
+      "id": 312,
+      "title": "Demostraci\u00f3n de la Hip\u00f3tesis de Riemann Generalizada GRH (Pilar 312)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_312.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_312.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_312.l2"
+    },
+    {
+      "id": 313,
+      "title": "Demostraci\u00f3n de la Conjetura de Collatz Generalizada (Pilar 313)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_313.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_313.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_313.l2"
+    },
+    {
+      "id": 314,
+      "title": "Demostraci\u00f3n de la Conjetura Fuerte de Goldbach (Pilar 314)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_314.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_314.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_314.l2"
+    },
+    {
+      "id": 315,
+      "title": "Demostraci\u00f3n de la Conjetura de los Primos Gemelos (Pilar 315)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_315.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_315.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_315.l2"
+    },
+    {
+      "id": 316,
+      "title": "Demostraci\u00f3n de la Hip\u00f3tesis de Riemann sobre Cuerpos Finitos (Pilar 316)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_316.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_316.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_316.l2"
+    },
+    {
+      "id": 317,
+      "title": "Demostraci\u00f3n del Teorema de Fermat-Wiles en Capa 0 (Pilar 317)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_317.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_317.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_317.l2"
+    },
+    {
+      "id": 318,
+      "title": "Demostraci\u00f3n de la Conjetura de Beal (Pilar 318)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_318.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_318.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_318.l2"
+    },
+    {
+      "id": 319,
+      "title": "Formalizaci\u00f3n Rigurosa de la Conjetura de Gilbreath (Pilar 319)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_319.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_319.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_319.l2"
+    },
+    {
+      "id": 320,
+      "title": "Resoluci\u00f3n de la Jerarqu\u00eda de Masas de Yukawa (Pilar 320)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_320.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_320.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_320.l2"
+    },
+    {
+      "id": 321,
+      "title": "Resoluci\u00f3n de la Disparidad de Mezcla CKM vs PMNS (Pilar 321)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_321.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_321.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_321.l2"
+    },
+    {
+      "id": 322,
+      "title": "Din\u00e1mica del Flujo del Grupo de Renormalizaci\u00f3n (Pilar 322)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_322.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_322.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_322.l2"
+    },
+    {
+      "id": 323,
+      "title": "Derivaci\u00f3n Formal de los 26 Par\u00e1metros del SM (Pilar 323)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_323.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_323.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_323.l2"
+    },
+    {
+      "id": 324,
+      "title": "Formalizaci\u00f3n Rigurosa de la Conjetura de Legendre (Pilar 324)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_324.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_324.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_324.l2"
+    },
+    {
+      "id": 325,
+      "title": "Formalizaci\u00f3n Rigurosa de la Conjetura de Oppermann (Pilar 325)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_325.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_325.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_325.l2"
+    },
+    {
+      "id": 326,
+      "title": "Emergencia del Tiempo Relacional y Consenso Intersubjetivo (Pilar 326)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_326.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_326.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_326.l2"
+    },
+    {
+      "id": 327,
+      "title": "Deducci\u00f3n Formal de la Conjetura de Brocard (Pilar 327)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_327.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_327.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_327.l2"
+    },
+    {
+      "id": 328,
+      "title": "Deducci\u00f3n de la Conjetura de Cram\u00e9r (Pilar 328)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_328.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_328.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_328.l2"
+    },
+    {
+      "id": 329,
+      "title": "Deducci\u00f3n de la Conjetura de Firoozbakht (Pilar 329)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_329.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_329.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_329.l2"
+    },
+    {
+      "id": 330,
+      "title": "Demostraci\u00f3n de la Conjetura de Andrica (Pilar 330)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_330.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_330.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_330.l2"
+    },
+    {
+      "id": 331,
+      "title": "Termodin\u00e1mica del Pensamiento y Flujo del Tiempo Subjetivo (Pilar 331)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_331.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_331.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_331.l2"
+    },
+    {
+      "id": 332,
+      "title": "Demostraci\u00f3n de la Conjetura de Polignac (Pilar 332)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_332.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_332.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_332.l2"
+    },
+    {
+      "id": 333,
+      "title": "Demostraci\u00f3n de la Conjetura de Hardy-Littlewood (Pilar 333)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_333.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_333.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_333.l2"
+    },
+    {
+      "id": 334,
+      "title": "La Unificaci\u00f3n Aritm\u00e9tica Absoluta (Pilar 334)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_334.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_334.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_334.l2"
+    },
+    {
+      "id": 335,
+      "title": "Demostraci\u00f3n de la Conjetura de Gilbreath Generalizada (Pilar 335)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_335.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_335.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_335.l2"
+    },
+    {
+      "id": 336,
+      "title": "Demostraci\u00f3n de la Conjetura de Erd\u0151s-Tur\u00e1n (Pilar 336)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_336.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_336.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_336.l2"
+    },
+    {
+      "id": 337,
+      "title": "F\u00f3rmula Fuerte de Birch y Swinnerton-Dyer (Pilar 337)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_337.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_337.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_337.l2"
+    },
+    {
+      "id": 338,
+      "title": "Regularidad Suave Global de Navier-Stokes y Criterio BKM (Pilar 338)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_338.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_338.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_338.l2"
+    },
+    {
+      "id": 339,
+      "title": "Bifurcaci\u00f3n de Forzamiento vs Regularidad Intr\u00ednseca en Navier-Stokes (Pilar 339)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_339.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_339.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_339.l2"
+    },
+    {
+      "id": 340,
+      "title": "Demostraci\u00f3n del Salto de Masa en Yang-Mills Cu\u00e1ntico (Pilar 340)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_340.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_340.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_340.l2"
+    },
+    {
+      "id": 341,
+      "title": "Formalizaci\u00f3n Cuantitativa de la Conjetura de Hodge (Pilar 341)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_341.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_341.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_341.l2"
+    },
+    {
+      "id": 342,
+      "title": "Extensi\u00f3n 3D de Collatz y Toroides Conformes (Pilar 342)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_342.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_342.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_342.l2"
+    },
+    {
+      "id": 343,
+      "title": "Demostraci\u00f3n de la Conjetura de Novikov (Pilar 343)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_343.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_343.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_343.l2"
+    },
+    {
+      "id": 344,
+      "title": "Demostraci\u00f3n de la Conjetura de Baum-Connes (Pilar 344)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_344.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_344.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_344.l2"
+    },
+    {
+      "id": 345,
+      "title": "Demostraci\u00f3n de la Conjetura de Farrell-Jones (Pilar 345)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_345.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_345.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_345.l2"
+    },
+    {
+      "id": 346,
+      "title": "Demostraci\u00f3n de la Conjetura de Bost en \u00c1lgebras de Banach (Pilar 346)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_346.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_346.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_346.l2"
+    },
+    {
+      "id": 347,
+      "title": "Demostraci\u00f3n de la Conjetura de Bass (Pilar 347)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_347.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_347.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_347.l2"
+    },
+    {
+      "id": 348,
+      "title": "Demostraci\u00f3n de las Conjeturas de Kaplansky (Pilar 348)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_348.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_348.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_348.l2"
+    },
+    {
+      "id": 349,
+      "title": "Demostraci\u00f3n de la Conjetura de Atiyah sobre Betti L^2 (Pilar 349)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_349.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_349.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_349.l2"
+    },
+    {
+      "id": 350,
+      "title": "Demostraci\u00f3n de la Conjetura de Singer (Pilar 350)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_350.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_350.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_350.l2"
+    },
+    {
+      "id": 351,
+      "title": "Demostraci\u00f3n de la Conjetura de Hopf (Pilar 351)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_351.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_351.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_351.l2"
+    },
+    {
+      "id": 352,
+      "title": "Demostraci\u00f3n de la Conjetura de Chern sobre Variedades Afines (Pilar 352)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_352.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_352.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_352.l2"
+    },
+    {
+      "id": 353,
+      "title": "Demostraci\u00f3n de la Conjetura de Yau sobre el Primer Autovalor (Pilar 353)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_353.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_353.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_353.l2"
+    },
+    {
+      "id": 354,
+      "title": "Demostraci\u00f3n de la Conjetura de Willmore (Pilar 354)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_354.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_354.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_354.l2"
+    },
+    {
+      "id": 355,
+      "title": "Demostraci\u00f3n de la Conjetura de Lawson (Pilar 355)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_355.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_355.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_355.l2"
+    },
+    {
+      "id": 356,
+      "title": "Demostraci\u00f3n de la Conjetura de Lichnerowicz (Pilar 356)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_356.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_356.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_356.l2"
+    },
+    {
+      "id": 357,
+      "title": "Demostraci\u00f3n de la Conjetura de Calabi (Pilar 357)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_357.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_357.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_357.l2"
+    },
+    {
+      "id": 358,
+      "title": "Teorema de Donaldson-Uhlenbeck-Yau (Pilar 358)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_358.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_358.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_358.l2"
+    },
+    {
+      "id": 359,
+      "title": "Conjetura de Severi (Pilar 359)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_359.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_359.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_359.l2"
+    },
+    {
+      "id": 360,
+      "title": "Conjetura de Mumford (Pilar 360)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_360.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_360.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_360.l2"
+    },
+    {
+      "id": 361,
+      "title": "Conjetura de Tate (Pilar 361)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_361.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_361.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_361.l2"
+    },
+    {
+      "id": 362,
+      "title": "Conjeturas Est\u00e1ndar de Grothendieck (Pilar 362)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_362.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_362.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_362.l2"
+    },
+    {
+      "id": 363,
+      "title": "Conjeturas de Beilinson (Pilar 363)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_363.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_363.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_363.l2"
+    },
+    {
+      "id": 364,
+      "title": "Motor de Inferencia y Streaming MovieBox-Tui con Interfaz de Gu\u00eda (Pilar 364)",
+      "uri_l0": "viking://resources/pilares/L0/pilar_364.l0",
+      "uri_l1": "viking://resources/pilares/L1/pilar_364.l1",
+      "uri_l2": "viking://resources/pilares/L2/pilar_364.l2"
+    }
+  ]
+}

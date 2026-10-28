@@ -1,0 +1,1 @@
+PILAR 214: Parche de Aislamiento Darwin y Ejecucion Nativa en Silicio Frio (Pilar 214): Documento docs/PAPER_PILAR_214_DARWIN_SILICON_PATCH.md formaliza la supresion de shims acausales en macOS, liberacion de memoria y ejecucion determinista directa O(1) bajo AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballe.

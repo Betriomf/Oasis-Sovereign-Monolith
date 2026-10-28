@@ -1,0 +1,1 @@
+PILAR 112: Malla de Memoria Compartida Multagente Graphify (Pilar 112): Módulo 'agents_core/oasis_shared_memory_mesh.py' permite que cualquier agente (001-007) escriba y consulte hitos en tiempo real en 'data/lincos_db/oasis_knowledge_graph.json', logrando sincronización absoluta a 5.39W bajo Licencia AGPLv3.

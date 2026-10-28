@@ -1,0 +1,1 @@
+PILAR 198: Parche Oficial del Kernel Linux y Ecosistema de Silicio Frío (Pilar 198): Documento 'docs/LINUX_KERNEL_OFFICIAL_PATCH.patch' formaliza la inyección del invariante r > d^2/4 en el stack TCP/IP firmado por Mariano Panzano Caballé <mpc.3.14@gmail.com> bajo AGPLv3 / CC-BY-4.0.

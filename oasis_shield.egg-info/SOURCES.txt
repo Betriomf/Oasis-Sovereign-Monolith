@@ -1,0 +1,13 @@
+AUTHORSHIP_CLAIM.md
+LICENSE
+LICENSE-ENTERPRISE.md
+LICENSE-SCIENCE.md
+LICENSE.md
+LICENSE_OASIS_SOVEREIGN.md
+README.md
+oasis_shield.py
+pyproject.toml
+oasis_shield.egg-info/PKG-INFO
+oasis_shield.egg-info/SOURCES.txt
+oasis_shield.egg-info/dependency_links.txt
+oasis_shield.egg-info/top_level.txt

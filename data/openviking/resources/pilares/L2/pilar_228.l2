@@ -1,0 +1,1 @@
+PILAR 228: Parche de Transporte QUIC de Baja Latencia para Motores de Videojuegos (Pilar 228): Documento docs/PAPER_PILAR_228_GAME_ENGINE_QUIC_ACCELERATION.md formaliza la integracion de WebTransport/QUIC datagrams con pacing aureo pi/phi y bypass eBPF para Unreal/Unity por Mariano Panzano Caballe. Licencia AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballé.

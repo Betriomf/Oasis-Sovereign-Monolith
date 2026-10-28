@@ -1,0 +1,1 @@
+PILAR 71: Ingestor OCR y RAG para PDFs Científicos (Unlimited OCR): Módulo 'agents_core/oasis_pdf_ocr_ingestor.py' resuelve la pérdida de contexto en papers pesados fragmentándolos en tramas Lincos atómicas (π KB) para inferencia local a 5.39W en macOS bajo Licencia AGPLv3.

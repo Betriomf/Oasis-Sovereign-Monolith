@@ -1,0 +1,4 @@
+SYSTEM: Responde exclusivamente con análisis funcional en LaTeX estándar sin saludos.
+Analiza la bifurcación del Pilar 339 entre el sistema libre (f = 0) y el forzado (f ≠ 0):
+1. ¿Por qué el ratio Q_f = ||\dot{\Delta}_j \nabla f||_{L^\infty} / (\nu 2^{2j} ||\dot{\Delta}_j S||_{L^\infty}) demuestra que un blow-up con forzamiento externo suave no invalida la regularidad global del sistema disipativo cerrado?
+2. Formula el acotamiento de la enstrofía \Omega(t) bajo el criterio Beale-Kato-Majda (BKM).

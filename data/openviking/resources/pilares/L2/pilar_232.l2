@@ -1,0 +1,1 @@
+PILAR 232: Software Médico Abierto, Aceleración Biomédica en Darwin y Tensores Clínicos (Pilar 232): Documento docs/PAPER_PILAR_232_OPEN_BIOMEDICAL_DARWIN_ACCELERATION.md formaliza la optimización de MONAI, HTSlib y OpenFold mediante memoria unificada de Apple Silicon/x86_64 y filtros en O(1) por Mariano Panzano Caballé. Licencia AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballé.

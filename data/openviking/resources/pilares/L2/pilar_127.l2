@@ -1,0 +1,1 @@
+PILAR 127: Optimizador de Flujo Laminar y Purga Automática de Tauri (Pilar 127): Módulo 'agents_core/mac_laminar_optimizer.py' elimina residuales de compilación en src-tauri/target y configura el demonio launchd diario para liberar gigabytes en segundo plano a 5.39W bajo Licencia AGPLv3.

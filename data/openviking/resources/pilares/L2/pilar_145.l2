@@ -1,0 +1,1 @@
+PILAR 145: Neutralización de Consumo de Disco en Apple TV y Bloqueo de Precarga (Pilar 145): Módulo 'agents_core/oasis_appletv_neutralizer.py' purga cachés de streaming, desactiva descargas automáticas y apaga mediaanalysisd preservando el almacenamiento local bajo Licencia AGPLv3.

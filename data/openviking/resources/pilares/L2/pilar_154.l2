@@ -1,0 +1,1 @@
+PILAR 154: Poda de Cadenas de Compilación y Cachés de Runtimes (Pilar 154): Módulo 'agents_core/oasis_toolchain_pruner.py' purga instaladores huérfanos en Downloads, cachés de NVM y descargas de Rustup preservando la integridad del compilador bajo Licencia AGPLv3.

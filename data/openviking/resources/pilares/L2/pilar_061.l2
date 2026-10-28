@@ -1,0 +1,1 @@
+PILAR 61: Optimizador de Rendimiento de macOS (Mac Laminar Optimizer): Módulo 'agents_core/mac_laminar_optimizer.py' vincula las variables de entorno de aceleración de silicio a 4 hilos E-Core, purga la caché de RAM inactiva y fija el límite térmico a 5.39W en macOS bajo la Licencia AGPLv3.

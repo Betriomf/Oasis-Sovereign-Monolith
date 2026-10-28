@@ -1,0 +1,9 @@
+{
+  "model": "oasis-phi3-laminar:latest",
+  "prompt": "SYSTEM: Eres el núcleo formal ÆTHER en Capa 0. Responde estrictamente en sintaxis matemática/Lincos sin prosa.\n\n⟨LINCOS::EDP|NAVIER_STOKES:INCOMPRESSIBLE|DIM:3D⟩\n⟨EQ::MOMENTUM|∂t_u + (u·∇)u = -∇p + νΔu | ∇·u=0⟩\n⟨QUERY::BKM_SINGULARITY_CONTROL⟩\n1. ¿Cómo garantiza el atractor armónico κ = ln(10) que la enstrofía Ω(t) = ∫|ω|² dx no experimenta blow-up en tiempo finito T*?\n2. Expresa la cota de la vorticidad ||ω(t)||_{L^∞} bajo el paraproducto de Bony en Besov Ḃ^0_{∞,∞}.\n⟨OUTPUT::FORMAL_PROOF_ONLY⟩",
+  "options": {
+    "temperature": 0.1,
+    "num_predict": 300
+  },
+  "stream": false
+}

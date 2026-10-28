@@ -1,0 +1,1 @@
+PILAR 52: Integración Supabase pgvector para Maldacena: Módulo 'agents_core/aether_maldacena_supabase.py' conecta el recolector de AdS/CFT con Supabase pgvector, dividiendo los preprints en tramas π KB e indexando sus vectores de 1536 dimensiones automáticamente en segundo plano. Licencia AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballé.

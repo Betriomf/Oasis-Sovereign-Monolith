@@ -1,0 +1,1 @@
+PILAR 164: Recuperación de Espacio Oculto y Purga de Snapshots APFS (Pilar 164): Módulo 'agents_core/oasis_apfs_reclaimer.py' audita y elimina instantáneas locales de Time Machine y espacio purgable en /System/Volumes/Data bajo Licencia AGPLv3.

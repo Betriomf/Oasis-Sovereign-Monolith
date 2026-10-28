@@ -1,0 +1,1 @@
+PILAR 92: Pacing Determinista O-QUIC y Transporte Cero-Jitter (Pilar 92): Documento docs/PAPER_PILAR_092_DETERMINISTIC_OQUIC_PACING_ZERO_JITTER.md formaliza el espaciado áureo Delta t = pi/phi (~1.9416ms), Jitter P99 <= 0.08ms y acoplamiento de sockets isentrópico bajo AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballé.

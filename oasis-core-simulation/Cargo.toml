@@ -1,0 +1,15 @@
+[package]
+name = "oasis-core-simulation"
+version = "3.5.0"
+edition = "2021"
+authors = ["Mariano Panzano Caballé <mpc.3.14@gmail.com>"]
+license = "AGPL-3.0-only"
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true

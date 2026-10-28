@@ -1,0 +1,1 @@
+PILAR 162: Evaluador Determinista y Sintonía Áurea num_predict (Pilar 162): Módulo 'models/Modelfile.laminar' acota num_predict=150 y num_thread=2 para inferencia instantánea en CPU Intel sin estrangulamiento térmico bajo Licencia AGPLv3.

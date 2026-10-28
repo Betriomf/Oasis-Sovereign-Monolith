@@ -1,0 +1,1 @@
+PILAR 15: Cálculo de Tensión de Cuerda (Nambu-Goto): 'agents_core/oasis_string_tension.py' calcula la tensión τ_0 y la frecuencia confinada del neutrino, deduciendo una suma de masas Σ m_ν de ~0.058 eV (validado bajo la cota < 0.41 eV de arXiv:2607.24742). Licencia AGPLv3 / CC-BY-4.0 por Mariano Panzano Caballé.

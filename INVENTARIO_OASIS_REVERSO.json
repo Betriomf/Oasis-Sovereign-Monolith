@@ -1,0 +1,432 @@
+[
+  {
+    "tag": "v16.4.2-registry-master",
+    "endpoints_count": 7,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat"
+    ],
+    "modals": [
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 13,
+    "commands": [
+      "bench",
+      "box status",
+      "clear",
+      "demon-status",
+      "dir",
+      "help",
+      "hemo",
+      "legal",
+      "mesh3d",
+      "pilar ",
+      "riemann-audit",
+      "simulacion"
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CÉDER CÓMPUTO: [OFF]",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV CFD",
+      "👹 DEMON HUD"
+    ]
+  },
+  {
+    "tag": "v16.5-gutenberg-rag",
+    "endpoints_count": 8,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/gutenberg/book",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat"
+    ],
+    "modals": [
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 17,
+    "commands": [
+      "bench",
+      "book ",
+      "box status",
+      "clear",
+      "demon-status",
+      "dir",
+      "gutenberg ",
+      "help",
+      "hemo",
+      "legal",
+      "mesh3d",
+      "pilar "
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CÉDER CÓMPUTO: [OFF]",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV CFD",
+      "👹 DEMON HUD"
+    ]
+  },
+  {
+    "tag": "v16.5.1-master-final",
+    "endpoints_count": 8,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/gutenberg/book",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat"
+    ],
+    "modals": [
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 20,
+    "commands": [
+      "bench",
+      "box status",
+      "cat ",
+      "clear",
+      "demon-status",
+      "dir",
+      "gutenberg ",
+      "gutenberg_",
+      "help",
+      "hemo",
+      "leer ",
+      "legal"
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CÉDER CÓMPUTO: [OFF]",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV CFD",
+      "👹 DEMON HUD"
+    ]
+  },
+  {
+    "tag": "v16.6-pilar300-master",
+    "endpoints_count": 8,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/gutenberg/book",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat"
+    ],
+    "modals": [
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 20,
+    "commands": [
+      "bench",
+      "box status",
+      "cat ",
+      "clear",
+      "demon-status",
+      "dir",
+      "gutenberg ",
+      "gutenberg_",
+      "help",
+      "hemo",
+      "leer ",
+      "legal"
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CÉDER CÓMPUTO: [OFF]",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV CFD",
+      "👹 DEMON HUD"
+    ]
+  },
+  {
+    "tag": "v16.7-atlas-fixed",
+    "endpoints_count": 8,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/gutenberg/book",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat"
+    ],
+    "modals": [
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 20,
+    "commands": [
+      "bench",
+      "box status",
+      "cat ",
+      "clear",
+      "demon-status",
+      "dir",
+      "gutenberg ",
+      "gutenberg_",
+      "help",
+      "hemo",
+      "leer ",
+      "legal"
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CÉDER CÓMPUTO: [OFF]",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV CFD",
+      "👹 DEMON HUD"
+    ]
+  },
+  {
+    "tag": "v17.0-os-kernel",
+    "endpoints_count": 8,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/gutenberg/book",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat"
+    ],
+    "modals": [
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 20,
+    "commands": [
+      "bench",
+      "box status",
+      "cat ",
+      "clear",
+      "demon-status",
+      "dir",
+      "gutenberg ",
+      "gutenberg_",
+      "help",
+      "hemo",
+      "leer ",
+      "legal"
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CÉDER CÓMPUTO: [OFF]",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV CFD",
+      "👹 DEMON HUD"
+    ]
+  },
+  {
+    "tag": "v17.0.1-head-fix",
+    "endpoints_count": 8,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/gutenberg/book",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat"
+    ],
+    "modals": [
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 20,
+    "commands": [
+      "bench",
+      "box status",
+      "cat ",
+      "clear",
+      "demon-status",
+      "dir",
+      "gutenberg ",
+      "gutenberg_",
+      "help",
+      "hemo",
+      "leer ",
+      "legal"
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CÉDER CÓMPUTO: [OFF]",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV CFD",
+      "👹 DEMON HUD"
+    ]
+  },
+  {
+    "tag": "v17.1-open-api",
+    "endpoints_count": 8,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/gutenberg/book",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat"
+    ],
+    "modals": [
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 22,
+    "commands": [
+      "api",
+      "api ",
+      "bench",
+      "box status",
+      "cat ",
+      "clear",
+      "demon-status",
+      "dir",
+      "gutenberg ",
+      "gutenberg_",
+      "help",
+      "hemo"
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CÉDER CÓMPUTO: [OFF]",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV CFD",
+      "👹 DEMON HUD"
+    ]
+  },
+  {
+    "tag": "v17.1-visual-suite",
+    "endpoints_count": 9,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/gutenberg/book",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/openapi.json",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat"
+    ],
+    "modals": [
+      "api-modal",
+      "besov-modal",
+      "demon-modal",
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 8,
+    "commands": [
+      "api ",
+      "bench",
+      "clear",
+      "help",
+      "pilar ",
+      "riemann-audit",
+      "simulacion",
+      "swarm"
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CONECTAR API",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV HUD",
+      "👹 DEMON HUD"
+    ]
+  },
+  {
+    "tag": "v17.3-filepicker-active",
+    "endpoints_count": 10,
+    "endpoints": [
+      "/v1/darwin/exec",
+      "/v1/math/demon",
+      "/v1/math/riemann",
+      "/v1/med/besov-cfd",
+      "/v1/med/mesh-geometry",
+      "/v1/openapi.json",
+      "/v1/pilar",
+      "/v1/swarm/heartbeat",
+      "/v1/vault/list",
+      "/v1/vault/sync"
+    ],
+    "modals": [
+      "api-modal",
+      "besov-modal",
+      "demon-modal",
+      "mesh3d-modal",
+      "qr-modal",
+      "quantum-modal",
+      "vault-modal"
+    ],
+    "commands_count": 8,
+    "commands": [
+      "api ",
+      "bench",
+      "clear",
+      "help",
+      "pilar ",
+      "riemann-audit",
+      "simulacion",
+      "swarm"
+    ],
+    "badges": [
+      "🔑 OASIS-HW-MAC-87B34287C3",
+      "🌐 MALLA: 1 NODO",
+      "⚡ CONECTAR API",
+      "👁️ ROTAR MALLA 3D",
+      "🩺 BESOV HUD",
+      "👹 DEMON HUD"
+    ]
+  }
+]
