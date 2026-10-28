@@ -825,7 +825,8 @@
     }
 
     // === CATÁLOGO UNIVERSAL DE COMANDOS REGISTRADOS ===
-    const COMMANDS = {
+    var COMMANDS = {
+
             "water": openWaterModal,
       "ocean": openWaterModal,
       "agua": openWaterModal,
@@ -946,7 +947,21 @@
       runCommand(cmd);
     }
 
-        function runCommand(raw) {
+        
+    // === FUNCIÓN GLOBAL OPENWATERMODAL ===
+    window.openWaterModal = function() {
+      const modal = document.getElementById("modal-water");
+      if (modal) {
+        modal.style.display = "flex";
+        if (typeof initWaterScene === "function") {
+          initWaterScene();
+        }
+      } else {
+        appendLine("🌊 [OCÉANO 3D]: Inicializando simulación de fluidos Gerstner...", "#00ffff");
+      }
+    };
+
+    function runCommand(raw) {
       raw = raw.trim();
       if (!raw) return;
       const low = raw.toLowerCase();
