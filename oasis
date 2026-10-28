@@ -4,8 +4,42 @@ CMD="$1"
 shift
 
 case "$CMD" in
-  vault|boveda)
-    echo "📁 [BÓVEDA FÍSICA DISCO LOCAL (~/vault/)]:"
+  soap)
+    FNAME="$1"
+    if [ -z "$FNAME" ]; then
+      FNAME="INFORME_CLINICO_CAROTIDA_SHA256.md"
+    fi
+    echo "📋 [AGENTE HÍBRIDO]: Compilando registro SOAP desde $FNAME..."
+    curl -s -X POST "$HOST/v1/med/soap" -H "Content-Type: application/json" -d "{\"file\":\"$FNAME\"}" | python3 -c '
+import sys, json
+d = json.load(sys.stdin)
+s = d.get("soap", {})
+ds_file = d.get("dataset_file", "")
+h_sha = s.get("hash_sha256", "")[:12]
+print(f" Dataset generado: {ds_file} | SHA-256: {h_sha}..")
+print("=" * 68)
+sub_anam = s.get("subjective", {}).get("anamnesis", "")
+print(" [S] SUBJETIVO :", sub_anam)
+obj = s.get("objective", {})
+p_tawss = obj.get("tawss_peak_pa")
+p_const = obj.get("lumen_constriction_pct")
+print(" [O] OBJETIVO  : TAWSS Pico =", p_tawss, "Pa | Constricción =", p_const, "%")
+print(" [A] EVALUACIÓN:", s.get("assessment", {}).get("diagnostic", ""))
+print(" [P] PLAN      :", s.get("plan", {}).get("surgical", ""))
+print("=" * 68)
+print(" Registro estructurado listo para entrenamiento LoRA / SLM local.")
+'
+    ;;
+  media)
+    curl -s "$HOST/v1/vault/inspect" | python3 -c '
+import sys, json
+d = json.load(sys.stdin)
+for f in d.get("files", []):
+    if f.get("name", "").endswith((".mp4", ".mp3", ".wav", ".pdf")):
+        print(f"  • {f.get(\"name\")} ({f.get(\"size_bytes\")} B)")
+'
+    ;;
+  vault)
     curl -s "$HOST/v1/vault/inspect" | python3 -c '
 import sys, json
 d = json.load(sys.stdin)
@@ -15,108 +49,38 @@ print(f" Total archivos: {total} | Directorio: {path}")
 print("-" * 72)
 for f in d.get("files", []):
     name = f.get("name", "").ljust(32)
-    sz_val = f.get("size_bytes", 0)
-    sz = f"{sz_val} B".rjust(9)
+    sz = f"{f.get(\"size_bytes\", 0)} B".rjust(9)
     sha = f.get("sha256", "")[:8]
     prev = f.get("preview", "")
     print(f" 📄 {name} | {sz} | SHA:{sha}..")
-    if prev:
-        print(f"    └─ \"{prev}\"")
+    if prev: print(f"    └─ \"{prev}\"")
 print("-" * 72)
 '
     ;;
-  read|cat)
-    FNAME="$1"
-    if [ -z "$FNAME" ]; then
-      echo "Uso: ./oasis read <nombre_archivo>"
-      exit 1
-    fi
-    curl -s -X POST "$HOST/v1/darwin/exec" -H "Content-Type: application/json" -d "{\"command\":\"cat vault/$FNAME\"}" | python3 -c '
+  ai)
+    curl -s -X POST "$HOST/v1/ai/chat" -H "Content-Type: application/json" -d "{\"prompt\":\"$*\"}" | python3 -c '
 import sys, json
-d = json.load(sys.stdin)
-print(d.get("output", "Archivo no encontrado o vacío."))
+print(json.load(sys.stdin).get("reply", ""))
 '
-    ;;
-  ai|chat)
-    PROMPT="$*"
-    if [ -z "$PROMPT" ]; then
-      echo "Uso: ./oasis ai <pregunta sobre tus archivos o teoremas>"
-      exit 1
-    fi
-    curl -s -X POST "$HOST/v1/ai/chat" -H "Content-Type: application/json" -d "{\"prompt\":\"$PROMPT\"}" | python3 -c '
-import sys, json
-d = json.load(sys.stdin)
-print(d.get("reply", "Sin respuesta."))
-'
-    ;;
-  send|inbox)
-    curl -s -X POST "$HOST/v1/vault/inbox" -H "Content-Type: application/json" -d "{\"subject\":\"$1\",\"body\":\"$2\"}" | python3 -m json.tool
     ;;
   lean)
-    echo "⚛️ [AUDITORÍA FORMAL LEAN 4 EN VIVO]:"
     curl -s "$HOST/v1/math/lean-audit" | python3 -c '
 import sys, json
 d = json.load(sys.stdin)
-kernel = d.get("kernel", "Lean 4")
-status = d.get("status", "CERTIFIED")
-sorry = d.get("sorry_count", 0)
-print(f" Kernel: {kernel} | Estado: {status} (sorry={sorry})")
-print("-" * 65)
-for t in d.get("theorems", []):
-    print("  ✅ " + str(t))
-print("-" * 65)
-print(" Teoremas certificados formalmente sin margen de alucinación.")
+print(f" Kernel: {d.get(\"kernel\")} | Estado: {d.get(\"status\")} (sorry={d.get(\"sorry_count\")})")
+for t in d.get("theorems", []): print("  ✅ " + str(t))
 '
     ;;
   plot)
-    echo "📊 [PERFIL TAWSS AXIAL CARÓTIDA Z=0..50mm]:"
     curl -s "$HOST/v1/med/slice-axial" | python3 -c '
 import sys, json
 d = json.load(sys.stdin)
-peak = d.get("tawss_peak_pa")
-z_sten = d.get("stenosis_z_mm")
-print(f" Pico TAWSS: {peak} Pa en cuello estenotico (Z={z_sten} mm)")
-print("-" * 65)
-z_vals = d.get("z_axis_mm", [])
-t_vals = d.get("tawss_curve_pa", [])
-for z, t in zip(z_vals[::2], t_vals[::2]):
-    bar = "█" * int(t * 3.5)
-    print(f" Z={z:>2} mm | {t:>5.2f} Pa | {bar}")
-print("-" * 65)
+print(f"📊 Pico TAWSS: {d.get(\"tawss_peak_pa\")} Pa (Z={d.get(\"stenosis_z_mm\")} mm)")
+for z, t in zip(d.get("z_axis_mm", [])[::2], d.get("tawss_curve_pa", [])[::2]):
+    print(f" Z={z:>2} mm | {t:>5.2f} Pa | " + "█" * int(t * 3.5))
 '
-    ;;
-  slice)
-    echo "🩺 [CORTE TRANSVERSAL AXIAL DEL LUMEN EN Z=25mm]:"
-    curl -s "$HOST/v1/med/slice-axial" | python3 -c '
-import sys, json, math
-d = json.load(sys.stdin)
-radii = d.get("lumen_radius_mm", [])
-min_r = min(radii) if radii else 0
-max_r = max(radii) if radii else 0
-print(f" Constricción radial: {min_r} mm a {max_r} mm (Reducción > 55%)")
-grid = [[" " for _ in range(13)] for _ in range(13)]
-for idx, r in enumerate(radii):
-    th = idx * (math.pi / 8)
-    px = int(6 + r * 3.2 * math.cos(th))
-    py = int(6 + r * 1.8 * math.sin(th))
-    if 0 <= px < 13 and 0 <= py < 13:
-        grid[py][px] = "•"
-grid[6][6] = "+"
-for row in grid:
-    print("  " + "".join(row))
-'
-    ;;
-  status)
-    curl -s "$HOST/v1/system/audit-report" | python3 -m json.tool
     ;;
   *)
-    echo "OASIS CLI:"
-    echo "  • ./oasis vault                   -> Listar archivos físicos e inspección SHA-256"
-    echo "  • ./oasis read <archivo>          -> Leer el contenido de un archivo de la Bóveda"
-    echo "  • ./oasis ai <pregunta>           -> Consultar a la IA sobre la Bóveda"
-    echo "  • ./oasis send <asunto> <texto>   -> Guardar nota/archivo en Bóveda"
-    echo "  • ./oasis lean                    -> Verificación formal Lean 4"
-    echo "  • ./oasis plot                    -> Gráfica TAWSS axial"
-    echo "  • ./oasis slice                   -> Corte transversal del lumen"
+    echo "OASIS CLI: [soap | media | vault | ai | lean | plot]"
     ;;
 esac

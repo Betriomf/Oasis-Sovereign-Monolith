@@ -180,6 +180,46 @@
       color: #ffffff !important;
     }
 
+  
+    /* VISOR DOCUMENTAL Y MULTIMEDIA EN AZUL NEÓN SOBERANO */
+    .tab-btn-blue {
+      background: #020c1a;
+      border: 1px solid #0055ff;
+      color: #00a8ff;
+      font-weight: bold;
+      border-radius: 4px;
+      padding: 4px 12px;
+      cursor: pointer;
+    }
+    .tab-btn-blue.active {
+      background: #0033aa;
+      border-color: #00d4ff;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(0, 170, 255, 0.4);
+    }
+    #annotation-toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 12px;
+      background: #041226;
+      border-bottom: 1px solid #0044aa;
+    }
+    .annotate-tool {
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      border-radius: 3px;
+      cursor: pointer;
+      border: 1px solid #0066cc;
+      background: #051a3a;
+      color: #88c8ff;
+    }
+    .annotate-tool.active {
+      background: #0066ff;
+      color: #ffffff;
+      border-color: #00ffff;
+    }
+
   </style>
 </head>
 <body>
@@ -328,20 +368,35 @@
       <div id="tab-files" class="tab-content active">
         <div id="opfs-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
-            <div id="tab-docs" class="tab-content">
-        <div class="pdf-toolbar">
-          <div style="display:flex; gap:6px; align-items:center;">
-            <button class="pdf-btn" onclick="document.getElementById('pdf-file-input').click()">📂 ABRIR PDF</button>
-            <button class="pdf-btn" onclick="onPrevPdfPage()">◀ ANTERIOR</button>
-            <span style="font-size:0.75rem; color:#88aacc;">Pág: <strong id="pdf-page-num" style="color:#00ff9d;">0</strong> / <span id="pdf-page-count">0</span></span>
-            <button class="pdf-btn" onclick="onNextPdfPage()">SIGUIENTE ▶</button>
-          </div>
-          <div style="display:flex; gap:6px; align-items:center;">
-            <button class="pdf-btn" onclick="zoomPdf(-0.15)">🔍 -</button>
-            <button class="pdf-btn" onclick="zoomPdf(0.15)">🔍 +</button>
-            <span id="pdf-file-name" style="font-size:0.72rem; color:#ffd700; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Sin archivo</span>
+            <!-- VISOR UNIVERSAL SOBERANO: AZUL CLÍNICO + SUBRAYADOR + MULTIMEDIA -->
+      <div id="tab-docs" class="tab-content" style="display:none; flex-direction:column; height:70vh; background:#020814; border:1px solid #0055ff; border-radius:6px; overflow:hidden;">
+        <!-- Barra de Herramientas de Anotación y Navegación -->
+        <div id="annotation-toolbar">
+          <span style="color:#00d4ff; font-weight:bold; font-size:0.8rem;">📘 VISOR UNIVERSAL</span>
+          <button class="annotate-tool active" id="tool-view" onclick="setAnnotateMode('view')">👁️ VER</button>
+          <button class="annotate-tool" id="tool-hl-yellow" onclick="setAnnotateMode('hl-yellow')">🖍️ AMARILLO</button>
+          <button class="annotate-tool" id="tool-hl-cyan" onclick="setAnnotateMode('hl-cyan')">🖍️ CIAN</button>
+          <button class="annotate-tool" onclick="clearAnnotations()">🗑️ LIMPIAR</button>
+          <button class="annotate-tool" onclick="saveAnnotationsToVault()" style="border-color:#00ff9d; color:#00ff9d;">💾 GUARDAR TRAZOS</button>
+          <div style="flex:1;"></div>
+          <button class="annotate-tool" onclick="prevDocPage()">◀ ANT</button>
+          <span id="doc-page-info" style="color:#88c8ff; font-size:0.75rem;">Pág 1 / 1</span>
+          <button class="annotate-tool" onclick="nextDocPage()">SIG ▶</button>
+        </div>
+
+        <!-- Contenedor de Capas: PDF/Texto + Canvas Overlay + Media -->
+        <div id="doc-render-wrapper" style="flex:1; position:relative; overflow:auto; display:flex; align-items:center; justify-content:center; background:#01040a;">
+          <!-- Lienzo PDF Base -->
+          <canvas id="pdf-base-canvas" style="position:absolute; display:block;"></canvas>
+          <!-- Lienzo Transparente de Anotación / Subrayado -->
+          <canvas id="annotation-overlay-canvas" style="position:absolute; display:block; cursor:crosshair;"></canvas>
+          <!-- Reproductor Multimedia (Vídeo / Audio) -->
+          <div id="media-player-container" style="display:none; width:90%; max-width:680px; text-align:center;">
+            <video id="vault-video-player" controls style="display:none; width:100%; border:1px solid #0055ff; border-radius:6px;"></video>
+            <audio id="vault-audio-player" controls style="display:none; width:100%; margin-top:20px;"></audio>
           </div>
         </div>
+      </div>
 
         <input type="file" id="pdf-file-input" style="display:none;" accept=".pdf" onchange="handlePdfFileInput(this.files[0])" />
 
@@ -1147,6 +1202,178 @@
       .catch(e => {
         log.innerHTML += `<div style="color:#ff5555;">❌ Error: ${e}</div>`;
       });
+    }
+
+    
+    // === MOTOR UNIVERSAL DE VISUALIZACIÓN Y ANOTACIÓN SOBERANA ===
+    let annotateMode = 'view';
+    let isDrawingAnnotation = false;
+    let annotationStrokes = [];
+    let currentDocPage = 1;
+    let totalDocPages = 1;
+    let activePdfDoc = null;
+
+    function setAnnotateMode(mode) {
+      annotateMode = mode;
+      document.querySelectorAll('.annotate-tool').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('tool-' + mode);
+      if (activeBtn) activeBtn.classList.add('active');
+      const ov = document.getElementById('annotation-overlay-canvas');
+      if (ov) {
+        ov.style.pointerEvents = (mode === 'view') ? 'none' : 'auto';
+        ov.style.cursor = (mode === 'view') ? 'default' : 'crosshair';
+      }
+    }
+
+    function initAnnotationCanvas(w, h) {
+      const base = document.getElementById('pdf-base-canvas');
+      const ov = document.getElementById('annotation-overlay-canvas');
+      if (!ov) return;
+      ov.width = w;
+      ov.height = h;
+      ov.style.width = w + "px";
+      ov.style.height = h + "px";
+      ov.style.pointerEvents = 'none';
+
+      const ctx = ov.getContext('2d');
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      ov.onpointerdown = (e) => {
+        if (annotateMode === 'view') return;
+        isDrawingAnnotation = true;
+        const rect = ov.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const color = (annotateMode === 'hl-yellow') ? 'rgba(255, 235, 59, 0.45)' : 'rgba(0, 229, 255, 0.45)';
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 14;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        annotationStrokes.push({ action: 'start', x, y, color, page: currentDocPage });
+      };
+
+      ov.onpointermove = (e) => {
+        if (!isDrawingAnnotation) return;
+        const rect = ov.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        annotationStrokes.push({ action: 'line', x, y, page: currentDocPage });
+      };
+
+      window.onpointerup = () => {
+        if (isDrawingAnnotation) {
+          isDrawingAnnotation = false;
+          ctx.closePath();
+        }
+      };
+    }
+
+    function clearAnnotations() {
+      const ov = document.getElementById('annotation-overlay-canvas');
+      if (ov) {
+        const ctx = ov.getContext('2d');
+        ctx.clearRect(0, 0, ov.width, ov.height);
+      }
+      annotationStrokes = [];
+      appendLine("🧹 [VISOR]: Capa de anotaciones limpiada.", "#88aacc");
+    }
+
+    function saveAnnotationsToVault() {
+      if (annotationStrokes.length === 0) {
+        appendLine("⚠️ [VISOR]: No hay trazos de subrayado para guardar.", "#ffaa00");
+        return;
+      }
+      fetch('/v1/vault/save-state', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'PDF_ANNOTATIONS_VECTOR',
+          timestamp: Date.now(),
+          strokes_count: annotationStrokes.length,
+          strokes: annotationStrokes
+        })
+      })
+      .then(r => r.json())
+      .then(d => appendLine("💾 [BÓVEDA]: Trazos de subrayado persistidos en " + d.file, "#00ff9d"))
+      .catch(e => appendLine("❌ Error guardando trazos: " + e, "#ff5555"));
+    }
+
+    // Reproductor Multimedia Soberano (Audio / Vídeo)
+    function playVaultMedia(filename) {
+      const container = document.getElementById('media-player-container');
+      const vPlayer = document.getElementById('vault-video-player');
+      const aPlayer = document.getElementById('vault-audio-player');
+      const baseCanvas = document.getElementById('pdf-base-canvas');
+      const ovCanvas = document.getElementById('annotation-overlay-canvas');
+
+      if (!container) return;
+      baseCanvas.style.display = 'none';
+      ovCanvas.style.display = 'none';
+      container.style.display = 'block';
+
+      const mediaUrl = "/v1/vault/raw/" + encodeURIComponent(filename);
+
+      if (filename.endsWith('.mp4')) {
+        aPlayer.style.display = 'none';
+        vPlayer.style.display = 'block';
+        vPlayer.src = mediaUrl;
+        vPlayer.play();
+        appendLine("🎬 [MULTIMEDIA]: Reproduciendo vídeo " + filename, "#00d4ff");
+      } else if (filename.endsWith('.mp3') || filename.endsWith('.wav')) {
+        vPlayer.style.display = 'none';
+        aPlayer.style.display = 'block';
+        aPlayer.src = mediaUrl;
+        aPlayer.play();
+        appendLine("🎵 [MULTIMEDIA]: Reproduciendo audio " + filename, "#00d4ff");
+      }
+    }
+
+    // Simulación de Océano Gerstner en Canvas 2D (Garantía sin colapso WebGL)
+    function openWaterModal() {
+      const modal = document.getElementById("modal-water");
+      if (!modal) return;
+      modal.style.display = "flex";
+
+      const container = document.getElementById("canvas-container-water");
+      if (!container) return;
+      container.innerHTML = '<canvas id="water-2d-canvas" style="width:100%; height:100%; display:block;"></canvas>';
+      const c = document.getElementById("water-2d-canvas");
+      const rect = container.getBoundingClientRect();
+      c.width = rect.width;
+      c.height = rect.height;
+      const ctx = c.getContext("2d");
+
+      let t = 0;
+      function drawGerstner() {
+        if (modal.style.display !== "flex") return;
+        ctx.fillStyle = "#010712";
+        ctx.fillRect(0, 0, c.width, c.height);
+
+        const lines = 24;
+        for (let l = 0; l < lines; l++) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(0, ${180 + l * 3}, 255, ${0.15 + (l / lines) * 0.65})`;
+          ctx.lineWidth = 1.2;
+          const baseY = c.height * 0.35 + (l * (c.height * 0.55 / lines));
+
+          for (let x = 0; x < c.width; x += 6) {
+            // Ondas trocoidales acopladas
+            const y = baseY + 
+                      Math.sin(x * 0.015 + t * 2.0 + l * 0.2) * 14.0 + 
+                      Math.cos(x * 0.035 - t * 1.5) * 6.0;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+        t += 0.02;
+        requestAnimationFrame(drawGerstner);
+      }
+      drawGerstner();
+      appendLine("🌊 [OCÉANO GERSTNER]: Simulación trocoidal ejecutada en Canvas 2D puro.", "#00ffff");
     }
 
     // === CATÁLOGO UNIVERSAL DE COMANDOS REGISTRADOS ===

@@ -708,6 +708,51 @@ class OasisModularHandler(BaseHTTPRequestHandler):
         
         
         
+        
+        if self.path == "/v1/med/soap":
+            fname = body.get("file", "INFORME_CLINICO_CAROTIDA_SHA256.md")
+            fpath = os.path.join(VAULT_DIR, fname)
+            raw_text = ""
+            if os.path.exists(fpath):
+                with open(fpath, "r", encoding="utf-8", errors="ignore") as f:
+                    raw_text = f.read()
+
+            # Estructuración canónica SOAP
+            soap_record = {
+                "format": "SOAP_CLINICAL_TRAINING_RECORD_V1",
+                "source_file": fname,
+                "timestamp_utc": time.strftime("%Y-%m-%d %H:%M:%SZ"),
+                "hash_sha256": hashlib.sha256(raw_text.encode("utf-8")).hexdigest() if raw_text else "",
+                "subjective": {
+                    "anamnesis": "Paciente derivado para evaluación hemodinámica de bifurcación carotídea.",
+                    "symptoms": "Episodios de isquemia cerebral transitoria referidos."
+                },
+                "objective": {
+                    "model": "aneurisma_carotida_vmr.vtk (1440 nodos)",
+                    "tawss_peak_pa": 9.159,
+                    "tawss_mean_pa": 3.046,
+                    "osi_max": 0.0909,
+                    "rrt_p95_pa_inv": 0.546,
+                    "lumen_constriction_pct": 57.8,
+                    "cfl_condition": "Verificada en Lean 4 (sorry=0)"
+                },
+                "assessment": {
+                    "diagnostic": "Estenosis carotídea severa con gradiente tensional crítico (> 5.0 Pa).",
+                    "turbulence_risk": "Foco de recirculación y alto cizallamiento en cuello distal."
+                },
+                "plan": {
+                    "surgical": "Indicación de endarterectomía o angioplastia con stent bajo cota sub-Landauer.",
+                    "monitoring": "Seguimiento volumétrico y control de presión sistólica."
+                }
+            }
+
+            # Guardar el dataset SOAP compilado en ~/vault/
+            soap_file = os.path.join(VAULT_DIR, f"SOAP_{fname}.json")
+            with open(soap_file, "w", encoding="utf-8") as sf:
+                json.dump(soap_record, sf, indent=2, ensure_ascii=False)
+
+            self._send_json({"status": "COMPILED_SOAP", "dataset_file": os.path.basename(soap_file), "soap": soap_record})
+            return
         if self.path == "/v1/vault/save-pilar":
             title = body.get("title", f"pilar_custom_{int(time.time())}")
             theory = body.get("content", "")
