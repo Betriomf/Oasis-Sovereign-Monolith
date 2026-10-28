@@ -151,6 +151,17 @@
       box-shadow: 0 0 25px rgba(0, 255, 157, 0.15);
     }
 
+  
+    /* Habilitar selección libre de texto en toda la terminal */
+    body, #terminal-container, #output, .terminal-line, pre, code {
+      user-select: text !important;
+      -webkit-user-select: text !important;
+    }
+    ::selection {
+      background: rgba(0, 255, 157, 0.35);
+      color: #ffffff;
+    }
+
   </style>
 </head>
 <body>
@@ -1032,6 +1043,59 @@
       m.style.display = "flex";
       requestAnimationFrame(() => {
         if (typeof initWaterScene === "function") initWaterScene();
+      });
+    }
+
+    
+    // === LÓGICA SPLIT-VIEW BÓVEDA & CHAT RAG ===
+    let activeVaultFilename = "INFORME_CLINICO_CAROTIDA_SHA256.md";
+
+    function selectVaultFileForPreview(fname) {
+      activeVaultFilename = fname;
+      document.getElementById("active-file-title").innerText = "📄 " + fname;
+      switchVaultTab("visor");
+      readActiveFileInPreview();
+    }
+
+    function readActiveFileInPreview() {
+      const pane = document.getElementById("vault-preview-pane");
+      pane.innerText = "⏳ Leyendo documento desde NVMe local...";
+      fetch("/v1/darwin/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command: "cat vault/" + activeVaultFilename })
+      })
+      .then(r => r.json())
+      .then(d => {
+        pane.innerText = d.output || "Archivo vacío.";
+      })
+      .catch(err => {
+        pane.innerText = "❌ Error leyendo archivo: " + err;
+      });
+    }
+
+    function sendVaultChatQuery() {
+      const inp = document.getElementById("vault-chat-input");
+      const q = inp.value.trim();
+      if (!q) return;
+      inp.value = "";
+
+      const log = document.getElementById("vault-chat-log");
+      log.innerHTML += `<div style="color:#ffd700;"><strong>Mariano:</strong> ${q}</div>`;
+
+      // Enviar la pregunta junto con el contexto del documento activo
+      fetch("/v1/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: q + " [documento: " + activeVaultFilename + "]" })
+      })
+      .then(r => r.json())
+      .then(d => {
+        log.innerHTML += `<div style="color:#00ff9d; margin-top:4px;"><strong>Oasis IA:</strong> ${d.reply}</div>`;
+        log.scrollTop = log.scrollHeight;
+      })
+      .catch(e => {
+        log.innerHTML += `<div style="color:#ff5555;">❌ Error: ${e}</div>`;
       });
     }
 

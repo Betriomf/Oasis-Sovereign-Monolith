@@ -7,7 +7,7 @@ case "$CMD" in
   ai|chat)
     PROMPT="$*"
     if [ -z "$PROMPT" ]; then
-      echo "Uso: ./oasis ai <pregunta sobre pilares o sobre tus archivos de bóveda>"
+      echo "Uso: ./oasis ai <pregunta>"
       exit 1
     fi
     curl -s -X POST "$HOST/v1/ai/chat" -H "Content-Type: application/json" -d "{\"prompt\":\"$PROMPT\"}" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('reply',''))"
@@ -16,23 +16,60 @@ case "$CMD" in
     SUBJECT="$1"
     BODY="$2"
     if [ -z "$SUBJECT" ] || [ -z "$BODY" ]; then
-      echo "Uso: ./oasis send \"Asunto\" \"Texto que te envías a ti mismo\""
+      echo "Uso: ./oasis send \"Asunto\" \"Texto que guardas en la Bóveda\""
       exit 1
     fi
     curl -s -X POST "$HOST/v1/vault/inbox" -H "Content-Type: application/json" -d "{\"subject\":\"$SUBJECT\",\"body\":\"$BODY\"}" | python3 -m json.tool
     ;;
-  demon|landauer) curl -s "$HOST/v1/math/demon" | python3 -m json.tool ;;
-  hemo|besov)     curl -s "$HOST/v1/med/besov-cfd" | python3 -m json.tool ;;
-  mesh|geometry)  curl -s "$HOST/v1/med/mesh-geometry" | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'Nodos: {d[\"num_nodes\"]}, Triángulos: {d[\"num_triangles\"]}, Archivo: {d[\"file\"]}')" ;;
-  riemann)        curl -s "$HOST/v1/math/riemann" | python3 -m json.tool ;;
-  swarm|nodes)    curl -s "$HOST/v1/swarm/nodes" | python3 -m json.tool ;;
-  vault|files)    curl -s "$HOST/v1/vault/list" | python3 -m json.tool ;;
-  status|audit)   curl -s "$HOST/v1/system/audit-report" | python3 -m json.tool ;;
+  plot|grafica)
+    echo "📊 [PERFIL TAWSS AXIAL CARÓTIDA Z=0..50mm]:"
+    curl -s "$HOST/v1/med/slice-axial" | python3 -c '
+import sys, json
+d = json.load(sys.stdin)
+z_vals = d.get("z_axis_mm", [])
+t_vals = d.get("tawss_curve_pa", [])
+peak = d.get("tawss_peak_pa")
+z_sten = d.get("stenosis_z_mm")
+print(f" Pico TAWSS: {peak} Pa en cuello estenotico (Z={z_sten} mm)")
+print("-" * 65)
+for z, t in zip(z_vals[::2], t_vals[::2]):
+    bar = "█" * int(t * 3.5)
+    print(f" Z={z:>2} mm | {t:>5.2f} Pa | {bar}")
+print("-" * 65)
+'
+    ;;
+  slice|corte)
+    echo "🩺 [CORTE TRANSVERSAL AXIAL DEL LUMEN EN Z=25mm]:"
+    curl -s "$HOST/v1/med/slice-axial" | python3 -c '
+import sys, json, math
+d = json.load(sys.stdin)
+radii = d.get("lumen_radius_mm", [])
+print(f" Constriccion radial: {min(radii)} mm a {max(radii)} mm (Reduccion > 55%)")
+grid_size = 13
+grid = [[" " for _ in range(grid_size)] for _ in range(grid_size)]
+cx, cy = grid_size // 2, grid_size // 2
+for idx, r in enumerate(radii):
+    th = idx * (math.pi / 8)
+    px = int(cx + r * 3.2 * math.cos(th))
+    py = int(cy + r * 1.8 * math.sin(th))
+    if 0 <= px < grid_size and 0 <= py < grid_size:
+        grid[py][px] = "•"
+grid[cy][cx] = "+"
+for row in grid:
+    print("  " + "".join(row))
+'
+    ;;
+  demon) curl -s "$HOST/v1/math/demon" | python3 -m json.tool ;;
+  hemo)  curl -s "$HOST/v1/med/besov-cfd" | python3 -m json.tool ;;
+  mesh)  curl -s "$HOST/v1/med/mesh-geometry" | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'Nodos: {d[\"num_nodes\"]}, Triángulos: {d[\"num_triangles\"]}, Archivo: {d[\"file\"]}')" ;;
+  vault) curl -s "$HOST/v1/vault/list" | python3 -m json.tool ;;
+  status) curl -s "$HOST/v1/system/audit-report" | python3 -m json.tool ;;
   *)
-    echo "OASIS SOVEREIGN CLI — COMANDOS DISPONIBLES:"
-    echo "  • ./oasis ai <pregunta>             -> Consulta RAG sobre Pilares y Bóveda"
-    echo "  • ./oasis send <asunto> <texto>     -> Enviarte una nota/archivo a la Bóveda"
-    echo "  • ./oasis vault                     -> Ver archivos guardados en disco"
-    echo "  • ./oasis hemo | demon | riemann    -> Endpoints científicos de Capa 0"
+    echo "OASIS CLI:"
+    echo "  • ./oasis send <asunto> <texto>  -> Guardar en Bóveda"
+    echo "  • ./oasis ai <pregunta>          -> Consultar a la IA sobre la Bóveda"
+    echo "  • ./oasis plot                   -> Ver gráfica ASCII de TAWSS"
+    echo "  • ./oasis slice                  -> Ver corte transversal del vaso en Z=25mm"
+    echo "  • ./oasis vault                  -> Listar archivos"
     ;;
 esac

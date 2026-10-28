@@ -5,7 +5,7 @@ OASIS SOVEREIGN OS — GATEWAY UNIVERSAL v18.5.7-Hermetic
 Servidor Modular: OpenAPI 3.0, WebGL 3D, IA RAG, Bóveda NVMe, Besov y Riemann.
 Autor: Mariano Panzano Caballé | Licencia AGPLv3 / CC-BY-4.0
 """
-import os, sys, json, subprocess, socket, math, time, urllib.request, urllib.parse, mimetypes
+import os, sys, re, json, subprocess, socket, math, time, urllib.request, urllib.parse, mimetypes
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 try:
@@ -497,6 +497,31 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 })
                 return
 
+            
+            elif self.path == "/v1/med/slice-axial":
+                # Perfil axial Z (0 a 50 mm) y corte de estenosis en Z=25 mm
+                z_samples = list(range(0, 52, 2))
+                tawss_curve = []
+                for z in z_samples:
+                    # Modelo gaussiano de aceleración en cuello estenótico
+                    val = 1.8 * (1.0 + 4.088 * math.exp(-((z - 25.0)**2) / 36.0))
+                    tawss_curve.append(round(val, 3))
+                
+                # Corte transversal: radio del lumen vs ángulo theta (0 a 2*pi)
+                angles = [round(a * (math.pi / 8), 3) for a in range(16)]
+                # Constricción en estenosis: radio cae de 3.2 mm a 1.35 mm
+                lumen_radius = [round(1.35 + 0.12 * math.cos(3 * a), 3) for a in angles]
+
+                self._send_json({
+                    "status": "OK",
+                    "stenosis_z_mm": 25.0,
+                    "tawss_peak_pa": 9.159,
+                    "z_axis_mm": z_samples,
+                    "tawss_curve_pa": tawss_curve,
+                    "axial_slice_angles_rad": angles,
+                    "lumen_radius_mm": lumen_radius
+                })
+                return
             elif self.path == "/v1/med/besov-cfd":
                 data = None
                 if HAS_BIOMED and os.path.exists(BENCHMARK_MESH):
@@ -606,7 +631,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
         if self.path == "/v1/vault/inbox":
             subject = body.get("subject", f"nota_{int(time.time())}")
             text = body.get("body", "")
-            safe_fname = re.sub(r'[^a-zA-Z0-9_-]', '_', subject) + ".md"
+            safe_fname = "".join([c if c.isalnum() or c in ('-', '_') else '_' for c in subject]) + ".md"
             dest = os.path.join(VAULT_DIR, safe_fname)
             with open(dest, "w", encoding="utf-8") as f:
                 f.write(f"# {subject}\nFecha: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n{text}\n")

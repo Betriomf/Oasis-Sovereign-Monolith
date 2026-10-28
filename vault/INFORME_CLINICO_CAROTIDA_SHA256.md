@@ -1,7 +1,7 @@
 # INFORME DE BIOMECÁNICA VASCULAR — OASIS OS
 **Estado Regulatorio:** RUO (Research Use Only)  
-**Fecha:** 2026-10-28 10:09:59 UTC  
-**Sello SHA-256:** `198c3989741ed137885234abdc37b9a07767d2faa37bdb01994b19b8520b2ebb`  
+**Fecha:** 2026-10-28 11:39:56 UTC  
+**Sello SHA-256:** `9bb8b1e2db765f82202a9ed05f006360011fa69925d90652612febd0c265f6af`  
 
 ---
 
