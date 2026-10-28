@@ -376,6 +376,42 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 self._send_json(process_ai_rag(user_prompt))
                 return
 
+            
+            elif self.path == "/v1/vault/inspect":
+                # Inspección forense y lectura de metadatos de ~/vault/
+                files_data = []
+                if os.path.exists(VAULT_DIR):
+                    for fname in sorted(os.listdir(VAULT_DIR)):
+                        if fname.startswith("."):
+                            continue
+                        fpath = os.path.join(VAULT_DIR, fname)
+                        if os.path.isfile(fpath):
+                            sz = os.path.getsize(fpath)
+                            h = ""
+                            preview = ""
+                            try:
+                                with open(fpath, "rb") as bf:
+                                    h = hashlib.sha256(bf.read()).hexdigest()
+                                if fname.endswith((".txt", ".md", ".json", ".csv")):
+                                    with open(fpath, "r", encoding="utf-8", errors="ignore") as tf:
+                                        lines = [l.strip() for l in tf.readlines() if l.strip()]
+                                        if lines:
+                                            preview = lines[0][:65]
+                            except Exception:
+                                pass
+                            files_data.append({
+                                "name": fname,
+                                "size_bytes": sz,
+                                "sha256": h,
+                                "preview": preview
+                            })
+                self._send_json({
+                    "status": "OK",
+                    "path": VAULT_DIR,
+                    "total_files": len(files_data),
+                    "files": files_data
+                })
+                return
             elif self.path == "/v1/vault/list":
                 files = []
                 if os.path.exists(VAULT_DIR):

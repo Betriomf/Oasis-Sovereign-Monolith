@@ -162,6 +162,24 @@
       color: #ffffff;
     }
 
+  
+    /* PERMISOS TOTALES DE SELECCIÓN Y COPIADO */
+    * {
+      -webkit-user-select: text !important;
+      user-select: text !important;
+    }
+    input, button {
+      -webkit-user-select: auto !important;
+      user-select: auto !important;
+    }
+    #output, .terminal-line, pre, code {
+      cursor: text !important;
+    }
+    ::selection {
+      background: rgba(0, 255, 157, 0.45) !important;
+      color: #ffffff !important;
+    }
+
   </style>
 </head>
 <body>
@@ -1278,6 +1296,29 @@
         return true;
       }
 
+      
+      // Inspección completa de Bóveda física en disco (~/vault/)
+      if (low === "vault" || low === "boveda" || low === "archivos") {
+        appendLine("📂 [BÓVEDA FÍSICA]: Consultando archivos en ~/vault/...", "#00ff9d");
+        fetch("/v1/vault/inspect")
+          .then(r => r.json())
+          .then(d => {
+            appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+            appendLine(`📁 BÓVEDA LOCAL: ${d.total_files} archivos | Ruta: ${d.path}`, "#ffd700");
+            appendLine("────────────────────────────────────────────────────────────────", "#005a36");
+            (d.files || []).forEach(f => {
+              appendLine(`📄 ${f.name.padEnd(32)} | ${String(f.size_bytes).padStart(6)} B | SHA: ${f.sha256.slice(0,8)}...`, "#aaffdd");
+              if (f.preview) {
+                appendLine(`   └─ "${f.preview}"`, "#88aacc");
+              }
+            });
+            appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+            appendLine("💡 Escribe 'cat <archivo>' para leerlo o 'ai <pregunta>' para consultar a la IA.", "#00ffff");
+          })
+          .catch(e => appendLine("❌ Error consultando bóveda: " + e, "#ff5555"));
+        return true;
+      }
+
       if (low === "dir") {
         appendLine("📁 [DARWIN VFS]: Listado de directorio raíz...", "#00ff9d");
         fetch("/v1/darwin/exec", {
@@ -1349,6 +1390,29 @@
             appendLine("════════════════════════════════════════════════════════════════", "#005a36");
           })
           .catch(e => appendLine("❌ Error en compilador Lean 4: " + e, "#ff5555"));
+        return true;
+      }
+
+      
+      // Inspección completa de Bóveda física en disco (~/vault/)
+      if (low === "vault" || low === "boveda" || low === "archivos") {
+        appendLine("📂 [BÓVEDA FÍSICA]: Consultando archivos en ~/vault/...", "#00ff9d");
+        fetch("/v1/vault/inspect")
+          .then(r => r.json())
+          .then(d => {
+            appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+            appendLine(`📁 BÓVEDA LOCAL: ${d.total_files} archivos | Ruta: ${d.path}`, "#ffd700");
+            appendLine("────────────────────────────────────────────────────────────────", "#005a36");
+            (d.files || []).forEach(f => {
+              appendLine(`📄 ${f.name.padEnd(32)} | ${String(f.size_bytes).padStart(6)} B | SHA: ${f.sha256.slice(0,8)}...`, "#aaffdd");
+              if (f.preview) {
+                appendLine(`   └─ "${f.preview}"`, "#88aacc");
+              }
+            });
+            appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+            appendLine("💡 Escribe 'cat <archivo>' para leerlo o 'ai <pregunta>' para consultar a la IA.", "#00ffff");
+          })
+          .catch(e => appendLine("❌ Error consultando bóveda: " + e, "#ff5555"));
         return true;
       }
 
@@ -1430,7 +1494,9 @@
     // Foco garantizado en cualquier clic para evitar bloqueos
     document.addEventListener("click", (e) => {
       const modalOpen = document.querySelector(".modal-backdrop[style*='display: flex']");
-      if (!modalOpen && document.activeElement !== input) {
+      // Si el usuario ha seleccionado texto con el ratón, NO robar el foco para no borrar la selección
+      const hasSelection = window.getSelection && window.getSelection().toString().length > 0;
+      if (!modalOpen && !hasSelection && document.activeElement !== input) {
         input.focus();
       }
     });
