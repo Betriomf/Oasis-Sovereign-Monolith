@@ -72,21 +72,20 @@ if os.path.exists(HTML_PATH):
     print(f"  • CDN PDF.js presente             : {'✅ SÍ' if has_pdf else '❌ NO'}")
     print(f"  • Balance de llaves CSS/JS        : {open_brackets} abiertas vs {close_brackets} cerradas")
     
-    # Comprobar si node o osascript pueden validar la sintaxis JS
-    js_raw = "\n".join([re.sub(r"</?script.*?>", "", s) for s in scripts if "src=" not in s])
+    # Comprobar sintaxis con el compilador nativo de macOS sin ejecutar código
     tmp_js = os.path.join(REPO_ROOT, "vault", "temp_audit.js")
     with open(tmp_js, "w", encoding="utf-8") as f:
         f.write(js_raw)
-    
-    node_res = subprocess.run(f"node --check {tmp_js}", shell=True, capture_output=True, text=True)
-    if node_res.returncode == 0:
-        print("  ✅ Sintaxis JavaScript cliente    : CERO ERRORES (Node.js check OK)")
+
+    osa_cmd = f'''osascript -l JavaScript -e "function run() { try { new Function($.NSString.stringWithContentsOfFileEncodingError('{tmp_js}', $.NSUTF8StringEncoding, null).js); return 'OK'; } catch(e) { return e.toString(); } }"'''
+    osa_res = subprocess.run(osa_cmd, shell=True, capture_output=True, text=True)
+    out_osa = osa_res.stdout.strip()
+
+    if "OK" in out_osa:
+        print("  ✅ Sintaxis JavaScript cliente    : CERO ERRORES (JavaScriptCore check OK)")
     else:
-        err_line = node_res.stderr.strip().split("\n")[0] if node_res.stderr else "Error desconocido"
-        print(f"  🚨 ERROR SINTAXIS JAVASCRIPT      : {err_line}")
+        print(f"  🚨 ERROR SINTAXIS JAVASCRIPT      : {out_osa}")
     if os.path.exists(tmp_js): os.remove(tmp_js)
-else:
-    print("  ❌ No se encontró agents_core/templates/terminal.html")
 
 # --- 4. AUDITORÍA DEL PUENTE DARWIN (/v1/darwin/exec) ---
 print("\n[FASE 4: PUENTE DE EJECUCIÓN DARWIN CLI]")
