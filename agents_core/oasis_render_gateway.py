@@ -535,6 +535,10 @@ class OasisModularHandler(BaseHTTPRequestHandler):
 
         
         if self.path == "/v1/telemetry/client-error":
+            if body.get("reset"):
+                CLIENT_ERRORS.clear()
+                self._send_json({"status": "CLEARED", "total_errors": 0})
+                return
             CLIENT_ERRORS.append({
                 "timestamp": time.time(),
                 "error": body.get("error", "Error desconocido"),
