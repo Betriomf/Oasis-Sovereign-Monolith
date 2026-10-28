@@ -110,7 +110,7 @@ def process_ai_rag(prompt):
     if not prompt:
         return {
             "status": "ONLINE",
-            "model": "oasis-rag-hybrid:v18.5.7",
+            "model": "oasis-rag-hybrid:v18.7.6",
             "usage": "Consulta vía POST {'prompt': '...'} o GET /v1/ai/chat?prompt=...",
             "thermal_regime_watts": 3.78,
             "latency_ms": 0.5
@@ -159,7 +159,7 @@ def process_ai_rag(prompt):
     return {
         "status": "OK",
         "reply": reply,
-        "model": "oasis-rag-hybrid:v18.5.7",
+        "model": "oasis-rag-hybrid:v18.7.6",
         "latency_ms": max(0.8, dt_ms),
         "silicon_watts": 3.78
     }
@@ -169,7 +169,7 @@ def get_openapi_spec():
         "openapi": "3.0.3",
         "info": {
             "title": "Oasis Sovereign OS — Public Research API",
-            "version": "18.5.7",
+            "version": "18.7.6",
             "description": "API universal de cómputo soberano en silicio frío."
         },
         "paths": {
@@ -351,7 +351,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                             v_files.append({"name": fn, "size_bytes": os.path.getsize(fp)})
                 self._send_json({
                     "system": {
-                        "os_kernel": "Oasis Sovereign OS v18.5.7",
+                        "os_kernel": "Oasis Sovereign OS v18.7.6",
                         "status": "ONLINE",
                         "silicon_thermal_watts": 3.78,
                         "thermal_limit_watts": 4.18,
@@ -521,7 +521,7 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 return
 
             elif self.path in ("/v1/agent/status", "/health"):
-                self._send_json({"status": "ONLINE", "version": "v18.5.7", "silicon_watts": 3.78})
+                self._send_json({"status": "ONLINE", "version": "18.7.6", "silicon_watts": 3.78})
                 return
             else:
                 self._send_json({"error": "NOT_FOUND"}, status=404)
