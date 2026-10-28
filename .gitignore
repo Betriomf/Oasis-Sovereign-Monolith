@@ -1,26 +1,15 @@
-# Excluir entornos virtuales y cachés de Python
+# Entropía de compilación y binarios volátiles
+oasis-core-simulation/target/
 __pycache__/
 *.pyc
-openwebui-env/
-.venv/
-
-# Excluir modelos binarios pesados (se gestionan vía Ollama)
-*.gguf
-*.bin
-*.tar.gz
-
-# Excluir registros locales y temporales
-*.log
-oasis_ledger.json
-moonshine_results.csv
+*.pyo
+gateway.log
+api.log
+telemetry_snapshot.log
 .DS_Store
-test_*.py
-consulta_*.json
-prompt_*.txt
-deploy_oracle_arm.sh
-data/lincos_db/buzon_agentes.json
-dist/
-*.egg-info/
-vortex.bin
-publish_reddit.py
-setup_billing_db.py
+
+# Archivos de entorno y temporales
+openhands-env/
+venv/
+.venv/
+*.tmp

@@ -12,6 +12,9 @@ BASE_URL = "http://127.0.0.1:8080"
 REAL_SCRIPT_PATH = os.path.realpath(__file__)
 REPO_ROOT = os.path.dirname(os.path.dirname(REAL_SCRIPT_PATH))
 VAULT_DIR = os.path.join(REPO_ROOT, "vault")
+# Saneamiento físico estricto de la bóveda
+if os.path.exists(VAULT_DIR) and not os.path.isdir(VAULT_DIR):
+    os.remove(VAULT_DIR)
 os.makedirs(VAULT_DIR, exist_ok=True)
 
 def test_endpoint(ep, name):
