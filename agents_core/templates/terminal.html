@@ -836,6 +836,36 @@
       }
     }
 
+    
+    // Controladores de Modales 3D
+    function closeModal3D() {
+      const m = document.getElementById("modal-3d");
+      if (m) m.style.display = "none";
+    }
+
+    function closeWaterModal() {
+      const m = document.getElementById("modal-water");
+      if (m) m.style.display = "none";
+    }
+
+    function openMesh3dModal() {
+      const m = document.getElementById("modal-3d");
+      if (!m) return;
+      m.style.display = "flex";
+      requestAnimationFrame(() => {
+        if (typeof initMesh3dScene === "function") initMesh3dScene();
+      });
+    }
+
+    function openWaterModal() {
+      const m = document.getElementById("modal-water");
+      if (!m) return;
+      m.style.display = "flex";
+      requestAnimationFrame(() => {
+        if (typeof initWaterScene === "function") initWaterScene();
+      });
+    }
+
     // === CATÁLOGO UNIVERSAL DE COMANDOS REGISTRADOS ===
     var COMMANDS = {
 
@@ -973,7 +1003,65 @@
       }
     };
 
+    
+    // === ENRUTADOR UNIVERSAL DE ENDPOINTS OPENAPI Y COMANDOS DE SISTEMA ===
+    function handleApiOrSystemCommand(cmd) {
+      const trimmed = cmd.trim();
+      const low = trimmed.toLowerCase();
+
+      // Alias nativo de DIR -> LS
+      if (low === "dir") {
+        appendLine("📁 [DARWIN VFS]: Listado de directorio raíz...", "#00ff9d");
+        fetch("/v1/darwin/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command: "ls -la" })
+        })
+        .then(r => r.json())
+        .then(d => appendLine(d.output || "Directorio vacío.", "#d8f8e8"))
+        .catch(e => appendLine("❌ Error en comando dir: " + e, "#ff5555"));
+        return true;
+      }
+
+      // Despacho directo de cualquier ruta /v1/...
+      if (low.startsWith("/v1/") || low.startsWith("v1/")) {
+        const ep = low.startsWith("/") ? low : "/" + low;
+        appendLine("📡 [HTTP GET] " + ep + "...", "#00ffff");
+        fetch(ep)
+          .then(r => r.json())
+          .then(d => {
+            appendLine("════════════════════════════════════════════════════════════════", "#005577");
+            appendLine(JSON.stringify(d, null, 2), "#aaffdd");
+            appendLine("════════════════════════════════════════════════════════════════", "#005577");
+          })
+          .catch(err => appendLine("❌ Fallo en endpoint " + ep + ": " + err, "#ff5555"));
+        return true;
+      }
+
+      // Atajos directos a la especificación OpenAPI
+      const apiShortcuts = {
+        "demon": "/v1/math/demon",
+        "demon-status": "/v1/math/demon",
+        "hemo": "/v1/med/besov-cfd",
+        "besov": "/v1/med/besov-cfd",
+        "riemann": "/v1/math/riemann",
+        "swarm": "/v1/swarm/nodes",
+        "nodes": "/v1/swarm/nodes",
+        "vault": "/v1/vault/list",
+        "boveda": "/v1/vault/list",
+        "openapi": "/v1/openapi.json"
+      };
+
+      if (apiShortcuts[low]) {
+        return handleApiOrSystemCommand(apiShortcuts[low]);
+      }
+
+      return false;
+    }
+
     function runCommand(raw) {
+      if (handleApiOrSystemCommand(raw)) return;
+
       raw = raw.trim();
       if (!raw) return;
       const low = raw.toLowerCase();
@@ -1092,5 +1180,28 @@
     appendLine("🧠 [AGENTE IA]: Escribe \x27ai <pregunta>\x27 para consultar al modelo local.");
     appendLine("-----------------------------------------------------------------------------");
   </script>
+
+  <!-- MODAL VISOR 3D CARÓTIDA VMR -->
+  <div id="modal-3d" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,12,0.92); z-index:9999; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+    <div style="width:92%; max-width:960px; height:80vh; background:#040c14; border:1px solid #00ff9d; border-radius:8px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 0 35px rgba(0,255,157,0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:#071622; border-bottom:1px solid #005a36;">
+        <span style="color:#00ff9d; font-weight:bold; font-size:0.9rem;">🩺 VISOR ANATÓMICO 3D — ARTERIA CARÓTIDA VMR (1440 NODOS)</span>
+        <button onclick="closeModal3D()" style="background:#160505; border:1px solid #ff5555; color:#ff5555; padding:4px 12px; border-radius:4px; cursor:pointer; font-weight:bold;">✕ CERRAR</button>
+      </div>
+      <div id="canvas-container-3d" style="flex:1; position:relative; width:100%; height:100%; background:#020508;"></div>
+    </div>
+  </div>
+
+  <!-- MODAL OCÉANO 3D GERSTNER -->
+  <div id="modal-water" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,12,0.92); z-index:9999; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+    <div style="width:92%; max-width:960px; height:80vh; background:#040c14; border:1px solid #00ffff; border-radius:8px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 0 35px rgba(0,255,255,0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:#071622; border-bottom:1px solid #005577;">
+        <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">🌊 SIMULACIÓN DE FLUIDOS — OCÉANO TROCOIDAL GERSTNER (GLSL HIGH-P)</span>
+        <button onclick="closeWaterModal()" style="background:#160505; border:1px solid #ff5555; color:#ff5555; padding:4px 12px; border-radius:4px; cursor:pointer; font-weight:bold;">✕ CERRAR</button>
+      </div>
+      <div id="canvas-container-water" style="flex:1; position:relative; width:100%; height:100%; background:#020508;"></div>
+    </div>
+  </div>
+
 </body>
 </html>
