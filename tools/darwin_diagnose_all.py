@@ -95,3 +95,14 @@ except Exception as e:
     print(f"  ❌ Fallo en /v1/darwin/exec: {e}")
 
 print("═" * 72)
+
+
+# --- 5. AUDITORÍA DINÁMICA SAFARI WEBKIT ---
+print("\n[FASE 5: EJECUCIÓN DINÁMICA SAFARI WEBKIT (MACOS)]")
+try:
+    res = subprocess.run(["./tools/safari_webkit_test.sh"], capture_output=True, text=True, timeout=12)
+    lines = [l for l in res.stdout.strip().split("\n") if "✅" in l or "🚨" in l or "🏆" in l]
+    for line in lines:
+        print(" " + line)
+except Exception as e:
+    print(f"  ⚠️ Safari WebKit Test omitido o no disponible: {e}")

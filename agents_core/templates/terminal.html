@@ -4,6 +4,31 @@
 
   <script>
     // === VIGILANTE FORENSE DE ERRORES CLIENTE (REPORTE AUTOMÁTICO A DARWIN) ===
+    
+    // Captura universal de console.error y console.warn hacia el Gateway
+    const _origConsoleError = console.error;
+    console.error = function(...args) {
+      _origConsoleError.apply(console, args);
+      fetch('/v1/telemetry/client-error', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: args.map(a => String(a)).join(' '), source: 'console.error', line: 0 })
+      }).catch(() => {});
+    };
+
+    const _origConsoleWarn = console.warn;
+    console.warn = function(...args) {
+      _origConsoleWarn.apply(console, args);
+      const text = args.map(a => String(a)).join(' ');
+      if (text.includes("WebGL") || text.includes("THREE") || text.includes("Error")) {
+        fetch('/v1/telemetry/client-error', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: text, source: 'console.warn', line: 0 })
+        }).catch(() => {});
+      }
+    };
+
     window.onerror = function(message, source, lineno, colno, error) {
       const errPayload = {
         error: message,
