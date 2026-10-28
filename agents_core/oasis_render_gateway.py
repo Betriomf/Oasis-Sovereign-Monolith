@@ -167,6 +167,27 @@ def process_ai_rag(prompt):
         "silicon_watts": 3.78
     }
 
+
+def get_openapi_spec():
+    return {
+        "openapi": "3.0.3",
+        "info": {
+            "title": "Oasis Sovereign OS — Public Research API",
+            "version": "18.5.3",
+            "description": "API universal de cómputo soberano en silicio frío."
+        },
+        "paths": {
+            "/v1/openapi.json": {"get": {"summary": "Especificación OpenAPI 3.0"}},
+            "/v1/math/demon": {"get": {"summary": "Demonio Maxwell-Landauer"}},
+            "/v1/med/besov-cfd": {"get": {"summary": "Hemodinámica Besov 3D"}},
+            "/v1/med/mesh-geometry": {"get": {"summary": "Geometría 3D VMR"}},
+            "/v1/math/riemann": {"get": {"summary": "Auditoría de Riemann"}},
+            "/v1/swarm/nodes": {"get": {"summary": "Censo Swarm P2P"}},
+            "/v1/vault/list": {"get": {"summary": "Listado de Bóveda"}},
+            "/v1/ai/chat": {"get": {"summary": "Agente IA Local RAG"}}
+        }
+    }
+
 class ReusableHTTPServer(HTTPServer):
     allow_reuse_address = True
 
@@ -195,6 +216,9 @@ class OasisModularHandler(BaseHTTPRequestHandler):
         self.do_GET(head_only=True)
 
     def do_GET(self, head_only=False):
+        if self.path in ("/v1/openapi.json", "/openapi.json"):
+            self._send_json(get_openapi_spec())
+            return
         record_telemetry_hit()
         try:
             if self.path.startswith("/static/"):
