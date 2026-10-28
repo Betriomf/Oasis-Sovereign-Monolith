@@ -322,13 +322,13 @@
       </div>
       <div class="modal-tabs">
         <button class="tab-btn active" id="tab-btn-files" onclick="switchVaultTab('files')">📂 Mis Archivos en OPFS</button>
-        <button class="tab-btn" id="tab-btn-riemann" onclick="switchVaultTab('riemann')">📐 Manuscrito Riemann (Clay)</button>
+        <button class="tab-btn" id="tab-btn-riemann" onclick="switchVaultTab('docs')">📄 Visor Documental PDF</button>
         <button class="tab-btn" id="tab-btn-viewer" onclick="switchVaultTab('viewer')">👁️ Visor de Contenido</button>
       </div>
       <div id="tab-files" class="tab-content active">
         <div id="opfs-list-container" style="display:flex; flex-direction:column; gap:8px;"></div>
       </div>
-            <div id="tab-riemann" class="tab-content">
+            <div id="tab-docs" class="tab-content">
         <div class="pdf-toolbar">
           <div style="display:flex; gap:6px; align-items:center;">
             <button class="pdf-btn" onclick="document.getElementById('pdf-file-input').click()">📂 ABRIR PDF</button>
@@ -506,7 +506,14 @@
       if (statusEl) statusEl.innerText = "Ingiriendo " + file.name + "...";
       appendLine("🩺 [INGESTA CLÍNICA]: Leyendo malla \x27" + file.name + "\x27...", "#00ffff");
 
-      const reader = new FileReader();
+      
+        // Salvaguarda térmica y de memoria RAM (Límite 50 MB)
+        if (file.size > 50 * 1024 * 1024) {
+          appendLine("⚠️ [BÓVEDA]: El documento supera el límite de seguridad (50 MB). Use compresión conforme para evitar desbordamiento de memoria.", "#ffaa00");
+          return;
+        }
+
+        const reader = new FileReader();
       reader.onload = function(e) {
         try {
           const lines = e.target.result.split("\n");
@@ -728,7 +735,14 @@
 
     function handlePdfFileInput(file) {
       if (!file) return;
-      const reader = new FileReader();
+      
+        // Salvaguarda térmica y de memoria RAM (Límite 50 MB)
+        if (file.size > 50 * 1024 * 1024) {
+          appendLine("⚠️ [BÓVEDA]: El documento supera el límite de seguridad (50 MB). Use compresión conforme para evitar desbordamiento de memoria.", "#ffaa00");
+          return;
+        }
+
+        const reader = new FileReader();
       reader.onload = (e) => loadPdfFromBuffer(e.target.result, file.name);
       reader.readAsArrayBuffer(file);
     }
