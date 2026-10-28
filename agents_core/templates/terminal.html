@@ -945,435 +945,49 @@
     // Función de apertura de modal de fluidos
     function openWaterModal() {
       const modal = document.getElementById("modal-water");
-      if (modal) {
-        modal.style.display = "flex";
-        if (typeof initWaterScene === "function") initWaterScene();
-      } else {
-        appendLine("🌊 [OCÉANO 3D]: Inicializando simulación Gerstner...", "#00ffff");
-      }
-    }
-
-    
-    
-    // === ESTADO SOBERANO: CEDER CÓMPUTO ===
-    let yieldComputeActive = false;
-
-    function toggleYieldCompute() {
-      yieldComputeActive = !yieldComputeActive;
-      const b = document.getElementById("yield-badge");
-      if (yieldComputeActive) {
-        b.style.background = "#002812";
-        b.style.borderColor = "#00ff9d";
-        b.style.color = "#00ff9d";
-        b.innerText = "⚡ CEDER CÓMPUTO: ACTIVO";
-        appendLine("⚡ [SOBERANÍA]: Modo ceder cómputo ACTIVADO. El nodo aceptará resolver sub-mallas CFD para la red bajo cota de 3.78 W.", "#00ff9d");
-      } else {
-        b.style.background = "#1a1000";
-        b.style.borderColor = "#ffaa00";
-        b.style.color = "#ffaa00";
-        b.innerText = "⚡ CEDER CÓMPUTO: OFF";
-        appendLine("🔒 [SOBERANÍA]: Modo ceder cómputo DESACTIVADO. Silicio 100% insular y privado.", "#ffaa00");
-      }
-      fetch("/v1/swarm/heartbeat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ yield_compute: yieldComputeActive })
-      }).catch(() => {});
-    }
-
-    // === MOTOR 3D A 2D ISOMÉTRICO (ZERO-WEBGL / INFALIBLE) ===
-    let meshPoints = [];
-    let meshIndices = [];
-    let meshTawss = [];
-    let rotX = 0.4;
-    let rotY = -0.6;
-    let isDraggingMesh = false;
-    let prevPointerX = 0;
-    let prevPointerY = 0;
-    let animFrame2D = null;
-
-    function initIsometricScene() {
-      const canvas = document.getElementById("canvas-2d-carotida");
-      if (!canvas) return;
-      const rect = canvas.parentElement.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-
-      if (meshPoints.length === 0) {
-        fetch("/v1/med/mesh-geometry")
-          .then(r => r.json())
-          .then(d => {
-            meshPoints = d.points || [];
-            meshIndices = d.indices || [];
-            meshTawss = d.tawss || [];
-            document.getElementById("lbl-nodes").innerText = d.num_nodes || (meshPoints.length / 3);
-            document.getElementById("lbl-tris").innerText = d.num_triangles || (meshIndices.length / 3);
-            start2DRenderLoop();
-          })
-          .catch(e => appendLine("❌ Error cargando geometría: " + e, "#ff5555"));
-      } else {
-        start2DRenderLoop();
-      }
-
-      // Eventos de ratón y táctiles
-      canvas.onpointerdown = (e) => {
-        isDraggingMesh = true;
-        prevPointerX = e.clientX;
-        prevPointerY = e.clientY;
-        canvas.style.cursor = "grabbing";
-      };
-      window.onpointerup = () => {
-        isDraggingMesh = false;
-        if (canvas) canvas.style.cursor = "grab";
-      };
-      window.onpointermove = (e) => {
-        if (!isDraggingMesh) return;
-        rotY += (e.clientX - prevPointerX) * 0.008;
-        rotX += (e.clientY - prevPointerY) * 0.008;
-        prevPointerX = e.clientX;
-        prevPointerY = e.clientY;
-      };
-    }
-
-    function start2DRenderLoop() {
-      if (animFrame2D) cancelAnimationFrame(animFrame2D);
-      const canvas = document.getElementById("canvas-2d-carotida");
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-
-      function renderFrame() {
-        const modal = document.getElementById("modal-3d");
-        if (!modal || modal.style.display !== "flex") return;
-
-        // Auto-rotación suave si no se arrastra
-        if (!isDraggingMesh) {
-          rotY += 0.003;
-        }
-
-        ctx.fillStyle = "#010408";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        const cx = canvas.width / 2;
-        const cy = canvas.height / 2;
-        const scale = Math.min(canvas.width, canvas.height) * 0.015;
-
-        const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
-        const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
-
-        const numNodes = meshPoints.length / 3;
-        const proj = new Float32Array(numNodes * 2);
-
-        // Proyección ortogonal de nodos
-        for (let i = 0; i < numNodes; i++) {
-          let x = meshPoints[i * 3];
-          let y = meshPoints[i * 3 + 1];
-          let z = meshPoints[i * 3 + 2] - 25.0; // Centrar Z
-
-          // Rotación Y
-          let x1 = x * cosY + z * sinY;
-          let z1 = -x * sinY + z * cosY;
-
-          // Rotación X
-          let y2 = y * cosX - z1 * sinX;
-          let z2 = y * sinX + z1 * cosX;
-
-          proj[i * 2] = cx + x1 * scale;
-          proj[i * 2 + 1] = cy - y2 * scale;
-        }
-
-        // Trazado de aristas triangulares con mapa de calor hemodinámico
-        ctx.lineWidth = 0.6;
-        const numTris = Math.min(meshIndices.length / 3, 2816);
-
-        for (let t = 0; t < numTris; t++) {
-          const i0 = meshIndices[t * 3];
-          const i1 = meshIndices[t * 3 + 1];
-          const i2 = meshIndices[t * 3 + 2];
-
-          const tawssVal = meshTawss[i0] || 2.0;
-          // Mapa de color: TAWSS bajo = cian/verde, alto (estenosis) = amarillo/rojo
-          if (tawssVal > 6.0) {
-            ctx.strokeStyle = "rgba(255, 75, 75, 0.45)";
-          } else if (tawssVal > 3.5) {
-            ctx.strokeStyle = "rgba(255, 215, 0, 0.35)";
-          } else {
-            ctx.strokeStyle = "rgba(0, 255, 157, 0.25)";
-          }
-
-          ctx.beginPath();
-          ctx.moveTo(proj[i0 * 2], proj[i0 * 2 + 1]);
-          ctx.lineTo(proj[i1 * 2], proj[i1 * 2 + 1]);
-          ctx.lineTo(proj[i2 * 2], proj[i2 * 2 + 1]);
-          ctx.closePath();
-          ctx.stroke();
-        }
-
-        animFrame2D = requestAnimationFrame(renderFrame);
-      }
-
-      renderFrame();
-    }
-
-    // Redirigir apertura del modal a la escena isométrica 2D
-    function openMesh3dModal() {
-      const m = document.getElementById("modal-3d");
-      if (!m) return;
-      m.style.display = "flex";
-      setTimeout(initIsometricScene, 50);
-    }
-
-    // Controladores de Modales 3D
-    function closeModal3D() {
-      const m = document.getElementById("modal-3d");
-      if (m) m.style.display = "none";
-    }
-
-    function closeWaterModal() {
-      const m = document.getElementById("modal-water");
-      if (m) m.style.display = "none";
-    }
-
-    function openMesh3dModal() {
-      const m = document.getElementById("modal-3d");
-      if (!m) return;
-      m.style.display = "flex";
-      requestAnimationFrame(() => {
-        if (typeof initMesh3dScene === "function") initMesh3dScene();
-      });
-    }
-
-    function openWaterModal() {
-      const m = document.getElementById("modal-water");
-      if (!m) return;
-      m.style.display = "flex";
-      requestAnimationFrame(() => {
-        if (typeof initWaterScene === "function") initWaterScene();
-      });
-    }
-
-    
-    // === LÓGICA SPLIT-VIEW BÓVEDA & CHAT RAG ===
-    let activeVaultFilename = "INFORME_CLINICO_CAROTIDA_SHA256.md";
-
-    function selectVaultFileForPreview(fname) {
-      activeVaultFilename = fname;
-      document.getElementById("active-file-title").innerText = "📄 " + fname;
-      switchVaultTab("visor");
-      readActiveFileInPreview();
-    }
-
-    function readActiveFileInPreview() {
-      const pane = document.getElementById("vault-preview-pane");
-      pane.innerText = "⏳ Leyendo documento desde NVMe local...";
-      fetch("/v1/darwin/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ command: "cat vault/" + activeVaultFilename })
-      })
-      .then(r => r.json())
-      .then(d => {
-        pane.innerText = d.output || "Archivo vacío.";
-      })
-      .catch(err => {
-        pane.innerText = "❌ Error leyendo archivo: " + err;
-      });
-    }
-
-    function sendVaultChatQuery() {
-      const inp = document.getElementById("vault-chat-input");
-      const q = inp.value.trim();
-      if (!q) return;
-      inp.value = "";
-
-      const log = document.getElementById("vault-chat-log");
-      log.innerHTML += `<div style="color:#ffd700;"><strong>Mariano:</strong> ${q}</div>`;
-
-      // Enviar la pregunta junto con el contexto del documento activo
-      fetch("/v1/ai/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: q + " [documento: " + activeVaultFilename + "]" })
-      })
-      .then(r => r.json())
-      .then(d => {
-        log.innerHTML += `<div style="color:#00ff9d; margin-top:4px;"><strong>Oasis IA:</strong> ${d.reply}</div>`;
-        log.scrollTop = log.scrollHeight;
-      })
-      .catch(e => {
-        log.innerHTML += `<div style="color:#ff5555;">❌ Error: ${e}</div>`;
-      });
-    }
-
-    
-    // === MOTOR UNIVERSAL DE VISUALIZACIÓN Y ANOTACIÓN SOBERANA ===
-    let annotateMode = 'view';
-    let isDrawingAnnotation = false;
-    let annotationStrokes = [];
-    let currentDocPage = 1;
-    let totalDocPages = 1;
-    let activePdfDoc = null;
-
-    function setAnnotateMode(mode) {
-      annotateMode = mode;
-      document.querySelectorAll('.annotate-tool').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById('tool-' + mode);
-      if (activeBtn) activeBtn.classList.add('active');
-      const ov = document.getElementById('annotation-overlay-canvas');
-      if (ov) {
-        ov.style.pointerEvents = (mode === 'view') ? 'none' : 'auto';
-        ov.style.cursor = (mode === 'view') ? 'default' : 'crosshair';
-      }
-    }
-
-    function initAnnotationCanvas(w, h) {
-      const base = document.getElementById('pdf-base-canvas');
-      const ov = document.getElementById('annotation-overlay-canvas');
-      if (!ov) return;
-      ov.width = w;
-      ov.height = h;
-      ov.style.width = w + "px";
-      ov.style.height = h + "px";
-      ov.style.pointerEvents = 'none';
-
-      const ctx = ov.getContext('2d');
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
-      ov.onpointerdown = (e) => {
-        if (annotateMode === 'view') return;
-        isDrawingAnnotation = true;
-        const rect = ov.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const color = (annotateMode === 'hl-yellow') ? 'rgba(255, 235, 59, 0.45)' : 'rgba(0, 229, 255, 0.45)';
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 14;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        annotationStrokes.push({ action: 'start', x, y, color, page: currentDocPage });
-      };
-
-      ov.onpointermove = (e) => {
-        if (!isDrawingAnnotation) return;
-        const rect = ov.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        annotationStrokes.push({ action: 'line', x, y, page: currentDocPage });
-      };
-
-      window.onpointerup = () => {
-        if (isDrawingAnnotation) {
-          isDrawingAnnotation = false;
-          ctx.closePath();
-        }
-      };
-    }
-
-    function clearAnnotations() {
-      const ov = document.getElementById('annotation-overlay-canvas');
-      if (ov) {
-        const ctx = ov.getContext('2d');
-        ctx.clearRect(0, 0, ov.width, ov.height);
-      }
-      annotationStrokes = [];
-      appendLine("🧹 [VISOR]: Capa de anotaciones limpiada.", "#88aacc");
-    }
-
-    function saveAnnotationsToVault() {
-      if (annotationStrokes.length === 0) {
-        appendLine("⚠️ [VISOR]: No hay trazos de subrayado para guardar.", "#ffaa00");
-        return;
-      }
-      fetch('/v1/vault/save-state', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'PDF_ANNOTATIONS_VECTOR',
-          timestamp: Date.now(),
-          strokes_count: annotationStrokes.length,
-          strokes: annotationStrokes
-        })
-      })
-      .then(r => r.json())
-      .then(d => appendLine("💾 [BÓVEDA]: Trazos de subrayado persistidos en " + d.file, "#00ff9d"))
-      .catch(e => appendLine("❌ Error guardando trazos: " + e, "#ff5555"));
-    }
-
-    // Reproductor Multimedia Soberano (Audio / Vídeo)
-    function playVaultMedia(filename) {
-      const container = document.getElementById('media-player-container');
-      const vPlayer = document.getElementById('vault-video-player');
-      const aPlayer = document.getElementById('vault-audio-player');
-      const baseCanvas = document.getElementById('pdf-base-canvas');
-      const ovCanvas = document.getElementById('annotation-overlay-canvas');
-
-      if (!container) return;
-      baseCanvas.style.display = 'none';
-      ovCanvas.style.display = 'none';
-      container.style.display = 'block';
-
-      const mediaUrl = "/v1/vault/raw/" + encodeURIComponent(filename);
-
-      if (filename.endsWith('.mp4')) {
-        aPlayer.style.display = 'none';
-        vPlayer.style.display = 'block';
-        vPlayer.src = mediaUrl;
-        vPlayer.play();
-        appendLine("🎬 [MULTIMEDIA]: Reproduciendo vídeo " + filename, "#00d4ff");
-      } else if (filename.endsWith('.mp3') || filename.endsWith('.wav')) {
-        vPlayer.style.display = 'none';
-        aPlayer.style.display = 'block';
-        aPlayer.src = mediaUrl;
-        aPlayer.play();
-        appendLine("🎵 [MULTIMEDIA]: Reproduciendo audio " + filename, "#00d4ff");
-      }
-    }
-
-    // Simulación de Océano Gerstner en Canvas 2D (Garantía sin colapso WebGL)
-    function openWaterModal() {
-      const modal = document.getElementById("modal-water");
       if (!modal) return;
       modal.style.display = "flex";
 
-      const container = document.getElementById("canvas-container-water");
-      if (!container) return;
-      container.innerHTML = '<canvas id="water-2d-canvas" style="width:100%; height:100%; display:block;"></canvas>';
-      const c = document.getElementById("water-2d-canvas");
-      const rect = container.getBoundingClientRect();
-      c.width = rect.width;
-      c.height = rect.height;
-      const ctx = c.getContext("2d");
+      setTimeout(() => {
+        const container = document.getElementById("canvas-container-water");
+        if (!container) return;
+        container.innerHTML = '<canvas id="water-2d-canvas" style="display:block;"></canvas>';
+        const c = document.getElementById("water-2d-canvas");
+        const rect = container.getBoundingClientRect();
+        c.width = rect.width > 100 ? Math.floor(rect.width) : Math.floor(window.innerWidth * 0.85);
+        c.height = rect.height > 100 ? Math.floor(rect.height) : Math.floor(window.innerHeight * 0.65);
+        c.style.width = c.width + "px";
+        c.style.height = c.height + "px";
+        const ctx = c.getContext("2d");
 
-      let t = 0;
-      function drawGerstner() {
-        if (modal.style.display !== "flex") return;
-        ctx.fillStyle = "#010712";
-        ctx.fillRect(0, 0, c.width, c.height);
+        let t = 0;
+        function drawWaves() {
+          if (modal.style.display !== "flex") return;
+          ctx.fillStyle = "#010814";
+          ctx.fillRect(0, 0, c.width, c.height);
 
-        const lines = 24;
-        for (let l = 0; l < lines; l++) {
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(0, ${180 + l * 3}, 255, ${0.15 + (l / lines) * 0.65})`;
-          ctx.lineWidth = 1.2;
-          const baseY = c.height * 0.35 + (l * (c.height * 0.55 / lines));
+          const lines = 28;
+          for (let l = 0; l < lines; l++) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(0, ${160 + l * 3}, 255, ${0.2 + (l / lines) * 0.65})`;
+            ctx.lineWidth = 1.4;
+            const baseY = c.height * 0.30 + (l * (c.height * 0.60 / lines));
 
-          for (let x = 0; x < c.width; x += 6) {
-            // Ondas trocoidales acopladas
-            const y = baseY + 
-                      Math.sin(x * 0.015 + t * 2.0 + l * 0.2) * 14.0 + 
-                      Math.cos(x * 0.035 - t * 1.5) * 6.0;
-            if (x === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
+            for (let x = 0; x < c.width; x += 8) {
+              const y = baseY + 
+                        Math.sin(x * 0.012 + t * 2.2 + l * 0.25) * 16.0 + 
+                        Math.cos(x * 0.028 - t * 1.8) * 7.0;
+              if (x === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
           }
-          ctx.stroke();
+          t += 0.025;
+          requestAnimationFrame(drawWaves);
         }
-        t += 0.02;
-        requestAnimationFrame(drawGerstner);
-      }
-      drawGerstner();
-      appendLine("🌊 [OCÉANO GERSTNER]: Simulación trocoidal ejecutada en Canvas 2D puro.", "#00ffff");
+        drawWaves();
+        appendLine("🌊 [OCÉANO GERSTNER]: Simulación trocoidal activa en Canvas 2D.", "#00ffff");
+      }, 80);
     }
 
     // === CATÁLOGO UNIVERSAL DE COMANDOS REGISTRADOS ===
@@ -1607,6 +1221,130 @@
       }
 
       return false;
+    }
+
+    
+    // === LECTURA DIRECTA DE ARCHIVOS DE BÓVEDA (SIN TRABAS DE WORKERS) ===
+    function openVaultFileDirect(fname) {
+      appendLine("📂 [BÓVEDA]: Abriendo " + fname + "...", "#00ff9d");
+      fetch("/v1/darwin/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command: "cat vault/" + fname })
+      })
+      .then(r => r.json())
+      .then(d => {
+        const content = d.output || "Archivo vacío.";
+        // 1. Mostrar en la terminal
+        appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+        appendLine("📄 ARCHIVO: " + fname, "#ffd700");
+        appendLine("────────────────────────────────────────────────────────────────", "#005a36");
+        appendLine(content, "#d8f8e8");
+        appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+
+        // 2. Si el panel de visor está presente en el DOM, rellenarlo también
+        const pane = document.getElementById("vault-preview-pane");
+        if (pane) pane.innerText = content;
+        const title = document.getElementById("active-file-title");
+        if (title) title.innerText = "📄 " + fname;
+        
+        switchVaultTab("visor");
+      })
+      .catch(e => appendLine("❌ Error leyendo archivo: " + e, "#ff5555"));
+    }
+
+    
+    // === DESCOMPRESOR CONFORME GZIP (PILAR 200) Y VISUALIZADOR UNIVERSAL ===
+    async function openCompressedOrRawFile(filename) {
+      appendLine("📂 [BÓVEDA]: Cargando " + filename + "...", "#00d4ff");
+      try {
+        let arrayBuffer = null;
+        
+        // 1. Intentar leer desde OPFS primero
+        if (navigator.storage && navigator.storage.getDirectory) {
+          try {
+            const root = await navigator.storage.getDirectory();
+            const fh = await root.getFileHandle(filename);
+            const file = await fh.getFile();
+            arrayBuffer = await file.arrayBuffer();
+          } catch(e) {}
+        }
+        
+        // 2. Si no está en OPFS, obtenerlo del Gateway de Darwin
+        if (!arrayBuffer) {
+          const res = await fetch("/v1/vault/raw/" + encodeURIComponent(filename));
+          if (res.ok) {
+            arrayBuffer = await res.arrayBuffer();
+          } else {
+            // Alternativa: consultar por darwin exec si es texto
+            const rExec = await fetch("/v1/darwin/exec", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ command: "cat vault/" + filename })
+            });
+            const d = await rExec.json();
+            renderTextDocument(filename, d.output || "Archivo vacío.");
+            return;
+          }
+        }
+
+        // 3. Descompresión GZIP si tiene extensión .gz
+        let finalBuffer = arrayBuffer;
+        let isGzip = filename.endsWith(".gz");
+        if (isGzip && window.DecompressionStream) {
+          try {
+            const ds = new DecompressionStream("gzip");
+            const writer = ds.writable.getWriter();
+            writer.write(arrayBuffer);
+            writer.close();
+            const resp = new Response(ds.readable);
+            finalBuffer = await resp.arrayBuffer();
+          } catch(err) {
+            console.warn("Fallo de descompresión GZIP, intentando lectura cruda:", err);
+          }
+        }
+
+        // 4. Detección de formato: PDF vs Texto/Markdown
+        const headerBytes = new Uint8Array(finalBuffer.slice(0, 5));
+        const isPdf = (headerBytes[0] === 0x25 && headerBytes[1] === 0x50 && headerBytes[2] === 0x44 && headerBytes[3] === 0x46); // %PDF
+
+        if (isPdf || filename.includes(".pdf")) {
+          renderPdfBlob(filename, finalBuffer);
+        } else {
+          const textDecoder = new TextDecoder("utf-8");
+          const textContent = textDecoder.decode(finalBuffer);
+          renderTextDocument(filename, textContent);
+        }
+      } catch (err) {
+        appendLine("❌ Error abriendo archivo: " + err, "#ff5555");
+      }
+    }
+
+    function renderTextDocument(filename, text) {
+      appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+      appendLine("📄 DOCUMENTO ACTIVO: " + filename, "#ffd700");
+      appendLine("────────────────────────────────────────────────────────────────", "#005a36");
+      appendLine(text, "#d8f8e8");
+      appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+
+      const pane = document.getElementById("vault-preview-pane");
+      if (pane) pane.innerText = text;
+      const title = document.getElementById("active-file-title");
+      if (title) title.innerText = "📄 " + filename;
+      switchVaultTab("visor");
+    }
+
+    function renderPdfBlob(filename, buffer) {
+      const blob = new Blob([buffer], { type: "application/pdf" });
+      const blobUrl = URL.createObjectURL(blob);
+      
+      const wrapper = document.getElementById("doc-render-wrapper");
+      if (wrapper) {
+        wrapper.innerHTML = `<iframe src="${blobUrl}" style="width:100%; height:100%; border:none; background:#ffffff;"></iframe>`;
+      }
+      
+      appendLine("📄 [VISOR PDF SOBERANO]: Visualizando " + filename + " en motor nativo.", "#00ff9d");
+      switchVaultTab("docs");
     }
 
     function runCommand(raw) {

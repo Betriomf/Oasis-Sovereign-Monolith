@@ -4,57 +4,44 @@ CMD="$1"
 shift
 
 case "$CMD" in
-  soap)
+  code|edit)
     FNAME="$1"
     if [ -z "$FNAME" ]; then
-      FNAME="INFORME_CLINICO_CAROTIDA_SHA256.md"
+      echo "Abriendo directorio de la Bóveda en VS Code..."
+      code ~/Oasis-Sovereign-Monolith/vault
+    else
+      echo "Abriendo $FNAME en VS Code..."
+      code ~/Oasis-Sovereign-Monolith/vault/"$FNAME"
     fi
-    echo "📋 [AGENTE HÍBRIDO]: Compilando registro SOAP desde $FNAME..."
+    ;;
+  soap)
+    FNAME="${1:-INFORME_CLINICO_CAROTIDA_SHA256.md}"
     curl -s -X POST "$HOST/v1/med/soap" -H "Content-Type: application/json" -d "{\"file\":\"$FNAME\"}" | python3 -c '
 import sys, json
 d = json.load(sys.stdin)
 s = d.get("soap", {})
-ds_file = d.get("dataset_file", "")
-h_sha = s.get("hash_sha256", "")[:12]
-print(f" Dataset generado: {ds_file} | SHA-256: {h_sha}..")
-print("=" * 68)
-sub_anam = s.get("subjective", {}).get("anamnesis", "")
-print(" [S] SUBJETIVO :", sub_anam)
-obj = s.get("objective", {})
-p_tawss = obj.get("tawss_peak_pa")
-p_const = obj.get("lumen_constriction_pct")
-print(" [O] OBJETIVO  : TAWSS Pico =", p_tawss, "Pa | Constricción =", p_const, "%")
+print("📋 Dataset SOAP generado:", d.get("dataset_file"))
+print(" [S] SUBJETIVO :", s.get("subjective", {}).get("anamnesis", ""))
+print(" [O] OBJETIVO  : TAWSS =", s.get("objective", {}).get("tawss_peak_pa"), "Pa")
 print(" [A] EVALUACIÓN:", s.get("assessment", {}).get("diagnostic", ""))
 print(" [P] PLAN      :", s.get("plan", {}).get("surgical", ""))
-print("=" * 68)
-print(" Registro estructurado listo para entrenamiento LoRA / SLM local.")
-'
-    ;;
-  media)
-    curl -s "$HOST/v1/vault/inspect" | python3 -c '
-import sys, json
-d = json.load(sys.stdin)
-for f in d.get("files", []):
-    if f.get("name", "").endswith((".mp4", ".mp3", ".wav", ".pdf")):
-        print(f"  • {f.get(\"name\")} ({f.get(\"size_bytes\")} B)")
 '
     ;;
   vault)
     curl -s "$HOST/v1/vault/inspect" | python3 -c '
 import sys, json
 d = json.load(sys.stdin)
-total = d.get("total_files", 0)
-path = d.get("path", "")
-print(f" Total archivos: {total} | Directorio: {path}")
-print("-" * 72)
+print(f"📁 Total archivos: {d.get(\"total_files\", 0)} en {d.get(\"path\", \"\")}")
+print("-" * 70)
 for f in d.get("files", []):
-    name = f.get("name", "").ljust(32)
-    sz = f"{f.get(\"size_bytes\", 0)} B".rjust(9)
-    sha = f.get("sha256", "")[:8]
-    prev = f.get("preview", "")
-    print(f" 📄 {name} | {sz} | SHA:{sha}..")
-    if prev: print(f"    └─ \"{prev}\"")
-print("-" * 72)
+    print(f" 📄 {f.get(\"name\", \"\").ljust(35)} | {str(f.get(\"size_bytes\", 0)).rjust(7)} B")
+print("-" * 70)
+'
+    ;;
+  read|cat)
+    curl -s -X POST "$HOST/v1/darwin/exec" -H "Content-Type: application/json" -d "{\"command\":\"cat vault/$1\"}" | python3 -c '
+import sys, json
+print(json.load(sys.stdin).get("output", "No encontrado"))
 '
     ;;
   ai)
@@ -67,7 +54,7 @@ print(json.load(sys.stdin).get("reply", ""))
     curl -s "$HOST/v1/math/lean-audit" | python3 -c '
 import sys, json
 d = json.load(sys.stdin)
-print(f" Kernel: {d.get(\"kernel\")} | Estado: {d.get(\"status\")} (sorry={d.get(\"sorry_count\")})")
+print(f"⚛️ Kernel: {d.get(\"kernel\")} | Estado: {d.get(\"status\")} (sorry={d.get(\"sorry_count\")})")
 for t in d.get("theorems", []): print("  ✅ " + str(t))
 '
     ;;
@@ -81,6 +68,13 @@ for z, t in zip(d.get("z_axis_mm", [])[::2], d.get("tawss_curve_pa", [])[::2]):
 '
     ;;
   *)
-    echo "OASIS CLI: [soap | media | vault | ai | lean | plot]"
+    echo "OASIS CLI DISPONIBLE:"
+    echo "  • ./oasis code [archivo]   -> Abrir archivo o bóveda en VS Code nativo"
+    echo "  • ./oasis soap [archivo]   -> Compilar dataset clínico SOAP"
+    echo "  • ./oasis vault            -> Inspeccionar archivos en disco"
+    echo "  • ./oasis read <archivo>   -> Leer archivo de bóveda"
+    echo "  • ./oasis ai <pregunta>    -> Consultar a la IA"
+    echo "  • ./oasis lean             -> Certificación formal Lean 4"
+    echo "  • ./oasis plot             -> Curva axial TAWSS"
     ;;
 esac
