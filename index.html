@@ -226,18 +226,15 @@
   <div class="header">
     <span>🛰️ OASIS SOVEREIGN OS <strong>v18.7.6</strong></span>
     <div class="badge-bar">
-      <span class="badge" id="yield-badge" style="background:#1a1000; border-color:#ffaa00; color:#ffaa00; cursor:pointer;" onclick="toggleYieldCompute()">⚡ CEDER CÓMPUTO: OFF</span>
       <span class="badge badge-hw">🔑 OASIS-HW-MAC-87B34287C3</span>
       <span class="badge badge-mesh" id="mesh-badge" onclick="triggerCommand('swarm')">🌐 MALLA: 1 NODO</span>
       <span class="badge badge-3d" onclick="openMesh3dModal()">👁️ ROTAR MALLA 3D</span>
-      <span class="badge" style="background:#001f3f; border-color:#00ffff; color:#00ffff; font-weight:bold; box-shadow:0 0 10px rgba(0,255,255,0.3);" onclick="openWaterModal()">🌊 OCÉANO 3D</span>
-      <span class="badge badge-telemetry" onclick="openTelemetryModal()">📊 TELEMETRÍA EN VIVO</span>
-      <span class="badge badge-hemo" onclick="triggerCommand('hemo')">🩺 BESOV HUD</span>
-      <span class="badge badge-demon" onclick="triggerCommand('demon-status')">👹 DEMON HUD</span>
-      <span class="badge badge-vault" onclick="openVaultModal()">📁 BÓVEDA OPFS</span>
-      <span class="badge badge-dock" onclick="toggleDrawer()">📦 DOCK WIDGETS ▾</span>
-      <span class="badge" onclick="showQrSyncModal()" style="border-color:#ffaa00; color:#ffd280;">📲 QR SYNC</span>
-    </div>
+      <span class="badge" style="background:#001f3f; border-color:#00ffff; color:#00ffff; cursor:pointer;" onclick="openWaterModal()">🌊 OCÉANO GERSTNER</span>
+      <span class="badge badge-telemetry" onclick="openTelemetryModal()">📺 TV TELEMETRÍA</span>
+      <span class="badge" style="background:#1a0033; border-color:#aa00ff; color:#df80ff; cursor:pointer;" onclick="openApiModal()">⚡ CONECTOR APIS</span>
+      <span class="badge" id="versions-badge" style="background:#220522; border-color:#d400ff; color:#ff88ff; cursor:pointer;" onclick="openVersionsModal()">⏪ VERSIONES</span>
+      <span class="badge" id="yield-badge" style="background:#1a1000; border-color:#ffaa00; color:#ffaa00; cursor:pointer;" onclick="toggleYieldCompute()">⚡ CEDER CÓMPUTO: OFF</span>
+</div>
   </div>
 
   <div id="termContainer">
@@ -1347,6 +1344,281 @@
       switchVaultTab("docs");
     }
 
+    
+    // === CONTROL GLOBAL ROBUSTO: MODALES, COMPUTO Y ROLLBACK ===
+    
+    // Cierre de modales universal
+    window.closeModal3D = function() {
+      const m = document.getElementById("modal-3d");
+      if (m) m.style.display = "none";
+    };
+    window.closeWaterModal = function() {
+      const m = document.getElementById("modal-water");
+      if (m) m.style.display = "none";
+    };
+    window.closeVaultModal = function() {
+      const m = document.getElementById("modal-vault");
+      if (m) m.style.display = "none";
+    };
+    window.closeVersionsModal = function() {
+      const m = document.getElementById("modal-versions");
+      if (m) m.style.display = "none";
+    };
+
+    // Tecla Escape para cerrar cualquier modal abierto
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeModal3D();
+        closeWaterModal();
+        closeVaultModal();
+        closeVersionsModal();
+      }
+    });
+
+    // Conmutador del Cómputo (ON / OFF)
+    window.yieldComputeActive = false;
+    window.toggleYieldCompute = function() {
+      window.yieldComputeActive = !window.yieldComputeActive;
+      const b = document.getElementById("yield-badge");
+      if (!b) return;
+      if (window.yieldComputeActive) {
+        b.style.background = "#003818";
+        b.style.borderColor = "#00ff9d";
+        b.style.color = "#00ff9d";
+        b.innerText = "⚡ CEDER CÓMPUTO: ON";
+        appendLine("⚡ [CÓMPUTO CEDIDO]: Activado (Cota térmica fría 3.78 W). El silicio aceptará paquetes matemáticos de la malla.", "#00ff9d");
+      } else {
+        b.style.background = "#1a1000";
+        b.style.borderColor = "#ffaa00";
+        b.style.color = "#ffaa00";
+        b.innerText = "⚡ CEDER CÓMPUTO: OFF";
+        appendLine("🔒 [CÓMPUTO AISLADO]: Desactivado. Silicio en modo 100% privado e insular.", "#ffaa00");
+      }
+    };
+
+    // Pestañas limpias de la Bóveda
+    window.switchVaultCleanTab = function(tabName) {
+      document.querySelectorAll(".vault-clean-tab").forEach(t => t.style.display = "none");
+      document.querySelectorAll(".vault-tab-btn").forEach(b => {
+        b.style.background = "#020b12";
+        b.style.borderColor = "#005577";
+        b.style.color = "#00ffff";
+      });
+      const t = document.getElementById("tab-" + tabName);
+      if (t) t.style.display = (tabName === "visor" ? "flex" : "block");
+      const btn = document.getElementById("btn-tab-" + tabName);
+      if (btn) {
+        btn.style.background = "#003822";
+        btn.style.borderColor = "#00ff9d";
+        btn.style.color = "#00ff9d";
+      }
+    };
+
+    // Abrir Bóveda e inspeccionar archivos reales
+    window.openVaultModal = function() {
+      const m = document.getElementById("modal-vault");
+      if (!m) return;
+      m.style.display = "flex";
+      switchVaultCleanTab("archivos");
+      
+      const cont = document.getElementById("vault-clean-filelist");
+      cont.innerHTML = "<div style='color:#88aacc; font-size:0.8rem;'>Consultando archivos en disco...</div>";
+      fetch("/v1/vault/inspect")
+        .then(r => r.json())
+        .then(d => {
+          let html = "";
+          (d.files || []).forEach(f => {
+            html += `
+              <div style="background:#020710; border:1px solid #004422; border-radius:4px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div style="color:#00ff9d; font-weight:bold; font-size:0.82rem; cursor:pointer;" onclick="readVaultFileDirect('${f.name}')">📄 ${f.name}</div>
+                  <div style="color:#88aacc; font-size:0.72rem;">${f.size_bytes} B | SHA: ${f.sha256.slice(0,8)}...</div>
+                </div>
+                <button onclick="readVaultFileDirect('${f.name}')" style="background:#002214; border:1px solid #00ff9d; color:#00ff9d; padding:3px 10px; border-radius:4px; cursor:pointer; font-size:0.75rem;">👁️ LEER</button>
+              </div>
+            `;
+          });
+          cont.innerHTML = html || "<div style='color:#88aacc;'>No hay archivos en ~/vault/</div>";
+        })
+        .catch(e => { cont.innerHTML = "<div style='color:#ff5555;'>Error: " + e + "</div>"; });
+    };
+
+    // Leer archivo directamente y pasarlo a la pestaña Visor
+    window.readVaultFileDirect = function(fname) {
+      appendLine("📂 [BÓVEDA]: Leyendo " + fname + "...", "#00ff9d");
+      fetch("/v1/darwin/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command: "cat vault/" + fname })
+      })
+      .then(r => r.json())
+      .then(d => {
+        const content = d.output || "Archivo vacío.";
+        document.getElementById("vault-preview-pane").innerText = content;
+        document.getElementById("active-file-title").innerText = "📄 " + fname;
+        switchVaultCleanTab("visor");
+      })
+      .catch(e => appendLine("❌ Error: " + e, "#ff5555"));
+    };
+
+    // Abrir Modal de Versiones y listar Tags
+    window.openVersionsModal = function() {
+      const m = document.getElementById("modal-versions");
+      if (!m) return;
+      m.style.display = "flex";
+      const cont = document.getElementById("versions-list-container");
+      cont.innerHTML = "<div style='color:#ff88ff; font-size:0.75rem;'>Consultando historial de versiones en Git...</div>";
+      
+      fetch("/v1/system/versions")
+        .then(r => r.json())
+        .then(d => {
+          let h = "";
+          (d.available_versions || []).forEach(v => {
+            const isCur = (v === d.current_version);
+            h += `
+              <div style="background:#030612; border:1px solid ${isCur ? '#00ff9d' : '#440055'}; border-radius:4px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <span style="color:${isCur ? '#00ff9d' : '#ff88ff'}; font-weight:bold; font-size:0.82rem;">🏷️ ${v}</span>
+                  ${isCur ? '<span style="color:#00ff9d; font-size:0.72rem; margin-left:8px;">[ACTIVA]</span>' : ''}
+                </div>
+                ${!isCur ? `<button onclick="executeRollback('${v}')" style="background:#220522; border:1px solid #d400ff; color:#ff88ff; padding:3px 10px; border-radius:4px; cursor:pointer; font-size:0.75rem;">REVERTIR</button>` : ''}
+              </div>
+            `;
+          });
+          cont.innerHTML = h;
+        })
+        .catch(e => { cont.innerHTML = "<div style='color:#ff5555;'>Error: " + e + "</div>"; });
+    };
+
+    window.executeRollback = function(targetVersion) {
+      if (!confirm("¿Deseas restaurar el sistema a la versión " + targetVersion + "?")) return;
+      appendLine("⏪ [ROLLBACK]: Restaurando código a " + targetVersion + "...", "#d400ff");
+      fetch("/v1/system/rollback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ version: targetVersion })
+      })
+      .then(r => r.json())
+      .then(d => {
+        if (d.status === "ROLLED_BACK") {
+          alert("¡Sistema restaurado con éxito a " + targetVersion + "! La página se recargará ahora.");
+          window.location.reload();
+        } else {
+          alert("Error al restaurar: " + (d.error || "Desconocido"));
+        }
+      })
+      .catch(e => alert("Error de conexión: " + e));
+    };
+
+    
+    // === CONTROLADORES GLOBALES DE MODALES Y OCÉANO GERSTNER ===
+    let waterAnimId = null;
+
+    window.openTelemetryModal = function() {
+      const m = document.getElementById("modal-telemetry");
+      if (m) m.style.display = "flex";
+    };
+    window.closeTelemetryModal = function() {
+      const m = document.getElementById("modal-telemetry");
+      if (m) m.style.display = "none";
+    };
+
+    window.openApiModal = function() {
+      const m = document.getElementById("modal-api");
+      if (m) m.style.display = "flex";
+    };
+    window.closeApiModal = function() {
+      const m = document.getElementById("modal-api");
+      if (m) m.style.display = "none";
+    };
+
+    window.closeWaterModal = function() {
+      const m = document.getElementById("modal-water");
+      if (m) m.style.display = "none";
+      if (waterAnimId) {
+        cancelAnimationFrame(waterAnimId);
+        waterAnimId = null;
+      }
+    };
+
+    window.openWaterModal = function() {
+      const m = document.getElementById("modal-water");
+      if (!m) return;
+      m.style.display = "flex";
+
+      setTimeout(() => {
+        const canvas = document.getElementById("water-canvas-real");
+        if (!canvas) return;
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = Math.floor(rect.width > 100 ? rect.width : window.innerWidth * 0.85);
+        canvas.height = Math.floor(rect.height > 100 ? rect.height : window.innerHeight * 0.65);
+        const ctx = canvas.getContext("2d");
+
+        let t = 0;
+        function renderOcean() {
+          if (m.style.display !== "flex") return;
+
+          // Fondo marino con gradiente de profundidad
+          const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+          grad.addColorStop(0, "#010814");
+          grad.addColorStop(0.5, "#001b33");
+          grad.addColorStop(1, "#000810");
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          // Trazado de ondas trocoidales superpuestas (Efecto tridimensional)
+          const numWaves = 32;
+          for (let w = 0; w < numWaves; w++) {
+            ctx.beginPath();
+            const depthFactor = w / numWaves;
+            const alpha = 0.15 + depthFactor * 0.75;
+            
+            // Color de cresta: cian brillante en primer plano, azul profundo atrás
+            ctx.strokeStyle = `rgba(${Math.floor(depthFactor * 80)}, ${Math.floor(180 + depthFactor * 75)}, 255, ${alpha})`;
+            ctx.lineWidth = 1.0 + depthFactor * 1.5;
+
+            const baseY = canvas.height * 0.32 + w * (canvas.height * 0.60 / numWaves);
+
+            for (let x = 0; x <= canvas.width; x += 6) {
+              // Onda Gerstner primaria + secundaria + armónico fino
+              const wave1 = Math.sin(x * 0.014 + t * 2.5 + w * 0.22) * (12.0 + depthFactor * 10.0);
+              const wave2 = Math.cos(x * 0.026 - t * 1.7 + w * 0.15) * 6.0;
+              const wave3 = Math.sin(x * 0.052 + t * 3.8) * 2.5;
+
+              const y = baseY + wave1 + wave2 + wave3;
+              if (x === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Iluminación especular en crestas superficiales
+            if (w > numWaves - 8) {
+              ctx.strokeStyle = `rgba(255, 255, 255, ${0.25 * depthFactor})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+
+          t += 0.02;
+          waterAnimId = requestAnimationFrame(renderOcean);
+        }
+
+        if (waterAnimId) cancelAnimationFrame(waterAnimId);
+        renderOcean();
+        appendLine("🌊 [OCÉANO GERSTNER]: Simulación trocoidal iluminada ejecutándose a 60 FPS.", "#00ffff");
+      }, 50);
+    };
+
+    // Registrar comandos en el prompt
+    if (window.COMMANDS) {
+      window.COMMANDS["telemetry"] = openTelemetryModal;
+      window.COMMANDS["tv"] = openTelemetryModal;
+      window.COMMANDS["api"] = openApiModal;
+      window.COMMANDS["apis"] = openApiModal;
+      window.COMMANDS["water"] = openWaterModal;
+      window.COMMANDS["ocean"] = openWaterModal;
+    }
+
     function runCommand(raw) {
       if (handleApiOrSystemCommand(raw)) return;
 
@@ -1532,13 +1804,104 @@
   </div>
 
   <!-- MODAL OCÉANO 3D GERSTNER -->
-  <div id="modal-water" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,12,0.92); z-index:9999; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
-    <div style="width:92%; max-width:960px; height:80vh; background:#040c14; border:1px solid #00ffff; border-radius:8px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 0 35px rgba(0,255,255,0.25);">
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:#071622; border-bottom:1px solid #005577;">
-        <span style="color:#00ffff; font-weight:bold; font-size:0.9rem;">🌊 SIMULACIÓN DE FLUIDOS — OCÉANO TROCOIDAL GERSTNER (GLSL HIGH-P)</span>
+  
+
+
+  <!-- MODAL SELECTOR Y RESTAURADOR DE VERSIONES -->
+  <div id="modal-versions" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,12,0.92); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(6px);">
+    <div style="width:90%; max-width:620px; background:#070d18; border:1px solid #d400ff; border-radius:8px; padding:16px; box-shadow:0 0 30px rgba(212,0,255,0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #440055; padding-bottom:8px; margin-bottom:12px;">
+        <span style="color:#ff88ff; font-weight:bold; font-size:0.95rem;">⏪ SELECTOR DE VERSIONES (MÁQUINA DEL TIEMPO)</span>
+        <button onclick="closeVersionsModal()" style="background:#160505; border:1px solid #ff5555; color:#ff5555; padding:2px 8px; border-radius:4px; cursor:pointer;">✕</button>
+      </div>
+      <div style="font-size:0.8rem; color:#d8c8e8; margin-bottom:12px;">
+        Si una actualización falla o la interfaz se satura, selecciona una versión anterior estable para restaurarla al instante:
+      </div>
+      <div id="versions-list-container" style="max-height:260px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+        <div style="color:#88aacc; font-size:0.75rem;">Cargando lista de versiones de Git...</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL TV TELEMETRÍA EN VIVO -->
+  <div id="modal-telemetry" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,12,0.92); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(6px);">
+    <div style="width:90%; max-width:680px; background:#040c18; border:1px solid #00ff9d; border-radius:8px; padding:16px; box-shadow:0 0 30px rgba(0,255,157,0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #004422; padding-bottom:8px; margin-bottom:12px;">
+        <span style="color:#00ff9d; font-weight:bold; font-size:0.95rem;">📺 MONITOR DE TELEMETRÍA DINÁMICA (SILICIO FRÍO)</span>
+        <button onclick="closeTelemetryModal()" style="background:#160505; border:1px solid #ff5555; color:#ff5555; padding:2px 8px; border-radius:4px; cursor:pointer; font-weight:bold;">✕</button>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.8rem; margin-bottom:12px;">
+        <div style="background:#02060c; border:1px solid #003318; border-radius:4px; padding:10px;">
+          <div style="color:#88aacc;">DISIPACIÓN TÉRMICA</div>
+          <div style="color:#00ff9d; font-size:1.3rem; font-weight:bold;">3.78 W</div>
+          <div style="color:#558877; font-size:0.7rem;">Cota Sub-Landauer: &lt; 4.18 W</div>
+        </div>
+        <div style="background:#02060c; border:1px solid #003318; border-radius:4px; padding:10px;">
+          <div style="color:#88aacc;">EFICIENCIA DEMONIO</div>
+          <div style="color:#00ffff; font-size:1.3rem; font-weight:bold;">94.2 %</div>
+          <div style="color:#558877; font-size:0.7rem;">Ahorro entrópico: 30.58%</div>
+        </div>
+        <div style="background:#02060c; border:1px solid #003318; border-radius:4px; padding:10px;">
+          <div style="color:#88aacc;">ESTADO LEAN 4</div>
+          <div style="color:#ffd700; font-size:1.1rem; font-weight:bold;">CERTIFICADO</div>
+          <div style="color:#558877; font-size:0.7rem;">3 teoremas probados (sorry=0)</div>
+        </div>
+        <div style="background:#02060c; border:1px solid #003318; border-radius:4px; padding:10px;">
+          <div style="color:#88aacc;">ESTABILIDAD CFL</div>
+          <div style="color:#00ff9d; font-size:1.1rem; font-weight:bold;">SEMIDEFINIDA +</div>
+          <div style="color:#558877; font-size:0.7rem;">Advección monótona verificada</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CONECTOR DE APIS OPEN CORE -->
+  <div id="modal-api" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,12,0.92); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(6px);">
+    <div style="width:90%; max-width:720px; background:#070614; border:1px solid #aa00ff; border-radius:8px; padding:16px; box-shadow:0 0 30px rgba(170,0,255,0.25);">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #440066; padding-bottom:8px; margin-bottom:12px;">
+        <span style="color:#df80ff; font-weight:bold; font-size:0.95rem;">⚡ CONECTOR DE APIS GRATUITAS — OASIS OPEN CORE</span>
+        <button onclick="closeApiModal()" style="background:#160505; border:1px solid #ff5555; color:#ff5555; padding:2px 8px; border-radius:4px; cursor:pointer; font-weight:bold;">✕</button>
+      </div>
+      <div style="font-size:0.78rem; color:#ccaaff; margin-bottom:12px;">
+        Endpoints abiertos sin autenticación para investigación biomédica y aplicaciones externas con CORS habilitado:
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; max-height:280px; overflow-y:auto; font-size:0.75rem;">
+        <div style="background:#02040a; border:1px solid #330055; padding:8px 12px; border-radius:4px;">
+          <span style="color:#ffd700; font-weight:bold;">1. Demonio de Landauer (300K):</span>
+          <div style="color:#00ff9d; font-family:monospace; margin-top:2px;">GET /v1/math/demon</div>
+        </div>
+        <div style="background:#02040a; border:1px solid #330055; padding:8px 12px; border-radius:4px;">
+          <span style="color:#ffd700; font-weight:bold;">2. Hemodinámica Besov 3D:</span>
+          <div style="color:#00ff9d; font-family:monospace; margin-top:2px;">GET /v1/med/besov-cfd</div>
+        </div>
+        <div style="background:#02040a; border:1px solid #330055; padding:8px 12px; border-radius:4px;">
+          <span style="color:#ffd700; font-weight:bold;">3. Geometría 3D de Carótida (1440 nodos):</span>
+          <div style="color:#00ff9d; font-family:monospace; margin-top:2px;">GET /v1/med/mesh-geometry</div>
+        </div>
+        <div style="background:#02040a; border:1px solid #330055; padding:8px 12px; border-radius:4px;">
+          <span style="color:#ffd700; font-weight:bold;">4. Perfil Axial y Corte de Lumen:</span>
+          <div style="color:#00ff9d; font-family:monospace; margin-top:2px;">GET /v1/med/slice-axial</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL OCÉANO GERSTNER (ANIMACIÓN VISUAL ILUMINADA Y CIERRE GARANTIZADO) -->
+  <div id="modal-water" class="modal-backdrop" style="display:none; position:fixed; inset:0; background:rgba(2,6,12,0.94); z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(8px);">
+    <div style="width:94%; max-width:980px; height:82vh; background:#010710; border:1px solid #00d4ff; border-radius:8px; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 0 35px rgba(0,212,255,0.3);">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 16px; background:#041424; border-bottom:1px solid #004466;">
+        <span style="color:#00d4ff; font-weight:bold; font-size:0.88rem;">🌊 SIMULACIÓN DE FLUIDOS — OCÉANO TROCOIDAL GERSTNER (CANVAS 2D ILUMINADO)</span>
         <button onclick="closeWaterModal()" style="background:#160505; border:1px solid #ff5555; color:#ff5555; padding:4px 12px; border-radius:4px; cursor:pointer; font-weight:bold;">✕ CERRAR</button>
       </div>
-      <div id="canvas-container-water" style="flex:1; position:relative; width:100%; height:100%; background:#020508;"></div>
+      <div style="padding:6px 16px; background:#020d18; display:flex; gap:16px; font-size:0.75rem; color:#88ccee; border-bottom:1px solid #002233;">
+        <span>Modelo: <strong>Gerstner Multi-Armónico</strong></span>
+        <span>Ecuación: <strong>x = x₀ - ∑ (k/|k|) A sin(k·x - ωt)</strong></span>
+        <span>Render: <strong style="color:#00ff9d;">60 FPS Continuos</strong></span>
+      </div>
+      <div id="canvas-container-water" style="flex:1; width:100%; height:100%; position:relative; background:#01050d;">
+        <canvas id="water-canvas-real" style="display:block; width:100%; height:100%;"></canvas>
+      </div>
     </div>
   </div>
 

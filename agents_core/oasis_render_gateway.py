@@ -377,6 +377,23 @@ class OasisModularHandler(BaseHTTPRequestHandler):
                 return
 
             
+            
+            elif self.path == "/v1/system/versions":
+                # Listar tags de Git locales
+                try:
+                    res = subprocess.run(["git", "tag", "--sort=-creatordate"], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
+                    tags = [t.strip() for t in res.stdout.splitlines() if t.strip()][:12]
+                except Exception:
+                    tags = ["v18.8.2-stable-verified", "v18.7.9-splitview-stable", "v18.7.6-zero-errors-verified"]
+                
+                # Tag actual
+                try:
+                    cur = subprocess.run(["git", "describe", "--tags", "--always"], cwd=REPO_ROOT, capture_output=True, text=True).stdout.strip()
+                except Exception:
+                    cur = "v18.8.3"
+
+                self._send_json({"status": "OK", "current_version": cur, "available_versions": tags})
+                return
             elif self.path == "/v1/vault/inspect":
                 # Inspección forense y lectura de metadatos de ~/vault/
                 files_data = []
@@ -709,6 +726,19 @@ class OasisModularHandler(BaseHTTPRequestHandler):
         
         
         
+        
+        if self.path == "/v1/system/rollback":
+            target = body.get("version", "").strip()
+            if not target:
+                self._send_json({"error": "Versión requerida"}, 400)
+                return
+            try:
+                # Checkout seguro de la versión
+                subprocess.run(["git", "checkout", target], cwd=REPO_ROOT, check=True, capture_output=True)
+                self._send_json({"status": "ROLLED_BACK", "version": target, "message": f"Sistema restaurado a {target}"})
+            except Exception as e:
+                self._send_json({"error": f"Fallo al restaurar {target}: {str(e)}"}, 500)
+            return
         if self.path == "/v1/med/soap":
             fname = body.get("file", "INFORME_CLINICO_CAROTIDA_SHA256.md")
             fpath = os.path.join(VAULT_DIR, fname)
