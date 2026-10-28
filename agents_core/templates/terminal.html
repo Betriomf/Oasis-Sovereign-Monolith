@@ -699,11 +699,37 @@
       runCommand(cmd);
     }
 
-    function runCommand(raw) {
+        function runCommand(raw) {
       raw = raw.trim();
       if (!raw) return;
       const low = raw.toLowerCase();
 
+      // 1. Alias de Sistema
+      if (low === "dir") { COMMANDS["ls"] ? COMMANDS["ls"]() : runCommand("ls"); return; }
+      if (low === "cls") { COMMANDS["clear"](); return; }
+
+      // 2. Interceptor de Mallas 3D (.vtk, .vtp, .stl)
+      if (low.endsWith(".vtk") || low.endsWith(".vtp") || low.endsWith(".stl")) {
+        appendLine("🩺 [INTERCEPTOR 3D]: Detectada malla '" + raw + "'. Abriendo visor...", "#00ffff");
+        openMesh3dModal();
+        return;
+      }
+
+      // 3. Interceptor de Documentos (.txt, .md, .json)
+      if (low.endsWith(".txt") || low.endsWith(".md") || low.endsWith(".json") || low.endsWith(".lean")) {
+        appendLine("📄 [VISOR DE ARCHIVO]: Mostrando contenido de '" + raw + "'...", "#80d4ff");
+        fetch("/v1/darwin/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command: "cat " + raw })
+        })
+        .then(r => r.json())
+        .then(d => appendLine(d.output || "Archivo vacío.", "#d8f8e8"))
+        .catch(e => appendLine("❌ Error leyendo archivo: " + e, "#ff5555"));
+        return;
+      }
+
+      // 4. Catálogo Registrado
       if (COMMANDS[low]) { COMMANDS[low](); return; }
 
       if (low.startsWith("ai ") || low.startsWith("chat ")) {
