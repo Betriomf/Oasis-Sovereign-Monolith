@@ -4,93 +4,67 @@ CMD="$1"
 shift
 
 case "$CMD" in
-  ai)
-    PROMPT="$*"
-    if [ -z "$PROMPT" ]; then
-      echo "Uso: ./oasis ai <pregunta>"
-      exit 1
-    fi
-    curl -s -X POST "$HOST/v1/ai/chat" -H "Content-Type: application/json" -d "{\"prompt\":\"$PROMPT\"}" | python3 -c '
-import sys, json
-raw = sys.stdin.read().strip()
-if not raw:
-    print("⚠️ El Gateway no respondió. Comprueba que el puerto 8080 esté activo.")
-else:
-    try:
-        d = json.loads(raw)
-        print(d.get("reply", d.get("error", "Sin respuesta.")))
-    except Exception:
-        print("Respuesta:", raw)
-'
-    ;;
   plugin|plugins)
-    echo "📦 [REGISTRO SOBERANO DE PLUGINS & NFTS]:"
-    curl -s "$HOST/v1/plugins/list" | python3 -c '
+    SUB="$1"
+    if [ "$SUB" = "toggle" ]; then
+      PID="$2"
+      curl -s -X POST "$HOST/v1/plugins/toggle" -H "Content-Type: application/json" -d "{\"id\":\"$PID\"}" > /dev/null
+      echo "⚡ Estado de $PID conmutado en el Ledger local."
+      "$0" plugin
+    else
+      echo "📦 [REGISTRO SOBERANO DE PLUGINS & NFTS]:"
+      curl -s "$HOST/v1/plugins/list" | python3 -c '
 import sys, json
 raw = sys.stdin.read().strip()
 if raw:
     try:
-        d = json.loads(raw)
+        items = json.loads(raw).get("plugins", [])
         print("-" * 74)
-        for p in d.get("plugins", []):
+        for p in items:
             st = "🟢 ACTIVO" if p.get("enabled") else "⚪ INACTIVO"
             tier = str(p.get("tier", "FREE")).ljust(8)
             pr = (str(p.get("price_spn", 0.0)) + " $SPN").rjust(10)
             pid = str(p.get("id", "")).ljust(28)
-            print(f" {st} | {pid} | {tier} | {pr}")
+            cid = str(p.get("ipfs_cid", ""))
+            print(" " + st + " | " + pid + " | " + tier + " | " + pr)
+            print("   └─ CID: ipfs://" + cid)
         print("-" * 74)
+        print("Uso: ./oasis plugin toggle <id>  -> Conmutar estado")
     except Exception as e:
-        print("Error en listado:", e)
+        print("Error analizando plugins:", e)
 else:
-    print("El Gateway no entregó lista de plugins.")
+    print("⚠️ El Gateway no devolvió datos.")
 '
+    fi
     ;;
-  gaming|netcode)
-    python3 agents_core/oasis_gaming_daemon.py
-    ;;
-  vault)
-    curl -s "$HOST/v1/vault/inspect" | python3 -c '
+  ai)
+    curl -s -X POST "$HOST/v1/ai/chat" -H "Content-Type: application/json" -d "{\"prompt\":\"$*\"}" | python3 -c '
 import sys, json
 raw = sys.stdin.read().strip()
 if raw:
-    d = json.loads(raw)
-    print("📁 Total archivos: " + str(d.get("total_files", 0)) + " en " + str(d.get("path", "")))
-    for f in d.get("files", []):
-        name = str(f.get("name", "")).ljust(35)
-        sz = str(f.get("size_bytes", 0)).rjust(7)
-        print(" 📄 " + name + " | " + sz + " B")
+    try:
+        print(json.loads(raw).get("reply", "Sin respuesta."))
+    except Exception:
+        print(raw)
+else:
+    print("⚠️ El Gateway no devolvió datos.")
 '
     ;;
-  lean)
-    curl -s "$HOST/v1/math/lean-audit" | python3 -c '
+  mesh|geometry)
+    curl -s "$HOST/v1/med/mesh-geometry" | python3 -c '
 import sys, json
 raw = sys.stdin.read().strip()
 if raw:
-    d = json.loads(raw)
-    print("⚛️ Kernel: " + str(d.get("kernel")) + " | Estado: " + str(d.get("status")) + " (sorry=" + str(d.get("sorry_count")) + ")")
-    for t in d.get("theorems", []): print("  ✅ " + str(t))
-'
-    ;;
-  plot)
-    echo "📊 [PERFIL TAWSS AXIAL CARÓTIDA Z=0..50mm]:"
-    curl -s "$HOST/v1/med/slice-axial" | python3 -c '
-import sys, json
-raw = sys.stdin.read().strip()
-if raw:
-    d = json.loads(raw)
-    peak = d.get("tawss_peak_pa")
-    z_sten = d.get("stenosis_z_mm")
-    print(f" Pico TAWSS: {peak} Pa (Z={z_sten} mm)")
-    print("-" * 65)
-    z_vals = d.get("z_axis_mm", [])
-    t_vals = d.get("tawss_curve_pa", [])
-    for z, t in zip(z_vals[::2], t_vals[::2]):
-        bar = "█" * int(t * 3.5)
-        print(f" Z={z:>2} mm | {t:>5.2f} Pa | {bar}")
-    print("-" * 65)
+    try:
+        d = json.loads(raw)
+        print("🩺 Malla:", d.get("status"), "| Nodos:", d.get("num_nodes"), "| Triángulos:", d.get("num_triangles"))
+    except Exception:
+        print("Respuesta:", raw[:100])
+else:
+    print("⚠️ Error obteniendo geometría vascular.")
 '
     ;;
   *)
-    echo "OASIS CLI: [ai | plugin | gaming | vault | lean | plot]"
+    echo "OASIS CLI: [plugin | ai | mesh]"
     ;;
 esac

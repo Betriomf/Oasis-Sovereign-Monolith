@@ -6,24 +6,27 @@
     "ipfs_cid": "bafybeicfd1440nodesvmr",
     "enabled": true,
     "price_spn": 0.0,
-    "tier": "FREE"
+    "tier": "FREE",
+    "version": "1.4.0"
   },
   {
     "id": "plugin-ocean-gerstner",
-    "name": "Simulaci\u00f3n Fluidos Trocoidal",
+    "name": "Simulaci\u00f3n Fluidos Trocoidal (Living Wallpaper)",
     "type": "CORE_CANVAS_2D",
     "ipfs_cid": "bafybeigerstnerocean60fps",
     "enabled": true,
     "price_spn": 0.0,
-    "tier": "FREE"
+    "tier": "FREE",
+    "version": "2.1.0"
   },
   {
     "id": "plugin-stent-risk-predictor",
     "name": "Predictor de Ruptura Aneurism\u00e1tica",
     "type": "WASM_NINJA_COMPILED",
     "ipfs_cid": "bafybeistentrrtp95pro",
-    "enabled": false,
+    "enabled": true,
     "price_spn": 2.5,
-    "tier": "PRO_NFT"
+    "tier": "PRO_NFT",
+    "version": "1.0.2"
   }
 ]

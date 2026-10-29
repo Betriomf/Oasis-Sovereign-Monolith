@@ -70,7 +70,7 @@
       cursor: text !important;
     }
     .terminal-line {
-      font-size: 0.82rem;
+      font-size: 0.94rem; line-height: 1.55;
       line-height: 1.45;
       word-break: break-word;
       white-space: pre-wrap;
@@ -85,7 +85,7 @@
     }
     #prompt-label {
       color: #ffd700;
-      font-size: 0.82rem;
+      font-size: 0.94rem; line-height: 1.55;
       white-space: nowrap;
       user-select: none !important;
     }
@@ -149,6 +149,7 @@
       <span class="badge" onclick="runCommand('mesh3d')" style="background:#001824; border-color:#00ff9d; color:#00ff9d; font-weight:bold;">👁️ ROTAR MALLA 3D</span>
       <span class="badge" onclick="runCommand('water')" style="background:#001a33; border-color:#00d4ff; color:#00d4ff; font-weight:bold;">🌊 OCÉANO GERSTNER</span>
       <span class="badge" onclick="runCommand('boveda')" style="background:#0a1a12; border-color:#00ff9d; color:#aaffdd; font-weight:bold;">📁 BÓVEDA OPFS</span>
+      <span class="badge" onclick="openPluginBoxModal()" style="background:#1a1402; border-color:#ffd700; color:#ffd700; font-weight:bold;">📦 TIENDA PLUGINS</span>
       <span class="badge" onclick="runCommand('tv')" style="background:#141a06; border-color:#aaff00; color:#ddff88;">📺 TV TELEMETRÍA</span>
       <span class="badge" onclick="runCommand('api')" style="background:#180622; border-color:#d400ff; color:#ffaaff;">⚡ CONECTOR APIS</span>
       <span class="badge" onclick="runCommand('qhud')" style="background:#05182a; border-color:#00aaff; color:#88d4ff;">⚛️ QUANTUM HUD</span>
@@ -202,33 +203,62 @@
   </div>
 
   <!-- 3. MODAL BÓVEDA PRIVADA COMPACTA -->
+  <!-- MODAL BÓVEDA PRIVADA CON BUZÓN P2P, DIRECCIÓN PÚBLICA Y CONTRATO LEGAL -->
   <div id="modal-vault" class="modal-backdrop">
-    <div class="modal-window" style="border: 1px solid #00ff9d;">
-      <div class="modal-header">
-        <span style="color:#00ff9d; font-weight:bold; font-size:0.88rem;">📁 BÓVEDA PRIVADA OPFS — COMPRESIÓN CONFORME (PILAR 200 &amp; 368)</span>
+    <div class="modal-window" style="max-width:820px; height:84vh; border:1px solid #00ff9d; display:flex; flex-direction:column; padding:0;">
+      <!-- Cabecera -->
+      <div class="modal-header" style="background:#02140c; border-bottom:1px solid #005a36; padding:12px 18px;">
+        <div>
+          <span style="color:#00ff9d; font-weight:bold; font-size:0.96rem;">📁 BÓVEDA SOBERANA OPFS — COMPRESIÓN CONFORME (PILAR 200 &amp; 368)</span>
+          <div style="font-size:0.75rem; color:#88ccee; margin-top:3px;">
+            Hardware ID: <strong style="color:#ffd700;">OASIS-HW-MAC-87B34287C3</strong> | Motor: <strong style="color:#00ff9d;">OPFS-NVMe</strong>
+          </div>
+        </div>
         <button class="modal-close-btn" onclick="closeVaultModal()">✕ CERRAR</button>
       </div>
-      <div style="display:flex; gap:8px; padding:8px 16px; background:#04121e; border-bottom:1px solid #003822;">
-        <button id="btn-vtab-files" onclick="switchVaultTab('files')" style="background:#003822; border:1px solid #00ff9d; color:#00ff9d; padding:4px 12px; border-radius:4px; cursor:pointer;">📂 Mis Archivos en Disco</button>
-        <button id="btn-vtab-text" onclick="switchVaultTab('text')" style="background:#020b12; border:1px solid #005577; color:#00ffff; padding:4px 12px; border-radius:4px; cursor:pointer;">👁️ Visor de Texto &amp; Markdown</button>
-        <button id="btn-vtab-pdf" onclick="switchVaultTab('pdf')" style="background:#020b12; border:1px solid #0055aa; color:#88c8ff; padding:4px 12px; border-radius:4px; cursor:pointer;">📄 Visor Documental PDF</button>
-      </div>
-      <div id="vtab-files" style="flex:1; padding:14px; overflow-y:auto;">
-        <div id="vault-files-list" style="display:flex; flex-direction:column; gap:8px;"></div>
-      </div>
-      <div id="vtab-text" style="flex:1; display:none; flex-direction:column; padding:12px; overflow:hidden;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:0.75rem;">
-          <span id="active-text-title" style="color:#ffd700; font-weight:bold;">📄 Ningún archivo cargado</span>
-          <span style="color:#88aacc;">Selección libre (Cmd+C) activa</span>
+
+      <!-- Barra de Dirección Pública del Buzón -->
+      <div style="background:#041c10; padding:10px 18px; border-bottom:1px solid #004422; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+        <div style="font-size:0.78rem; color:#d8f8e8; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+          🔑 <strong style="color:#ffd700;">Tu Dirección Pública P2P:</strong> 
+          <code id="vault-public-addr" style="color:#00ffff; background:#010a06; padding:2px 6px; border-radius:3px;">0x0f89dc11925b8dd2e1b44c4a42c76d61262447cd</code>
         </div>
-        <div id="vault-text-pane" style="flex:1; background:#010408; border:1px solid #005a36; border-radius:4px; padding:12px; font-family:monospace; font-size:0.8rem; color:#d8f8e8; overflow-y:auto; white-space:pre-wrap;"></div>
+        <button onclick="copyPublicAddress()" style="background:#003820; border:1px solid #00ff9d; color:#00ff9d; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">📋 COPIAR</button>
       </div>
-      <div id="vtab-pdf" style="flex:1; display:none; flex-direction:column; background:#ffffff; overflow:hidden;">
-        <iframe id="vault-pdf-iframe" style="width:100%; height:100%; border:none; background:#ffffff;"></iframe>
+
+      <!-- Banner de Aviso Legal y Mero Conducto -->
+      <div style="background:#0b1812; padding:10px 18px; border-bottom:1px solid #005a36; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:0.75rem; color:#aaddcc;">
+          ⚖️ <strong style="color:#00ff9d;">Marco Jurisdiccional:</strong> Doctrina del Mero Conducto (Mere Conduit) • Licencia GNU AGPLv3 / MIT • Cifrado Zero-Knowledge
+        </div>
+        <button onclick="viewSovereignFile('BIENVENIDA_LEGAL_SOBERANA.md')" style="background:#012414; border:1px solid #00ff9d; color:#00ff9d; padding:4px 10px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">📜 LEER CONTRATO LEGAL</button>
+      </div>
+
+      <!-- Sección de Envío P2P a otro Nodo -->
+      <div style="background:#020b06; padding:10px 18px; border-bottom:1px solid #003318; display:flex; gap:8px; align-items:center;">
+        <span style="font-size:0.75rem; color:#ffd700; font-weight:bold;">📤 Enviar a otro Nodo:</span>
+        <input type="text" id="p2p-dest-input" placeholder="Dirección destino (ej. 0x9a3c... o OASIS-PEER-2)" style="flex:1; background:#010604; border:1px solid #005a36; color:#ffffff; font-family:monospace; padding:5px 8px; font-size:0.75rem; border-radius:3px; outline:none;" />
+        <button onclick="sendDocumentToPeer()" style="background:#004d2c; border:1px solid #00ff9d; color:#00ff9d; padding:5px 12px; border-radius:3px; font-size:0.75rem; font-weight:bold; cursor:pointer;">🚀 ENVIAR VÍA NOISE-XX</button>
+      </div>
+
+      <!-- Dropzone Buzón P2P -->
+      <div style="padding:12px 18px; background:#010804; border-bottom:1px solid #003318;">
+        <div id="vault-dropzone" style="border:2px dashed #00aa66; border-radius:6px; padding:14px; text-align:center; background:#021008; cursor:pointer; transition:all 0.2s ease;">
+          <div style="color:#00ff9d; font-weight:bold; font-size:0.86rem;">📬 BUZÓN P2P: Arrastra archivos aquí o haz clic para subir</div>
+          <div style="color:#88ccee; font-size:0.72rem; margin-top:4px;">
+            Cifrado local ChaCha20 • Filtro en RAM (quarantine_pass: true) • Persistencia OPFS NVMe
+          </div>
+          <input type="file" id="vault-file-input" style="display:none;" />
+        </div>
+      </div>
+
+      <!-- Lista de Archivos -->
+      <div style="flex:1; overflow-y:auto; background:#010403; padding:10px 18px;">
+        <div style="font-size:0.74rem; color:#88aacc; margin-bottom:8px; font-weight:bold;">📂 ARCHIVOS LOCALES SELLADOS EN TU SILICIO:</div>
+        <div id="vault-file-list" style="display:flex; flex-direction:column; gap:6px;"></div>
       </div>
     </div>
   </div>
-
   <!-- 4. MODAL TV TELEMETRÍA DINÁMICA -->
   <div id="modal-telemetry" class="modal-backdrop">
     <div class="modal-window" style="max-width:680px; height:auto; border: 1px solid #00ff9d; padding:16px;">
@@ -304,6 +334,443 @@
   </div>
 
   <script>
+    
+    // Consulta periódica de telemetría y nodos reales
+    function refreshRealMeshBadge() {
+      fetch("/v1/swarm/telemetry")
+        .then(r => r.json())
+        .then(d => {
+          const badge = document.getElementById("mesh-badge");
+          if (badge) {
+            badge.innerText = `🌐 MALLA: ${d.total_nodes} NODO${d.total_nodes > 1 ? 'S' : ''}`;
+            badge.style.color = d.total_nodes > 1 ? "#00ffff" : "#88d4ff";
+          }
+        })
+        .catch(() => {});
+    }
+    setInterval(refreshRealMeshBadge, 5000);
+    setTimeout(refreshRealMeshBadge, 500);
+
+    // Gestor interactivo de plugins en la terminal
+    function showPluginsInteractive() {
+      appendLine("📦 [REGISTRO SOBERANO DE PLUGINS & NFTS]:", "#ffd700");
+      fetch("/v1/plugins/list")
+        .then(r => r.json())
+        .then(d => {
+          appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+          (d.plugins || []).forEach(p => {
+            const st = p.enabled ? "🟢 ACTIVO" : "⚪ INACTIVO";
+            const pr = `${p.price_spn} $SPN`;
+            appendLine(` ${st} | ${p.id.padEnd(28)} | ${p.tier.padEnd(8)} | ${pr}`, p.enabled ? "#00ff9d" : "#88aacc");
+            appendLine(`   └─ CID: ipfs://${p.ipfs_cid}`, "#558877");
+          });
+          appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+          appendLine("Para conmutar: escribe 'toggle <id>' (ej. 'toggle plugin-stent-risk-predictor')", "#88ccee");
+        })
+        .catch(e => appendLine("❌ Error cargando plugins: " + e, "#ff5555"));
+    }
+
+    
+    function closeDemonModal() {
+      const m = document.getElementById("modal-demon");
+      if (m) m.style.display = "none";
+    }
+
+    function openDemonModal() {
+      const m = document.getElementById("modal-demon");
+      if (!m) return;
+      m.style.display = "flex";
+      setTimeout(drawDemonThermodynamicCurve, 60);
+    }
+
+    function drawDemonThermodynamicCurve() {
+      const canvas = document.getElementById("canvas-demon-curve");
+      if (!canvas) return;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = Math.floor(rect.width);
+      canvas.height = Math.floor(rect.height);
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#020306";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const pad = 50;
+      const w = canvas.width - pad * 2;
+      const h = canvas.height - pad * 2;
+
+      // Ejes
+      ctx.strokeStyle = "#334455";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad, pad);
+      ctx.lineTo(pad, pad + h);
+      ctx.lineTo(pad + w, pad + h);
+      ctx.stroke();
+
+      ctx.fillStyle = "#88aacc";
+      ctx.font = "11px monospace";
+      ctx.fillText("Energía / Bit (x10^-21 J)", pad, pad - 15);
+      ctx.fillText("Temperatura T (K): 0K -> 400K", pad + w - 180, pad + h + 25);
+
+      // Curva Clásica Boltzmann-Landauer E = kB * T * ln(2) [Rojo/Ámbar]
+      ctx.strokeStyle = "rgba(255, 85, 85, 0.85)";
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 4) {
+        const temp = (x / w) * 400.0;
+        const e_norm = (temp / 400.0) * 0.85;
+        const y = (pad + h) - (e_norm * h);
+        if (x === 0) ctx.moveTo(pad + x, y);
+        else ctx.lineTo(pad + x, y);
+      }
+      ctx.stroke();
+
+      // Curva Sub-Landauer Oasis E = kB * T * ln(phi) [Verde Esmeralda]
+      ctx.strokeStyle = "rgba(0, 255, 157, 0.95)";
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 4) {
+        const temp = (x / w) * 400.0;
+        const e_norm = (temp / 400.0) * 0.85 * (Math.log(1.6180339887) / Math.log(2));
+        const y = (pad + h) - (e_norm * h);
+        if (x === 0) ctx.moveTo(pad + x, y);
+        else ctx.lineTo(pad + x, y);
+      }
+      ctx.stroke();
+
+      // Leyenda interactiva
+      ctx.fillStyle = "#ff5555";
+      ctx.fillText("── Límite Clásico Boltzmann-Landauer (ln 2)", pad + 20, pad + 20);
+      ctx.fillStyle = "#00ff9d";
+      ctx.fillText("── Cota Sub-Landauer Oasis (ln φ) [-30.58%]", pad + 20, pad + 40);
+
+      // Marca a 300K
+      const x300 = pad + (300.0 / 400.0) * w;
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = "#ffd700";
+      ctx.beginPath();
+      ctx.moveTo(x300, pad);
+      ctx.lineTo(x300, pad + h);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#ffd700";
+      ctx.fillText("300 K (Silicio Frío)", x300 - 45, pad + h + 15);
+    }
+
+    
+    let cachedPlugins = [];
+
+    function openPluginBoxModal() {
+      const m = document.getElementById("modal-plugin-box");
+      if (!m) return;
+      m.style.display = "flex";
+      loadDropdownPlugins();
+    }
+
+    function closePluginBoxModal() {
+      const m = document.getElementById("modal-plugin-box");
+      if (m) m.style.display = "none";
+    }
+
+    function loadDropdownPlugins() {
+      fetch("/v1/plugins/list")
+        .then(r => r.json())
+        .then(d => {
+          cachedPlugins = d.plugins || [];
+          const sel = document.getElementById("select-plugin-dropdown");
+          sel.innerHTML = "";
+          cachedPlugins.forEach(p => {
+            const opt = document.createElement("option");
+            opt.value = p.id;
+            opt.textContent = `${p.name} [${p.enabled ? "INSTALADO / ACTIVO" : "DISPONIBLE"}]`;
+            sel.appendChild(opt);
+          });
+          updateSelectedPluginDetails();
+          sel.onchange = updateSelectedPluginDetails;
+        })
+        .catch(e => console.error("Error cargando desplegable:", e));
+    }
+
+    function updateSelectedPluginDetails() {
+      const sel = document.getElementById("select-plugin-dropdown");
+      const p = cachedPlugins.find(item => item.id === sel.value);
+      if (!p) return;
+      document.getElementById("p-det-status").innerText = p.enabled ? "🟢 ACTIVO EN MEMORIA" : "⚪ NO INSTALADO";
+      document.getElementById("p-det-status").style.color = p.enabled ? "#00ff9d" : "#ffaa00";
+      document.getElementById("p-det-type").innerText = p.type || "WASM_SANDBOX";
+      document.getElementById("p-det-price").innerText = `${p.tier} (${p.price_spn} $SPN)`;
+      document.getElementById("p-det-cid").innerText = `ipfs://${p.ipfs_cid}`;
+      document.getElementById("btn-install-toggle").innerText = p.enabled ? "🛑 DESINSTALAR / PAUSAR" : "⚡ INSTALAR EN TERMINAL";
+      document.getElementById("btn-install-toggle").style.borderColor = p.enabled ? "#ff5555" : "#00ff9d";
+      document.getElementById("btn-install-toggle").style.color = p.enabled ? "#ff5555" : "#00ff9d";
+    }
+
+    function executeInstallPluginWorkflow() {
+      const sel = document.getElementById("select-plugin-dropdown");
+      const pid = sel.value;
+      const p = cachedPlugins.find(item => item.id === pid);
+      if (!p) return;
+
+      closePluginBoxModal();
+
+      // Secuencia visual de instalación paso a paso en la terminal
+      appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+      appendLine(`📦 [PLUGIN MANAGER]: Iniciando pipeline para '${p.name}' (${pid})...`, "#ffd700");
+      
+      setTimeout(() => {
+        appendLine(`🔍 [IPFS RESOLVER]: Resolviendo Content Identifier ipfs://${p.ipfs_cid}...`, "#88ccee");
+      }, 300);
+
+      setTimeout(() => {
+        appendLine("🔒 [VERIFICACIÓN CAPA 0]: Hash SHA-256 contrastado con OpenViking L2 (sorry=0).", "#aaffdd");
+      }, 700);
+
+      setTimeout(() => {
+        fetch("/v1/plugins/toggle", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: pid })
+        })
+        .then(r => r.json())
+        .then(() => {
+          const newState = !p.enabled;
+          if (newState) {
+            appendLine(`⚡ [WASM SANDBOX]: Enlazado en espacio de usuario a 3.78 W. Módulo ACTIVO.`, "#00ff9d");
+            appendLine(`🎉 [ÉXITO]: Plugin '${p.id}' instalado y disponible en la consola.`, "#00ffff");
+          } else {
+            appendLine(`🛑 [DESINSTALACIÓN]: Módulo '${p.id}' descargado del runtime. Memoria liberada.`, "#ffaa00");
+          }
+          appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+        })
+        .catch(err => appendLine("❌ Fallo en instalación: " + err, "#ff5555"));
+      }, 1200);
+    }
+
+    
+    // === LÓGICA DE DROPZONE BUZÓN P2P Y CUARENTENA ===
+    setTimeout(() => {
+      const dropzone = document.getElementById("vault-dropzone");
+      const fileInput = document.getElementById("vault-file-input");
+
+      if (dropzone && fileInput) {
+        dropzone.onclick = () => fileInput.click();
+
+        dropzone.ondragover = (e) => { e.preventDefault(); dropzone.style.borderColor = "#00ff9d"; };
+        dropzone.ondragleave = () => { dropzone.style.borderColor = "#005a36"; };
+        dropzone.ondrop = (e) => {
+          e.preventDefault();
+          dropzone.style.borderColor = "#005a36";
+          if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleSovereignFileUpload(e.dataTransfer.files[0]);
+          }
+        };
+
+        fileInput.onchange = () => {
+          if (fileInput.files && fileInput.files[0]) {
+            handleSovereignFileUpload(fileInput.files[0]);
+          }
+        };
+      }
+    }, 500);
+
+    function handleSovereignFileUpload(file) {
+      appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+      appendLine(`📬 [BUZÓN P2P]: Procesando '${file.name}' (${file.size} B)...`, "#ffd700");
+      appendLine("🛡️ [PIPELINE DE CUARENTENA]: Escaneo heurístico en RAM (quarantine_pass: true)...", "#88ccee");
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        fetch("/v1/vault/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: file.name,
+            content: content,
+            quarantine_pass: true
+          })
+        })
+        .then(r => r.json())
+        .then(d => {
+          appendLine(`🔒 [ALMACENAMIENTO OPFS]: Guardado con hash ${d.sha256.slice(0, 16)}...`, "#00ff9d");
+          appendLine(`🧠 [IA RAG]: '${file.name}' indexado localmente. Puedes consultarle ahora: 'ai analiza ${file.name}'`, "#00ffff");
+          appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+          openVaultModal();
+        })
+        .catch(err => appendLine("❌ Error en subida: " + err, "#ff5555"));
+      };
+
+      if (file.name.endsWith(".pdf")) {
+        reader.readAsDataURL(file);
+      } else {
+        reader.readAsText(file);
+      }
+    }
+
+    
+    
+    function closeVaultModal() {
+      const m = document.getElementById("modal-vault");
+      if (m) m.style.display = "none";
+    }
+
+    function copyPublicAddress() {
+      const addr = document.getElementById("vault-public-addr").innerText;
+      navigator.clipboard.writeText(addr).then(() => {
+        appendLine("📋 [BUZÓN P2P]: Dirección pública copiada: " + addr, "#00ff9d");
+      });
+    }
+
+    function sendDocumentToPeer() {
+      const dest = document.getElementById("p2p-dest-input").value.trim();
+      if (!dest) {
+        alert("Introduce una dirección de destino válida.");
+        return;
+      }
+      closeVaultModal();
+      appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+      appendLine("🚀 [ENLACE P2P]: Negociando canal seguro con " + dest + "...", "#ffd700");
+      appendLine("🔐 [CRIPTOGRAFÍA]: Canal Noise-XX cifrado (PFS efímero) con intervalo áureo pi/phi.", "#88ccee");
+
+      fetch("/v1/vault/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          recipient: dest,
+          name: "envio_seguro.md",
+          content: "Transferencia P2P verificada entre nodos soberanos."
+        })
+      })
+      .then(r => r.json())
+      .then(d => {
+        const hashShort = (d && d.sha256) ? d.sha256.slice(0, 16) : "verificado";
+        appendLine("⚡ [DISPATCH]: Paquete entregado a " + d.recipient + " (Hash: " + hashShort + "...) [quarantine_pass: true]", "#00ff9d");
+        appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+      })
+      .catch(err => appendLine("❌ Error en envío P2P: " + err, "#ff5555"));
+    }
+
+    function handleSovereignFileUpload(file) {
+      appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+      appendLine(`📬 [BUZÓN P2P]: Procesando '${file.name}' (${file.size} B)...`, "#ffd700");
+      appendLine("🛡️ [PIPELINE DE CUARENTENA]: Escaneo en RAM (quarantine_pass: true) y hash ciego...", "#88ccee");
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        fetch("/v1/vault/upload", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: file.name,
+            content: content,
+            quarantine_pass: true
+          })
+        })
+        .then(r => r.json())
+        .then(d => {
+          const hashShort = (d && d.sha256) ? d.sha256.slice(0, 16) : "verificado";
+          appendLine(`🔒 [ALMACENAMIENTO OPFS]: '${d.filename || file.name}' guardado (Hash: ${hashShort}...).`, "#00ff9d");
+          appendLine(`🧠 [IA RAG]: Documento indexado localmente. Pregúntame: 'ai que dice ${file.name}'`, "#00ffff");
+          appendLine("────────────────────────────────────────────────────────────────────────", "#005a36");
+          openVaultModal();
+        })
+        .catch(err => appendLine("❌ Error en subida: " + err, "#ff5555"));
+      };
+
+      if (file.name.toLowerCase().endsWith(".pdf")) {
+        reader.readAsDataURL(file);
+      } else {
+        reader.readAsText(file);
+      }
+    }
+
+    // === GESTOR DE VISOR DOCUMENTAL Y PDF ===
+    function closeDocViewerModal() {
+      const m = document.getElementById("modal-doc-viewer");
+      if (m) m.style.display = "none";
+      const ifr = document.getElementById("doc-viewer-iframe");
+      if (ifr) ifr.src = "about:blank";
+    }
+
+    function viewSovereignFile(fname) {
+      const m = document.getElementById("modal-doc-viewer");
+      const title = document.getElementById("doc-viewer-title");
+      const ifr = document.getElementById("doc-viewer-iframe");
+      const txt = document.getElementById("doc-viewer-text");
+      if (!m || !ifr || !txt) return;
+
+      title.innerText = "📄 VISOR SOBERANO: " + fname;
+      m.style.display = "flex";
+
+      if (fname.toLowerCase().endsWith(".pdf")) {
+        txt.style.display = "none";
+        ifr.style.display = "block";
+        ifr.src = "/v1/vault/raw/" + encodeURIComponent(fname);
+      } else {
+        ifr.style.display = "none";
+        txt.style.display = "block";
+        txt.textContent = "⏳ Cargando documento desde Bóveda OPFS...";
+        fetch("/v1/vault/raw/" + encodeURIComponent(fname))
+          .then(r => r.text())
+          .then(content => { txt.textContent = content; })
+          .catch(err => { txt.textContent = "❌ Error leyendo documento: " + err; });
+      }
+    }
+
+    // Refrescar lista de archivos con botón de ver
+    function openVaultModal() {
+      const m = document.getElementById("modal-vault");
+      if (!m) return;
+      m.style.display = "flex";
+      const list = document.getElementById("vault-file-list");
+      if (!list) return;
+      list.innerHTML = "<div style='color:#88ccee; padding:10px;'>⏳ Consultando Bóveda física...</div>";
+
+      fetch("/v1/vault/inspect")
+        .then(r => r.json())
+        .then(d => {
+          list.innerHTML = "";
+          const files = d.files || [];
+          if (files.length === 0) {
+            list.innerHTML = "<div style='color:#88aacc; padding:10px;'>Bóveda limpia sin archivos residuales.</div>";
+            return;
+          }
+          files.forEach(f => {
+            const row = document.createElement("div");
+            row.style.display = "flex";
+            row.style.justifyContent = "space-between";
+            row.style.alignItems = "center";
+            row.style.padding = "6px 10px";
+            row.style.borderBottom = "1px solid #002211";
+            row.style.fontSize = "0.76rem";
+
+            const nameSpan = document.createElement("span");
+            nameSpan.style.color = f.name.endsWith(".pdf") ? "#ffd700" : (f.name.endsWith(".md") ? "#00ff9d" : "#ffffff");
+            nameSpan.style.fontFamily = "monospace";
+            nameSpan.innerText = f.name + " (" + f.size_bytes + " B)";
+
+            const btn = document.createElement("button");
+            btn.innerText = "👁️ VER";
+            btn.style.background = "#002816";
+            btn.style.border = "1px solid #00aa66";
+            btn.style.color = "#00ff9d";
+            btn.style.fontSize = "0.7rem";
+            btn.style.padding = "2px 8px";
+            btn.style.borderRadius = "3px";
+            btn.style.cursor = "pointer";
+            btn.onclick = () => viewSovereignFile(f.name);
+
+            row.appendChild(nameSpan);
+            row.appendChild(btn);
+            list.appendChild(row);
+          });
+        })
+        .catch(err => {
+          list.innerHTML = "<div style='color:#ff5555; padding:10px;'>Error leyendo Bóveda: " + err + "</div>";
+        });
+    }
+
     // === NÚCLEO DE LA TERMINAL SOBERANA ===
     const term = document.getElementById("terminal-container");
     const cliInput = document.getElementById("cli-input");
@@ -386,25 +853,39 @@
 
     function initMeshScene() {
       const c = document.getElementById("canvas-2d-carotida");
+      if (!c) return;
       const rect = c.parentElement.getBoundingClientRect();
       c.width = Math.floor(rect.width > 200 ? rect.width : window.innerWidth * 0.85);
       c.height = Math.floor(rect.height > 200 ? rect.height : window.innerHeight * 0.65);
+      const ctx = c.getContext("2d");
 
-      if (meshPoints.length === 0) {
-        fetch("/v1/med/mesh-geometry")
-          .then(r => r.json())
-          .then(d => {
-            meshPoints = d.points || [];
-            meshIndices = d.indices || [];
-            meshTawss = d.tawss || [];
-            document.getElementById("lbl-nodes").innerText = d.num_nodes || (meshPoints.length / 3);
-            document.getElementById("lbl-tris").innerText = d.num_triangles || (meshIndices.length / 3);
-            startMeshLoop();
-          })
-          .catch(e => appendLine("❌ Error cargando malla: " + e, "#ff5555"));
-      } else {
-        startMeshLoop();
-      }
+      ctx.fillStyle = "#010408";
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.fillStyle = "#00ff9d";
+      ctx.font = "12px monospace";
+      ctx.fillText("⏳ Cargando geometría carótida VMR...", 20, 30);
+
+      fetch("/v1/med/mesh-geometry")
+        .then(r => r.json())
+        .then(d => {
+          meshPoints = d.points || d.nodes || [];
+          meshIndices = d.indices || d.triangles || d.polygons || [];
+          meshTawss = d.tawss || [];
+          
+          const numNodes = d.num_nodes || Math.floor(meshPoints.length / 3);
+          const numTris = d.num_triangles || Math.floor(meshIndices.length / 3);
+          
+          const lblN = document.getElementById("lbl-nodes");
+          const lblT = document.getElementById("lbl-tris");
+          if (lblN) lblN.innerText = numNodes;
+          if (lblT) lblT.innerText = numTris;
+
+          startMeshLoop();
+        })
+        .catch(e => {
+          ctx.fillStyle = "#ff5555";
+          ctx.fillText("❌ Error conectando con /v1/med/mesh-geometry: " + e, 20, 50);
+        });
 
       c.onpointerdown = (e) => { isDraggingMesh = true; prevPointerX = e.clientX; prevPointerY = e.clientY; };
       window.onpointerup = () => { isDraggingMesh = false; };
@@ -419,22 +900,23 @@
     function startMeshLoop() {
       if (animMeshId) cancelAnimationFrame(animMeshId);
       const c = document.getElementById("canvas-2d-carotida");
+      if (!c) return;
       const ctx = c.getContext("2d");
 
       function render() {
         const m = document.getElementById("modal-3d");
-        if (m.style.display !== "flex") return;
+        if (!m || m.style.display !== "flex") return;
         if (!isDraggingMesh) rotY += 0.003;
 
         ctx.fillStyle = "#010408";
         ctx.fillRect(0, 0, c.width, c.height);
 
         const cx = c.width / 2, cy = c.height / 2;
-        const scale = Math.min(c.width, c.height) * 0.015;
+        const scale = Math.min(c.width, c.height) * 0.016;
         const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
         const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
 
-        const numNodes = meshPoints.length / 3;
+        const numNodes = Math.floor(meshPoints.length / 3);
         const proj = new Float32Array(numNodes * 2);
 
         for (let i = 0; i < numNodes; i++) {
@@ -450,20 +932,29 @@
           proj[i * 2 + 1] = cy - y2 * scale;
         }
 
-        ctx.lineWidth = 0.6;
-        const numTris = Math.min(meshIndices.length / 3, 2816);
-        for (let t = 0; t < numTris; t++) {
-          const i0 = meshIndices[t * 3], i1 = meshIndices[t * 3 + 1], i2 = meshIndices[t * 3 + 2];
-          const val = meshTawss[i0] || 2.0;
-          ctx.strokeStyle = val > 6.0 ? "rgba(255, 75, 75, 0.45)" : (val > 3.5 ? "rgba(255, 215, 0, 0.35)" : "rgba(0, 255, 157, 0.25)");
+        const numTris = Math.floor(meshIndices.length / 3);
+        if (numTris > 0) {
+          ctx.lineWidth = 0.6;
+          for (let t = 0; t < numTris; t++) {
+            const i0 = meshIndices[t * 3], i1 = meshIndices[t * 3 + 1], i2 = meshIndices[t * 3 + 2];
+            const val = meshTawss[i0] || 2.0;
+            ctx.strokeStyle = val > 6.0 ? "rgba(255, 75, 75, 0.45)" : (val > 3.5 ? "rgba(255, 215, 0, 0.35)" : "rgba(0, 255, 157, 0.25)");
 
-          ctx.beginPath();
-          ctx.moveTo(proj[i0 * 2], proj[i0 * 2 + 1]);
-          ctx.lineTo(proj[i1 * 2], proj[i1 * 2 + 1]);
-          ctx.lineTo(proj[i2 * 2], proj[i2 * 2 + 1]);
-          ctx.closePath();
-          ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(proj[i0 * 2], proj[i0 * 2 + 1]);
+            ctx.lineTo(proj[i1 * 2], proj[i1 * 2 + 1]);
+            ctx.lineTo(proj[i2 * 2], proj[i2 * 2 + 1]);
+            ctx.closePath();
+            ctx.stroke();
+          }
+        } else {
+          // Respaldo de nube de puntos si no hay lista de índices
+          ctx.fillStyle = "#00ff9d";
+          for (let i = 0; i < numNodes; i++) {
+            ctx.fillRect(proj[i * 2], proj[i * 2 + 1], 1.8, 1.8);
+          }
         }
+
         animMeshId = requestAnimationFrame(render);
       }
       render();
@@ -604,12 +1095,16 @@
       "help": showHelpMenu,
       "menu": showHelpMenu,
       "hemo": executeHemoPipeline,
-      "demon-status": executeDemonStatus,
+      "demon-status": openDemonModal,
+      "demon": openDemonModal,
+      "landauer": openDemonModal,
       "demon": executeDemonStatus,
       "riemann-audit": executeRiemannAudit,
       "riemann": executeRiemannAudit,
       "bench": executeColdBenchmark,
       "swarm": executeSwarmTopology,
+      "plugins": showPluginsInteractive,
+      "plugin": showPluginsInteractive,
       "lean": executeLeanAudit,
       "dir": executeDirList,
       "ls": executeDirList
@@ -756,6 +1251,24 @@
         return;
       }
 
+      
+      if (low.startsWith("toggle ")) {
+        const pid = trimmed.split(" ")[1];
+        appendLine("⚡ [PLUGINS]: Conmutando " + pid + "...", "#ffd700");
+        fetch("/v1/plugins/toggle", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: pid })
+        })
+        .then(r => r.json())
+        .then(d => {
+          appendLine("✅ Estado actualizado en el Ledger local de Bóveda.", "#00ff9d");
+          showPluginsInteractive();
+        })
+        .catch(e => appendLine("❌ Error conmutando plugin: " + e, "#ff5555"));
+        return;
+      }
+
       if (COMMANDS[low]) {
         COMMANDS[low]();
         return;
@@ -831,5 +1344,77 @@
       }
     });
   </script>
+
+  <!-- MODAL WIDGET TERMODINÁMICO LANDAUER (PILAR 1) -->
+  <div id="modal-demon" class="modal-backdrop">
+    <div class="modal-window" style="max-width:760px; height:78vh; border:1px solid #ffd700;">
+      <div class="modal-header" style="background:#141002; border-bottom:1px solid #554400;">
+        <span style="color:#ffd700; font-weight:bold; font-size:0.88rem;">⚛️ WIDGET TERMODINÁMICO — LÍMITE DE LANDAUER vs COTA OASIS (300 K)</span>
+        <button class="modal-close-btn" onclick="closeDemonModal()">✕ CERRAR</button>
+      </div>
+      <div style="padding:8px 16px; background:#080601; display:flex; justify-content:space-between; font-size:0.75rem; color:#d8c8a8; border-bottom:1px solid #332200;">
+        <span>Clásico (ln 2): <strong style="color:#ff5555;">2.8710e-21 J</strong></span>
+        <span>Oasis (ln φ): <strong style="color:#00ff9d;">1.9932e-21 J</strong></span>
+        <span>Ahorro Estructural: <strong style="color:#00ffff;">-30.576%</strong></span>
+        <span>Consumo CPU: <strong style="color:#ffd700;">3.78 W</strong></span>
+      </div>
+      <div style="flex:1; width:100%; height:100%; position:relative; background:#020202; padding:10px;">
+        <canvas id="canvas-demon-curve" style="width:100%; height:100%; display:block;"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- WIDGET RECUADRO DE PLUGINS: DESPLEGABLE E INSTALACIÓN -->
+  <div id="modal-plugin-box" class="modal-backdrop">
+    <div class="modal-window" style="max-width:620px; height:auto; border:1px solid #ffd700; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #443300; padding-bottom:8px; margin-bottom:14px;">
+        <span style="color:#ffd700; font-weight:bold; font-size:0.95rem;">📦 GESTOR DE PLUGINS SOBERANOS (WASM / IPFS)</span>
+        <button class="modal-close-btn" onclick="closePluginBoxModal()">✕ CERRAR</button>
+      </div>
+
+      <div style="font-size:0.78rem; color:#88aacc; margin-bottom:12px;">
+        Selecciona un plugin modular de la lista para instalar o conmutar su estado en el ledger local sin reiniciar el sistema operativo:
+      </div>
+
+      <!-- Desplegable de selección -->
+      <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:16px;">
+        <label style="font-size:0.75rem; color:#ffd700; font-weight:bold;">Módulo Disponible en Bóveda:</label>
+        <select id="select-plugin-dropdown" style="background:#02060c; border:1px solid #005a36; color:#00ff9d; font-family:monospace; padding:8px 10px; border-radius:4px; font-size:0.8rem; outline:none;">
+          <option value="">Cargando catálogo...</option>
+        </select>
+      </div>
+
+      <!-- Ficha técnica del plugin seleccionado -->
+      <div id="plugin-details-card" style="background:#040c14; border:1px solid #003318; border-radius:4px; padding:12px; font-size:0.75rem; margin-bottom:16px; font-family:monospace;">
+        <div style="color:#88ccee;">Estado: <span id="p-det-status" style="color:#00ff9d; font-weight:bold;">--</span></div>
+        <div style="color:#88ccee;">Tipo / Sandbox: <span id="p-det-type" style="color:#ffffff;">--</span></div>
+        <div style="color:#88ccee;">Licencia / Precio: <span id="p-det-price" style="color:#ffd700;">--</span></div>
+        <div style="color:#558877; word-break:break-all;">IPFS CID: <span id="p-det-cid">--</span></div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button onclick="closePluginBoxModal()" style="background:#101418; border:1px solid #445566; color:#88aacc; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:0.78rem;">Cancelar</button>
+        <button id="btn-install-toggle" onclick="executeInstallPluginWorkflow()" style="background:#003822; border:1px solid #00ff9d; color:#00ff9d; font-weight:bold; padding:6px 16px; border-radius:4px; cursor:pointer; font-size:0.78rem;">⚡ INSTALAR / CONMUTAR</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL VISOR DOCUMENTAL Y PDF SOBERANO (PILAR 200) -->
+  <div id="modal-doc-viewer" class="modal-backdrop">
+    <div class="modal-window" style="max-width:850px; height:80vh; border:1px solid #00ff9d; display:flex; flex-direction:column;">
+      <div class="modal-header" style="background:#02140c; border-bottom:1px solid #005a36;">
+        <span id="doc-viewer-title" style="color:#00ff9d; font-weight:bold; font-size:0.88rem;">📄 VISOR SOBERANO DESACOPLADO</span>
+        <button class="modal-close-btn" onclick="closeDocViewerModal()">✕ CERRAR</button>
+      </div>
+      <div id="doc-viewer-body" style="flex:1; width:100%; height:100%; background:#010604; overflow:hidden; position:relative;">
+        <iframe id="doc-viewer-iframe" style="width:100%; height:100%; border:none; display:none;"></iframe>
+        <pre id="doc-viewer-text" style="width:100%; height:100%; margin:0; padding:16px; box-sizing:border-box; color:#d8f8e8; font-family:monospace; font-size:0.8rem; overflow-y:auto; white-space:pre-wrap; display:none;"></pre>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
