@@ -4,111 +4,93 @@ CMD="$1"
 shift
 
 case "$CMD" in
+  ai)
+    PROMPT="$*"
+    if [ -z "$PROMPT" ]; then
+      echo "Uso: ./oasis ai <pregunta>"
+      exit 1
+    fi
+    curl -s -X POST "$HOST/v1/ai/chat" -H "Content-Type: application/json" -d "{\"prompt\":\"$PROMPT\"}" | python3 -c '
+import sys, json
+raw = sys.stdin.read().strip()
+if not raw:
+    print("⚠️ El Gateway no respondió. Comprueba que el puerto 8080 esté activo.")
+else:
+    try:
+        d = json.loads(raw)
+        print(d.get("reply", d.get("error", "Sin respuesta.")))
+    except Exception:
+        print("Respuesta:", raw)
+'
+    ;;
+  plugin|plugins)
+    echo "📦 [REGISTRO SOBERANO DE PLUGINS & NFTS]:"
+    curl -s "$HOST/v1/plugins/list" | python3 -c '
+import sys, json
+raw = sys.stdin.read().strip()
+if raw:
+    try:
+        d = json.loads(raw)
+        print("-" * 74)
+        for p in d.get("plugins", []):
+            st = "🟢 ACTIVO" if p.get("enabled") else "⚪ INACTIVO"
+            tier = str(p.get("tier", "FREE")).ljust(8)
+            pr = (str(p.get("price_spn", 0.0)) + " $SPN").rjust(10)
+            pid = str(p.get("id", "")).ljust(28)
+            print(f" {st} | {pid} | {tier} | {pr}")
+        print("-" * 74)
+    except Exception as e:
+        print("Error en listado:", e)
+else:
+    print("El Gateway no entregó lista de plugins.")
+'
+    ;;
+  gaming|netcode)
+    python3 agents_core/oasis_gaming_daemon.py
+    ;;
   vault)
     curl -s "$HOST/v1/vault/inspect" | python3 -c '
 import sys, json
-d = json.load(sys.stdin)
-total = d.get("total_files", 0)
-path = d.get("path", "")
-print(f"📁 Total archivos: {total} en {path}")
-print("-" * 72)
-for f in d.get("files", []):
-    name = f.get("name", "").ljust(35)
-    sz = str(f.get("size_bytes", 0)).rjust(7)
-    sha = f.get("sha256", "")[:8]
-    print(f" 📄 {name} | {sz} B | SHA:{sha}..")
-print("-" * 72)
-'
-    ;;
-  code|edit)
-    TARGET="${1:-vault}"
-    TARGET_PATH="$HOME/Oasis-Sovereign-Monolith/$TARGET"
-    if [ -f "$HOME/Oasis-Sovereign-Monolith/vault/$TARGET" ]; then
-      TARGET_PATH="$HOME/Oasis-Sovereign-Monolith/vault/$TARGET"
-    fi
-    echo "Abriendo $TARGET_PATH en el entorno de desarrollo..."
-    if command -v code >/dev/null 2>&1; then
-      code "$TARGET_PATH"
-    elif [ -d "/Applications/Visual Studio Code.app" ]; then
-      open -a "Visual Studio Code" "$TARGET_PATH"
-    else
-      open -t "$TARGET_PATH"
-    fi
-    ;;
-  plot)
-    echo "📊 [PERFIL TAWSS AXIAL CARÓTIDA Z=0..50mm]:"
-    curl -s "$HOST/v1/med/slice-axial" | python3 -c '
-import sys, json
-d = json.load(sys.stdin)
-peak = d.get("tawss_peak_pa")
-z_sten = d.get("stenosis_z_mm")
-print(f" Pico TAWSS: {peak} Pa en cuello estenótico (Z={z_sten} mm)")
-print("-" * 65)
-z_vals = d.get("z_axis_mm", [])
-t_vals = d.get("tawss_curve_pa", [])
-for z, t in zip(z_vals[::2], t_vals[::2]):
-    bar = "█" * int(t * 3.5)
-    print(f" Z={z:>2} mm | {t:>5.2f} Pa | {bar}")
-print("-" * 65)
-'
-    ;;
-  slice)
-    echo "🩺 [CORTE TRANSVERSAL AXIAL DEL LUMEN EN Z=25mm]:"
-    curl -s "$HOST/v1/med/slice-axial" | python3 -c '
-import sys, json, math
-d = json.load(sys.stdin)
-radii = d.get("lumen_radius_mm", [])
-min_r = min(radii) if radii else 0
-max_r = max(radii) if radii else 0
-print(f" Constricción radial: {min_r} mm a {max_r} mm (Reducción > 55%)")
-grid = [[" " for _ in range(13)] for _ in range(13)]
-for idx, r in enumerate(radii):
-    th = idx * (math.pi / 8)
-    px = int(6 + r * 3.2 * math.cos(th))
-    py = int(6 + r * 1.8 * math.sin(th))
-    if 0 <= px < 13 and 0 <= py < 13: grid[py][px] = "•"
-grid[6][6] = "+"
-for row in grid: print("  " + "".join(row))
+raw = sys.stdin.read().strip()
+if raw:
+    d = json.loads(raw)
+    print("📁 Total archivos: " + str(d.get("total_files", 0)) + " en " + str(d.get("path", "")))
+    for f in d.get("files", []):
+        name = str(f.get("name", "")).ljust(35)
+        sz = str(f.get("size_bytes", 0)).rjust(7)
+        print(" 📄 " + name + " | " + sz + " B")
 '
     ;;
   lean)
     curl -s "$HOST/v1/math/lean-audit" | python3 -c '
 import sys, json
-d = json.load(sys.stdin)
-kernel = d.get("kernel", "Lean 4")
-status = d.get("status", "CERTIFIED")
-sorry = d.get("sorry_count", 0)
-print(f"⚛️ Kernel: {kernel} | Estado: {status} (sorry={sorry})")
-for t in d.get("theorems", []): print("  ✅ " + str(t))
+raw = sys.stdin.read().strip()
+if raw:
+    d = json.loads(raw)
+    print("⚛️ Kernel: " + str(d.get("kernel")) + " | Estado: " + str(d.get("status")) + " (sorry=" + str(d.get("sorry_count")) + ")")
+    for t in d.get("theorems", []): print("  ✅ " + str(t))
 '
     ;;
-  soap)
-    FNAME="${1:-INFORME_CLINICO_CAROTIDA_SHA256.md}"
-    curl -s -X POST "$HOST/v1/med/soap" -H "Content-Type: application/json" -d "{\"file\":\"$FNAME\"}" | python3 -c '
+  plot)
+    echo "📊 [PERFIL TAWSS AXIAL CARÓTIDA Z=0..50mm]:"
+    curl -s "$HOST/v1/med/slice-axial" | python3 -c '
 import sys, json
-d = json.load(sys.stdin)
-s = d.get("soap", {})
-print("📋 Dataset SOAP generado:", d.get("dataset_file"))
-print(" [S] SUBJETIVO :", s.get("subjective", {}).get("anamnesis", ""))
-print(" [O] OBJETIVO  : TAWSS =", s.get("objective", {}).get("tawss_peak_pa"), "Pa")
-print(" [A] EVALUACIÓN:", s.get("assessment", {}).get("diagnostic", ""))
-print(" [P] PLAN      :", s.get("plan", {}).get("surgical", ""))
-'
-    ;;
-  ai)
-    curl -s -X POST "$HOST/v1/ai/chat" -H "Content-Type: application/json" -d "{\"prompt\":\"$*\"}" | python3 -c '
-import sys, json
-print(json.load(sys.stdin).get("reply", ""))
+raw = sys.stdin.read().strip()
+if raw:
+    d = json.loads(raw)
+    peak = d.get("tawss_peak_pa")
+    z_sten = d.get("stenosis_z_mm")
+    print(f" Pico TAWSS: {peak} Pa (Z={z_sten} mm)")
+    print("-" * 65)
+    z_vals = d.get("z_axis_mm", [])
+    t_vals = d.get("tawss_curve_pa", [])
+    for z, t in zip(z_vals[::2], t_vals[::2]):
+        bar = "█" * int(t * 3.5)
+        print(f" Z={z:>2} mm | {t:>5.2f} Pa | {bar}")
+    print("-" * 65)
 '
     ;;
   *)
-    echo "OASIS CLI:"
-    echo "  • ./oasis vault            -> Inspeccionar archivos físicos sin errores"
-    echo "  • ./oasis code [archivo]   -> Abrir en VS Code nativo de macOS"
-    echo "  • ./oasis plot             -> Ver gráfica TAWSS axial"
-    echo "  • ./oasis slice            -> Corte transversal de carótida"
-    echo "  • ./oasis lean             -> Certificación formal Lean 4"
-    echo "  • ./oasis soap             -> Compilar informe SOAP"
-    echo "  • ./oasis ai <pregunta>    -> Consulta RAG local"
+    echo "OASIS CLI: [ai | plugin | gaming | vault | lean | plot]"
     ;;
 esac

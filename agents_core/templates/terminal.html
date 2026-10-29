@@ -740,6 +740,22 @@
       appendLine("root@oasis-hurd:/workspace# " + trimmed, "#ffffff");
       const low = trimmed.toLowerCase();
 
+      
+      // Intercepción nativa de endpoints /v1/ en la terminal
+      if (low.startsWith("/v1/") || low.startsWith("v1/")) {
+        const url = low.startsWith("/") ? low : "/" + low;
+        appendLine("📡 [HTTP GET]: " + url + "...", "#00ffff");
+        fetch(url)
+          .then(r => r.json())
+          .then(d => {
+            appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+            appendLine(JSON.stringify(d, null, 2), "#d8f8e8");
+            appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+          })
+          .catch(e => appendLine("❌ Error en llamada API: " + e, "#ff5555"));
+        return;
+      }
+
       if (COMMANDS[low]) {
         COMMANDS[low]();
         return;
@@ -775,7 +791,14 @@
         fetch("/v1/ai/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: prompt })
+          body: JSON.stringify({ 
+            prompt: prompt,
+            terminal_context: Array.from(document.querySelectorAll(".terminal-line"))
+                                   .slice(-25)
+                                   .map(l => l.textContent)
+                                   .join("\n")
+                                   .slice(-3141)
+          })
         })
         .then(r => r.json())
         .then(d => appendLine(d.reply || "Sin respuesta.", "#aaffdd"))

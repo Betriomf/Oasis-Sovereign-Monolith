@@ -1,0 +1,29 @@
+[
+  {
+    "id": "plugin-mesh-vmr",
+    "name": "Visor Isom\u00e9trico Car\u00f3tida 3D",
+    "type": "CORE_CANVAS_2D",
+    "ipfs_cid": "bafybeicfd1440nodesvmr",
+    "enabled": true,
+    "price_spn": 0.0,
+    "tier": "FREE"
+  },
+  {
+    "id": "plugin-ocean-gerstner",
+    "name": "Simulaci\u00f3n Fluidos Trocoidal",
+    "type": "CORE_CANVAS_2D",
+    "ipfs_cid": "bafybeigerstnerocean60fps",
+    "enabled": true,
+    "price_spn": 0.0,
+    "tier": "FREE"
+  },
+  {
+    "id": "plugin-stent-risk-predictor",
+    "name": "Predictor de Ruptura Aneurism\u00e1tica",
+    "type": "WASM_NINJA_COMPILED",
+    "ipfs_cid": "bafybeistentrrtp95pro",
+    "enabled": false,
+    "price_spn": 2.5,
+    "tier": "PRO_NFT"
+  }
+]

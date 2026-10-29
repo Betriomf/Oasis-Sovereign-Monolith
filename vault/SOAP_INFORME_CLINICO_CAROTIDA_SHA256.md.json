@@ -1,7 +1,7 @@
 {
   "format": "SOAP_CLINICAL_TRAINING_RECORD_V1",
   "source_file": "INFORME_CLINICO_CAROTIDA_SHA256.md",
-  "timestamp_utc": "2026-10-28 23:51:53Z",
+  "timestamp_utc": "2026-10-29 10:53:57Z",
   "hash_sha256": "54d4897167ba036b0b3216d8d989db5f7ac7bc31d2c9dcec488d20b251246a50",
   "subjective": {
     "anamnesis": "Paciente derivado para evaluación hemodinámica de bifurcación carotídea.",
