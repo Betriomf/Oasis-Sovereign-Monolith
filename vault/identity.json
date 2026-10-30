@@ -1,6 +1,7 @@
 {
   "hardware_id": "OASIS-HW-MAC-87B34287C3",
   "public_address": "0x0f89dc11925b8dd2e1b44c4a42c76d61262447cd",
+  "mnemonic_12_words": "quantum laminar silicon attractor entropy sovereign matrix fibonacci vacuum harmonic stasis conduit",
   "private_key_sealed": "1e6869926047c779301451f1841b055224000c9e520478c3e65046ddee935231",
   "algorithm": "Ed25519-AES-GCM",
   "storage_engine": "OPFS-NVMe",

@@ -4,6 +4,28 @@ CMD="$1"
 shift
 
 case "$CMD" in
+  history|historia|audit)
+    echo "📜 [OASIS HISTORY — AUDITORÍA CRIPTOGRÁFICA INMUTABLE]:"
+    curl -s "$HOST/v1/history/audit" | python3 -c '
+import sys, json
+raw = sys.stdin.read().strip()
+if raw:
+    d = json.loads(raw)
+    print("• Investigador  :", d.get("lead_researcher"))
+    print("• Hardware ID   :", d.get("hardware_id"))
+    print("• 12 Palabras   :", d.get("mnemonic_12_words"))
+    print("• Invariante    :", d.get("attractor_invariant"))
+    print("• Cota Térmica  :", d.get("sub_landauer_limit"))
+    print("-" * 65)
+    print("⚛️ TEOREMAS FORMALES LEAN 4:")
+    for t in d.get("lean4_theorems", []):
+        print("  ✅", t)
+    print("-" * 65)
+    print("🔗 ÚLTIMOS COMMITS INMUTABLES:")
+    for c in d.get("immutable_commits", []):
+        print(" ", c)
+'
+    ;;
   plugin|plugins)
     SUB="$1"
     if [ "$SUB" = "toggle" ]; then
@@ -17,23 +39,17 @@ case "$CMD" in
 import sys, json
 raw = sys.stdin.read().strip()
 if raw:
-    try:
-        items = json.loads(raw).get("plugins", [])
-        print("-" * 74)
-        for p in items:
-            st = "🟢 ACTIVO" if p.get("enabled") else "⚪ INACTIVO"
-            tier = str(p.get("tier", "FREE")).ljust(8)
-            pr = (str(p.get("price_spn", 0.0)) + " $SPN").rjust(10)
-            pid = str(p.get("id", "")).ljust(28)
-            cid = str(p.get("ipfs_cid", ""))
-            print(" " + st + " | " + pid + " | " + tier + " | " + pr)
-            print("   └─ CID: ipfs://" + cid)
-        print("-" * 74)
-        print("Uso: ./oasis plugin toggle <id>  -> Conmutar estado")
-    except Exception as e:
-        print("Error analizando plugins:", e)
-else:
-    print("⚠️ El Gateway no devolvió datos.")
+    items = json.loads(raw).get("plugins", [])
+    print("-" * 74)
+    for p in items:
+        st = "🟢 ACTIVO" if p.get("enabled") else "⚪ INACTIVO"
+        tier = str(p.get("tier", "FREE")).ljust(8)
+        pr = (str(p.get("price_spn", 0.0)) + " $SPN").rjust(10)
+        pid = str(p.get("id", "")).ljust(28)
+        cid = str(p.get("ipfs_cid", ""))
+        print(" " + st + " | " + pid + " | " + tier + " | " + pr)
+        print("   └─ CID: ipfs://" + cid)
+    print("-" * 74)
 '
     fi
     ;;
@@ -42,29 +58,10 @@ else:
 import sys, json
 raw = sys.stdin.read().strip()
 if raw:
-    try:
-        print(json.loads(raw).get("reply", "Sin respuesta."))
-    except Exception:
-        print(raw)
-else:
-    print("⚠️ El Gateway no devolvió datos.")
-'
-    ;;
-  mesh|geometry)
-    curl -s "$HOST/v1/med/mesh-geometry" | python3 -c '
-import sys, json
-raw = sys.stdin.read().strip()
-if raw:
-    try:
-        d = json.loads(raw)
-        print("🩺 Malla:", d.get("status"), "| Nodos:", d.get("num_nodes"), "| Triángulos:", d.get("num_triangles"))
-    except Exception:
-        print("Respuesta:", raw[:100])
-else:
-    print("⚠️ Error obteniendo geometría vascular.")
+    print(json.loads(raw).get("reply", "Sin respuesta."))
 '
     ;;
   *)
-    echo "OASIS CLI: [plugin | ai | mesh]"
+    echo "OASIS CLI: [history | plugin | ai]"
     ;;
 esac
