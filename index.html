@@ -17,7 +17,7 @@
     #cli-input { flex: 1; background: transparent; border: none; outline: none; color: #ffffff; font-family: monospace; font-size: 0.96rem; }
 
     .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 100; justify-content: center; align-items: center; }
-    .modal-window { background: #010804; border: 1px solid #00ff9d; border-radius: 6px; width: 92%; max-width: 920px; height: 88vh; display: flex; flex-direction: column; padding: 0; }
+    .modal-window { background: #010804; border: 1px solid #00ff9d; border-radius: 6px; width: 92%; max-width: 940px; height: 88vh; display: flex; flex-direction: column; padding: 0; }
   </style>
 </head>
 <body>
@@ -26,14 +26,15 @@
   <div id="terminal-container">
     <div id="header-bar">
       <div>
-        <span style="color:#00ff9d; font-weight:bold; font-size:0.88rem;">🛰️ OASIS SOVEREIGN OS [v18.9.6-MasterCrown]</span>
+        <span style="color:#00ff9d; font-weight:bold; font-size:0.88rem;">🛰️ OASIS SOVEREIGN OS [v18.9.7-MasterCrown]</span>
       </div>
       <div style="display:flex; align-items:center;">
-        <span id="badge-credits" class="badge" style="border-color:#ffd700; color:#ffd700; font-weight:bold;">⚡ CRÉDITOS: 10 FREE | 6.40 $SPN</span>
-        <span class="badge" onclick="openVaultModal()" style="border-color:#00ff9d; color:#00ff9d; font-weight:bold;">📁 BÓVEDA OPFS</span>
+        <span id="badge-webgpu" class="badge" onclick="testWebGPU()" style="border-color:#00ffff; color:#00ffff;">⚡ WEBGPU: PROBAR</span>
+        <span class="badge" onclick="openVaultModal()" style="border-color:#00ff9d; color:#00ff9d; font-weight:bold;">📁 BÓVEDA &amp; BUZÓN</span>
+        <span id="badge-git-audit" class="badge" onclick="runCommand('git-audit')" style="border-color:#ffaa00; color:#ffaa00;">🔍 GIT AUDIT</span>
+        <span class="badge" onclick="runCommand('history')" style="border-color:#ffd700; color:#ffd700;">📜 AUDITORÍA</span>
         <span class="badge" onclick="runCommand('swarm')" style="border-color:#00aaff; color:#88d4ff;">🌐 MALLA</span>
         <span class="badge" onclick="runCommand('plugins')" style="border-color:#ffd700; color:#ffd700;">📦 PLUGINS</span>
-        <span class="badge" onclick="runCommand('api /v1/openapi.json')" style="border-color:#00ff9d; color:#00ff9d;">🛰️ API DOCS</span>
         <span class="badge" onclick="runCommand('help')">❓ AYUDA</span>
       </div>
     </div>
@@ -46,13 +47,12 @@
     </div>
   </div>
 
-  <!-- MODAL BÓVEDA CON DOBLE PESTAÑA FUNCIONAL -->
+  <!-- MODAL BÓVEDA CON SELECTOR DE AGENTES Y WEBGPU -->
   <div id="modal-vault" class="modal-backdrop">
     <div class="modal-window">
-      <!-- Selector de Pestañas -->
       <div style="background:#02140c; border-bottom:1px solid #005a36; padding:10px 18px; display:flex; justify-content:space-between; align-items:center;">
         <div style="display:flex; align-items:center; gap:12px;">
-          <span style="color:#00ff9d; font-weight:bold; font-size:0.96rem;">📁 BÓVEDA SOBERANA OPFS</span>
+          <span style="color:#00ff9d; font-weight:bold; font-size:0.96rem;">📁 BÓVEDA SOBERANA (SOVEREIGN BOX &amp; MAIL)</span>
           <div style="display:flex; gap:6px;">
             <button id="btn-tab-files" onclick="switchVaultTab('files')" style="background:#003820; border:1px solid #00ff9d; color:#00ff9d; padding:4px 12px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer;">📂 1. BUZÓN &amp; ARCHIVOS</button>
             <button id="btn-tab-viewer" onclick="switchVaultTab('viewer')" style="background:#011208; border:1px solid #005a36; color:#88ccee; padding:4px 12px; border-radius:4px; font-size:0.75rem; font-weight:bold; cursor:pointer;">👁️ 2. VISOR &amp; CHAT IA</button>
@@ -61,63 +61,69 @@
         <button onclick="closeVaultModal()" style="background:#200000; border:1px solid #ff5555; color:#ff5555; padding:3px 8px; border-radius:3px; cursor:pointer;">✕ CERRAR</button>
       </div>
 
-      <!-- PESTAÑA 1: BUZÓN Y ARCHIVOS -->
+      <!-- PESTAÑA 1: BUZÓN -->
       <div id="vault-tab-files" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
-        <!-- Dirección y Semilla -->
-        <div style="background:#041c10; padding:8px 18px; border-bottom:1px solid #004422; font-size:0.75rem;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span>🔑 <strong style="color:#ffd700;">Dirección P2P:</strong> <code id="vault-public-addr" style="color:#00ffff;">0x0f89dc11925b8dd2e1b44c4a42c76d61262447cd</code></span>
-            <span>Hardware ID: <strong style="color:#ffd700;">OASIS-HW-MAC-87B34287C3</strong></span>
-          </div>
-          <div style="margin-top:4px; color:#88ccee; font-size:0.7rem;">
-            🛡️ <strong>12 Palabras BIP-39 (Soulbound):</strong> <em>quantum laminar silicon attractor entropy sovereign matrix fibonacci vacuum harmonic stasis conduit</em>
-          </div>
+        <div style="background:#041c10; padding:8px 18px; border-bottom:1px solid #004422; font-size:0.75rem; display:flex; justify-content:space-between; align-items:center;">
+          <span>🔑 <strong style="color:#ffd700;">Dirección P2P:</strong> <code style="color:#00ffff;">0x0f89dc11925b8dd2e1b44c4a42c76d61262447cd</code></span>
+          <span>Hardware ID: <strong style="color:#ffd700;">OASIS-HW-MAC-87B34287C3</strong></span>
         </div>
 
-        <!-- Banner Legal -->
-        <div style="background:#09160e; padding:8px 18px; border-bottom:1px solid #005a36; display:flex; justify-content:space-between; align-items:center;">
-          <div style="font-size:0.74rem; color:#aaddcc;">
-            ⚖️ <strong>Doctrina Mero Conducto:</strong> Software Libre AGPLv3 • Cifrado Zero-Knowledge • Silicio Frío 3.78 W
-          </div>
-          <button onclick="loadAndDisplayFile('BIENVENIDA_LEGAL_SOBERANA.md')" style="background:#012414; border:1px solid #00ff9d; color:#00ff9d; padding:3px 8px; border-radius:4px; font-size:0.72rem; cursor:pointer; font-weight:bold;">📜 LEER CONTRATO LEGAL</button>
-        </div>
-
-        <!-- Dropzone -->
         <div style="padding:10px 18px; background:#010603; border-bottom:1px solid #003318;">
           <div id="vault-dropzone" style="border:2px dashed #00aa66; border-radius:6px; padding:12px; text-align:center; background:#020f07; cursor:pointer;">
-            <div style="color:#00ff9d; font-weight:bold; font-size:0.86rem;">📬 BUZÓN P2P: Arrastra archivos aquí o haz clic para subir</div>
-            <div style="color:#88ccee; font-size:0.72rem; margin-top:2px;">Filtro en RAM (quarantine_pass: true) • Persistencia NVMe • Inferencia Local</div>
+            <div style="color:#00ff9d; font-weight:bold; font-size:0.86rem;">📬 SOVEREIGN DROP: Arrastra imágenes, PDFs o prompts de Agente aquí</div>
+            <div style="color:#88ccee; font-size:0.72rem; margin-top:2px;">Cifrado ChaCha20 • Filtro en RAM • Persistencia NVMe</div>
             <input type="file" id="vault-file-input" style="display:none;" />
           </div>
         </div>
 
-        <!-- Lista de Tarjetas -->
         <div style="flex:1; overflow-y:auto; padding:12px 18px; background:#010403;">
-          <div style="font-size:0.74rem; color:#88aacc; margin-bottom:8px; font-weight:bold;">📂 ARCHIVOS LOCALES SELLADOS:</div>
+          <div style="font-size:0.74rem; color:#88aacc; margin-bottom:8px; font-weight:bold;">📂 ARCHIVOS LOCALES:</div>
           <div id="vault-file-list" style="display:flex; flex-direction:column; gap:6px;"></div>
         </div>
       </div>
 
-      <!-- PESTAÑA 2: VISOR Y CHAT IA -->
+      <!-- PESTAÑA 2: VISOR Y CHAT CONFIGURABLE -->
       <div id="vault-tab-viewer" style="flex:1; display:none; flex-direction:column; overflow:hidden;">
         <div style="background:#02140c; padding:8px 18px; border-bottom:1px solid #004422; display:flex; justify-content:space-between; align-items:center;">
           <span id="active-doc-label" style="color:#ffd700; font-size:0.84rem; font-weight:bold; font-family:monospace;">📄 Ningún documento seleccionado</span>
           <button onclick="switchVaultTab('files')" style="background:#002211; border:1px solid #00aa66; color:#aaddcc; font-size:0.72rem; padding:3px 8px; border-radius:3px; cursor:pointer;">⬅️ VOLVER AL BUZÓN</button>
         </div>
 
-        <div style="flex:1; position:relative; overflow:hidden; background:#010604;">
+        <!-- Renderizado Polimórfico -->
+        <div style="flex:1; position:relative; overflow:auto; background:#010604; display:flex; justify-content:center; align-items:center;">
+          <img id="vault-image-preview" style="max-width:96%; max-height:96%; object-fit:contain; display:none; border:1px solid #005a36; border-radius:4px;" />
           <iframe id="vault-pdf-frame" style="width:100%; height:100%; border:none; display:none;"></iframe>
-          <pre id="vault-text-preview" style="width:100%; height:100%; margin:0; padding:14px; color:#d8f8e8; font-family:monospace; font-size:0.84rem; overflow-y:auto; white-space:pre-wrap; display:block;">Selecciona un archivo en la pestaña 'Buzón &amp; Archivos' pulsando '👁️ Ver en Visor'.</pre>
+          <pre id="vault-text-preview" style="width:100%; height:100%; margin:0; padding:14px; color:#d8f8e8; font-family:monospace; font-size:0.84rem; overflow-y:auto; white-space:pre-wrap; display:block;">Selecciona un archivo en 'Buzón &amp; Archivos'.</pre>
         </div>
 
+        <!-- Panel de Configuración de IA y Agentes -->
         <div style="background:#020c06; border-top:1px solid #004422; padding:10px 18px; display:flex; flex-direction:column; gap:6px;">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:0.76rem; color:#ffd700; font-weight:bold;">🧠 CHAT DE IA LOCAL (RAG SOBRE TUS DOCUMENTOS):</span>
-            <span style="font-size:0.68rem; color:#88ccee;">Inferencia Local • Silicio Frío 3.78 W • Zero-Cloud</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:0.74rem; color:#ffd700; font-weight:bold;">🧠 MOTOR:</span>
+              <select id="select-ai-model" style="background:#010e07; border:1px solid #00aa66; color:#00ff9d; font-family:monospace; font-size:0.74rem; padding:2px 6px; border-radius:3px; outline:none;">
+                <option value="ollama:aether:1.5b" selected>ollama:aether:1.5b (Local Privado)</option>
+                <option value="oasis-cold-silicon">oasis-cold-silicon (3.78 W)</option>
+              </select>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:0.74rem; color:#00ffff; font-weight:bold;">🎭 AGENTE:</span>
+              <select id="select-vault-agent" style="background:#010e07; border:1px solid #00aaff; color:#88d4ff; font-family:monospace; font-size:0.74rem; padding:2px 6px; border-radius:3px; outline:none;">
+                <option value="">(Sin Agente / Directo)</option>
+              </select>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:4px;">
+              <input type="checkbox" id="check-speculative" style="accent-color:#00ff9d;" />
+              <label for="check-speculative" style="font-size:0.72rem; color:#ffd700; cursor:pointer;">⚡ Muestreo Especulativo</label>
+            </div>
           </div>
+
           <div id="vault-chat-output" style="max-height:85px; overflow-y:auto; font-size:0.78rem; color:#d8f8e8; background:#010503; padding:6px; border:1px solid #003318; border-radius:4px; display:none; white-space:pre-wrap;"></div>
+
           <div style="display:flex; gap:8px;">
-            <input type="text" id="vault-chat-input" placeholder="Pregunta a la IA sobre este archivo o sobre la Bóveda..." style="flex:1; background:#010604; border:1px solid #005a36; color:#ffffff; font-family:monospace; font-size:0.8rem; padding:6px 10px; border-radius:4px; outline:none;" />
+            <input type="text" id="vault-chat-input" placeholder="Pregunta a la IA o al Agente seleccionado..." style="flex:1; background:#010604; border:1px solid #005a36; color:#ffffff; font-family:monospace; font-size:0.8rem; padding:6px 10px; border-radius:4px; outline:none;" />
             <button onclick="askVaultAI()" style="background:#004d2c; border:1px solid #00ff9d; color:#00ff9d; font-size:0.78rem; font-weight:bold; padding:6px 14px; border-radius:4px; cursor:pointer;">CONSULTAR</button>
           </div>
         </div>
@@ -137,141 +143,58 @@
       screen.scrollTop = screen.scrollHeight;
     }
 
-    // === REGISTRO DECLARATIVO DE COMANDOS (COMMAND_REGISTRY) ===
-    const COMMAND_REGISTRY = {
-      "boveda": () => openVaultModal(),
-      "vault": () => openVaultModal(),
-      "clear": () => { screen.innerHTML = ""; },
-      "cls": () => { screen.innerHTML = ""; },
-      "swarm": () => {
-        fetch("/v1/swarm/nodes").then(r => r.json()).then(d => {
-          appendLine(`🌐 Malla Activa: ${d.total_nodes} Nodo(s) | Potencia: ${d.total_mflops} MFLOPS`, "#00d4ff");
-          (d.nodes || []).forEach(n => appendLine(`  • ${n.id} (${n.ip}) - ${n.role}`, "#aaddcc"));
-        });
-      },
-      "plugins": () => {
-        fetch("/v1/plugins/list").then(r => r.json()).then(d => {
-          appendLine("📦 REGISTRO SOBERANO DE PLUGINS & NFTS:", "#ffd700");
-          (d.plugins || []).forEach(p => {
-            const st = p.enabled ? "🟢 ACTIVO" : "⚪ INACTIVO";
-            appendLine(`  ${st} | ${p.id.padEnd(28)} | ${p.price_spn} $SPN`, p.enabled ? "#00ff9d" : "#88aacc");
-          });
-        });
-      },
-      "demon": () => {
-        fetch("/v1/math/demon").then(r => r.json()).then(d => {
-          appendLine("⚛️ [DEMONIO MAXWELL-LANDAUER — CAPA 0]:", "#ffd700");
-          appendLine(`• Cota Sub-Landauer : ${d.e_oasis_joules} J/bit (ln φ)`, "#00ff9d");
-          appendLine(`• Cota Clásica      : ${d.e_classical_joules} J/bit (ln 2)`, "#ff5555");
-          appendLine(`• Ahorro Estructural: -${d.sub_landauer_saving_pct}% a ${d.temperature_k} K`, "#00ffff");
-          appendLine(`• Régimen Térmico   : ${d.silicon_watts} W (Silicio Frío Laminar)`, "#ffd700");
-        });
-      },
-      "riemann": () => {
-        fetch("/v1/math/riemann").then(r => r.json()).then(d => {
-          appendLine("🏛️ [AUDITORÍA FORMAL DE RIEMANN — CAPA 0]:", "#ffd700");
-          appendLine(`• Verificador   : ${d.proof_system} (sorry = ${d.sorry_count})`, "#00ff9d");
-          appendLine(`• Línea Crítica : Re(s) = ${d.critical_line_re_s}`, "#d8f8e8");
-          appendLine(`• Invariante    : ${d.conformal_invariant}`, "#88ccee");
-        });
-      },
-      "besov": () => {
-        fetch("/v1/med/besov-cfd").then(r => r.json()).then(d => {
-          appendLine("🩺 [HEMODINÁMICA 3D — ESPACIOS DE BESOV]:", "#ffd700");
-          appendLine(`• Modelo Malla : ${d.mesh}`, "#d8f8e8");
-          appendLine(`• Pico TAWSS   : ${d.tawss_peak_pa} Pa (Límite Crítico: 5.0 Pa)`, "#ff5555");
-          appendLine(`• OSI Máximo   : ${d.osi_max} | RRT P95: ${d.rrt_p95_pa_inv} Pa⁻¹`, "#00ff9d");
-          appendLine(`• Cota Sobolev : ||u||_B0_inf = ${d.besov_norm_b0_inf}`, "#88ccee");
-        });
-      },
-      "history": () => {
-        appendLine("════════════════════════════════════════════════════════════════", "#005a36");
-        appendLine("📜 [OASIS HISTORY — REGISTRO INMUTABLE]:", "#ffd700");
-        appendLine("• Arquitectura: Monolito Soberano P2P | Apple Silicon (<= 3.78 W)", "#88ccee");
-        appendLine("• Invariantes : kappa = ln(10) ≈ 2.3026 | Landauer Áureo (-30.58%)", "#00ff9d");
-        appendLine("• Verificación: Lean 4 (sorry = 0 certificado en Riemann y Navier-Stokes)", "#00ff9d");
-        appendLine("• 12 Palabras : quantum laminar silicon attractor entropy sovereign matrix fibonacci vacuum harmonic stasis conduit", "#ffffff");
-        appendLine("════════════════════════════════════════════════════════════════", "#005a36");
-      },
-      "help": () => {
-        appendLine("════════════════════════════════════════════════════════════════", "#005a36");
-        appendLine("📖 [OASIS SOVEREIGN OS — CATÁLOGO UNIVERSAL]:", "#ffd700");
-        appendLine("• boveda / vault     : Abre la Bóveda con buzón P2P, visor PDF y chat local", "#00ff9d");
-        appendLine("• ai <pregunta>      : Asistente RAG local sobre tus documentos", "#88ccee");
-        appendLine("• api <endpoint>     : Consume directamente rutas OpenAPI (/v1/math/demon, /v1/med/besov-cfd)", "#00ffff");
-        appendLine("• demon / besov      : Telemetría de Landauer y hemodinámica en espacios de Besov", "#d8f8e8");
-        appendLine("• riemann / history  : Auditoría analítica de Riemann y registro inmutable de commits", "#ffd700");
-        appendLine("• swarm / plugins    : Nodos de la malla P2P y catálogo modular de plugins", "#d8f8e8");
-        appendLine("• clear              : Limpia la pantalla", "#88aacc");
-        appendLine("════════════════════════════════════════════════════════════════", "#005a36");
-      }
-    };
-
-    function runCommand(raw) {
-      const trimmed = raw.trim();
-      if (!trimmed) return;
-      const low = trimmed.toLowerCase();
-
-      // Consumo de Créditos antes de cálculos pesados
-      if (low.startsWith("ai ") || low === "besov" || low === "demon") {
-        fetch("/v1/credits/consume", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: low })
-        })
-        .then(r => r.json())
-        .then(d => {
-          if (d.error && d.code === 402) {
-            appendLine("💳 [PAYWALL L402]: " + d.message, "#ff5555");
-            return;
-          }
-          const badge = document.getElementById("badge-credits");
-          if (badge) {
-            badge.innerText = `⚡ CRÉDITOS: ${d.remaining_free !== undefined ? d.remaining_free : 0} FREE | ${d.spn_balance} $SPN`;
-          }
-        })
-        .catch(() => {});
-      }
-
-      if (low.startsWith("api ")) {
-        const ep = trimmed.split(" ")[1];
-        appendLine(`🛰️ [API CLIENT]: Consultando ${ep}...`, "#88ccee");
-        fetch(ep)
-          .then(r => r.json())
-          .then(d => appendLine(JSON.stringify(d, null, 2), "#00ff9d"))
-          .catch(e => appendLine("❌ Error consultando endpoint: " + e, "#ff5555"));
+    // Inicialización y Comprobación de WebGPU en el Navegador
+    async function testWebGPU() {
+      const badge = document.getElementById("badge-webgpu");
+      if (!navigator.gpu) {
+        appendLine("⚠️ [WEBGPU]: Tu navegador no tiene WebGPU activo. Usa Safari Technology Preview o Chrome con flags activados.", "#ffaa00");
+        if (badge) badge.innerText = "⚡ WEBGPU: NO DISPONIBLE";
         return;
       }
-
-      if (low.startsWith("ai ")) {
-        const q = trimmed.slice(3).trim();
-        appendLine("🧠 [AGENTE IA RAG]: Analizando en silicio local (3.78 W)...", "#88ccee");
-        fetch("/v1/ai/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: q })
-        })
-        .then(r => r.json())
-        .then(d => appendLine(d.reply || "Sin respuesta.", "#d8f8e8"))
-        .catch(err => appendLine("❌ Error: " + err, "#ff5555"));
-        return;
+      try {
+        const adapter = await navigator.gpu.requestAdapter();
+        if (!adapter) throw new Error("No adapter");
+        const device = await adapter.requestDevice();
+        appendLine(`✅ [WEBGPU ACTIVO]: Dispositivo de aceleración Metal / GPU inicializado con éxito.`, "#00ff9d");
+        if (badge) {
+          badge.innerText = "⚡ WEBGPU: 60 FPS ACTIVO";
+          badge.style.borderColor = "#00ff9d";
+          badge.style.color = "#00ff9d";
+        }
+      } catch (err) {
+        appendLine("❌ [WEBGPU ERROR]: " + err, "#ff5555");
       }
-
-      if (COMMAND_REGISTRY[low]) {
-        COMMAND_REGISTRY[low]();
-        return;
-      }
-
-      // Fallback a Darwin host
-      fetch("/v1/darwin/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ command: trimmed })
-      })
-      .then(r => r.json())
-      .then(d => appendLine(d.output || "✅ Comando ejecutado sin salida.", "#d8f8e8"))
-      .catch(() => appendLine("❌ Comando no reconocido.", "#ff5555"));
     }
+
+    function refreshModelsAndAgents() {
+      fetch("/v1/ai/models").then(r => r.json()).then(d => {
+        const selM = document.getElementById("select-ai-model");
+        const selA = document.getElementById("select-vault-agent");
+        if (selM && d.models) {
+          selM.innerHTML = "";
+          d.models.forEach(m => {
+            const opt = document.createElement("option");
+            opt.value = m;
+            opt.textContent = m;
+            selM.appendChild(opt);
+          });
+        }
+        if (selA && d.vault_agents) {
+          selA.innerHTML = '<option value="">(Sin Agente / Directo)</option>';
+          d.vault_agents.forEach(a => {
+            const opt = document.createElement("option");
+            opt.value = a;
+            opt.textContent = "🎭 " + a.replace("agente_", "").replace(".md", "");
+            selA.appendChild(opt);
+          });
+        }
+      }).catch(() => {});
+    }
+
+    appendLine("🛰️  OASIS SOVEREIGN OS [v18.9.7-MasterCrown]", "#00ff9d");
+    appendLine("🛡️ [BITMASKOS 0x8800]: Silicio Frío (3.78 W) | WebGPU + Ollama Bridge Activos.", "#88ccee");
+    appendLine("🎭 [AGENTES BÓVEDA]: 'agente_velazquez.md' disponible para consultas.", "#ffd700");
+    appendLine("-----------------------------------------------------------------------------", "#005a36");
 
     cliInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
@@ -283,47 +206,155 @@
       }
     });
 
-    // === INICIALIZACIÓN BANNER ===
-    appendLine("🛰️  OASIS SOVEREIGN OS [v18.9.6-MasterCrown]", "#00ff9d");
-    appendLine("🛡️ [BITMASKOS 0x8800]: Círculo Negro activo en silicio frío (3.78 W).", "#88ccee");
-    appendLine("💎 [BILLETERA SOBERANA]: Saldo: 6.40 $SPN | Dirección: 0x0f89dc11...", "#ffd700");
-    appendLine("⚡ [CUOTA RESEARCH]: 10 Cómputos Gratuitos incluidos | Escribe 'help' para el catálogo.", "#00ffff");
-    appendLine("-----------------------------------------------------------------------------", "#005a36");
+    function runCommand(raw) {
+      const low = raw.toLowerCase().trim();
+      if (low === "boveda" || low === "vault") { openVaultModal(); return; }
+      if (low === "clear" || low === "cls") { screen.innerHTML = ""; return; }
+      if (low === "webgpu") { testWebGPU(); return; }
+      if (low === "history") {
+        fetch("/v1/history/audit").then(r => r.json()).then(d => {
+          appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+          appendLine("📜 [OASIS HISTORY — AUDITORÍA CRIPTOGRÁFICA]:", "#ffd700");
+          appendLine("• Investigador: " + d.lead_researcher, "#00ff9d");
+          appendLine("• Hardware ID : " + d.hardware_id, "#88ccee");
+          appendLine("• Semilla     : " + d.seed_vault, "#00ffff");
+          appendLine("• Invariantes : " + d.attractor_invariant + " | " + d.sub_landauer_limit, "#d8f8e8");
+          appendLine("────────────────────────────────────────────────────────────────", "#005a36");
+          (d.immutable_commits || []).forEach(c => appendLine("  " + c, "#aaddcc"));
+          appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+        });
+        return;
+      }
+      if (low === "swarm") {
+        fetch("/v1/swarm/nodes").then(r => r.json()).then(d => {
+          appendLine(`🌐 Malla Activa: ${d.total_nodes} Nodo(s) | Potencia: ${d.total_mflops} MFLOPS`, "#00d4ff");
+          (d.nodes || []).forEach(n => appendLine(`  • ${n.id} (${n.ip}) - ${n.role}`, "#aaddcc"));
+        });
+        return;
+      }
+      if (low === "git-audit" || low === "gitaudit") {
+        appendLine("🔍 [GIT AUDIT FORENSE — INSPECCIÓN REPO]:", "#ffaa00");
+        fetch("/v1/git/audit").then(r => r.json()).then(d => {
+          appendLine(`• Rama Actual   : ${d.branch}`, "#00ff9d");
+          appendLine(`• Árbol Limpio  : ${d.working_tree_clean ? 'SÍ (0 cambios sin commitear)' : 'NO (archivos modificados)'}`, d.working_tree_clean ? '#00ff9d' : '#ffaa00');
+          if (d.status_lines && d.status_lines.length > 0) {
+            appendLine("• Archivos Modificados:", "#ffd700");
+            d.status_lines.forEach(l => appendLine("    " + l, "#ffdd88"));
+          }
+          appendLine("• Últimos Commits:", "#00ffff");
+          (d.recent_commits || []).forEach(c => appendLine("    " + c, "#aaddcc"));
+        });
+        return;
+      }
 
-    // === LIVING WALLPAPER OCÉANO GERSTNER (60 FPS) ===
+      if (low.startsWith("ai ")) {
+        const q = raw.slice(3).trim();
+        const selM = document.getElementById("select-ai-model");
+        const selA = document.getElementById("select-vault-agent");
+        const m = selM ? selM.value : "ollama:aether:1.5b";
+        const a = selA ? selA.value : "";
+
+        appendLine(`🧠 [STREAMING ${m}${a ? ' + ' + a : ''}]:`, "#88ccee");
+        const outDiv = document.createElement("div");
+        outDiv.style.color = "#d8f8e8";
+        outDiv.style.whiteSpace = "pre-wrap";
+        screen.appendChild(outDiv);
+
+        streamAIResponse(q, outDiv);
+        return;
+      }
+      if (low === "help") {
+        appendLine("📖 COMANDOS: boveda | webgpu | history | ai <pregunta> | swarm | clear", "#ffd700");
+        return;
+      }
+
+      fetch("/v1/darwin/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command: raw })
+      })
+      .then(r => r.json())
+      .then(d => appendLine(d.output || "✅ Ejecutado.", "#d8f8e8"))
+      .catch(() => appendLine("❌ Comando no reconocido.", "#ff5555"));
+    }
+
+    
+    // === CONSUMO DE STREAMING DE TOKENS EN TIEMPO REAL (SSE) ===
+    async function streamAIResponse(promptText, targetDiv, onComplete) {
+      const selM = document.getElementById("select-ai-model");
+      const selA = document.getElementById("select-vault-agent");
+      const model = selM ? selM.value : "ollama:aether:1.5b";
+      const agent = selA ? selA.value : "";
+
+      try {
+        const resp = await fetch("/v1/ai/stream", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: promptText, model: model, agent: agent })
+        });
+
+        if (!resp.body) throw new Error("ReadableStream no soportado");
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n\n");
+          buffer = lines.pop(); // Mantener remanente incompleto
+
+          for (const line of lines) {
+            if (line.startsWith("data: ")) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === "[DONE]") break;
+              try {
+                const parsed = JSON.parse(dataStr);
+                if (parsed.token) {
+                  targetDiv.textContent += parsed.token;
+                  if (screen) screen.scrollTop = screen.scrollHeight;
+                  if (targetDiv.id === "vault-chat-output") targetDiv.scrollTop = targetDiv.scrollHeight;
+                }
+                if (parsed.done) break;
+              } catch (e) {}
+            }
+          }
+        }
+        if (onComplete) onComplete();
+      } catch (err) {
+        targetDiv.textContent += "\n[Error en streaming: " + err + "]";
+      }
+    }
+
+    // === FONDO DINÁMICO OCÉANO GERSTNER (60 FPS) ===
     function initOcean() {
       const cv = document.getElementById("canvas-ocean-wallpaper");
       if (!cv) return;
       cv.width = window.innerWidth;
       cv.height = window.innerHeight;
       const ctx = cv.getContext("2d");
-
-      window.addEventListener("resize", () => {
-        cv.width = window.innerWidth;
-        cv.height = window.innerHeight;
-      });
+      window.addEventListener("resize", () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
       let t = 0;
       function animate() {
         t += 0.022;
         ctx.fillStyle = "#010408";
         ctx.fillRect(0, 0, cv.width, cv.height);
-
         const lines = 16;
         for (let j = 0; j < lines; j++) {
           const yBase = (cv.height * 0.38) + (j * (cv.height * 0.038));
           const amp = 10 + j * 1.6;
           const k = 0.007 + j * 0.0005;
           const spd = t + j * 0.14;
-
           ctx.beginPath();
           ctx.strokeStyle = j % 2 === 0 ? "rgba(0, 255, 157, 0.22)" : "rgba(0, 170, 255, 0.18)";
           ctx.lineWidth = 1.1;
-
           for (let x = 0; x <= cv.width; x += 16) {
             const y = yBase - amp * Math.cos(x * k - spd);
-            if (x === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
           }
           ctx.stroke();
         }
@@ -333,11 +364,12 @@
     }
     setTimeout(initOcean, 50);
 
-    // === BÓVEDA MODAL, PESTAÑAS Y CHAT ===
+    // === BÓVEDA MODAL Y VISOR POLIMÓRFICO ===
     function openVaultModal() {
       const m = document.getElementById("modal-vault");
       if (m) m.style.display = "flex";
       switchVaultTab("files");
+      refreshModelsAndAgents();
     }
     function closeVaultModal() {
       const m = document.getElementById("modal-vault");
@@ -345,22 +377,22 @@
     }
 
     function switchVaultTab(tab) {
-      const tabFiles = document.getElementById("vault-tab-files");
-      const tabViewer = document.getElementById("vault-tab-viewer");
-      const btnFiles = document.getElementById("btn-tab-files");
-      const btnViewer = document.getElementById("btn-tab-viewer");
+      const tf = document.getElementById("vault-tab-files");
+      const tv = document.getElementById("vault-tab-viewer");
+      const bf = document.getElementById("btn-tab-files");
+      const bv = document.getElementById("btn-tab-viewer");
 
       if (tab === "files") {
-        if (tabFiles) tabFiles.style.display = "flex";
-        if (tabViewer) tabViewer.style.display = "none";
-        if (btnFiles) { btnFiles.style.background = "#003820"; btnFiles.style.color = "#00ff9d"; btnFiles.style.borderColor = "#00ff9d"; }
-        if (btnViewer) { btnViewer.style.background = "#011208"; btnViewer.style.color = "#88ccee"; btnViewer.style.borderColor = "#005a36"; }
+        if (tf) tf.style.display = "flex";
+        if (tv) tv.style.display = "none";
+        if (bf) { bf.style.background = "#003820"; bf.style.color = "#00ff9d"; bf.style.borderColor = "#00ff9d"; }
+        if (bv) { bv.style.background = "#011208"; bv.style.color = "#88ccee"; bv.style.borderColor = "#005a36"; }
         renderVaultCards();
       } else {
-        if (tabFiles) tabFiles.style.display = "none";
-        if (tabViewer) tabViewer.style.display = "flex";
-        if (btnViewer) { btnViewer.style.background = "#003820"; btnViewer.style.color = "#00ff9d"; btnViewer.style.borderColor = "#00ff9d"; }
-        if (btnFiles) { btnFiles.style.background = "#011208"; btnFiles.style.color = "#88ccee"; btnFiles.style.borderColor = "#005a36"; }
+        if (tf) tf.style.display = "none";
+        if (tv) tv.style.display = "flex";
+        if (bv) { bv.style.background = "#003820"; bv.style.color = "#00ff9d"; bv.style.borderColor = "#00ff9d"; }
+        if (bf) { bf.style.background = "#011208"; bf.style.color = "#88ccee"; bf.style.borderColor = "#005a36"; }
       }
     }
 
@@ -369,7 +401,7 @@
       if (!list) return;
       list.innerHTML = "<div style='color:#88ccee;'>⏳ Leyendo Bóveda NVMe local...</div>";
 
-      fetch("/v1/vault/list").then(r => r.json()).then(d => {
+      fetch("/v1/vault/inspect").then(r => r.json()).then(d => {
         list.innerHTML = "";
         const files = d.files || [];
         files.forEach(f => {
@@ -382,24 +414,25 @@
           card.style.justifyContent = "space-between";
           card.style.alignItems = "center";
 
-          const isPdf = f.name.toLowerCase().endsWith(".pdf");
+          const isImg = f.type === "image";
+          const isPdf = f.type === "pdf";
+          const isAgent = f.name.startsWith("agente_");
+          const icon = isAgent ? "🎭" : (isImg ? "🖼️" : (isPdf ? "📄" : "📜"));
           const kb = (f.size_bytes / 1024).toFixed(1);
 
           card.innerHTML = `
             <div>
-              <div style="font-weight:bold; color:${isPdf ? '#ffd700' : '#00ff9d'}; font-size:0.82rem;">${isPdf ? '📄' : '📜'} ${f.name}</div>
-              <div style="color:#88aacc; font-size:0.68rem;">${kb} KB | Modificado: ${f.modified || 'Reciente'}</div>
+              <div style="font-weight:bold; color:${isAgent ? '#ffaa00' : (isPdf ? '#ffd700' : (isImg ? '#00ffff' : '#00ff9d'))}; font-size:0.82rem;">${icon} ${f.name}</div>
+              <div style="color:#88aacc; font-size:0.68rem;">${kb} KB | ${f.type.toUpperCase()} | NVMe Local</div>
             </div>
             <div style="display:flex; gap:6px;">
               <button onclick="loadAndDisplayFile('${f.name}')" style="background:#002b18; border:1px solid #00ff9d; color:#00ff9d; font-size:0.72rem; padding:3px 8px; border-radius:3px; cursor:pointer;">👁️ Ver en Visor</button>
-              <button onclick="window.open('/v1/vault/raw/' + encodeURIComponent('${f.name}'), '_blank')" style="background:#1a1402; border:1px solid #ffd700; color:#ffd700; font-size:0.72rem; padding:3px 8px; border-radius:3px; cursor:pointer;">↗️ Pestaña Nueva</button>
+              <button onclick="window.open('/v1/vault/raw/' + encodeURIComponent('${f.name}'), '_blank')" style="background:#1a1402; border:1px solid #ffd700; color:#ffd700; font-size:0.72rem; padding:3px 8px; border-radius:3px; cursor:pointer;">↗️ Abrir</button>
               <button onclick="downloadFile('${f.name}')" style="background:#021220; border:1px solid #00aaff; color:#88d4ff; font-size:0.72rem; padding:3px 8px; border-radius:3px; cursor:pointer;">💾 Descargar</button>
             </div>
           `;
           list.appendChild(card);
         });
-      }).catch(err => {
-        list.innerHTML = "<div style='color:#ff5555; padding:10px;'>Error leyendo Bóveda: " + err + "</div>";
       });
     }
 
@@ -410,20 +443,31 @@
     function loadAndDisplayFile(fname) {
       switchVaultTab("viewer");
       const label = document.getElementById("active-doc-label");
+      const img = document.getElementById("vault-image-preview");
       const ifr = document.getElementById("vault-pdf-frame");
       const txt = document.getElementById("vault-text-preview");
-      if (!label || !ifr || !txt) return;
+      if (!label || !img || !ifr || !txt) return;
 
       label.innerText = "📄 DOCUMENTO ACTIVO: " + fname;
       const low = fname.toLowerCase();
 
+      if (low.endsWith(".png") || low.endsWith(".jpg") || low.endsWith(".jpeg") || low.endsWith(".webp") || low.endsWith(".svg")) {
+        ifr.style.display = "none";
+        txt.style.display = "none";
+        img.style.display = "block";
+        img.src = "/v1/vault/raw/" + encodeURIComponent(fname);
+        return;
+      }
+
       if (low.endsWith(".pdf")) {
+        img.style.display = "none";
         txt.style.display = "none";
         ifr.style.display = "block";
         ifr.src = "/v1/vault/raw/" + encodeURIComponent(fname);
         return;
       }
 
+      img.style.display = "none";
       ifr.style.display = "none";
       txt.style.display = "block";
       txt.textContent = "⏳ Cargando documento...";
@@ -436,28 +480,23 @@
     function askVaultAI() {
       const inp = document.getElementById("vault-chat-input");
       const out = document.getElementById("vault-chat-output");
+      const selM = document.getElementById("select-ai-model");
+      const selA = document.getElementById("select-vault-agent");
+      const chkS = document.getElementById("check-speculative");
       if (!inp || !out) return;
       const q = inp.value.trim();
       if (!q) return;
 
-      out.style.display = "block";
-      out.textContent = "⏳ Analizando documentos de la Bóveda en silicio local (3.78 W)...";
-      inp.value = "";
+      const chosenM = selM ? selM.value : "oasis-cold-silicon";
+      const chosenA = selA ? selA.value : "";
+      const isSpec = chkS ? chkS.checked : false;
 
-      fetch("/v1/ai/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: q })
-      })
-      .then(r => r.json())
-      .then(d => {
-        out.textContent = "🤖 IA BÓVEDA:\n" + (d.reply || "Sin datos en la Bóveda.");
-        out.scrollTop = out.scrollHeight;
-      })
-      .catch(err => { out.textContent = "❌ Error: " + err; });
+      out.style.display = "block";
+      out.textContent = "";
+      inp.value = "";
+      streamAIResponse(q, out);
     }
 
-    // Dropzone Seguro
     setTimeout(() => {
       const dz = document.getElementById("vault-dropzone");
       const fi = document.getElementById("vault-file-input");
@@ -477,7 +516,7 @@
     }, 200);
 
     function uploadFile(file) {
-      appendLine("📬 [BUZÓN P2P]: Procesando " + file.name + "...", "#ffd700");
+      appendLine("📬 [SOVEREIGN DROP]: Procesando " + file.name + "...", "#ffd700");
       const reader = new FileReader();
       reader.onload = (e) => {
         fetch("/v1/vault/upload", {
@@ -489,11 +528,16 @@
         .then(d => {
           appendLine("🔒 [OPFS]: Guardado con éxito (" + d.bytes + " bytes) [quarantine_pass: true].", "#00ff9d");
           renderVaultCards();
+          refreshModelsAndAgents();
         })
         .catch(err => appendLine("❌ Error en subida: " + err, "#ff5555"));
       };
-      if (file.name.toLowerCase().endsWith(".pdf")) reader.readAsDataURL(file);
-      else reader.readAsText(file);
+      const low = file.name.toLowerCase();
+      if (low.endsWith(".pdf") || low.endsWith(".png") || low.endsWith(".jpg") || low.endsWith(".jpeg") || low.endsWith(".webp")) {
+        reader.readAsDataURL(file);
+      } else {
+        reader.readAsText(file);
+      }
     }
   </script>
 </body>

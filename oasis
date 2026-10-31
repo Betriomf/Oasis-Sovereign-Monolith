@@ -13,7 +13,7 @@ if raw:
     d = json.loads(raw)
     print("• Investigador  :", d.get("lead_researcher"))
     print("• Hardware ID   :", d.get("hardware_id"))
-    print("• 12 Palabras   :", d.get("mnemonic_12_words"))
+    print("• Estado Semilla:", d.get("seed_vault", "[PROTEGIDO ZERO-KNOWLEDGE]"))
     print("• Invariante    :", d.get("attractor_invariant"))
     print("• Cota Térmica  :", d.get("sub_landauer_limit"))
     print("-" * 65)

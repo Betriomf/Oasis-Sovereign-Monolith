@@ -1,0 +1,12 @@
+{
+  "default_engine": "ollama:aether:1.5b",
+  "speculative_draft": "ollama:qwen2.5:0.5b",
+  "isolation_level": "ZERO_KNOWLEDGE_LOCAL_LOOPBACK",
+  "permissions": {
+    "read_vault": true,
+    "read_mailbox": true,
+    "inspect_codebase": true
+  },
+  "max_context_bytes": 3141,
+  "thermal_limit_watts": 3.78
+}

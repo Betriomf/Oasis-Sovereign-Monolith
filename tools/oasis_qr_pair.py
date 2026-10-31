@@ -1,35 +1,45 @@
 #!/usr/bin/env python3
 """
-OASIS QR PAIRING ENGINE v1.0
-Genera un código QR interactivo en la terminal de macOS para emparejar el iPhone.
+OASIS SOVEREIGN OS — GENERADOR QR LOCAL ANSI (OFF-GRID)
+Genera el código QR directamente en bloques de consola sin consultar APIs externas.
 """
-import subprocess
-import qrcode
+import socket
 import sys
 
+try:
+    import qrcode
+except ImportError:
+    print("⚠️ Instalando módulo 'qrcode' localmente...")
+    import subprocess
+    subprocess.run([sys.executable, "-m", "pip", "install", "qrcode"], check=True)
+    import qrcode
+
 def get_wifi_ip():
+    """Detecta la IP local asignada en la red Wi-Fi/LAN."""
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
-        ip = subprocess.check_output(["ipconfig", "getifaddr", "en0"]).decode().strip()
-        if ip:
-            return ip
+        s.connect(('10.255.255.255', 1))
+        ip = s.getsockname()[0]
     except Exception:
-        pass
-    return "127.0.0.1"
+        ip = '127.0.0.1'
+    finally:
+        s.close()
+    return ip
 
 def main():
     mac_ip = get_wifi_ip()
     session_caps = "0x0027"  # READ | WASM | VORTEX | P2P
-    
-    # URL directa de la Terminal Web con parámetros de enlace P2P
-    pair_url = f"https://oasis-sovereign-gateway.onrender.com/terminal?peer=DARWIN-MAC&ip={mac_ip}&caps={session_caps}"
+
+    # URL local directa (off-grid LAN) o respaldo a Render
+    pair_url = f"http://{mac_ip}:8080/terminal?peer=DARWIN-MAC&ip={mac_ip}&caps={session_caps}"
 
     print("\033[96m" + "="*56)
     print("📲 OASIS SOVEREIGN OS — EMPAREJAMIENTO POR CÓDIGO QR")
     print(f"📍 IP Detectada Mac : {mac_ip}")
     print(f"🔑 Máscara BitMask  : {session_caps}")
+    print(f"🔗 URL de Enlace    : {pair_url}")
     print("="*56 + "\033[0m\n")
 
-    # Generar y dibujar el QR en la terminal con bloques ANSI
     qr = qrcode.QRCode(border=1)
     qr.add_data(pair_url)
     qr.make(fit=True)
@@ -37,7 +47,7 @@ def main():
 
     print("\n\033[92m" + "="*56)
     print("👉 Abre la CÁMARA nativa de tu iPhone y enfoca este código.")
-    print("   Se abrirá la terminal web en Safari enlazada con tu Mac.")
+    print("   Ambos dispositivos deben estar en la misma red Wi-Fi.")
     print("="*56 + "\033[0m")
 
 if __name__ == "__main__":
