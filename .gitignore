@@ -1,15 +1,13 @@
-# Entropía de compilación y binarios volátiles
-oasis-core-simulation/target/
+.lake/
+lake-manifest.json
+*.olean
+*.ilean
+*.c
+*.o
+*.trace
 __pycache__/
-*.pyc
-*.pyo
-gateway.log
-api.log
-telemetry_snapshot.log
-.DS_Store
-
-# Archivos de entorno y temporales
-openhands-env/
-venv/
-.venv/
+*.log
 *.tmp
+*.autofix_test
+test_builder.txt
+Modelfile_aether_metal

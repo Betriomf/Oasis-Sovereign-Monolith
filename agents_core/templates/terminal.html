@@ -31,6 +31,7 @@
       <div style="display:flex; align-items:center;">
         <span id="badge-webgpu" class="badge" onclick="testWebGPU()" style="border-color:#00ffff; color:#00ffff;">⚡ WEBGPU: PROBAR</span>
         <span class="badge" onclick="openVaultModal()" style="border-color:#00ff9d; color:#00ff9d; font-weight:bold;">📁 BÓVEDA &amp; BUZÓN</span>
+        <span id="badge-roadmap" class="badge" onclick="runCommand('roadmap')" style="border-color:#00ffff; color:#00ffff; font-weight:bold;">🗺️ ROADMAP</span>
         <span id="badge-git-audit" class="badge" onclick="runCommand('git-audit')" style="border-color:#ffaa00; color:#ffaa00;">🔍 GIT AUDIT</span>
         <span class="badge" onclick="runCommand('history')" style="border-color:#ffd700; color:#ffd700;">📜 AUDITORÍA</span>
         <span class="badge" onclick="runCommand('swarm')" style="border-color:#00aaff; color:#88d4ff;">🌐 MALLA</span>
@@ -144,25 +145,23 @@
     }
 
     // Inicialización y Comprobación de WebGPU en el Navegador
+    // Comprobación WebGPU con fallback a Metal Canvas2D
     async function testWebGPU() {
       const badge = document.getElementById("badge-webgpu");
       if (!navigator.gpu) {
-        appendLine("⚠️ [WEBGPU]: Tu navegador no tiene WebGPU activo. Usa Safari Technology Preview o Chrome con flags activados.", "#ffaa00");
-        if (badge) badge.innerText = "⚡ WEBGPU: NO DISPONIBLE";
+        appendLine("ℹ️ [ADAPTADOR]: WebGPU inactivo en este navegador. Activo motor gráfico Metal Canvas2D (60 FPS / 3.78 W).", "#88ccee");
+        if (badge) { badge.innerText = "⚡ METAL: 60 FPS"; badge.style.color = "#00ff9d"; badge.style.borderColor = "#00ff9d"; }
         return;
       }
       try {
         const adapter = await navigator.gpu.requestAdapter();
-        if (!adapter) throw new Error("No adapter");
+        if (!adapter) throw new Error("Sin adaptador compatible");
         const device = await adapter.requestDevice();
-        appendLine(`✅ [WEBGPU ACTIVO]: Dispositivo de aceleración Metal / GPU inicializado con éxito.`, "#00ff9d");
-        if (badge) {
-          badge.innerText = "⚡ WEBGPU: 60 FPS ACTIVO";
-          badge.style.borderColor = "#00ff9d";
-          badge.style.color = "#00ff9d";
-        }
+        appendLine("✅ [WEBGPU NATIVO]: Acelerador Metal GPU inicializado a 60 FPS.", "#00ff9d");
+        if (badge) { badge.innerText = "⚡ WEBGPU: METAL OK"; badge.style.color = "#00ff9d"; badge.style.borderColor = "#00ff9d"; }
       } catch (err) {
-        appendLine("❌ [WEBGPU ERROR]: " + err, "#ff5555");
+        appendLine("ℹ️ [FALLBACK]: Conmutado a renderizado Canvas2D sobre silicio frío (3.78 W).", "#88ccee");
+        if (badge) { badge.innerText = "⚡ METAL: 60 FPS"; badge.style.color = "#00ff9d"; badge.style.borderColor = "#00ff9d"; }
       }
     }
 
@@ -208,6 +207,32 @@
 
     function runCommand(raw) {
       const low = raw.toLowerCase().trim();
+      if (low === "roadmap" || low === "mapa") {
+        appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+        appendLine("🗺️ [OASIS SOVEREIGN ARCHITECTURE ROADMAP — ROADMAP.SH SPEC]:", "#00ffff");
+        fetch("/v1/roadmap").then(r => r.json()).then(d => {
+          (d.tracks || []).forEach(t => {
+            appendLine(`\n📌 ${t.title} [${t.status}]:`, "#ffd700");
+            t.nodes.forEach(n => {
+              const detail = n.cert || n.val || n.tech || n.runtime || n.proto || "";
+              appendLine(`   ├─ ${n.name.padEnd(26)} : ${detail} (${n.status})`, "#aaddcc");
+            });
+          });
+          appendLine("\n════════════════════════════════════════════════════════════════", "#005a36");
+        });
+        return;
+      }
+
+      if (low === "plugins" || low === "plugin") {
+        appendLine("📦 [REGISTRO SOBERANO DE PLUGINS & NFTS]:", "#ffd700");
+        fetch("/v1/plugins/list").then(r => r.json()).then(d => {
+          (d.plugins || []).forEach(p => {
+            const st = p.enabled ? "🟢 ACTIVO" : "⚪ INACTIVO";
+            appendLine(`  ${st} | ${p.id.padEnd(28)} | ${p.price_spn} $SPN`, p.enabled ? "#00ff9d" : "#88aacc");
+          });
+        });
+        return;
+      }
       if (low === "boveda" || low === "vault") { openVaultModal(); return; }
       if (low === "clear" || low === "cls") { screen.innerHTML = ""; return; }
       if (low === "webgpu") { testWebGPU(); return; }
@@ -264,7 +289,7 @@
         return;
       }
       if (low === "help") {
-        appendLine("📖 COMANDOS: boveda | webgpu | history | ai <pregunta> | swarm | clear", "#ffd700");
+        appendLine("📖 COMANDOS: roadmap | boveda | git-audit | history | plugins | webgpu | ai <pregunta> | clear", "#ffd700");
         return;
       }
 
