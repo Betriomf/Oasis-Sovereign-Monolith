@@ -207,6 +207,24 @@
 
     function runCommand(raw) {
       const low = raw.toLowerCase().trim();
+      if (low === "hex-monitor" || low === "hex") {
+        appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+        appendLine("⚡ [MONITOR DE TELEMETRÍA HEXADECIMAL — CAPA 0]:", "#00ffff");
+        let pings = 0;
+        const interval = setInterval(() => {
+          pings++;
+          fetch("/v1/swarm/hex-ping", { method: "POST" })
+            .then(r => r.text())
+            .then(h => {
+              appendLine(`[FRAME ${pings.toString().padStart(2, '0')}] ${h} | 16 B | Silicio: 3.78 W`, "#ffd700");
+            });
+          if (pings >= 5) {
+            clearInterval(interval);
+            setTimeout(() => appendLine("════════════════════════════════════════════════════════════════", "#005a36"), 200);
+          }
+        }, 120);
+        return;
+      }
       if (low === "roadmap" || low === "mapa") {
         appendLine("════════════════════════════════════════════════════════════════", "#005a36");
         appendLine("🗺️ [OASIS SOVEREIGN ARCHITECTURE ROADMAP — ROADMAP.SH SPEC]:", "#00ffff");
@@ -289,7 +307,7 @@
         return;
       }
       if (low === "help") {
-        appendLine("📖 COMANDOS: roadmap | boveda | git-audit | history | plugins | webgpu | ai <pregunta> | clear", "#ffd700");
+        appendLine("📖 COMANDOS: roadmap | hex-monitor | boveda | git-audit | history | plugins | webgpu | ai <pregunta> | clear", "#ffd700");
         return;
       }
 
@@ -304,6 +322,21 @@
     }
 
     
+    // === COMPRESOR TOKEN-HEX CLIENTE (24-BIT / CAPA 0) ===
+    const TokenHexCodec = {
+      encode: function(tokens) {
+        return tokens.map(t => t.toString(16).padStart(6, '0')).join('');
+      },
+      decode: function(hexStr) {
+        const clean = hexStr.trim();
+        const tokens = [];
+        for (let i = 0; i < clean.length; i += 6) {
+          tokens.push(parseInt(clean.substr(i, 6), 16));
+        }
+        return tokens;
+      }
+    };
+
     // === CONSUMO DE STREAMING DE TOKENS EN TIEMPO REAL (SSE) ===
     async function streamAIResponse(promptText, targetDiv, onComplete) {
       const selM = document.getElementById("select-ai-model");

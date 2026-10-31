@@ -332,17 +332,32 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         self._send_json({"error": "NOT_FOUND"}, 404)
 
     def do_POST(self):
-        # 1. Heartbeat ultrarrápido (libera el canal en 0.1 ms)
-        if self.path in ("/v1/swarm/heartbeat", "/v1/heartbeat"):
-            self._send_json({"status": "OK", "timestamp": time.time(), "rtt_ms": 0.05})
-            return
-
         length = int(self.headers.get("Content-Length", 0))
         raw = self.rfile.read(length) if length > 0 else b""
         try:
             body = json.loads(raw.decode("utf-8")) if raw else {}
         except Exception:
             body = {}
+
+        # 1. Ping Hexadecimal Atómico (16 bytes / O(1))
+        if self.path == "/v1/swarm/hex-ping":
+            ts = int(time.time())
+            power_cw = 378  # 3.78 W
+            state_hash = hashlib.sha256(str(ts).encode()).hexdigest()[:12]
+            out_hex = f"0f89dc11{ts:08x}{power_cw:04x}{state_hash}"
+            
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.send_header("Content-Length", str(len(out_hex)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(out_hex.encode("utf-8"))
+            return
+
+        # 2. Heartbeat ultrarrápido
+        if self.path in ("/v1/swarm/heartbeat", "/v1/heartbeat"):
+            self._send_json({"status": "OK", "timestamp": time.time(), "rtt_ms": 0.05})
+            return
 
         if self.path == "/v1/vault/upload":
             fname = os.path.basename(body.get("name", "documento.bin"))

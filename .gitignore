@@ -11,3 +11,5 @@ __pycache__/
 *.autofix_test
 test_builder.txt
 Modelfile_aether_metal
+target/
+oasis-core-simulation/target/
