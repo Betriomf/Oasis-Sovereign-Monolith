@@ -261,13 +261,13 @@
       }
       if (low === "roadmap" || low === "mapa") {
         appendLine("════════════════════════════════════════════════════════════════", "#005a36");
-        appendLine("🗺️ [OASIS SOVEREIGN ARCHITECTURE ROADMAP — ROADMAP.SH SPEC]:", "#00ffff");
+        appendLine("🗺️ [OASIS SOVEREIGN ARCHITECTURE ROADMAP — ESPECIFICACIÓN TOTAL]:", "#00ffff");
         fetch("/v1/roadmap").then(r => r.json()).then(d => {
           (d.tracks || []).forEach(t => {
             appendLine(`\n📌 ${t.title} [${t.status}]:`, "#ffd700");
             t.nodes.forEach(n => {
-              const detail = n.cert || n.val || n.tech || n.runtime || n.proto || "";
-              appendLine(`   ├─ ${n.name.padEnd(26)} : ${detail} (${n.status})`, "#aaddcc");
+              const spec = n.spec || n.cert || n.val || "";
+              appendLine(`   ├─ ${n.name.padEnd(30)} : ${spec} [${n.status}]`, "#aaddcc");
             });
           });
           appendLine("\n════════════════════════════════════════════════════════════════", "#005a36");
