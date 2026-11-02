@@ -164,6 +164,27 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.wfile.write(content)
             return
 
+        # GENERADOR DINÁMICO DE ENLACE QR
+        if self.path == "/v1/qr/pair":
+            import socket
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            try:
+                s.connect(('10.255.255.255', 1))
+                local_ip = s.getsockname()[0]
+            except Exception:
+                local_ip = '127.0.0.1'
+            finally:
+                s.close()
+            
+            pair_url = f"http://{local_ip}:8080/terminal"
+            self._send_json({
+                "status": "OK",
+                "ip": local_ip,
+                "url": pair_url,
+                "qr_api": f"https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={pair_url}&bgcolor=010804&color=00ff9d"
+            })
+            return
+
         if self.path == "/v1/roadmap":
             roadmap_tree = {
                 "system": "Oasis Sovereign OS Architecture",

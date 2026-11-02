@@ -31,6 +31,7 @@
       <div style="display:flex; align-items:center;">
         <span id="badge-webgpu" class="badge" onclick="testWebGPU()" style="border-color:#00ffff; color:#00ffff;">⚡ WEBGPU: PROBAR</span>
         <span class="badge" onclick="openVaultModal()" style="border-color:#00ff9d; color:#00ff9d; font-weight:bold;">📁 BÓVEDA &amp; BUZÓN</span>
+        <span id="badge-qr-modal" class="badge" onclick="openQRModal()" style="border-color:#00ff9d; color:#00ff9d; font-weight:bold;">📲 QR</span>
         <span id="badge-roadmap" class="badge" onclick="runCommand('roadmap')" style="border-color:#00ffff; color:#00ffff; font-weight:bold;">🗺️ ROADMAP</span>
         <span id="badge-git-audit" class="badge" onclick="runCommand('git-audit')" style="border-color:#ffaa00; color:#ffaa00;">🔍 GIT AUDIT</span>
         <span class="badge" onclick="runCommand('history')" style="border-color:#ffd700; color:#ffd700;">📜 AUDITORÍA</span>
@@ -45,6 +46,16 @@
     <div id="input-line">
       <span id="prompt-symbol">root@oasis-hurd:/workspace#</span>
       <input type="text" id="cli-input" autofocus autocomplete="off" />
+    </div>
+  </div>
+
+  <!-- MODAL EMPAREJAMIENTO QR -->
+  <div id="modal-qr" class="modal-backdrop" onclick="closeQRModal()">
+    <div class="modal-window" style="max-width:360px; height:auto; padding:20px; align-items:center; text-align:center;" onclick="event.stopPropagation()">
+      <div style="font-weight:bold; color:#00ff9d; margin-bottom:12px;">📲 EMPAREJAR CON IPHONE / MÓVIL</div>
+      <img id="qr-image" style="width:200px; height:200px; border:2px solid #005a36; border-radius:6px; background:#010804;" />
+      <div id="qr-url-label" style="font-size:0.75rem; color:#88ccee; margin-top:12px; word-break:break-all;"></div>
+      <button onclick="closeQRModal()" style="margin-top:16px; background:#003820; border:1px solid #00ff9d; color:#00ff9d; padding:6px 16px; border-radius:4px; cursor:pointer;">CERRAR</button>
     </div>
   </div>
 
@@ -234,6 +245,18 @@
           appendLine("• Asignación Malla     : ACEPTANDO MICRO-TAREAS PI-KB (≤ 3.78 W)", "#88ccee");
           appendLine("✅ Modo Worker en reposo activo. Tareas pesadas se derivan a la GPU.", "#00ff9d");
         });
+        return;
+      }
+      if (low.startsWith("plugin-") || low.startsWith("toggle-")) {
+        const pid = low.replace("toggle-", "");
+        fetch("/v1/plugins/toggle", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: pid })
+        })
+        .then(r => r.json())
+        .then(d => appendLine(`📦 Plugin ${pid} actualizado en el ledger soberano.`, "#00ff9d"))
+        .catch(err => appendLine("Error actualizando plugin: " + err, "#ff5555"));
         return;
       }
       if (low === "roadmap" || low === "mapa") {
@@ -432,6 +455,23 @@
       requestAnimationFrame(animate);
     }
     setTimeout(initOcean, 50);
+
+    function openQRModal() {
+      fetch("/v1/qr/pair").then(r => r.json()).then(d => {
+        const modal = document.getElementById("modal-qr");
+        const img = document.getElementById("qr-image");
+        const lbl = document.getElementById("qr-url-label");
+        if (img && lbl && modal) {
+          img.src = d.qr_api;
+          lbl.textContent = d.url;
+          modal.style.display = "flex";
+        }
+      });
+    }
+    function closeQRModal() {
+      const modal = document.getElementById("modal-qr");
+      if (modal) modal.style.display = "none";
+    }
 
     // === BÓVEDA MODAL Y VISOR POLIMÓRFICO ===
     function openVaultModal() {
