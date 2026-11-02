@@ -138,26 +138,20 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "application/octet-stream")
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
         self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
-
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
-        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
         self.end_headers()
         self.wfile.write(body)
 
     def do_OPTIONS(self):
         self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
-
-            if self.path.endswith(".wasm"):
-                self.send_header("Content-Type", "application/wasm")
-            elif self.path.endswith(".iso") or self.path.endswith(".bin"):
-                self.send_header("Content-Type", "application/octet-stream")
-            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
-
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        if self.path.endswith(".wasm"):
+            self.send_header("Content-Type", "application/wasm")
+        elif self.path.endswith(".iso") or self.path.endswith(".bin"):
+            self.send_header("Content-Type", "application/octet-stream")
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
         self.end_headers()
 
     def do_HEAD(self):
@@ -419,15 +413,15 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", "text/plain; charset=utf-8")
             self.send_header("Content-Length", str(len(out_hex)))
-            self.send_header("Access-Control-Allow-Origin", "*")
-
-            if self.path.endswith(".wasm"):
-                self.send_header("Content-Type", "application/wasm")
-            elif self.path.endswith(".iso") or self.path.endswith(".bin"):
-                self.send_header("Content-Type", "application/octet-stream")
-            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
-
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        if self.path.endswith(".wasm"):
+            self.send_header("Content-Type", "application/wasm")
+        elif self.path.endswith(".iso") or self.path.endswith(".bin"):
+            self.send_header("Content-Type", "application/octet-stream")
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
             self.end_headers()
             self.wfile.write(out_hex.encode("utf-8"))
             return
@@ -484,15 +478,15 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "text/event-stream; charset=utf-8")
             self.send_header("Cache-Control", "no-cache")
             self.send_header("Connection", "close")
-            self.send_header("Access-Control-Allow-Origin", "*")
-
-            if self.path.endswith(".wasm"):
-                self.send_header("Content-Type", "application/wasm")
-            elif self.path.endswith(".iso") or self.path.endswith(".bin"):
-                self.send_header("Content-Type", "application/octet-stream")
-            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
-
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        if self.path.endswith(".wasm"):
+            self.send_header("Content-Type", "application/wasm")
+        elif self.path.endswith(".iso") or self.path.endswith(".bin"):
+            self.send_header("Content-Type", "application/octet-stream")
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
             self.end_headers()
 
             if chosen_model.startswith("ollama:"):
