@@ -171,7 +171,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(content)))
             self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
-            self.end_headers()
+        self.end_headers()
             self.wfile.write(content)
             return
 
@@ -305,7 +305,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self.send_header("Content-Length", str(len(data)))
                 if is_dl:
                     self.send_header("Content-Disposition", f'attachment; filename="{fname}"')
-                self.end_headers()
+        self.end_headers()
                 self.wfile.write(data)
                 return
             self._send_json({"error": "NOT_FOUND"}, 404)
@@ -422,7 +422,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "application/octet-stream")
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
         self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
-            self.end_headers()
+        self.end_headers()
             self.wfile.write(out_hex.encode("utf-8"))
             return
 
@@ -487,7 +487,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "application/octet-stream")
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
         self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
-            self.end_headers()
+        self.end_headers()
 
             if chosen_model.startswith("ollama:"):
                 ollama_req_data = json.dumps({
