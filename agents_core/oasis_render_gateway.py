@@ -130,13 +130,14 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Access-Control-Allow-Origin", "*")
-
-            if self.path.endswith(".wasm"):
-                self.send_header("Content-Type", "application/wasm")
-            elif self.path.endswith(".iso") or self.path.endswith(".bin"):
-                self.send_header("Content-Type", "application/octet-stream")
-            self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-            self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        if self.path.endswith(".wasm"):
+            self.send_header("Content-Type", "application/wasm")
+        elif self.path.endswith(".iso") or self.path.endswith(".bin"):
+            self.send_header("Content-Type", "application/octet-stream")
+        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
+        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
 
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
