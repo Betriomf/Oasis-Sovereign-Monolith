@@ -131,34 +131,23 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
-        if self.path.endswith(".wasm"):
-        self.send_header("Content-Type", "application/wasm")
-        elif self.path.endswith(".iso") or self.path.endswith(".bin"):
-        self.send_header("Content-Type", "application/octet-stream")
-        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
         self.end_headers()
-            self.wfile.write(body)
+        self.wfile.write(body)
 
     def do_OPTIONS(self):
-            self.send_response(200)
+        self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
-        if self.path.endswith(".wasm"):
-            self.send_header("Content-Type", "application/wasm")
-        elif self.path.endswith(".iso") or self.path.endswith(".bin"):
-            self.send_header("Content-Type", "application/octet-stream")
-        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
     def do_HEAD(self):
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
-            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
-            self.end_headers()
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+        self.end_headers()
 
     def do_GET(self):
         if self.path in ("/", "/terminal", "/index.html"):
@@ -300,13 +289,13 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 ctype = MIME_MAP.get(ext, "application/octet-stream")
                 with open(fpath, "rb") as vf:
                     data = vf.read()
-            self.send_response(200)
-            self.send_header("Content-Type", ctype)
-            self.send_header("Content-Length", str(len(data)))
+                self.send_response(200)
+                self.send_header("Content-Type", ctype)
+                self.send_header("Content-Length", str(len(data)))
                 if is_dl:
-            self.send_header("Content-Disposition", f'attachment; filename="{fname}"')
-            self.end_headers()
-            self.wfile.write(data)
+                    self.send_header("Content-Disposition", f'attachment; filename="{fname}"')
+                self.end_headers()
+                self.wfile.write(data)
                 return
             self._send_json({"error": "NOT_FOUND"}, 404)
             return
@@ -413,16 +402,8 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", "text/plain; charset=utf-8")
             self.send_header("Content-Length", str(len(out_hex)))
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
-        if self.path.endswith(".wasm"):
-            self.send_header("Content-Type", "application/wasm")
-        elif self.path.endswith(".iso") or self.path.endswith(".bin"):
-            self.send_header("Content-Type", "application/octet-stream")
-        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
-        self.end_headers()
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
             self.wfile.write(out_hex.encode("utf-8"))
             return
 
@@ -478,16 +459,8 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "text/event-stream; charset=utf-8")
             self.send_header("Cache-Control", "no-cache")
             self.send_header("Connection", "close")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
-        if self.path.endswith(".wasm"):
-            self.send_header("Content-Type", "application/wasm")
-        elif self.path.endswith(".iso") or self.path.endswith(".bin"):
-            self.send_header("Content-Type", "application/octet-stream")
-        self.send_header("Cross-Origin-Opener-Policy", "same-origin")
-        self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
-        self.end_headers()
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
 
             if chosen_model.startswith("ollama:"):
                 ollama_req_data = json.dumps({
@@ -511,7 +484,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                                     token = parsed.get("response", "")
                                     if token:
                                         msg = json.dumps({"token": token})
-            self.wfile.write(f"data: {msg}\n\n".encode("utf-8"))
+                                        self.wfile.write(f"data: {msg}\n\n".encode("utf-8"))
                                         self.wfile.flush()
                                     if parsed.get("done", False):
                                         break
@@ -519,13 +492,13 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                                     continue
                 except Exception as e:
                     err_msg = json.dumps({"token": f"\n[Aviso Ollama: {e}]"})
-            self.wfile.write(f"data: {err_msg}\n\n".encode("utf-8"))
+                    self.wfile.write(f"data: {err_msg}\n\n".encode("utf-8"))
                     self.wfile.flush()
             else:
                 simulated_response = f"🧠 [SILICIO FRÍO DETERMINISTA]:\n{context_pi_kb if context_pi_kb else 'Procesado bajo cota de 3.78 W.'}"
                 for word in simulated_response.split(" "):
                     msg = json.dumps({"token": word + " "})
-            self.wfile.write(f"data: {msg}\n\n".encode("utf-8"))
+                    self.wfile.write(f"data: {msg}\n\n".encode("utf-8"))
                     self.wfile.flush()
                     time.sleep(0.015)
 
