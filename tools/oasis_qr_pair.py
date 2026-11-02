@@ -1,21 +1,12 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GENERADOR QR LOCAL ANSI (OFF-GRID)
-Genera el código QR directamente en bloques de consola sin consultar APIs externas.
+OASIS SOVEREIGN OS — GENERADOR DE EMPAREJAMIENTO QR (PILAR 227)
+Detecta la interfaz activa de red local y genera el enlace QR directo.
 """
 import socket
-import sys
+import subprocess
 
-try:
-    import qrcode
-except ImportError:
-    print("⚠️ Instalando módulo 'qrcode' localmente...")
-    import subprocess
-    subprocess.run([sys.executable, "-m", "pip", "install", "qrcode"], check=True)
-    import qrcode
-
-def get_wifi_ip():
-    """Detecta la IP local asignada en la red Wi-Fi/LAN."""
+def get_local_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         s.connect(('10.255.255.255', 1))
@@ -27,28 +18,33 @@ def get_wifi_ip():
     return ip
 
 def main():
-    mac_ip = get_wifi_ip()
-    session_caps = "0x0027"  # READ | WASM | VORTEX | P2P
+    ip = get_local_ip()
+    port = 8080
+    caps = "0x8800" # MASK: SOVEREIGN | SILICON_COLD | METAL
+    pair_url = f"http://{ip}:{port}/terminal?peer=DARWIN-MAC&caps={caps}"
+    
+    print("\033[96m" + "=" * 60)
+    print("📲 OASIS SOVEREIGN OS — EMPAREJAMIENTO QR DIRECTO")
+    print(f"• IP Local Mac     : {ip}:{port}")
+    print(f"• BitMask Caps     : {caps}")
+    print(f"• URL de Enlace    : {pair_url}")
+    print("=" * 60 + "\033[0m\n")
 
-    # URL local directa (off-grid LAN) o respaldo a Render
-    pair_url = f"http://{mac_ip}:8080/terminal?peer=DARWIN-MAC&ip={mac_ip}&caps={session_caps}"
+    try:
+        import qrcode
+        qr = qrcode.QRCode(border=1)
+        qr.add_data(pair_url)
+        qr.make(fit=True)
+        qr.print_ascii(invert=True)
+    except ImportError:
+        # Fallback sin dependencias usando qrencode si existe o URL directa
+        print("💡 Instala 'qrcode' con: pip3 install qrcode")
+        print(f"👉 Abre en el navegador móvil: {pair_url}")
 
-    print("\033[96m" + "="*56)
-    print("📲 OASIS SOVEREIGN OS — EMPAREJAMIENTO POR CÓDIGO QR")
-    print(f"📍 IP Detectada Mac : {mac_ip}")
-    print(f"🔑 Máscara BitMask  : {session_caps}")
-    print(f"🔗 URL de Enlace    : {pair_url}")
-    print("="*56 + "\033[0m\n")
-
-    qr = qrcode.QRCode(border=1)
-    qr.add_data(pair_url)
-    qr.make(fit=True)
-    qr.print_ascii(invert=True)
-
-    print("\n\033[92m" + "="*56)
-    print("👉 Abre la CÁMARA nativa de tu iPhone y enfoca este código.")
-    print("   Ambos dispositivos deben estar en la misma red Wi-Fi.")
-    print("="*56 + "\033[0m")
+    print("\n\033[92m" + "=" * 60)
+    print("👉 Enfoca este código con la cámara de tu iPhone o móvil.")
+    print("   Ambos deben estar conectados a la misma red Wi-Fi.")
+    print("=" * 60 + "\033[0m")
 
 if __name__ == "__main__":
     main()

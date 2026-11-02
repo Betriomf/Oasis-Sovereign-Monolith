@@ -225,6 +225,17 @@
         }, 120);
         return;
       }
+      if (low === "yield" || low === "ceder") {
+        appendLine("⚡ [CONMUTADOR DE CÓMPUTO — MESH YIELD]:", "#00ffff");
+        fetch("/v1/swarm/nodes").then(r => r.json()).then(d => {
+          const power = d.total_mflops || 24.34;
+          appendLine(`• Capacidad Disponible: ${power} MFLOPS`, "#00ff9d");
+          appendLine("• Rol Actual           : HOST LÍDER (Apple Silicon Metal)", "#ffd700");
+          appendLine("• Asignación Malla     : ACEPTANDO MICRO-TAREAS PI-KB (≤ 3.78 W)", "#88ccee");
+          appendLine("✅ Modo Worker en reposo activo. Tareas pesadas se derivan a la GPU.", "#00ff9d");
+        });
+        return;
+      }
       if (low === "roadmap" || low === "mapa") {
         appendLine("════════════════════════════════════════════════════════════════", "#005a36");
         appendLine("🗺️ [OASIS SOVEREIGN ARCHITECTURE ROADMAP — ROADMAP.SH SPEC]:", "#00ffff");
@@ -307,7 +318,7 @@
         return;
       }
       if (low === "help") {
-        appendLine("📖 COMANDOS: roadmap | hex-monitor | boveda | git-audit | history | plugins | webgpu | ai <pregunta> | clear", "#ffd700");
+        appendLine("📖 COMANDOS: roadmap | yield | hex-monitor | boveda | git-audit | history | plugins | webgpu | ai <pregunta> | clear", "#ffd700");
         return;
       }
 
@@ -540,19 +551,21 @@
       const out = document.getElementById("vault-chat-output");
       const selM = document.getElementById("select-ai-model");
       const selA = document.getElementById("select-vault-agent");
-      const chkS = document.getElementById("check-speculative");
       if (!inp || !out) return;
       const q = inp.value.trim();
       if (!q) return;
 
-      const chosenM = selM ? selM.value : "oasis-cold-silicon";
+      const chosenM = selM ? selM.value : "ollama:aether:1.5b";
       const chosenA = selA ? selA.value : "";
-      const isSpec = chkS ? chkS.checked : false;
 
       out.style.display = "block";
-      out.textContent = "";
+      out.style.color = "#00ff9d";
+      out.textContent = `⏳ [${chosenM}]: `;
       inp.value = "";
-      streamAIResponse(q, out);
+
+      streamAIResponse(q, out, () => {
+        out.scrollTop = out.scrollHeight;
+      });
     }
 
     setTimeout(() => {

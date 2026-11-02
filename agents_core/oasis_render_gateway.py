@@ -340,6 +340,31 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             body = {}
 
         # 1. Ping Hexadecimal Atómico (16 bytes / O(1))
+        # SINCRONIZACIÓN DE BÓVEDA P2P (STATE-ROOT & LINCOS CHUNKS)
+        if self.path == "/v1/vault/p2p-sync":
+            local_files = [f for f in sorted(os.listdir(VAULT_DIR)) if not f.startswith(".")]
+            state_fingerprint = hashlib.sha256("".join(local_files).encode()).hexdigest()[:16]
+            
+            remote_root = body.get("remote_state_root", "")
+            if remote_root == state_fingerprint:
+                self._send_json({"status": "IN_SYNC", "state_root": state_fingerprint, "deltas": 0})
+                return
+            
+            # Si hay discrepancia, lista archivos y hashes para sincronización granular
+            manifest = {}
+            for fn in local_files:
+                fp = os.path.join(VAULT_DIR, fn)
+                manifest[fn] = {
+                    "size": os.path.getsize(fp),
+                    "hash": hashlib.sha256(open(fp, "rb").read()[:4096]).hexdigest()[:12]
+                }
+            self._send_json({
+                "status": "DIFF_DETECTED",
+                "local_state_root": state_fingerprint,
+                "manifest": manifest
+            })
+            return
+
         if self.path == "/v1/swarm/hex-ping":
             ts = int(time.time())
             power_cw = 378  # 3.78 W
