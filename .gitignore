@@ -13,3 +13,8 @@ test_builder.txt
 Modelfile_aether_metal
 target/
 oasis-core-simulation/target/
+Modelfile_aether_cool
+ocean_wallpaper.html
+*.tmp
+p2p_reflector.log
+reflector.log
