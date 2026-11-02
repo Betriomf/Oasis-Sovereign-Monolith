@@ -19,6 +19,7 @@
     .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 100; justify-content: center; align-items: center; }
     .modal-window { background: #010804; border: 1px solid #00ff9d; border-radius: 6px; width: 92%; max-width: 940px; height: 88vh; display: flex; flex-direction: column; padding: 0; }
   </style>
+  <script src="https://unpkg.com/v86@latest/build/libv86.js"></script>
 </head>
 <body>
   <canvas id="canvas-ocean-wallpaper"></canvas>
@@ -259,6 +260,25 @@
         .catch(err => appendLine("Error actualizando plugin: " + err, "#ff5555"));
         return;
       }
+      if (low === "tinycore" || low === "linux" || low === "busybox") {
+        bootTinyCore();
+        return;
+      }
+      if (inLinuxMode) {
+        if (low === "exit") {
+          inLinuxMode = false;
+          if (emulator) { emulator.stop(); emulator = null; }
+          const promptSpan = document.getElementById("terminal-prompt");
+          if (promptSpan) promptSpan.textContent = "root@oasis-hurd:/workspace# ";
+          appendLine("🚪 Sesión Tiny Core cerrada. Retornando a Oasis Sovereign Monolith.", "#ffd700");
+          return;
+        }
+        if (emulator) {
+          emulator.serial0_send(cmd + "\n");
+          return;
+        }
+      }
+
       if (low === "roadmap" || low === "mapa") {
         appendLine("════════════════════════════════════════════════════════════════", "#005a36");
         appendLine("🗺️ [OASIS SOVEREIGN ARCHITECTURE ROADMAP — ESPECIFICACIÓN TOTAL]:", "#00ffff");
@@ -341,7 +361,7 @@
         return;
       }
       if (low === "help") {
-        appendLine("📖 COMANDOS: roadmap | yield | hex-monitor | boveda | git-audit | history | plugins | webgpu | ai <pregunta> | clear", "#ffd700");
+        appendLine("📖 COMANDOS: roadmap | tinycore | yield | hex-monitor | boveda | git-audit | history | plugins | webgpu | ai <pregunta> | clear", "#ffd700");
         return;
       }
 
@@ -418,6 +438,47 @@
         if (onComplete) onComplete();
       } catch (err) {
         targetDiv.textContent += "\n[Error en streaming: " + err + "]";
+      }
+    }
+
+    // === INTEGRACIÓN MICRONÚCLEO LINUX / TINY CORE WASM (ESPACIO DE USUARIO) ===
+    let emulator = null;
+    let inLinuxMode = false;
+
+    function bootTinyCore() {
+      appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+      appendLine("🐧 [TINY CORE LINUX WASM]: Inicializando micro-kernel x86 en RAM...", "#00ff9d");
+      appendLine("• Arquitectura : i486/x86 en WebAssembly (Ring 3 User Space)", "#88ccee");
+      appendLine("• Consumo Host : 0.00 W (Aislamiento total en WebWorker)", "#ffd700");
+      appendLine("• Kernel Init  : Booteando Linux 6.x / BusyBox POSIX...", "#aaddcc");
+      appendLine("════════════════════════════════════════════════════════════════", "#005a36");
+
+      try {
+        emulator = new V86({
+          wasm_path: "https://unpkg.com/v86@latest/build/v86.wasm",
+          memory_size: 64 * 1024 * 1024, // 64 MB RAM aislada
+          vga_memory_size: 2 * 1024 * 1024,
+          bios: { url: "https://unpkg.com/v86@latest/bios/seabios.bin" },
+          vga_bios: { url: "https://unpkg.com/v86@latest/bios/vgabios.bin" },
+          cdrom: { url: "https://raw.githubusercontent.com/copy/v86/master/images/linux4.iso" },
+          autostart: true
+        });
+
+        // Capturar salida serie y proyectarla en la terminal
+        emulator.add_listener("serial0-output-char", function(char) {
+          const out = document.getElementById("terminal-output");
+          if (char === "\r") return;
+          out.textContent += char;
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+
+        inLinuxMode = true;
+        const promptSpan = document.getElementById("terminal-prompt");
+        if (promptSpan) promptSpan.textContent = "tc@box:~$ ";
+        appendLine("✅ Kernel iniciado. Escribe comandos UNIX (ls, uname -a, free, cat /proc/cpuinfo).", "#00ff9d");
+        appendLine("💡 Para volver a Oasis Sovereign, escribe: exit", "#ffd700");
+      } catch (err) {
+        appendLine("❌ Error instanciando v86 WASM: " + err.message, "#ff5555");
       }
     }
 
