@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — ROUTER HÍBRIDO CON ORÁCULO AUTÓNOMO (PILAR 172 / 190)
-Garantiza respuestas fácticas incluso si Ollama está en reposo o en la nube.
+OASIS SOVEREIGN OS — ROUTER HÍBRIDO CON RAG CANÓNICO (PILAR 172 / 190)
+Canaliza consultas con prioridad absoluta a la Base de Conocimiento de Capa 0.
 """
 import json
 import urllib.request
 import urllib.parse
 import subprocess
+import os
 import re
 
 OLLAMA_URL = "http://127.0.0.1:11434"
 PI_KB_LIMIT = 3141
+PILARES_FILE = os.path.expanduser("~/Oasis-Sovereign-Monolith/vault/pilares_oasis_kb.json")
 
 LINCOS_TERMS = {
     "bkm": "navier_stokes_bkm",
@@ -33,10 +35,46 @@ def get_installed_models():
     except Exception:
         return ["aether:1.5b", "qwen2.5:1.5b", "oraculo-web:capa1"]
 
+def match_internal_pillar(query: str):
+    """Detecta si la consulta refiere a un Pilar de Oasis y extrae su verdad canónica."""
+    p_low = query.lower()
+    if not os.path.exists(PILARES_FILE):
+        return None
+
+    try:
+        with open(PILARES_FILE, "r", encoding="utf-8") as f:
+            kb = json.load(f)
+    except Exception:
+        return None
+
+    # 1. Búsqueda por número de pilar (ej: "pilar 1", "pilar 2", "pilar 193")
+    match = re.search(r'pilar\s*(\d+)', p_low)
+    if match:
+        p_num = match.group(1)
+        if p_num in kb:
+            return kb[p_num]
+        # Casos compuestos
+        if p_num in ["66", "190", "198", "225", "375"]:
+            for k in ["50", "172", "193", "224", "371"]:
+                if p_num in kb.get(k, {}).get("titulo", ""):
+                    return kb[k]
+
+    # 2. Búsqueda semántica por conceptos clave de Oasis
+    if "landauer" in p_low or "silicio frio" in p_low or "silicio frío" in p_low:
+        return kb.get("1")
+    if "pacing" in p_low or "jitter" in p_low or "gaming" in p_low:
+        return kb.get("2")
+    if "golod" in p_low or "shafarevich" in p_low:
+        return kb.get("193")
+    if "quarantine" in p_low or "cuarentena" in p_low or "mero conducto" in p_low:
+        return kb.get("50")
+    if "depin" in p_low or "swarm" in p_low or "chen-panzano" in p_low:
+        return kb.get("371")
+
+    return None
+
 def fetch_capa1_oracle(query: str) -> str:
-    """Extrae hechos en tiempo real comprimidos en <= 3.14 KB."""
     clean_q = re.sub(r'[^\w\s]', '', query).strip()
-    # 1. Wikipedia REST API
     try:
         url = f"https://es.wikipedia.org/api/rest_v1/page/summary/{urllib.parse.quote(clean_q)}"
         req = urllib.request.Request(url, headers={"User-Agent": "OasisSovereignOS/19.5"})
@@ -48,7 +86,6 @@ def fetch_capa1_oracle(query: str) -> str:
     except Exception:
         pass
 
-    # 2. DuckDuckGo Instant Answer
     try:
         url = f"https://api.duckduckgo.com/?q={urllib.parse.quote(query)}&format=json&no_html=1&skip_disambig=1"
         req = urllib.request.Request(url, headers={"User-Agent": "OasisSovereignOS/19.5"})
@@ -65,7 +102,13 @@ def fetch_capa1_oracle(query: str) -> str:
 def route_query(prompt: str, model: str = "aether:1.5b"):
     p_low = prompt.lower()
 
-    # Capa 0: Determinista LINCOS
+    # CAPA 0A: Comprobación de Pilares Canónicos de Oasis (Respuesta Inmediata sin Alucinación)
+    pillar_data = match_internal_pillar(prompt)
+    if pillar_data:
+        ans = f"🏛️ [{pillar_data['titulo'].upper()}]:\n{pillar_data['definicion']}"
+        return "CAPA_0_STATIC", ans
+
+    # CAPA 0B: Determinista LINCOS
     for key, topic in LINCOS_TERMS.items():
         if key in p_low:
             try:
@@ -77,10 +120,10 @@ def route_query(prompt: str, model: str = "aether:1.5b"):
             except Exception:
                 pass
 
-    # Capa 1: Búsqueda de Hechos Verificados
+    # CAPA 1: Oráculo de Hechos Verificados
     oracle_context = fetch_capa1_oracle(prompt)
 
-    # Comprobar si Ollama está vivo en 127.0.0.1:11434
+    # Estado de Ollama
     ollama_alive = False
     try:
         req = urllib.request.Request(f"{OLLAMA_URL}/api/tags")
@@ -90,15 +133,11 @@ def route_query(prompt: str, model: str = "aether:1.5b"):
     except Exception:
         ollama_alive = False
 
-    # Si Ollama está apagado (o ejecutándose en Render), el Oráculo Web responde directamente
     if not ollama_alive:
         if oracle_context:
-            res_text = f"🌐 [ORÁCULO SOBERANO - CAPA 1]:\n{oracle_context}"
-        else:
-            res_text = f"🤖 [ORÁCULO]: Procesando consulta '{prompt}'. Para inferencia densa fuera de red, inicia Ollama en local (`ollama serve`)."
-        return "CAPA_1_AUTONOMOUS", res_text
+            return "CAPA_1_AUTONOMOUS", f"🌐 [ORÁCULO SOBERANO - CAPA 1]:\n{oracle_context}"
+        return "CAPA_1_AUTONOMOUS", f"🤖 [ORÁCULO]: Consulta '{prompt}' procesada. Para inferencia densa fuera de red, arranca Ollama (`ollama serve`)."
 
-    # Capa 2: Inferencia Local enriquecida con hechos verificados
     final_prompt = prompt
     if oracle_context:
         final_prompt = f"[HECHOS VERIFICADOS ORÁCULO CAPA 1]:\n{oracle_context}\n\n[PREGUNTA]:\n{prompt}\n\nResponde conciso:"
@@ -117,6 +156,6 @@ def route_query(prompt: str, model: str = "aether:1.5b"):
 
 if __name__ == "__main__":
     import sys
-    test_q = sys.argv[1] if len(sys.argv) > 1 else "capital de españa"
+    test_q = sys.argv[1] if len(sys.argv) > 1 else "que dice el pilar 2"
     t, p = route_query(test_q)
     print(f"Tipo: {t}\nPayload: {p}")

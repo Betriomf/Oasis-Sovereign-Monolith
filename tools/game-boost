@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ "$1" == "--test" ] || [ "$1" == "-t" ] || [ "$1" == "--benchmark" ]; then
+    python3 "$HOME/Oasis-Sovereign-Monolith/agents_core/oasis_gaming_daemon.py" --benchmark
+else
+    python3 "$HOME/Oasis-Sovereign-Monolith/agents_core/oasis_gaming_daemon.py"
+fi

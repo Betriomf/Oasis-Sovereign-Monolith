@@ -1,0 +1,38 @@
+{
+  "1": {
+    "titulo": "Pilar 1 — Cota de Landauer-Oasis y Límite Térmico",
+    "definicion": "Redefinición del límite termodinámico de la información mediante E = k_B * T * ln(phi) ≈ 1.9932e-21 J a 300K, donde phi = (1+sqrt(5))/2. Ahorro termodinámico estructural del 30.58% frente al límite clásico de Landauer (k_B * T * ln 2). Garantiza disipación pasiva en silicio frío (≤ 3.78 W sostenidos) sin ventiladores ni thermal throttling."
+  },
+  "2": {
+    "titulo": "Pilar 2 — Modulación por Pacing Áureo (Gaming & Streaming UDP/QUIC)",
+    "definicion": "Espaciado temporal irracional de datagramas UDP mediante cadencia delta_t = pi / phi ≈ 1.938 ms. Evita la saturación de buffers residenciales (bufferbloat) y colapsa el jitter P99 en un 99.67% (de 28.18 ms a 0.08-0.09 ms) con un consumo de procesador inferior a 1.85 W."
+  },
+  "18": {
+    "titulo": "Pilar 18 — Topología de Estados en Mallas de Fibonacci",
+    "definicion": "Restricción del espacio de fases a cadenas phi^N en lugar del binario plano 2^N, eliminando transiciones de estado redundantes y optimizando la entropía algorítmica."
+  },
+  "29": {
+    "titulo": "Pilar 29 — Transporte Híbrido Off-Grid Resiliente",
+    "definicion": "Micro-tramas atómicas de 3.14 KB (pi-KB) cifradas mediante túneles Garlic I2P (SSU2/UDP) en internet, con conmutación automática a BitChat Mesh (Bluetooth / Wi-Fi Direct) en caso de apagón de infraestructura."
+  },
+  "50": {
+    "titulo": "Pilar 50 & 66 — Bóveda Soberana, Doctrina del Mero Conducto y Cuarentena RAM",
+    "definicion": "Almacenamiento Local-First amparado en la Directiva 2000/31/CE y DMCA 512. Identidad anclada al silicio (OASIS-HW-MAC). Todo archivo pasa por contraste ciego de hashes SHA-256 en memoria volátil (quarantine_pass: true) antes de persistir."
+  },
+  "172": {
+    "titulo": "Pilar 172 & 190 — Router Híbrido de 4 Capas en Silicio Frío",
+    "definicion": "Enrutamiento por mínima resistencia energética: Capa 0 (Determinista LINCOS <0.05 ms, 0.00 W), Capa 1 (Oráculo Web pi-KB), Capa 2 (Inferencia Local Ollama T=0.23 en Metal), Capa 3 (Nube Masiva L402)."
+  },
+  "193": {
+    "titulo": "Pilar 193 & 198 — Invariante de Red de Golod-Shafarevich (r > d²/4)",
+    "definicion": "Cota algebraica impuesta en la malla Gossip P2P y parcheada en la pila TCP/IP del kernel Linux: para grado de vecinos d=6, se exigen r >= 10 relaciones de freno. Suprime tormentas de broadcast y reduce el tráfico de red en un 96.19%."
+  },
+  "224": {
+    "titulo": "Pilar 224 & 225 — Aislamiento Círculo Negro y Sandbox WASM",
+    "definicion": "Ejecución de agentes y plugins confinada en espacio de usuario Ring 3 mediante WebAssembly (Extism/Wasmtime), cuotas de memoria de 256-512 MB y zeroización atómica en RAM de claves de sesión (ephemeralKey.fill(0))."
+  },
+  "371": {
+    "titulo": "Pilar 371 & 375 — DePIN Swarm P2P y Cota Conforme Chen-Panzano",
+    "definicion": "Orquestación de enjambre de cómputo colectivo mediante WebGPU y shaders WGSL. Reparto uniforme de capas intermedias garantizando un overhead de transferencia <= 10.14%."
+  }
+}
