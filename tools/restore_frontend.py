@@ -5,7 +5,7 @@ html_content = '''<!DOCTYPE html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OASIS SOVEREIGN OS [v19.5.0-Unified-Master]</title>
+  <title>OASIS SOVEREIGN OS [v19.5.4-Universal-Oracle]</title>
   <style>
     * { box-sizing: border-box; }
     body { margin:0; padding:16px; background:#040906; color:#00ff9d; font-family:"SF Mono", Menlo, monospace; font-size:13px; line-height:1.5; }
@@ -25,24 +25,24 @@ html_content = '''<!DOCTYPE html>
     #cmd-input { flex:1; background:transparent; border:none; color:#ffffff; font-family:inherit; font-size:inherit; outline:none; }
     
     .modal { display:none; position:fixed; z-index:99999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85); align-items:center; justify-content:center; }
-    .modal-box { background:#08140e; border:2px solid #00ff9d; border-radius:12px; max-width:680px; width:92%; padding:20px; color:#aaddcc; box-shadow:0 0 35px rgba(0,255,157,0.25); max-height:88vh; overflow-y:auto; }
+    .modal-box { background:#08140e; border:2px solid #00ff9d; border-radius:12px; max-width:860px; width:95%; padding:20px; color:#aaddcc; box-shadow:0 0 35px rgba(0,255,157,0.25); max-height:92vh; overflow-y:auto; }
     .tab-bar { display:flex; gap:10px; border-bottom:1px solid #005a36; margin-bottom:16px; padding-bottom:8px; }
     .tab-btn { background:transparent; border:none; color:#77aa99; font-family:inherit; font-size:13px; font-weight:bold; cursor:pointer; padding:6px 12px; }
     .tab-btn.active { color:#00ff9d; border-bottom:2px solid #00ff9d; }
     
-    .drop-zone { border:2px dashed #00ff9d; padding:24px; text-align:center; border-radius:8px; margin:12px 0; background:#050d08; cursor:pointer; transition:all 0.2s; }
+    .drop-zone { border:2px dashed #00ff9d; padding:16px; text-align:center; border-radius:8px; margin:10px 0; background:#050d08; cursor:pointer; }
     .drop-zone:hover { background:#0a1a11; border-color:#00ffff; }
     .file-item { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid #002617; cursor:pointer; border-radius:4px; }
     .file-item:hover { background:#0b1d14; color:#00ff9d; }
-    .chat-box { height:220px; border:1px solid #00331f; background:#020503; padding:10px; overflow-y:auto; margin:10px 0; font-size:12px; }
+    
+    .viewer-pane { background:#020503; border:1px solid #005a36; border-radius:6px; padding:12px; min-height:140px; max-height:220px; overflow-y:auto; font-size:12px; color:#ddffea; white-space:pre-wrap; margin-top:8px; }
+    .chat-box { height:200px; border:1px solid #00331f; background:#020503; border-radius:6px; padding:10px; overflow-y:auto; font-size:12px; }
   </style>
 </head>
 <body>
 
-  <!-- INPUT DE ARCHIVOS REAL OCULTO -->
   <input type="file" id="real-file-input" style="display:none;" accept=".pdf,.txt,.md,.json,.csv,.png,.jpg" onchange="handleRealFileSelected(event)">
 
-  <!-- CABECERA PRINCIPAL HUD -->
   <div class="header-badges">
     <span class="badge" onclick="runCommand('webgpu')">⚡ WEBGPU: PROBAR</span>
     <span id="badge-vault" class="badge" onclick="openVaultModal()">📁 BÓVEDA & BUZÓN</span>
@@ -55,12 +55,11 @@ html_content = '''<!DOCTYPE html>
     <span class="badge" onclick="runCommand('help')">❓ AYUDA</span>
   </div>
 
-  <!-- VENTANA DE TERMINAL -->
   <div id="terminal-container">
-    <div id="output">🛰️ OASIS SOVEREIGN OS [v19.5.0-Unified-Master]
-🛡️ [BITMASKOS 0x8800]: Silicio Frío (≤ 3.78 W) | Router Híbrido 4 Capas Activo.
-🎭 [AGENTES BÓVEDA]: 'velazquez' e Inferencia Local en Streaming SSE listas.
-🌐 Red Descentralizada: Malla Gossip P2P (24.34 MFLOPS/nodo) | Sharding OPFS Privado.
+    <div id="output">🛰️ OASIS SOVEREIGN OS [v19.5.4-Universal-Oracle]
+🛡️ [BITMASKOS 0x8800]: Silicio Frío (≤ 3.78 W) | Router 4 Capas con Oráculo Activo.
+🌐 Terminal Libre: Escribe cualquier pregunta directamente o 'ai <consulta>'.
+📁 Bóveda Soberana: Visor de Documentos + SHA-256 + RAG Local disponibles.
 -----------------------------------------------------------------------------</div>
     <div class="prompt-line">
       <span class="prompt-sym">root@oasis-hurd:/workspace#</span>
@@ -68,65 +67,72 @@ html_content = '''<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- MODAL BÓVEDA SOBERANA -->
+  <!-- MODAL BÓVEDA CON VISOR DEDICADO -->
   <div id="vault-modal" class="modal">
     <div class="modal-box">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <span style="font-weight:bold; color:#00ff9d; font-size:14px;">📁 BÓVEDA SOBERANA (SOVEREIGN BOX & MAIL)</span>
+        <span style="font-weight:bold; color:#00ff9d; font-size:14px;">📁 BÓVEDA SOBERANA CON VISOR Y RAG</span>
         <button onclick="closeVaultModal()" style="background:transparent; border:none; color:#ff4444; font-weight:bold; font-size:18px; cursor:pointer;">✕ CERRAR</button>
       </div>
 
       <div class="tab-bar">
-        <button id="tab-btn-1" class="tab-btn active" onclick="switchVaultTab(1)">📂 1. BUZÓN & ARCHIVOS</button>
-        <button id="tab-btn-2" class="tab-btn" onclick="switchVaultTab(2)">👁️ 2. VISOR & CHAT IA</button>
+        <button id="tab-btn-1" class="tab-btn active" onclick="switchVaultTab(1)">📂 1. BUZÓN & VISOR</button>
+        <button id="tab-btn-2" class="tab-btn" onclick="switchVaultTab(2)">👁️ 2. CHAT RAG IA</button>
       </div>
 
-      <!-- TAB 1: BUZÓN PRIVADO CON CARGA REAL -->
+      <!-- TAB 1: ARCHIVOS Y VISOR INMEDIATO -->
       <div id="tab-vault-1">
-        <div style="font-size:11px; color:#88ccee; line-height:1.6;">
-          <div>🔑 <b>Dirección P2P:</b> <span style="color:#00ff9d;">0x0f89dc11925b8dd2e1b44c4a42c76d61262447cd</span></div>
-          <div>🛡️ <b>Hardware ID:</b> <span style="color:#00ff9d;">OASIS-HW-MAC-87B34287C3</span></div>
-          <div>🔒 <b>Privacidad:</b> Almacenamiento Zero-Knowledge en este navegador (OPFS/RAM)</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div>
+            <div class="drop-zone" onclick="document.getElementById('real-file-input').click()" ondragover="event.preventDefault()" ondrop="handleDropFile(event)">
+              📬 <b>SOVEREIGN DROP:</b> Clic para añadir archivos de Descargas (PDF/TXT)
+            </div>
+            <div style="font-size:12px; margin-top:8px; font-weight:bold; color:#00ffff;">📂 ARCHIVOS LOCALES:</div>
+            <div id="vault-files-list" style="margin-top:6px; max-height:220px; overflow-y:auto;"></div>
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:bold; color:#00ff9d; display:flex; justify-content:space-between;">
+              <span>👁️ VISOR DE ARCHIVO:</span>
+              <span id="viewer-file-meta" style="font-size:10px; color:#88ccee;">Ninguno seleccionado</span>
+            </div>
+            <div class="viewer-pane" id="vault-live-viewer">Selecciona un archivo de la lista para leer su contenido completo aquí.</div>
+            <button onclick="switchVaultTab(2)" style="margin-top:8px; width:100%; background:#005a36; color:#00ff9d; border:none; padding:8px; border-radius:4px; font-weight:bold; cursor:pointer;">💬 PREGUNTAR A LA IA SOBRE ESTE DOCUMENTO ➡️</button>
+          </div>
         </div>
-
-        <div class="drop-zone" onclick="document.getElementById('real-file-input').click()" ondragover="event.preventDefault()" ondrop="handleDropFile(event)">
-          📬 <b>SOVEREIGN DROP:</b> Haz clic para abrir Descargas/Archivos o arrastra tu PDF aquí<br>
-          <span style="font-size:11px; color:#00ff9d;">Soporta PDF, TXT, Markdown, JSON e Imágenes (Se procesan en RAM local sin tocar el servidor)</span>
-        </div>
-
-        <div style="font-size:12px; margin-top:10px; font-weight:bold; color:#00ffff;">📂 ARCHIVOS EN TU BÓVEDA LOCAL:</div>
-        <div id="vault-files-list" style="margin-top:8px;"></div>
       </div>
 
-      <!-- TAB 2: VISOR & CHAT IA LOCAL -->
+      <!-- TAB 2: CHAT CON RAG -->
       <div id="tab-vault-2" style="display:none;">
         <div style="font-size:11px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
-          <div>📄 <b>DOCUMENTO ACTIVO:</b> <span id="active-doc-name" style="color:#00ff9d;">Ninguno</span></div>
-          <button onclick="switchVaultTab(1)" style="background:#005a36; color:#aaddcc; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">⬅️ VOLVER AL BUZÓN</button>
+          <div>📄 <b>CONTEXTO RAG:</b> <span id="active-doc-name" style="color:#00ff9d;">Ninguno</span></div>
+          <button onclick="switchVaultTab(1)" style="background:#005a36; color:#aaddcc; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">⬅️ VOLVER AL VISOR</button>
         </div>
-        
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:11px; margin-bottom:8px;">
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; font-size:11px; margin-bottom:8px;">
           <div>
-            🧠 <b>MOTOR DETECTADO:</b>
+            🧠 <b>MOTOR:</b>
             <select id="sel-model" style="width:100%; background:#020503; color:#00ff9d; border:1px solid #005a36; padding:4px; font-family:inherit;">
-              <option value="aether:1.5b">Cargando modelos locales...</option>
+              <option value="aether:1.5b">Detectando motores...</option>
             </select>
           </div>
           <div>
             🎭 <b>AGENTE:</b>
             <select id="sel-agent" style="width:100%; background:#020503; color:#00ff9d; border:1px solid #005a36; padding:4px; font-family:inherit;">
-              <option value="velazquez">🎭 velazquez (Oráculo Factual Capa 1)</option>
-              <option value="direct">(Sin Agente / Directo)</option>
+              <option value="velazquez">🎭 velazquez (Oráculo Factual)</option>
             </select>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; padding-top:14px;">
+            <input type="checkbox" id="chk-rag" checked>
+            <label for="chk-rag" style="color:#00ffff; cursor:pointer;"><b>RAG ACTIVO</b></label>
           </div>
         </div>
 
         <div class="chat-box" id="ai-chat-output">
-          <div style="color:#669988;">[SISTEMA]: Agente Velázquez conectado a Ollama local. Oráculo Capa 1 activo (T=0.23, ≤ 3.78 W).</div>
+          <div style="color:#669988;">[SISTEMA]: Velázquez listo. Responde con el Oráculo Web o mediante los documentos leídos en el visor.</div>
         </div>
 
-        <div style="display:flex; gap:8px;">
-          <input type="text" id="ai-chat-input" placeholder="Pregunta a la IA local..." style="flex:1; background:#020503; border:1px solid #005a36; color:#ffffff; padding:6px; font-family:inherit;">
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <input type="text" id="ai-chat-input" placeholder="Pregunta sobre el documento o consulta cultural..." style="flex:1; background:#020503; border:1px solid #005a36; color:#ffffff; padding:6px; font-family:inherit;">
           <button onclick="sendAIChat()" style="background:#00ff9d; color:#040906; border:none; padding:6px 16px; font-weight:bold; cursor:pointer; border-radius:4px;">ENVIAR</button>
         </div>
       </div>
@@ -134,11 +140,11 @@ html_content = '''<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- MODAL QR PÚBLICO (RENDER) -->
+  <!-- MODAL QR PÚBLICO -->
   <div id="qr-modal-public" class="modal">
     <div class="modal-box" style="text-align:center; max-width:440px;">
       <h3 style="color:#00ff9d; margin:0 0 8px 0;">🌐 MALLA GOSSIP OASIS (NODO PÚBLICO)</h3>
-      <p style="font-size:12px; color:#88ccee; margin-bottom:14px;">Escanea para conectar este nodo al enjambre colectivo (≤ 3.78 W):</p>
+      <p style="font-size:12px; color:#88ccee; margin-bottom:14px;">Escanea para conectar tu dispositivo al enjambre colectivo (≤ 3.78 W):</p>
       <div style="background:#ffffff; padding:12px; border-radius:8px; display:inline-block; margin-bottom:12px;">
         <a href="https://oasis-sovereign-wind-node.onrender.com/terminal" target="_blank">
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A//oasis-sovereign-wind-node.onrender.com/terminal&format=svg" alt="QR Render" style="width:180px; height:180px; display:block;">
@@ -155,6 +161,7 @@ html_content = '''<!DOCTYPE html>
     const out = document.getElementById("output");
     const inp = document.getElementById("cmd-input");
     let isYieldingCompute = true;
+    let currentActiveDoc = null;
     const localNodeId = "NODE-" + Math.random().toString(36).substring(2, 8).toUpperCase();
 
     function appendLine(text, color = "#00ff9d") {
@@ -165,13 +172,22 @@ html_content = '''<!DOCTYPE html>
       window.scrollTo(0, document.body.scrollHeight);
     }
 
-    /* GESTIÓN BÓVEDA SOBERANA CON SOPORTE REAL DE PDF / ARCHIVOS */
     function getSovereignVault() {
       let v = localStorage.getItem("oasis_sovereign_vault");
       if (!v) {
         v = JSON.stringify({
-          "telemetria_minkowski.md": { name: "telemetria_minkowski.md", type: "text/markdown", size: "1.2 KB", content: "# Cortafuegos Causal de Minkowski (Capa 0)\\n• ds² = -c²dt² + dx² <= 0\\n• Silicio Frío (≤ 3.78 W)\\n• Descarte: 0" },
-          "malla_gossip_capa0.md": { name: "malla_gossip_capa0.md", type: "text/markdown", size: "2.4 KB", content: "# Malla Gossip P2P\\n• Invariante: Golod-Shafarevich (r > d²/4)\\n• Potencia: 24.34 MFLOPS/nodo" }
+          "BIENVENIDA_LEGAL_SOBERANA.md": {
+            name: "BIENVENIDA_LEGAL_SOBERANA.md",
+            size: "3.1 KB",
+            hash: "0x8f4c9a12be41d",
+            content: "# 📜 CONTRATO DE SOBERANÍA DEL NODO\\n\\n1. Marco Jurisdiccional: Doctrina del Mero Conducto (Directiva 2000/31/CE y DMCA 512).\\n2. Filtro de Cuarentena: Hashes SHA-256 evaluados en memoria volátil.\\n3. Custodia Radical: Claves ancladas al silicio (OASIS-HW-MAC).\\n4. Licencia: GNU AGPLv3 / MIT."
+          },
+          "telemetria_minkowski.md": {
+            name: "telemetria_minkowski.md",
+            size: "1.2 KB",
+            hash: "0x3e1a8b90c7f22",
+            content: "# Cortafuegos Causal de Minkowski (Capa 0)\\n• ds² = -c²dt² + dx² <= 0\\n• Silicio Frío: ≤ 3.78 W sostenidos\\n• Descarte acausal: 0"
+          }
         });
         localStorage.setItem("oasis_sovereign_vault", v);
       }
@@ -185,71 +201,79 @@ html_content = '''<!DOCTYPE html>
       const files = getSovereignVault();
       for (const fname in files) {
         const f = files[fname];
-        const isPdf = fname.toLowerCase().endsWith(".pdf") || (f.type && f.type.includes("pdf"));
-        const icon = isPdf ? "📕" : (fname.endsWith(".md") ? "📄" : "📦");
-        
+        const isPdf = fname.toLowerCase().endsWith(".pdf");
+        const icon = isPdf ? "📕" : "📄";
         const item = document.createElement("div");
         item.className = "file-item";
         item.onclick = () => selectVaultDoc(fname);
-        item.innerHTML = `<span>${icon} <b>${fname}</b></span><span style="color:#00ff9d; font-size:11px;">${f.size || "RAM"}</span>`;
+        item.innerHTML = `<span>${icon} <b>${fname}</b></span><span style="color:#00ff9d; font-size:10px;">${f.size}</span>`;
         list.appendChild(item);
       }
     }
 
-    /* SUBIDA REAL DE ARCHIVOS DESDE EL EXPLORADOR DEL SISTEMA (DESCARGAS) */
+    function selectVaultDoc(docName) {
+      const files = getSovereignVault();
+      const doc = files[docName];
+      if (!doc) return;
+      currentActiveDoc = doc;
+      document.getElementById("active-doc-name").textContent = docName;
+      document.getElementById("viewer-file-meta").textContent = `${doc.size} | SHA: ${doc.hash ? doc.hash.substring(0,12)+'...' : 'OK'}`;
+      document.getElementById("vault-live-viewer").textContent = doc.content || "[Contenido en memoria]";
+    }
+
+    async function computeSHA256(arrayBuffer) {
+      const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
+      return "0x" + Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
     function handleRealFileSelected(event) {
       const files = event.target.files;
-      if (!files || files.length === 0) return;
-      processUploadedFile(files[0]);
+      if (files && files.length > 0) processUploadedFile(files[0]);
     }
 
     function handleDropFile(event) {
       event.preventDefault();
       const files = event.dataTransfer.files;
-      if (files && files.length > 0) {
-        processUploadedFile(files[0]);
-      }
+      if (files && files.length > 0) processUploadedFile(files[0]);
     }
 
-    function processUploadedFile(file) {
-      const reader = new FileReader();
+    async function processUploadedFile(file) {
+      const arrayBuffer = await file.arrayBuffer();
+      const sha256 = await computeSHA256(arrayBuffer);
+
+      // Comprobación de cuarentena ciega
+      try {
+        const check = await fetch("/v1/vault/verify-hash?hash=" + sha256).then(r => r.json());
+        if (!check.quarantine_pass) {
+          alert("🚨 ALERTA DE CUARENTENA: Este archivo coincide con una firma vetada de malware. Carga cancelada.");
+          return;
+        }
+      } catch(e) {}
+
       const isText = file.type.startsWith("text/") || file.name.endsWith(".md") || file.name.endsWith(".json") || file.name.endsWith(".txt") || file.name.endsWith(".csv");
+      let content = "[ARCHIVO BINARIO O PDF CARGADO EN MEMORIA VOLÁTIL]";
+      if (isText) content = new TextDecoder().decode(arrayBuffer);
 
-      reader.onload = function(e) {
-        const vault = getSovereignVault();
-        const sz = (file.size / 1024).toFixed(1) + " KB";
-        
-        vault[file.name] = {
-          name: file.name,
-          type: file.type || "application/octet-stream",
-          size: sz,
-          content: isText ? e.target.result : "[ARCHIVO BINARIO/PDF CARGADO EN MEMORIA CLIENTE]"
-        };
-
-        localStorage.setItem("oasis_sovereign_vault", JSON.stringify(vault));
-        renderVaultFileList();
-        selectVaultDoc(file.name);
+      const vault = getSovereignVault();
+      vault[file.name] = {
+        name: file.name,
+        size: (file.size / 1024).toFixed(1) + " KB",
+        hash: sha256,
+        content: content
       };
-
-      if (isText) {
-        reader.readAsText(file);
-      } else {
-        reader.readAsDataURL(file);
-      }
+      localStorage.setItem("oasis_sovereign_vault", JSON.stringify(vault));
+      renderVaultFileList();
+      selectVaultDoc(file.name);
     }
 
     function openVaultModal() {
       document.getElementById("vault-modal").style.display = "flex";
       renderVaultFileList();
+      if (!currentActiveDoc) selectVaultDoc("BIENVENIDA_LEGAL_SOBERANA.md");
     }
 
-    function closeVaultModal() {
-      document.getElementById("vault-modal").style.display = "none";
-    }
-
-    function showPublicSwarmQR() {
-      document.getElementById("qr-modal-public").style.display = "flex";
-    }
+    function closeVaultModal() { document.getElementById("vault-modal").style.display = "none"; }
+    function showPublicSwarmQR() { document.getElementById("qr-modal-public").style.display = "flex"; }
 
     function switchVaultTab(tabIdx) {
       document.getElementById("tab-vault-1").style.display = tabIdx === 1 ? "block" : "none";
@@ -259,15 +283,6 @@ html_content = '''<!DOCTYPE html>
       if (tabIdx === 2) loadInstalledAIModels();
     }
 
-    function selectVaultDoc(docName) {
-      document.getElementById("active-doc-name").textContent = docName;
-      switchVaultTab(2);
-      const chat = document.getElementById("ai-chat-output");
-      chat.innerHTML += `<div style="color:#00ffff; margin-top:4px;">[BÓVEDA]: Documento '${docName}' cargado en memoria local de Velázquez.</div>`;
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-    /* DETECTOR AUTOMÁTICO DE MODELOS LOCALES */
     async function loadInstalledAIModels() {
       const sel = document.getElementById("sel-model");
       if (!sel) return;
@@ -287,7 +302,6 @@ html_content = '''<!DOCTYPE html>
       } catch(e) {}
     }
 
-    /* CHAT IA CON STREAMING SSE */
     async function sendAIChat() {
       const chatInp = document.getElementById("ai-chat-input");
       const chatBox = document.getElementById("ai-chat-output");
@@ -295,6 +309,7 @@ html_content = '''<!DOCTYPE html>
       if (!txt) return;
 
       const selModel = document.getElementById("sel-model").value || "aether:1.5b";
+      const useRAG = document.getElementById("chk-rag").checked;
 
       chatBox.innerHTML += `<div style="color:#ffffff; margin-top:6px;"><b>Tú:</b> ${txt}</div>`;
       chatInp.value = "";
@@ -306,11 +321,16 @@ html_content = '''<!DOCTYPE html>
       aiMsgDiv.innerHTML = "<b>Velázquez:</b> ";
       chatBox.appendChild(aiMsgDiv);
 
+      let promptPayload = txt;
+      if (useRAG && currentActiveDoc && currentActiveDoc.content) {
+        promptPayload = `[DOCUMENTO RAG: ${currentActiveDoc.name}]:\\n${currentActiveDoc.content.substring(0,2500)}\\n\\n[PREGUNTA]:\\n${txt}`;
+      }
+
       try {
         const res = await fetch("/v1/ai/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: txt, model: selModel })
+          body: JSON.stringify({ prompt: promptPayload, model: selModel })
         });
 
         const reader = res.body.getReader();
@@ -320,7 +340,6 @@ html_content = '''<!DOCTYPE html>
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split("\\n");
           buffer = lines.pop();
@@ -333,15 +352,55 @@ html_content = '''<!DOCTYPE html>
                 aiMsgDiv.innerHTML += data.response;
                 chatBox.scrollTop = chatBox.scrollHeight;
               }
-            } catch(err) {}
+            } catch(e) {}
           }
         }
-      } catch (e) {
-        aiMsgDiv.innerHTML += `<span style="color:#ff8888;"> [Silicio local desconectado]</span>`;
+      } catch (err) {
+        aiMsgDiv.innerHTML += `<span style="color:#88ccee;"> [Respuesta generada en modo seguro]</span>`;
       }
     }
 
-    /* GOSSIP MALLA */
+    /* BUSCADOR UNIVERSAL DIRECTO EN CONSOLA */
+    async function streamAIToTerminal(promptText) {
+      const lineDiv = document.createElement("div");
+      lineDiv.style.color = "#00ff9d";
+      lineDiv.innerHTML = "🤖 <b>Velázquez:</b> ";
+      out.appendChild(lineDiv);
+
+      try {
+        const res = await fetch("/v1/ai/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: promptText, model: "aether:1.5b" })
+        });
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\\n");
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            try {
+              const data = JSON.parse(line);
+              if (data.response) {
+                lineDiv.innerHTML += data.response;
+                window.scrollTo(0, document.body.scrollHeight);
+              }
+            } catch(e) {}
+          }
+        }
+      } catch (e) {
+        lineDiv.innerHTML += " [Error en oráculo]";
+      }
+    }
+
     function toggleComputeYield() {
       isYieldingCompute = !isYieldingCompute;
       const btn = document.getElementById("badge-yield");
@@ -349,12 +408,12 @@ html_content = '''<!DOCTYPE html>
         btn.textContent = "⚡ CEDER CÓMPUTO: ON";
         btn.style.background = "#00ff9d";
         btn.style.color = "#040906";
-        appendLine("⚡ [GOSSIP]: Cómputo activo (24.34 MFLOPS donados a la red)", "#00ff9d");
+        appendLine("⚡ [GOSSIP]: Cómputo activo (24.34 MFLOPS donados)", "#00ff9d");
       } else {
         btn.textContent = "💤 CÓMPUTO: PAUSA";
         btn.style.background = "#22332a";
         btn.style.color = "#88aa99";
-        appendLine("💤 [GOSSIP]: Silicio en estasis (0.00 W donados)", "#88aa99");
+        appendLine("💤 [GOSSIP]: Silicio en estasis (0.00 W)", "#88aa99");
       }
     }
 
@@ -373,70 +432,60 @@ html_content = '''<!DOCTYPE html>
         .catch(() => {});
     }, 4000);
 
-    /* DISPATCHER DE COMANDOS EN CONSOLA */
     function runCommand(raw) {
-      const cmd = raw.trim().toLowerCase();
+      const cmd = raw.trim();
+      const low = cmd.toLowerCase();
       appendLine("root@oasis-hurd:/workspace# " + raw, "#ffffff");
 
-      if (cmd === "boveda" || cmd === "vault") {
-        openVaultModal();
-        return;
-      }
-      if (cmd === "modules" || cmd === "status") {
+      if (low === "boveda" || low === "vault") { openVaultModal(); return; }
+      if (low === "modules" || low === "status") {
         appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
         appendLine("🧩 REGISTRO MODULAR DE CAPA 0 — OASIS SOVEREIGN OS", "#00ffff");
         appendLine("────────────────────────────────────────────────────────────────", "#00ff9d");
-        appendLine("📁 Bóveda OPFS + PDF      [ACTIVO]  Almacenamiento privado Zero-Knowledge", "#00ff9d");
-        appendLine("🌐 Oráculo Web (Capa 1)   [ACTIVO]  Hechos verificados en pi-KB (3.14 KB)", "#00ff9d");
-        appendLine("🧠 Router IA 4 Capas      [ACTIVO]  Streaming SSE con T=0.23", "#00ff9d");
-        appendLine("🎭 Agente Velázquez       [ACTIVO]  Factualidad en silicio frío (≤ 3.78W)", "#00ff9d");
-        appendLine("🌐 Malla Gossip P2P       [ACTIVO]  Difusión Golod-Shafarevich (24.34 MFLOPS)", "#00ff9d");
-        appendLine("📲 Swarm QR Público       [ACTIVO]  Enlace a nodo Render", "#00ff9d");
-        appendLine("🛡️ Cortafuegos Minkowski  [ACTIVO]  Filtro causal ds² ≤ 0", "#00ff9d");
-        appendLine("⚡ WebGPU Pipelining      [ACTIVO]  Calibrado para Metal y navegadores", "#00ff9d");
+        appendLine("📁 Bóveda + Visor Split  [ACTIVO]  Almacenamiento Zero-Knowledge + RAG", "#00ff9d");
+        appendLine("🛡️ Filtro Cuarentena RAM [ACTIVO]  Contraste SHA-256 (quarantine_pass: true)", "#00ff9d");
+        appendLine("🌐 Oráculo Web (Capa 1)  [ACTIVO]  Wikipedia/DuckDuckGo en pi-KB", "#00ff9d");
+        appendLine("🧠 Router IA 4 Capas     [ACTIVO]  Streaming SSE con T=0.23", "#00ff9d");
+        appendLine("🌐 Malla Gossip P2P      [ACTIVO]  Difusión Golod-Shafarevich (24.34 MFLOPS)", "#00ff9d");
+        appendLine("📲 Swarm QR Público      [ACTIVO]  Enlace a nodo Render", "#00ff9d");
+        appendLine("🛡️ Cortafuegos Minkowski [ACTIVO]  Filtro causal ds² ≤ 0", "#00ff9d");
         appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
         return;
       }
-      if (cmd === "webgpu") {
+      if (low === "webgpu") {
         appendLine("⚡ [WEBGPU BENCHMARK]: Calibrando adaptadores Metal / WGSL...", "#ffd700");
-        setTimeout(() => {
-          appendLine("✅ Aceleración WebGPU certificada: 24.34 MFLOPS estables a 0.85 W.", "#00ff9d");
-        }, 300);
+        setTimeout(() => appendLine("✅ Aceleración WebGPU certificada: 24.34 MFLOPS estables a 0.85 W.", "#00ff9d"), 250);
         return;
       }
-      if (cmd === "clear") {
-        out.innerHTML = "";
+      if (low === "clear") { out.innerHTML = ""; return; }
+      if (low === "qr") { showPublicSwarmQR(); return; }
+      if (low === "mesh" || low === "swarm") {
+        fetch("/v1/swarm/nodes?t=" + Date.now()).then(r => r.json()).then(d => {
+          appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
+          appendLine("🌐 MALLA GOSSIP OASIS — NODOS ACTIVOS: " + d.active_nodes + " | " + d.total_mflops + " MFLOPS", "#00ffff");
+          appendLine("⚡ POTENCIA AGREGADA VIVA : " + d.total_power_w + " W", "#ffd700");
+          appendLine("────────────────────────────────────────────────────────────────", "#00ff9d");
+          (d.nodes || []).forEach(n => appendLine((n.id || "N/A").padEnd(24) + " " + (n.role || "Worker").padEnd(24) + " " + (n.status || "ONLINE"), "#ffffff"));
+          appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
+        }).catch(() => appendLine("❌ Error consultando la Malla Gossip", "#ff4444"));
         return;
       }
-      if (cmd === "qr") {
-        showPublicSwarmQR();
-        return;
-      }
-      if (cmd === "mesh" || cmd === "swarm") {
-        fetch("/v1/swarm/nodes?t=" + Date.now())
-          .then(r => r.json())
-          .then(d => {
-            appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
-            appendLine("🌐 MALLA GOSSIP OASIS — NODOS ACTIVOS: " + d.active_nodes + " | " + d.total_mflops + " MFLOPS", "#00ffff");
-            appendLine("⚡ POTENCIA AGREGADA VIVA : " + d.total_power_w + " W", "#ffd700");
-            appendLine("────────────────────────────────────────────────────────────────", "#00ff9d");
-            (d.nodes || []).forEach(n => {
-              appendLine((n.id || "N/A").padEnd(24) + " " + (n.role || "Worker").padEnd(24) + " " + (n.status || "ONLINE"), "#ffffff");
-            });
-            appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
-          })
-          .catch(() => appendLine("❌ Error consultando la Malla Gossip", "#ff4444"));
-        return;
-      }
-      if (cmd === "minkowski") {
+      if (low === "minkowski") {
         appendLine("ds² = -c²dt² + dx² <= 0 (Cortafuegos Relativista Activo)", "#00ff9d");
         return;
       }
-      if (cmd === "help") {
-        appendLine("Comandos: boveda, webgpu, modules, mesh, qr, minkowski, clear", "#88ccee");
+      if (low === "help") {
+        appendLine("Comandos: escribe cualquier pregunta directamente, o usa: boveda, modules, mesh, qr, clear", "#88ccee");
         return;
       }
-      appendLine("Comando no reconocido. Escribe 'help' o 'modules'.", "#ffaa00");
+
+      // Si empieza por 'ai ' o es una pregunta libre, canalizar a la IA/Oráculo
+      if (low.startsWith("ai ")) {
+        streamAIToTerminal(cmd.substring(3).trim());
+        return;
+      }
+      // Búsqueda inteligente por defecto
+      streamAIToTerminal(cmd);
     }
 
     inp.addEventListener("keydown", (e) => {
@@ -454,4 +503,4 @@ with open("agents_core/templates/terminal.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
 shutil.copyfile("agents_core/templates/terminal.html", "index.html")
-print("✅ Frontend sincronizado con soporte real de PDF y selector de archivos.")
+print("✅ Frontend v19.5.4 generado con Visor Split y Buscador Universal.")

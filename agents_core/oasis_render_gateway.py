@@ -180,7 +180,7 @@ class SovereignGatewayHandler(BaseHTTPRequestHandler):
 
             tipo, payload = hybrid_ai.route_query(prompt, model)
 
-            if tipo in ("CAPA_0_STATIC", "CAPA_1_NOTICE", "CAPA_3_NOTICE"):
+            if tipo in ("CAPA_0_STATIC", "CAPA_1_NOTICE", "CAPA_1_AUTONOMOUS", "CAPA_3_NOTICE"):
                 self.send_response(200)
                 self.send_header("Content-Type", "text/event-stream; charset=utf-8")
                 self.send_header("Access-Control-Allow-Origin", "*")

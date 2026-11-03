@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+"""
+OASIS SOVEREIGN OS — CLI ORÁCULO & IA HÍBRIDA
+Uso: ai "¿Cuál es la capital de España?"
+"""
+import sys
+import json
+import urllib.request
+
+if len(sys.argv) < 2:
+    print("Uso: ai <pregunta>")
+    sys.exit(0)
+
+prompt = " ".join(sys.argv[1:])
+url = "http://127.0.0.1:8080/v1/ai/generate"
+payload = json.dumps({"prompt": prompt, "model": "aether:1.5b"}).encode("utf-8")
+
+req = urllib.request.Request(url, data=payload, headers={"Content-Type": "application/json"})
+try:
+    print("🤖 Velázquez: ", end="", flush=True)
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        for line in resp:
+            line_str = line.decode("utf-8").strip()
+            if not line_str: continue
+            try:
+                data = json.loads(line_str)
+                if "response" in data:
+                    print(data["response"], end="", flush=True)
+            except Exception:
+                pass
+    print()
+except Exception as e:
+    print(f"\n❌ Error conectando con el Gateway: {e}")
