@@ -66,6 +66,12 @@ def match_internal_pillar(query: str):
         return kb.get("2")
     if "golod" in p_low or "shafarevich" in p_low:
         return kb.get("193")
+    if "navier" in p_low or "stokes" in p_low or "kakeya" in p_low:
+        return kb.get("376")
+    if "lorentz" in p_low or "lorenz" in p_low:
+        return kb.get("211")
+    if "hafnio" in p_low or "valencia" in p_low or "quimico-cuantico" in p_low:
+        return kb.get("212")
     if "quarantine" in p_low or "cuarentena" in p_low or "mero conducto" in p_low:
         return kb.get("50")
     if "depin" in p_low or "swarm" in p_low or "chen-panzano" in p_low:

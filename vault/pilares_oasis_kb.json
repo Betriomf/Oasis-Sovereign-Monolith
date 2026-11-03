@@ -32,15 +32,19 @@
     "definicion": "Ejecución de agentes y plugins confinada en espacio de usuario Ring 3 mediante WebAssembly (Extism/Wasmtime), cuotas de memoria de 256-512 MB y zeroización atómica en RAM de claves de sesión (ephemeralKey.fill(0))."
   },
   "371": {
-    "titulo": "Pilar 371 & 375 — DePIN Swarm P2P y Cota Conforme Chen-Panzano",
-    "definicion": "Orquestación de enjambre de cómputo colectivo mediante WebGPU y shaders WGSL. Reparto uniforme de capas intermedias garantizando un overhead de transferencia <= 10.14%."
+    "titulo": "Pilar 371 & 375 — Malla DePIN Iroh, Token-Hex y P2P Swarm Conforme",
+    "definicion": "Orquestación de enjambre de cómputo colectivo WebGPU sobre túneles Iroh, identificador token-hex de 24 bits, regulador térmico pasivo y cota de transferencia conforme Chen-Panzano (≤ 10.14% overhead)."
   },
   "211": {
-    "titulo": "Pilar 211 — Isomorfismo Informacional de Navier-Stokes & Confinamiento Kakeya",
-    "definicion": "∀E ∀n≥2 [ Kakeya(E, S^{n-1}) ∧ Kronecker(π/φ) ∧ Landauer(φ) ∧ Phase(κ_M=-0.6587) ⊢ (dim_H(E)=n) ∧ (Lⁿ(E)→0) ∧ (S_Holo ∝ Area(N_2D)) ∧ (Potencia ≤ 5.39W) ]. Demuestra que las singularidades potenciales carecen de volumen en el espacio de fases (Lⁿ(E) → 0), impidiendo el colapso blow-up."
+    "titulo": "Pilar 211 — Curva de Lorenz, Factor Relativista γ y Confinamiento Espectral",
+    "definicion": "Balanceo de carga relativista sin cuellos de botella (índice de Gini -> 0), descarte de paquetes acausales mediante la métrica del cortafuegos de Minkowski (ds² <= 0) y supresión de picos resonantes lorentzianos en la pila de red (docs/PAPER_LORENTZ_DISTRIBUTION_AND_RELATIVISTIC_LOAD_BALANCING.md)."
   },
   "212": {
-    "titulo": "Pilar 212 — Proyección Holográfica 2D del Espacio de Fases",
-    "definicion": "Mapeo termodinámico que reduce el flujo turbulento 3D a una frontera conforme 2D en equilibrio (S_Holo ∝ Area(N_2D)). La pérdida informacional está regulada por la cota de Landauer-Oasis (E = kB * T * ln φ) a silicio frío (≤ 5.39 W)."
+    "titulo": "Pilar 212 — Isomorfismo Químico-Cuántico, Grados de Valencia y Silicio de Hafnio",
+    "definicion": "Equivalencia física entre las valencias atómicas y los grados de conectividad de la malla hexagonal (d=6), barreras dieléctricas de óxido de hafnio (HfO₂) y estabilidad termodinámica en régimen sub-Landauer P <= 5.39 W (docs/PAPER_QUANTUM_CHEMISTRY_VALENCE_AND_HAFNIUM_SILICON.md)."
+  },
+  "376": {
+    "titulo": "Pilar 376 — Isomorfismo Informacional de Navier-Stokes, Confinamiento de Kakeya y Proyección Holográfica 2D",
+    "definicion": "∀E ∀n≥2 [ Kakeya(E, S^{n-1}) ∧ Kronecker(π/φ) ∧ Landauer(φ) ∧ Phase(κ_M=-0.6587) ⊢ (dim_H(E)=n) ∧ (Lⁿ(E)→0) ∧ (S_Holo ∝ Area(N_2D)) ∧ (Potencia ≤ 5.39W) ]. Deducción formal en sintaxis LINCOS PL1 que demuestra la regularidad global de Navier-Stokes: las singularidades tienen medida de Lebesgue nula (Lⁿ(E) -> 0), anulando el blow-up 3D y proyectando la turbulencia sobre una frontera 2D en equilibrio termodinámico a régimen pasivo."
   }
 }
