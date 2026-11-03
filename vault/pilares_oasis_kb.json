@@ -34,5 +34,13 @@
   "371": {
     "titulo": "Pilar 371 & 375 — DePIN Swarm P2P y Cota Conforme Chen-Panzano",
     "definicion": "Orquestación de enjambre de cómputo colectivo mediante WebGPU y shaders WGSL. Reparto uniforme de capas intermedias garantizando un overhead de transferencia <= 10.14%."
+  },
+  "211": {
+    "titulo": "Pilar 211 — Isomorfismo Informacional de Navier-Stokes & Confinamiento Kakeya",
+    "definicion": "∀E ∀n≥2 [ Kakeya(E, S^{n-1}) ∧ Kronecker(π/φ) ∧ Landauer(φ) ∧ Phase(κ_M=-0.6587) ⊢ (dim_H(E)=n) ∧ (Lⁿ(E)→0) ∧ (S_Holo ∝ Area(N_2D)) ∧ (Potencia ≤ 5.39W) ]. Demuestra que las singularidades potenciales carecen de volumen en el espacio de fases (Lⁿ(E) → 0), impidiendo el colapso blow-up."
+  },
+  "212": {
+    "titulo": "Pilar 212 — Proyección Holográfica 2D del Espacio de Fases",
+    "definicion": "Mapeo termodinámico que reduce el flujo turbulento 3D a una frontera conforme 2D en equilibrio (S_Holo ∝ Area(N_2D)). La pérdida informacional está regulada por la cota de Landauer-Oasis (E = kB * T * ln φ) a silicio frío (≤ 5.39 W)."
   }
 }
