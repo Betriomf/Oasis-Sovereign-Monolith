@@ -1,0 +1,3 @@
+#!/bin/bash
+PROJECT_ROOT="$HOME/Oasis-Sovereign-Monolith"
+python3 "$PROJECT_ROOT/agents_core/oasis_swarm_orchestrator.py" "$@"
