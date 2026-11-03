@@ -150,15 +150,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        if self.path in ("/v1/network/filter-status", "/network/filter-status"):
-            import subprocess
-            try:
-                res = subprocess.check_output(["./tools/oasis_kernel_filter", "--stats"], text=True).strip()
-            except Exception as err:
-                res = f"status=EMULATED_LAMINAR minkowski_drops=0 golod_drops=0 err={err}"
-            self._send_json({"status": "OK", "metrics": res, "thermal_regime": "3.78W"})
-            return
-
         if self.path in ("/", "/terminal", "/index.html"):
             tpl = os.path.join(TEMPLATES_DIR, "terminal.html")
             if not os.path.exists(tpl):
