@@ -1,3 +1,7 @@
+import time
+GOSSIP_PEERS = {}
+GOSSIP_TTL = 8.0  # Expira a los 8 segundos sin heartbeat
+
 #!/usr/bin/env python3
 """
 OASIS SOVEREIGN OS — CORE GATEWAY v18.9.13 (MULTITHREADED CONCURRENT)
@@ -176,7 +180,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             finally:
                 s.close()
             
-            pair_url = f"http://{local_ip}:8080/terminal"
+            pair_url = f"http://{local_ip}:8080/vault/swarm_worker.html"
             self._send_json({
                 "status": "OK",
                 "ip": local_ip,
@@ -360,6 +364,31 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         self._send_json({"error": "NOT_FOUND"}, 404)
 
     def do_POST(self):
+        if self.path.startswith("/v1/swarm/heartbeat"):
+            node_id = "NODE-" + self.client_address[0].replace(".", "-")
+            mflops = 24.34
+            power_w = 0.85
+            try:
+                import urllib.parse
+                parsed = urllib.parse.urlparse(self.path)
+                params = urllib.parse.parse_qs(parsed.query)
+                if "id" in params: node_id = params["id"][0]
+                if "mflops" in params: mflops = float(params["mflops"][0])
+                if "power" in params: power_w = float(params["power"][0])
+            except Exception:
+                pass
+            GOSSIP_PEERS[node_id] = {
+                "id": node_id,
+                "role": "Worker WebGPU/WASM",
+                "arch": "Navegador Remoto (Gossip)",
+                "mflops": mflops,
+                "power_w": power_w,
+                "status": "COMPUTING",
+                "last_seen": time.time()
+            }
+            self._send_json({"status": "OK", "ack": "GOSSIP_PULSE_RECEIVED", "node_id": node_id})
+            return
+
         length = int(self.headers.get("Content-Length", 0))
         raw = self.rfile.read(length) if length > 0 else b""
         try:

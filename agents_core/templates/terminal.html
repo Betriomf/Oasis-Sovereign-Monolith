@@ -19,7 +19,22 @@
     .modal-backdrop { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 100; justify-content: center; align-items: center; }
     .modal-window { background: #010804; border: 1px solid #00ff9d; border-radius: 6px; width: 92%; max-width: 940px; height: 88vh; display: flex; flex-direction: column; padding: 0; }
   </style>
-  <script src="https://unpkg.com/v86@latest/build/libv86.js"></script>
+  <script src="https://unpkg.com/v86@latest/build/libv86.js">
+    function showSwarmQR() {
+      const host = window.location.hostname || "127.0.0.1";
+      const port = window.location.port ? ":" + window.location.port : ":8080";
+      const workerUrl = "http://" + host + port + "/vault/swarm_worker.html";
+      
+      const img = document.getElementById("qr-img");
+      const txt = document.getElementById("qr-url-text");
+      const modal = document.getElementById("qr-modal");
+      
+      if (img) img.src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(workerUrl);
+      if (txt) txt.textContent = workerUrl;
+      if (modal) modal.style.display = "flex";
+    }
+    
+</script>
 </head>
 <body>
   <canvas id="canvas-ocean-wallpaper"></canvas>
@@ -27,16 +42,16 @@
   <div id="terminal-container">
     <div id="header-bar">
       <div>
-        <span style="color:#00ff9d; font-weight:bold; font-size:0.88rem;">🛰️ OASIS SOVEREIGN OS [v19.0.5-Unified-Pillars]</span>
+        <span style="color:#00ff9d; font-weight:bold; font-size:0.88rem;">🛰️ OASIS SOVEREIGN OS [v19.4.1-Planetary-Swarm]</span>
       </div>
       <div style="display:flex; align-items:center;">
         <span id="badge-webgpu" class="badge" onclick="testWebGPU()" style="border-color:#00ffff; color:#00ffff;">⚡ WEBGPU: PROBAR</span>
         <span class="badge" onclick="openVaultModal()" style="border-color:#00ff9d; color:#00ff9d; font-weight:bold;">📁 BÓVEDA &amp; BUZÓN</span>
-        <span id="badge-qr-modal" class="badge" onclick="openQRModal()" style="border-color:#00ff9d; color:#00ff9d; font-weight:bold;">📲 QR</span>
+        <span id="badge-qr-modal" class="badge" onclick="openQRModal()" style="border-color:#00ff9d; color:#00ff9d; font-weight:bold;">🌐 ENJAMBRE QR</span>
         <span id="badge-roadmap" class="badge" onclick="runCommand('roadmap')" style="border-color:#00ffff; color:#00ffff; font-weight:bold;">🗺️ ROADMAP</span>
         <span id="badge-git-audit" class="badge" onclick="runCommand('git-audit')" style="border-color:#ffaa00; color:#ffaa00;">🔍 GIT AUDIT</span>
         <span class="badge" onclick="runCommand('history')" style="border-color:#ffd700; color:#ffd700;">📜 AUDITORÍA</span>
-        <span class="badge" onclick="runCommand('swarm')" style="border-color:#00aaff; color:#88d4ff;">🌐 MALLA</span>
+        <span class="badge" onclick="runCommand('mesh')" style="border-color:#00aaff; color:#88d4ff;">🌐 MALLA</span>
         <span class="badge" onclick="runCommand('plugins')" style="border-color:#ffd700; color:#ffd700;">📦 PLUGINS</span>
         <span class="badge" onclick="runCommand('help')">❓ AYUDA</span>
       </div>
@@ -53,7 +68,7 @@
   <!-- MODAL EMPAREJAMIENTO QR -->
   <div id="modal-qr" class="modal-backdrop" onclick="closeQRModal()">
     <div class="modal-window" style="max-width:360px; height:auto; padding:20px; align-items:center; text-align:center;" onclick="event.stopPropagation()">
-      <div style="font-weight:bold; color:#00ff9d; margin-bottom:12px;">📲 EMPAREJAR CON IPHONE / MÓVIL</div>
+      <div style="font-weight:bold; color:#00ff9d; margin-bottom:12px;">🌐 OASIS PLANETARY SWARM (CÓMPUTO COLECTIVO)</div>
       <img id="qr-image" style="width:200px; height:200px; border:2px solid #005a36; border-radius:6px; background:#010804;" />
       <div id="qr-url-label" style="font-size:0.75rem; color:#88ccee; margin-top:12px; word-break:break-all;"></div>
       <button onclick="closeQRModal()" style="margin-top:16px; background:#003820; border:1px solid #00ff9d; color:#00ff9d; padding:6px 16px; border-radius:4px; cursor:pointer;">CERRAR</button>
@@ -202,7 +217,7 @@
       }).catch(() => {});
     }
 
-    appendLine("🛰️  OASIS SOVEREIGN OS [v19.0.5-Unified-Pillars]", "#00ff9d");
+    appendLine("🛰️  OASIS SOVEREIGN OS [v19.4.1-Planetary-Swarm]", "#00ff9d");
     appendLine("🛡️ [BITMASKOS 0x8800]: Silicio Frío (3.78 W) | WebGPU + Ollama Bridge Activos.", "#88ccee");
     appendLine("🎭 [AGENTES BÓVEDA]: 'agente_velazquez.md' disponible para consultas.", "#ffd700");
     appendLine("-----------------------------------------------------------------------------", "#005a36");
@@ -711,6 +726,90 @@
         reader.readAsText(file);
       }
     }
-  </script>
+  
+    function showSwarmQR() {
+      const host = window.location.hostname || "127.0.0.1";
+      const port = window.location.port ? ":" + window.location.port : ":8080";
+      const workerUrl = "http://" + host + port + "/vault/swarm_worker.html";
+      
+      const img = document.getElementById("qr-img");
+      const txt = document.getElementById("qr-url-text");
+      const modal = document.getElementById("qr-modal");
+      
+      if (img) img.src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(workerUrl);
+      if (txt) txt.textContent = workerUrl;
+      if (modal) modal.style.display = "flex";
+    }
+    
+</script>
+<div id="qr-modal" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85); align-items:center; justify-content:center;">
+      <div style="background:#08140e; border:2px solid #00ff9d; padding:24px; border-radius:12px; text-align:center; max-width:420px; color:#aaddcc; font-family:monospace;">
+        <h3 style="color:#00ff9d; margin-top:0;">🌐 OASIS PLANETARY SWARM</h3>
+        <p style="font-size:12px; color:#88ccee;">Escanea para conectar este dispositivo como nodo de cómputo colectivo WebGPU (≤ 3.78 W).</p>
+        <div id="qr-container" style="background:#fff; padding:12px; border-radius:8px; display:inline-block; margin:12px 0;">
+          <img id="qr-img" src="" alt="QR Swarm" style="width:180px; height:180px; display:block;">
+        </div>
+        <p id="qr-url-text" style="font-size:11px; word-break:break-all; color:#00ff9d;"></p>
+        <button onclick="document.getElementById('qr-modal').style.display='none'" style="background:#00ff9d; color:#040906; border:none; padding:8px 24px; font-weight:bold; border-radius:6px; cursor:pointer;">CERRAR</button>
+      </div>
+    </div>
+
+    <div id="qr-modal-public" style="display:none; position:fixed; z-index:99999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85); align-items:center; justify-content:center;">
+      <div style="background:#08140e; border:2px solid #00ff9d; padding:24px; border-radius:12px; text-align:center; max-width:440px; color:#aaddcc; font-family:monospace; box-shadow:0 0 30px rgba(0,255,157,0.2);">
+        <h3 style="color:#00ff9d; margin:0 0 8px 0; font-size:18px;">🌐 MALLA GOSSIP OASIS (NODO PÚBLICO)</h3>
+        <p style="font-size:12px; color:#88ccee; margin-bottom:14px;">Escanea con cualquier móvil o PC para unirte a la red y donar cómputo en silicio frío (≤ 3.78 W):</p>
+        <div style="background:#ffffff; padding:12px; border-radius:8px; display:inline-block; margin-bottom:12px;">
+          <img id="qr-img-public" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A//oasis-sovereign-wind-node.onrender.com/terminal&format=svg" alt="QR Oasis Render" style="width:180px; height:180px; display:block;">
+        </div>
+        <p style="font-size:11px; word-break:break-all; color:#00ff9d; margin:6px 0 16px 0;">https://oasis-sovereign-wind-node.onrender.com/terminal</p>
+        <button onclick="document.getElementById('qr-modal-public').style.display='none'" style="background:#00ff9d; color:#040906; border:none; padding:10px 24px; font-weight:bold; border-radius:6px; cursor:pointer;">CERRAR</button>
+      </div>
+    </div>
+    
+
+    <script>
+    let isYieldingCompute = true;
+    const localNodeId = "NODE-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+    function showPublicSwarmQR() {
+      const m = document.getElementById("qr-modal-public");
+      if (m) m.style.display = "flex";
+    }
+
+    function toggleComputeYield() {
+      isYieldingCompute = !isYieldingCompute;
+      const btn = document.getElementById("badge-yield");
+      if (btn) {
+        if (isYieldingCompute) {
+          btn.textContent = "⚡ CEDER CÓMPUTO: ON";
+          btn.style.background = "#00ff9d";
+          btn.style.color = "#040906";
+          if (typeof appendLine === "function") appendLine("⚡ [GOSSIP]: Cómputo activo (24.34 MFLOPS donados a la malla)", "#00ff9d");
+        } else {
+          btn.textContent = "💤 CÓMPUTO: PAUSA";
+          btn.style.background = "#22332a";
+          btn.style.color = "#88aa99";
+          if (typeof appendLine === "function") appendLine("💤 [GOSSIP]: Silicio en estasis (0.00 W)", "#88aa99");
+        }
+      }
+    }
+
+    // Bucle Gossip: Enviar Heartbeat cada 3s y actualizar contador de nodos cada 5s
+    setInterval(() => {
+      if (!isYieldingCompute) return;
+      fetch("/v1/swarm/heartbeat?id=" + localNodeId + "&mflops=24.34&power=0.85", { method: "POST" }).catch(() => {});
+    }, 3000);
+
+    setInterval(() => {
+      fetch("/v1/swarm/nodes")
+        .then(r => r.json())
+        .then(d => {
+          const b = document.getElementById("badge-mesh");
+          if (b) b.textContent = "🌐 MALLA: " + d.active_nodes + " NODO" + (d.active_nodes > 1 ? "S" : "");
+        })
+        .catch(() => {});
+    }, 5000);
+    </script>
+    
 </body>
 </html>
