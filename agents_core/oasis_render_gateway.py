@@ -24,6 +24,12 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     daemon_threads = True
 
 class SovereignGatewayHandler(BaseHTTPRequestHandler):
+    def do_HEAD(self):
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+
 
     def _send_json(self, data, code=200):
         out = json.dumps(data, ensure_ascii=False).encode("utf-8")
