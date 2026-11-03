@@ -50,5 +50,9 @@
   "377": {
     "titulo": "Pilar 377 — Conmutador Diádico de Bony, Geodésica de Fisher-Rao y Criterio BKM Cerrado",
     "definicion": "∀Ω⊂ℝ³ ∀t>0 [ [T_u, ∇]ω ∈ Ḃ⁰_∞,∞ ∧ g_FR(ρ_t, ρ_0) ≤ π/φ ⊢ ∫₀ᵗ ‖ω(τ)‖_L^∞ dτ < ∞ ∧ lim_{k→∞} Δ_k(u ⊗ u) = 0 ]. Formaliza analíticamente la regularidad global de Navier-Stokes en 3D: el conmutador diádico de Bony bloquea la transferencia ultravioleta a altas frecuencias, la métrica informacional de Fisher-Rao acota la deriva estocástica al latido áureo π/φ, y la integral temporal de vorticidad máxima permanece estrictamente finita, satisfaciendo el criterio de Beale-Kato-Majda sin explosión en tiempo finito."
+  },
+  "378": {
+    "titulo": "Pilar 378 — Atractor Termodinámico de Enstrofía (κ = ln 10) y Techo Asintótico de Silicio Frío",
+    "definicion": "∀Ω̃ ∈ H_flujo [ dΩ̃/dt ≤ κ² - Ω̃ ∧ κ = ln 10 ≈ 2.3026 ⊢ sup_{t≥0} Ω̃(t) ≤ 5.3019 ∧ P_disipacion ≤ 5.39W ]. Formaliza el techo asintótico universal en mecánica de fluidos e inferencia: la enstrofía adimensional queda confinada bajo κ² ≈ 5.30, impidiendo cascadas turbulentas divergentes y fijando la cota máxima de disipación de silicio frío en 5.39 W sin activación de ventiladores."
   }
 }
