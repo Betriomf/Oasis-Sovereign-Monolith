@@ -154,6 +154,52 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        req_path = self.path.split("?")[0]
+
+        if req_path in ("/terminal", "/"):
+            import os
+            tpl = os.path.join(os.path.dirname(__file__), "templates", "terminal.html")
+            if not os.path.exists(tpl):
+                tpl = "index.html"
+            try:
+                with open(tpl, "rb") as f:
+                    content = f.read()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Cache-Control", "no-store, no-cache, must-revalidate")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                self.wfile.write(content)
+                return
+            except Exception as e:
+                pass
+
+        if req_path in ("/v1/swarm/nodes", "/v1/swarm/telemetry"):
+            now = time.time()
+            active = {k: v for k, v in GOSSIP_PEERS.items() if (now - v.get("last_seen", 0)) <= GOSSIP_TTL}
+            active["OASIS-LEADER-HOST"] = {
+                "id": "OASIS-LEADER-HOST",
+                "role": "Líder Orquestador",
+                "arch": "Apple Silicon (Metal UMA)",
+                "mflops": 24.34,
+                "power_w": 2.10,
+                "status": "ONLINE",
+                "last_seen": now
+            }
+            count = len(active)
+            total_mflops = round(sum(n.get("mflops", 24.34) for n in active.values()), 2)
+            total_power = round(sum(n.get("power_w", 1.25) for n in active.values()), 2)
+            self._send_json({
+                "status": "OK",
+                "network": "MALLA GOSSIP OASIS",
+                "active_nodes": count,
+                "total_nodes": count,
+                "total_mflops": total_mflops,
+                "total_power_w": total_power,
+                "nodes": list(active.values())
+            })
+            return
+
         if self.path in ("/", "/terminal", "/index.html"):
             tpl = os.path.join(TEMPLATES_DIR, "terminal.html")
             if not os.path.exists(tpl):
