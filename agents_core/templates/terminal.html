@@ -117,6 +117,7 @@
             🎭 <b>AGENTE:</b>
             <select id="sel-agent" style="width:100%; background:#020503; color:#00ff9d; border:1px solid #005a36; padding:4px; font-family:inherit;">
               <option value="velazquez">🎭 velazquez (Oráculo Factual)</option>
+              <option value="riona">🎭 riona (Centinela Red & GitHub)</option>
             </select>
           </div>
           <div style="display:flex; align-items:center; gap:6px; padding-top:14px;">
@@ -346,7 +347,9 @@
         const res = await fetch("/v1/ai/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: promptPayload, model: selModel })
+          const selAgent = document.getElementById("sel-agent") ? document.getElementById("sel-agent").value : "velazquez";
+        const finalModel = selAgent === "riona" ? "riona" : selModel;
+        body: JSON.stringify({ prompt: promptPayload, model: finalModel })
         });
 
         const reader = res.body.getReader();
@@ -491,11 +494,15 @@
         return;
       }
       if (low === "help") {
-        appendLine("Comandos: escribe cualquier pregunta directamente, o usa: boveda, modules, mesh, qr, clear", "#88ccee");
+        appendLine("Comandos: riona <noticia/deporte/github>, boveda, modules, mesh, webgpu, qr, clear", "#88ccee");
         return;
       }
 
       // Si empieza por 'ai ' o es una pregunta libre, canalizar a la IA/Oráculo
+            if (low.startsWith("riona ")) {
+        streamAIToTerminal(raw);
+        return;
+      }
       if (low.startsWith("ai ")) {
         streamAIToTerminal(cmd.substring(3).trim());
         return;

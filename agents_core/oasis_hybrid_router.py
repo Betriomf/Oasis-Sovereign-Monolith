@@ -1,3 +1,4 @@
+import riona_agent
 #!/usr/bin/env python3
 """
 OASIS SOVEREIGN OS — ROUTER HÍBRIDO ADAPTATIVO (PILAR 172 / 190)
@@ -69,6 +70,24 @@ def fetch_capa1_oracle(query: str) -> str:
     return ""
 
 def route_query(prompt: str, model: str = "aether:1.5b"):
+    # Intercepción del Agente Riona (Centinela Red, Deportes, Redes & GitHub)
+    p_clean = prompt.lower().strip()
+    is_riona = (
+        model == "riona" or
+        p_clean.startswith("riona") or
+        "🎭 riona" in p_clean or
+        any(k in p_clean for k in ["partido", "aston villa", "elecciones", "clasificacion", "liga española", "noticias de"])
+    )
+
+    if is_riona and not any(k in p_clean for k in ["pilar 3", "pilar 1", "pilar 2", "lincos", "kakeya"]):
+        facts = riona_agent.riona_process(prompt)
+        return "CAPA_1_AUTONOMOUS", facts
+
+    # Intercepción para Agente Riona (Centinela & GitHub RAG)
+    if model == "riona" or prompt.lower().startswith("riona "):
+        clean_prompt = prompt[6:].strip() if prompt.lower().startswith("riona ") else prompt
+        riona_frame = riona_agent.riona_process(clean_prompt)
+        return "CAPA_1_AUTONOMOUS", riona_frame
     # 1. Consulta enciclopédica estricta de un pilar
     explicit_pillar = match_explicit_pillar(prompt)
     if explicit_pillar:
