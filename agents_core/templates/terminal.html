@@ -166,7 +166,38 @@
     let isYieldingCompute = true;
     let currentDecryptedText = "";
     let currentActiveDocName = "";
-    const localNodeId = "NODE-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    
+    /* GENERADOR DE IDENTIDAD PORTABLE DID:KEY (WEBCRYPTO) */
+    async function getOrCreateNodeDID() {
+      let did = localStorage.getItem("oasis_node_did");
+      if (did) return did;
+
+      try {
+        const keyPair = await crypto.subtle.generateKey(
+          { name: "ECDSA", namedCurve: "P-256" },
+          true,
+          ["sign", "verify"]
+        );
+        const rawPub = await crypto.subtle.exportKey("raw", keyPair.publicKey);
+        const hexPub = Array.from(new Uint8Array(rawPub)).map(b => b.toString(16).padStart(2, "0")).join("");
+        did = "did:key:z" + hexPub.substring(0, 32);
+        localStorage.setItem("oasis_node_did", did);
+        return did;
+      } catch (e) {
+        return "did:key:zNode" + Math.random().toString(36).substring(2, 10);
+      }
+    }
+
+    // Inicializar DID y persistencia OPFS al cargar
+    (async () => {
+      if (navigator.storage && navigator.storage.persist) {
+        const isPersisted = await navigator.storage.persist();
+        console.log("🔒 [OPFS PERSISTENCE]:", isPersisted ? "PERMANENTE" : "BEST-EFFORT");
+      }
+      window.SOVEREIGN_NODE_DID = await getOrCreateNodeDID();
+    })();
+
+    const localNodeId = window.SOVEREIGN_NODE_DID ||  "NODE-" + Math.random().toString(36).substring(2, 8).toUpperCase();
 
     // Frase de anclaje de hardware y sal para derivación E2EE (Bohr-Hafnium)
     const HARDWARE_PHASE_SALT = new TextEncoder().encode("OASIS-HW-MAC-87B34287C3-SALT-2026");
