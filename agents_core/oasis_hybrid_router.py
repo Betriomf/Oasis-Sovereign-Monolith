@@ -108,9 +108,23 @@ def route_query(prompt: str, model: str = "aether:1.5b"):
         ollama_alive = False
 
     if not ollama_alive:
+        # Intento de reconexión / auto-arranque en silicio local
+        try:
+            import subprocess
+            subprocess.Popen(["ollama", "serve"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            import time
+            time.sleep(1.0)
+            req = urllib.request.Request(f"{OLLAMA_URL}/api/tags")
+            with urllib.request.urlopen(req, timeout=1.2) as r:
+                if r.status == 200:
+                    ollama_alive = True
+        except Exception:
+            ollama_alive = False
+
+    if not ollama_alive:
         if oracle_context:
             return "CAPA_1_AUTONOMOUS", f"🌐 [ORÁCULO SOBERANO - CAPA 1]:\n{oracle_context}"
-        return "CAPA_1_AUTONOMOUS", f"🤖 [ORÁCULO]: Procesando en modo seguro. Inicia Ollama (`ollama serve`) para inferencia densa."
+        return "CAPA_1_AUTONOMOUS", f"🤖 [ORÁCULO]: Ollama desconectado. Ejecuta `brew services start ollama` o `ollama serve` en terminal."
 
     # 4. Modo Deductivo / Generación Científica en Silicio Frío
     system_prompt = (
