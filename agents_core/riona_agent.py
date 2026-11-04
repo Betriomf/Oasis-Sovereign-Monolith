@@ -27,6 +27,48 @@ def fetch_real_github(filepath: str = "README.md") -> str:
         return f"[Error conectando a GitHub raw ({filepath}): {e}]"
 
 def fetch_live_news_rss(query: str) -> str:
+    """Consulta noticias y resultados de última hora con normalización de términos."""
+    # Normalizar tildes y caracteres para maximizar coincidencia
+    clean_q = re.sub(r'[^\w\s]', ' ', query).strip()
+    clean_q = clean_q.replace("barça", "barcelona").replace("barca", "barcelona")
+    encoded_q = urllib.parse.quote(clean_q)
+    url = f"https://news.google.com/rss/search?q={encoded_q}&hl=es&gl=ES&ceid=ES:es"
+    headlines = []
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"})
+        with urllib.request.urlopen(req, timeout=3.5) as resp:
+            xml_data = resp.read()
+            root = ET.fromstring(xml_data)
+            for item in root.findall(".//item")[:5]:
+                title = item.find("title")
+                pub_date = item.find("pubDate")
+                if title is not None and title.text:
+                    t_clean = re.sub(r' - [^-]+$', '', title.text)
+                    date_str = pub_date.text[:16] if pub_date is not None and pub_date.text else ""
+                    headlines.append(f"• {t_clean} ({date_str})")
+        if headlines:
+            return "\n".join(headlines)
+    except Exception:
+        pass
+    
+    # Fallback de búsqueda amplia si la combinación exacta fue vacía
+    words = [w for w in clean_q.split() if len(w) > 3]
+    if len(words) > 1:
+        try:
+            fallback_q = urllib.parse.quote(" ".join(words[:2]))
+            url2 = f"https://news.google.com/rss/search?q={fallback_q}&hl=es&gl=ES&ceid=ES:es"
+            req2 = urllib.request.Request(url2, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req2, timeout=2.5) as resp2:
+                root2 = ET.fromstring(resp2.read())
+                for item in root2.findall(".//item")[:4]:
+                    t2 = item.find("title")
+                    if t2 is not None and t2.text:
+                        headlines.append(f"• {re.sub(r' - [^-]+$', '', t2.text)}")
+            if headlines:
+                return "\n".join(headlines)
+        except Exception:
+            pass
+    return ""
     """Consulta noticias y resultados de última hora (Google News RSS en español, sin auth)."""
     encoded_q = urllib.parse.quote(query)
     url = f"https://news.google.com/rss/search?q={encoded_q}&hl=es&gl=ES&ceid=ES:es"

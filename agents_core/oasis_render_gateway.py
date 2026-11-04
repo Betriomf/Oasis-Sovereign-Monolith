@@ -41,6 +41,19 @@ class SovereignGatewayHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         req_path = self.path.split("?")[0]
+        # Espejo de persistencia cifrada E2EE (Zero-Knowledge)
+        if req_path == "/v1/vault/sync":
+            m_path = os.path.expanduser("~/Oasis-Sovereign-Monolith/vault/e2ee_vault_mirror.json")
+            if os.path.exists(m_path):
+                try:
+                    with open(m_path, "r", encoding="utf-8") as mf:
+                        self._send_json(json.load(mf))
+                    return
+                except Exception:
+                    pass
+            self._send_json({"vault": {}})
+            return
+
         # Auditoría Formal de Lean 4 en vivo
         if req_path == "/v1/math/lean-audit":
             self._send_json({
@@ -162,6 +175,21 @@ class SovereignGatewayHandler(BaseHTTPRequestHandler):
         self._send_json({"error": "NOT_FOUND", "path": req_path}, 404)
 
     def do_POST(self):
+        # Guardar espejo cifrado E2EE en NVMe sin acceso a texto plano
+        if self.path.startswith("/v1/vault/sync"):
+            length = int(self.headers.get("Content-Length", 0))
+            raw = self.rfile.read(length) if length > 0 else b"{}"
+            try:
+                payload = json.loads(raw.decode("utf-8"))
+                m_path = os.path.expanduser("~/Oasis-Sovereign-Monolith/vault/e2ee_vault_mirror.json")
+                os.makedirs(os.path.dirname(m_path), exist_ok=True)
+                with open(m_path, "w", encoding="utf-8") as mf:
+                    json.dump(payload, mf, indent=2)
+                self._send_json({"status": "OK", "ack": "E2EE_MIRROR_SAVED"})
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+            return
+
         # 1. Pulsos de presencia Gossip
         if self.path.startswith("/v1/swarm/heartbeat"):
             node_id = "NODE-" + self.client_address[0].replace(".", "-")
