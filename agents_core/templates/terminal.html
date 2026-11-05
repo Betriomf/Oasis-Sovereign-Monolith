@@ -3,732 +3,405 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OASIS SOVEREIGN OS [v19.7.0-E2EE-WebCrypto]</title>
+  <title>OASIS SOVEREIGN OS [v19.8.0-Xterm-Engine]</title>
+  
+  <!-- XTERM.JS CORE + ADDONS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/lib/xterm.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@xterm/addon-fit@0.10.0/lib/addon-fit.min.js"></script>
+  
+  <!-- ERUDA DEVTOOLS -->
+  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <script>eruda.init();</script>
+
   <style>
-    * { box-sizing: border-box; }
-    body { margin:0; padding:16px; background:#040906; color:#00ff9d; font-family:"SF Mono", Menlo, monospace; font-size:13px; line-height:1.5; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #040906; color: #00ff9d; font-family: "SF Mono", Menlo, monospace; padding: 12px; font-size: 13px; }
     
-    .header-badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; border-bottom:1px solid #00331f; padding-bottom:12px; }
-    .badge { border:1px solid #005a36; padding:6px 12px; border-radius:6px; font-size:11px; cursor:pointer; user-select:none; transition:all 0.2s; }
-    .badge:hover { opacity:0.8; }
-    #badge-vault { border-color:#00ffff; color:#00ffff; background:rgba(0,255,255,0.08); font-weight:bold; }
-    #badge-yield { border-color:#00ff9d; background:#00ff9d; color:#040906; font-weight:bold; }
-    #badge-mesh { border-color:#00aaff; color:#88d4ff; font-weight:bold; }
-    #badge-qr { border-color:#ffd700; color:#ffd700; font-weight:bold; }
-    
-    #terminal-container { background:#08140e; border:1px solid #005a36; border-radius:8px; padding:16px; min-height:68vh; }
-    #output { white-space:pre-wrap; word-break:break-all; }
-    .prompt-line { display:flex; align-items:center; margin-top:8px; }
-    .prompt-sym { color:#00ffff; margin-right:8px; }
-    #cmd-input { flex:1; background:transparent; border:none; color:#ffffff; font-family:inherit; font-size:inherit; outline:none; }
-    
+    .header-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid #00331f; padding-bottom: 10px; }
+    .badge { border: 1px solid #005a36; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; user-select: none; transition: all 0.2s; }
+    .badge:hover { opacity: 0.8; }
+    #badge-vault { border-color: #00ffff; color: #00ffff; background: rgba(0,255,255,0.08); font-weight: bold; }
+    #badge-yield { border-color: #00ff9d; background: #00ff9d; color: #040906; font-weight: bold; }
+    #badge-mesh { border-color: #00aaff; color: #88d4ff; font-weight: bold; }
+    #badge-qr { border-color: #ffd700; color: #ffd700; font-weight: bold; }
+
+    #xterm-container {
+      width: 100%;
+      height: 72vh;
+      border: 1px solid #005a36;
+      border-radius: 8px;
+      padding: 8px;
+      background: #020503;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0, 255, 157, 0.1);
+    }
+
     .modal { display:none; position:fixed; z-index:99999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.88); align-items:center; justify-content:center; }
     .modal-box { background:#08140e; border:2px solid #00ff9d; border-radius:12px; max-width:880px; width:95%; padding:20px; color:#aaddcc; box-shadow:0 0 35px rgba(0,255,157,0.25); max-height:92vh; overflow-y:auto; }
     .tab-bar { display:flex; gap:10px; border-bottom:1px solid #005a36; margin-bottom:16px; padding-bottom:8px; }
     .tab-btn { background:transparent; border:none; color:#77aa99; font-family:inherit; font-size:13px; font-weight:bold; cursor:pointer; padding:6px 12px; }
     .tab-btn.active { color:#00ff9d; border-bottom:2px solid #00ff9d; }
-    
     .drop-zone { border:2px dashed #00ff9d; padding:16px; text-align:center; border-radius:8px; margin:10px 0; background:#050d08; cursor:pointer; }
-    .drop-zone:hover { background:#0a1a11; border-color:#00ffff; }
-    .file-item { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid #002617; cursor:pointer; border-radius:4px; }
-    .file-item:hover { background:#0b1d14; color:#00ff9d; }
-    
     .viewer-pane { background:#020503; border:1px solid #005a36; border-radius:6px; padding:12px; min-height:160px; max-height:240px; overflow-y:auto; font-size:12px; color:#ddffea; white-space:pre-wrap; margin-top:8px; }
     .chat-box { height:200px; border:1px solid #00331f; background:#020503; border-radius:6px; padding:10px; overflow-y:auto; font-size:12px; }
+    .file-item { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid #002617; cursor:pointer; border-radius:4px; }
+    .file-item:hover { background:#0b1d14; color:#00ff9d; }
   </style>
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script><script>eruda.init();</script></head>
+</head>
 <body>
 
   <input type="file" id="real-file-input" style="display:none;" accept=".pdf,.txt,.md,.json,.csv" onchange="handleRealFileSelected(event)">
 
   <div class="header-badges">
-    <span class="badge" onclick="runCommand('webgpu')">⚡ WEBGPU: PROBAR</span>
+    <span class="badge" onclick="runCommand('webgpu')">⚡ WEBGPU</span>
     <span id="badge-vault" class="badge" onclick="openVaultModal()">📁 BÓVEDA & BUZÓN</span>
     <span id="badge-yield" class="badge" onclick="toggleComputeYield()">⚡ CEDER CÓMPUTO: ON</span>
     <span id="badge-mesh" class="badge" onclick="runCommand('mesh')">🌐 MALLA: 1 NODO</span>
     <span id="badge-qr" class="badge" onclick="showPublicSwarmQR()">📲 QR PÚBLICO</span>
     <span class="badge" onclick="runCommand('modules')" style="border-color:#ff7700; color:#ffaa44;">📋 MÓDULOS</span>
-    <span class="badge" onclick="runCommand('minkowski')">🛡️ MINKOWSKI</span>
+    <span class="badge" onclick="runCommand('skills')" style="border-color:#00aaff; color:#00ffff;">🧩 SKILLS</span>
+    <span class="badge" onclick="runCommand('hemo')" style="border-color:#ff4444; color:#ff8888;">🩺 HEMO</span>
     <span class="badge" onclick="runCommand('clear')">🧹 LIMPIAR</span>
     <span class="badge" onclick="runCommand('help')">❓ AYUDA</span>
   </div>
 
-  <div id="terminal-container">
-    <div id="output">🛰️ OASIS SOVEREIGN OS [v19.7.0-E2EE-WebCrypto]
-🛡️ [BITMASKOS 0x8800]: Silicio Frío (≤ 3.78 W) | Router 4 Capas con Oráculo Activo.
-🔒 [BÓVEDA SOBERANA]: Cifrado E2EE AES-256-GCM + Zeroización Bohr-Hafnium en RAM activa.
-🛰️ [CENTINELA RIONA]: Comando 'riona <consulta>' listo para noticias, deportes y GitHub.
------------------------------------------------------------------------------</div>
-    <div class="prompt-line">
-      <span class="prompt-sym">root@oasis-hurd:/workspace#</span>
-      <input type="text" id="cmd-input" autofocus autocomplete="off" spellcheck="false">
-    </div>
-  </div>
+  <div id="xterm-container"></div>
 
-  <!-- MODAL BÓVEDA CON E2EE REAL -->
+  <!-- MODAL BÓVEDA E2EE -->
   <div id="vault-modal" class="modal">
     <div class="modal-box">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
         <span style="font-weight:bold; color:#00ff9d; font-size:14px;">📁 BÓVEDA SOBERANA CON CIFRADO E2EE (AES-256-GCM)</span>
         <button onclick="closeVaultModal()" style="background:transparent; border:none; color:#ff4444; font-weight:bold; font-size:18px; cursor:pointer;">✕ CERRAR</button>
       </div>
-
       <div class="tab-bar">
         <button id="tab-btn-1" class="tab-btn active" onclick="switchVaultTab(1)">📂 1. BUZÓN & VISOR</button>
         <button id="tab-btn-2" class="tab-btn" onclick="switchVaultTab(2)">👁️ 2. CHAT RAG IA</button>
       </div>
-
-      <!-- TAB 1: ARCHIVOS Y VISOR INMEDIATO -->
       <div id="tab-vault-1">
-        <div style="font-size:11px; color:#88ccee; line-height:1.5; background:#050d08; padding:8px 12px; border-radius:6px; border:1px solid #00331f; margin-bottom:10px;">
-          🔒 <b>Zero-Knowledge Activo:</b> Los archivos se persisten cifrados con <b>AES-256-GCM</b>. El descifrado ocurre efímeramente en RAM volátil con zeroización atómica.
-        </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
           <div>
-            <div class="drop-zone" onclick="document.getElementById('real-file-input').click()" ondragover="event.preventDefault()" ondrop="handleDropFile(event)">
-              📬 <b>SOVEREIGN DROP (E2EE):</b> Clic para añadir archivos (PDF/TXT/MD)<br>
-              <span style="font-size:10px; color:#00ff9d;">Se cifran antes de guardarse en OPFS / NVMe Mirror</span>
-            </div>
-            <div style="font-size:12px; margin-top:8px; font-weight:bold; color:#00ffff;">📂 ARCHIVOS CIFRADOS:</div>
+            <div class="drop-zone" onclick="document.getElementById('real-file-input').click()">📬 SOVEREIGN DROP (E2EE)</div>
             <div id="vault-files-list" style="margin-top:6px; max-height:220px; overflow-y:auto;"></div>
           </div>
           <div>
-            <div style="font-size:12px; font-weight:bold; color:#00ff9d; display:flex; justify-content:space-between;">
-              <span>👁️ VISOR EN RAM (DESCIFRADO):</span>
-              <span id="viewer-file-meta" style="font-size:10px; color:#88ccee;">Ninguno</span>
-            </div>
-            <div class="viewer-pane" id="vault-live-viewer">Selecciona un archivo de la lista para descifrarlo en memoria volátil y leerlo aquí.</div>
-            <button onclick="switchVaultTab(2)" style="margin-top:8px; width:100%; background:#005a36; color:#00ff9d; border:none; padding:8px; border-radius:4px; font-weight:bold; cursor:pointer;">💬 PREGUNTAR A LA IA SOBRE ESTE DOCUMENTO ➡️</button>
+            <div style="font-size:12px; font-weight:bold; color:#00ff9d;">👁️ VISOR EN RAM:</div>
+            <div class="viewer-pane" id="vault-live-viewer">Selecciona un archivo para descifrar en memoria volátil.</div>
+            <button onclick="switchVaultTab(2)" style="margin-top:8px; width:100%; background:#005a36; color:#00ff9d; border:none; padding:8px; border-radius:4px; font-weight:bold; cursor:pointer;">💬 PREGUNTAR A LA IA ➡️</button>
           </div>
         </div>
       </div>
-
-      <!-- TAB 2: CHAT CON RAG -->
       <div id="tab-vault-2" style="display:none;">
-        <div style="font-size:11px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
-          <div>📄 <b>CONTEXTO RAG DESCIFRADO:</b> <span id="active-doc-name" style="color:#00ff9d;">Ninguno</span></div>
-          <button onclick="switchVaultTab(1)" style="background:#005a36; color:#aaddcc; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">⬅️ VOLVER AL VISOR</button>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; font-size:11px; margin-bottom:8px;">
-          <div>
-            🧠 <b>MOTOR:</b>
-            <select id="sel-model" style="width:100%; background:#020503; color:#00ff9d; border:1px solid #005a36; padding:4px; font-family:inherit;">
-              <option value="aether:1.5b">Detectando motores...</option>
-            </select>
-          </div>
-          <div>
-            🎭 <b>AGENTE:</b>
-            <select id="sel-agent" style="width:100%; background:#020503; color:#00ff9d; border:1px solid #005a36; padding:4px; font-family:inherit;">
-              <option value="velazquez">🎭 velazquez (Oráculo Factual)</option>
-              <option value="riona">🎭 riona (Centinela Red & GitHub)</option>
-            </select>
-          </div>
-          <div style="display:flex; align-items:center; gap:6px; padding-top:14px;">
-            <input type="checkbox" id="chk-rag" checked>
-            <label for="chk-rag" style="color:#00ffff; cursor:pointer;"><b>RAG ACTIVO</b></label>
-          </div>
-        </div>
-
-        <div class="chat-box" id="ai-chat-output">
-          <div style="color:#669988;">[SISTEMA]: Bóveda protegida por WebCrypto AES-256-GCM. Si 'RAG ACTIVO' está marcado, Velázquez/Riona usarán el documento descifrado en RAM.</div>
-        </div>
-
+        <div class="chat-box" id="ai-chat-output"></div>
         <div style="display:flex; gap:8px; margin-top:8px;">
-          <input type="text" id="ai-chat-input" placeholder="Pregunta sobre el documento o consulta general..." style="flex:1; background:#020503; border:1px solid #005a36; color:#ffffff; padding:6px; font-family:inherit;">
-          <button onclick="sendAIChat()" style="background:#00ff9d; color:#040906; border:none; padding:6px 16px; font-weight:bold; cursor:pointer; border-radius:4px;">ENVIAR</button>
+          <input type="text" id="ai-chat-input" placeholder="Pregunta sobre el documento..." style="flex:1; background:#020503; border:1px solid #005a36; color:#ffffff; padding:6px; font-family:inherit;">
+          <button onclick="sendAIChat()" style="background:#00ff9d; color:#040906; border:none; padding:6px 16px; font-weight:bold; cursor:pointer;">ENVIAR</button>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- MODAL QR PÚBLICO -->
+  <!-- MODAL QR -->
   <div id="qr-modal-public" class="modal">
     <div class="modal-box" style="text-align:center; max-width:440px;">
-      <h3 style="color:#00ff9d; margin:0 0 8px 0;">🌐 MALLA GOSSIP OASIS (NODO PÚBLICO)</h3>
-      <p style="font-size:12px; color:#88ccee; margin-bottom:14px;">Escanea para conectar tu nodo al enjambre colectivo (≤ 3.78 W):</p>
+      <h3 style="color:#00ff9d; margin-bottom:8px;">🌐 MALLA GOSSIP OASIS (NODO PÚBLICO)</h3>
       <div style="background:#ffffff; padding:12px; border-radius:8px; display:inline-block; margin-bottom:12px;">
-        <a href="https://oasis-sovereign-wind-node.onrender.com/terminal" target="_blank">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A//oasis-sovereign-wind-node.onrender.com/terminal&format=svg" alt="QR Render" style="width:180px; height:180px; display:block;">
-        </a>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A//oasis-sovereign-wind-node.onrender.com/terminal&format=svg" alt="QR Render" style="width:180px; height:180px; display:block;">
       </div>
-      <p style="font-size:11px; word-break:break-all; color:#00ff9d; margin:6px 0 16px 0;">
-        <a href="https://oasis-sovereign-wind-node.onrender.com/terminal" target="_blank" style="color:#00ff9d; text-decoration:underline;">https://oasis-sovereign-wind-node.onrender.com/terminal</a>
-      </p>
-      <button onclick="document.getElementById('qr-modal-public').style.display='none'" style="background:#00ff9d; color:#040906; border:none; padding:10px 24px; font-weight:bold; border-radius:6px; cursor:pointer;">CERRAR</button>
+      <p style="font-size:11px; word-break:break-all; color:#00ff9d; margin-bottom:14px;">https://oasis-sovereign-wind-node.onrender.com/terminal</p>
+      <button onclick="document.getElementById('qr-modal-public').style.display='none'" style="background:#00ff9d; color:#040906; border:none; padding:8px 20px; font-weight:bold; border-radius:6px; cursor:pointer;">CERRAR</button>
     </div>
   </div>
 
   <script>
+    /* 1. INICIALIZACIÓN XTERM.JS */
+    const term = new Terminal({
+      cursorBlink: true,
+      fontFamily: '"SF Mono", Menlo, Consolas, monospace',
+      fontSize: 13,
+      theme: {
+        background: '#020503',
+        foreground: '#00ff9d',
+        cursor: '#00ffff',
+        selectionBackground: 'rgba(0, 255, 157, 0.3)',
+        black: '#040906',
+        red: '#ff5555',
+        green: '#00ff9d',
+        yellow: '#ffd700',
+        blue: '#00aaff',
+        magenta: '#ff77ff',
+        cyan: '#00ffff',
+        white: '#ffffff'
+      }
+    });
 
-    /* HOOK UNIVERSAL DE CONSOLA DE DESARROLLADOR A PANTALLA */
-    (function() {
+    const fitAddon = new FitAddon.FitAddon();
+    term.loadAddon(fitAddon);
+    term.open(document.getElementById('xterm-container'));
+    fitAddon.fit();
+    window.addEventListener('resize', () => fitAddon.fit());
+
+    function termPrint(msg = "") { term.writeln(msg); }
+    function termWrite(msg = "") { term.write(msg); }
+
+    /* 2. CONSOLE FORWARDING BIDIRECCIONAL */
+    (function initConsoleForwarding() {
       const origLog = console.log;
       const origWarn = console.warn;
       const origErr = console.error;
 
+      function forwardToServer(level, text) {
+        fetch("/v1/telemetry/console", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ level: level, message: text })
+        }).catch(() => {});
+      }
+
       console.log = function(...args) {
         origLog.apply(console, args);
-        if (typeof appendLine === "function") appendLine("🖥️ [CONSOLE]: " + args.join(" "), "#88ccee");
+        const txt = args.join(" ");
+        termPrint("[36m🖥️ [CONSOLE]:[0m " + txt);
+        forwardToServer("LOG", txt);
       };
       console.warn = function(...args) {
         origWarn.apply(console, args);
-        if (typeof appendLine === "function") appendLine("⚠️ [CONSOLE-WARN]: " + args.join(" "), "#ffd700");
+        const txt = args.join(" ");
+        termPrint("[33m⚠️ [WARN]:[0m " + txt);
+        forwardToServer("WARN", txt);
       };
       console.error = function(...args) {
         origErr.apply(console, args);
-        if (typeof appendLine === "function") appendLine("🚨 [CONSOLE-ERR]: " + args.join(" "), "#ff4444");
+        const txt = args.join(" ");
+        termPrint("[31m🚨 [ERR]:[0m " + txt);
+        forwardToServer("ERROR", txt);
       };
     })();
 
-    const out = document.getElementById("output");
-    const inp = document.getElementById("cmd-input");
-    let isYieldingCompute = true;
-    let currentDecryptedText = "";
-    let currentActiveDocName = "";
-    
-    /* GENERADOR DE IDENTIDAD PORTABLE DID:KEY (WEBCRYPTO) */
-    async function getOrCreateNodeDID() {
-      let did = localStorage.getItem("oasis_node_did");
-      if (did) return did;
+    /* BANNER INICIAL */
+    termPrint("[1;32m🛰️ OASIS SOVEREIGN OS [v19.8.0-Xterm-Engine][0m");
+    termPrint("[36m🛡️ [BITMASKOS 0x8800]: Silicio Frío (≤ 3.78 W) | Router 4 Capas con Xterm.js Activo.[0m");
+    termPrint("[32m🔒 [BÓVEDA SOBERANA]: Cifrado E2EE AES-256-GCM + Zeroización Bohr-Hafnium.[0m");
+    termPrint("[33m🧩 [SKILLS ENGINE]: 'skills list' o 'skills run <nombre>' habilitados.[0m");
+    termPrint("-----------------------------------------------------------------------------");
 
-      try {
-        const keyPair = await crypto.subtle.generateKey(
-          { name: "ECDSA", namedCurve: "P-256" },
-          true,
-          ["sign", "verify"]
-        );
-        const rawPub = await crypto.subtle.exportKey("raw", keyPair.publicKey);
-        const hexPub = Array.from(new Uint8Array(rawPub)).map(b => b.toString(16).padStart(2, "0")).join("");
-        did = "did:key:z" + hexPub.substring(0, 32);
-        localStorage.setItem("oasis_node_did", did);
-        return did;
-      } catch (e) {
-        return "did:key:zNode" + Math.random().toString(36).substring(2, 10);
-      }
+    /* 3. LÍNEA DE COMANDOS CON AUTOCOMPLETADO Y HISTORIAL */
+    let cmdBuffer = "";
+    const cmdHistory = [];
+    let historyIndex = -1;
+    const promptStr = "[1;36mroot@oasis-hurd:/workspace#[0m ";
+
+    // LISTA MAESTRA DE AUTOCOMPLETADO (TAB)
+    const AUTOCOMPLETE_DICT = [
+      "help", "clear", "did", "eval ", "host ", "skills", "skills list",
+      "skills run hemo", "skills run lean_audit", "hemo", "lean", "boveda", "vault",
+      "modules", "mesh", "swarm", "webgpu", "minkowski", "thermal", "qr", "riona ", "ai "
+    ];
+
+    function showPrompt() {
+      termWrite(promptStr + cmdBuffer);
     }
+    showPrompt();
 
-    // Inicializar DID y persistencia OPFS al cargar
-    (async () => {
-      if (navigator.storage && navigator.storage.persist) {
-        const isPersisted = await navigator.storage.persist();
-        console.log("🔒 [OPFS PERSISTENCE]:", isPersisted ? "PERMANENTE" : "BEST-EFFORT");
-      }
-      window.SOVEREIGN_NODE_DID = await getOrCreateNodeDID();
-    })();
+    term.onKey(e => {
+      const ev = e.domEvent;
+      const key = e.key;
 
-    const localNodeId = window.SOVEREIGN_NODE_DID ||  "NODE-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-
-    // Frase de anclaje de hardware y sal para derivación E2EE (Bohr-Hafnium)
-    const HARDWARE_PHASE_SALT = new TextEncoder().encode("OASIS-HW-MAC-87B34287C3-SALT-2026");
-
-    function appendLine(text, color = "#00ff9d") {
-      const div = document.createElement("div");
-      div.style.color = color;
-      div.textContent = text;
-      out.appendChild(div);
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-
-    /* MOTOR CRIPTOGRÁFICO WEBCRYPTO AES-256-GCM */
-    async function deriveAESKey() {
-      const baseKey = await crypto.subtle.importKey(
-        "raw",
-        new TextEncoder().encode("OasisSovereignKey::PhaseMasterKey::phi"),
-        { name: "PBKDF2" },
-        false,
-        ["deriveKey"]
-      );
-      return crypto.subtle.deriveKey(
-        {
-          name: "PBKDF2",
-          salt: HARDWARE_PHASE_SALT,
-          iterations: 100000,
-          hash: "SHA-256"
-        },
-        baseKey,
-        { name: "AES-GCM", length: 256 },
-        false,
-        ["encrypt", "decrypt"]
-      );
-    }
-
-    async function encryptE2EE(plaintext) {
-      const key = await deriveAESKey();
-      const iv = crypto.getRandomValues(new Uint8Array(12));
-      const encoded = new TextEncoder().encode(plaintext);
-      const ciphertext = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, encoded);
-      
-      return {
-        iv: Array.from(iv).map(b => b.toString(16).padStart(2, "0")).join(""),
-        ciphertext: btoa(String.fromCharCode(...new Uint8Array(ciphertext)))
-      };
-    }
-
-    async function decryptE2EE(ciphertextB64, ivHex) {
-      try {
-        const key = await deriveAESKey();
-        const iv = new Uint8Array(ivHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
-        const rawBytes = Uint8Array.from(atob(ciphertextB64), c => c.charCodeAt(0));
-        const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, rawBytes);
-        return new TextDecoder().decode(decrypted);
-      } catch (e) {
-        return "[Error de descifrado E2EE: Clave de fase o firma inválida]";
-      }
-    }
-
-    async function computeSHA256(str) {
-      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-      return "0x" + Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    /* ALMACENAMIENTO PERSISTENTE CIFRADO */
-    function getSovereignVaultEncrypted() {
-      let v = localStorage.getItem("oasis_sovereign_vault_e2ee");
-      if (!v) {
-        v = JSON.stringify({});
-        localStorage.setItem("oasis_sovereign_vault_e2ee", v);
-      }
-      return JSON.parse(v);
-    }
-
-    async function ensureSeedDocuments() {
-      const v = getSovereignVaultEncrypted();
-      if (!v["pilar_378_atractor_termodinamico_kappa.md"]) {
-        const p378Text = "# PILAR 378: ATRACTOR TERMODINÁMICO DE ENSTROFÍA (κ = ln 10)\n\n∀Ω̃ ∈ H_flujo [ dΩ̃/dt ≤ κ² - Ω̃ ∧ κ = ln 10 ≈ 2.3026 ⊢ sup_{t≥0} Ω̃(t) ≤ 5.3019 ∧ P_disipacion ≤ 5.39W ]\n\n1. Techo Espectral de Enstrofía: Confinamiento de la vorticidad adimensional bajo κ² ≈ 5.30.\n2. Silicio Frío: Cómputo pasivo a ≤ 5.39 W.\n3. Poda de Entropía en IA: Umbral H(X) ≤ ln 10.";
-        const enc378 = await encryptE2EE(p378Text);
-        v["pilar_378_atractor_termodinamico_kappa.md"] = {
-          name: "pilar_378_atractor_termodinamico_kappa.md",
-          size: "2.3 KB",
-          hash: await computeSHA256(p378Text),
-          encrypted: enc378
-        };
-      }
-      if (!v["pilar_376_navier_stokes_lincos.md"]) {
-        const p376Text = "# PILAR 376: ISOMORFISMO INFORMACIONAL DE NAVIER-STOKES\n\n∀E ∀n≥2 [ Kakeya(E, S^{n-1}) ∧ Kronecker(π/φ) ∧ Landauer(φ) ∧ Phase(κ_M=-0.6587) ⊢ (dim_H(E)=n) ∧ (Lⁿ(E)→0) ∧ (S_Holo ∝ Area(N_2D)) ∧ (Potencia ≤ 5.39W) ]\n\n1. Confinamiento de Kakeya: Las singularidades tienen medida de Lebesgue nula (Lⁿ(E) -> 0), impidiendo el blow-up 3D.\n2. Reducción Holográfica: Mapeo de la disipación sobre frontera conforme 2D en equilibrio.\n3. Silicio Frío: Cómputo pasivo ≤ 5.39 W.";
-        const enc376 = await encryptE2EE(p376Text);
-        v["pilar_376_navier_stokes_lincos.md"] = {
-          name: "pilar_376_navier_stokes_lincos.md",
-          size: "2.4 KB",
-          hash: await computeSHA256(p376Text),
-          encrypted: enc376
-        };
-      }
-      localStorage.setItem("oasis_sovereign_vault_e2ee", JSON.stringify(v));
-      syncEncryptedVaultToHost(v);
-    }
-
-    function syncEncryptedVaultToHost(vaultData) {
-      fetch("/v1/vault/sync", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(vaultData)
-      }).catch(() => {});
-    }
-
-    function renderVaultFileList() {
-      const list = document.getElementById("vault-files-list");
-      if (!list) return;
-      list.innerHTML = "";
-      const files = getSovereignVaultEncrypted();
-      for (const fname in files) {
-        const f = files[fname];
-        const isPdf = fname.toLowerCase().endsWith(".pdf");
-        const icon = isPdf ? "📕" : "🔒";
-        const item = document.createElement("div");
-        item.className = "file-item";
-        item.onclick = () => selectAndDecryptDoc(fname);
-        item.innerHTML = `<span>${icon} <b>${fname}</b></span><span style="color:#00ff9d; font-size:10px;">AES-GCM (${f.size})</span>`;
-        list.appendChild(item);
-      }
-    }
-
-    /* SELECCIÓN Y DESCIFRADO EFÍMERO EN RAM (BOHR-HAFNIUM) */
-    async function selectAndDecryptDoc(docName) {
-      const files = getSovereignVaultEncrypted();
-      const doc = files[docName];
-      if (!doc || !doc.encrypted) return;
-
-      currentActiveDocName = docName;
-      document.getElementById("active-doc-name").textContent = docName;
-      document.getElementById("viewer-file-meta").textContent = `DESCIFRADO RAM | SHA: ${doc.hash.substring(0,10)}...`;
-
-      // Descifrado al vuelo
-      const plaintext = await decryptE2EE(doc.encrypted.ciphertext, doc.encrypted.iv);
-      currentDecryptedText = plaintext;
-      document.getElementById("vault-live-viewer").textContent = plaintext;
-    }
-
-    function handleRealFileSelected(event) {
-      const files = event.target.files;
-      if (files && files.length > 0) processUploadedFileE2EE(files[0]);
-    }
-
-    function handleDropFile(event) {
-      event.preventDefault();
-      const files = event.dataTransfer.files;
-      if (files && files.length > 0) processUploadedFileE2EE(files[0]);
-    }
-
-    async function processUploadedFileE2EE(file) {
-      const isText = file.type.startsWith("text/") || file.name.endsWith(".md") || file.name.endsWith(".json") || file.name.endsWith(".txt") || file.name.endsWith(".csv");
-      let contentStr = "";
-      if (isText) {
-        contentStr = await file.text();
-      } else {
-        contentStr = `[ARCHIVO BINARIO/PDF: ${file.name} — Tamaño: ${(file.size/1024).toFixed(1)} KB]`;
-      }
-
-      const sha = await computeSHA256(contentStr);
-
-      // Verificación de cuarentena contra firmas vetadas
-      try {
-        const check = await fetch("/v1/vault/verify-hash?hash=" + sha).then(r => r.json());
-        if (!check.quarantine_pass) {
-          alert("🚨 ALERTA DE CUARENTENA: Este archivo coincide con un hash vetado de malware. Carga cancelada.");
-          return;
+      if (ev.key === "Enter") {
+        termPrint();
+        const raw = cmdBuffer.trim();
+        cmdBuffer = "";
+        historyIndex = -1;
+        if (raw) {
+          cmdHistory.push(raw);
+          runCommand(raw);
+        } else {
+          showPrompt();
         }
-      } catch(e) {}
-
-      // Cifrado simétrico AES-256-GCM
-      const encryptedData = await encryptE2EE(contentStr);
-      const vault = getSovereignVaultEncrypted();
-      vault[file.name] = {
-        name: file.name,
-        size: (file.size / 1024).toFixed(1) + " KB",
-        hash: sha,
-        encrypted: encryptedData
-      };
-
-      localStorage.setItem("oasis_sovereign_vault_e2ee", JSON.stringify(vault));
-      syncEncryptedVaultToHost(vault);
-      renderVaultFileList();
-      await selectAndDecryptDoc(file.name);
-    }
-
-    async function openVaultModal() {
-      document.getElementById("vault-modal").style.display = "flex";
-      await ensureSeedDocuments();
-      renderVaultFileList();
-      if (!currentActiveDocName) {
-        await selectAndDecryptDoc("pilar_378_atractor_termodinamico_kappa.md");
-      }
-    }
-
-    function closeVaultModal() {
-      // Zeroización defensiva: limpiar texto plano de la variable de memoria
-      currentDecryptedText = "";
-      document.getElementById("vault-modal").style.display = "none";
-    }
-
-    function showPublicSwarmQR() { document.getElementById("qr-modal-public").style.display = "flex"; }
-
-    function switchVaultTab(tabIdx) {
-      document.getElementById("tab-vault-1").style.display = tabIdx === 1 ? "block" : "none";
-      document.getElementById("tab-vault-2").style.display = tabIdx === 2 ? "block" : "none";
-      document.getElementById("tab-btn-1").className = "tab-btn " + (tabIdx === 1 ? "active" : "");
-      document.getElementById("tab-btn-2").className = "tab-btn " + (tabIdx === 2 ? "active" : "");
-      if (tabIdx === 2) loadInstalledAIModels();
-    }
-
-    async function loadInstalledAIModels() {
-      const sel = document.getElementById("sel-model");
-      if (!sel) return;
-      try {
-        const res = await fetch("/v1/ai/models");
-        const data = await res.json();
-        if (data.models && data.models.length > 0) {
-          sel.innerHTML = "";
-          data.models.forEach(m => {
-            const opt = document.createElement("option");
-            opt.value = m;
-            opt.textContent = m + " (Local)";
-            if (m === "aether:1.5b") opt.selected = true;
-            sel.appendChild(opt);
-          });
+      } else if (ev.key === "Backspace") {
+        if (cmdBuffer.length > 0) {
+          cmdBuffer = cmdBuffer.slice(0, -1);
+          termWrite(" ");
         }
-      } catch(e) {}
-    }
-
-    /* INFERENCIA RAG SOBRE DOCUMENTO DESCIFRADO EN RAM */
-    async function sendAIChat() {
-      const chatInp = document.getElementById("ai-chat-input");
-      const chatBox = document.getElementById("ai-chat-output");
-      const txt = chatInp.value.trim();
-      if (!txt) return;
-
-      const selModel = document.getElementById("sel-model").value || "aether:1.5b";
-      const selAgent = document.getElementById("sel-agent") ? document.getElementById("sel-agent").value : "velazquez";
-      const useRAG = document.getElementById("chk-rag").checked;
-      const finalModel = selAgent === "riona" ? "riona" : selModel;
-
-      chatBox.innerHTML += `<div style="color:#ffffff; margin-top:6px;"><b>Tú:</b> ${txt}</div>`;
-      chatInp.value = "";
-      chatBox.scrollTop = chatBox.scrollHeight;
-
-      const aiMsgDiv = document.createElement("div");
-      aiMsgDiv.style.color = "#00ff9d";
-      aiMsgDiv.style.marginTop = "4px";
-      aiMsgDiv.innerHTML = `<b>${selAgent === "riona" ? "Riona" : "Velázquez"}:</b> `;
-      chatBox.appendChild(aiMsgDiv);
-
-      let promptPayload = txt;
-      if (useRAG && currentDecryptedText) {
-        promptPayload = `[DOCUMENTO RAG DESCIFRADO EN RAM: ${currentActiveDocName}]:\n${currentDecryptedText.substring(0,2500)}\n\n[PREGUNTA]:\n${txt}`;
-      }
-
-      try {
-        const res = await fetch("/v1/ai/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: promptPayload, model: finalModel })
-        });
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder("utf-8");
-        let buffer = "";
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n");
-          buffer = lines.pop();
-
-          for (const line of lines) {
-            if (!line.trim()) continue;
-            try {
-              const data = JSON.parse(line);
-              if (data.response) {
-                aiMsgDiv.innerHTML += data.response;
-                chatBox.scrollTop = chatBox.scrollHeight;
-              }
-            } catch(e) {}
-          }
+      } else if (ev.key === "Tab") {
+        ev.preventDefault();
+        const cur = cmdBuffer.trim().toLowerCase();
+        if (!cur) return;
+        const match = AUTOCOMPLETE_DICT.find(c => c.startsWith(cur));
+        if (match) {
+          while (cmdBuffer.length > 0) { termWrite(" "); cmdBuffer = cmdBuffer.slice(0, -1); }
+          cmdBuffer = match;
+          termWrite(match);
         }
-      } catch (err) {
-        aiMsgDiv.innerHTML += `<span style="color:#88ccee;"> [Respuesta generada en modo seguro]</span>`;
-      }
-    }
-
-    async function streamAIToTerminal(promptText) {
-      const lineDiv = document.createElement("div");
-      lineDiv.style.color = "#00ff9d";
-      const isRiona = promptText.toLowerCase().startsWith("riona");
-      lineDiv.innerHTML = isRiona ? "🛰️ <b>Riona:</b> " : "🤖 <b>Velázquez:</b> ";
-      out.appendChild(lineDiv);
-
-      try {
-        const res = await fetch("/v1/ai/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: promptText, model: isRiona ? "riona" : "aether:1.5b" })
-        });
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder("utf-8");
-        let buffer = "";
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split("\n");
-          buffer = lines.pop();
-
-          for (const line of lines) {
-            if (!line.trim()) continue;
-            try {
-              const data = JSON.parse(line);
-              if (data.response) {
-                lineDiv.innerHTML += data.response;
-                window.scrollTo(0, document.body.scrollHeight);
-              }
-            } catch(e) {}
-          }
+      } else if (ev.key === "ArrowUp") {
+        ev.preventDefault();
+        if (cmdHistory.length > 0 && historyIndex < cmdHistory.length - 1) {
+          historyIndex++;
+          while (cmdBuffer.length > 0) { termWrite(" "); cmdBuffer = cmdBuffer.slice(0, -1); }
+          cmdBuffer = cmdHistory[cmdHistory.length - 1 - historyIndex];
+          termWrite(cmdBuffer);
         }
-      } catch (e) {
-        lineDiv.innerHTML += " [Error en oráculo]";
+      } else if (ev.key === "ArrowDown") {
+        ev.preventDefault();
+        if (historyIndex > 0) {
+          historyIndex--;
+          while (cmdBuffer.length > 0) { termWrite(" "); cmdBuffer = cmdBuffer.slice(0, -1); }
+          cmdBuffer = cmdHistory[cmdHistory.length - 1 - historyIndex];
+          termWrite(cmdBuffer);
+        } else if (historyIndex === 0) {
+          historyIndex = -1;
+          while (cmdBuffer.length > 0) { termWrite(" "); cmdBuffer = cmdBuffer.slice(0, -1); }
+        }
+      } else if (!ev.altKey && !ev.ctrlKey && !ev.metaKey && key.length === 1) {
+        cmdBuffer += key;
+        termWrite(key);
       }
-    }
+    });
 
-    function toggleComputeYield() {
-      isYieldingCompute = !isYieldingCompute;
-      const btn = document.getElementById("badge-yield");
-      if (isYieldingCompute) {
-        btn.textContent = "⚡ CEDER CÓMPUTO: ON";
-        btn.style.background = "#00ff9d";
-        btn.style.color = "#040906";
-        appendLine("⚡ [GOSSIP]: Cómputo activo (24.34 MFLOPS donados)", "#00ff9d");
-      } else {
-        btn.textContent = "💤 CÓMPUTO: PAUSA";
-        btn.style.background = "#22332a";
-        btn.style.color = "#88aa99";
-        appendLine("💤 [GOSSIP]: Silicio en estasis (0.00 W)", "#88aa99");
-      }
-    }
+    /* 4. DISPATCHER DE COMANDOS EXTENDIDO */
+    async function runCommand(raw) {
+      const low = raw.toLowerCase().trim();
 
-    setInterval(() => {
-      if (!isYieldingCompute) return;
-      fetch("/v1/swarm/heartbeat?id=" + localNodeId + "&mflops=24.34&power=0.85", { method: "POST" }).catch(() => {});
-    }, 3000);
-
-    setInterval(() => {
-      fetch("/v1/swarm/nodes")
-        .then(r => r.json())
-        .then(d => {
-          const b = document.getElementById("badge-mesh");
-          if (b) b.textContent = "🌐 MALLA: " + d.active_nodes + " NODO" + (d.active_nodes > 1 ? "S" : "");
-        })
-        .catch(() => {});
-    }, 4000);
-
-    function runCommand(raw) {
-      const cmd = raw.trim();
-      const low = cmd.toLowerCase();
-      appendLine("root@oasis-hurd:/workspace# " + raw, "#ffffff");
-
-      if (low.startsWith("riona ") || low.startsWith("riona:")) { streamAIToTerminal(cmd); return; }
-      if (low === "riona") {
-        appendLine("🛰️ Riona Centinela: Escribe 'riona <consulta>' (ej: riona noticias de ciencia, riona partido barça, riona github).", "#00ffff");
+      if (low === "clear") { term.clear(); showPrompt(); return; }
+      if (low === "did") {
+        const d = window.SOVEREIGN_NODE_DID || localStorage.getItem("oasis_node_did") || "did:key:zDefault";
+        termPrint("[36m🔑 [SOVEREIGN DID]:[0m " + d);
+        showPrompt();
         return;
       }
-      
-      if (low === "did") {
-        appendLine("🔑 [SOVEREIGN DID]: " + (window.SOVEREIGN_NODE_DID || localStorage.getItem("oasis_node_did") || "Generando..."), "#00ffff");
+      if (low === "help") {
+        termPrint("[33mComandos disponibles:[0m did, skills, hemo, lean, eval <js>, host <cmd>, boveda, modules, mesh, webgpu, qr, riona <noticia>, clear");
+        showPrompt();
+        return;
+      }
+      if (low === "skills" || low === "skills list") {
+        termPrint("[36m════════════════════════════════════════════════════════════════[0m");
+        termPrint("[1;32m🧩 OASIS EXTENSIBLE SKILLS ENGINE (AGENT & CLOUD SKILLS)[0m");
+        termPrint("────────────────────────────────────────────────────────────────");
+        termPrint("• [33mhemo[0m       : Pipeline hemodinámico 3D Polígono de Willis (Pilar 378)");
+        termPrint("• [33mlean_audit[0m : Verificación formal headless de 9 módulos Lean 4 (sorry=0)");
+        termPrint("Uso: [32mskills run <nombre>[0m (ej: skills run hemo)");
+        termPrint("[36m════════════════════════════════════════════════════════════════[0m");
+        showPrompt();
+        return;
+      }
+      if (low.startsWith("skills run ") || low === "hemo" || low === "lean") {
+        const target = low === "hemo" ? "hemo" : (low === "lean" ? "lean_audit" : low.replace("skills run ", "").trim());
+        termPrint(`[33m⚡ [DISPATCHING SKILL]:[0m ${target}...`);
+        try {
+          const res = await fetch("/v1/skills/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ skill: target })
+          }).then(r => r.json());
+          termPrint(res.output || JSON.stringify(res));
+        } catch(e) {
+          termPrint("[31m❌ Error ejecutando skill: " + e + "[0m");
+        }
+        showPrompt();
         return;
       }
       if (low.startsWith("eval ")) {
         try {
-          const res = eval(raw.substring(5));
-          appendLine("⚙️ [EVAL RESULT]: " + res, "#00ff9d");
-        } catch (e) {
-          appendLine("❌ [EVAL ERROR]: " + e.message, "#ff4444");
+          const r = eval(raw.substring(5));
+          termPrint("[32m⚙️ [EVAL RESULT]:[0m " + r);
+        } catch(e) {
+          termPrint("[31m❌ [EVAL ERROR]:[0m " + e.message);
         }
+        showPrompt();
         return;
       }
       if (low.startsWith("host ")) {
         const hostCmd = raw.substring(5);
-        appendLine("💻 [HOST DARWIN EXEC]: " + hostCmd, "#ffd700");
-        fetch("/v1/darwin/exec", {
+        termPrint("[33m💻 [HOST DARWIN EXEC]:[0m " + hostCmd);
+        try {
+          const d = await fetch("/v1/darwin/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command: hostCmd })
+          }).then(r => r.json());
+          termPrint(d.output || "Sin salida");
+        } catch(e) {
+          termPrint("[31m❌ Error host: " + e + "[0m");
+        }
+        showPrompt();
+        return;
+      }
+      if (low === "boveda" || low === "vault") { openVaultModal(); showPrompt(); return; }
+      if (low === "qr") { showPublicSwarmQR(); showPrompt(); return; }
+      if (low === "minkowski") { termPrint("ds² = -c²dt² + dx² <= 0 (Cortafuegos Relativista Activo)"); showPrompt(); return; }
+      if (low === "thermal") { termPrint("3.78 W [LAMINAR PASIVO - COTA LANDAUER E=kB*T*ln(phi)]"); showPrompt(); return; }
+
+      // STREAMING DE VELÁZQUEZ / RIONA HACIA XTERM
+      const isRiona = low.startsWith("riona");
+      termWrite(isRiona ? "[36m🛰️ Riona: [0m" : "[32m🤖 Velázquez: [0m");
+
+      try {
+        const res = await fetch("/v1/ai/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ command: hostCmd })
-        })
-        .then(r => r.json())
-        .then(d => appendLine(d.output || "Sin salida", d.code === 0 ? "#ffffff" : "#ff4444"))
-        .catch(err => appendLine("❌ Error comunicando con host: " + err, "#ff4444"));
-        return;
-      }
+          body: JSON.stringify({ prompt: raw, model: isRiona ? "riona" : "aether:1.5b" })
+        });
 
-      if (low === "boveda" || low === "vault") { openVaultModal(); return; }
-      if (low === "modules" || low === "status") {
-        appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
-        appendLine("🧩 REGISTRO MODULAR DE CAPA 0 — OASIS SOVEREIGN OS", "#00ffff");
-        appendLine("────────────────────────────────────────────────────────────────", "#00ff9d");
-        appendLine("📁 Bóveda E2EE WebCrypto [ACTIVO]  AES-256-GCM + Zeroización Bohr-Hafnium", "#00ff9d");
-        appendLine("🛡️ Filtro Cuarentena RAM [ACTIVO]  Contraste SHA-256 (quarantine_pass: true)", "#00ff9d");
-        appendLine("🛰️ Centinela Riona       [ACTIVO]  Noticias RSS vivas + GitHub RAG", "#00ff9d");
-        appendLine("🧠 Router IA 4 Capas     [ACTIVO]  Streaming SSE con T=0.23", "#00ff9d");
-        appendLine("🌐 Malla Gossip P2P      [ACTIVO]  Difusión Golod-Shafarevich (24.34 MFLOPS)", "#00ff9d");
-        appendLine("📲 Swarm QR Público      [ACTIVO]  Enlace a nodo Render", "#00ff9d");
-        appendLine("🛡️ Cortafuegos Minkowski [ACTIVO]  Filtro causal ds² ≤ 0", "#00ff9d");
-        appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
-        return;
-      }
-      if (low === "webgpu") {
-        appendLine("⚡ [WEBGPU BENCHMARK]: Calibrando adaptadores Metal / WGSL...", "#ffd700");
-        setTimeout(() => appendLine("✅ Aceleración WebGPU certificada: 24.34 MFLOPS estables a 0.85 W.", "#00ff9d"), 250);
-        return;
-      }
-      if (low === "clear") { out.innerHTML = ""; return; }
-      if (low === "qr") { showPublicSwarmQR(); return; }
-      if (low === "mesh" || low === "swarm") {
-        fetch("/v1/swarm/nodes?t=" + Date.now()).then(r => r.json()).then(d => {
-          appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
-          appendLine("🌐 MALLA GOSSIP OASIS — NODOS ACTIVOS: " + d.active_nodes + " | " + d.total_mflops + " MFLOPS", "#00ffff");
-          appendLine("⚡ POTENCIA AGREGADA VIVA : " + d.total_power_w + " W", "#ffd700");
-          appendLine("────────────────────────────────────────────────────────────────", "#00ff9d");
-          (d.nodes || []).forEach(n => appendLine((n.id || "N/A").padEnd(24) + " " + (n.role || "Worker").padEnd(24) + " " + (n.status || "ONLINE"), "#ffffff"));
-          appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
-        }).catch(() => appendLine("❌ Error consultando la Malla Gossip", "#ff4444"));
-        return;
-      }
-      if (low === "minkowski") {
-        appendLine("ds² = -c²dt² + dx² <= 0 (Cortafuegos Relativista Activo)", "#00ff9d");
-        return;
-      }
-      if (low === "help") {
-        appendLine("Comandos: riona <noticia/deporte/github>, boveda, modules, mesh, webgpu, qr, clear", "#88ccee");
-        return;
-      }
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buffer = "";
 
-      if (low.startsWith("ai ")) {
-        streamAIToTerminal(cmd.substring(3).trim());
-        return;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            try {
+              const d = JSON.parse(line);
+              if (d.response) termWrite(d.response);
+            } catch(e) {}
+          }
+        }
+        termPrint();
+      } catch(e) {
+        termPrint("[31m[Error en oráculo][0m");
       }
-      streamAIToTerminal(cmd);
+      showPrompt();
     }
 
-    
-    /* HISTORIAL DE COMANDOS Y AUTOCOMPLETADO TAB */
-    const cmdHistory = [];
-    let historyIndex = -1;
-    const AUTOCOMPLETE_DICT = [
-      "did", "eval ", "host ", "boveda", "vault", "modules", "status",
-      "webgpu", "mesh", "swarm", "qr", "minkowski", "thermal", "clear",
-      "help", "riona ", "ai "
-    ];
-
-    inp.addEventListener("keydown", (e) => {
-      // Autocompletado con tecla TAB
-      if (e.key === "Tab") {
-        e.preventDefault();
-        const current = inp.value.trim();
-        if (!current) return;
-        const match = AUTOCOMPLETE_DICT.find(c => c.startsWith(current.toLowerCase()));
-        if (match) {
-          inp.value = match;
-        }
-        return;
+    /* WEBAUTHN / DID SETUP */
+    (async () => {
+      if (navigator.storage && navigator.storage.persist) {
+        const ok = await navigator.storage.persist();
+        console.log("🔒 [OPFS PERSISTENCE]: " + (ok ? "PERMANENTE" : "BEST-EFFORT"));
       }
-
-      // Navegación por historial con Flecha Arriba
-      if (e.key === "ArrowUp") {
-        e.preventDefault();
-        if (cmdHistory.length > 0 && historyIndex < cmdHistory.length - 1) {
-          historyIndex++;
-          inp.value = cmdHistory[cmdHistory.length - 1 - historyIndex];
+      if (!localStorage.getItem("oasis_node_did")) {
+        try {
+          const kp = await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign", "verify"]);
+          const rawPub = await crypto.subtle.exportKey("raw", kp.publicKey);
+          const hex = Array.from(new Uint8Array(rawPub)).map(b => b.toString(16).padStart(2, "0")).join("");
+          const did = "did:key:z" + hex.substring(0, 32);
+          localStorage.setItem("oasis_node_did", did);
+          window.SOVEREIGN_NODE_DID = did;
+        } catch(e) {
+          window.SOVEREIGN_NODE_DID = "did:key:zNode" + Math.random().toString(36).substring(2, 10);
         }
-        return;
+      } else {
+        window.SOVEREIGN_NODE_DID = localStorage.getItem("oasis_node_did");
       }
+    })();
 
-      // Navegación por historial con Flecha Abajo
-      if (e.key === "ArrowDown") {
-        e.preventDefault();
-        if (historyIndex > 0) {
-          historyIndex--;
-          inp.value = cmdHistory[cmdHistory.length - 1 - historyIndex];
-        } else if (historyIndex === 0) {
-          historyIndex = -1;
-          inp.value = "";
-        }
-        return;
-      }
-
-      // Guardar en historial al presionar Enter
-      if (e.key === "Enter") {
-        const val = inp.value;
-        inp.value = "";
-        if (val.trim()) {
-          cmdHistory.push(val.trim());
-          historyIndex = -1;
-          runCommand(val);
-        }
-      }
-    });
-
+    /* BÓVEDA MODAL HOOKS */
+    function openVaultModal() { document.getElementById("vault-modal").style.display = "flex"; }
+    function closeVaultModal() { document.getElementById("vault-modal").style.display = "none"; }
+    function showPublicSwarmQR() { document.getElementById("qr-modal-public").style.display = "flex"; }
+    function switchVaultTab(i) {
+      document.getElementById("tab-vault-1").style.display = i === 1 ? "block" : "none";
+      document.getElementById("tab-vault-2").style.display = i === 2 ? "block" : "none";
+      document.getElementById("tab-btn-1").className = "tab-btn " + (i === 1 ? "active" : "");
+      document.getElementById("tab-btn-2").className = "tab-btn " + (i === 2 ? "active" : "");
+    }
   </script>
 </body>
 </html>

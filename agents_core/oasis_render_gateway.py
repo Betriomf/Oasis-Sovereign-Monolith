@@ -175,6 +175,45 @@ class SovereignGatewayHandler(BaseHTTPRequestHandler):
         self._send_json({"error": "NOT_FOUND", "path": req_path}, 404)
 
     def do_POST(self):
+        # Console Forwarding: Telemetría de consola web a disco local
+        if self.path == "/v1/telemetry/console":
+            length = int(self.headers.get("Content-Length", 0))
+            raw = self.rfile.read(length) if length > 0 else b"{}"
+            try:
+                data = json.loads(raw.decode("utf-8"))
+                log_file = os.path.expanduser("~/Oasis-Sovereign-Monolith/vault/console_audit.log")
+                os.makedirs(os.path.dirname(log_file), exist_ok=True)
+                with open(log_file, "a", encoding="utf-8") as lf:
+                    lf.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] [{data.get('level','INFO')}] {data.get('message','')}\n")
+                self._send_json({"status": "ACK", "saved": True})
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+            return
+
+        # Skills Engine Dispatcher (Cloud/Agent Skills)
+        if self.path == "/v1/skills/exec":
+            length = int(self.headers.get("Content-Length", 0))
+            raw = self.rfile.read(length) if length > 0 else b"{}"
+            try:
+                payload = json.loads(raw.decode("utf-8"))
+                skill_name = payload.get("skill", "")
+                params = payload.get("params", {})
+                
+                # Despacho de skills nativas
+                if skill_name == "hemo":
+                    import subprocess
+                    res = subprocess.run(["python3", "agents_core/oasis_hemo_pipeline.py"], capture_output=True, text=True, timeout=10)
+                    self._send_json({"skill": skill_name, "output": res.stdout, "status": "COMPLETED"})
+                elif skill_name == "lean_audit":
+                    import subprocess
+                    res = subprocess.run(["python3", "tools/verify_all_headless.py"], capture_output=True, text=True, timeout=15)
+                    self._send_json({"skill": skill_name, "output": res.stdout, "status": "COMPLETED"})
+                else:
+                    self._send_json({"error": f"Skill '{skill_name}' no encontrada", "available": ["hemo", "lean_audit"]}, 404)
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+            return
+
         # Ejecución controlada de comandos en el Host anfitrión (Darwin/macOS)
         if self.path == "/v1/darwin/exec":
             length = int(self.headers.get("Content-Length", 0))
