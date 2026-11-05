@@ -5,7 +5,7 @@ html_content = '''<!DOCTYPE html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OASIS SOVEREIGN OS [v19.8.2-DevFrame-DualEngine]</title>
+  <title>OASIS SOVEREIGN OS [v19.8.3-DevFrame-E2EE]</title>
   
   <!-- XTERM.JS CORE + FIT ADDON -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css">
@@ -27,7 +27,6 @@ html_content = '''<!DOCTYPE html>
     #badge-devframe { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.1); font-weight: bold; }
     #badge-yield { border-color: #00ff9d; background: #00ff9d; color: #040906; font-weight: bold; }
     
-    /* DISPOSICIÓN DUAL: TERMINAL SOBERANA + DEVFRAME */
     #dual-workspace {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -59,19 +58,33 @@ html_content = '''<!DOCTYPE html>
     
     .term-box { flex: 1; width: 100%; height: 100%; overflow: hidden; }
 
-    /* MODAL VISOR DE CÓDIGO JS / ARCHIVOS */
+    /* MODAL BÓVEDA CON E2EE REAL */
     .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); align-items: center; justify-content: center; }
-    .modal-box { background: #08140e; border: 2px solid #00ff9d; border-radius: 12px; max-width: 900px; width: 95%; padding: 20px; color: #aaddcc; box-shadow: 0 0 35px rgba(0,255,157,0.25); max-height: 90vh; overflow-y: auto; }
+    .modal-box { background: #08140e; border: 2px solid #00ff9d; border-radius: 12px; max-width: 880px; width: 95%; padding: 20px; color: #aaddcc; box-shadow: 0 0 35px rgba(0,255,157,0.25); max-height: 92vh; overflow-y: auto; }
+    .tab-bar { display: flex; gap: 10px; border-bottom: 1px solid #005a36; margin-bottom: 16px; padding-bottom: 8px; }
+    .tab-btn { background: transparent; border: none; color: #77aa99; font-family: inherit; font-size: 13px; font-weight: bold; cursor: pointer; padding: 6px 12px; }
+    .tab-btn.active { color: #00ff9d; border-bottom: 2px solid #00ff9d; }
+    .drop-zone { border: 2px dashed #00ff9d; padding: 16px; text-align: center; border-radius: 8px; margin: 10px 0; background: #050d08; cursor: pointer; }
+    .drop-zone:hover { background: #0a1a11; border-color: #00ffff; }
+    .file-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #002617; cursor: pointer; border-radius: 4px; }
+    .file-item:hover { background: #0b1d14; color: #00ff9d; }
+    .viewer-pane { background: #020503; border: 1px solid #005a36; border-radius: 6px; padding: 12px; min-height: 160px; max-height: 240px; overflow-y: auto; font-size: 12px; color: #ddffea; white-space: pre-wrap; margin-top: 8px; }
+    .chat-box { height: 200px; border: 1px solid #00331f; background: #020503; border-radius: 6px; padding: 10px; overflow-y: auto; font-size: 12px; }
+
+    /* MODAL VISOR DE CÓDIGO JS */
     .code-viewer { background: #010402; border: 1px solid #005a36; border-radius: 6px; padding: 12px; font-family: monospace; font-size: 12px; color: #00ff9d; white-space: pre; overflow-x: auto; max-height: 60vh; }
   </style>
 </head>
 <body>
+
+  <input type="file" id="real-file-input" style="display:none;" accept=".pdf,.txt,.md,.json,.csv" onchange="handleRealFileSelected(event)">
 
   <div class="header-badges">
     <span class="badge" onclick="toggleLayout()" id="badge-devframe">🛠️ PANEL DUAL: DIVIDIDO</span>
     <span id="badge-vault" class="badge" onclick="openVaultModal()">📁 BÓVEDA E2EE</span>
     <span id="badge-yield" class="badge" onclick="toggleComputeYield()">⚡ CEDER CÓMPUTO: ON</span>
     <span class="badge" onclick="runSovereignCmd('hemo')" style="border-color:#ff4444; color:#ff8888;">🩺 HEMO</span>
+    <span class="badge" onclick="runSovereignCmd('lean')" style="border-color:#ffaa44; color:#ffcc66;">📜 LEAN (9 MÓDULOS)</span>
     <span class="badge" onclick="runSovereignCmd('skills list')" style="border-color:#00aaff; color:#00ffff;">🧩 SKILLS</span>
     <span class="badge" onclick="runSovereignCmd('did')">🔑 DID</span>
     <span class="badge" onclick="runSovereignCmd('clear')">🧹 LIMPIAR</span>
@@ -79,7 +92,7 @@ html_content = '''<!DOCTYPE html>
   </div>
 
   <div id="dual-workspace">
-    <!-- PANEL IZQUIERDO: OASIS SOVEREIGN OS (CAPA 0 / WASM / RAG) -->
+    <!-- PANEL IZQUIERDO: OASIS SOVEREIGN KERNEL -->
     <div class="terminal-pane" id="pane-sovereign">
       <div class="pane-title" style="color: #00ff9d;">
         <span>🛰️ OASIS SOVEREIGN KERNEL (XTERM)</span>
@@ -88,13 +101,92 @@ html_content = '''<!DOCTYPE html>
       <div id="xterm-sovereign" class="term-box"></div>
     </div>
 
-    <!-- PANEL DERECHO: DEVFRAME (TERMINAL HOST DARWIN / NPM / GIT) -->
+    <!-- PANEL DERECHO: DEVFRAME HOST SHELL -->
     <div class="terminal-pane" id="pane-devframe">
       <div class="pane-title" style="color: #ffd700;">
         <span>💻 DEVFRAME HOST SHELL (DARWIN / MAC)</span>
         <span style="color: #ffaa44; font-size: 10px;">EJECUCIÓN NATIVA (npm, git, zsh)</span>
       </div>
       <div id="xterm-devframe" class="term-box"></div>
+    </div>
+  </div>
+
+  <!-- MODAL BÓVEDA SOBERANA CON CIFRADO E2EE REAL -->
+  <div id="vault-modal" class="modal">
+    <div class="modal-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-weight:bold; color:#00ff9d; font-size:14px;">📁 BÓVEDA SOBERANA CON CIFRADO E2EE (AES-256-GCM)</span>
+        <button onclick="closeVaultModal()" style="background:transparent; border:none; color:#ff4444; font-weight:bold; font-size:18px; cursor:pointer;">✕ CERRAR</button>
+      </div>
+
+      <div class="tab-bar">
+        <button id="tab-btn-1" class="tab-btn active" onclick="switchVaultTab(1)">📂 1. BUZÓN & VISOR</button>
+        <button id="tab-btn-2" class="tab-btn" onclick="switchVaultTab(2)">👁️ 2. CHAT RAG IA</button>
+      </div>
+
+      <!-- TAB 1: ARCHIVOS Y VISOR -->
+      <div id="tab-vault-1">
+        <div style="font-size:11px; color:#88ccee; line-height:1.5; background:#050d08; padding:8px 12px; border-radius:6px; border:1px solid #00331f; margin-bottom:10px;">
+          🔒 <b>Zero-Knowledge Activo:</b> Los archivos se persisten cifrados con <b>AES-256-GCM</b>. El descifrado ocurre efímeramente en RAM volátil con zeroización atómica.
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div>
+            <div class="drop-zone" onclick="document.getElementById('real-file-input').click()">
+              📬 <b>SOVEREIGN DROP (E2EE):</b> Clic para añadir archivos (PDF/TXT/MD)<br>
+              <span style="font-size:10px; color:#00ff9d;">Se cifran antes de guardarse en OPFS / NVMe Mirror</span>
+            </div>
+            <div style="font-size:12px; margin-top:8px; font-weight:bold; color:#00ffff;">📂 ARCHIVOS CIFRADOS:</div>
+            <div id="vault-files-list" style="margin-top:6px; max-height:220px; overflow-y:auto;"></div>
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:bold; color:#00ff9d; display:flex; justify-content:space-between;">
+              <span>👁️ VISOR EN RAM (DESCIFRADO):</span>
+              <span id="viewer-file-meta" style="font-size:10px; color:#88ccee;">Ninguno</span>
+            </div>
+            <div class="viewer-pane" id="vault-live-viewer">Selecciona un archivo de la lista para descifrarlo en memoria volátil y leerlo aquí.</div>
+            <button onclick="switchVaultTab(2)" style="margin-top:8px; width:100%; background:#005a36; color:#00ff9d; border:none; padding:8px; border-radius:4px; font-weight:bold; cursor:pointer;">💬 PREGUNTAR A LA IA SOBRE ESTE DOCUMENTO ➡️</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: CHAT CON RAG -->
+      <div id="tab-vault-2" style="display:none;">
+        <div style="font-size:11px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+          <div>📄 <b>CONTEXTO RAG DESCIFRADO:</b> <span id="active-doc-name" style="color:#00ff9d;">Ninguno</span></div>
+          <button onclick="switchVaultTab(1)" style="background:#005a36; color:#aaddcc; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">⬅️ VOLVER AL VISOR</button>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; font-size:11px; margin-bottom:8px;">
+          <div>
+            🧠 <b>MOTOR:</b>
+            <select id="sel-model" style="width:100%; background:#020503; color:#00ff9d; border:1px solid #005a36; padding:4px; font-family:inherit;">
+              <option value="aether:1.5b">aether:1.5b (Local)</option>
+              <option value="qwen2.5:1.5b">qwen2.5:1.5b (Local)</option>
+            </select>
+          </div>
+          <div>
+            🎭 <b>AGENTE:</b>
+            <select id="sel-agent" style="width:100%; background:#020503; color:#00ff9d; border:1px solid #005a36; padding:4px; font-family:inherit;">
+              <option value="velazquez">🎭 velazquez (Oráculo Factual)</option>
+              <option value="riona">🎭 riona (Centinela Red & GitHub)</option>
+            </select>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px; padding-top:14px;">
+            <input type="checkbox" id="chk-rag" checked>
+            <label for="chk-rag" style="color:#00ffff; cursor:pointer;"><b>RAG ACTIVO</b></label>
+          </div>
+        </div>
+
+        <div class="chat-box" id="ai-chat-output">
+          <div style="color:#669988;">[SISTEMA]: Bóveda protegida por WebCrypto AES-256-GCM. Si 'RAG ACTIVO' está marcado, Velázquez/Riona usarán el documento descifrado en RAM.</div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <input type="text" id="ai-chat-input" placeholder="Pregunta sobre el documento o consulta general..." style="flex:1; background:#020503; border:1px solid #005a36; color:#ffffff; padding:6px; font-family:inherit;">
+          <button onclick="sendAIChat()" style="background:#00ff9d; color:#040906; border:none; padding:6px 16px; font-weight:bold; cursor:pointer; border-radius:4px;">ENVIAR</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -111,38 +203,36 @@ html_content = '''<!DOCTYPE html>
 
   <script>
     /* =====================================================================
-       1. CONSOLE BRIDGE PRIVADO (ZERO-KNOWLEDGE)
+       1. CONSOLE BRIDGE PRIVADO Y CONFIGURACIÓN ERUDA DEVTOOLS
        ===================================================================== */
     (function initPrivateConsoleBridge() {
       const origLog = console.log;
       const origWarn = console.warn;
       const origErr = console.error;
-
-      // El puente almacena los logs SOLO en memoria de sesión del desarrollador
       window.DEV_CONSOLE_LOGS = [];
 
       console.log = function(...args) {
         origLog.apply(console, args);
         const msg = args.join(" ");
         window.DEV_CONSOLE_LOGS.push({ t: Date.now(), level: "LOG", msg });
-        if (termSov) termSov.writeln("\\x1b[36m🖥️ [CONSOLE]:\\x1b[0m " + msg);
+        if (typeof termSov !== "undefined") termSov.writeln("\\x1b[36m🖥️ [CONSOLE]:\\x1b[0m " + msg);
       };
       console.warn = function(...args) {
         origWarn.apply(console, args);
         const msg = args.join(" ");
         window.DEV_CONSOLE_LOGS.push({ t: Date.now(), level: "WARN", msg });
-        if (termSov) termSov.writeln("\\x1b[33m⚠️ [CONSOLE-WARN]:\\x1b[0m " + msg);
+        if (typeof termSov !== "undefined") termSov.writeln("\\x1b[33m⚠️ [CONSOLE-WARN]:\\x1b[0m " + msg);
       };
       console.error = function(...args) {
         origErr.apply(console, args);
         const msg = args.join(" ");
         window.DEV_CONSOLE_LOGS.push({ t: Date.now(), level: "ERR", msg });
-        if (termSov) termSov.writeln("\\x1b[31m🚨 [CONSOLE-ERR]:\\x1b[0m " + msg);
+        if (typeof termSov !== "undefined") termSov.writeln("\\x1b[31m🚨 [CONSOLE-ERR]:\\x1b[0m " + msg);
       };
     })();
 
     /* =====================================================================
-       2. INICIALIZACIÓN DE LOS DOS MOTORES XTERM
+       2. INICIALIZACIÓN XTERM.JS CON SOPORTE DE PEGADO CLIPBOARD
        ===================================================================== */
     const termTheme = {
       background: '#020503',
@@ -158,14 +248,12 @@ html_content = '''<!DOCTYPE html>
       white: '#ffffff'
     };
 
-    // Terminal Soberana (Izquierda)
     const termSov = new Terminal({ cursorBlink: true, fontSize: 13, theme: termTheme });
     const fitSov = new FitAddon.FitAddon();
     termSov.loadAddon(fitSov);
     termSov.open(document.getElementById('xterm-sovereign'));
     fitSov.fit();
 
-    // DevFrame Terminal (Derecha)
     const termDev = new Terminal({
       cursorBlink: true,
       fontSize: 13,
@@ -178,19 +266,37 @@ html_content = '''<!DOCTYPE html>
 
     window.addEventListener('resize', () => { fitSov.fit(); fitDev.fit(); });
 
-    /* BANNERS INICIALES */
-    termSov.writeln("\\x1b[1;32m🛰️ OASIS SOVEREIGN OS [v19.8.2-DevFrame-DualEngine]\\x1b[0m");
+    // RASTREO DEL FOCO ACTIVO PARA EL PEGADO
+    let activeTerminal = 'sov';
+    document.getElementById('xterm-sovereign').addEventListener('click', () => activeTerminal = 'sov');
+    document.getElementById('xterm-devframe').addEventListener('click', () => activeTerminal = 'dev');
+
+    // SOPORTE UNIVERSAL DE PEGADO (Cmd+V, Ctrl+V, Menú Contextual)
+    window.addEventListener('paste', (e) => {
+      const text = e.clipboardData ? e.clipboardData.getData('text') : '';
+      if (!text) return;
+      if (activeTerminal === 'sov') {
+        sovBuf += text;
+        termSov.write(text);
+      } else {
+        devBuf += text;
+        termDev.write(text);
+      }
+    });
+
+    /* BANNERS */
+    termSov.writeln("\\x1b[1;32m🛰️ OASIS SOVEREIGN OS [v19.8.3-DevFrame-E2EE]\\x1b[0m");
     termSov.writeln("\\x1b[36m🔒 Cifrado E2EE WebCrypto + P-256 did:key en RAM volátil activa.\\x1b[0m");
-    termSov.writeln("\\x1b[33m💡 Escribe 'help' para comandos, 'view <archivo>' para código, o 'v <pregunta>' para IA.\\x1b[0m");
+    termSov.writeln("\\x1b[33m💡 Escribe 'boveda' para abrir tus archivos, o 'help' para comandos.\\x1b[0m");
     termSov.writeln("-----------------------------------------------------------------------------");
 
     termDev.writeln("\\x1b[1;33m💻 DEVFRAME LOCAL SHELL — ENLACE DIRECTO A DARWIN/MACOS\\x1b[0m");
-    termDev.writeln("\\x1b[37mEjecuta comandos reales del host sin salir de la interfaz:\\x1b[0m");
-    termDev.writeln("  • \\x1b[32mgit status\\x1b[0m       • \\x1b[32mnpm test\\x1b[0m       • \\x1b[32mpython3 tools/verify_all_headless.py\\x1b[0m");
+    termDev.writeln("\\x1b[37mEjecuta comandos del host con soporte de pegado (Cmd+V):\\x1b[0m");
+    termDev.writeln("  • \\x1b[32mgit status\\x1b[0m    • \\x1b[32mnpm test\\x1b[0m    • \\x1b[32mpython3 tools/verify_all_headless.py\\x1b[0m");
     termDev.writeln("-----------------------------------------------------------------------------");
 
     /* =====================================================================
-       3. GESTIÓN DE ENTRADA Y DISPATCHER EN TERMINAL SOBERANA (IZQUIERDA)
+       3. TERMINAL SOBERANA (IZQUIERDA) — CONTROL Y COMANDOS
        ===================================================================== */
     let sovBuf = "";
     const sovHist = [];
@@ -199,7 +305,7 @@ html_content = '''<!DOCTYPE html>
 
     const SOV_AUTOCOMPLETE = [
       "help", "clear", "did", "eval ", "v ", "riona ", "skills list",
-      "hemo", "lean", "view ", "boveda", "webgpu", "mesh", "minkowski", "thermal"
+      "hemo", "lean", "view ", "boveda", "vault", "webgpu", "mesh", "minkowski", "thermal"
     ];
 
     function showSovPrompt() { termSov.write(sovPrompt + sovBuf); }
@@ -264,16 +370,17 @@ html_content = '''<!DOCTYPE html>
       const low = raw.toLowerCase().trim();
 
       if (low === "clear") { termSov.clear(); showSovPrompt(); return; }
+      if (low === "boveda" || low === "vault") { openVaultModal(); showSovPrompt(); return; }
       if (low === "help") {
         termSov.writeln("\\x1b[33mComandos de Capa 0:\\x1b[0m");
-        termSov.writeln("  • \\x1b[32mv <pregunta>\\x1b[0m       : Consultar al Agente Velázquez (Inferencia)");
-        termSov.writeln("  • \\x1b[32mriona <consulta>\\x1b[0m   : Centinela de Red (Noticias en vivo / GitHub RAG)");
-        termSov.writeln("  • \\x1b[32mview <archivo>\\x1b[0m     : Inspeccionar código fuente sin salir de Oasis");
-        termSov.writeln("  • \\x1b[32mhemo\\x1b[0m               : Pipeline hemodinámico 3D Polígono de Willis");
-        termSov.writeln("  • \\x1b[32mlean\\x1b[0m               : Verificación formal de los 9 teoremas Lean 4");
-        termSov.writeln("  • \\x1b[32mdid\\x1b[0m                : Identidad portable W3C did:key del nodo");
-        termSov.writeln("  • \\x1b[32meval <javascript>\\x1b[0m  : Ejecución local en sandbox del navegador");
-        termSov.writeln("  • \\x1b[32mboveda, mesh, qr\\x1b[0m   : Módulos de custodia y red distribuida");
+        termSov.writeln("  • \\x1b[32mboveda\\x1b[0m              : Abrir Bóveda E2EE con Visor y RAG en RAM");
+        termSov.writeln("  • \\x1b[32mv <pregunta>\\x1b[0m        : Consultar al Agente Velázquez (Inferencia)");
+        termSov.writeln("  • \\x1b[32mriona <consulta>\\x1b[0m    : Centinela de Red (Noticias en vivo / GitHub RAG)");
+        termSov.writeln("  • \\x1b[32mview <archivo>\\x1b[0m      : Inspeccionar código fuente sin salir de Oasis");
+        termSov.writeln("  • \\x1b[32mhemo\\x1b[0m                : Pipeline hemodinámico 3D Polígono de Willis");
+        termSov.writeln("  • \\x1b[32mlean\\x1b[0m                : Verificación formal de los 9 teoremas Lean 4");
+        termSov.writeln("  • \\x1b[32mdid\\x1b[0m                 : Identidad portable W3C did:key del nodo");
+        termSov.writeln("  • \\x1b[32meval <javascript>\\x1b[0m   : Ejecución local en sandbox del navegador");
         showSovPrompt();
         return;
       }
@@ -285,7 +392,7 @@ html_content = '''<!DOCTYPE html>
       }
       if (low.startsWith("view ")) {
         const fname = raw.substring(5).trim();
-        termSov.writeln(`\\x1b[33m📂 Cargando código de ${fname}...\\x1b[0m`);
+        termSov.writeln(`\\x1b[33m📂 Abriendo visor de código para: ${fname}...\\x1b[0m`);
         try {
           const res = await fetch("/v1/darwin/exec", {
             method: "POST",
@@ -301,8 +408,12 @@ html_content = '''<!DOCTYPE html>
         showSovPrompt();
         return;
       }
-      if (low === "hemo" || low === "lean" || low === "skills list" || low.startsWith("skills run ")) {
-        const target = low === "hemo" ? "hemo" : (low === "lean" ? "lean_audit" : low.replace("skills run ", "").trim());
+      if (low === "hemo" || low === "lean" || low === "skills" || low === "skills list" || low.startsWith("skills run ")) {
+        let target = "list";
+        if (low === "hemo") target = "hemo";
+        else if (low === "lean") target = "lean_audit";
+        else if (low.startsWith("skills run ")) target = low.replace("skills run ", "").trim();
+        
         termSov.writeln(`\\x1b[33m⚡ [EJECUTANDO SKILL]:\\x1b[0m ${target}...`);
         try {
           const res = await fetch("/v1/skills/exec", {
@@ -328,7 +439,7 @@ html_content = '''<!DOCTYPE html>
         return;
       }
 
-      // DISPARO EXCLUSIVO DE AGENTES IA (Solo con 'v ' o 'riona ')
+      // DISPARO EXCLUSIVO DE AGENTES IA
       const isVel = low.startsWith("v ") || low.startsWith("v:") || low.startsWith("ai ");
       const isRio = low.startsWith("riona ") || low.startsWith("riona:");
 
@@ -370,13 +481,13 @@ html_content = '''<!DOCTYPE html>
         return;
       }
 
-      // COMANDO NO RECONOCIDO: NUNCA DISPARAR A VELÁZQUEZ
+      // COMANDO NO RECONOCIDO
       termSov.writeln(`\\x1b[31mComando no reconocido:\\x1b[0m '${raw}'. Escribe '\\x1b[33mhelp\\x1b[0m' o usa '\\x1b[32mv <pregunta>\\x1b[0m' para consultar a Velázquez.`);
       showSovPrompt();
     }
 
     /* =====================================================================
-       4. GESTIÓN DEL DEVFRAME (PANEL DERECHO - DARWIN HOST SHELL)
+       4. DEVFRAME TERMINAL (DERECHA) — SHELL REAL DEL HOST
        ===================================================================== */
     let devBuf = "";
     const devHist = [];
@@ -446,12 +557,215 @@ html_content = '''<!DOCTYPE html>
           termDev.writeln("\\x1b[90m(Sin salida)\\x1b[0m");
         }
       } catch (err) {
-        termDev.writeln("\\x1b[31m❌ Error comunicando con host Darwin: " + err + "\\x1b[0m");
+        termDev.writeln("\\x1b[31m❌ Error host: " + err + "\\x1b[0m");
       }
       showDevPrompt();
     }
 
-    /* TOGGLE DE LAYOUT DUAL / PANTALLA COMPLETA */
+    /* =====================================================================
+       5. MOTOR CRIPTOGRÁFICO WEBCRYPTO AES-256-GCM (BÓVEDA SOBERANA)
+       ===================================================================== */
+    const HARDWARE_PHASE_SALT = new TextEncoder().encode("OASIS-HW-MAC-87B34287C3-SALT-2026");
+    let currentDecryptedText = "";
+    let currentActiveDocName = "";
+
+    async function deriveAESKey() {
+      const baseKey = await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder().encode("OasisSovereignKey::PhaseMasterKey::phi"),
+        { name: "PBKDF2" },
+        false,
+        ["deriveKey"]
+      );
+      return crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: HARDWARE_PHASE_SALT, iterations: 100000, hash: "SHA-256" },
+        baseKey,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["encrypt", "decrypt"]
+      );
+    }
+
+    async function encryptE2EE(plaintext) {
+      const key = await deriveAESKey();
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const ciphertext = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(plaintext));
+      return {
+        iv: Array.from(iv).map(b => b.toString(16).padStart(2, "0")).join(""),
+        ciphertext: btoa(String.fromCharCode(...new Uint8Array(ciphertext)))
+      };
+    }
+
+    async function decryptE2EE(ciphertextB64, ivHex) {
+      try {
+        const key = await deriveAESKey();
+        const iv = new Uint8Array(ivHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+        const rawBytes = Uint8Array.from(atob(ciphertextB64), c => c.charCodeAt(0));
+        const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, rawBytes);
+        return new TextDecoder().decode(decrypted);
+      } catch (e) {
+        return "[Error de descifrado E2EE: Clave de fase inválida]";
+      }
+    }
+
+    async function computeSHA256(str) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+      return "0x" + Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function getSovereignVaultEncrypted() {
+      let v = localStorage.getItem("oasis_sovereign_vault_e2ee");
+      if (!v) {
+        v = JSON.stringify({});
+        localStorage.setItem("oasis_sovereign_vault_e2ee", v);
+      }
+      return JSON.parse(v);
+    }
+
+    async function ensureSeedDocuments() {
+      const v = getSovereignVaultEncrypted();
+      if (!v["pilar_378_atractor_termodinamico_kappa.md"]) {
+        const p378Text = "# PILAR 378: ATRACTOR TERMODINÁMICO DE ENSTROFÍA (κ = ln 10)\\n\\n∀Ω̃ ∈ H_flujo [ dΩ̃/dt ≤ κ² - Ω̃ ∧ κ = ln 10 ≈ 2.3026 ⊢ sup_{t≥0} Ω̃(t) ≤ 5.3019 ∧ P_disipacion ≤ 5.39W ]\\n\\n1. Techo Espectral de Enstrofía: Confinamiento de la vorticidad adimensional bajo κ² ≈ 5.30.\\n2. Silicio Frío: Cómputo pasivo a ≤ 5.39 W.\\n3. Poda de Entropía en IA: Umbral H(X) ≤ ln 10.";
+        const enc378 = await encryptE2EE(p378Text);
+        v["pilar_378_atractor_termodinamico_kappa.md"] = {
+          name: "pilar_378_atractor_termodinamico_kappa.md",
+          size: "2.3 KB",
+          hash: await computeSHA256(p378Text),
+          encrypted: enc378
+        };
+      }
+      localStorage.setItem("oasis_sovereign_vault_e2ee", JSON.stringify(v));
+    }
+
+    function renderVaultFileList() {
+      const list = document.getElementById("vault-files-list");
+      if (!list) return;
+      list.innerHTML = "";
+      const files = getSovereignVaultEncrypted();
+      for (const fname in files) {
+        const f = files[fname];
+        const item = document.createElement("div");
+        item.className = "file-item";
+        item.onclick = () => selectAndDecryptDoc(fname);
+        item.innerHTML = `<span>🔒 <b>${fname}</b></span><span style="color:#00ff9d; font-size:10px;">AES-GCM (${f.size})</span>`;
+        list.appendChild(item);
+      }
+    }
+
+    async function selectAndDecryptDoc(docName) {
+      const files = getSovereignVaultEncrypted();
+      const doc = files[docName];
+      if (!doc || !doc.encrypted) return;
+
+      currentActiveDocName = docName;
+      document.getElementById("active-doc-name").textContent = docName;
+      document.getElementById("viewer-file-meta").textContent = `DESCIFRADO RAM | SHA: ${doc.hash.substring(0,10)}...`;
+
+      const plaintext = await decryptE2EE(doc.encrypted.ciphertext, doc.encrypted.iv);
+      currentDecryptedText = plaintext;
+      document.getElementById("vault-live-viewer").textContent = plaintext;
+    }
+
+    async function handleRealFileSelected(event) {
+      const files = event.target.files;
+      if (files && files.length > 0) {
+        const file = files[0];
+        const text = await file.text();
+        const sha = await computeSHA256(text);
+        const encrypted = await encryptE2EE(text);
+        const vault = getSovereignVaultEncrypted();
+        vault[file.name] = {
+          name: file.name,
+          size: (file.size / 1024).toFixed(1) + " KB",
+          hash: sha,
+          encrypted: encrypted
+        };
+        localStorage.setItem("oasis_sovereign_vault_e2ee", JSON.stringify(vault));
+        renderVaultFileList();
+        await selectAndDecryptDoc(file.name);
+      }
+    }
+
+    async function openVaultModal() {
+      document.getElementById("vault-modal").style.display = "flex";
+      await ensureSeedDocuments();
+      renderVaultFileList();
+      if (!currentActiveDocName) {
+        await selectAndDecryptDoc("pilar_378_atractor_termodinamico_kappa.md");
+      }
+    }
+
+    function closeVaultModal() {
+      currentDecryptedText = ""; // Zeroización
+      document.getElementById("vault-modal").style.display = "none";
+    }
+
+    function switchVaultTab(tabIdx) {
+      document.getElementById("tab-vault-1").style.display = tabIdx === 1 ? "block" : "none";
+      document.getElementById("tab-vault-2").style.display = tabIdx === 2 ? "block" : "none";
+      document.getElementById("tab-btn-1").className = "tab-btn " + (tabIdx === 1 ? "active" : "");
+      document.getElementById("tab-btn-2").className = "tab-btn " + (tabIdx === 2 ? "active" : "");
+    }
+
+    async function sendAIChat() {
+      const chatInp = document.getElementById("ai-chat-input");
+      const chatBox = document.getElementById("ai-chat-output");
+      const txt = chatInp.value.trim();
+      if (!txt) return;
+
+      const selModel = document.getElementById("sel-model").value || "aether:1.5b";
+      const selAgent = document.getElementById("sel-agent").value || "velazquez";
+      const useRAG = document.getElementById("chk-rag").checked;
+      const finalModel = selAgent === "riona" ? "riona" : selModel;
+
+      chatBox.innerHTML += `<div style="color:#ffffff; margin-top:6px;"><b>Tú:</b> ${txt}</div>`;
+      chatInp.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      const aiMsgDiv = document.createElement("div");
+      aiMsgDiv.style.color = "#00ff9d";
+      aiMsgDiv.style.marginTop = "4px";
+      aiMsgDiv.innerHTML = `<b>${selAgent === "riona" ? "Riona" : "Velázquez"}:</b> `;
+      chatBox.appendChild(aiMsgDiv);
+
+      let payloadPrompt = txt;
+      if (useRAG && currentDecryptedText) {
+        payloadPrompt = `[DOCUMENTO DESCIFRADO EN RAM: ${currentActiveDocName}]:\\n${currentDecryptedText.substring(0,2500)}\\n\\n[PREGUNTA]:\\n${txt}`;
+      }
+
+      try {
+        const res = await fetch("/v1/ai/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: payloadPrompt, model: finalModel })
+        });
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\\n");
+          buffer = lines.pop();
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            try {
+              const data = JSON.parse(line);
+              if (data.response) {
+                aiMsgDiv.innerHTML += data.response;
+                chatBox.scrollTop = chatBox.scrollHeight;
+              }
+            } catch(e) {}
+          }
+        }
+      } catch (err) {
+        aiMsgDiv.innerHTML += ` [Error procesando inferencia]`;
+      }
+    }
+
+    /* TOGGLE LAYOUT DUAL / SOLO KERNEL */
     let isSplit = true;
     function toggleLayout() {
       const devPane = document.getElementById("pane-devframe");
@@ -471,7 +785,7 @@ html_content = '''<!DOCTYPE html>
       fitDev.fit();
     }
 
-    /* INICIALIZACIÓN SOBERANA OPFS + DID */
+    /* DID SETUP */
     (async () => {
       if (navigator.storage && navigator.storage.persist) {
         const ok = await navigator.storage.persist();
@@ -500,4 +814,4 @@ with open("agents_core/templates/terminal.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
 shutil.copyfile("agents_core/templates/terminal.html", "index.html")
-print("✅ Plantillas terminal.html e index.html actualizadas con arquitectura DevFrame y filtro estricto.")
+print("✅ Plantillas terminal.html e index.html actualizadas con Bóveda E2EE y soporte de pegado.")

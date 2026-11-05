@@ -200,16 +200,27 @@ class SovereignGatewayHandler(BaseHTTPRequestHandler):
                 params = payload.get("params", {})
                 
                 # Despacho de skills nativas
-                if skill_name == "hemo":
+                if skill_name in ["list", "skills", "skills list"]:
+                    catalog = (
+                        "════════════════════════════════════════════════════════════════\n"
+                        "🧩 OASIS EXTENSIBLE SKILLS ENGINE (CATÁLOGO ACTIVO)\n"
+                        "────────────────────────────────────────────────────────────────\n"
+                        "• hemo       : Simulación hemodinámica 3D Polígono de Willis\n"
+                        "• lean_audit : Verificación formal headless de 9 módulos Lean 4\n"
+                        "Uso: skills run <nombre>  (o escribe directamente 'hemo' o 'lean')\n"
+                        "════════════════════════════════════════════════════════════════"
+                    )
+                    self._send_json({"skill": "catalog", "output": catalog, "status": "COMPLETED"})
+                elif skill_name == "hemo":
                     import subprocess
-                    res = subprocess.run(["python3", "agents_core/oasis_hemo_pipeline.py"], capture_output=True, text=True, timeout=10)
+                    res = subprocess.run(["python3", "agents_core/oasis_hemo_pipeline.py"], capture_output=True, text=True, timeout=15)
                     self._send_json({"skill": skill_name, "output": res.stdout, "status": "COMPLETED"})
-                elif skill_name == "lean_audit":
+                elif skill_name in ["lean_audit", "lean"]:
                     import subprocess
-                    res = subprocess.run(["python3", "tools/verify_all_headless.py"], capture_output=True, text=True, timeout=15)
-                    self._send_json({"skill": skill_name, "output": res.stdout, "status": "COMPLETED"})
+                    res = subprocess.run(["python3", "tools/verify_all_headless.py"], capture_output=True, text=True, timeout=60)
+                    self._send_json({"skill": "lean_audit", "output": res.stdout, "status": "COMPLETED"})
                 else:
-                    self._send_json({"error": f"Skill '{skill_name}' no encontrada", "available": ["hemo", "lean_audit"]}, 404)
+                    self._send_json({"error": f"Skill '{skill_name}' no encontrada", "available": ["hemo", "lean_audit", "skills list"]}, 404)
             except Exception as e:
                 self._send_json({"error": str(e)}, 500)
             return
