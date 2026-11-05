@@ -175,6 +175,22 @@ class SovereignGatewayHandler(BaseHTTPRequestHandler):
         self._send_json({"error": "NOT_FOUND", "path": req_path}, 404)
 
     def do_POST(self):
+        # Ejecución controlada de comandos en el Host anfitrión (Darwin/macOS)
+        if self.path == "/v1/darwin/exec":
+            length = int(self.headers.get("Content-Length", 0))
+            raw = self.rfile.read(length) if length > 0 else b"{}"
+            try:
+                payload = json.loads(raw.decode("utf-8"))
+                cmd = payload.get("command", "").strip()
+                import subprocess
+                repo_root = os.path.expanduser("~/Oasis-Sovereign-Monolith")
+                res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=15, cwd=repo_root)
+                output = res.stdout if res.returncode == 0 else (res.stderr or "Sin salida")
+                self._send_json({"output": output.strip(), "code": res.returncode})
+            except Exception as e:
+                self._send_json({"output": f"Fallo ejecución: {e}", "code": 1})
+            return
+
         # Guardar espejo cifrado E2EE en NVMe sin acceso a texto plano
         if self.path.startswith("/v1/vault/sync"):
             length = int(self.headers.get("Content-Length", 0))

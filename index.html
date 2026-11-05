@@ -161,6 +161,27 @@
   </div>
 
   <script>
+
+    /* HOOK UNIVERSAL DE CONSOLA DE DESARROLLADOR A PANTALLA */
+    (function() {
+      const origLog = console.log;
+      const origWarn = console.warn;
+      const origErr = console.error;
+
+      console.log = function(...args) {
+        origLog.apply(console, args);
+        if (typeof appendLine === "function") appendLine("🖥️ [CONSOLE]: " + args.join(" "), "#88ccee");
+      };
+      console.warn = function(...args) {
+        origWarn.apply(console, args);
+        if (typeof appendLine === "function") appendLine("⚠️ [CONSOLE-WARN]: " + args.join(" "), "#ffd700");
+      };
+      console.error = function(...args) {
+        origErr.apply(console, args);
+        if (typeof appendLine === "function") appendLine("🚨 [CONSOLE-ERR]: " + args.join(" "), "#ff4444");
+      };
+    })();
+
     const out = document.getElementById("output");
     const inp = document.getElementById("cmd-input");
     let isYieldingCompute = true;
@@ -573,6 +594,34 @@
         appendLine("🛰️ Riona Centinela: Escribe 'riona <consulta>' (ej: riona noticias de ciencia, riona partido barça, riona github).", "#00ffff");
         return;
       }
+      
+      if (low === "did") {
+        appendLine("🔑 [SOVEREIGN DID]: " + (window.SOVEREIGN_NODE_DID || localStorage.getItem("oasis_node_did") || "Generando..."), "#00ffff");
+        return;
+      }
+      if (low.startsWith("eval ")) {
+        try {
+          const res = eval(raw.substring(5));
+          appendLine("⚙️ [EVAL RESULT]: " + res, "#00ff9d");
+        } catch (e) {
+          appendLine("❌ [EVAL ERROR]: " + e.message, "#ff4444");
+        }
+        return;
+      }
+      if (low.startsWith("host ")) {
+        const hostCmd = raw.substring(5);
+        appendLine("💻 [HOST DARWIN EXEC]: " + hostCmd, "#ffd700");
+        fetch("/v1/darwin/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command: hostCmd })
+        })
+        .then(r => r.json())
+        .then(d => appendLine(d.output || "Sin salida", d.code === 0 ? "#ffffff" : "#ff4444"))
+        .catch(err => appendLine("❌ Error comunicando con host: " + err, "#ff4444"));
+        return;
+      }
+
       if (low === "boveda" || low === "vault") { openVaultModal(); return; }
       if (low === "modules" || low === "status") {
         appendLine("════════════════════════════════════════════════════════════════", "#00ff9d");
