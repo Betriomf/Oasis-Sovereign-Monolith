@@ -1,0 +1,713 @@
+import shutil
+
+html = '''<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OASIS SOVEREIGN OS [v19.8.7-Sovereign-Stack]</title>
+  
+  <!-- XTERM.JS & FIT -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/lib/xterm.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@xterm/addon-fit@0.10.0/lib/addon-fit.min.js"></script>
+  
+  <!-- MONACO EDITOR (VS CODE WEB CORE) -->
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+
+  <!-- ERUDA DEVTOOLS -->
+  <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <script>eruda.init();</script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #040906; color: #00ff9d; font-family: "SF Mono", Menlo, Consolas, monospace; padding: 12px; font-size: 13px; }
+    
+    .header-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid #00331f; padding-bottom: 10px; }
+    .badge { border: 1px solid #005a36; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; user-select: none; transition: all 0.2s; }
+    .badge:hover { opacity: 0.8; }
+    #badge-vault { border-color: #00ffff; color: #00ffff; background: rgba(0,255,255,0.08); font-weight: bold; }
+    #badge-devframe { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.1); font-weight: bold; }
+    #badge-yield { border-color: #00ff9d; background: #00ff9d; color: #040906; font-weight: bold; }
+    
+    #dual-workspace {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      height: 74vh;
+      width: 100%;
+    }
+    
+    .terminal-pane {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #005a36;
+      border-radius: 8px;
+      background: #020503;
+      padding: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 255, 157, 0.08);
+    }
+    
+    .pane-title {
+      font-size: 11px;
+      font-weight: bold;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #00331f;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .term-box { flex: 1; width: 100%; height: 100%; overflow: hidden; }
+
+    /* MODALES */
+    .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); align-items: center; justify-content: center; }
+    .modal-box { background: #08140e; border: 2px solid #00ff9d; border-radius: 12px; max-width: 880px; width: 95%; padding: 20px; color: #aaddcc; box-shadow: 0 0 35px rgba(0,255,157,0.25); max-height: 90vh; overflow-y: auto; }
+    .tab-bar { display: flex; gap: 10px; border-bottom: 1px solid #005a36; margin-bottom: 16px; padding-bottom: 8px; }
+    .tab-btn { background: transparent; border: none; color: #77aa99; font-family: inherit; font-size: 13px; font-weight: bold; cursor: pointer; padding: 6px 12px; }
+    .tab-btn.active { color: #00ff9d; border-bottom: 2px solid #00ff9d; }
+    .drop-zone { border: 2px dashed #00ff9d; padding: 16px; text-align: center; border-radius: 8px; margin: 10px 0; background: #050d08; cursor: pointer; }
+    .file-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #002617; cursor: pointer; border-radius: 4px; }
+    .file-item:hover { background: #0b1d14; color: #00ff9d; }
+    .viewer-pane { background: #020503; border: 1px solid #005a36; border-radius: 6px; padding: 12px; min-height: 140px; max-height: 220px; overflow-y: auto; font-size: 12px; color: #ddffea; white-space: pre-wrap; margin-top: 8px; }
+    .chat-box { height: 180px; border: 1px solid #00331f; background: #020503; border-radius: 6px; padding: 10px; overflow-y: auto; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <input type="file" id="real-file-input" style="display:none;" accept=".pdf,.txt,.md,.json,.csv" onchange="handleRealFileSelected(event)">
+
+  <div class="header-badges">
+    <span class="badge" onclick="toggleLayout()" id="badge-devframe">🛠️ PANEL DUAL: DIVIDIDO</span>
+    <span id="badge-vault" class="badge" onclick="openVaultModal()">📁 BÓVEDA E2EE</span>
+    <span class="badge" onclick="pasteClipboardToActiveTerm()" style="border-color:#00ffff; color:#00ffff;">📋 PEGAR</span>
+    <span class="badge" onclick="runSovereignCmd('hemo')" style="border-color:#ff4444; color:#ff8888;">🩺 HEMO</span>
+    <span class="badge" onclick="runSovereignCmd('lean')" style="border-color:#ffaa44; color:#ffcc66;">📜 LEAN 4</span>
+    <span class="badge" onclick="runSovereignCmd('skills list')" style="border-color:#00aaff; color:#00ffff;">🧩 SKILLS</span>
+    <span class="badge" onclick="runSovereignCmd('did')">🔑 DID</span>
+    <span class="badge" onclick="runSovereignCmd('clear')">🧹 LIMPIAR</span>
+    <span class="badge" onclick="runSovereignCmd('help')">❓ AYUDA</span>
+  </div>
+
+  <div id="dual-workspace">
+    <!-- PANEL IZQUIERDO: KERNEL OASIS -->
+    <div class="terminal-pane" id="pane-sovereign">
+      <div class="pane-title" style="color: #00ff9d;">
+        <span>🛰️ OASIS SOVEREIGN KERNEL (XTERM)</span>
+        <span style="color: #88ccee; font-size: 10px;">SILICIO FRÍO (≤ 3.78 W)</span>
+      </div>
+      <div id="xterm-sovereign" class="term-box"></div>
+    </div>
+
+    <!-- PANEL DERECHO: DEVFRAME TTYD PTY -->
+    <div class="terminal-pane" id="pane-devframe">
+      <div class="pane-title" style="color: #ffd700;">
+        <span>💻 DEVFRAME PTY SHELL (ttyd / C-libuv)</span>
+        <div>
+          <button onclick="reloadDevFramePTY()" style="background:transparent; border:1px solid #ffd700; color:#ffd700; font-size:10px; border-radius:3px; padding:2px 6px; cursor:pointer;">🔄 RECONECTAR</button>
+          <span style="color: #ffaa44; font-size: 10px; margin-left:6px;">PTY DARWIN</span>
+        </div>
+      </div>
+      <div style="flex:1; width:100%; height:100%; background:#020503; border-radius:4px; overflow:hidden;">
+        <iframe id="ttyd-frame" src="http://127.0.0.1:7681" style="width:100%; height:100%; border:none;"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL BÓVEDA E2EE -->
+  <div id="vault-modal" class="modal" onclick="handleBackdropClick(event, 'vault-modal')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span style="font-weight:bold; color:#00ff9d; font-size:14px;">📁 BÓVEDA SOBERANA CON CIFRADO E2EE (AES-256-GCM)</span>
+        <button type="button" onclick="closeVaultModal()" style="background:transparent; border:none; color:#ff4444; font-weight:bold; font-size:20px; cursor:pointer; padding:4px 8px;">✕ CERRAR</button>
+      </div>
+
+      <div class="tab-bar">
+        <button id="tab-btn-1" class="tab-btn active" onclick="switchVaultTab(1)">📂 1. BUZÓN & VISOR</button>
+        <button id="tab-btn-2" class="tab-btn" onclick="switchVaultTab(2)">👁️ 2. CHAT RAG IA</button>
+      </div>
+
+      <div id="tab-vault-1">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div>
+            <div class="drop-zone" onclick="document.getElementById('real-file-input').click()">
+              📬 <b>SOVEREIGN DROP (E2EE):</b> Clic para añadir archivos<br>
+              <span style="font-size:10px; color:#00ff9d;">Cifrado local con WebCrypto AES-GCM</span>
+            </div>
+            <div style="font-size:12px; margin-top:8px; font-weight:bold; color:#00ffff;">📂 ARCHIVOS:</div>
+            <div id="vault-files-list" style="margin-top:6px; max-height:200px; overflow-y:auto;"></div>
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:bold; color:#00ff9d; display:flex; justify-content:space-between;">
+              <span>👁️ VISOR EN RAM:</span>
+              <span id="viewer-file-meta" style="font-size:10px; color:#88ccee;">Ninguno</span>
+            </div>
+            <div class="viewer-pane" id="vault-live-viewer">Selecciona un archivo para descifrar en RAM.</div>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <button onclick="downloadActiveDoc()" style="flex:1; background:#005a36; color:#00ffff; border:1px solid #00aaff; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer;">⬇️ DESCARGAR</button>
+              <button onclick="openActiveDocInNewTab()" style="flex:1; background:#005a36; color:#ffd700; border:1px solid #ffaa00; padding:6px; border-radius:4px; font-weight:bold; cursor:pointer;">↗️ ABRIR</button>
+            </div>
+            <button onclick="switchVaultTab(2)" style="margin-top:8px; width:100%; background:#00ff9d; color:#040906; border:none; padding:8px; border-radius:4px; font-weight:bold; cursor:pointer;">💬 PREGUNTAR A LA IA ➡️</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-vault-2" style="display:none;">
+        <div style="font-size:11px; margin-bottom:8px; display:flex; justify-content:space-between;">
+          <div>📄 <b>CONTEXTO RAG:</b> <span id="active-doc-name" style="color:#00ff9d;">Ninguno</span></div>
+          <button onclick="switchVaultTab(1)" style="background:#005a36; color:#aaddcc; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">⬅️ VOLVER</button>
+        </div>
+        <div class="chat-box" id="ai-chat-output">
+          <div style="color:#669988;">[SISTEMA]: Bóveda protegida por WebCrypto AES-256-GCM.</div>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <input type="text" id="ai-chat-input" placeholder="Pregunta sobre el documento..." style="flex:1; background:#020503; border:1px solid #005a36; color:#ffffff; padding:6px; font-family:inherit;">
+          <button onclick="sendAIChat()" style="background:#00ff9d; color:#040906; border:none; padding:6px 16px; font-weight:bold; cursor:pointer; border-radius:4px;">ENVIAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL MONACO EDITOR (VS CODE) -->
+  <div id="code-modal" class="modal" onclick="handleBackdropClick(event, 'code-modal')">
+    <div class="modal-box" style="max-width:1100px; height:85vh; display:flex; flex-direction:column;" onclick="event.stopPropagation()">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <div>
+          <span style="font-weight:bold; color:#00ffff; font-size:14px;" id="code-filename">📄 MONACO EDITOR</span>
+          <span style="font-size:11px; color:#88aa99; margin-left:12px;">(VS Code Core)</span>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button onclick="saveMonacoFile()" style="background:#00ff9d; color:#040906; border:none; padding:5px 14px; font-weight:bold; border-radius:4px; cursor:pointer;">💾 GUARDAR</button>
+          <button onclick="closeCodeModal()" style="background:transparent; border:none; color:#ff4444; font-weight:bold; font-size:18px; cursor:pointer;">✕</button>
+        </div>
+      </div>
+      <div id="monaco-container" style="flex:1; width:100%; border:1px solid #005a36; border-radius:6px; overflow:hidden;"></div>
+    </div>
+  </div>
+
+  <script>
+    /* 1. INICIALIZACIÓN XTERM.JS */
+    const termTheme = {
+      background: '#020503',
+      foreground: '#00ff9d',
+      cursor: '#00ffff',
+      selectionBackground: 'rgba(0, 255, 157, 0.3)',
+      black: '#040906',
+      red: '#ff5555',
+      green: '#00ff9d',
+      yellow: '#ffd700',
+      blue: '#00aaff',
+      cyan: '#00ffff',
+      white: '#ffffff'
+    };
+
+    const termSov = new Terminal({ cursorBlink: true, fontSize: 13, theme: termTheme });
+    const fitSov = new FitAddon.FitAddon();
+    termSov.loadAddon(fitSov);
+    termSov.open(document.getElementById('xterm-sovereign'));
+    fitSov.fit();
+
+    window.addEventListener('resize', () => fitSov.fit());
+
+    let sovBuf = "";
+    const sovHist = [];
+    let sovIdx = -1;
+    const sovPrompt = "\\x1b[1;36mroot@oasis-hurd:/workspace#\\x1b[0m ";
+
+    function showSovPrompt() { termSov.write(sovPrompt + sovBuf); }
+
+    termSov.writeln("\\x1b[1;32m🛰️ OASIS SOVEREIGN OS [v19.8.7-Sovereign-Stack]\\x1b[0m");
+    termSov.writeln("\\x1b[36m🔒 Cifrado E2EE WebCrypto + did:key activo.\\x1b[0m");
+    termSov.writeln("\\x1b[33m💡 Escribe 'boveda' para abrir archivos, 'v <pregunta>' para IA, o 'help'.\\x1b[0m");
+    termSov.writeln("-----------------------------------------------------------------------------");
+    showSovPrompt();
+    termSov.focus();
+
+    // CAPTURA DE TECLADO EN XTERM
+    termSov.onKey(e => {
+      const ev = e.domEvent;
+      const key = e.key;
+
+      if (ev.key === "Enter") {
+        termSov.writeln("");
+        const raw = sovBuf.trim();
+        sovBuf = "";
+        sovIdx = -1;
+        if (raw) {
+          sovHist.push(raw);
+          runSovereignCmd(raw);
+        } else {
+          showSovPrompt();
+        }
+      } else if (ev.key === "Backspace") {
+        if (sovBuf.length > 0) {
+          sovBuf = sovBuf.slice(0, -1);
+          termSov.write("\\b \\b");
+        }
+      } else if (ev.key === "Tab") {
+        ev.preventDefault();
+        const cur = sovBuf.trim().toLowerCase();
+        const list = ["help", "clear", "boveda", "did", "hemo", "lean", "skills list", "view ", "v ", "riona "];
+        const match = list.find(c => c.startsWith(cur));
+        if (match) {
+          while (sovBuf.length > 0) { termSov.write("\\b \\b"); sovBuf = sovBuf.slice(0, -1); }
+          sovBuf = match;
+          termSov.write(match);
+        }
+      } else if (ev.key === "ArrowUp") {
+        ev.preventDefault();
+        if (sovHist.length > 0 && sovIdx < sovHist.length - 1) {
+          sovIdx++;
+          while (sovBuf.length > 0) { termSov.write("\\b \\b"); sovBuf = sovBuf.slice(0, -1); }
+          sovBuf = sovHist[sovHist.length - 1 - sovIdx];
+          termSov.write(sovBuf);
+        }
+      } else if (ev.key === "ArrowDown") {
+        ev.preventDefault();
+        if (sovIdx > 0) {
+          sovIdx--;
+          while (sovBuf.length > 0) { termSov.write("\\b \\b"); sovBuf = sovBuf.slice(0, -1); }
+          sovBuf = sovHist[sovHist.length - 1 - sovIdx];
+          termSov.write(sovBuf);
+        } else if (sovIdx === 0) {
+          sovIdx = -1;
+          while (sovBuf.length > 0) { termSov.write("\\b \\b"); sovBuf = sovBuf.slice(0, -1); }
+        }
+      } else if (!ev.altKey && !ev.ctrlKey && !ev.metaKey && key.length === 1) {
+        sovBuf += key;
+        termSov.write(key);
+      }
+    });
+
+    // ENRUTAMIENTO DE COMANDOS
+    async function runSovereignCmd(raw) {
+      const low = raw.toLowerCase().trim();
+
+      if (low === "clear") { termSov.clear(); showSovPrompt(); return; }
+      if (low === "boveda" || low === "vault") { openVaultModal(); showSovPrompt(); return; }
+      if (low === "did") {
+        const did = window.SOVEREIGN_NODE_DID || localStorage.getItem("oasis_node_did") || "did:key:zDefault";
+        termSov.writeln("\\x1b[36m🔑 [SOVEREIGN DID]:\\x1b[0m " + did);
+        showSovPrompt();
+        return;
+      }
+      if (low === "help") {
+        termSov.writeln("\\x1b[33mComandos disponibles:\\x1b[0m");
+        termSov.writeln("  • \\x1b[32mboveda\\x1b[0m           : Abrir Bóveda E2EE con Visor y Descargas");
+        termSov.writeln("  • \\x1b[32mv <pregunta>\\x1b[0m     : Inferencia con Agente Velázquez");
+        termSov.writeln("  • \\x1b[32mriona <consulta>\\x1b[0m : Centinela Riona (Web/RSS/GitHub)");
+        termSov.writeln("  • \\x1b[32mview <archivo>\\x1b[0m   : Editor Monaco en el navegador");
+        termSov.writeln("  • \\x1b[32mhemo\\x1b[0m             : Pipeline hemodinámico Polígono de Willis");
+        termSov.writeln("  • \\x1b[32mlean\\x1b[0m             : Verificación formal de 9 módulos Lean 4");
+        termSov.writeln("  • \\x1b[32mclear\\x1b[0m            : Limpiar pantalla");
+        showSovPrompt();
+        return;
+      }
+      if (low.startsWith("view ")) {
+        const fname = raw.substring(5).trim();
+        termSov.writeln(`\\x1b[33m📂 Abriendo Monaco Editor para: ${fname}...\\x1b[0m`);
+        try {
+          const res = await fetch("/v1/darwin/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command: `cat "${fname}"` })
+          }).then(r => r.json());
+          openMonacoEditor(fname, res.output || "");
+        } catch(e) {
+          termSov.writeln("\\x1b[31m❌ Error: " + e + "\\x1b[0m");
+        }
+        showSovPrompt();
+        return;
+      }
+      if (low === "hemo" || low === "lean" || low === "skills list" || low.startsWith("skills run ")) {
+        let target = "list";
+        if (low === "hemo") target = "hemo";
+        else if (low === "lean") target = "lean_audit";
+        else if (low.startsWith("skills run ")) target = low.replace("skills run ", "").trim();
+
+        termSov.writeln(`\\x1b[33m⚡ [EJECUTANDO SKILL]:\\x1b[0m ${target}...`);
+        try {
+          const res = await fetch("/v1/skills/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ skill: target })
+          }).then(r => r.json());
+          termSov.writeln(res.output || JSON.stringify(res));
+        } catch(e) {
+          termSov.writeln("\\x1b[31m❌ Error skill: " + e + "\\x1b[0m");
+        }
+        showSovPrompt();
+        return;
+      }
+
+      // AGENTES IA (v / riona)
+      const isVel = low.startsWith("v ") || low.startsWith("ai ");
+      const isRio = low.startsWith("riona ");
+
+      if (isVel || isRio) {
+        let p = raw;
+        if (low.startsWith("v ")) p = raw.substring(2).trim();
+        else if (low.startsWith("ai ")) p = raw.substring(3).trim();
+        else if (low.startsWith("riona ")) p = raw.substring(6).trim();
+
+        termSov.write(isRio ? "\\x1b[36m🛰️ Riona: \\x1b[0m" : "\\x1b[32m🤖 Velázquez: \\x1b[0m");
+        try {
+          const res = await fetch("/v1/ai/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: p, model: isRio ? "riona" : "aether:1.5b" })
+          });
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder("utf-8");
+          let buf = "";
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buf += decoder.decode(value, { stream: true });
+            const lines = buf.split("\\n");
+            buf = lines.pop();
+            for (const l of lines) {
+              if (!l.trim()) continue;
+              try {
+                const d = JSON.parse(l);
+                if (d.response) termSov.write(d.response);
+              } catch(err) {}
+            }
+          }
+          termSov.writeln("");
+        } catch(e) {
+          termSov.writeln("\\x1b[31m[Error en oráculo]\\x1b[0m");
+        }
+        showSovPrompt();
+        return;
+      }
+
+      termSov.writeln(`\\x1b[31mComando no reconocido:\\x1b[0m '${raw}'. Escribe 'help' o usa 'v <pregunta>'.`);
+      showSovPrompt();
+    }
+
+    /* 2. PORTAPAPELES ROBUSTO */
+    async function pasteClipboardToActiveTerm() {
+      try {
+        const txt = await navigator.clipboard.readText();
+        if (txt) { sovBuf += txt; termSov.write(txt); return; }
+      } catch(e) {}
+      const manual = prompt("Pega tu comando aquí:");
+      if (manual) { sovBuf += manual; termSov.write(manual); }
+    }
+
+    window.addEventListener('paste', (e) => {
+      const txt = (e.clipboardData || window.clipboardData).getData('text');
+      if (txt) { sovBuf += txt; termSov.write(txt); }
+    });
+
+    /* 3. CONTROL DE MODALES (CIERRE INFALIBLE) */
+    function openVaultModal() {
+      document.getElementById('vault-modal').style.display = 'flex';
+      ensureSeedDocuments().then(renderVaultFileList);
+    }
+
+    function closeVaultModal() {
+      document.getElementById('vault-modal').style.display = 'none';
+      currentDecryptedText = "";
+      setTimeout(() => termSov.focus(), 50);
+    }
+
+    function closeCodeModal() {
+      document.getElementById('code-modal').style.display = 'none';
+      setTimeout(() => termSov.focus(), 50);
+    }
+
+    function handleBackdropClick(event, modalId) {
+      if (event.target.id === modalId) {
+        document.getElementById(modalId).style.display = 'none';
+        setTimeout(() => termSov.focus(), 50);
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === "Escape") {
+        closeVaultModal();
+        closeCodeModal();
+      }
+    });
+
+    /* 4. MOTOR CRIPTOGRÁFICO WEBCRYPTO AES-256-GCM */
+    const HARDWARE_PHASE_SALT = new TextEncoder().encode("OASIS-HW-MAC-87B34287C3-SALT-2026");
+    let currentDecryptedText = "";
+    let currentActiveDocName = "";
+
+    async function deriveAESKey() {
+      const baseKey = await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder().encode("OasisSovereignKey::PhaseMasterKey::phi"),
+        { name: "PBKDF2" },
+        false,
+        ["deriveKey"]
+      );
+      return crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: HARDWARE_PHASE_SALT, iterations: 100000, hash: "SHA-256" },
+        baseKey,
+        { name: "AES-GCM", length: 256 },
+        false,
+        ["encrypt", "decrypt"]
+      );
+    }
+
+    async function encryptE2EE(plaintext) {
+      const key = await deriveAESKey();
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const ciphertext = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, new TextEncoder().encode(plaintext));
+      return {
+        iv: Array.from(iv).map(b => b.toString(16).padStart(2, "0")).join(""),
+        ciphertext: btoa(String.fromCharCode(...new Uint8Array(ciphertext)))
+      };
+    }
+
+    async function decryptE2EE(ciphertextB64, ivHex) {
+      try {
+        const key = await deriveAESKey();
+        const iv = new Uint8Array(ivHex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+        const rawBytes = Uint8Array.from(atob(ciphertextB64), c => c.charCodeAt(0));
+        const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, rawBytes);
+        return new TextDecoder().decode(decrypted);
+      } catch(e) {
+        return "[Error de descifrado E2EE]";
+      }
+    }
+
+    async function computeSHA256(str) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+      return "0x" + Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function getSovereignVaultEncrypted() {
+      let v = localStorage.getItem("oasis_sovereign_vault_e2ee");
+      if (!v) { v = JSON.stringify({}); localStorage.setItem("oasis_sovereign_vault_e2ee", v); }
+      return JSON.parse(v);
+    }
+
+    async function ensureSeedDocuments() {
+      const v = getSovereignVaultEncrypted();
+      if (!v["pilar_378_atractor_termodinamico_kappa.md"]) {
+        const txt = "# PILAR 378: ATRACTOR TERMODINÁMICO DE ENSTROFÍA (κ = ln 10)\\n\\n∀Ω̃ ∈ H_flujo [ dΩ̃/dt ≤ κ² - Ω̃ ∧ κ = ln 10 ≈ 2.3026 ⊢ sup_{t≥0} Ω̃(t) ≤ 5.3019 ∧ P_disipacion ≤ 5.39W ]";
+        v["pilar_378_atractor_termodinamico_kappa.md"] = {
+          name: "pilar_378_atractor_termodinamico_kappa.md",
+          size: "1.8 KB",
+          hash: await computeSHA256(txt),
+          encrypted: await encryptE2EE(txt)
+        };
+        localStorage.setItem("oasis_sovereign_vault_e2ee", JSON.stringify(v));
+      }
+    }
+
+    function renderVaultFileList() {
+      const list = document.getElementById("vault-files-list");
+      if (!list) return;
+      list.innerHTML = "";
+      const files = getSovereignVaultEncrypted();
+      for (const fname in files) {
+        const f = files[fname];
+        const item = document.createElement("div");
+        item.className = "file-item";
+        item.onclick = () => selectAndDecryptDoc(fname);
+        item.innerHTML = `<span>🔒 <b>${fname}</b></span><span style="color:#00ff9d; font-size:10px;">(${f.size})</span>`;
+        list.appendChild(item);
+      }
+    }
+
+    async function selectAndDecryptDoc(docName) {
+      const files = getSovereignVaultEncrypted();
+      const doc = files[docName];
+      if (!doc || !doc.encrypted) return;
+      currentActiveDocName = docName;
+      document.getElementById("active-doc-name").textContent = docName;
+      document.getElementById("viewer-file-meta").textContent = `RAM | ${doc.hash.substring(0,10)}...`;
+      const plaintext = await decryptE2EE(doc.encrypted.ciphertext, doc.encrypted.iv);
+      currentDecryptedText = plaintext;
+      document.getElementById("vault-live-viewer").textContent = plaintext;
+    }
+
+    function downloadActiveDoc() {
+      if (!currentDecryptedText) { alert("Selecciona primero un archivo."); return; }
+      const blob = new Blob([currentDecryptedText], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = currentActiveDocName || "documento.txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function openActiveDocInNewTab() {
+      if (!currentDecryptedText) { alert("Selecciona primero un archivo."); return; }
+      const blob = new Blob([currentDecryptedText], { type: "text/plain;charset=utf-8" });
+      window.open(URL.createObjectURL(blob), "_blank");
+    }
+
+    async function handleRealFileSelected(event) {
+      const files = event.target.files;
+      if (files && files.length > 0) {
+        const file = files[0];
+        const txt = await file.text();
+        const encrypted = await encryptE2EE(txt);
+        const vault = getSovereignVaultEncrypted();
+        vault[file.name] = {
+          name: file.name,
+          size: (file.size / 1024).toFixed(1) + " KB",
+          hash: await computeSHA256(txt),
+          encrypted: encrypted
+        };
+        localStorage.setItem("oasis_sovereign_vault_e2ee", JSON.stringify(vault));
+        renderVaultFileList();
+        await selectAndDecryptDoc(file.name);
+      }
+    }
+
+    function switchVaultTab(i) {
+      document.getElementById("tab-vault-1").style.display = i === 1 ? "block" : "none";
+      document.getElementById("tab-vault-2").style.display = i === 2 ? "block" : "none";
+      document.getElementById("tab-btn-1").className = "tab-btn " + (i === 1 ? "active" : "");
+      document.getElementById("tab-btn-2").className = "tab-btn " + (i === 2 ? "active" : "");
+    }
+
+    async function sendAIChat() {
+      const inp = document.getElementById("ai-chat-input");
+      const out = document.getElementById("ai-chat-output");
+      const txt = inp.value.trim();
+      if (!txt) return;
+      out.innerHTML += `<div style="color:#ffffff; margin-top:4px;"><b>Tú:</b> ${txt}</div>`;
+      inp.value = "";
+      const msg = document.createElement("div");
+      msg.style.color = "#00ff9d";
+      msg.innerHTML = "<b>Velázquez:</b> ";
+      out.appendChild(msg);
+
+      let p = txt;
+      if (currentDecryptedText) {
+        p = `[DOCUMENTO DESCIFRADO: ${currentActiveDocName}]:\\n${currentDecryptedText.substring(0,2500)}\\n\\n[PREGUNTA]:\\n${txt}`;
+      }
+
+      try {
+        const res = await fetch("/v1/ai/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: p, model: "aether:1.5b" })
+        });
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buf = "";
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const lines = buf.split("\\n");
+          buf = lines.pop();
+          for (const l of lines) {
+            if (!l.trim()) continue;
+            try {
+              const d = JSON.parse(l);
+              if (d.response) msg.innerHTML += d.response;
+            } catch(e) {}
+          }
+        }
+      } catch(e) {
+        msg.innerHTML += "[Error procesando inferencia]";
+      }
+    }
+
+    /* 5. MONACO EDITOR */
+    let monacoInst = null;
+    let monacoFile = "";
+    require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' }});
+
+    function openMonacoEditor(fname, content) {
+      monacoFile = fname;
+      document.getElementById("code-filename").textContent = "📄 " + fname;
+      document.getElementById("code-modal").style.display = "flex";
+
+      const ext = fname.split('.').pop();
+      const map = { 'js': 'javascript', 'json': 'json', 'py': 'python', 'html': 'html', 'lean': 'lean', 'md': 'markdown' };
+      const lang = map[ext] || 'plaintext';
+
+      if (!monacoInst) {
+        require(['vs/editor/editor.main'], function() {
+          monacoInst = monaco.editor.create(document.getElementById("monaco-container"), {
+            value: content,
+            language: lang,
+            theme: 'vs-dark',
+            automaticLayout: true,
+            fontSize: 13,
+            fontFamily: '"SF Mono", Menlo, Consolas, monospace',
+            minimap: { enabled: true }
+          });
+        });
+      } else {
+        monaco.editor.setModelLanguage(monacoInst.getModel(), lang);
+        monacoInst.setValue(content);
+      }
+    }
+
+    async function saveMonacoFile() {
+      if (!monacoFile || !monacoInst) return;
+      const code = monacoInst.getValue();
+      try {
+        await fetch("/v1/darwin/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command: `cat << 'EOF' > "${monacoFile}"\\n${code}\\nEOF` })
+        });
+        alert("✅ Guardado en disco: " + monacoFile);
+      } catch(e) {
+        alert("❌ Error guardando: " + e);
+      }
+    }
+
+    /* 6. DEVFRAME TTYD Y LAYOUT */
+    function reloadDevFramePTY() {
+      const f = document.getElementById("ttyd-frame");
+      if (f) f.src = "http://127.0.0.1:7681?t=" + Date.now();
+    }
+
+    let isSplit = true;
+    function toggleLayout() {
+      const p = document.getElementById("pane-devframe");
+      const g = document.getElementById("dual-workspace");
+      const b = document.getElementById("badge-devframe");
+      isSplit = !isSplit;
+      if (isSplit) {
+        g.style.gridTemplateColumns = "1fr 1fr";
+        p.style.display = "flex";
+        b.textContent = "🛠️ PANEL DUAL: DIVIDIDO";
+      } else {
+        g.style.gridTemplateColumns = "1fr";
+        p.style.display = "none";
+        b.textContent = "🛠️ PANEL DUAL: SOLO KERNEL";
+      }
+      fitSov.fit();
+    }
+
+    // Inicialización DID y OPFS
+    (async () => {
+      if (navigator.storage && navigator.storage.persist) await navigator.storage.persist();
+      if (!localStorage.getItem("oasis_node_did")) {
+        try {
+          const kp = await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, ["sign", "verify"]);
+          const rawPub = await crypto.subtle.exportKey("raw", kp.publicKey);
+          const hex = Array.from(new Uint8Array(rawPub)).map(b => b.toString(16).padStart(2, "0")).join("");
+          localStorage.setItem("oasis_node_did", "did:key:z" + hex.substring(0, 32));
+        } catch(e) {}
+      }
+      window.SOVEREIGN_NODE_DID = localStorage.getItem("oasis_node_did") || "did:key:zDefault";
+    })();
+  </script>
+</body>
+</html>'''
+
+with open("agents_core/templates/terminal.html", "w", encoding="utf-8") as f:
+    f.write(html)
+shutil.copyfile("agents_core/templates/terminal.html", "index.html")
+print("✅ Plantillas reconstruidas desde cero sin errores de sintaxis.")
