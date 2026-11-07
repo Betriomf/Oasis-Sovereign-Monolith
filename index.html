@@ -21,7 +21,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #040906; color: #00ff9d; font-family: "SF Mono", Menlo, Consolas, monospace; padding: 12px; font-size: 13px; }
     
-    .header-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid #00331f; padding-bottom: 10px; }
+    .header-badges { position: relative; z-index: 100; display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid #00331f; padding-bottom: 10px; }
     .badge { border: 1px solid #005a36; padding: 5px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; user-select: none; transition: all 0.2s; }
     .badge:hover { opacity: 0.8; }
     #badge-vault { border-color: #00ffff; color: #00ffff; background: rgba(0,255,255,0.08); font-weight: bold; }
@@ -513,50 +513,28 @@
         }
 
         
-        /* HOOK UNIVERSAL DE PORTAPAPELES XTERM.JS */
-        function bindTerminalPaste(termInstance, isDev) {
-          termInstance.attachCustomKeyEventHandler(async (ev) => {
-            if (ev.type === "keydown" && (ev.metaKey || ev.ctrlKey) && (ev.key === "v" || ev.key === "V")) {
-              try {
-                const clipText = await navigator.clipboard.readText();
-                if (clipText) {
-                  if (isDev) { devBuf += clipText; termDev.write(clipText); }
-                  else { sovBuf += clipText; termSov.write(clipText); }
-                  return false;
-                }
-              } catch (err) {
-                // Fallback directo si el navegador bloquea la lectura automática
-                const fallback = prompt("Pega tu texto aquí:");
-                if (fallback) {
-                  if (isDev) { devBuf += fallback; termDev.write(fallback); }
-                  else { sovBuf += fallback; termSov.write(fallback); }
-                }
-                return false;
-              }
-            }
-            return true;
-          });
-        }
+        /* PEGADO NATIVO POR TECLADO (Cmd+V / Ctrl+V) SIN RECUADROS NI PERMISOS */
+        let activeTerminalTarget = 'sov';
+        document.getElementById('xterm-sovereign').addEventListener('click', () => { activeTerminalTarget = 'sov'; });
+        const devElem = document.getElementById('xterm-devframe');
+        if (devElem) devElem.addEventListener('click', () => { activeTerminalTarget = 'dev'; });
 
-        bindTerminalPaste(termSov, false);
-        if (typeof termDev !== "undefined") bindTerminalPaste(termDev, true);
+        // Captura directa del evento del sistema operativo
+        window.addEventListener('paste', (e) => {
+          const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+          if (!pastedText) return;
+          e.preventDefault();
 
-        /* 2. PORTAPAPELES ROBUSTO */
-    async function pasteClipboardToActiveTerm() {
-      try {
-        const txt = await navigator.clipboard.readText();
-        if (txt) { if (activeTerm === "dev") { devBuf += txt; termDev.write(txt); } else { sovBuf += txt; termSov.write(txt); } return; }
-      } catch(e) {}
-      const manual = prompt("Pega tu comando aquí:");
-      if (manual) { sovBuf += manual; termSov.write(manual); }
-    }
-
-    window.addEventListener('paste', (e) => {
-      const txt = (e.clipboardData || window.clipboardData).getData('text');
-      if (txt) { sovBuf += txt; termSov.write(txt); }
-    });
-
-    /* 3. CONTROL DE MODALES (CIERRE INFALIBLE) */
+          if (activeTerminalTarget === 'dev' && typeof termDev !== 'undefined') {
+            devBuf += pastedText;
+            termDev.write(pastedText);
+          } else {
+            sovBuf += pastedText;
+            termSov.write(pastedText);
+          }
+        });
+        
+        /* 3. CONTROL DE MODALES (CIERRE INFALIBLE) */
     function openVaultModal() {
       document.getElementById('vault-modal').style.display = 'flex';
       ensureSeedDocuments().then(renderVaultFileList);

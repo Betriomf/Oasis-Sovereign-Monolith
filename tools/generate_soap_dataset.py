@@ -1,0 +1,55 @@
+import json
+
+soap_records = [
+    {
+        "prompt": "Paciente mujer de 54 años con cefalea holocraneal pulsátil y sospecha de aneurisma en arteria comunicante anterior. Analizar telemetría de Capa 0.",
+        "response": """📋 [INFORME CLÍNICO ESTRUCTURADO — PROTOCOLO SOAP OASIS OS]
+
+[S - SUBJETIVO]:
+Paciente femenina de 54 años. Refiere cefalea holocraneal de perfil pulsátil de 3 semanas de evolución, intensidad 7/10 en escala analógica visual, refractaria a analgésicos convencionales. Sin déficit focal motor agudo reportado.
+
+[O - OBJETIVO (TELEMETRÍA CAPA 0 / SILICIO FRÍO)]:
+• Territorio Vascular   : Polígono de Willis — Arteria Comunicante Anterior (ACoA).
+• Radio Arterial        : 2.50 mm | Viscosidad Sanguínea: 3.50 cP.
+• Tensión de Cizallamiento Parietal (WSS): 4.48 Pa (Pico sistólico).
+• Enstrofía Adimensional Máxima (Ω̃)     : 5.2982.
+• Cota Teórica Asintótica (κ² = ln² 10) : 5.3019.
+• Potencia Disipada de Cómputo           : 3.61 W medio / 3.78 W pico (Régimen Laminar Pasivo).
+
+[A - EVALUACIÓN / ASSESSMENT]:
+Estabilidad hemodinámica confirmada bajo el Pilar 378. Confinamiento de enstrofía verificado: Ω̃_max (5.2982) ≤ κ² (5.3019). No se detecta divergencia en derivadas de velocidad (84 singularidades de blow-up evitadas). Ausencia de turbulencia crítica en bifurcación ACoA; gradiente de presión dentro de márgenes laminares fisiológicos.
+
+[P - PLAN]:
+1. Angio-RM cerebral de control programada a 6 meses para seguimiento morfológico.
+2. Control estricto de cifras de presión arterial (< 130/80 mmHg).
+3. Certificación del informe en Bóveda Soberana con hash criptográfico SHA-256 e identidad descentralizada del nodo emisor."""
+    },
+    {
+        "prompt": "Varón de 62 años con antecedentes de hipertensión arterial y episodios de amaurosis fugaz izquierda. Evaluar estabilidad de flujo carotídeo.",
+        "response": """📋 [INFORME CLÍNICO ESTRUCTURADO — PROTOCOLO SOAP OASIS OS]
+
+[S - SUBJETIVO]:
+Varón de 62 años, hipertenso crónico. Presenta dos episodios autolimitados de amaurosis fugaz en ojo izquierdo en las últimas 48 horas (duración < 5 minutos). Niega pérdida de fuerza o alteración del lenguaje.
+
+[O - OBJETIVO (TELEMETRÍA CAPA 0 / SILICIO FRÍO)]:
+• Territorio Vascular   : Carótida Interna Izquierda (Segmento Cervical C1).
+• Velocidad Máxima Flujo: 0.799 m/s | WSS Parietal: 4.33 Pa.
+• Enstrofía Observada (Ω̃): 5.2952 (Cota Crítica: 5.3019).
+• Singularidades Evitadas: Confinamiento dyádico cumplido (Commutator Bony-Dyadic formalizado).
+• Estado Térmico Motor  : 0 RPM, estasis disipativa a 3.78 W.
+
+[A - EVALUACIÓN / ASSESSMENT]:
+Riesgo embólico moderado por oscilación transitoria de WSS. Flujo laminar conservado sin transición a vórtices caóticos; el tensor de disipación verifica la cota asintótica de Kozono-Taniuchi. Ausencia de estenosis crítica inmediata, pero sospecha de placa ateromatosa ulcerada inestable.
+
+[P - PLAN]:
+1. Realización urgente de Eco-Doppler de troncos supraórticos y angio-TC de cuello.
+2. Inicio inmediato de antiagregación plaquetaria (AAS 100 mg/día) y estatinas de alta potencia previa confirmación.
+3. Notificación prioritaria a Neurología Vascular y registro auditable en la Bóveda E2EE."""
+    }
+]
+
+with open("vault/soap_fine_tuning_capa0.jsonl", "w", encoding="utf-8") as f:
+    for item in soap_records:
+        f.write(json.dumps(item, ensure_ascii=False) + "\n")
+
+print("✅ Dataset SOAP de telemetría médica generado en vault/soap_fine_tuning_capa0.jsonl")
