@@ -68,6 +68,30 @@
     .drop-zone { border: 2px dashed #00ff9d; padding: 16px; text-align: center; border-radius: 8px; margin: 10px 0; background: #050d08; cursor: pointer; }
     .file-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #002617; cursor: pointer; border-radius: 4px; }
     .file-item:hover { background: #0b1d14; color: #00ff9d; }
+    /* SCROLLBAR FLUIDA Y LISTA EXPANDIDA DE BÓVEDA */
+    #vault-files-list {
+      max-height: 420px !important;
+      overflow-y: auto !important;
+      padding-right: 6px;
+    }
+    #vault-files-list::-webkit-scrollbar, .viewer-pane::-webkit-scrollbar {
+      width: 6px;
+    }
+    #vault-files-list::-webkit-scrollbar-track, .viewer-pane::-webkit-scrollbar-track {
+      background: #020503;
+      border-radius: 3px;
+    }
+    #vault-files-list::-webkit-scrollbar-thumb, .viewer-pane::-webkit-scrollbar-thumb {
+      background: #005a36;
+      border-radius: 3px;
+    }
+    #vault-files-list::-webkit-scrollbar-thumb:hover {
+      background: #00ff9d;
+    }
+    .modal-box {
+      max-height: 94vh !important;
+      max-width: 960px !important;
+    }
     .viewer-pane { background: #020503; border: 1px solid #005a36; border-radius: 6px; padding: 12px; min-height: 140px; max-height: 220px; overflow-y: auto; font-size: 12px; color: #ddffea; white-space: pre-wrap; margin-top: 8px; }
     .chat-box { height: 180px; border: 1px solid #00331f; background: #020503; border-radius: 6px; padding: 10px; overflow-y: auto; font-size: 12px; }
   </style>
@@ -128,7 +152,7 @@
               📬 <b>SOVEREIGN DROP (E2EE):</b> Clic para añadir archivos<br>
               <span style="font-size:10px; color:#00ff9d;">Cifrado local con WebCrypto AES-GCM</span>
             </div>
-            <div style="font-size:12px; margin-top:8px; font-weight:bold; color:#00ffff;">📂 ARCHIVOS:</div>
+            <div id="vault-count-header" style="font-size:12px; margin-top:8px; font-weight:bold; color:#00ffff;">📂 ARCHIVOS CIFRADOS EN REPOSO:</div>
             <div id="vault-files-list" style="margin-top:6px; max-height:200px; overflow-y:auto;"></div>
           </div>
           <div>
@@ -376,6 +400,25 @@
         return;
       }
 
+      // Passthrough transparente a shell para comandos UNIX habituales (ls, pwd, cat, ps, etc.)
+      const commonUnix = ["ls", "pwd", "cat ", "date", "whoami", "uname", "ps", "top", "git ", "mkdir ", "touch ", "rm "];
+      if (commonUnix.some(u => low === u.trim() || low.startsWith(u))) {
+        try {
+          const res = await fetch("/v1/darwin/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ command: raw })
+          }).then(r => r.json());
+          if (res.output) {
+            res.output.split("\n").forEach(l => termSov.writeln(l));
+          }
+        } catch(e) {
+          termSov.writeln("\x1b[31mError ejecutando shell: " + e + "\x1b[0m");
+        }
+        showSovPrompt();
+        return;
+      }
+
       termSov.writeln(`\x1b[31mComando no reconocido:\x1b[0m '${raw}'. Escribe 'help' o usa 'v <pregunta>'.`);
       showSovPrompt();
     }
@@ -468,6 +511,35 @@
           }
           showDevPrompt();
         }
+
+        
+        /* HOOK UNIVERSAL DE PORTAPAPELES XTERM.JS */
+        function bindTerminalPaste(termInstance, isDev) {
+          termInstance.attachCustomKeyEventHandler(async (ev) => {
+            if (ev.type === "keydown" && (ev.metaKey || ev.ctrlKey) && (ev.key === "v" || ev.key === "V")) {
+              try {
+                const clipText = await navigator.clipboard.readText();
+                if (clipText) {
+                  if (isDev) { devBuf += clipText; termDev.write(clipText); }
+                  else { sovBuf += clipText; termSov.write(clipText); }
+                  return false;
+                }
+              } catch (err) {
+                // Fallback directo si el navegador bloquea la lectura automática
+                const fallback = prompt("Pega tu texto aquí:");
+                if (fallback) {
+                  if (isDev) { devBuf += fallback; termDev.write(fallback); }
+                  else { sovBuf += fallback; termSov.write(fallback); }
+                }
+                return false;
+              }
+            }
+            return true;
+          });
+        }
+
+        bindTerminalPaste(termSov, false);
+        if (typeof termDev !== "undefined") bindTerminalPaste(termDev, true);
 
         /* 2. PORTAPAPELES ROBUSTO */
     async function pasteClipboardToActiveTerm() {
@@ -585,6 +657,14 @@
     }
 
     function renderVaultFileList() {
+      const list = document.getElementById("vault-files-list");
+      if (!list) return;
+      list.innerHTML = "";
+      const files = getSovereignVaultEncrypted();
+      const total = Object.keys(files).length;
+      const countHeader = document.getElementById("vault-count-header");
+      if (countHeader) countHeader.textContent = `📂 ARCHIVOS CIFRADOS (${total}):`;
+
       const list = document.getElementById("vault-files-list");
       if (!list) return;
       list.innerHTML = "";
