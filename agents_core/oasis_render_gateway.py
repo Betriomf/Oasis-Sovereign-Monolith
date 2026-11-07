@@ -101,7 +101,9 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 if not cmd:
                     self._send_json({"output": ""})
                     return
-                res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=35, cwd=BASE_DIR)
+                env_vars = os.environ.copy()
+            env_vars["PATH"] = f"/usr/local/bin:/opt/homebrew/bin:{env_vars.get('PATH', '')}"
+            res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=35, cwd=BASE_DIR, env=env_vars)
                 out = res.stdout if res.stdout else res.stderr
                 self._send_json({"output": out, "exit_code": res.returncode})
             except Exception as e:
