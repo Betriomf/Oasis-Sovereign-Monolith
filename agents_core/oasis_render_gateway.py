@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY NATIVO & ENRUTADOR DECLARATIVO (v19.9.2)
-Diseño de arquitectura limpia: cero inyecciones en caliente, 0.0.0.0:$PORT dinámico,
-Private Network Access (PNA) para Safari, y despacho determinista de Capa 0 a Capa 3.
+OASIS SOVEREIGN OS — GATEWAY NATIVO & ENRUTADOR DECLARATIVO (v19.9.3)
+Soporte completo 0.0.0.0:$PORT, PATH de Homebrew inyectado, CORS, PNA y ontología viva.
 """
 import os
 import sys
@@ -47,7 +46,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
 
     def do_GET(self):
-        # 1. Frontend Terminal Web
         if self.path in ["/", "/terminal"]:
             template_path = os.path.join(BASE_DIR, "agents_core/templates/terminal.html")
             if not os.path.exists(template_path):
@@ -61,7 +59,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": f"Fallo al cargar plantilla: {e}"}, 500)
             return
 
-        # 2. Telemetría de Silicio Frío
         if self.path == "/v1/health":
             self._send_json({
                 "status": "OK",
@@ -72,7 +69,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             })
             return
 
-        # 3. Ontología de Pilares y Verdad Oasis
         if self.path == "/v1/roadmap":
             pillars = parse_truth_ontology()
             self._send_json({
@@ -88,12 +84,11 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", 0))
         raw_body = self.rfile.read(length) if length > 0 else b"{}"
 
-        # 1. Telemetría Console Forwarding
         if self.path == "/v1/telemetry/console":
             self._send_json({"status": "ACK", "saved": True})
             return
 
-        # 2. RPC Nativo Shell (Darwin / Render Linux)
+        # RPC Host Shell con PATH enriquecido
         if self.path == "/v1/darwin/exec":
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
@@ -102,15 +97,15 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                     self._send_json({"output": ""})
                     return
                 env_vars = os.environ.copy()
-            env_vars["PATH"] = f"/usr/local/bin:/opt/homebrew/bin:{env_vars.get('PATH', '')}"
-            res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=35, cwd=BASE_DIR, env=env_vars)
+                env_vars["PATH"] = f"/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:{env_vars.get('PATH', '')}"
+                res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=35, cwd=BASE_DIR, env=env_vars)
                 out = res.stdout if res.stdout else res.stderr
                 self._send_json({"output": out, "exit_code": res.returncode})
             except Exception as e:
                 self._send_json({"error": str(e)}, 500)
             return
 
-        # 3. Despachador de Skills de Capa 0
+        # Despachador de Skills de Capa 0
         if self.path == "/v1/skills/exec":
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
@@ -147,7 +142,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": str(e)}, 500)
             return
 
-        # 4. Inferencia IA (Streaming Velázquez / Riona / Ollama)
+        # Inferencia IA Streaming
         if self.path == "/v1/ai/generate":
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
@@ -164,12 +159,11 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                     self.wfile.write((json.dumps({"response": resp_text}) + "\n").encode("utf-8"))
                     return
 
-                # Petición a Ollama local
                 req_data = json.dumps({"model": model, "prompt": prompt, "stream": True}).encode("utf-8")
                 req = urllib.request.Request(f"{OLLAMA_URL}/api/generate", data=req_data, headers={"Content-Type": "application/json"})
                 self._set_cors_headers(200, "application/x-ndjson")
                 try:
-                    with urllib.request.urlopen(req, timeout=40) as resp:
+                    with urllib.request.urlopen(req, timeout=30) as resp:
                         while True:
                             chunk = resp.read(256)
                             if not chunk:
@@ -177,7 +171,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                             self.wfile.write(chunk)
                             self.wfile.flush()
                 except Exception:
-                    # Fallback autónomo en estasis de Capa 0
                     fallback = (
                         "🏛️ [ORÁCULO VELÁZQUEZ — CAPA 0]:\n"
                         "Estasis activa. Confinamiento de enstrofía Ω̃ ≤ 5.3019 (Pilar 378). "
