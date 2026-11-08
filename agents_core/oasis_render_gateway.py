@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY NATIVO & ENRUTADOR DECLARATIVO (v19.9.3)
-Soporte completo 0.0.0.0:$PORT, PATH de Homebrew inyectado, CORS, PNA y ontología viva.
+OASIS SOVEREIGN OS — GATEWAY NATIVO & ENRUTADOR DECLARATIVO (v19.9.6)
+Integra verificación Lean 4, telemedicina SOAP, motor C99 SIMD y filtro Ring 0 eBPF.
 """
 import os
 import sys
@@ -84,11 +84,15 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", 0))
         raw_body = self.rfile.read(length) if length > 0 else b"{}"
 
+        env_vars = os.environ.copy()
+        elan_bin = os.path.expanduser("~/.elan/bin")
+        env_vars["PATH"] = f"{elan_bin}:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:{env_vars.get('PATH', '')}"
+
         if self.path == "/v1/telemetry/console":
             self._send_json({"status": "ACK", "saved": True})
             return
 
-        # RPC Host Shell con PATH enriquecido
+        # RPC Shell de Darwin con zsh interactivo
         if self.path == "/v1/darwin/exec":
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
@@ -96,10 +100,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 if not cmd:
                     self._send_json({"output": ""})
                     return
-                env_vars = os.environ.copy()
-                env_vars["PATH"] = f"/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:{env_vars.get('PATH', '')}"
-                env_vars = os.environ.copy()
-                env_vars["PATH"] = f"/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:{env_vars.get('PATH', '')}"
                 res = subprocess.run(["/bin/zsh", "-l", "-c", cmd], capture_output=True, text=True, timeout=35, cwd=BASE_DIR, env=env_vars)
                 out = res.stdout if res.stdout else res.stderr
                 self._send_json({"output": out, "exit_code": res.returncode})
@@ -107,50 +107,57 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": str(e)}, 500)
             return
 
-        # Despachador de Skills de Capa 0
+        # Catálogo y Despacho de Skills
         if self.path == "/v1/skills/exec":
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
                 skill = payload.get("skill", "list")
+                
                 if skill in ["list", "skills", "skills list"]:
                     catalog = (
                         "════════════════════════════════════════════════════════════════\n"
                         "🧩 OASIS EXTENSIBLE SKILLS ENGINE (CATÁLOGO ACTIVO)\n"
                         "────────────────────────────────────────────────────────────────\n"
-                        "• hemo       : Simulación hemodinámica 3D Polígono de Willis\n"
-                        "• lean_audit : Verificación formal headless de 9 módulos Lean 4\n"
-                        "• c99_eval   : Inferencia tensorial C99 pura a nivel de registro\n• tensor_simd: Motor tensorial C99 SIMD (AVX2/FMA) < 0.01 ms\n• verify_bin : Verificación formal Lean 4 + Rizin de seguridad de memoria\n• soap_triage: Pre-triaje clínico y hemodinámica determinista SOAP\n"
+                        "• hemo         : Simulación hemodinámica 3D Polígono de Willis\n"
+                        "• lean_audit   : Verificación formal headless de 9 módulos Lean 4\n"
+                        "• c99_eval     : Inferencia tensorial C99 pura a nivel de registro\n"
+                        "• tensor_simd  : Motor tensorial C99 SIMD (AVX2/NEON) < 0.01 ms\n"
+                        "• verify_bin   : Verificación formal Lean 4 + Rizin de binarios\n"
+                        "• soap_triage  : Pre-triaje clínico y hemodinámica determinista SOAP\n"
+                        "• ring0_filter : Sonda eBPF / Tetragon Golod-Shafarevich en Ring 0\n"
                         "Uso: skills run <nombre>  (o teclea 'hemo', 'lean', 'c99')\n"
                         "════════════════════════════════════════════════════════════════"
                     )
                     self._send_json({"skill": "catalog", "output": catalog, "status": "COMPLETED"})
                     return
                 elif skill == "hemo":
-                    res = subprocess.run(["python3", "agents_core/oasis_hemo_pipeline.py"], capture_output=True, text=True, timeout=15, cwd=BASE_DIR)
+                    res = subprocess.run(["python3", "agents_core/oasis_hemo_pipeline.py"], capture_output=True, text=True, timeout=15, cwd=BASE_DIR, env=env_vars)
                     self._send_json({"skill": skill, "output": res.stdout, "status": "COMPLETED"})
                     return
                 elif skill in ["lean_audit", "lean"]:
-                    res = subprocess.run(["python3", "tools/verify_all_headless.py"], capture_output=True, text=True, timeout=60, cwd=BASE_DIR)
+                    res = subprocess.run(["python3", "tools/verify_all_headless.py"], capture_output=True, text=True, timeout=60, cwd=BASE_DIR, env=env_vars)
                     self._send_json({"skill": "lean_audit", "output": res.stdout, "status": "COMPLETED"})
                     return
-                                elif skill in ["soap_triage", "soap", "clinica"]:
-                    raw_p = payload.get("data", {})
-                    p_json = json.dumps(raw_p) if isinstance(raw_p, dict) else "{}"
-                    res = subprocess.run(["python3", "agents_core/oasis_clinical_soap.py"], capture_output=True, text=True, timeout=15, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "soap_triage", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                elif skill == "c99_eval":
+                    res = subprocess.run(["./tools/oasis_c99_engine", "Pilar 378 Navier-Stokes"], capture_output=True, text=True, timeout=5, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "c99_eval", "output": res.stdout, "status": "COMPLETED"})
+                    return
+                elif skill in ["tensor_simd", "c99_simd"]:
+                    res = subprocess.run(["./tools/oasis_tensor_simd"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "tensor_simd", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
                     return
                 elif skill in ["verify_bin", "audit_bin"]:
                     target = payload.get("target", "tools/oasis_c99_engine")
                     res = subprocess.run(["python3", "tools/rizin_to_lean4.py", target], capture_output=True, text=True, timeout=25, cwd=BASE_DIR, env=env_vars)
                     self._send_json({"skill": "verify_bin", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
                     return
-                elif skill in ["tensor_simd", "c99_simd"]:
-                    res = subprocess.run(["./tools/oasis_tensor_simd"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "tensor_simd", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                elif skill in ["soap_triage", "soap", "clinica"]:
+                    res = subprocess.run(["python3", "agents_core/oasis_clinical_soap.py"], capture_output=True, text=True, timeout=15, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "soap_triage", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
                     return
-                elif skill == "c99_eval":
-                    res = subprocess.run(["./tools/oasis_c99_engine", "Pilar 378 Navier-Stokes"], capture_output=True, text=True, timeout=5, cwd=BASE_DIR)
-                    self._send_json({"skill": "c99_eval", "output": res.stdout, "status": "COMPLETED"})
+                elif skill in ["ring0_filter", "tetragon", "ebpf"]:
+                    res = subprocess.run(["python3", "agents_core/oasis_ring0_filter.py"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "ring0_filter", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
                     return
                 else:
                     self._send_json({"error": f"Skill '{skill}' no catalogada"}, 404)
