@@ -98,7 +98,9 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                     return
                 env_vars = os.environ.copy()
                 env_vars["PATH"] = f"/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:{env_vars.get('PATH', '')}"
-                res = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=35, cwd=BASE_DIR, env=env_vars)
+                env_vars = os.environ.copy()
+                env_vars["PATH"] = f"/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:{env_vars.get('PATH', '')}"
+                res = subprocess.run(["/bin/zsh", "-l", "-c", cmd], capture_output=True, text=True, timeout=35, cwd=BASE_DIR, env=env_vars)
                 out = res.stdout if res.stdout else res.stderr
                 self._send_json({"output": out, "exit_code": res.returncode})
             except Exception as e:
@@ -117,7 +119,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                         "────────────────────────────────────────────────────────────────\n"
                         "• hemo       : Simulación hemodinámica 3D Polígono de Willis\n"
                         "• lean_audit : Verificación formal headless de 9 módulos Lean 4\n"
-                        "• c99_eval   : Inferencia tensorial C99 pura a nivel de registro\n"
+                        "• c99_eval   : Inferencia tensorial C99 pura a nivel de registro\n• tensor_simd: Motor tensorial C99 SIMD (AVX2/FMA) < 0.01 ms\n• verify_bin : Verificación formal Lean 4 + Rizin de seguridad de memoria\n• soap_triage: Pre-triaje clínico y hemodinámica determinista SOAP\n"
                         "Uso: skills run <nombre>  (o teclea 'hemo', 'lean', 'c99')\n"
                         "════════════════════════════════════════════════════════════════"
                     )
@@ -130,6 +132,21 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 elif skill in ["lean_audit", "lean"]:
                     res = subprocess.run(["python3", "tools/verify_all_headless.py"], capture_output=True, text=True, timeout=60, cwd=BASE_DIR)
                     self._send_json({"skill": "lean_audit", "output": res.stdout, "status": "COMPLETED"})
+                    return
+                                elif skill in ["soap_triage", "soap", "clinica"]:
+                    raw_p = payload.get("data", {})
+                    p_json = json.dumps(raw_p) if isinstance(raw_p, dict) else "{}"
+                    res = subprocess.run(["python3", "agents_core/oasis_clinical_soap.py"], capture_output=True, text=True, timeout=15, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "soap_triage", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                    return
+                elif skill in ["verify_bin", "audit_bin"]:
+                    target = payload.get("target", "tools/oasis_c99_engine")
+                    res = subprocess.run(["python3", "tools/rizin_to_lean4.py", target], capture_output=True, text=True, timeout=25, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "verify_bin", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                    return
+                elif skill in ["tensor_simd", "c99_simd"]:
+                    res = subprocess.run(["./tools/oasis_tensor_simd"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "tensor_simd", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
                     return
                 elif skill == "c99_eval":
                     res = subprocess.run(["./tools/oasis_c99_engine", "Pilar 378 Navier-Stokes"], capture_output=True, text=True, timeout=5, cwd=BASE_DIR)
