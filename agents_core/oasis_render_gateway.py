@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY NATIVO & ENRUTADOR DECLARATIVO (v19.9.6)
-Integra verificación Lean 4, telemedicina SOAP, motor C99 SIMD y filtro Ring 0 eBPF.
+OASIS SOVEREIGN OS — GATEWAY NATIVO & ENRUTADOR DECLARATIVO (v19.9.9)
+Catálogo completo: LINCOS, Nuclei-Laminar, Commons Vault, Ring 0, SOAP y Lean 4.
 """
 import os
 import sys
@@ -92,7 +92,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self._send_json({"status": "ACK", "saved": True})
             return
 
-        # RPC Shell de Darwin con zsh interactivo
         if self.path == "/v1/darwin/exec":
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
@@ -107,7 +106,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": str(e)}, 500)
             return
 
-        # Catálogo y Despacho de Skills
         if self.path == "/v1/skills/exec":
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
@@ -118,13 +116,16 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                         "════════════════════════════════════════════════════════════════\n"
                         "🧩 OASIS EXTENSIBLE SKILLS ENGINE (CATÁLOGO ACTIVO)\n"
                         "────────────────────────────────────────────────────────────────\n"
-                        "• hemo         : Simulación hemodinámica 3D Polígono de Willis\n"
-                        "• lean_audit   : Verificación formal headless de 9 módulos Lean 4\n"
-                        "• c99_eval     : Inferencia tensorial C99 pura a nivel de registro\n"
-                        "• tensor_simd  : Motor tensorial C99 SIMD (AVX2/NEON) < 0.01 ms\n"
-                        "• verify_bin   : Verificación formal Lean 4 + Rizin de binarios\n"
-                        "• soap_triage  : Pre-triaje clínico y hemodinámica determinista SOAP\n"
-                        "• ring0_filter : Sonda eBPF / Tetragon Golod-Shafarevich en Ring 0\n"
+                        "• hemo           : Simulación hemodinámica 3D Polígono de Willis\n"
+                        "• lean_audit     : Verificación formal headless de 9 módulos Lean 4\n"
+                        "• c99_eval       : Inferencia tensorial C99 pura a nivel de registro\n"
+                        "• tensor_simd    : Motor tensorial C99 SIMD (AVX2/NEON) < 0.01 ms\n"
+                        "• verify_bin     : Verificación formal Lean 4 + Rizin de binarios\n"
+                        "• soap_triage    : Pre-triaje clínico y hemodinámica determinista SOAP\n"
+                        "• ring0_filter   : Sonda eBPF / Tetragon Golod-Shafarevich en Ring 0\n"
+                        "• lincos_radio   : Códec ultra-comprimido LINCOS (21 bytes) para LoRa\n"
+                        "• nuclei_laminar : Escáner de resiliencia con pacing áureo (π/φ)\n• pacing_c99    : Motor nativo C99 de pacing áureo y jitter < 0.085 ms\n"
+                        "• commons_vault  : Bóveda jurídica y científica descentralizada did:key\n"
                         "Uso: skills run <nombre>  (o teclea 'hemo', 'lean', 'c99')\n"
                         "════════════════════════════════════════════════════════════════"
                     )
@@ -159,29 +160,34 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                     res = subprocess.run(["python3", "agents_core/oasis_ring0_filter.py"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
                     self._send_json({"skill": "ring0_filter", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
                     return
+                elif skill in ["lincos_radio", "lincos", "mesh"]:
+                    res = subprocess.run(["python3", "agents_core/oasis_lincos_mesh.py"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "lincos_radio", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                    return
+                                elif skill in ["pacing", "pacing_c99", "jitter"]:
+                    res = subprocess.run(["./tools/oasis_pacing_engine"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "pacing_c99", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                    return
+                elif skill in ["nuclei_laminar", "pacing_aureo", "scan"]:
+                    res = subprocess.run(["python3", "agents_core/oasis_nuclei_laminar.py"], capture_output=True, text=True, timeout=15, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "nuclei_laminar", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                    return
+                elif skill in ["commons_vault", "commons", "juridica"]:
+                    res = subprocess.run(["python3", "agents_core/oasis_commons_vault.py"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "commons_vault", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                    return
                 else:
                     self._send_json({"error": f"Skill '{skill}' no catalogada"}, 404)
                     return
             except Exception as e:
                 self._send_json({"error": str(e)}, 500)
-            return
+                return
 
-        # Inferencia IA Streaming
         if self.path == "/v1/ai/generate":
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
                 prompt = payload.get("prompt", "")
                 model = payload.get("model", "velazquez:soap")
-
-                if model == "riona" or "riona" in payload.get("agent", ""):
-                    try:
-                        import agents_core.riona_agent as riona_mod
-                        resp_text = riona_mod.riona_process(prompt)
-                    except Exception as e:
-                        resp_text = f"🛰️ [RIONA]: Error en pipeline: {e}"
-                    self._set_cors_headers(200, "application/x-ndjson")
-                    self.wfile.write((json.dumps({"response": resp_text}) + "\n").encode("utf-8"))
-                    return
 
                 req_data = json.dumps({"model": model, "prompt": prompt, "stream": True}).encode("utf-8")
                 req = urllib.request.Request(f"{OLLAMA_URL}/api/generate", data=req_data, headers={"Content-Type": "application/json"})
