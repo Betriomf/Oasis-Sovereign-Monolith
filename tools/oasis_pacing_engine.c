@@ -1,7 +1,7 @@
 /*
  * OASIS SOVEREIGN GOLDEN PACING ENGINE (C99 PURO - CAPA 0)
  * Implementa cadencia áurea exacta: Δt = π / φ ≈ 1.9416 ms.
- * Arquitectura híbrida: reposo pasivo + micro-alineación de registro.
+ * Banda de guarda Darwin: 800 µs de micro-alineación en registro.
  * Consumo térmico: <= 3.71 W (Silicio Frío, 0 RPM).
  */
 #define _POSIX_C_SOURCE 199309L
@@ -16,7 +16,6 @@
 
 #define PHI 1.618033988749895
 #define PI  3.141592653589793
-// Cadencia teórica áurea en nanosegundos: (π / φ) * 1e6 ≈ 1,941,614 ns
 #define GOLDEN_CADENCE_NS 1941614LL
 #define PROBES_COUNT 50
 
@@ -37,16 +36,16 @@ static void wait_until_ns(unsigned long long target_ns) {
     if (now >= target_ns) return;
 
     unsigned long long diff = target_ns - now;
-    // Si restan más de 300 µs, ceder CPU al kernel para preservar silicio frío
-    if (diff > 300000ULL) {
+    // Ceder CPU solo si restan más de 1.1 ms (margen seguro contra timer coalescing)
+    if (diff > 1100000ULL) {
         struct timespec ts;
-        unsigned long long sleep_ns = diff - 250000ULL;
+        unsigned long long sleep_ns = diff - 800000ULL;
         ts.tv_sec = sleep_ns / 1000000000ULL;
         ts.tv_nsec = sleep_ns % 1000000000ULL;
         nanosleep(&ts, NULL);
     }
 
-    // Micro-afinación de precisión sub-milisegundo en registro
+    // Micro-alineación determinista por registro de CPU
     while (get_time_ns() < target_ns) {
 #if defined(__x86_64__) || defined(_M_X64)
         __asm__ __volatile__("pause");
@@ -57,20 +56,22 @@ static void wait_until_ns(unsigned long long target_ns) {
 }
 
 int main(int argc, char *argv[]) {
+    // Sonda de calentamiento (warm-up) para cargar instrucciones en caché L1
+    unsigned long long warm_target = get_time_ns() + GOLDEN_CADENCE_NS;
+    wait_until_ns(warm_target);
+
     unsigned long long timestamps[PROBES_COUNT + 1];
     double intervals_ms[PROBES_COUNT];
 
     unsigned long long start_ns = get_time_ns();
     timestamps[0] = start_ns;
 
-    // Emisión en cadencia áurea sin acumulación de deriva
     for (int i = 1; i <= PROBES_COUNT; i++) {
         unsigned long long target = start_ns + (unsigned long long)i * GOLDEN_CADENCE_NS;
         wait_until_ns(target);
         timestamps[i] = get_time_ns();
     }
 
-    // Análisis estadístico de latencia y jitter
     double sum = 0.0;
     for (int i = 0; i < PROBES_COUNT; i++) {
         intervals_ms[i] = (double)(timestamps[i + 1] - timestamps[i]) / 1000000.0;

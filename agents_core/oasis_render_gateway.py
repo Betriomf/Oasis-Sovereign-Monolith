@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — GATEWAY NATIVO & ENRUTADOR DECLARATIVO (v19.9.9)
-Catálogo completo: LINCOS, Nuclei-Laminar, Commons Vault, Ring 0, SOAP y Lean 4.
+OASIS SOVEREIGN OS — GATEWAY NATIVO & ENRUTADOR DECLARATIVO (v20.0.1)
+Catálogo completo: LINCOS, Pacing C99, Nuclei, Commons Vault, Ring 0, SOAP y Lean 4.
 """
 import os
 import sys
@@ -110,7 +110,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
                 skill = payload.get("skill", "list")
-                
+
                 if skill in ["list", "skills", "skills list"]:
                     catalog = (
                         "════════════════════════════════════════════════════════════════\n"
@@ -124,7 +124,8 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                         "• soap_triage    : Pre-triaje clínico y hemodinámica determinista SOAP\n"
                         "• ring0_filter   : Sonda eBPF / Tetragon Golod-Shafarevich en Ring 0\n"
                         "• lincos_radio   : Códec ultra-comprimido LINCOS (21 bytes) para LoRa\n"
-                        "• nuclei_laminar : Escáner de resiliencia con pacing áureo (π/φ)\n• pacing_c99    : Motor nativo C99 de pacing áureo y jitter < 0.085 ms\n"
+                        "• nuclei_laminar : Escáner de resiliencia con pacing áureo (π/φ)\n"
+                        "• pacing_c99     : Motor nativo C99 de pacing áureo (jitter < 0.085 ms)\n"
                         "• commons_vault  : Bóveda jurídica y científica descentralizada did:key\n"
                         "Uso: skills run <nombre>  (o teclea 'hemo', 'lean', 'c99')\n"
                         "════════════════════════════════════════════════════════════════"
@@ -164,13 +165,13 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                     res = subprocess.run(["python3", "agents_core/oasis_lincos_mesh.py"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
                     self._send_json({"skill": "lincos_radio", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
                     return
-                                elif skill in ["pacing", "pacing_c99", "jitter"]:
-                    res = subprocess.run(["./tools/oasis_pacing_engine"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "pacing_c99", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
-                    return
                 elif skill in ["nuclei_laminar", "pacing_aureo", "scan"]:
                     res = subprocess.run(["python3", "agents_core/oasis_nuclei_laminar.py"], capture_output=True, text=True, timeout=15, cwd=BASE_DIR, env=env_vars)
                     self._send_json({"skill": "nuclei_laminar", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                    return
+                elif skill in ["pacing", "pacing_c99", "jitter"]:
+                    res = subprocess.run(["./tools/oasis_pacing_engine"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "pacing_c99", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
                     return
                 elif skill in ["commons_vault", "commons", "juridica"]:
                     res = subprocess.run(["python3", "agents_core/oasis_commons_vault.py"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
