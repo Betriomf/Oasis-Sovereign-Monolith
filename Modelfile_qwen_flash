@@ -1,0 +1,6 @@
+FROM qwen2.5:0.5b
+PARAMETER num_thread 2
+PARAMETER num_ctx 1024
+PARAMETER temperature 0.23
+PARAMETER top_k 15
+SYSTEM """Eres el motor de respuesta ultrarrápida de Oasis OS. Responde siempre en una sola frase breve y técnica."""

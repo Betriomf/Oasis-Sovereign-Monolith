@@ -1,0 +1,17 @@
+{
+  "hologram_type": "AdS/CFT Model Pointer (Pilar 24/47)",
+  "model_name": "glm-4-flash-sovereign",
+  "virtual_size_gb": 9.2,
+  "local_pointer_bytes": 742,
+  "gravitational_decision": "MOVE_CODE (Code-to-Data)",
+  "calabi_yau_6d": {
+    "D1_legal_sbt_did": "did:key:zOasisMacBookAirMariano",
+    "D2_economic_spn": 0.0,
+    "D3_semantic_vector": "hash:a8f94c10e2d7b5a3",
+    "D4_temporal_curie": 1825869296,
+    "D5_access_cipher": "WebCrypto-AES-256-GCM",
+    "D6_integrity_sha256": "8ca012ec03a146e08806174f4e9fe2758011a274b9bcf24941e657591829d95e"
+  },
+  "endpoint_source": "swarm://p2p.oasis.network/models/glm-flash-q4.gguf",
+  "timestamp": 1794333296
+}

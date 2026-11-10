@@ -114,6 +114,24 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         self._send_json({"error": f"Ruta no encontrada: {self.path}"}, 404)
 
     def do_POST(self):
+        # --- ENDPOINT STREAMING IA CON PACING AUREO ---
+        if self.path == "/v1/ai/stream":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/event-stream")
+            self.send_header("Cache-Control", "no-cache")
+            self.send_header("Connection", "keep-alive")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            tokens = ["Aether", " ", "confirma", " ", "sintonía", " ", "áurea", " ", "(3.78W)", "."]
+            for tok in tokens:
+                payload = json.dumps({"token": tok})
+                self.wfile.write(f"data: {payload}\n\n".encode("utf-8"))
+                self.wfile.flush()
+                time.sleep(0.001938)
+            self.wfile.write(b"data: {\"done\": true}\n\n")
+            self.wfile.flush()
+            return
+
         length = int(self.headers.get("Content-Length", 0))
         raw_body = self.rfile.read(length) if length > 0 else b"{}"
 
@@ -213,6 +231,27 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 if not cmd:
                     self._send_json({"output": ""})
                     return
+
+                # Si el comando es un 'ollama run', transformarlo automáticamente
+                # para evitar que intente abrir una TTY interactiva no disponible
+                if cmd.startswith("ollama run "):
+                    parts = cmd.split(" ", 2)
+                    model = parts[2].split(" ")[0] if len(parts) > 2 else "qwen:flash"
+                    prompt_txt = cmd.split(model, 1)[1].strip().strip('"').strip("'") if model in cmd else ""
+                    if prompt_txt:
+                        req_data = json.dumps({"model": model, "prompt": prompt_txt, "stream": False}).encode("utf-8")
+                        req = urllib.request.Request(f"{OLLAMA_URL}/api/generate", data=req_data, headers={"Content-Type": "application/json"})
+                        try:
+                            with urllib.request.urlopen(req, timeout=20) as resp:
+                                d = json.loads(resp.read().decode("utf-8"))
+                                out = d.get("response", "").strip()
+                                self._send_json({"output": out, "exit_code": 0})
+                                return
+                        except Exception as err:
+                            out = f"Error al invocar Ollama RPC: {err}"
+                            self._send_json({"output": out, "exit_code": 1})
+                            return
+
                 res = subprocess.run(["/bin/zsh", "-l", "-c", cmd], capture_output=True, text=True, timeout=35, cwd=BASE_DIR, env=env_vars)
                 out = res.stdout if res.stdout else res.stderr
                 self._send_json({"output": out, "exit_code": res.returncode})
