@@ -283,7 +283,12 @@
     async function handleSovCmd(cmd) {
       if (!cmd) { termSov.write(sovPrompt); return; }
       if (cmd === "clear") { termSov.clear(); termSov.write(sovPrompt); return; }
-            if (cmd.startsWith("osint")) {
+                  if (cmd === "sec" || cmd === "audit") {
+        execSkill("sec");
+        termSov.write(sovPrompt);
+        return;
+      }
+      if (cmd.startsWith("osint")) {
         const parts = cmd.split(" ");
         const target = parts[1] || "Betriomf";
         execSkill("osint", {target: target});

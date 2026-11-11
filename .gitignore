@@ -26,3 +26,11 @@ models_ram/
 test.txt
 /Volumes/OasisRAM/
 .DS_Store
+# Archivos temporales y backups
+*.zip
+*.bak
+*.holo
+test.txt
+models_ram/
+.DS_Store
+/Volumes/OasisRAM/
