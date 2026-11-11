@@ -14,6 +14,21 @@ import math
 import shutil
 import asyncio
 
+import re
+
+def sanitize_sensitive_data(text):
+    """Redacta tokens, claves privadas y mnemónicos usando Zero-Knowledge."""
+    # 1. Claves privadas hex (64 caracteres)
+    text = re.sub(r'([0-9a-fA-F]{64})', r'[ZK_REDACTED_HEX_KEY:[:6]...]', text)
+    # 2. Tokens de GitHub / Bearer
+    text = re.sub(r'(ghp_[a-zA-Z0-9]{36}|Bearer\s+[a-zA-Z0-9\._\-]+)', r'[ZK_REDACTED_TOKEN]', text)
+    # 3. Frases mnemónicas típicas (12 palabras)
+    text = re.sub(r'(mnemonic_12_words["']?\s*:\s*["'])([^"']+)(["'])', r'[ZK_REDACTED_MNEMONIC]', text)
+    # 4. Claves Ed25519 selladas
+    text = re.sub(r'(private_key_sealed["']?\s*:\s*["'])([^"']+)(["'])', r'[ZK_REDACTED_PRIVATE_KEY]', text)
+    return text
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VAULT_DIR = os.path.join(BASE_DIR, "vault")
 SESSIONS_OUT = os.path.join(VAULT_DIR, "darwin_terminal_scrape.md")
@@ -40,7 +55,7 @@ async def scrape_terminal_sessions(keyword=None):
             try:
                 mtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(hf)))
                 with open(hf, "r", encoding="utf-8", errors="ignore") as f:
-                    lines = [l.strip() for l in f if l.strip()]
+                    lines = [sanitize_sensitive_data(l.strip()) for l in f if l.strip()]
                 if keyword:
                     lines = [l for l in lines if keyword.lower() in l.lower()]
                 if lines:
@@ -64,7 +79,7 @@ async def scrape_terminal_sessions(keyword=None):
                         if len(parts) == 2:
                             clean = parts[1]
                     if not keyword or keyword.lower() in clean.lower():
-                        hist_lines.append(clean)
+                        hist_lines.append(sanitize_sensitive_data(clean))
         except Exception:
             pass
 
