@@ -20,6 +20,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TRUTH_PATH = os.path.join(BASE_DIR, "VERDAD_OASIS.txt")
 VAULT_DIR = os.path.join(BASE_DIR, "vault")
 
+
+def query_ollama_cascade(prompt):
+    models_to_try = ["qwen:flash", "qwen2.5:0.5b", "aether:1.5b", "aether:fast"]
+    for m in models_to_try:
+        try:
+            req_data = json.dumps({"model": m, "prompt": prompt, "stream": False}).encode("utf-8")
+            req = urllib.request.Request(f"{OLLAMA_URL}/api/generate", data=req_data, headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                text = data.get("response", "").strip()
+                if text:
+                    return text
+        except Exception:
+            continue
+    return "Error: No se pudo conectar con los modelos locales de Ollama (127.0.0.1:11434)."
+
+
 def get_pillar_definition(pillar_num):
     if not os.path.exists(TRUTH_PATH):
         return None
@@ -205,14 +222,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 if matched_pillar:
                     resp_text = f"🏛️ [ORÁCULO VELÁZQUEZ — CAPA 0]:\n{matched_pillar}\nConfinamiento de enstrofía Ω̃ ≤ 5.3019. Silicio frío a ≤ 2.58 W."
                 else:
-                    req_data = json.dumps({"model": "aether:fast", "prompt": prompt, "stream": False}).encode("utf-8")
-                    req = urllib.request.Request(f"{OLLAMA_URL}/api/generate", data=req_data, headers={"Content-Type": "application/json"})
-                    try:
-                        with urllib.request.urlopen(req, timeout=12) as resp:
-                            data = json.loads(resp.read().decode("utf-8"))
-                            resp_text = data.get("response", "").strip()
-                    except Exception:
-                        resp_text = "🏛️ [ORÁCULO VELÁZQUEZ — CAPA 0]: Confinamiento de enstrofía Ω̃ ≤ 5.3019 (Pilar 378). Silicio frío activo a ≤ 2.58 W."
+                    resp_text = query_ollama_cascade(prompt)
 
                 self.send_response(200)
                 self.send_header("Content-Type", "text/plain; charset=utf-8")
