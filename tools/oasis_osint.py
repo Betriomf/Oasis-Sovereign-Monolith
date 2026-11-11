@@ -45,10 +45,15 @@ def check_username(username):
                 if resp.status == 200:
                     status = "EXPUESTO / ACTIVO"
                     data = json.loads(resp.read().decode("utf-8", errors="ignore"))
-                    if target["name"] == "GitHub":
+                    if target["name"] == "GitLab":
+                        if isinstance(data, list) and len(data) == 0:
+                            status = "LIBRE / 404"
+                        else:
+                            details = "Perfil GitLab verificado"
+                    elif target["name"] == "GitHub":
                         details = f"Repos públicos: {data.get('public_repos', 0)} | Bio: {data.get('bio', 'N/A')}"
                     elif target["name"] == "HuggingFace":
-                        details = f"Modelos/Datasets públicos detectados"
+                        details = "Modelos/Datasets públicos detectados"
                     else:
                         details = "Perfil público accesible"
         except urllib.error.HTTPError as e:
