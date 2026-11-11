@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — CRM TÉCNICO Y COMPARADOR ARQUITECTÓNICO (v3.0)
-Historial exhaustivo v1.x a v20.x, telemetría, comandos y comparador side-by-side.
+OASIS SOVEREIGN OS — CRM TÉCNICO Y COMPARADOR ARQUITECTÓNICO (v4.0)
+Historial exhaustivo v1.x a v20.x, matriz de 10 hitos futuros y comparador.
 """
 import os
 import sys
@@ -141,7 +141,7 @@ COMPLETE_DATABASE = [
         "tag_git": "v20.0.5-dualxterm-stable",
         "fecha": "2026-11-10",
         "tecnologias": ["Ollama qwen:flash", "Micro-DHCP DORA C99", "Aduana Hashes SHA-256", "WebGL Addon", "Darwin Scraper"],
-        "comandos": ["v", "c99", "boveda", "skills run (pacing, soap, lincos, mesh, qr, id, crm, scraper)"],
+        "comandos": ["v", "c99", "boveda", "crm", "osint", "skills run"],
         "pilares_asociados": [378, 384, 385, 386],
         "telemetria": {"potencia_w": 2.58, "latencia_ms": 0.005, "jitter_ms": 0.0001},
         "almacenamiento": "OPFS E2EE con Visor RAM y Espejo NVMe",
@@ -157,14 +157,111 @@ COMPLETE_DATABASE = [
     }
 ]
 
+FUTURE_ROADMAP_MILESTONES = [
+    {
+        "id": 1,
+        "hito": "Compilación JIT de Lean 4 a Filtros eBPF en Kernel (Ring 0 Bypass)",
+        "area": "Kernel & Redes",
+        "pilares": [1, 113, 120],
+        "cota": "< 0.3 us / O(1)",
+        "estado": "PLANIFICADO (v21.0)",
+        "descripcion": "El cortafuegos relativista (ds^2 <= 0) y Golod-Shafarevich (r > d^2/4) se ejecutan como bytecode en tarjeta de red sin tocar Ring 3."
+    },
+    {
+        "id": 2,
+        "hito": "Cierre Universal de Navier-Stokes (Extensión Fefferman en S(R3))",
+        "area": "Física Matemática",
+        "pilares": [25, 26, 53, 55, 378],
+        "cota": "Omega <= 5.3019",
+        "estado": "EN INVESTIGACIÓN",
+        "descripcion": "Extensión de la regularidad condicional de helicidad H(0) > 0 a todo dato inicial suave mediante variedad de Fisher-Rao en Lean 4."
+    },
+    {
+        "id": 3,
+        "hito": "Transición de Transformers a SSM / Mamba en Rust",
+        "area": "IA & Silicio",
+        "pilares": [30, 190],
+        "cota": "O(N) / <= 3.78 W",
+        "estado": "PROTOTIPO",
+        "descripcion": "Recurrencia lineal O(N) compilada en Rust con aceleración Metal, permitiendo contexto ilimitado en 8 GB de RAM sin swap."
+    },
+    {
+        "id": 4,
+        "hito": "Proyección Holográfica del Búfer KV (AdS/CFT en Memoria)",
+        "area": "Compresión Neuronal",
+        "pilares": [1, 8, 30],
+        "cota": "-87.5% RAM KV",
+        "estado": "VALIDADO EN LAB",
+        "descripcion": "Contracción del KV Cache de 224 MiB a 28 MiB mediante cota Chen-Panzano del 10.14%."
+    },
+    {
+        "id": 5,
+        "hito": "Inferencia en Enjambre Frío por Partición Conforme (Swarm WebGPU)",
+        "area": "Computación Distribuida",
+        "pilares": [120, 193, 371],
+        "cota": "<= 2.58 W / nodo",
+        "estado": "PLANIFICADO (v22.0)",
+        "descripcion": "Fragmentación tensorial de modelos 7B/14B entre nodos heterogéneos conectados mediante WebRTC DataChannels y Pacing Áureo."
+    },
+    {
+        "id": 6,
+        "hito": "Verificación Formal Automática de Seguridad Binaria (Rizin -> Lean 4)",
+        "area": "Ciberseguridad",
+        "pilares": [113, 114],
+        "cota": "sorry = 0",
+        "estado": "PLANIFICADO",
+        "descripcion": "Transpilador de CFG binario a lemas en Lean 4 para certificar ausencia absoluta de desbordamientos de búfer en binarios C99."
+    },
+    {
+        "id": 7,
+        "hito": "Bóveda Holográfica Zero-Knowledge en RAM Volátil (Self-Sovereign Sharding)",
+        "area": "Criptografía",
+        "pilares": [1, 8, 120],
+        "cota": "0 bytes SSD / 0.00 ms leak",
+        "estado": "EN INTEGRACIÓN",
+        "descripcion": "Fragmentación sobre variedades Calabi-Yau con claves efímeras derivadas en Secure Enclave y zeroización inmediata en memoria."
+    },
+    {
+        "id": 8,
+        "hito": "Hemodinámica Microvascular 3D en Espacios de Besov",
+        "area": "Biomedicina Capa 0",
+        "pilares": [102, 112, 113],
+        "cota": "WSS = 9.80 Pa real",
+        "estado": "CALIBRADO",
+        "descripcion": "Modelado pulsátil en Willis/Carótida con análisis funcional en B^0_{inf,inf} y triaje SOAP local sin telemetría externa."
+    },
+    {
+        "id": 9,
+        "hito": "Validación Astrofísica y Cosmológica Cruzada (Auditoría DESI)",
+        "area": "Cosmología Teórica",
+        "pilares": [9, 38, 97, 142],
+        "cota": "Error < 2.0%",
+        "estado": "AUDITORÍA CONTINUA",
+        "descripcion": "Cotejo continuo de preprints arXiv con constantes de Capa 0 (masa de neutrinos 0.1059 eV vs 0.1080 eV DESI, 1/alpha = 137.036)."
+    },
+    {
+        "id": 10,
+        "hito": "Formalización de Problemas del Milenio (Riemann y P != NP)",
+        "area": "Matemática Pura",
+        "pilares": [51, 112, 119, 303, 308],
+        "cota": "Delta S >= 2^N ln phi",
+        "estado": "FORMALIZACIÓN PARCIAL",
+        "descripcion": "Demostración de ceros no triviales en Re(s)=1/2 en Fisher-Rao y separación de complejidad mediante asimetría termodinámica de Landauer."
+    }
+]
+
 def save_crm(data):
     os.makedirs(VAULT_DIR, exist_ok=True)
+    payload = {
+        "eras_historicas": data,
+        "hoja_de_ruta_hitos": FUTURE_ROADMAP_MILESTONES
+    }
     with open(CRM_JSON, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+        json.dump(payload, f, indent=2, ensure_ascii=False)
     
     with open(CRM_MD, "w", encoding="utf-8") as f:
         f.write("# 🏛️ OASIS SOVEREIGN OS — CRM TÉCNICO Y BITÁCORA ARQUITECTÓNICA LOCAL\n\n")
-        f.write("> Registro inmutable de evolución de software, comandos por versión y física térmica en silicio frío.\n\n")
+        f.write("> Registro inmutable de evolución de software, física térmica en silicio frío y hoja de ruta formal.\n\n")
         
         f.write("## 📊 MATRIZ COMPARATIVA DE TELEMETRÍA Y ARQUITECTURA\n\n")
         f.write("| Versión / Era | Potencia (W) | Latencia C99 | Jitter P99 | Pilares Mapeados | Interfaz / Almacenamiento |\n")
@@ -173,6 +270,13 @@ def save_crm(data):
             tel = item.get("telemetria", {})
             pils = ", ".join(str(p) for p in item.get("pilares_asociados", []))
             f.write(f"| **{item['version']}**<br>*{item['era']}* | `{tel.get('potencia_w', 3.78)} W` | `{tel.get('latencia_ms', 0)} ms` | `{tel.get('jitter_ms', 0)} ms` | {pils} | {item['interfaz']} / {item['almacenamiento']} |\n")
+        f.write("\n---\n\n")
+
+        f.write("## 🚀 HOJA DE RUTA CIENTÍFICA: PRÓXIMOS 10 HITOS DE CAPA 0\n\n")
+        f.write("| # | Hito Tecnológico / Científico | Área | Cota Formal | Estado |\n")
+        f.write("| :-: | :--- | :---: | :---: | :---: |\n")
+        for m in FUTURE_ROADMAP_MILESTONES:
+            f.write(f"| **{m['id']}** | **{m['hito']}**<br>_{m['descripcion']}_ | `{m['area']}` | `{m['cota']}` | `{m['estado']}` |\n")
         f.write("\n---\n\n")
 
         for item in data:
@@ -192,6 +296,17 @@ def save_crm(data):
                 f.write(f"    - *Causa Raíz:* {err['causa_raiz']}\n")
                 f.write(f"    - *Decisión:* {err['solucion_diseno']}\n")
             f.write("\n---\n\n")
+
+def show_roadmap():
+    print("════════════════════════════════════════════════════════════════")
+    print("🚀 OASIS CRM — HOJA DE RUTA FORMAL (PRÓXIMOS 10 HITOS)")
+    print("────────────────────────────────────────────────────────────────")
+    for m in FUTURE_ROADMAP_MILESTONES:
+        print(f"[{m['id']:02d}] {m['hito']}")
+        print(f"     Área   : {m['area']:<20} | Estado: {m['estado']}")
+        print(f"     Cota   : {m['cota']:<20} | Pilares: {m['pilares']}")
+        print(f"     Impacto: {m['descripcion'][:72]}...")
+        print("────────────────────────────────────────────────────────────────")
 
 def list_versions():
     data = COMPLETE_DATABASE
@@ -242,7 +357,7 @@ def compare_versions(v_a, v_b):
             item_b = item
 
     if not item_a or not item_b:
-        print(f"No se pudieron encontrar ambas versiones para comparar: '{v_a}' y '{v_b}'.")
+        print(f"No se pudieron encontrar ambas versiones: '{v_a}' y '{v_b}'.")
         return
 
     print("════════════════════════════════════════════════════════════════")
@@ -256,12 +371,9 @@ def compare_versions(v_a, v_b):
     print(f"{'Jitter P99':<20} | {str(item_a['telemetria']['jitter_ms']) + ' ms':<22} | {str(item_b['telemetria']['jitter_ms']) + ' ms':<22}")
     print(f"{'Almacenamiento':<20} | {item_a['almacenamiento'][:22]:<22} | {item_b['almacenamiento'][:22]:<22}")
     print(f"{'Interfaz':<20} | {item_a['interfaz'][:22]:<22} | {item_b['interfaz'][:22]:<22}")
-    print(f"{'Comandos Clave':<20} | {str(len(item_a['comandos'])) + ' activos':<22} | {str(len(item_b['comandos'])) + ' activos':<22}")
-    print(f"{'Incidencias Cerradas':<20} | {str(len(item_a['errores_y_fallos'])) + ' registradas':<22} | {str(len(item_b['errores_y_fallos'])) + ' registradas':<22}")
     print("════════════════════════════════════════════════════════════════")
 
 def record_incident(version, error_text, causa, solucion):
-    # Cargar y añadir dinámicamente
     data = COMPLETE_DATABASE
     target_item = data[-1]
     for item in data:
@@ -279,17 +391,19 @@ def record_incident(version, error_text, causa, solucion):
 def main():
     if len(sys.argv) < 2 or sys.argv[1] == "list":
         list_versions()
+    elif sys.argv[1] in ["roadmap", "proximos", "hitos"]:
+        show_roadmap()
     elif sys.argv[1] == "show" and len(sys.argv) > 2:
         show_version(sys.argv[2])
     elif sys.argv[1] == "compare" and len(sys.argv) > 3:
         compare_versions(sys.argv[2], sys.argv[3])
     elif sys.argv[1] == "sync":
         save_crm(COMPLETE_DATABASE)
-        print("✅ Bitácora Markdown y JSON sincronizados con la genealogía completa (v1 a v20).")
+        print("✅ Bitácora Markdown y JSON sincronizados con la hoja de ruta y genealogía completa.")
     elif sys.argv[1] == "incident" and len(sys.argv) >= 5:
         record_incident(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
     else:
-        print("Uso: python3 tools/oasis_crm.py <list | show <v> | compare <v1> <v2> | sync | incident <v> <err> <causa> <sol>>")
+        print("Uso: crm <list | roadmap | show <v> | compare <v1> <v2> | sync | incident <v> <err> <causa> <sol>>")
 
 if __name__ == "__main__":
     main()

@@ -16,33 +16,21 @@ import asyncio
 
 import re
 
+import re
+
 def sanitize_sensitive_data(text):
     """Redacta tokens, claves privadas y mnemónicos usando Zero-Knowledge."""
-    # 1. Claves privadas hex (64 caracteres)
-    text = re.sub(r'([0-9a-fA-F]{64})', r'[ZK_REDACTED_HEX_KEY:[:6]...]', text)
-    # 2. Tokens de GitHub / Bearer
-    text = re.sub(r'(ghp_[a-zA-Z0-9]{36}|Bearer\s+[a-zA-Z0-9\._\-]+)', r'[ZK_REDACTED_TOKEN]', text)
-    # 3. Frases mnemónicas típicas (12 palabras)
-    text = re.sub(r'(mnemonic_12_words["']?\s*:\s*["'])([^"']+)(["'])', r'[ZK_REDACTED_MNEMONIC]', text)
-    # 4. Claves Ed25519 selladas
-    text = re.sub(r'(private_key_sealed["']?\s*:\s*["'])([^"']+)(["'])', r'[ZK_REDACTED_PRIVATE_KEY]', text)
+    # Claves privadas hex (64 caracteres)
+    text = re.sub(r'[0-9a-fA-F]{64}', r'[ZK_REDACTED_HEX_KEY]', text)
+    # Tokens GitHub / Bearer
+    text = re.sub(r'ghp_[a-zA-Z0-9]{36}', r'[ZK_REDACTED_GITHUB_TOKEN]', text)
+    text = re.sub(r'Bearer\s+[a-zA-Z0-9\._\-]+', r'[ZK_REDACTED_BEARER]', text)
+    # Frases mnemónicas y private_key_sealed
+    text = re.sub(r'mnemonic_12_words['"]?\s*:\s*['"][^'"]+['"]', r'mnemonic_12_words: "[ZK_REDACTED_MNEMONIC]"', text)
+    text = re.sub(r'private_key_sealed['"]?\s*:\s*['"][^'"]+['"]', r'private_key_sealed: "[ZK_REDACTED_KEY]"', text)
     return text
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VAULT_DIR = os.path.join(BASE_DIR, "vault")
-SESSIONS_OUT = os.path.join(VAULT_DIR, "darwin_terminal_scrape.md")
-CODE_OUT = os.path.join(VAULT_DIR, "OASIS_FULL_CODE.md")
-ZIP_OUT = os.path.join(BASE_DIR, "oasis_vault_backup")
-
-# Constante de Pacing Áureo (Pilar 14 / 385)
-PHI = (1.0 + math.sqrt(5.0)) / 2.0
-PI = math.pi
-PACING_S = (PI / PHI) / 1000.0  # 1.9416 ms
-
-# -------------------------------------------------------------
-# NIVEL 1: PESTAÑAS CERRADAS Y LOGS DE TERMINAL
-# -------------------------------------------------------------
 async def scrape_terminal_sessions(keyword=None):
     print("🛰️  [NIVEL 1]: Escaneando sesiones cerradas e historial de Darwin...")
     sessions_dir = os.path.expanduser("~/.zsh_sessions")

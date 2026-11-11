@@ -28,3 +28,4 @@ fi
 export PATH="/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
 echo "✅ Entorno térmico blindado (Régimen Laminar: 2 hilos, 0 RPM)."
+export PATH="$PWD/tools:$PATH"
