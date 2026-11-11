@@ -66,6 +66,12 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         # Resuelve el error 501 Unsupported method ('HEAD')
         if self.path in ["/", "/terminal"]:
             self._set_cors_headers(200, "text/html; charset=utf-8")
+                elif self.path == "/v1/vault/list":
+            vault_files = []
+            if os.path.exists(VAULT_DIR):
+                vault_files = sorted([f for f in os.listdir(VAULT_DIR) if not f.startswith(".")])
+            self._send_json({"vault_files": vault_files, "total": len(vault_files)})
+            return
         elif self.path == "/v1/health":
             self._set_cors_headers(200, "application/json; charset=utf-8")
         else:
@@ -315,7 +321,15 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                     self._send_json({"skill": "id", "output": res.stdout, "status": "COMPLETED"})
                     return
                 else:
-                    self._send_json({"error": f"Skill '{skill}' no catalogada", "status": "FAILED"}, 400)
+                            elif skill in ["minkowski", "filter", "pilar387"]:
+            res = subprocess.run(["./tools/oasis_kernel_filter"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
+            self._send_json({"skill": "minkowski", "output": res.stdout, "status": "COMPLETED"})
+            return
+        elif skill in ["sec", "audit", "posture"]:
+            res = subprocess.run(["python3", "tools/oasis_sec_auditor.py"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
+            self._send_json({"skill": "sec", "output": res.stdout, "status": "COMPLETED"})
+            return
+        self._send_json({"error": f"Skill '{skill}' no catalogada", "status": "FAILED"}, 400)
                     return
             except Exception as e:
                 self._send_json({"error": str(e)}, 500)
