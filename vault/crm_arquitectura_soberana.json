@@ -1,149 +1,399 @@
 [
   {
     "version": "v1.0.0 - v1.3.1",
+    "era": "Génesis y Física de Consenso",
     "tag_git": "v1.0-genesis",
     "fecha": "2026-03-04",
     "tecnologias": [
       "Python C-API",
       "Lean 4",
-      "Zenodo DOI"
+      "Zenodo DOI",
+      "OpenTimestamps (OTS)",
+      "Fortran 90",
+      "Lisp"
     ],
-    "hito_objetivo": "Génesis del Monolito: Formulación de Navier-Stokes y cota Landauer (+30.58%).",
+    "comandos": [
+      "falsability_test.py",
+      "scale_test.f90",
+      "scheduling_logic.lisp"
+    ],
+    "pilares_asociados": [
+      1,
+      2,
+      3,
+      18
+    ],
+    "telemetria": {
+      "potencia_w": 3.78,
+      "latencia_ms": 120.0,
+      "jitter_ms": 14.5
+    },
+    "almacenamiento": "Archivos locales + OpenTimestamps en Bitcoin",
+    "interfaz": "Consola Darwin zsh nativa",
+    "hito_objetivo": "Cierre analítico de Navier-Stokes (Atractor kappa = ln 10) y Cota Landauer (+30.58%).",
     "que_funciono": [
-      "Cierre analítico BKM",
-      "Confinamiento enstrofía kappa = ln 10",
+      "Asignación de DOIs inmutables en Zenodo",
+      "Demostración analítica BKM",
       "Auditoría formal sorry=0"
     ],
     "errores_y_fallos": [
       {
-        "sintoma": "Lentitud en cálculo tensorial en Python",
-        "causa_raiz": "Sobrecarga de GIL y tipos dinámicos",
-        "solucion_diseno": "Migración hacia C99 puro a nivel de registro"
+        "sintoma": "Sobrecarga de CPU en evaluación tensorial",
+        "causa_raiz": "GIL de Python y tipado dinámico",
+        "solucion_diseno": "Planificación de motor C99 compilado a nivel de registros"
       }
-    ],
-    "consumo_silicio_w": 3.78
+    ]
   },
   {
-    "version": "v3.x - v7.x",
-    "tag_git": "v7.1.0-sovereign-universal",
-    "fecha": "2026-06-12",
+    "version": "v2.0 - v3.7.0",
+    "era": "LeanEngine e Identidad Soulbound",
+    "tag_git": "v3.7.0-leanengine",
+    "fecha": "2026-05-18",
     "tecnologias": [
-      "VFS en RAM",
-      "LocalStorage",
       "WASM Extism",
-      "Isomorphic Git"
+      "LocalStorage VFS",
+      "WebGL Fingerprint",
+      "Lean 4 Parser"
     ],
-    "hito_objetivo": "Micronúcleo en navegador con comandos POSIX y verificación formal temprana.",
+    "comandos": [
+      "help",
+      "uname",
+      "ls",
+      "dir",
+      "cat",
+      "touch",
+      "write",
+      "rm",
+      "lean",
+      "ai",
+      "caps"
+    ],
+    "pilares_asociados": [
+      14,
+      28,
+      46
+    ],
+    "telemetria": {
+      "potencia_w": 3.5,
+      "latencia_ms": 15.0,
+      "jitter_ms": 8.2
+    },
+    "almacenamiento": "LocalStorage (<= 5 MB)",
+    "interfaz": "Terminal Web Monopanel (DOM Verde #00ff9d)",
+    "hito_objetivo": "Identidad de silicio OASIS-HW-* sin contraseñas y verificación formal en navegador.",
     "que_funciono": [
-      "Comandos ls/cat/uname en memoria",
-      "Aislamiento Zero-Trust en WebAssembly"
+      "Identidad derivada de silicio",
+      "Comandos VFS con latencia cero en RAM de cliente"
     ],
     "errores_y_fallos": [
       {
-        "sintoma": "Cuota de almacenamiento excedida",
-        "causa_raiz": "LocalStorage limitado a 5 MB por origen",
-        "solucion_diseno": "Planificación de migración hacia OPFS"
+        "sintoma": "QuotaExceededError (> 5 MB)",
+        "causa_raiz": "Límite rígido de LocalStorage del navegador",
+        "solucion_diseno": "Migración hacia OPFS SyncAccessHandle"
+      },
+      {
+        "sintoma": "Congelamiento del Main Thread",
+        "causa_raiz": "Compilación de Lean 4 dentro del navegador",
+        "solucion_diseno": "Desacople a hook pre-push nativo"
       }
-    ],
-    "consumo_silicio_w": 3.5
+    ]
   },
   {
-    "version": "v15.x - v18.x",
-    "tag_git": "v18.9.14-rag-sse",
-    "fecha": "2026-09-20",
+    "version": "v6.6.0 - v7.1.0",
+    "era": "Micro-VFS y Compatibilidad Universal",
+    "tag_git": "v7.1.0-sovereign-universal",
+    "fecha": "2026-06-25",
+    "tecnologias": [
+      "Threading HTTPServer",
+      "VFS FHS Sintético (/dev, /proc)",
+      "isomorphic-git",
+      "Vortex 3D"
+    ],
+    "comandos": [
+      "cls",
+      "clear",
+      "dir",
+      "ls",
+      "type",
+      "cat",
+      "vortex",
+      "ai",
+      "gh status"
+    ],
+    "pilares_asociados": [
+      18,
+      30,
+      85
+    ],
+    "telemetria": {
+      "potencia_w": 4.18,
+      "latencia_ms": 4.8,
+      "jitter_ms": 3.1
+    },
+    "almacenamiento": "VFS RAM sintética + endpoints /dev/cpu",
+    "interfaz": "Terminal Web con soporte dual DOS/Linux",
+    "hito_objetivo": "Micro-VFS FHS con dispositivos virtuales de telemetría y simulación de vórtices.",
+    "que_funciono": [
+      "Soporte de comandos cruzados DOS/POSIX",
+      "Micro-tramas pi-KB (3141 bytes)"
+    ],
+    "errores_y_fallos": [
+      {
+        "sintoma": "ERR_CONNECTION_TIMED_OUT",
+        "causa_raiz": "HTTPServer monohilo bloqueado durante inferencias",
+        "solucion_diseno": "Adopción de ThreadingHTTPServer con sockets desacoplados"
+      }
+    ]
+  },
+  {
+    "version": "v15.1.0 - v15.9.1",
+    "era": "Bóveda OPFS y Malla Dinámica",
+    "tag_git": "v15.9.1-opfs-mesh",
+    "fecha": "2026-08-14",
     "tecnologias": [
       "OPFS SyncAccessHandle",
-      "WebCrypto AES-GCM",
+      "WebCrypto AES-256-GCM",
       "O-QUIC",
-      "Pacing Áureo (pi/phi)"
+      "Swarm Gossip d=6"
     ],
-    "hito_objetivo": "Bóveda privada de alta velocidad y transporte P2P sin bufferbloat.",
+    "comandos": [
+      "boveda",
+      "box status",
+      "mail",
+      "swarm",
+      "nodos",
+      "sheet",
+      "hex-monitor",
+      "yield"
+    ],
+    "pilares_asociados": [
+      14,
+      24,
+      74,
+      77
+    ],
+    "telemetria": {
+      "potencia_w": 3.71,
+      "latencia_ms": 1.2,
+      "jitter_ms": 0.085
+    },
+    "almacenamiento": "OPFS NVMe Mirror (~/vault/) de 50 GB",
+    "interfaz": "Terminal Web táctica con visor de 3 pestañas",
+    "hito_objetivo": "Persistencia privada local-first con rendimiento de acceso síncrono < 0.12 ms.",
     "que_funciono": [
-      "I/O en RAM volátil < 0.12 ms",
-      "Jitter colapsado a < 0.085 ms con cadencia de 1.938 ms"
+      "Espejo físico bidireccional OPFS-NVMe",
+      "Jitter P99 < 0.085 ms mediante pacing áureo"
     ],
     "errores_y_fallos": [
       {
-        "sintoma": "Bloqueo por Cross-Origin en recargas",
-        "causa_raiz": "Cabeceras COOP/COEP malformadas",
-        "solucion_diseno": "Estandarización de cabeceras de no-store en Gateway"
+        "sintoma": "Colapso de espacio en disco",
+        "causa_raiz": "Intento de almacenar pesos LLM completos en OPFS",
+        "solucion_diseno": "Correspondencia AdS/CFT: punteros holográficos .holo de 1 KB"
       }
-    ],
-    "consumo_silicio_w": 3.71
+    ]
   },
   {
-    "version": "v19.7 - v19.9",
+    "version": "v16.0.0 - v17.6.0",
+    "era": "Desacoplamiento Modular y OpenAPI 3.0",
+    "tag_git": "v17.6.0-openapi-rest",
+    "fecha": "2026-09-28",
+    "tecnologias": [
+      "OpenAPI 3.0",
+      "Three.js Carótida 3D",
+      "Noise-XX PFS",
+      "verify_all_headless.py"
+    ],
+    "comandos": [
+      "hemo",
+      "vortex",
+      "git-audit",
+      "curl",
+      "bench",
+      "quantum-run"
+    ],
+    "pilares_asociados": [
+      82,
+      193,
+      209,
+      210
+    ],
+    "telemetria": {
+      "potencia_w": 3.75,
+      "latencia_ms": 0.8,
+      "jitter_ms": 0.042
+    },
+    "almacenamiento": "OPFS + Schemas REST estructurados",
+    "interfaz": "Terminal Web con visores 3D embebidos",
+    "hito_objetivo": "Unificación de endpoints REST bajo contrato OpenAPI y visualización vascular 3D.",
+    "que_funciono": [
+      "Renderizado hemodinámico a 60 FPS",
+      "Auditoría sintáctica de 9 módulos"
+    ],
+    "errores_y_fallos": [
+      {
+        "sintoma": "Fugas de memoria en recargas WebGL",
+        "causa_raiz": "Contextos 3D huérfanos sin llamada a dispose()",
+        "solucion_diseno": "Controladores de pérdida de contexto onContextLoss()"
+      }
+    ]
+  },
+  {
+    "version": "v18.0.0 - v18.9.14",
+    "era": "Streaming SSE y Pacing Áureo",
+    "tag_git": "v18.9.14-rag-sse",
+    "fecha": "2026-10-15",
+    "tecnologias": [
+      "Server-Sent Events (SSE)",
+      "Pacing Áureo (pi/phi)",
+      "Web Worker Sync",
+      "Ollama Bridge"
+    ],
+    "comandos": [
+      "boveda",
+      "v",
+      "ai",
+      "stream",
+      "hex-monitor"
+    ],
+    "pilares_asociados": [
+      47,
+      129,
+      134,
+      184
+    ],
+    "telemetria": {
+      "potencia_w": 3.65,
+      "latencia_ms": 0.15,
+      "jitter_ms": 0.019
+    },
+    "almacenamiento": "OPFS con zeroización atómica",
+    "interfaz": "Terminal con streaming token a token a 60 FPS",
+    "hito_objetivo": "Inferencia local fluida carácter a carácter con cadencia fija Delta_t = pi/phi.",
+    "que_funciono": [
+      "Eliminación de saltos en pantalla",
+      "Estabilización de inferencia a 15-45 t/s"
+    ],
+    "errores_y_fallos": [
+      {
+        "sintoma": "Tokens entregados en paquetes bufferizados",
+        "causa_raiz": "Falta de self.wfile.flush() tras cada chunk SSE",
+        "solucion_diseno": "Flush síncrono con retardo áureo de 1.938 ms"
+      }
+    ]
+  },
+  {
+    "version": "v19.0.0 - v19.9.6",
+    "era": "Dual Xterm, C99 SIMD y Protocolo SOAP",
     "tag_git": "v19.9.1-DualXterm-C99",
     "fecha": "2026-11-04",
     "tecnologias": [
-      "DualXterm.js",
-      "Python HTTP Gateway :8080",
-      "C99 SIMD",
-      "SOAP Protocol",
-      "LINCOS 21B"
+      "Dual Xterm.js",
+      "C99 SIMD (AVX2/FMA)",
+      "Protocolo SOAP Clínico",
+      "LINCOS 21B",
+      "Ring 0 eBPF"
     ],
-    "hito_objetivo": "Desacoplamiento táctico en dos paneles (Kernel Soberano vs DevFrame Darwin).",
+    "comandos": [
+      "v <pregunta>",
+      "c99",
+      "riona",
+      "hemo",
+      "lean_audit",
+      "skills run",
+      "view"
+    ],
+    "pilares_asociados": [
+      376,
+      378,
+      380,
+      382,
+      384
+    ],
+    "telemetria": {
+      "potencia_w": 3.73,
+      "latencia_ms": 0.005,
+      "jitter_ms": 0.017
+    },
+    "almacenamiento": "OPFS E2EE + Bóveda Dual en RAM",
+    "interfaz": "Dual Xterm (Kernel Soberano izq. / DevFrame Darwin der.)",
+    "hito_objetivo": "Desacoplamiento asimétrico: Capa 0 segura y ejecución nativa en Darwin host.",
     "que_funciono": [
-      "Inferencia C99 en 0.005 ms",
-      "Telemetría clínica vascular confinado a 3.73W"
+      "Evaluación tensorial en 0.005 ms",
+      "Triaje vascular sin alucinaciones",
+      "LINCOS en 21 bytes"
     ],
     "errores_y_fallos": [
       {
-        "sintoma": "Imposibilidad de pegar texto con Cmd+V",
-        "causa_raiz": "attachCustomKeyEventHandler interceptaba el evento keydown",
+        "sintoma": "Secuestro de Cmd+V y flechas en terminal",
+        "causa_raiz": "attachCustomKeyEventHandler interceptaba eventos globales",
         "solucion_diseno": "Manejador nativo de paste sobre window"
       },
       {
-        "sintoma": "Git pre-push rechazaba archivos",
+        "sintoma": "Rechazo de commits por Git pre-push",
         "causa_raiz": "Conversión automática CRLF/LF en macOS",
         "solucion_diseno": "git config core.autocrlf false"
       }
-    ],
-    "consumo_silicio_w": 3.73
+    ]
   },
   {
     "version": "v20.0.0 - v20.0.5",
+    "era": "Silicio Frío, Micro-DHCP DORA y Telecomunicaciones",
     "tag_git": "v20.0.5-dualxterm-stable",
     "fecha": "2026-11-10",
     "tecnologias": [
       "Ollama qwen:flash",
       "Micro-DHCP DORA C99",
       "Aduana Hashes SHA-256",
-      "WebGL Addon"
+      "WebGL Addon",
+      "Darwin Scraper"
     ],
-    "hito_objetivo": "Silicio frío estabilizado (2 hilos físicos), aduana de contenidos y Render deploy.",
+    "comandos": [
+      "v",
+      "c99",
+      "boveda",
+      "skills run (pacing, soap, lincos, mesh, qr, id, crm, scraper)"
+    ],
+    "pilares_asociados": [
+      378,
+      384,
+      385,
+      386
+    ],
+    "telemetria": {
+      "potencia_w": 2.58,
+      "latencia_ms": 0.005,
+      "jitter_ms": 0.0001
+    },
+    "almacenamiento": "OPFS E2EE con Visor RAM y Espejo NVMe",
+    "interfaz": "Dual Xterm WebGL + Bóveda Modal Dinámica",
+    "hito_objetivo": "Confinamiento pasivo a 2 hilos físicos (<= 2.58 W), aduana de contenidos y deploy Render.",
     "que_funciono": [
-      "Package power bajó a 2.58W en i5-8210Y",
-      "Despliegue verificado en Render (200 OK)",
-      "Puntero AdS/CFT .holo"
+      "Consumo térmico contenido en 2.58 W",
+      "Despliegue Render con 200 OK",
+      "Puntero .holo de 742 bytes",
+      "Volcado de sesiones cerradas en 0.77 s"
     ],
     "errores_y_fallos": [
       {
         "sintoma": "no space left on device",
-        "causa_raiz": "Descarga de GLM 9B (5.96 GB) saturando SSD",
-        "solucion_diseno": "Purga de blobs y fijación de qwen:flash a 397 MB"
+        "causa_raiz": "Descarga de modelo 9B de 5.96 GB duplicando blobs en SSD con solo 7.5 GB libres",
+        "solucion_diseno": "Purga de blobs temporales y fijación de qwen:flash a 397 MB"
       },
       {
-        "sintoma": "Velázquez respondía con Pilar 378 a preguntas generales",
-        "causa_raiz": "Llamada estricta a aether:fast que arrojaba 404 en Ollama",
-        "solucion_diseno": "Cascada dinámica a qwen:flash"
+        "sintoma": "Package power a 6.83 W (MAX_TURBO_LIMIT)",
+        "causa_raiz": "Asignación de 4 hilos compitiendo por 2 núcleos físicos i5-8210Y",
+        "solucion_diseno": "Fijación estricta de OMP_NUM_THREADS=2"
       },
       {
-        "sintoma": "qwen:flash respondió Barcelona en lugar de Madrid",
-        "causa_raiz": "Modelo 0.5B comprimido a 4 bits sin anclaje geográfico estricto",
-        "solucion_diseno": "Priorizar Oráculo determinista de Capa 0 o prompt estructurado"
+        "sintoma": "HTTP 501 Unsupported method (HEAD)",
+        "causa_raiz": "BaseHTTPRequestHandler no implementaba do_HEAD",
+        "solucion_diseno": "Declaración explícita de do_HEAD retornando cabeceras no-store"
       },
       {
-        "sintoma": "NameError: name 'ms' is not defined en oasis_darwin_scraper.py",
-        "causa_raiz": "f-string de Python evaluó la notación LaTeX '\\text{ ms}' como variable no definida {ms}",
-        "solucion_diseno": "Sustitución por cadenas estándar sin formateo o escape doble '{{ ms }}'"
-      },
-      {
-        "sintoma": "zsh: command not found: darwin_terminal_scrape.md",
-        "causa_raiz": "Intento de ejecutar directamente la ruta de un archivo Markdown generado en la shell Darwin",
-        "solucion_diseno": "Inspección mediante utilidades POSIX (head/cat/less) o visor en RAM de la Bóveda E2EE"
+        "sintoma": "NameError: name 'ms' is not defined",
+        "causa_raiz": "f-string interpretó notación LaTeX \\text{ ms} como variable {ms}",
+        "solucion_diseno": "Escape de caracteres y eliminación de interpolación"
       }
-    ],
-    "consumo_silicio_w": 2.58
+    ]
   }
 ]

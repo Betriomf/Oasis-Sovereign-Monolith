@@ -2,112 +2,165 @@
 
 > Registro inmutable de evolución de software, comandos por versión y física térmica en silicio frío.
 
-## 📊 MATRIZ COMPARATIVA DE TELEMETRÍA Y COMANDOS
+## 📊 MATRIZ COMPARATIVA DE TELEMETRÍA Y ARQUITECTURA
 
-| Versión | Potencia (W) | Latencia C99 | Jitter P99 | Pilares Mapeados | Comandos Clave |
+| Versión / Era | Potencia (W) | Latencia C99 | Jitter P99 | Pilares Mapeados | Interfaz / Almacenamiento |
 | :--- | :---: | :---: | :---: | :--- | :--- |
-| **v1.0.0 - v1.3.1** | `3.78 W` | `0 ms` | `0 ms` |  | `...` |
-| **v3.x - v7.x** | `3.78 W` | `0 ms` | `0 ms` |  | `...` |
-| **v15.x - v18.x** | `3.78 W` | `0 ms` | `0 ms` |  | `...` |
-| **v19.7 - v19.9** | `3.78 W` | `0 ms` | `0 ms` |  | `...` |
-| **v20.0.0 - v20.0.5** | `3.78 W` | `0 ms` | `0 ms` |  | `...` |
+| **v1.0.0 - v1.3.1**<br>*Génesis y Física de Consenso* | `3.78 W` | `120.0 ms` | `14.5 ms` | 1, 2, 3, 18 | Consola Darwin zsh nativa / Archivos locales + OpenTimestamps en Bitcoin |
+| **v2.0 - v3.7.0**<br>*LeanEngine e Identidad Soulbound* | `3.5 W` | `15.0 ms` | `8.2 ms` | 14, 28, 46 | Terminal Web Monopanel (DOM Verde #00ff9d) / LocalStorage (<= 5 MB) |
+| **v6.6.0 - v7.1.0**<br>*Micro-VFS y Compatibilidad Universal* | `4.18 W` | `4.8 ms` | `3.1 ms` | 18, 30, 85 | Terminal Web con soporte dual DOS/Linux / VFS RAM sintética + endpoints /dev/cpu |
+| **v15.1.0 - v15.9.1**<br>*Bóveda OPFS y Malla Dinámica* | `3.71 W` | `1.2 ms` | `0.085 ms` | 14, 24, 74, 77 | Terminal Web táctica con visor de 3 pestañas / OPFS NVMe Mirror (~/vault/) de 50 GB |
+| **v16.0.0 - v17.6.0**<br>*Desacoplamiento Modular y OpenAPI 3.0* | `3.75 W` | `0.8 ms` | `0.042 ms` | 82, 193, 209, 210 | Terminal Web con visores 3D embebidos / OPFS + Schemas REST estructurados |
+| **v18.0.0 - v18.9.14**<br>*Streaming SSE y Pacing Áureo* | `3.65 W` | `0.15 ms` | `0.019 ms` | 47, 129, 134, 184 | Terminal con streaming token a token a 60 FPS / OPFS con zeroización atómica |
+| **v19.0.0 - v19.9.6**<br>*Dual Xterm, C99 SIMD y Protocolo SOAP* | `3.73 W` | `0.005 ms` | `0.017 ms` | 376, 378, 380, 382, 384 | Dual Xterm (Kernel Soberano izq. / DevFrame Darwin der.) / OPFS E2EE + Bóveda Dual en RAM |
+| **v20.0.0 - v20.0.5**<br>*Silicio Frío, Micro-DHCP DORA y Telecomunicaciones* | `2.58 W` | `0.005 ms` | `0.0001 ms` | 378, 384, 385, 386 | Dual Xterm WebGL + Bóveda Modal Dinámica / OPFS E2EE con Visor RAM y Espejo NVMe |
 
 ---
 
-## 📦 v1.0.0 - v1.3.1 | Tag: `v1.0-genesis`
-- **Fecha:** 2026-03-04 | **Potencia Silicio:** `3.78 W` | **Latencia:** `0 ms`
-- **Tecnologías:** Python C-API, Lean 4, Zenodo DOI
-- **Comandos Activos:** ``
-- **Pilares Asociados:** ``
-- **Hito:** Génesis del Monolito: Formulación de Navier-Stokes y cota Landauer (+30.58%).
+## 📦 v1.0.0 - v1.3.1 — Génesis y Física de Consenso | Tag: `v1.0-genesis`
+- **Fecha:** 2026-03-04 | **Potencia:** `3.78 W` | **Latencia:** `120.0 ms`
+- **Tecnologías:** Python C-API, Lean 4, Zenodo DOI, OpenTimestamps (OTS), Fortran 90, Lisp
+- **Comandos Activos:** `falsability_test.py, scale_test.f90, scheduling_logic.lisp`
+- **Pilares Asociados:** `1, 2, 3, 18`
+- **Hito Principal:** Cierre analítico de Navier-Stokes (Atractor kappa = ln 10) y Cota Landauer (+30.58%).
 ### ✅ Qué Funcionó:
-  - Cierre analítico BKM
-  - Confinamiento enstrofía kappa = ln 10
+  - Asignación de DOIs inmutables en Zenodo
+  - Demostración analítica BKM
   - Auditoría formal sorry=0
 ### ⚠️ Errores Reportados y Solución de Diseño:
-  - **Error:** `Lentitud en cálculo tensorial en Python`
-    - *Causa Raíz:* Sobrecarga de GIL y tipos dinámicos
-    - *Decisión:* Migración hacia C99 puro a nivel de registro
+  - **Error:** `Sobrecarga de CPU en evaluación tensorial`
+    - *Causa Raíz:* GIL de Python y tipado dinámico
+    - *Decisión:* Planificación de motor C99 compilado a nivel de registros
 
 ---
 
-## 📦 v3.x - v7.x | Tag: `v7.1.0-sovereign-universal`
-- **Fecha:** 2026-06-12 | **Potencia Silicio:** `3.78 W` | **Latencia:** `0 ms`
-- **Tecnologías:** VFS en RAM, LocalStorage, WASM Extism, Isomorphic Git
-- **Comandos Activos:** ``
-- **Pilares Asociados:** ``
-- **Hito:** Micronúcleo en navegador con comandos POSIX y verificación formal temprana.
+## 📦 v2.0 - v3.7.0 — LeanEngine e Identidad Soulbound | Tag: `v3.7.0-leanengine`
+- **Fecha:** 2026-05-18 | **Potencia:** `3.5 W` | **Latencia:** `15.0 ms`
+- **Tecnologías:** WASM Extism, LocalStorage VFS, WebGL Fingerprint, Lean 4 Parser
+- **Comandos Activos:** `help, uname, ls, dir, cat, touch, write, rm, lean, ai, caps`
+- **Pilares Asociados:** `14, 28, 46`
+- **Hito Principal:** Identidad de silicio OASIS-HW-* sin contraseñas y verificación formal en navegador.
 ### ✅ Qué Funcionó:
-  - Comandos ls/cat/uname en memoria
-  - Aislamiento Zero-Trust en WebAssembly
+  - Identidad derivada de silicio
+  - Comandos VFS con latencia cero en RAM de cliente
 ### ⚠️ Errores Reportados y Solución de Diseño:
-  - **Error:** `Cuota de almacenamiento excedida`
-    - *Causa Raíz:* LocalStorage limitado a 5 MB por origen
-    - *Decisión:* Planificación de migración hacia OPFS
+  - **Error:** `QuotaExceededError (> 5 MB)`
+    - *Causa Raíz:* Límite rígido de LocalStorage del navegador
+    - *Decisión:* Migración hacia OPFS SyncAccessHandle
+  - **Error:** `Congelamiento del Main Thread`
+    - *Causa Raíz:* Compilación de Lean 4 dentro del navegador
+    - *Decisión:* Desacople a hook pre-push nativo
 
 ---
 
-## 📦 v15.x - v18.x | Tag: `v18.9.14-rag-sse`
-- **Fecha:** 2026-09-20 | **Potencia Silicio:** `3.78 W` | **Latencia:** `0 ms`
-- **Tecnologías:** OPFS SyncAccessHandle, WebCrypto AES-GCM, O-QUIC, Pacing Áureo (pi/phi)
-- **Comandos Activos:** ``
-- **Pilares Asociados:** ``
-- **Hito:** Bóveda privada de alta velocidad y transporte P2P sin bufferbloat.
+## 📦 v6.6.0 - v7.1.0 — Micro-VFS y Compatibilidad Universal | Tag: `v7.1.0-sovereign-universal`
+- **Fecha:** 2026-06-25 | **Potencia:** `4.18 W` | **Latencia:** `4.8 ms`
+- **Tecnologías:** Threading HTTPServer, VFS FHS Sintético (/dev, /proc), isomorphic-git, Vortex 3D
+- **Comandos Activos:** `cls, clear, dir, ls, type, cat, vortex, ai, gh status`
+- **Pilares Asociados:** `18, 30, 85`
+- **Hito Principal:** Micro-VFS FHS con dispositivos virtuales de telemetría y simulación de vórtices.
 ### ✅ Qué Funcionó:
-  - I/O en RAM volátil < 0.12 ms
-  - Jitter colapsado a < 0.085 ms con cadencia de 1.938 ms
+  - Soporte de comandos cruzados DOS/POSIX
+  - Micro-tramas pi-KB (3141 bytes)
 ### ⚠️ Errores Reportados y Solución de Diseño:
-  - **Error:** `Bloqueo por Cross-Origin en recargas`
-    - *Causa Raíz:* Cabeceras COOP/COEP malformadas
-    - *Decisión:* Estandarización de cabeceras de no-store en Gateway
+  - **Error:** `ERR_CONNECTION_TIMED_OUT`
+    - *Causa Raíz:* HTTPServer monohilo bloqueado durante inferencias
+    - *Decisión:* Adopción de ThreadingHTTPServer con sockets desacoplados
 
 ---
 
-## 📦 v19.7 - v19.9 | Tag: `v19.9.1-DualXterm-C99`
-- **Fecha:** 2026-11-04 | **Potencia Silicio:** `3.78 W` | **Latencia:** `0 ms`
-- **Tecnologías:** DualXterm.js, Python HTTP Gateway :8080, C99 SIMD, SOAP Protocol, LINCOS 21B
-- **Comandos Activos:** ``
-- **Pilares Asociados:** ``
-- **Hito:** Desacoplamiento táctico en dos paneles (Kernel Soberano vs DevFrame Darwin).
+## 📦 v15.1.0 - v15.9.1 — Bóveda OPFS y Malla Dinámica | Tag: `v15.9.1-opfs-mesh`
+- **Fecha:** 2026-08-14 | **Potencia:** `3.71 W` | **Latencia:** `1.2 ms`
+- **Tecnologías:** OPFS SyncAccessHandle, WebCrypto AES-256-GCM, O-QUIC, Swarm Gossip d=6
+- **Comandos Activos:** `boveda, box status, mail, swarm, nodos, sheet, hex-monitor, yield`
+- **Pilares Asociados:** `14, 24, 74, 77`
+- **Hito Principal:** Persistencia privada local-first con rendimiento de acceso síncrono < 0.12 ms.
 ### ✅ Qué Funcionó:
-  - Inferencia C99 en 0.005 ms
-  - Telemetría clínica vascular confinado a 3.73W
+  - Espejo físico bidireccional OPFS-NVMe
+  - Jitter P99 < 0.085 ms mediante pacing áureo
 ### ⚠️ Errores Reportados y Solución de Diseño:
-  - **Error:** `Imposibilidad de pegar texto con Cmd+V`
-    - *Causa Raíz:* attachCustomKeyEventHandler interceptaba el evento keydown
+  - **Error:** `Colapso de espacio en disco`
+    - *Causa Raíz:* Intento de almacenar pesos LLM completos en OPFS
+    - *Decisión:* Correspondencia AdS/CFT: punteros holográficos .holo de 1 KB
+
+---
+
+## 📦 v16.0.0 - v17.6.0 — Desacoplamiento Modular y OpenAPI 3.0 | Tag: `v17.6.0-openapi-rest`
+- **Fecha:** 2026-09-28 | **Potencia:** `3.75 W` | **Latencia:** `0.8 ms`
+- **Tecnologías:** OpenAPI 3.0, Three.js Carótida 3D, Noise-XX PFS, verify_all_headless.py
+- **Comandos Activos:** `hemo, vortex, git-audit, curl, bench, quantum-run`
+- **Pilares Asociados:** `82, 193, 209, 210`
+- **Hito Principal:** Unificación de endpoints REST bajo contrato OpenAPI y visualización vascular 3D.
+### ✅ Qué Funcionó:
+  - Renderizado hemodinámico a 60 FPS
+  - Auditoría sintáctica de 9 módulos
+### ⚠️ Errores Reportados y Solución de Diseño:
+  - **Error:** `Fugas de memoria en recargas WebGL`
+    - *Causa Raíz:* Contextos 3D huérfanos sin llamada a dispose()
+    - *Decisión:* Controladores de pérdida de contexto onContextLoss()
+
+---
+
+## 📦 v18.0.0 - v18.9.14 — Streaming SSE y Pacing Áureo | Tag: `v18.9.14-rag-sse`
+- **Fecha:** 2026-10-15 | **Potencia:** `3.65 W` | **Latencia:** `0.15 ms`
+- **Tecnologías:** Server-Sent Events (SSE), Pacing Áureo (pi/phi), Web Worker Sync, Ollama Bridge
+- **Comandos Activos:** `boveda, v, ai, stream, hex-monitor`
+- **Pilares Asociados:** `47, 129, 134, 184`
+- **Hito Principal:** Inferencia local fluida carácter a carácter con cadencia fija Delta_t = pi/phi.
+### ✅ Qué Funcionó:
+  - Eliminación de saltos en pantalla
+  - Estabilización de inferencia a 15-45 t/s
+### ⚠️ Errores Reportados y Solución de Diseño:
+  - **Error:** `Tokens entregados en paquetes bufferizados`
+    - *Causa Raíz:* Falta de self.wfile.flush() tras cada chunk SSE
+    - *Decisión:* Flush síncrono con retardo áureo de 1.938 ms
+
+---
+
+## 📦 v19.0.0 - v19.9.6 — Dual Xterm, C99 SIMD y Protocolo SOAP | Tag: `v19.9.1-DualXterm-C99`
+- **Fecha:** 2026-11-04 | **Potencia:** `3.73 W` | **Latencia:** `0.005 ms`
+- **Tecnologías:** Dual Xterm.js, C99 SIMD (AVX2/FMA), Protocolo SOAP Clínico, LINCOS 21B, Ring 0 eBPF
+- **Comandos Activos:** `v <pregunta>, c99, riona, hemo, lean_audit, skills run, view`
+- **Pilares Asociados:** `376, 378, 380, 382, 384`
+- **Hito Principal:** Desacoplamiento asimétrico: Capa 0 segura y ejecución nativa en Darwin host.
+### ✅ Qué Funcionó:
+  - Evaluación tensorial en 0.005 ms
+  - Triaje vascular sin alucinaciones
+  - LINCOS en 21 bytes
+### ⚠️ Errores Reportados y Solución de Diseño:
+  - **Error:** `Secuestro de Cmd+V y flechas en terminal`
+    - *Causa Raíz:* attachCustomKeyEventHandler interceptaba eventos globales
     - *Decisión:* Manejador nativo de paste sobre window
-  - **Error:** `Git pre-push rechazaba archivos`
+  - **Error:** `Rechazo de commits por Git pre-push`
     - *Causa Raíz:* Conversión automática CRLF/LF en macOS
     - *Decisión:* git config core.autocrlf false
 
 ---
 
-## 📦 v20.0.0 - v20.0.5 | Tag: `v20.0.5-dualxterm-stable`
-- **Fecha:** 2026-11-10 | **Potencia Silicio:** `3.78 W` | **Latencia:** `0 ms`
-- **Tecnologías:** Ollama qwen:flash, Micro-DHCP DORA C99, Aduana Hashes SHA-256, WebGL Addon
-- **Comandos Activos:** ``
-- **Pilares Asociados:** ``
-- **Hito:** Silicio frío estabilizado (2 hilos físicos), aduana de contenidos y Render deploy.
+## 📦 v20.0.0 - v20.0.5 — Silicio Frío, Micro-DHCP DORA y Telecomunicaciones | Tag: `v20.0.5-dualxterm-stable`
+- **Fecha:** 2026-11-10 | **Potencia:** `2.58 W` | **Latencia:** `0.005 ms`
+- **Tecnologías:** Ollama qwen:flash, Micro-DHCP DORA C99, Aduana Hashes SHA-256, WebGL Addon, Darwin Scraper
+- **Comandos Activos:** `v, c99, boveda, skills run (pacing, soap, lincos, mesh, qr, id, crm, scraper)`
+- **Pilares Asociados:** `378, 384, 385, 386`
+- **Hito Principal:** Confinamiento pasivo a 2 hilos físicos (<= 2.58 W), aduana de contenidos y deploy Render.
 ### ✅ Qué Funcionó:
-  - Package power bajó a 2.58W en i5-8210Y
-  - Despliegue verificado en Render (200 OK)
-  - Puntero AdS/CFT .holo
+  - Consumo térmico contenido en 2.58 W
+  - Despliegue Render con 200 OK
+  - Puntero .holo de 742 bytes
+  - Volcado de sesiones cerradas en 0.77 s
 ### ⚠️ Errores Reportados y Solución de Diseño:
   - **Error:** `no space left on device`
-    - *Causa Raíz:* Descarga de GLM 9B (5.96 GB) saturando SSD
-    - *Decisión:* Purga de blobs y fijación de qwen:flash a 397 MB
-  - **Error:** `Velázquez respondía con Pilar 378 a preguntas generales`
-    - *Causa Raíz:* Llamada estricta a aether:fast que arrojaba 404 en Ollama
-    - *Decisión:* Cascada dinámica a qwen:flash
-  - **Error:** `qwen:flash respondió Barcelona en lugar de Madrid`
-    - *Causa Raíz:* Modelo 0.5B comprimido a 4 bits sin anclaje geográfico estricto
-    - *Decisión:* Priorizar Oráculo determinista de Capa 0 o prompt estructurado
-  - **Error:** `NameError: name 'ms' is not defined en oasis_darwin_scraper.py`
-    - *Causa Raíz:* f-string de Python evaluó la notación LaTeX '\text{ ms}' como variable no definida {ms}
-    - *Decisión:* Sustitución por cadenas estándar sin formateo o escape doble '{{ ms }}'
-  - **Error:** `zsh: command not found: darwin_terminal_scrape.md`
-    - *Causa Raíz:* Intento de ejecutar directamente la ruta de un archivo Markdown generado en la shell Darwin
-    - *Decisión:* Inspección mediante utilidades POSIX (head/cat/less) o visor en RAM de la Bóveda E2EE
+    - *Causa Raíz:* Descarga de modelo 9B de 5.96 GB duplicando blobs en SSD con solo 7.5 GB libres
+    - *Decisión:* Purga de blobs temporales y fijación de qwen:flash a 397 MB
+  - **Error:** `Package power a 6.83 W (MAX_TURBO_LIMIT)`
+    - *Causa Raíz:* Asignación de 4 hilos compitiendo por 2 núcleos físicos i5-8210Y
+    - *Decisión:* Fijación estricta de OMP_NUM_THREADS=2
+  - **Error:** `HTTP 501 Unsupported method (HEAD)`
+    - *Causa Raíz:* BaseHTTPRequestHandler no implementaba do_HEAD
+    - *Decisión:* Declaración explícita de do_HEAD retornando cabeceras no-store
+  - **Error:** `NameError: name 'ms' is not defined`
+    - *Causa Raíz:* f-string interpretó notación LaTeX \text{ ms} como variable {ms}
+    - *Decisión:* Escape de caracteres y eliminación de interpolación
 
 ---
 

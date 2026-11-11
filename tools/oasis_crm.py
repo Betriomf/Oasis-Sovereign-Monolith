@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-OASIS SOVEREIGN OS — CRM TÉCNICO Y AUDITOR DE ARQUITECTURA (v2.0)
-Almacena métricas de silicio, comandos por versión, pilares e incidencias.
+OASIS SOVEREIGN OS — CRM TÉCNICO Y COMPARADOR ARQUITECTÓNICO (v3.0)
+Historial exhaustivo v1.x a v20.x, telemetría, comandos y comparador side-by-side.
 """
 import os
 import sys
@@ -9,124 +9,180 @@ import json
 import time
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CRM_JSON = os.path.join(BASE_DIR, "vault", "crm_arquitectura_soberana.json")
-CRM_MD = os.path.join(BASE_DIR, "vault", "bitacora_arquitectura_crm.md")
+VAULT_DIR = os.path.join(BASE_DIR, "vault")
+CRM_JSON = os.path.join(VAULT_DIR, "crm_arquitectura_soberana.json")
+CRM_MD = os.path.join(VAULT_DIR, "bitacora_arquitectura_crm.md")
 
-DEFAULT_DATABASE = [
+COMPLETE_DATABASE = [
     {
         "version": "v1.0.0 - v1.3.1",
+        "era": "Génesis y Física de Consenso",
         "tag_git": "v1.0-genesis",
         "fecha": "2026-03-04",
-        "tecnologias": ["Python C-API", "Lean 4", "Zenodo DOI", "OpenTimestamps"],
+        "tecnologias": ["Python C-API", "Lean 4", "Zenodo DOI", "OpenTimestamps (OTS)", "Fortran 90", "Lisp"],
         "comandos": ["falsability_test.py", "scale_test.f90", "scheduling_logic.lisp"],
         "pilares_asociados": [1, 2, 3, 18],
         "telemetria": {"potencia_w": 3.78, "latencia_ms": 120.0, "jitter_ms": 14.5},
-        "hito_objetivo": "Génesis del Monolito: Formulación de Navier-Stokes y cota Landauer (+30.58%).",
-        "que_funciono": ["Cierre analítico BKM", "Confinamiento enstrofía kappa = ln 10", "Auditoría formal sorry=0"],
+        "almacenamiento": "Archivos locales + OpenTimestamps en Bitcoin",
+        "interfaz": "Consola Darwin zsh nativa",
+        "hito_objetivo": "Cierre analítico de Navier-Stokes (Atractor kappa = ln 10) y Cota Landauer (+30.58%).",
+        "que_funciono": ["Asignación de DOIs inmutables en Zenodo", "Demostración analítica BKM", "Auditoría formal sorry=0"],
         "errores_y_fallos": [
-            {"sintoma": "Lentitud en cálculo tensorial en Python", "causa_raiz": "Sobrecarga de GIL y tipos dinámicos", "solucion_diseno": "Migración hacia C99 puro a nivel de registro"}
+            {"sintoma": "Sobrecarga de CPU en evaluación tensorial", "causa_raiz": "GIL de Python y tipado dinámico", "solucion_diseno": "Planificación de motor C99 compilado a nivel de registros"}
         ]
     },
     {
-        "version": "v3.x - v7.x",
-        "tag_git": "v7.1.0-sovereign-universal",
-        "fecha": "2026-06-12",
-        "tecnologias": ["VFS en RAM", "LocalStorage", "WASM Extism", "Isomorphic Git"],
+        "version": "v2.0 - v3.7.0",
+        "era": "LeanEngine e Identidad Soulbound",
+        "tag_git": "v3.7.0-leanengine",
+        "fecha": "2026-05-18",
+        "tecnologias": ["WASM Extism", "LocalStorage VFS", "WebGL Fingerprint", "Lean 4 Parser"],
         "comandos": ["help", "uname", "ls", "dir", "cat", "touch", "write", "rm", "lean", "ai", "caps"],
         "pilares_asociados": [14, 28, 46],
         "telemetria": {"potencia_w": 3.50, "latencia_ms": 15.0, "jitter_ms": 8.2},
-        "hito_objetivo": "Micronúcleo en navegador con comandos POSIX y verificación formal temprana.",
-        "que_funciono": ["Comandos ls/cat/uname en memoria", "Aislamiento Zero-Trust en WebAssembly"],
+        "almacenamiento": "LocalStorage (<= 5 MB)",
+        "interfaz": "Terminal Web Monopanel (DOM Verde #00ff9d)",
+        "hito_objetivo": "Identidad de silicio OASIS-HW-* sin contraseñas y verificación formal en navegador.",
+        "que_funciono": ["Identidad derivada de silicio", "Comandos VFS con latencia cero en RAM de cliente"],
         "errores_y_fallos": [
-            {"sintoma": "QuotaExceededError (> 5 MB)", "causa_raiz": "LocalStorage limitado a 5 MB por origen", "solucion_diseno": "Migración planificada hacia OPFS"}
+            {"sintoma": "QuotaExceededError (> 5 MB)", "causa_raiz": "Límite rígido de LocalStorage del navegador", "solucion_diseno": "Migración hacia OPFS SyncAccessHandle"},
+            {"sintoma": "Congelamiento del Main Thread", "causa_raiz": "Compilación de Lean 4 dentro del navegador", "solucion_diseno": "Desacople a hook pre-push nativo"}
         ]
     },
     {
-        "version": "v15.x - v18.x",
+        "version": "v6.6.0 - v7.1.0",
+        "era": "Micro-VFS y Compatibilidad Universal",
+        "tag_git": "v7.1.0-sovereign-universal",
+        "fecha": "2026-06-25",
+        "tecnologias": ["Threading HTTPServer", "VFS FHS Sintético (/dev, /proc)", "isomorphic-git", "Vortex 3D"],
+        "comandos": ["cls", "clear", "dir", "ls", "type", "cat", "vortex", "ai", "gh status"],
+        "pilares_asociados": [18, 30, 85],
+        "telemetria": {"potencia_w": 4.18, "latencia_ms": 4.8, "jitter_ms": 3.1},
+        "almacenamiento": "VFS RAM sintética + endpoints /dev/cpu",
+        "interfaz": "Terminal Web con soporte dual DOS/Linux",
+        "hito_objetivo": "Micro-VFS FHS con dispositivos virtuales de telemetría y simulación de vórtices.",
+        "que_funciono": ["Soporte de comandos cruzados DOS/POSIX", "Micro-tramas pi-KB (3141 bytes)"],
+        "errores_y_fallos": [
+            {"sintoma": "ERR_CONNECTION_TIMED_OUT", "causa_raiz": "HTTPServer monohilo bloqueado durante inferencias", "solucion_diseno": "Adopción de ThreadingHTTPServer con sockets desacoplados"}
+        ]
+    },
+    {
+        "version": "v15.1.0 - v15.9.1",
+        "era": "Bóveda OPFS y Malla Dinámica",
+        "tag_git": "v15.9.1-opfs-mesh",
+        "fecha": "2026-08-14",
+        "tecnologias": ["OPFS SyncAccessHandle", "WebCrypto AES-256-GCM", "O-QUIC", "Swarm Gossip d=6"],
+        "comandos": ["boveda", "box status", "mail", "swarm", "nodos", "sheet", "hex-monitor", "yield"],
+        "pilares_asociados": [14, 24, 74, 77],
+        "telemetria": {"potencia_w": 3.71, "latencia_ms": 1.2, "jitter_ms": 0.085},
+        "almacenamiento": "OPFS NVMe Mirror (~/vault/) de 50 GB",
+        "interfaz": "Terminal Web táctica con visor de 3 pestañas",
+        "hito_objetivo": "Persistencia privada local-first con rendimiento de acceso síncrono < 0.12 ms.",
+        "que_funciono": ["Espejo físico bidireccional OPFS-NVMe", "Jitter P99 < 0.085 ms mediante pacing áureo"],
+        "errores_y_fallos": [
+            {"sintoma": "Colapso de espacio en disco", "causa_raiz": "Intento de almacenar pesos LLM completos en OPFS", "solucion_diseno": "Correspondencia AdS/CFT: punteros holográficos .holo de 1 KB"}
+        ]
+    },
+    {
+        "version": "v16.0.0 - v17.6.0",
+        "era": "Desacoplamiento Modular y OpenAPI 3.0",
+        "tag_git": "v17.6.0-openapi-rest",
+        "fecha": "2026-09-28",
+        "tecnologias": ["OpenAPI 3.0", "Three.js Carótida 3D", "Noise-XX PFS", "verify_all_headless.py"],
+        "comandos": ["hemo", "vortex", "git-audit", "curl", "bench", "quantum-run"],
+        "pilares_asociados": [82, 193, 209, 210],
+        "telemetria": {"potencia_w": 3.75, "latencia_ms": 0.8, "jitter_ms": 0.042},
+        "almacenamiento": "OPFS + Schemas REST estructurados",
+        "interfaz": "Terminal Web con visores 3D embebidos",
+        "hito_objetivo": "Unificación de endpoints REST bajo contrato OpenAPI y visualización vascular 3D.",
+        "que_funciono": ["Renderizado hemodinámico a 60 FPS", "Auditoría sintáctica de 9 módulos"],
+        "errores_y_fallos": [
+            {"sintoma": "Fugas de memoria en recargas WebGL", "causa_raiz": "Contextos 3D huérfanos sin llamada a dispose()", "solucion_diseno": "Controladores de pérdida de contexto onContextLoss()"}
+        ]
+    },
+    {
+        "version": "v18.0.0 - v18.9.14",
+        "era": "Streaming SSE y Pacing Áureo",
         "tag_git": "v18.9.14-rag-sse",
-        "fecha": "2026-09-20",
-        "tecnologias": ["OPFS SyncAccessHandle", "WebCrypto AES-GCM", "O-QUIC", "Pacing Áureo (pi/phi)", "Three.js 3D"],
-        "comandos": ["boveda", "box status", "mail", "quantum-run", "git-audit", "swarm", "hex-monitor", "yield"],
-        "pilares_asociados": [14, 24, 47, 125],
-        "telemetria": {"potencia_w": 3.71, "latencia_ms": 2.1, "jitter_ms": 0.085},
-        "hito_objetivo": "Bóveda privada de alta velocidad y transporte P2P sin bufferbloat.",
-        "que_funciono": ["I/O en RAM volátil < 0.12 ms", "Jitter colapsado a < 0.085 ms con cadencia de 1.938 ms"],
+        "fecha": "2026-10-15",
+        "tecnologias": ["Server-Sent Events (SSE)", "Pacing Áureo (pi/phi)", "Web Worker Sync", "Ollama Bridge"],
+        "comandos": ["boveda", "v", "ai", "stream", "hex-monitor"],
+        "pilares_asociados": [47, 129, 134, 184],
+        "telemetria": {"potencia_w": 3.65, "latencia_ms": 0.15, "jitter_ms": 0.019},
+        "almacenamiento": "OPFS con zeroización atómica",
+        "interfaz": "Terminal con streaming token a token a 60 FPS",
+        "hito_objetivo": "Inferencia local fluida carácter a carácter con cadencia fija Delta_t = pi/phi.",
+        "que_funciono": ["Eliminación de saltos en pantalla", "Estabilización de inferencia a 15-45 t/s"],
         "errores_y_fallos": [
-            {"sintoma": "Bloqueo por Cross-Origin en recargas", "causa_raiz": "Cabeceras COOP/COEP malformadas", "solucion_diseno": "Estandarización de cabeceras no-store en Gateway"}
+            {"sintoma": "Tokens entregados en paquetes bufferizados", "causa_raiz": "Falta de self.wfile.flush() tras cada chunk SSE", "solucion_diseno": "Flush síncrono con retardo áureo de 1.938 ms"}
         ]
     },
     {
-        "version": "v19.7 - v19.9",
+        "version": "v19.0.0 - v19.9.6",
+        "era": "Dual Xterm, C99 SIMD y Protocolo SOAP",
         "tag_git": "v19.9.1-DualXterm-C99",
         "fecha": "2026-11-04",
-        "tecnologias": ["DualXterm.js", "Python HTTP Gateway :8080", "C99 SIMD", "SOAP Protocol", "LINCOS 21B"],
+        "tecnologias": ["Dual Xterm.js", "C99 SIMD (AVX2/FMA)", "Protocolo SOAP Clínico", "LINCOS 21B", "Ring 0 eBPF"],
         "comandos": ["v <pregunta>", "c99", "riona", "hemo", "lean_audit", "skills run", "view"],
         "pilares_asociados": [376, 378, 380, 382, 384],
         "telemetria": {"potencia_w": 3.73, "latencia_ms": 0.005, "jitter_ms": 0.017},
-        "hito_objetivo": "Desacoplamiento táctico en dos paneles (Kernel Soberano vs DevFrame Darwin).",
-        "que_funciono": ["Inferencia C99 en 0.005 ms", "Telemetría clínica vascular confinado a 3.73W", "LINCOS en 21 bytes"],
+        "almacenamiento": "OPFS E2EE + Bóveda Dual en RAM",
+        "interfaz": "Dual Xterm (Kernel Soberano izq. / DevFrame Darwin der.)",
+        "hito_objetivo": "Desacoplamiento asimétrico: Capa 0 segura y ejecución nativa en Darwin host.",
+        "que_funciono": ["Evaluación tensorial en 0.005 ms", "Triaje vascular sin alucinaciones", "LINCOS en 21 bytes"],
         "errores_y_fallos": [
-            {"sintoma": "Cmd+V secuestrado por Xterm", "causa_raiz": "attachCustomKeyEventHandler interceptaba keydown", "solucion_diseno": "Manejador nativo de paste sobre window"},
-            {"sintoma": "Git pre-push rechazaba archivos CRLF", "causa_raiz": "Conversión CRLF/LF en macOS", "solucion_diseno": "git config core.autocrlf false"}
+            {"sintoma": "Secuestro de Cmd+V y flechas en terminal", "causa_raiz": "attachCustomKeyEventHandler interceptaba eventos globales", "solucion_diseno": "Manejador nativo de paste sobre window"},
+            {"sintoma": "Rechazo de commits por Git pre-push", "causa_raiz": "Conversión automática CRLF/LF en macOS", "solucion_diseno": "git config core.autocrlf false"}
         ]
     },
     {
         "version": "v20.0.0 - v20.0.5",
+        "era": "Silicio Frío, Micro-DHCP DORA y Telecomunicaciones",
         "tag_git": "v20.0.5-dualxterm-stable",
         "fecha": "2026-11-10",
-        "tecnologias": ["Ollama qwen:flash", "Micro-DHCP DORA C99", "Aduana Hashes SHA-256", "WebGL Addon"],
-        "comandos": ["v", "c99", "boveda", "skills run (pacing_c99, soap_triage, lincos_radio, mesh, qr, id, crm)"],
+        "tecnologias": ["Ollama qwen:flash", "Micro-DHCP DORA C99", "Aduana Hashes SHA-256", "WebGL Addon", "Darwin Scraper"],
+        "comandos": ["v", "c99", "boveda", "skills run (pacing, soap, lincos, mesh, qr, id, crm, scraper)"],
         "pilares_asociados": [378, 384, 385, 386],
         "telemetria": {"potencia_w": 2.58, "latencia_ms": 0.005, "jitter_ms": 0.0001},
-        "hito_objetivo": "Silicio frío estabilizado (2 hilos físicos), aduana de contenidos y Render deploy.",
-        "que_funciono": ["Package power bajó a 2.58W en i5-8210Y", "Despliegue verificado en Render (200 OK)", "Puntero AdS/CFT .holo de 742 bytes"],
+        "almacenamiento": "OPFS E2EE con Visor RAM y Espejo NVMe",
+        "interfaz": "Dual Xterm WebGL + Bóveda Modal Dinámica",
+        "hito_objetivo": "Confinamiento pasivo a 2 hilos físicos (<= 2.58 W), aduana de contenidos y deploy Render.",
+        "que_funciono": ["Consumo térmico contenido en 2.58 W", "Despliegue Render con 200 OK", "Puntero .holo de 742 bytes", "Volcado de sesiones cerradas en 0.77 s"],
         "errores_y_fallos": [
-            {"sintoma": "no space left on device", "causa_raiz": "Descarga de GLM 9B (5.96 GB) saturando SSD con solo 7.5 GB libres", "solucion_diseno": "Purga de blobs y fijación de qwen:flash a 397 MB"},
-            {"sintoma": "Velázquez respondía con Pilar 378 a preguntas generales", "causa_raiz": "Llamada estricta a aether:fast que arrojaba 404 en Ollama", "solucion_diseno": "Cascada dinámica a qwen:flash"}
+            {"sintoma": "no space left on device", "causa_raiz": "Descarga de modelo 9B de 5.96 GB duplicando blobs en SSD con solo 7.5 GB libres", "solucion_diseno": "Purga de blobs temporales y fijación de qwen:flash a 397 MB"},
+            {"sintoma": "Package power a 6.83 W (MAX_TURBO_LIMIT)", "causa_raiz": "Asignación de 4 hilos compitiendo por 2 núcleos físicos i5-8210Y", "solucion_diseno": "Fijación estricta de OMP_NUM_THREADS=2"},
+            {"sintoma": "HTTP 501 Unsupported method (HEAD)", "causa_raiz": "BaseHTTPRequestHandler no implementaba do_HEAD", "solucion_diseno": "Declaración explícita de do_HEAD retornando cabeceras no-store"},
+            {"sintoma": "NameError: name 'ms' is not defined", "causa_raiz": "f-string interpretó notación LaTeX \\text{ ms} como variable {ms}", "solucion_diseno": "Escape de caracteres y eliminación de interpolación"}
         ]
     }
 ]
 
-def load_crm():
-    if not os.path.exists(CRM_JSON):
-        os.makedirs(os.path.dirname(CRM_JSON), exist_ok=True)
-        with open(CRM_JSON, "w", encoding="utf-8") as f:
-            json.dump(DEFAULT_DATABASE, f, indent=2, ensure_ascii=False)
-        return DEFAULT_DATABASE
-    try:
-        with open(CRM_JSON, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception:
-        return DEFAULT_DATABASE
-
 def save_crm(data):
+    os.makedirs(VAULT_DIR, exist_ok=True)
     with open(CRM_JSON, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     
-    # Sincronización Markdown para la Bóveda E2EE
     with open(CRM_MD, "w", encoding="utf-8") as f:
         f.write("# 🏛️ OASIS SOVEREIGN OS — CRM TÉCNICO Y BITÁCORA ARQUITECTÓNICA LOCAL\n\n")
         f.write("> Registro inmutable de evolución de software, comandos por versión y física térmica en silicio frío.\n\n")
         
-        # Tabla resumen de comandos y telemetría
-        f.write("## 📊 MATRIZ COMPARATIVA DE TELEMETRÍA Y COMANDOS\n\n")
-        f.write("| Versión | Potencia (W) | Latencia C99 | Jitter P99 | Pilares Mapeados | Comandos Clave |\n")
+        f.write("## 📊 MATRIZ COMPARATIVA DE TELEMETRÍA Y ARQUITECTURA\n\n")
+        f.write("| Versión / Era | Potencia (W) | Latencia C99 | Jitter P99 | Pilares Mapeados | Interfaz / Almacenamiento |\n")
         f.write("| :--- | :---: | :---: | :---: | :--- | :--- |\n")
         for item in data:
             tel = item.get("telemetria", {})
             pils = ", ".join(str(p) for p in item.get("pilares_asociados", []))
-            cmds = ", ".join(item.get("comandos", [])[:3]) + "..."
-            f.write(f"| **{item['version']}** | `{tel.get('potencia_w', 3.78)} W` | `{tel.get('latencia_ms', 0)} ms` | `{tel.get('jitter_ms', 0)} ms` | {pils} | `{cmds}` |\n")
+            f.write(f"| **{item['version']}**<br>*{item['era']}* | `{tel.get('potencia_w', 3.78)} W` | `{tel.get('latencia_ms', 0)} ms` | `{tel.get('jitter_ms', 0)} ms` | {pils} | {item['interfaz']} / {item['almacenamiento']} |\n")
         f.write("\n---\n\n")
 
         for item in data:
-            f.write(f"## 📦 {item['version']} | Tag: `{item['tag_git']}`\n")
+            f.write(f"## 📦 {item['version']} — {item['era']} | Tag: `{item['tag_git']}`\n")
             tel = item.get("telemetria", {})
-            f.write(f"- **Fecha:** {item['fecha']} | **Potencia Silicio:** `{tel.get('potencia_w', 3.78)} W` | **Latencia:** `{tel.get('latencia_ms', 0)} ms`\n")
+            f.write(f"- **Fecha:** {item['fecha']} | **Potencia:** `{tel.get('potencia_w', 3.78)} W` | **Latencia:** `{tel.get('latencia_ms', 0)} ms`\n")
             f.write(f"- **Tecnologías:** {', '.join(item['tecnologias'])}\n")
             f.write(f"- **Comandos Activos:** `{', '.join(item.get('comandos', []))}`\n")
             f.write(f"- **Pilares Asociados:** `{', '.join(str(p) for p in item.get('pilares_asociados', []))}`\n")
-            f.write(f"- **Hito:** {item['hito_objetivo']}\n")
+            f.write(f"- **Hito Principal:** {item['hito_objetivo']}\n")
             f.write("### ✅ Qué Funcionó:\n")
             for w in item["que_funciono"]:
                 f.write(f"  - {w}\n")
@@ -137,53 +193,103 @@ def save_crm(data):
                 f.write(f"    - *Decisión:* {err['solucion_diseno']}\n")
             f.write("\n---\n\n")
 
-def record_incident(version, error_text, causa, solucion):
-    data = load_crm()
-    updated = False
-    for item in data:
-        if version.lower() in item["version"].lower():
-            item["errores_y_fallos"].append({
-                "sintoma": error_text,
-                "causa_raiz": causa,
-                "solucion_diseno": solucion
-            })
-            updated = True
-            break
-    if not updated:
-        # Añadir a la última versión
-        data[-1]["errores_y_fallos"].append({
-            "sintoma": error_text,
-            "causa_raiz": causa,
-            "solucion_diseno": solucion
-        })
-    save_crm(data)
-    print(f"✅ Incidencia registrada en versión {version}.")
-
 def list_versions():
-    data = load_crm()
+    data = COMPLETE_DATABASE
     print("════════════════════════════════════════════════════════════════")
-    print("📜 OASIS CRM LOCAL — HISTORIAL TÉCNICO Y COMANDOS")
+    print("📜 OASIS CRM LOCAL — HISTORIAL COMPLETO DE VERSIONES")
     print("────────────────────────────────────────────────────────────────")
     for idx, item in enumerate(data, 1):
         tel = item.get("telemetria", {})
-        print(f"{idx}. {item['version']:<18} | Tag: {item['tag_git']:<22} | {tel.get('potencia_w', 3.78)} W")
-        print(f"   Cmds   : {', '.join(item.get('comandos', [])[:5])}...")
+        print(f"{idx}. {item['version']:<18} | {tel.get('potencia_w', 3.78)} W | Tag: {item['tag_git']}")
+        print(f"   Era    : {item['era']}")
+        print(f"   Cmds   : {', '.join(item.get('comandos', [])[:4])}...")
         print(f"   Pilares: {', '.join(str(p) for p in item.get('pilares_asociados', []))}")
-        print(f"   Hito   : {item['hito_objetivo'][:65]}...")
         print("────────────────────────────────────────────────────────────────")
+
+def show_version(target):
+    data = COMPLETE_DATABASE
+    for item in data:
+        if target.lower() in item['version'].lower() or target.lower() in item['tag_git'].lower():
+            print("════════════════════════════════════════════════════════════════")
+            print(f"📦 FICHA TÉCNICA: {item['version']} — {item['era']}")
+            print(f"• Tag Git        : {item['tag_git']} ({item['fecha']})")
+            print(f"• Potencia Silicio: {item['telemetria']['potencia_w']} W (Latencia: {item['telemetria']['latencia_ms']} ms)")
+            print(f"• Interfaz / Almac: {item['interfaz']} | {item['almacenamiento']}")
+            print(f"• Tecnologías    : {', '.join(item['tecnologias'])}")
+            print(f"• Comandos CLI   : {', '.join(item['comandos'])}")
+            print(f"• Pilares        : {', '.join(str(p) for p in item['pilares_asociados'])}")
+            print(f"• Hito Principal : {item['hito_objetivo']}")
+            print("────────────────────────────────────────────────────────────────")
+            print("✅ QUÉ FUNCIONÓ:")
+            for w in item["que_funciono"]:
+                print(f"  • {w}")
+            print("\n⚠️ MATRIZ DE INCIDENCIAS (ERROR -> CAUSA -> SOLUCIÓN):")
+            for err in item["errores_y_fallos"]:
+                print(f"  ❌ Error : {err['sintoma']}")
+                print(f"     Causa : {err['causa_raiz']}")
+                print(f"     Diseño: {err['solucion_diseno']}\n")
+            print("════════════════════════════════════════════════════════════════")
+            return
+    print(f"Versión '{target}' no encontrada en el catálogo.")
+
+def compare_versions(v_a, v_b):
+    data = COMPLETE_DATABASE
+    item_a, item_b = None, None
+    for item in data:
+        if v_a.lower() in item['version'].lower() or v_a.lower() in item['tag_git'].lower():
+            item_a = item
+        if v_b.lower() in item['version'].lower() or v_b.lower() in item['tag_git'].lower():
+            item_b = item
+
+    if not item_a or not item_b:
+        print(f"No se pudieron encontrar ambas versiones para comparar: '{v_a}' y '{v_b}'.")
+        return
+
+    print("════════════════════════════════════════════════════════════════")
+    print(f"⚖️ COMPARATIVA TÉCNICA: {item_a['version']} VS {item_b['version']}")
+    print("════════════════════════════════════════════════════════════════")
+    print(f"{'Dimensión':<20} | {item_a['version']:<22} | {item_b['version']:<22}")
+    print("────────────────────────────────────────────────────────────────")
+    print(f"{'Era / Hito':<20} | {item_a['era'][:22]:<22} | {item_b['era'][:22]:<22}")
+    print(f"{'Potencia Silicio':<20} | {str(item_a['telemetria']['potencia_w']) + ' W':<22} | {str(item_b['telemetria']['potencia_w']) + ' W':<22}")
+    print(f"{'Latencia C99':<20} | {str(item_a['telemetria']['latencia_ms']) + ' ms':<22} | {str(item_b['telemetria']['latencia_ms']) + ' ms':<22}")
+    print(f"{'Jitter P99':<20} | {str(item_a['telemetria']['jitter_ms']) + ' ms':<22} | {str(item_b['telemetria']['jitter_ms']) + ' ms':<22}")
+    print(f"{'Almacenamiento':<20} | {item_a['almacenamiento'][:22]:<22} | {item_b['almacenamiento'][:22]:<22}")
+    print(f"{'Interfaz':<20} | {item_a['interfaz'][:22]:<22} | {item_b['interfaz'][:22]:<22}")
+    print(f"{'Comandos Clave':<20} | {str(len(item_a['comandos'])) + ' activos':<22} | {str(len(item_b['comandos'])) + ' activos':<22}")
+    print(f"{'Incidencias Cerradas':<20} | {str(len(item_a['errores_y_fallos'])) + ' registradas':<22} | {str(len(item_b['errores_y_fallos'])) + ' registradas':<22}")
+    print("════════════════════════════════════════════════════════════════")
+
+def record_incident(version, error_text, causa, solucion):
+    # Cargar y añadir dinámicamente
+    data = COMPLETE_DATABASE
+    target_item = data[-1]
+    for item in data:
+        if version.lower() in item["version"].lower():
+            target_item = item
+            break
+    target_item["errores_y_fallos"].append({
+        "sintoma": error_text,
+        "causa_raiz": causa,
+        "solucion_diseno": solucion
+    })
+    save_crm(data)
+    print(f"✅ Incidencia registrada formalmente en versión {target_item['version']}.")
 
 def main():
     if len(sys.argv) < 2 or sys.argv[1] == "list":
         list_versions()
+    elif sys.argv[1] == "show" and len(sys.argv) > 2:
+        show_version(sys.argv[2])
+    elif sys.argv[1] == "compare" and len(sys.argv) > 3:
+        compare_versions(sys.argv[2], sys.argv[3])
     elif sys.argv[1] == "sync":
-        data = load_crm()
-        save_crm(data)
-        print("✅ Bitácora Markdown y JSON sincronizados con éxito.")
+        save_crm(COMPLETE_DATABASE)
+        print("✅ Bitácora Markdown y JSON sincronizados con la genealogía completa (v1 a v20).")
     elif sys.argv[1] == "incident" and len(sys.argv) >= 5:
-        # Uso: python3 tools/oasis_crm.py incident <version> <error> <causa> <solucion>
         record_incident(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
     else:
-        print("Uso: python3 tools/oasis_crm.py <list | sync | incident <version> <error> <causa> <solucion>>")
+        print("Uso: python3 tools/oasis_crm.py <list | show <v> | compare <v1> <v2> | sync | incident <v> <err> <causa> <sol>>")
 
 if __name__ == "__main__":
     main()
