@@ -345,22 +345,28 @@
       termSov.write(sovPrompt);
     }
 
-    async function execSkill(skill) {
-      termSov.writeln("\r\n⚡ [EJECUTANDO SKILL]: " + skill + "...");
-      try {
-        const r = await fetch("/v1/skills/exec", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ skill: skill })
+    async function execSkill(skillName, promptText = "") {
+    termSov.writeln(`\r\n\x1b[33m⚡ [EJECUTANDO SKILL]: ${skillName}...\x1b[0m`);
+    try {
+        const resp = await fetch("/v1/skill", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ skill: skillName, prompt: promptText })
         });
-        const d = await r.json();
-        const out = d.output || JSON.stringify(d, null, 2);
-        termSov.writeln(out.replace(/\n/g, "\r\n"));
-      } catch(e) {
-        termSov.writeln("Error: " + e);
-      }
-      termSov.write(sovPrompt);
+        const data = await resp.json();
+        if (data.error) {
+            termSov.writeln(`\r\n\x1b[31m[ERROR]: ${data.error}\x1b[0m`);
+        } else if (data.output) {
+            const cleanOutput = data.output.replace(/\r?\n/g, "\r\n");
+            termSov.writeln(`\r\n${cleanOutput}`);
+        } else {
+            termSov.writeln(`\r\n\x1b[32m[OK]: Ejecución completada sin salida.\x1b[0m`);
+        }
+    } catch (err) {
+        termSov.writeln(`\r\n\x1b[31mError de comunicación: ${err.message || err}\x1b[0m`);
     }
+    termSov.write(sovPrompt);
+}
 
     let hostBuf = "";
     const hostPrompt = "host@darwin:/workspace$ ";
