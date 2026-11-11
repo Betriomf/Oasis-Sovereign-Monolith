@@ -132,6 +132,16 @@
         "sintoma": "qwen:flash respondió Barcelona en lugar de Madrid",
         "causa_raiz": "Modelo 0.5B comprimido a 4 bits sin anclaje geográfico estricto",
         "solucion_diseno": "Priorizar Oráculo determinista de Capa 0 o prompt estructurado"
+      },
+      {
+        "sintoma": "NameError: name 'ms' is not defined en oasis_darwin_scraper.py",
+        "causa_raiz": "f-string de Python evaluó la notación LaTeX '\\text{ ms}' como variable no definida {ms}",
+        "solucion_diseno": "Sustitución por cadenas estándar sin formateo o escape doble '{{ ms }}'"
+      },
+      {
+        "sintoma": "zsh: command not found: darwin_terminal_scrape.md",
+        "causa_raiz": "Intento de ejecutar directamente la ruta de un archivo Markdown generado en la shell Darwin",
+        "solucion_diseno": "Inspección mediante utilidades POSIX (head/cat/less) o visor en RAM de la Bóveda E2EE"
       }
     ],
     "consumo_silicio_w": 2.58
