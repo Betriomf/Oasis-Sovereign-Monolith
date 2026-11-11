@@ -283,7 +283,12 @@
     async function handleSovCmd(cmd) {
       if (!cmd) { termSov.write(sovPrompt); return; }
       if (cmd === "clear") { termSov.clear(); termSov.write(sovPrompt); return; }
-                  if (cmd === "sec" || cmd === "audit") {
+                        if (cmd === "minkowski" || cmd === "filter") {
+        execSkill("minkowski");
+        termSov.write(sovPrompt);
+        return;
+      }
+      if (cmd === "sec" || cmd === "audit") {
         execSkill("sec");
         termSov.write(sovPrompt);
         return;
