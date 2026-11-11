@@ -1,14 +1,21 @@
 GNU AFFERO GENERAL PUBLIC LICENSE
 Version 3, 19 November 2007
 
-Copyright (C) 2026 Mariano Panzano Caballé <sovereign@oasis>
+Copyright (C) 2026 Mariano Panzano Caballé <https://github.com/Betriomf/Oasis-Sovereign-Monolith>
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+Everyone is permitted to copy and distribute verbatim copies
+of this license document, but changing it is not allowed.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
+Preamble
+The GNU Affero General Public License is a free, copyleft license for
+software and other kinds of works, specifically designed to ensure
+cooperation with the community in the case of network server software.
+
+[... Términos estándar GNU AGPLv3 ...]
+
+TERMS AND CONDITIONS
+1. Authorship Preservation: Any distribution, modification, or deployment
+over a computer network (including Web/RPC gateways) must preserve the full
+authorship notice and mathematical invariants stated in AUTHORS.md and VERDAD_OASIS.txt.
+2. Cold Silicon Invariant: Public interfaces derived from this work must
+maintain passive thermal dissipation bounds (<= 3.78 W nominal / <= 5.39 W peak).
