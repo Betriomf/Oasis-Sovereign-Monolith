@@ -273,57 +273,50 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         if self.path == "/v1/skills/exec":
             try:
                 payload = json.loads(raw_body.decode("utf-8"))
-                skill = payload.get("skill", "list")
-                
-                if skill == "c99_eval":
-                    res = subprocess.run(["./tools/oasis_c99_engine", "Pilar 378 Navier-Stokes"], capture_output=True, text=True, timeout=5, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "c99_eval", "output": res.stdout, "status": "COMPLETED"})
+                skill = payload.get("skill", "").strip()
+                target_user = payload.get("target") or payload.get("args") or "Betriomf"
+
+                if skill in ["osint", "recon", "surface"]:
+                    res = subprocess.run(["python3", "tools/oasis_osint.py", str(target_user)], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "osint", "output": res.stdout, "status": "COMPLETED"})
                     return
-                elif skill in ["tensor_simd", "c99_simd"]:
-                    res = subprocess.run(["./tools/oasis_tensor_simd"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "tensor_simd", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                elif skill in ["crm", "bitacora", "historial"]:
+                    action = payload.get("action", "list")
+                    args = payload.get("args", "").split()
+                    cmd = ["python3", "tools/oasis_crm.py", action] + args
+                    res = subprocess.run(cmd, capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "crm", "output": res.stdout, "status": "COMPLETED"})
+                    return
+                elif skill in ["scraper", "volcado", "backup"]:
+                    res = subprocess.run(["python3", "tools/oasis_scraper_engine.py", "--all"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "scraper", "output": res.stdout, "status": "COMPLETED"})
+                    return
+                elif skill in ["c99_eval", "tensor_simd"]:
+                    res = subprocess.run(["./tools/oasis_c99_engine"], capture_output=True, text=True, timeout=5, cwd=BASE_DIR, env=env_vars)
+                    out = res.stdout if res.stdout else res.stderr
+                    self._send_json({"skill": "c99_eval", "output": out, "status": "COMPLETED"})
                     return
                 elif skill in ["pacing", "pacing_c99"]:
                     res = subprocess.run(["./tools/oasis_pacing_engine"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
                     self._send_json({"skill": "pacing_c99", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
                     return
-                elif skill in ["verify_bin", "audit_bin"]:
-                    res = subprocess.run(["python3", "tools/rizin_to_lean4.py", "tools/oasis_c99_engine"], capture_output=True, text=True, timeout=25, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "verify_bin", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                elif skill in ["mesh", "gossip"]:
+                    res = subprocess.run(["python3", "tools/oasis_cli.py", "mesh"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "mesh", "output": res.stdout, "status": "COMPLETED"})
                     return
-                elif skill in ["soap_triage", "soap"]:
-                    res = subprocess.run(["python3", "agents_core/oasis_clinical_soap.py"], capture_output=True, text=True, timeout=15, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "soap_triage", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                elif skill in ["qr", "invite"]:
+                    res = subprocess.run(["python3", "tools/oasis_cli.py", "qr"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "qr", "output": res.stdout, "status": "COMPLETED"})
                     return
-                elif skill in ["lincos_radio", "lincos"]:
-                    res = subprocess.run(["python3", "agents_core/oasis_lincos_mesh.py"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "lincos_radio", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
-                    return
-                elif skill in ["ring0_filter", "tetragon"]:
-                    res = subprocess.run(["python3", "agents_core/oasis_ring0_filter.py"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "ring0_filter", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
-                    return
-                elif skill in ["commons_vault", "commons"]:
-                    res = subprocess.run(["python3", "agents_core/oasis_commons_vault.py"], capture_output=True, text=True, timeout=10, cwd=BASE_DIR, env=env_vars)
-                    self._send_json({"skill": "commons_vault", "output": res.stdout if res.stdout else res.stderr, "status": "COMPLETED"})
+                elif skill in ["id", "identity"]:
+                    res = subprocess.run(["python3", "tools/oasis_cli.py", "id"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
+                    self._send_json({"skill": "id", "output": res.stdout, "status": "COMPLETED"})
                     return
                 else:
-                    self._send_json({"error": f"Skill '{skill}' no catalogada"}, 404)
+                    self._send_json({"error": f"Skill '{skill}' no catalogada", "status": "FAILED"}, 400)
                     return
             except Exception as e:
                 self._send_json({"error": str(e)}, 500)
             return
 
-        self._send_json({"error": f"Ruta POST no encontrada: {self.path}"}, 404)
-
-    def log_message(self, format, *args):
-        return
-
-def run():
-    server_address = ("0.0.0.0", PORT)
-    httpd = HTTPServer(server_address, OasisGatewayHandler)
-    print(f"🛰️ OASIS GATEWAY OPERATIVO EN http://0.0.0.0:{PORT} (PID: {os.getpid()})")
-    httpd.serve_forever()
-
-if __name__ == "__main__":
-    run()
+        

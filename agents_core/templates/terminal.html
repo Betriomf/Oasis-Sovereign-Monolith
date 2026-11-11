@@ -283,6 +283,21 @@
     async function handleSovCmd(cmd) {
       if (!cmd) { termSov.write(sovPrompt); return; }
       if (cmd === "clear") { termSov.clear(); termSov.write(sovPrompt); return; }
+            if (cmd.startsWith("osint")) {
+        const parts = cmd.split(" ");
+        const target = parts[1] || "Betriomf";
+        execSkill("osint", {target: target});
+        termSov.write(sovPrompt);
+        return;
+      }
+      if (cmd.startsWith("crm")) {
+        const parts = cmd.split(" ");
+        const subaction = parts[1] || "list";
+        const extraArgs = parts.slice(2).join(" ");
+        execSkill("crm", {action: subaction, args: extraArgs});
+        termSov.write(sovPrompt);
+        return;
+      }
       if (cmd === "boveda") { openVault(); termSov.write(sovPrompt); return; }
       if (cmd === "help") {
         termSov.writeln("Comandos de Capa 0:\r\n  • boveda            : Bóveda E2EE con Visor y Descargas\r\n  • c99               : Inferencia directa en binario C99 sin GPU\r\n  • v <pregunta>      : Inferencia Velázquez (Capa 0)\r\n  • skills run <name> : Ejecutar skill (pacing_c99, soap_triage, etc.)\r\n  • ls / pwd / cat    : Passthrough a Darwin RPC");

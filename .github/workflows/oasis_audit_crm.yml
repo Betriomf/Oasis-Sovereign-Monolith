@@ -1,0 +1,34 @@
+name: Oasis Sovereign CRM & Surface Audit
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  audit-and-crm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verificar Integridad Sintáctica de Capa 0
+        run: |
+          python3 -m py_compile agents_core/oasis_render_gateway.py
+          python3 -m py_compile tools/oasis_crm.py
+          python3 -m py_compile tools/oasis_osint.py
+
+      - name: Regenerar Índice Tecnológico y Bitácora CRM
+        run: |
+          python3 tools/oasis_crm.py sync
+          test -f vault/bitacora_arquitectura_crm.md && echo "✅ CRM sincronizado"
+
+      - name: Auditoría Pasiva de Superficie (Self-OSINT)
+        run: |
+          python3 tools/oasis_osint.py "Betriomf"
+          test -f vault/osint_surface_audit.md && echo "✅ Informe OSINT defensivo emitido"
