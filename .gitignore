@@ -18,3 +18,11 @@ ocean_wallpaper.html
 *.tmp
 p2p_reflector.log
 reflector.log
+# Artefactos temporales y backups masivos
+*.zip
+*.bak
+*.holo
+models_ram/
+test.txt
+/Volumes/OasisRAM/
+.DS_Store
