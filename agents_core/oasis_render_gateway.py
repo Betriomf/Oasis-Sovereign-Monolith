@@ -1,3 +1,4 @@
+from http.server import ThreadingHTTPServer
 #!/usr/bin/env python3
 """
 OASIS SOVEREIGN OS — GATEWAY NATIVO Y ENRUTADOR DECLARATIVO (v20.0.6)
@@ -320,4 +321,14 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": str(e)}, 500)
             return
 
-        
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    server_address = ("127.0.0.1", port)
+    httpd = ThreadingHTTPServer(server_address, OasisGatewayHandler)
+    print(f"🚀 [OASIS GATEWAY]: Escuchando en http://127.0.0.1:{port}/terminal (Silicio Frío)")
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\nDeteniendo Gateway...")
+        httpd.server_close()
+
