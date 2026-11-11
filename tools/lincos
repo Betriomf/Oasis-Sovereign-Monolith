@@ -1,0 +1,9 @@
+#!/bin/bash
+PROJECT_ROOT="$HOME/Oasis-Sovereign-Monolith"
+if [ -z "$1" ]; then
+    echo "Uso: lincos <termino_formal>"
+    echo "Terminos disponibles: navier_stokes_bkm, landauer, golod_shafarevich, kakeya, minkowski"
+    exit 0
+fi
+
+python3 "$PROJECT_ROOT/agents_core/lincos_science_query.py" "$1"

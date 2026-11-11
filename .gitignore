@@ -43,3 +43,8 @@ vault/e2ee_vault_mirror.json
 vault/quarantine_hashes.json
 vault/swarm_peers.json
 Modelfile_aether_fast
+models_ram/
+tools/kimi_c/
+tools/modules/
+vault/OASIS_FULL_CODE.md
+vault/darwin_terminal_scrape.md
