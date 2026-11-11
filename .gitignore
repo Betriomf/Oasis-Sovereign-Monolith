@@ -34,3 +34,12 @@ test.txt
 models_ram/
 .DS_Store
 /Volumes/OasisRAM/
+tools/micro_busybox
+tools/oasis_c99_engine
+tools/oasis_dhcp_dora
+tools/oasis_holo_compressor.py
+tools/patch_gateway.py
+vault/e2ee_vault_mirror.json
+vault/quarantine_hashes.json
+vault/swarm_peers.json
+Modelfile_aether_fast

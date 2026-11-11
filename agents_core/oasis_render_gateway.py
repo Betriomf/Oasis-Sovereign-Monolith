@@ -153,6 +153,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         raw_body = self.rfile.read(length) if length > 0 else b"{}"
 
         env_vars = os.environ.copy()
+        env_vars["OMP_NUM_THREADS"] = "2"
         elan_bin = os.path.expanduser("~/.elan/bin")
         env_vars["PATH"] = f"{elan_bin}:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:{env_vars.get('PATH', '')}"
 
