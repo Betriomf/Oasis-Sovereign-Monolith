@@ -6,6 +6,9 @@ import subprocess
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
 
+# Fijar límite térmico de silicio frío en entorno
+os.environ["OMP_NUM_THREADS"] = "2"
+
 class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     daemon_threads = True
 
@@ -50,6 +53,10 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self._send_json({"vault_files": vault_files, "total": len(vault_files)})
             return
 
+        elif self.path.startswith("/v1/swarm/nodes"):
+            self._send_json({"nodes": ["LOCAL_DARWIN_CORE", "OASIS_SILICON_L1"], "count": 2})
+            return
+
         elif self.path in ["/", "/terminal"]:
             template_path = os.path.join(TEMPLATE_DIR, "terminal.html")
             if not os.path.exists(template_path):
@@ -75,7 +82,11 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        if self.path == "/v1/skill":
+        if self.path.startswith("/v1/swarm/heartbeat"):
+            self._send_json({"status": "HEARTBEAT_ACK", "silicon": "cold", "power_w": 0.85})
+            return
+
+        elif self.path == "/v1/skill":
             content_len = int(self.headers.get("Content-Length", 0))
             raw_body = self.rfile.read(content_len).decode("utf-8") if content_len > 0 else "{}"
             try:
@@ -123,7 +134,7 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     server_address = ("127.0.0.1", port)
     httpd = ThreadedHTTPServer(server_address, OasisGatewayHandler)
-    print(f"🚀 [OASIS GATEWAY]: Escuchando en http://127.0.0.1:{port}/terminal (Silicio Frío)")
+    print(f"🚀 [OASIS GATEWAY]: Escuchando de forma continua en http://127.0.0.1:{port}/terminal (Silicio Frío)")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
