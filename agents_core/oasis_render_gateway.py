@@ -20,6 +20,34 @@ VAULT_DIR = os.path.join(BASE_DIR, "vault")
 TEMPLATE_DIR = os.path.join(BASE_DIR, "agents_core", "templates")
 
 L402_CHALLENGES = {}
+AKASH_BENEFICIARY_KEY = "oasis-sovereign"
+AKASH_BENEFICIARY_ADDR = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
+AKASH_PRICE_UAKT = 5000  # 0.005 AKT por consulta
+USED_AKASH_TXS = set()
+
+def verify_akash_tx(txhash):
+    """Consulta la API REST pública de Akash para verificar envío >= AKASH_PRICE_UAKT a AKASH_BENEFICIARY_ADDR."""
+    if not txhash or txhash in USED_AKASH_TXS or len(txhash) != 64:
+        return False
+    url = f"https://rest.cosmos.directory/akash/cosmos/tx/v1beta1/txs/{txhash}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "OasisGateway/20.0"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            data = json.loads(r.read().decode("utf-8"))
+        tx_resp = data.get("tx_response", {})
+        if tx_resp.get("code", 1) != 0:
+            return False
+        msgs = data.get("tx", {}).get("body", {}).get("messages", [])
+        for m in msgs:
+            if m.get("@type") == "/cosmos.bank.v1beta1.MsgSend" and m.get("to_address") == AKASH_BENEFICIARY_ADDR:
+                for coin in m.get("amount", []):
+                    if coin.get("denom") == "uakt" and int(coin.get("amount", 0)) >= AKASH_PRICE_UAKT:
+                        USED_AKASH_TXS.add(txhash)
+                        return True
+    except Exception:
+        return False
+    return False
+
 
 class OasisGatewayHandler(BaseHTTPRequestHandler):
     def _send_json(self, data, status=200, extra_headers=None):
@@ -121,7 +149,13 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             paid = False
             verified_hash = ""
 
-            if auth.startswith("L402 ") and ":" in auth:
+            if auth.startswith("Akash "):
+                tx_id = auth.split(" ", 1)[1].strip()
+                if verify_akash_tx(tx_id):
+                    paid = True
+                    verified_hash = f"AKASH-TX-{tx_id}"
+
+            elif auth.startswith("L402 ") and ":" in auth:
                 try:
                     _, creds = auth.split(" ", 1)
                     macaroon_hash, preimage_hex = creds.split(":", 1)
@@ -142,6 +176,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                     {
                         "error": "Payment Required (L402 Lightning Micropayment)",
                         "price_sats": 5,
+                        "akash_settlement": {"key_name": AKASH_BENEFICIARY_KEY, "address": AKASH_BENEFICIARY_ADDR, "amount_uakt": AKASH_PRICE_UAKT, "header_format": "Authorization: Akash <txhash>"},
                         "payment_hash": pay_hash,
                         "invoice": invoice_mock,
                         "sandbox_preimage_for_test": secret_preimage

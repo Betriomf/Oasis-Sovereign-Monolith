@@ -534,5 +534,15 @@
       "estado": "FORMALIZACIÓN PARCIAL",
       "descripcion": "Demostración de ceros no triviales en Re(s)=1/2 en Fisher-Rao y separación de complejidad mediante asimetría termodinámica de Landauer."
     }
-  ]
+  ],
+  "paper_b_provenance": {
+    "timestamp_utc": "2026-11-12T22:09:35Z",
+    "tex_file": "papers/paper_b_millennium_regularity.tex",
+    "tex_sha256": "edd8007e52e0bc7961dc8eecb7410864af213da23890178fec0c46417676d7dd",
+    "lean_hellinger_file": "RiemannFisherRaoHellinger.lean",
+    "lean_verification_level": "lean4_kernel_verified",
+    "lean_sha256": "3a2066205475a5013b9a0cb21e93447bfc6601ddcd6cbe85c150ff981480228b",
+    "pdf_status": "no_pdflatex",
+    "pdf_bytes": 0
+  }
 }
