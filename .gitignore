@@ -28,6 +28,8 @@ p2p_reflector.log
 papers/*.aux
 papers/*.log
 papers/*.out
+papers/*.synctex.gz
+papers/*.toc
 reflector.log
 target/
 test.txt
