@@ -11,25 +11,37 @@ python3 tools/prototype_pseudospectral_tg.py
 
 echo "[2/5] Auditoría Lean 4..."
 LEAN_MODE="none"
+check_clean_lean() {
+    python3 -c '
+import glob, re, sys
+bad = []
+for p in sorted(glob.glob("*.lean")):
+    s = open(p, encoding="utf-8").read()
+    s = re.sub(r"/-.*?-/", "", s, flags=re.DOTALL)
+    s = re.sub(r"--.*", "", s)
+    s = re.sub(r"\"[^\"]*\"", "", s)
+    if re.search(r"\b(sorry|admit)\b", s):
+        bad.append(p)
+if bad:
+    print("❌ sorry/admit activo en:", bad)
+    sys.exit(1)
+'
+}
+
 if command -v lake >/dev/null 2>&1 && [ -f lakefile.lean ]; then
     if lake build >/tmp/lake_build.log 2>&1; then
-        if grep -rnE "\b(sorry|admit)\b" --include="*.lean" . >/dev/null 2>&1; then
-            echo "❌ lake build compiló pero contiene sorry/admit"
-            exit 1
-        fi
+        check_clean_lean
         LEAN_MODE="lake_build_verified"
-        echo "✅ Lean 4: lake build exitoso + 0 sorry/admit"
+        echo "✅ Lean 4: lake build exitoso + 0 sorry/admit en código activo"
     else
         echo "❌ lake build falló (ver /tmp/lake_build.log)"
+        tail -n 20 /tmp/lake_build.log
         exit 1
     fi
 else
-    if grep -rnE "\b(sorry|admit)\b" --include="*.lean" . >/dev/null 2>&1; then
-        echo "❌ grep: detectado sorry/admit en *.lean"
-        exit 1
-    fi
-    LEAN_MODE="static_grep_only_no_lake"
-    echo "ℹ️  Lean 4: lake/Mathlib ausente en entorno local -> solo grep estático limpio (NO compilación formal)"
+    check_clean_lean
+    LEAN_MODE="static_check_only_no_lake"
+    echo "ℹ️  Lean 4: lake ausente -> comprobación sintáctica limpia (NO compilación formal)"
 fi
 
 echo "[3/5] Auditoría epistemológica del manuscrito (.tex)..."
@@ -53,14 +65,14 @@ if command -v pdflatex >/dev/null 2>&1; then
         exit 1
     fi
 else
-    echo "ℹ️  pdflatex no instalado: .tex validado y listo para compilación externa"
+    echo "ℹ️  pdflatex no instalado: .tex validado y listo para Overleaf o arXiv"
 fi
 
 echo "[5/5] Registro estructurado en CRM..."
 TEX_SHA=$(shasum -a 256 papers/paper_b_millennium_regularity.tex | awk '{print $1}')
 LEAN_SHA=$(shasum -a 256 RiemannFisherRaoHellinger.lean | awk '{print $1}')
 
-python3 - << PYEOF
+TEX_SHA="$TEX_SHA" LEAN_SHA="$LEAN_SHA" LEAN_MODE="$LEAN_MODE" PDF_STATUS="$PDF_STATUS" PDF_BYTES="$PDF_BYTES" python3 - << 'PYEOF'
 import json, os, datetime
 
 crm_path = "vault/crm_arquitectura_soberana.json"
@@ -73,12 +85,12 @@ else:
 crm["paper_b_provenance"] = {
     "timestamp_utc": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     "tex_file": "papers/paper_b_millennium_regularity.tex",
-    "tex_sha256": "${TEX_SHA}",
+    "tex_sha256": os.environ["TEX_SHA"],
     "lean_hellinger_file": "RiemannFisherRaoHellinger.lean",
-    "lean_verification_level": "${LEAN_MODE}",
-    "lean_sha256": "${LEAN_SHA}",
-    "pdf_status": "${PDF_STATUS}",
-    "pdf_bytes": int("${PDF_BYTES}")
+    "lean_verification_level": os.environ["LEAN_MODE"],
+    "lean_sha256": os.environ["LEAN_SHA"],
+    "pdf_status": os.environ["PDF_STATUS"],
+    "pdf_bytes": int(os.environ["PDF_BYTES"])
 }
 
 with open(crm_path, "w", encoding="utf-8") as f:

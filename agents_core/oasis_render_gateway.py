@@ -19,7 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VAULT_DIR = os.path.join(BASE_DIR, "vault")
 TEMPLATE_DIR = os.path.join(BASE_DIR, "agents_core", "templates")
 
-# Registro en memoria volátil de facturas L402 emitidas (payment_hash -> timestamp)
 L402_CHALLENGES = {}
 
 class OasisGatewayHandler(BaseHTTPRequestHandler):
@@ -56,7 +55,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             })
             return
 
-                elif self.path == "/v1/papers/paper_b.pdf":
+        elif self.path == "/v1/papers/paper_b.pdf":
             pdf_path = os.path.join(BASE_DIR, "papers", "paper_b_millennium_regularity.pdf")
             if os.path.exists(pdf_path):
                 with open(pdf_path, "rb") as f:
@@ -117,7 +116,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self._send_json({"status": "HEARTBEAT_ACK", "silicon": "cold", "power_w": 0.85})
             return
 
-        # ENDPOINT COMERCIAL PROTEGIDO POR MICROPAGOS L402 (HTTP 402)
         elif self.path == "/v1/l402/infer":
             auth = self.headers.get("Authorization", "")
             paid = False
@@ -136,7 +134,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                     paid = False
 
             if not paid:
-                # Emitir nuevo reto criptográfico L402 (5 satoshis)
                 secret_preimage = secrets.token_hex(32)
                 pay_hash = hashlib.sha256(bytes.fromhex(secret_preimage)).hexdigest()
                 L402_CHALLENGES[pay_hash] = time.time()
@@ -154,7 +151,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 )
                 return
 
-            # Pago verificado -> Ejecutar inferencia en silicio frío
             prompt = payload.get("prompt", "Confirma recepción L402.")
             model = payload.get("model", "qwen2.5:1.5b")
             req_ai = urllib.request.Request(
@@ -175,14 +171,19 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": f"Motor IA ocupado: {e}", "status": "FAILED"}, 502)
             return
 
-        # DESPACHADOR DE SKILLS INTERNAS
         elif self.path == "/v1/skill":
             skill = payload.get("skill", "")
             prompt = payload.get("prompt", "")
             env_vars = os.environ.copy()
             env_vars["OMP_NUM_THREADS"] = "2"
 
-            if skill in ["minkowski", "filter", "pilar387"]:
+            if skill in ["paper", "build_paper", "paper_b"]:
+                res = subprocess.run(["bash", "tools/build_paper_b.sh"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
+                out = res.stdout + ("\n" + res.stderr if res.stderr else "")
+                status = "COMPLETED" if res.returncode == 0 else "FAILED"
+                self._send_json({"skill": "paper", "output": out, "status": status})
+                return
+            elif skill in ["minkowski", "filter", "pilar387"]:
                 res = subprocess.run(["./tools/oasis_kernel_filter"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
                 self._send_json({"skill": "minkowski", "output": res.stdout, "status": "COMPLETED"})
                 return
@@ -206,13 +207,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 except Exception as e:
                     self._send_json({"error": str(e), "status": "FAILED"}, 502)
                 return
-                        elif skill in ["paper", "build_paper", "paper_b"]:
-                res = subprocess.run(["bash", "tools/build_paper_b.sh"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
-                out = res.stdout + ("\n" + res.stderr if res.stderr else "")
-                status = "COMPLETED" if res.returncode == 0 else "FAILED"
-                self._send_json({"skill": "paper", "output": out, "status": status})
-                return
-
             elif skill in ["crm"]:
                 res = subprocess.run([sys.executable, "tools/oasis_crm.py", "list"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
                 self._send_json({"skill": "crm", "output": res.stdout, "status": "COMPLETED"})
