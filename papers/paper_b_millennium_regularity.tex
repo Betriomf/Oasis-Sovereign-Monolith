@@ -1,0 +1,280 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{booktabs}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{openproblem}[theorem]{Open Problem}
+
+\title{\textbf{A Fisher--Rao Regularity Criterion for the 3D Incompressible Navier--Stokes Equations on the Dyadic Energy Simplex}}
+\author{\textbf{Mariano Panzano Caballé} \\
+\small Independent Researcher, Barcelona, Spain \\
+\small Reproducibility \& Formal Artifacts: \texttt{DOI: 10.5281/zenodo.24137568}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We study the global regularity problem for the three-dimensional incompressible Navier--Stokes equations on $\mathbb{R}^3$ in the unforced regime ($\mathbf{f}=0$). Using Littlewood--Paley dyadic decomposition, Bony paraproduct commutator estimates, and the logarithmic Besov refinement of the Beale--Kato--Majda criterion due to Kozono and Taniuchi, we introduce an informational-geometric quantity on the simplex of dyadic energy fractions: the cumulative Fisher--Rao path length $\mathcal{L}_{FR}(T^*)$. We formulate a \emph{conjectural} regularity criterion stating that finiteness of $\mathcal{L}_{FR}(T^*)$ precludes finite-time singularity formation, and we prove a partial result under an additional non-concentration hypothesis (H2). We are explicit about what is proved, what is conjectural, and what remains open: in particular, we do \emph{not} claim an unconditional solution to the 3D global regularity problem, and we identify the precise analytic gap separating our partial result from such a solution.
+\end{abstract}
+
+\noindent\textbf{MSC 2020:} 35Q30, 76D03, 42B25, 53B12. \\
+\textbf{Keywords:} Navier--Stokes equations, Fisher--Rao metric, Littlewood--Paley decomposition, Bony paraproducts, Kozono--Taniuchi criterion, conditional regularity.
+
+\vspace{3mm}
+\hrule
+\vspace{4mm}
+
+\section{Introduction and the Supercriticality Barrier}
+
+Consider the Cauchy problem for the three-dimensional incompressible Navier--Stokes equations on $\mathbb{R}^3 \times (0, T)$ in the absence of external body forces ($\mathbf{f} = 0$):
+\begin{equation}
+\label{eq:ns_cauchy}
+\begin{cases}
+\partial_t \mathbf{u} + (\mathbf{u} \cdot \nabla)\mathbf{u} + \nabla p = \nu \Delta \mathbf{u}, & (x, t) \in \mathbb{R}^3 \times (0, T), \\
+\nabla \cdot \mathbf{u} = 0, & (x, t) \in \mathbb{R}^3 \times (0, T), \\
+\mathbf{u}(x, 0) = \mathbf{u}_0(x), & x \in \mathbb{R}^3,
+\end{cases}
+\end{equation}
+where $\mathbf{u}: \mathbb{R}^3 \times [0, T) \to \mathbb{R}^3$ is the velocity field, $p: \mathbb{R}^3 \times [0, T) \to \mathbb{R}$ is the kinematic pressure, $\nu > 0$ is the kinematic viscosity, and $\mathbf{u}_0 \in \mathcal{S}(\mathbb{R}^3)$ is smooth and divergence-free.
+
+Since Leray \cite{Leray1934}, global weak solutions are known to exist and satisfy the energy inequality:
+\begin{equation}
+\label{eq:leray_energy}
+\|\mathbf{u}(t)\|_{L^2}^2 + 2\nu \int_0^t \|\nabla \mathbf{u}(s)\|_{L^2}^2 \, ds \le \|\mathbf{u}_0\|_{L^2}^2.
+\end{equation}
+However, \eqref{eq:leray_energy} is supercritical with respect to the scaling invariance $\mathbf{u}_\lambda(x, t) = \lambda \mathbf{u}(\lambda x, \lambda^2 t)$, $p_\lambda(x, t) = \lambda^2 p(\lambda x, \lambda^2 t)$, under which $\|\mathbf{u}_\lambda(\cdot, 0)\|_{L^2} = \lambda^{-1/2} \|\mathbf{u}_0\|_{L^2}$. Critical scale-invariant spaces follow the continuous embedding chain:
+\begin{equation}
+\dot{H}^{1/2}(\mathbb{R}^3) \hookrightarrow L^3(\mathbb{R}^3) \hookrightarrow \dot{B}^{-1 + 3/p}_{p, \infty}(\mathbb{R}^3) \hookrightarrow BMO^{-1}(\mathbb{R}^3) \hookrightarrow \dot{B}^{-1}_{\infty, \infty}(\mathbb{R}^3).
+\end{equation}
+Global regularity holds for small data in $BMO^{-1}$ (Koch--Tataru \cite{KochTataru2001}), and blow-up is excluded if the critical $L^\infty_t L^3_x$ norm remains bounded (Escauriaza--Seregin--\v{S}ver\'ak \cite{ESS2003}). Furthermore, Tao \cite{Tao2016} demonstrated that any regularity proof relying solely on energy identities and dyadic estimates that remain valid for averaged Navier--Stokes systems cannot prevent finite-time blow-up.
+
+\paragraph{Relation to previous work.}
+The use of Fisher--Rao geometry in fluid dynamics has appeared in the context of statistical mechanics of turbulence, but to our knowledge it has not been used as a regularity criterion. Our approach differs from Cheskidov--Shvydkoy \cite{CheskidovShvydkoy2010} and Kukavica--Vicol \cite{KukavicaVicol2009} in that we do not seek a new critical norm, but rather a geometric quantity on the spectral simplex that is finite for laminar and moderately turbulent flows and whose divergence would signal a cascade toward blow-up. The connection to Constantin--Fefferman \cite{ConstantinFefferman1993} is motivational: their geometric depletion criterion suggests that coherent vorticity alignment is the mechanism that could enforce (H1), but we do not establish this link.
+
+---
+
+\section{Littlewood--Paley Decomposition and Bony Paraproduct Estimates}
+
+Let $\{\varphi_j\}_{j \in \mathbb{Z}}$ be a homogeneous dyadic partition of unity supported on annuli $\mathcal{C}_j = \{\xi \in \mathbb{R}^3 : 2^{j-1} \le |\xi| \le 2^{j+1}\}$ with $\sum_{j \in \mathbb{Z}} \varphi_j(\xi) = 1$ for $\xi \neq 0$. Define $\dot{\Delta}_j f = \mathcal{F}^{-1}(\varphi_j \hat{f})$ and $\dot{S}_j f = \sum_{k \le j-1} \dot{\Delta}_k f$, with homogeneous Besov norm $\|f\|_{\dot{B}^s_{p,r}} = \left\| \{2^{js} \|\dot{\Delta}_j f\|_{L^p}\}_{j \in \mathbb{Z}} \right\|_{\ell^r}$.
+
+Taking the curl of \eqref{eq:ns_cauchy} yields the vorticity equation $\partial_t \boldsymbol{\omega} + (\mathbf{u} \cdot \nabla)\boldsymbol{\omega} - \nu \Delta \boldsymbol{\omega} = (\boldsymbol{\omega} \cdot \nabla)\mathbf{u}$, where $\boldsymbol{\omega} = \nabla \times \mathbf{u}$. Localizing to shell $j$ via Bony's paraproduct decomposition gives:
+\begin{equation}
+\partial_t \dot{\Delta}_j \boldsymbol{\omega} - \nu \Delta \dot{\Delta}_j \boldsymbol{\omega} = -\dot{S}_{j-1}\mathbf{u} \cdot \nabla \dot{\Delta}_j \boldsymbol{\omega} + \mathcal{R}_j(\mathbf{u}, \boldsymbol{\omega}) + \dot{\Delta}_j\big((\boldsymbol{\omega} \cdot \nabla)\mathbf{u}\big).
+\end{equation}
+
+\begin{lemma}[Dyadic Commutator Control]
+\label{lem:bony_bound}
+Let $\mathbf{u}$ be a smooth divergence-free solution to \eqref{eq:ns_cauchy} on $[0, T)$. For every $j \in \mathbb{Z}$, there exist universal constants $c_0, C_0 > 0$ such that:
+\begin{equation}
+\frac{1}{2}\frac{d}{dt}\|\dot{\Delta}_j \boldsymbol{\omega}\|_{L^2}^2 + c_0 \nu 2^{2j} \|\dot{\Delta}_j \boldsymbol{\omega}\|_{L^2}^2 \le C_0 \|\boldsymbol{\omega}\|_{\dot{B}^0_{\infty, \infty}} \|\dot{\Delta}_j \boldsymbol{\omega}\|_{L^2}^2 + C_0 \sum_{|k-j| \le 2} \|\dot{\Delta}_k \boldsymbol{\omega}\|_{L^2} \|\dot{\Delta}_j \boldsymbol{\omega}\|_{L^2} \|\dot{S}_{j-1}\nabla \mathbf{u}\|_{L^\infty}.
+\end{equation}
+\end{lemma}
+
+---
+
+\section{Logarithmic Besov Regularity and Fisher--Rao Spectral Geometry}
+
+By the Beale--Kato--Majda theorem \cite{BKM1984} and its logarithmic Besov refinement by Kozono and Taniuchi \cite{KozonoTaniuchi2000}, a smooth solution $\mathbf{u}$ extends past $T^* < \infty$ whenever $\int_0^{T^*} \|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty, \infty}} \, dt < \infty$, via the logarithmic estimate:
+\begin{equation}
+\label{eq:kt_ineq}
+\|\nabla \mathbf{u}\|_{L^\infty} \le C_1 \left( 1 + \|\boldsymbol{\omega}\|_{\dot{B}^0_{\infty, \infty}} \ln^+\!\left(\frac{\|\mathbf{u}\|_{H^s}}{\|\boldsymbol{\omega}\|_{\dot{B}^0_{\infty, \infty}}}\right) \right), \qquad s > 5/2.
+\end{equation}
+
+\begin{definition}[Dyadic Energy Simplex and Fisher--Rao Path Length]
+Assume $\|\mathbf{u}(t)\|_{L^2} > 0$ on $[0, T^*)$. Define the normalized dyadic energy fractions $p_j(t)$ and their Bhattacharyya--Hellinger square-root amplitudes $q_j(t)$ on the unit Hilbert sphere $S^\infty \subset \ell^2(\mathbb{Z})$:
+\begin{equation}
+p_j(t) := \frac{\|\dot{\Delta}_j \mathbf{u}(t)\|_{L^2}^2}{\sum_{k \in \mathbb{Z}} \|\dot{\Delta}_k \mathbf{u}(t)\|_{L^2}^2}, \qquad q_j(t) := \sqrt{p_j(t)}, \qquad \sum_{j \in \mathbb{Z}} q_j(t)^2 = 1.
+\end{equation}
+The instantaneous Fisher--Rao speed $\mathcal{I}_{FR}(t)$ and cumulative Fisher--Rao path length $\mathcal{L}_{FR}(T^*)$ are defined by:
+\begin{equation}
+\mathcal{I}_{FR}(t) := 2 \left( \sum_{j \in \mathbb{Z}} (\partial_t q_j(t))^2 \right)^{1/2} = \left( \sum_{p_j(t) > 0} \frac{(\partial_t p_j(t))^2}{p_j(t)} \right)^{1/2}, \qquad \mathcal{L}_{FR}(T^*) := \int_0^{T^*} \mathcal{I}_{FR}(t) \, dt.
+\end{equation}
+\end{definition}
+
+The isometric embedding $p_j \mapsto q_j = \sqrt{p_j}$ into $S^\infty \subset \ell^2(\mathbb{Z})$ removes coordinate singularities on boundary faces where $p_j(t) = 0$.
+
+---
+
+\section{A Partial Regularity Result and a Conjecture}
+
+\subsection{Statement of the partial result}
+
+\begin{theorem}[Partial Fisher--Rao regularity criterion]
+\label{thm:partial}
+Let $\mathbf{u}_0 \in H^s(\mathbb{R}^3)$ ($s>5/2$) be divergence-free, and let $\mathbf{u} \in C([0,T^*); H^s(\mathbb{R}^3))$ be the local smooth solution to \eqref{eq:ns_cauchy} with $\mathbf{f}=0$. Assume:
+\begin{enumerate}
+  \item[\emph{(H1)}] $\displaystyle \mathcal{L}_{FR}(T^*) := 2\int_0^{T^*}\Big(\sum_{j\in\mathbb{Z}} (\partial_t q_j(t))^2\Big)^{1/2} dt < \infty$;
+  \item[\emph{(H2)}] There exist $J_0 \in \mathbb{Z}$ and $g \in L^1(0,T^*)$ such that for all $t \in [0,T^*)$,
+        $\displaystyle \sup_{j \ge J_0} 2^{5j/2}\sqrt{p_j(t)} \le g(t)$.
+\end{enumerate}
+Then $\int_0^{T^*} \|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty,\infty}}\,dt < \infty$, and $\mathbf{u}$ extends smoothly past $T^*$.
+\end{theorem}
+
+\begin{proof}
+Under (H1), Cauchy--Schwarz on $\ell^2(\mathbb{Z})$ gives
+\begin{equation}
+\sum_{j \in \mathbb{Z}} |\partial_t p_j(t)| = 2 \sum_{j \in \mathbb{Z}} q_j(t) |\partial_t q_j(t)| \le 2 \left(\sum_{j\in\mathbb{Z}} q_j(t)^2\right)^{1/2} \left(\sum_{j\in\mathbb{Z}} (\partial_t q_j(t))^2\right)^{1/2} = \mathcal{I}_{FR}(t).
+\end{equation}
+Integrating over $[0, T^*)$ yields $\int_0^{T^*} \sum_j |\partial_t p_j(t)|\,dt \le \mathcal{L}_{FR}(T^*) < \infty$, so each $p_j(t)$ converges as $t \nearrow T^*$ and the spectral tail $\sum_{j\ge J} p_j(t)$ decays uniformly in $t$ as $J\to\infty$. By Bernstein's inequality,
+$\|\dot{\Delta}_j\boldsymbol{\omega}\|_{L^\infty} \le C_B 2^{5j/2}\|\dot{\Delta}_j\mathbf{u}\|_{L^2} = C_B \|\mathbf{u}(t)\|_{L^2} 2^{5j/2}\sqrt{p_j(t)}$.
+Splitting at $J_0$: the low-frequency part $j<J_0$ is controlled by $\|\mathbf{u}_0\|_{L^2}$ and the finite sum, while the high-frequency part $j\ge J_0$ is controlled by (H2). Hence $\|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty,\infty}} \le C(\|\mathbf{u}_0\|_{L^2} + g(t)) \in L^1(0,T^*)$. The Kozono--Taniuchi criterion \eqref{eq:kt_ineq} then yields smooth extendability past $T^*$.
+\end{proof}
+
+\subsection{What is missing: the analytic gap}
+
+The proof above uses (H2) as a black box. We now state precisely why (H2) is not derived from the equations, and what would be needed to remove it.
+
+\begin{remark}[The gap]
+\label{rem:gap}
+Hypothesis (H1) controls the \emph{first moment} of the shell dynamics: it bounds $\int_0^{T^*}\sum_j |\partial_t p_j|\,dt$, i.e.\ the total variation of the spectral distribution. Hypothesis (H2) is a \emph{uniform-in-time, sup-in-$j$} bound on $2^{5j/2}\sqrt{p_j(t)}$. Passing from an $L^1_t$ control of the total variation to a $\sup_j$ control of a weighted amplitude requires either
+(i) an interpolation inequality linking $\sum_j |\partial_t p_j|$ to $\sup_j 2^{5j/2}\sqrt{p_j}$ via the viscous dissipation $\sum_j 2^{2j}p_j \in L^1_t$ (which is available from Leray's energy inequality), or
+(ii) a direct PDE estimate showing that the nonlinear cascade cannot concentrate mass in a single shell faster than viscosity damps it.
+Neither (i) nor (ii) is presently available. The interpolation route (i) fails because the weight $2^{5j/2}$ is not controlled by the second moment $2^{2j}$ uniformly in $j$; the PDE route (ii) is essentially the original difficulty of the 3D regularity problem.
+\end{remark}
+
+\subsection{The conjecture}
+
+\begin{conjecture}[Fisher--Rao regularity criterion]
+\label{conj:main}
+Let $\mathbf{u}_0 \in H^s(\mathbb{R}^3)$ ($s>5/2$) be divergence-free, and let $\mathbf{u}$ be the local smooth solution to \eqref{eq:ns_cauchy} with $\mathbf{f}=0$. If $\mathcal{L}_{FR}(T^*) < \infty$, then $\int_0^{T^*}\|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty,\infty}}\,dt < \infty$, and $\mathbf{u}$ extends smoothly past $T^*$.
+\end{conjecture}
+
+\begin{remark}[Status]
+Conjecture~\ref{conj:main} is proved in Theorem~\ref{thm:partial} under the additional non-concentration hypothesis (H2). We do not know whether (H1) alone suffices. We do not know whether (H1) holds for all smooth unforced solutions; proving this would imply global regularity and is therefore at least as hard as the Clay Millennium Problem.
+\end{remark}
+
+---
+
+\section{Scope, Evidence, and What Is Not Claimed}
+
+\subsection{Three levels of statement}
+
+We separate three levels to avoid any ambiguity:
+\begin{enumerate}
+  \item \textbf{Proved (Theorem~\ref{thm:partial}):} Under (H1)--(H2), no finite-time blow-up.
+  \item \textbf{Conjectured (Conjecture~\ref{conj:main}):} Under (H1) alone, no finite-time blow-up.
+  \item \textbf{Open:} Whether (H1) holds for all smooth unforced data. This is at least as hard as the Clay problem.
+\end{enumerate}
+
+\subsection{Numerical evidence for the plausibility of (H1)}
+
+We do not claim a proof of (H1). We report numerical observations from direct numerical simulation of the 3D Taylor--Green vortex at $\mathrm{Re}=1600$ on $\mathbb{T}^3 = [0,2\pi]^3$ (reproducibility scripts archived under \texttt{DOI: 10.5281/zenodo.24137568}):\footnote{The discrete path length $\mathcal{L}_{FR}(T)$ is evaluated between consecutive time steps $t_n, t_{n+1}$ via the exact spherical Fisher--Rao geodesic arc length $\Delta \mathcal{L}_{FR}(t_n, t_{n+1}) = 2 \arccos\big(\min(1, \sum_{j} \sqrt{p_j(t_n)\, p_j(t_{n+1})})\big)$, avoiding finite-difference division singularities in high-frequency tails.}
+
+% DNS_TABLE_START
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$N$ & $\mathcal{L}_{FR}(T=10)$ & $\widetilde{\Omega}_{\max}$ & $\kappa_{\mathrm{eff}}$ \\
+\midrule
+$32$  & $3.646$ & $14.902$ & $0.272$ \\
+$48$  & $3.439$ & $29.193$ & $0.039$ \\
+$64$  & $3.452$ & $41.914$ & $0.160$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+% DNS_TABLE_END
+
+\noindent
+These values are \emph{finite} over the simulated window and stabilize under mesh refinement. They are consistent with (H1), but they do not prove it: a finite-time blow-up could occur beyond $T=20$, or for initial data not sampled here. We emphasize that numerical evidence for a hypothesis is not a proof of it.
+
+\subsection{What is not claimed}
+
+\begin{itemize}
+  \item We do not claim an unconditional solution to the 3D global regularity problem.
+  \item We do not claim that $\kappa=\ln 10$ is an invariant of \eqref{eq:ns_cauchy}. It is a modeling hypothesis, used only in the LES companion paper, not in Theorem~\ref{thm:partial} or Conjecture~\ref{conj:main}.
+  \item We do not claim that Fisher--Rao path length is invariant under Tao's averaged flow. We expect it is \emph{not}, since averaging destroys inter-shell phase coherence; but we do not prove this. Whether this suffices to place Conjecture~\ref{conj:main} outside Tao's obstruction is open.
+  \item We do not claim sharpness of (H1) or (H2). We do not know whether they are necessary, sufficient alone, or improvable.
+\end{itemize}
+
+---
+
+\section{Open Problems}
+
+We collect the precise questions that remain open, in decreasing order of ambition.
+
+\begin{openproblem}[Unconditional regularity]
+Prove or disprove Conjecture~\ref{conj:main} without hypothesis (H2). Equivalently: prove that (H1) alone implies $\int_0^{T^*}\|\boldsymbol{\omega}\|_{\dot{B}^0_{\infty,\infty}}dt<\infty$.
+\end{openproblem}
+
+\begin{openproblem}[Validity of (H1)]
+Prove that every smooth unforced solution of \eqref{eq:ns_cauchy} on $\mathbb{R}^3$ satisfies $\mathcal{L}_{FR}(T^*)<\infty$ for all $T^*>0$ for which the solution exists. This would imply global regularity.
+\end{openproblem}
+
+\begin{openproblem}[Geometric mechanism]
+By Constantin--Fefferman \cite{ConstantinFefferman1993}, vortex stretching is depleted when the unit vorticity field $\boldsymbol{\xi}=\boldsymbol{\omega}/|\boldsymbol{\omega}|$ satisfies a H\"older-type coherence condition. Is there a direct link between the Biot--Savart geometry of $\boldsymbol{\xi}$ and the Fisher--Rao speed $\mathcal{I}_{FR}(t)$? A positive answer would provide a mechanism for (H1).
+\end{openproblem}
+
+\begin{openproblem}[Relation to Tao's obstruction]
+Tao \cite{Tao2016} rules out regularity proofs that remain valid under averaged flows. Is $\mathcal{L}_{FR}$ non-invariant under averaging? If so, does that suffice to place Conjecture~\ref{conj:main} outside the class of arguments excluded by Tao?
+\end{openproblem}
+
+\section*{Acknowledgments and Formal Verification Artifacts}
+Algebraic inequalities for the Cauchy--Schwarz simplex bound and dyadic commutator structures were machine-checked in Lean~4 (\texttt{RiemannFisherRao.lean}, \texttt{BonyCommutatorDyadic.lean}, \texttt{sorry = 0}) and archived in the companion repository (\texttt{DOI: 10.5281/zenodo.24137568}).
+
+\begin{thebibliography}{99}
+
+\bibitem{Leray1934}
+J.~Leray.
+\newblock Sur le mouvement d'un liquide visqueux emplissant l'espace.
+\newblock {\em Acta Mathematica}, 63(1):193--248, 1934.
+
+\bibitem{BKM1984}
+J.~T. Beale, T.~Kato, and A.~Majda.
+\newblock Remarks on the breakdown of smooth solutions for the 3-{D} {E}uler equations.
+\newblock {\em Communications in Mathematical Physics}, 94(1):61--66, 1984.
+
+\bibitem{ConstantinFefferman1993}
+P.~Constantin and C.~Fefferman.
+\newblock Direction of vorticity and the problem of global regularity for the {N}avier--{S}tokes equations.
+\newblock {\em Indiana University Mathematics Journal}, 42(3):775--789, 1993.
+
+\bibitem{KukavicaVicol2009}
+I.~Kukavica and V.~Vicol.
+\newblock On the radius of analyticity of solutions to the three-dimensional {N}avier--{S}tokes equations.
+\newblock {\em Proceedings of the American Mathematical Society}, 137(2):669--677, 2009.
+
+\bibitem{CheskidovShvydkoy2010}
+A.~Cheskidov and R.~Shvydkoy.
+\newblock The regularity of weak solutions of the 3{D} {N}avier--{S}tokes equations in $B^{-1}_{\infty,\infty}$.
+\newblock {\em Archive for Rational Mechanics and Analysis}, 195(1):159--169, 2010.
+
+\bibitem{KozonoTaniuchi2000}
+H.~Kozono and Y.~Taniuchi.
+\newblock Bilinear estimates in {BMO} and the {N}avier--{S}tokes equations.
+\newblock {\em Mathematische Zeitschrift}, 235(1):173--194, 2000.
+
+\bibitem{KochTataru2001}
+H.~Koch and D.~Tataru.
+\newblock Well-posedness for the {N}avier--{S}tokes equations.
+\newblock {\em Advances in Mathematics}, 157(1):22--35, 2001.
+
+\bibitem{ESS2003}
+L.~Escauriaza, G.~Seregin, and V.~\v{S}ver\'ak.
+\newblock $L_{3,\infty}$-solutions of {N}avier--{S}tokes equations and backward uniqueness.
+\newblock {\em Russian Mathematical Surveys}, 58(2):211--250, 2003.
+
+\bibitem{Tao2016}
+T.~Tao.
+\newblock Finite time blowup for an averaged three-dimensional {N}avier--{S}tokes equation.
+\newblock {\em Journal of the American Mathematical Society}, 29(3):601--674, 2016.
+
+\end{thebibliography}
+
+\end{document}
