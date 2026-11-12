@@ -23,3 +23,9 @@ def isCriticalGeodesic (s : ComplexPoint) : Bool :=
   s.re == 0.5 && fisherRaoEntropy s.re == 0.0
 
 #eval "✅ Teorema de geodésica autoadjunta y entropía nula verificado en el kernel de Lean 4."
+
+-- Identidad algebraica exacta de la isometría p = q^2 (sin divisiones por cero)
+theorem hellinger_simplex_identity (q dq : Nat) :
+    (2 * q * dq) * (2 * q * dq) = 4 * (q * q) * (dq * dq) := by
+  simp [Nat.mul_assoc, Nat.mul_left_comm, Nat.mul_comm]
+

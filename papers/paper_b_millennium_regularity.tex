@@ -98,17 +98,22 @@ By the Beale--Kato--Majda theorem \cite{BKM1984} and its logarithmic Besov refin
 \end{equation}
 
 \begin{definition}[Dyadic Energy Simplex and Fisher--Rao Path Length]
-Assume $\|\mathbf{u}(t)\|_{L^2} > 0$ on $[0, T^*)$. Define the normalized dyadic energy fractions $p_j(t)$ and their Bhattacharyya--Hellinger square-root amplitudes $q_j(t)$ on the unit Hilbert sphere $S^\infty \subset \ell^2(\mathbb{Z})$:
-\begin{equation}
-p_j(t) := \frac{\|\dot{\Delta}_j \mathbf{u}(t)\|_{L^2}^2}{\sum_{k \in \mathbb{Z}} \|\dot{\Delta}_k \mathbf{u}(t)\|_{L^2}^2}, \qquad q_j(t) := \sqrt{p_j(t)}, \qquad \sum_{j \in \mathbb{Z}} q_j(t)^2 = 1.
-\end{equation}
-The instantaneous Fisher--Rao speed $\mathcal{I}_{FR}(t)$ and cumulative Fisher--Rao path length $\mathcal{L}_{FR}(T^*)$ are defined by:
-\begin{equation}
-\mathcal{I}_{FR}(t) := 2 \left( \sum_{j \in \mathbb{Z}} (\partial_t q_j(t))^2 \right)^{1/2} = \left( \sum_{p_j(t) > 0} \frac{(\partial_t p_j(t))^2}{p_j(t)} \right)^{1/2}, \qquad \mathcal{L}_{FR}(T^*) := \int_0^{T^*} \mathcal{I}_{FR}(t) \, dt.
-\end{equation}
+Assume $\|\mathbf{u}(t)\|_{L^2} > 0$ on $[0,T^*)$. Define
+\[
+p_j(t) := \frac{\|\dot{\Delta}_j \mathbf{u}(t)\|_{L^2}^2}{\sum_{k}\|\dot{\Delta}_k \mathbf{u}(t)\|_{L^2}^2},
+\qquad
+q_j(t) := \sqrt{p_j(t)},
+\qquad
+\sum_j q_j(t)^2 = 1.
+\]
+The instantaneous Fisher--Rao speed and cumulative path length are
+\[
+\mathcal{I}_{FR}(t) := 2\Big(\sum_j (\partial_t q_j(t))^2\Big)^{1/2},
+\qquad
+\mathcal{L}_{FR}(T^*) := \int_0^{T^*} \mathcal{I}_{FR}(t)\,dt.
+\]
+The map $p_j \mapsto q_j$ is an isometry from the Fisher--Rao simplex onto the unit sphere $S^\infty \subset \ell^2(\mathbb{Z})$, and removes the coordinate singularity at $p_j = 0$.
 \end{definition}
-
-The isometric embedding $p_j \mapsto q_j = \sqrt{p_j}$ into $S^\infty \subset \ell^2(\mathbb{Z})$ removes coordinate singularities on boundary faces where $p_j(t) = 0$.
 
 ---
 
@@ -120,44 +125,44 @@ The isometric embedding $p_j \mapsto q_j = \sqrt{p_j}$ into $S^\infty \subset \e
 \label{thm:partial}
 Let $\mathbf{u}_0 \in H^s(\mathbb{R}^3)$ ($s>5/2$) be divergence-free, and let $\mathbf{u} \in C([0,T^*); H^s(\mathbb{R}^3))$ be the local smooth solution to \eqref{eq:ns_cauchy} with $\mathbf{f}=0$. Assume:
 \begin{enumerate}
-  \item[\emph{(H1)}] $\displaystyle \mathcal{L}_{FR}(T^*) := 2\int_0^{T^*}\Big(\sum_{j\in\mathbb{Z}} (\partial_t q_j(t))^2\Big)^{1/2} dt < \infty$;
-  \item[\emph{(H2)}] There exist $J_0 \in \mathbb{Z}$ and $g \in L^1(0,T^*)$ such that for all $t \in [0,T^*)$,
-        $\displaystyle \sup_{j \ge J_0} 2^{5j/2}\sqrt{p_j(t)} \le g(t)$.
+  \item[\emph{(H1)}] $\mathcal{L}_{FR}(T^*) := 2\int_0^{T^*}\|\partial_t q(t)\|_{\ell^2}\,dt < \infty$;
+  \item[\emph{(H1$'$)}] $\displaystyle\lim_{J\to\infty}\sup_{t\in[0,T^*)}\sum_{j\ge J} p_j(t) = 0$;
+  \item[\emph{(H2)}] There exist $J_0\in\mathbb{Z}$ and $g\in L^1(0,T^*)$ such that
+        $\sup_{j\ge J_0} 2^{5j/2}\sqrt{p_j(t)} \le g(t)$ for all $t\in[0,T^*)$.
 \end{enumerate}
-Then $\int_0^{T^*} \|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty,\infty}}\,dt < \infty$, and $\mathbf{u}$ extends smoothly past $T^*$.
+Then $\int_0^{T^*}\|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty,\infty}}\,dt<\infty$, and $\mathbf{u}$ extends smoothly past $T^*$.
 \end{theorem}
 
 \begin{proof}
 Under (H1), Cauchy--Schwarz on $\ell^2(\mathbb{Z})$ gives
-\begin{equation}
-\sum_{j \in \mathbb{Z}} |\partial_t p_j(t)| = 2 \sum_{j \in \mathbb{Z}} q_j(t) |\partial_t q_j(t)| \le 2 \left(\sum_{j\in\mathbb{Z}} q_j(t)^2\right)^{1/2} \left(\sum_{j\in\mathbb{Z}} (\partial_t q_j(t))^2\right)^{1/2} = \mathcal{I}_{FR}(t).
-\end{equation}
-Integrating over $[0, T^*)$ yields $\int_0^{T^*} \sum_j |\partial_t p_j(t)|\,dt \le \mathcal{L}_{FR}(T^*) < \infty$, so each $p_j(t)$ converges as $t \nearrow T^*$ and the spectral tail $\sum_{j\ge J} p_j(t)$ decays uniformly in $t$ as $J\to\infty$. By Bernstein's inequality,
-$\|\dot{\Delta}_j\boldsymbol{\omega}\|_{L^\infty} \le C_B 2^{5j/2}\|\dot{\Delta}_j\mathbf{u}\|_{L^2} = C_B \|\mathbf{u}(t)\|_{L^2} 2^{5j/2}\sqrt{p_j(t)}$.
-Splitting at $J_0$: the low-frequency part $j<J_0$ is controlled by $\|\mathbf{u}_0\|_{L^2}$ and the finite sum, while the high-frequency part $j\ge J_0$ is controlled by (H2). Hence $\|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty,\infty}} \le C(\|\mathbf{u}_0\|_{L^2} + g(t)) \in L^1(0,T^*)$. The Kozono--Taniuchi criterion \eqref{eq:kt_ineq} then yields smooth extendability past $T^*$.
+\[
+\sum_{j \in \mathbb{Z}} |\partial_t p_j(t)| = 2 \sum_{j \in \mathbb{Z}} q_j(t) |\partial_t q_j(t)| \le 2 \left(\sum_{j\in\mathbb{Z}} q_j(t)^2\right)^{1/2} \left(\sum_{j\in\mathbb{Z}} (\partial_t q_j(t))^2\right)^{1/2} = \mathcal{I}_{FR}(t),
+\]
+so $\int_0^{T^*} \sum_j |\partial_t p_j(t)|\,dt \le \mathcal{L}_{FR}(T^*) < \infty$ and each $p_j(t)$ admits a limit as $t \nearrow T^*$. Hypothesis (H1$'$) guarantees uniform non-escape of energy mass to arbitrarily high shells. By Bernstein's inequality,
+\[
+\|\dot{\Delta}_j\boldsymbol{\omega}\|_{L^\infty} \le C_B 2^{5j/2}\|\dot{\Delta}_j\mathbf{u}\|_{L^2} = C_B \|\mathbf{u}(t)\|_{L^2} 2^{5j/2}\sqrt{p_j(t)}.
+\]
+Splitting at $J_0$: the low-frequency part $j<J_0$ is controlled by $\|\mathbf{u}_0\|_{L^2}$ and the finite sum, while the high-frequency part $j\ge J_0$ is controlled by (H2). Hence $\|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty,\infty}} \le C(\|\mathbf{u}_0\|_{L^2} + g(t))$, which is integrable on $(0,T^*)$. The Kozono--Taniuchi criterion \eqref{eq:kt_ineq} then yields smooth extendability past $T^*$.
 \end{proof}
 
 \subsection{What is missing: the analytic gap}
 
 The proof above uses (H2) as a black box. We now state precisely why (H2) is not derived from the equations, and what would be needed to remove it.
 
-\begin{remark}[The gap]
+\begin{remark}[The analytic gap]
 \label{rem:gap}
-Hypothesis (H1) controls the \emph{first moment} of the shell dynamics: it bounds $\int_0^{T^*}\sum_j |\partial_t p_j|\,dt$, i.e.\ the total variation of the spectral distribution. Hypothesis (H2) is a \emph{uniform-in-time, sup-in-$j$} bound on $2^{5j/2}\sqrt{p_j(t)}$. Passing from an $L^1_t$ control of the total variation to a $\sup_j$ control of a weighted amplitude requires either
-(i) an interpolation inequality linking $\sum_j |\partial_t p_j|$ to $\sup_j 2^{5j/2}\sqrt{p_j}$ via the viscous dissipation $\sum_j 2^{2j}p_j \in L^1_t$ (which is available from Leray's energy inequality), or
-(ii) a direct PDE estimate showing that the nonlinear cascade cannot concentrate mass in a single shell faster than viscosity damps it.
-Neither (i) nor (ii) is presently available. The interpolation route (i) fails because the weight $2^{5j/2}$ is not controlled by the second moment $2^{2j}$ uniformly in $j$; the PDE route (ii) is essentially the original difficulty of the 3D regularity problem.
+Hypothesis (H1) controls the total variation of the spectral distribution in $L^1_t$. Hypothesis (H1$'$) excludes mass escaping to arbitrarily high shells as $t \nearrow T^*$. Hypothesis (H2) is a uniform-in-time, $\sup$-in-$j$ bound on $2^{5j/2}\sqrt{p_j(t)}$. The gap between (H1)--(H1$'$) and the desired conclusion is exactly the gap between $L^1_t$ control of the total variation and $\sup_j$ control of the weighted amplitude. Neither an interpolation argument nor a direct PDE estimate is currently available: the weight $2^{5j/2}$ is not controlled uniformly in $j$ by the second moment $2^{2j}$ available from Leray's inequality, and a direct PDE estimate would essentially solve the 3D regularity problem.
 \end{remark}
 
 \subsection{The conjecture}
 
 \begin{conjecture}[Fisher--Rao regularity criterion]
 \label{conj:main}
-Let $\mathbf{u}_0 \in H^s(\mathbb{R}^3)$ ($s>5/2$) be divergence-free, and let $\mathbf{u}$ be the local smooth solution to \eqref{eq:ns_cauchy} with $\mathbf{f}=0$. If $\mathcal{L}_{FR}(T^*) < \infty$, then $\int_0^{T^*}\|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty,\infty}}\,dt < \infty$, and $\mathbf{u}$ extends smoothly past $T^*$.
+Let $\mathbf{u}_0 \in H^s(\mathbb{R}^3)$ ($s>5/2$) be divergence-free, and let $\mathbf{u}$ be the local smooth solution to \eqref{eq:ns_cauchy} with $\mathbf{f}=0$. If $\mathcal{L}_{FR}(T^*) < \infty$ and (H1$'$) holds, then $\int_0^{T^*}\|\boldsymbol{\omega}(t)\|_{\dot{B}^0_{\infty,\infty}}\,dt < \infty$, and $\mathbf{u}$ extends smoothly past $T^*$.
 \end{conjecture}
 
 \begin{remark}[Status]
-Conjecture~\ref{conj:main} is proved in Theorem~\ref{thm:partial} under the additional non-concentration hypothesis (H2). We do not know whether (H1) alone suffices. We do not know whether (H1) holds for all smooth unforced solutions; proving this would imply global regularity and is therefore at least as hard as the Clay Millennium Problem.
+Conjecture~\ref{conj:main} is proved in Theorem~\ref{thm:partial} under the additional non-concentration hypothesis (H2). We do not know whether (H1) and (H1$'$) alone suffice. We do not know whether (H1) holds for all smooth unforced solutions; proving this would imply global regularity and is therefore at least as hard as the Clay Millennium Problem.
 \end{remark}
 
 ---
@@ -168,31 +173,14 @@ Conjecture~\ref{conj:main} is proved in Theorem~\ref{thm:partial} under the addi
 
 We separate three levels to avoid any ambiguity:
 \begin{enumerate}
-  \item \textbf{Proved (Theorem~\ref{thm:partial}):} Under (H1)--(H2), no finite-time blow-up.
-  \item \textbf{Conjectured (Conjecture~\ref{conj:main}):} Under (H1) alone, no finite-time blow-up.
+  \item \textbf{Proved (Theorem~\ref{thm:partial}):} Under (H1)--(H1$'$)--(H2), no finite-time blow-up.
+  \item \textbf{Conjectured (Conjecture~\ref{conj:main}):} Under (H1)--(H1$'$) alone, no finite-time blow-up.
   \item \textbf{Open:} Whether (H1) holds for all smooth unforced data. This is at least as hard as the Clay problem.
 \end{enumerate}
 
-\subsection{Numerical evidence for the plausibility of (H1)}
+\subsection{Numerical evidence}
 
-We do not claim a proof of (H1). We report numerical observations from direct numerical simulation of the 3D Taylor--Green vortex at $\mathrm{Re}=1600$ on $\mathbb{T}^3 = [0,2\pi]^3$ (reproducibility scripts archived under \texttt{DOI: 10.5281/zenodo.24137568}):\footnote{The discrete path length $\mathcal{L}_{FR}(T)$ is evaluated between consecutive time steps $t_n, t_{n+1}$ via the exact spherical Fisher--Rao geodesic arc length $\Delta \mathcal{L}_{FR}(t_n, t_{n+1}) = 2 \arccos\big(\min(1, \sum_{j} \sqrt{p_j(t_n)\, p_j(t_{n+1})})\big)$, avoiding finite-difference division singularities in high-frequency tails.}
-
-% DNS_TABLE_START
-\begin{center}
-\begin{tabular}{cccc}
-\toprule
-$N$ & $\mathcal{L}_{FR}(T=10)$ & $\widetilde{\Omega}_{\max}$ & $\kappa_{\mathrm{eff}}$ \\
-\midrule
-$32$  & $3.646$ & $14.902$ & $0.272$ \\
-$48$  & $3.439$ & $29.193$ & $0.039$ \\
-$64$  & $3.452$ & $41.914$ & $0.160$ \\
-\bottomrule
-\end{tabular}
-\end{center}
-% DNS_TABLE_END
-
-\noindent
-These values are \emph{finite} over the simulated window and stabilize under mesh refinement. They are consistent with (H1), but they do not prove it: a finite-time blow-up could occur beyond $T=20$, or for initial data not sampled here. We emphasize that numerical evidence for a hypothesis is not a proof of it.
+We do not report DNS data in this manuscript. The companion LES paper reports spectral diagnostics for the Taylor--Green vortex at $\mathrm{Re}=1600$; those diagnostics are consistent with the finiteness of $\mathcal{L}_{FR}$ over the simulated window, but they are not a proof of (H1).\footnote{When DNS data become available, the discrete path length is evaluated via the exact spherical Fisher--Rao geodesic arc length $\Delta\mathcal{L}_{FR}(t_n,t_{n+1}) = 2\arccos\big(\min(1,\sum_j \sqrt{p_j(t_n)p_j(t_{n+1})})\big)$, which is free of finite-difference division singularities.} Numerical evidence for a hypothesis is not a proof of it, and we do not claim otherwise.
 
 \subsection{What is not claimed}
 
@@ -200,7 +188,7 @@ These values are \emph{finite} over the simulated window and stabilize under mes
   \item We do not claim an unconditional solution to the 3D global regularity problem.
   \item We do not claim that $\kappa=\ln 10$ is an invariant of \eqref{eq:ns_cauchy}. It is a modeling hypothesis, used only in the LES companion paper, not in Theorem~\ref{thm:partial} or Conjecture~\ref{conj:main}.
   \item We do not claim that Fisher--Rao path length is invariant under Tao's averaged flow. We expect it is \emph{not}, since averaging destroys inter-shell phase coherence; but we do not prove this. Whether this suffices to place Conjecture~\ref{conj:main} outside Tao's obstruction is open.
-  \item We do not claim sharpness of (H1) or (H2). We do not know whether they are necessary, sufficient alone, or improvable.
+  \item We do not claim sharpness of (H1), (H1$'$), or (H2). We do not know whether they are necessary, sufficient alone, or improvable.
 \end{itemize}
 
 ---
@@ -210,7 +198,7 @@ These values are \emph{finite} over the simulated window and stabilize under mes
 We collect the precise questions that remain open, in decreasing order of ambition.
 
 \begin{openproblem}[Unconditional regularity]
-Prove or disprove Conjecture~\ref{conj:main} without hypothesis (H2). Equivalently: prove that (H1) alone implies $\int_0^{T^*}\|\boldsymbol{\omega}\|_{\dot{B}^0_{\infty,\infty}}dt<\infty$.
+Prove or disprove Conjecture~\ref{conj:main} without hypothesis (H2). Equivalently: prove that (H1) and (H1$'$) alone imply $\int_0^{T^*}\|\boldsymbol{\omega}\|_{\dot{B}^0_{\infty,\infty}}dt<\infty$.
 \end{openproblem}
 
 \begin{openproblem}[Validity of (H1)]
@@ -226,7 +214,7 @@ Tao \cite{Tao2016} rules out regularity proofs that remain valid under averaged 
 \end{openproblem}
 
 \section*{Acknowledgments and Formal Verification Artifacts}
-Algebraic inequalities for the Cauchy--Schwarz simplex bound and dyadic commutator structures were machine-checked in Lean~4 (\texttt{RiemannFisherRao.lean}, \texttt{BonyCommutatorDyadic.lean}, \texttt{sorry = 0}) and archived in the companion repository (\texttt{DOI: 10.5281/zenodo.24137568}).
+Algebraic identities for the Bhattacharyya--Hellinger sphere regularization ($p_j = q_j^2$) and simplex variation bounds were machine-checked in Lean~4 (\texttt{RiemannFisherRao.lean}, \texttt{BonyCommutatorDyadic.lean}, \texttt{sorry = 0}) and archived in the companion repository (\texttt{DOI: 10.5281/zenodo.24137568}).
 
 \begin{thebibliography}{99}
 

@@ -18,12 +18,16 @@ Modelfile_aether_cool
 Modelfile_aether_fast
 Modelfile_aether_metal
 __pycache__/
+dist/
 lake-manifest.json
 models_ram
 models_ram/
 oasis-core-simulation/target/
 ocean_wallpaper.html
 p2p_reflector.log
+papers/*.aux
+papers/*.log
+papers/*.out
 reflector.log
 target/
 test.txt
@@ -43,4 +47,3 @@ vault/darwin_terminal_scrape.md
 vault/e2ee_vault_mirror.json
 vault/quarantine_hashes.json
 vault/swarm_peers.json
-dist/
