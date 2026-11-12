@@ -111,6 +111,24 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"skill": "sec", "output": res.stdout, "status": "COMPLETED"})
                 return
 
+                        elif skill in ["ia", "ask", "llm"]:
+                import urllib.request
+                parts = prompt.split(" ", 1)
+                mod = parts[0] if len(parts) > 1 and ":" in parts[0] else "qwen2.5:1.5b"
+                q = parts[1] if len(parts) > 1 and ":" in parts[0] else prompt
+                if not q:
+                    self._send_json({"error": "Uso: ia <modelo> <pregunta>"}, 400)
+                    return
+                payload = json.dumps({"model": mod, "prompt": q, "stream": False, "options": {"num_thread": 2, "temperature": 0.618}}).encode()
+                try:
+                    req = urllib.request.Request("http://127.0.0.1:11434/api/generate", data=payload, headers={"Content-Type": "application/json"})
+                    with urllib.request.urlopen(req, timeout=45) as r:
+                        ans = json.loads(r.read().decode()).get("response", "")
+                    self._send_json({"skill": "ia", "output": f"[{mod}]\n{ans}", "status": "COMPLETED"})
+                except Exception as e:
+                    self._send_json({"error": f"Fallo Ollama: {e}", "status": "FAILED"}, 502)
+                return
+
             elif skill in ["crm"]:
                 res = subprocess.run([sys.executable, "tools/oasis_crm.py", "list"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
                 self._send_json({"skill": "crm", "output": res.stdout, "status": "COMPLETED"})

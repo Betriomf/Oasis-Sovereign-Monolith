@@ -43,3 +43,4 @@ vault/darwin_terminal_scrape.md
 vault/e2ee_vault_mirror.json
 vault/quarantine_hashes.json
 vault/swarm_peers.json
+dist/
