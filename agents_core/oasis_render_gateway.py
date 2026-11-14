@@ -42,8 +42,8 @@ def call_ollama(model, prompt, ctx=512, num_predict=110, timeout=90):
             "model": model,
             "prompt": prompt,
             "stream": False,
-            "keep_alive": "5m",
-            "options": {"num_thread": 2, "num_ctx": ctx, "num_predict": num_predict}
+            "keep_alive": 0 if "1.5b" in model else "2m",
+            "options": {"num_thread": 2, "num_ctx": 512 if "1.5b" in model else ctx, "num_predict": num_predict, "repeat_penalty": 1.618}
         }).encode("utf-8"),
         headers={"Content-Type": "application/json"}
     )
@@ -222,6 +222,73 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"error": f"Motor IA ocupado: {e}", "status": "FAILED"}, 502)
             return
 
+            method = payload.get("method", "")
+            rpc_id = payload.get("id", 1)
+            params = payload.get("params", {})
+            if method == "tools/list":
+                self._send_json({
+                    "jsonrpc": "2.0",
+                    "id": rpc_id,
+                    "result": {
+                        "tools": [
+                            {"name": "ask", "description": "Búsqueda híbrida soberana (Bóveda RAG + Wiki + arXiv + GNews + URL-to-Markdown)"},
+                            {"name": "minkowski", "description": "Filtro causal relativista C99 O(1) (ds^2 >= 0)"},
+                            {"name": "sec", "description": "Auditoría defensiva de postura de red e invariantes CRM"}
+                        ]
+                    }
+                })
+                return
+            elif method == "tools/call":
+                t_name = params.get("name", "ask")
+                q_arg = params.get("arguments", {}).get("query", "")
+                try:
+                    if t_name == "ask":
+                        from tools.oasis_hybrid_oracle import run_oracle
+                        res_txt = run_oracle(q_arg)
+                    elif t_name == "minkowski":
+                        res_txt = subprocess.run(["./tools/oasis_kernel_filter"], capture_output=True, text=True, cwd=BASE_DIR, timeout=5).stdout
+                    else:
+                        res_txt = subprocess.run([sys.executable, "tools/oasis_sec_auditor.py"], capture_output=True, text=True, cwd=BASE_DIR, timeout=5).stdout
+                except Exception as e:
+                    res_txt = f"⚠️ [OASIS MCP FALLBACK]: Error ejecutando tool '{t_name}': {e}"
+                self._send_json({"jsonrpc": "2.0", "id": rpc_id, "result": {"content": [{"type": "text", "text": res_txt}]}})
+                return
+
+        elif self.path == "/v1/mcp":
+            content_len = int(self.headers.get("Content-Length", 0))
+            raw_body = self.rfile.read(content_len).decode("utf-8") if content_len > 0 else "{}"
+            try:
+                payload = json.loads(raw_body)
+            except Exception:
+                payload = {}
+            method = payload.get("method", "")
+            rpc_id = payload.get("id", 1)
+            params = payload.get("params", {})
+            if method == "tools/list":
+                self._send_json({
+                    "jsonrpc": "2.0",
+                    "id": rpc_id,
+                    "result": {
+                        "tools": [
+                            {"name": "ask", "description": "Oraculo soberano RAG + arXiv + Wiki + GNews + Crawl4AI"},
+                            {"name": "minkowski", "description": "Filtro causal C99 O(1)"},
+                            {"name": "sec", "description": "Auditoria defensiva de red"}
+                        ]
+                    }
+                })
+                return
+            elif method == "tools/call":
+                t_name = params.get("name", "ask")
+                q_arg = params.get("arguments", {}).get("query", "")
+                if t_name == "ask":
+                    from tools.oasis_hybrid_oracle import run_oracle
+                    res_txt = run_oracle(q_arg)
+                elif t_name == "minkowski":
+                    res_txt = subprocess.run(["./tools/oasis_kernel_filter"], capture_output=True, text=True, cwd=BASE_DIR).stdout
+                else:
+                    res_txt = subprocess.run([sys.executable, "tools/oasis_sec_auditor.py"], capture_output=True, text=True, cwd=BASE_DIR).stdout
+                self._send_json({"jsonrpc": "2.0", "id": rpc_id, "result": {"content": [{"type": "text", "text": res_txt}]}})
+                return
         elif self.path == "/v1/skill":
             skill = payload.get("skill", "")
             prompt = payload.get("prompt", "")
