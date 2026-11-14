@@ -283,7 +283,15 @@
     async function handleSovCmd(cmd) {
       if (!cmd) { termSov.write(sovPrompt); return; }
       if (cmd === "clear") { termSov.clear(); termSov.write(sovPrompt); return; }
-                              if (cmd === "paper" || cmd === "build_paper") {
+                                    if (cmd.startsWith("pool ")) {
+        execSkill("pool", cmd.substring(5).trim());
+        return;
+      }
+      if (cmd === "agents" || cmd === "roles") {
+        execSkill("agents");
+        return;
+      }
+      if (cmd === "paper" || cmd === "build_paper") {
         execSkill("paper");
         return;
       }
