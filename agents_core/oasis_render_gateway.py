@@ -22,11 +22,35 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, "agents_core", "templates")
 L402_CHALLENGES = {}
 AKASH_BENEFICIARY_KEY = "oasis-sovereign"
 AKASH_BENEFICIARY_ADDR = "akash1dy3ph3lcylhwu9mz969kpg4jh49qs03mkn6v4y"
-AKASH_PRICE_UAKT = 5000  # 0.005 AKT por consulta
+AKASH_PRICE_UAKT = 5000
 USED_AKASH_TXS = set()
 
+DEEP_AGENTS = ("@edge", "@laminar", "@aether", "@rizin", "@lean4", "@fibonacci", "@riona", "c99", "rizin", "lean 4")
+
+def route_model_and_ctx(prompt, requested_model=None):
+    if requested_model:
+        return requested_model, (1024 if "1.5b" in requested_model else 512)
+    low = prompt.lower()
+    if any(tag in low for tag in DEEP_AGENTS):
+        return "oasis-sovereign:1.5b", 1024
+    return "oasis-flash:0.5b", 512
+
+def call_ollama(model, prompt, ctx=512, num_predict=110, timeout=90):
+    req = urllib.request.Request(
+        "http://127.0.0.1:11434/api/generate",
+        data=json.dumps({
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+            "keep_alive": "5m",
+            "options": {"num_thread": 2, "num_ctx": ctx, "num_predict": num_predict}
+        }).encode("utf-8"),
+        headers={"Content-Type": "application/json"}
+    )
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8"))
+
 def verify_akash_tx(txhash):
-    """Consulta la API REST pública de Akash para verificar envío >= AKASH_PRICE_UAKT a AKASH_BENEFICIARY_ADDR."""
     if not txhash or txhash in USED_AKASH_TXS or len(txhash) != 64:
         return False
     url = f"https://rest.cosmos.directory/akash/cosmos/tx/v1beta1/txs/{txhash}"
@@ -34,11 +58,9 @@ def verify_akash_tx(txhash):
         req = urllib.request.Request(url, headers={"User-Agent": "OasisGateway/20.0"})
         with urllib.request.urlopen(req, timeout=8) as r:
             data = json.loads(r.read().decode("utf-8"))
-        tx_resp = data.get("tx_response", {})
-        if tx_resp.get("code", 1) != 0:
+        if data.get("tx_response", {}).get("code", 1) != 0:
             return False
-        msgs = data.get("tx", {}).get("body", {}).get("messages", [])
-        for m in msgs:
+        for m in data.get("tx", {}).get("body", {}).get("messages", []):
             if m.get("@type") == "/cosmos.bank.v1beta1.MsgSend" and m.get("to_address") == AKASH_BENEFICIARY_ADDR:
                 for coin in m.get("amount", []):
                     if coin.get("denom") == "uakt" and int(coin.get("amount", 0)) >= AKASH_PRICE_UAKT:
@@ -47,7 +69,6 @@ def verify_akash_tx(txhash):
     except Exception:
         return False
     return False
-
 
 class OasisGatewayHandler(BaseHTTPRequestHandler):
     def _send_json(self, data, status=200, extra_headers=None):
@@ -78,30 +99,14 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 "silicon": "cold",
                 "power_w": 2.58,
                 "regime": "laminar_passive",
+                "pool_models": ["oasis-flash:0.5b", "oasis-sovereign:1.5b"],
                 "l402_gateway": "ACTIVE",
                 "port": port
             })
             return
 
-        elif self.path == "/v1/papers/paper_b.pdf":
-            pdf_path = os.path.join(BASE_DIR, "papers", "paper_b_millennium_regularity.pdf")
-            if os.path.exists(pdf_path):
-                with open(pdf_path, "rb") as f:
-                    pdf_data = f.read()
-                self.send_response(200)
-                self.send_header("Content-Type", "application/pdf")
-                self.send_header("Content-Length", str(len(pdf_data)))
-                self.send_header("Cache-Control", "no-store")
-                self.end_headers()
-                self.wfile.write(pdf_data)
-            else:
-                self._send_json({"error": "PDF aún no compilado (pdflatex ausente o build pendiente)"}, 404)
-            return
-
         elif self.path == "/v1/vault/list":
-            vault_files = []
-            if os.path.exists(VAULT_DIR):
-                vault_files = sorted([f for f in os.listdir(VAULT_DIR) if not f.startswith(".")])
+            vault_files = sorted([f for f in os.listdir(VAULT_DIR) if not f.startswith(".")]) if os.path.exists(VAULT_DIR) else []
             self._send_json({"vault_files": vault_files, "total": len(vault_files)})
             return
 
@@ -144,6 +149,20 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             self._send_json({"status": "HEARTBEAT_ACK", "silicon": "cold", "power_w": 0.85})
             return
 
+        elif self.path in ["/v1/velazquez", "/v1/chat"]:
+            prompt = payload.get("prompt", payload.get("message", "")).strip()
+            if not prompt:
+                self._send_json({"error": "Pregunta vacía"}, 400)
+                return
+            model, ctx = route_model_and_ctx(prompt, payload.get("model"))
+            try:
+                res = call_ollama(model, prompt, ctx=ctx, num_predict=110, timeout=90)
+                ans = res.get("response", "").strip()
+                self._send_json({"agent": f"Velázquez ({model})", "model": model, "response": ans, "output": ans, "status": "COMPLETED"})
+            except Exception as e:
+                self._send_json({"error": f"Ollama ocupado o timeout: {e}", "status": "FAILED"}, 502)
+            return
+
         elif self.path == "/v1/l402/infer":
             auth = self.headers.get("Authorization", "")
             paid = False
@@ -154,7 +173,6 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 if verify_akash_tx(tx_id):
                     paid = True
                     verified_hash = f"AKASH-TX-{tx_id}"
-
             elif auth.startswith("L402 ") and ":" in auth:
                 try:
                     _, creds = auth.split(" ", 1)
@@ -174,9 +192,14 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 invoice_mock = f"lnbc50n1oasis0pilar3870{pay_hash[:24]}"
                 self._send_json(
                     {
-                        "error": "Payment Required (L402 Lightning Micropayment)",
+                        "error": "Payment Required (Akash / L402 Micropayment)",
                         "price_sats": 5,
-                        "akash_settlement": {"key_name": AKASH_BENEFICIARY_KEY, "address": AKASH_BENEFICIARY_ADDR, "amount_uakt": AKASH_PRICE_UAKT, "header_format": "Authorization: Akash <txhash>"},
+                        "akash_settlement": {
+                            "key_name": AKASH_BENEFICIARY_KEY,
+                            "address": AKASH_BENEFICIARY_ADDR,
+                            "amount_uakt": AKASH_PRICE_UAKT,
+                            "header_format": "Authorization: Akash <txhash>"
+                        },
                         "payment_hash": pay_hash,
                         "invoice": invoice_mock,
                         "sandbox_preimage_for_test": secret_preimage
@@ -186,22 +209,12 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 )
                 return
 
-            prompt = payload.get("prompt", "Confirma recepción L402.")
-            model = payload.get("model", "qwen2.5:1.5b")
-            req_ai = urllib.request.Request(
-                "http://127.0.0.1:11434/api/generate",
-                data=json.dumps({"model": model, "prompt": prompt, "stream": False, "keep_alive": -1, "options": {"num_thread": 2}}).encode("utf-8"),
-                headers={"Content-Type": "application/json"}
-            )
+            prompt = payload.get("prompt", "Confirma recepción.")
+            model, ctx = route_model_and_ctx(prompt, payload.get("model"))
             try:
-                with urllib.request.urlopen(req_ai, timeout=90) as r:
-                    ans = json.loads(r.read().decode("utf-8")).get("response", "")
-                self._send_json({
-                    "status": "SETTLED_AND_COMPLETED",
-                    "payment_hash": verified_hash,
-                    "model": model,
-                    "response": ans
-                })
+                res = call_ollama(model, prompt, ctx=ctx, num_predict=110, timeout=90)
+                ans = res.get("response", "").strip()
+                self._send_json({"status": "SETTLED_AND_COMPLETED", "payment_hash": verified_hash, "model": model, "response": ans})
             except Exception as e:
                 self._send_json({"error": f"Motor IA ocupado: {e}", "status": "FAILED"}, 502)
             return
@@ -212,40 +225,60 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             env_vars = os.environ.copy()
             env_vars["OMP_NUM_THREADS"] = "2"
 
-            if skill in ["paper", "build_paper", "paper_b"]:
+            if skill in ["pool", "benchmark", "compare"]:
+                parts = prompt.split(" ", 2)
+                if len(parts) < 3:
+                    self._send_json({"error": "Uso: pool <modelo1> <modelo2> <pregunta>", "status": "FAILED"}, 400)
+                    return
+                m1, m2, q = parts[0], parts[1], parts[2]
+                out_txt = "📊 [OASIS AI POOL — COMPARATIVA EN SILICIO FRÍO (2 HILOS)]:\n"
+                out_txt += "────────────────────────────────────────────────────────────────\n"
+                for m in [m1, m2]:
+                    ctx = 1024 if "1.5b" in m else 512
+                    t_start = time.time()
+                    try:
+                        res_data = call_ollama(m, q, ctx=ctx, num_predict=100, timeout=90)
+                        ans = res_data.get("response", "").strip()
+                        toks = res_data.get("eval_count", 0)
+                        dt = max(time.time() - t_start, 0.01)
+                        tps = round(toks / dt, 2)
+                        out_txt += f"▸ {m} [{tps} tok/s | {round(dt, 2)}s | <=2.58W]:\n  {ans}\n\n"
+                    except Exception as e:
+                        out_txt += f"▸ {m} ──► ❌ Error: {e}\n\n"
+                self._send_json({"skill": "pool", "output": out_txt, "status": "COMPLETED"})
+                return
+
+            elif skill in ["agents", "roles"]:
+                roles_p = os.path.join(VAULT_DIR, "oasis_agent_roles.json")
+                if os.path.exists(roles_p):
+                    with open(roles_p, "r", encoding="utf-8") as f:
+                        out = f.read()
+                    self._send_json({"skill": "agents", "output": out, "status": "COMPLETED"})
+                else:
+                    self._send_json({"error": "oasis_agent_roles.json no encontrado", "status": "FAILED"}, 404)
+                return
+
+            elif skill in ["paper", "build_paper", "paper_b"]:
                 res = subprocess.run(["bash", "tools/build_paper_b.sh"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
                 out = res.stdout + ("\n" + res.stderr if res.stderr else "")
-                status = "COMPLETED" if res.returncode == 0 else "FAILED"
-                self._send_json({"skill": "paper", "output": out, "status": status})
+                self._send_json({"skill": "paper", "output": out, "status": "COMPLETED" if res.returncode == 0 else "FAILED"})
                 return
+
             elif skill in ["minkowski", "filter", "pilar387"]:
                 res = subprocess.run(["./tools/oasis_kernel_filter"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
                 self._send_json({"skill": "minkowski", "output": res.stdout, "status": "COMPLETED"})
                 return
+
             elif skill in ["sec", "audit", "posture"]:
                 res = subprocess.run([sys.executable, "tools/oasis_sec_auditor.py"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
                 self._send_json({"skill": "sec", "output": res.stdout, "status": "COMPLETED"})
                 return
-            elif skill in ["ia", "ask", "llm"]:
-                if not prompt:
-                    self._send_json({"error": "Se requiere prompt"}, 400)
-                    return
-                req_ai = urllib.request.Request(
-                    "http://127.0.0.1:11434/api/generate",
-                    data=json.dumps({"model": "qwen2.5:1.5b", "prompt": prompt, "stream": False, "keep_alive": -1, "options": {"num_thread": 2}}).encode("utf-8"),
-                    headers={"Content-Type": "application/json"}
-                )
-                try:
-                    with urllib.request.urlopen(req_ai, timeout=90) as r:
-                        ans = json.loads(r.read().decode("utf-8")).get("response", "")
-                    self._send_json({"skill": "ia", "output": ans, "status": "COMPLETED"})
-                except Exception as e:
-                    self._send_json({"error": str(e), "status": "FAILED"}, 502)
-                return
+
             elif skill in ["crm"]:
                 res = subprocess.run([sys.executable, "tools/oasis_crm.py", "list"], capture_output=True, text=True, cwd=BASE_DIR, env=env_vars)
                 self._send_json({"skill": "crm", "output": res.stdout, "status": "COMPLETED"})
                 return
+
             else:
                 self._send_json({"error": f"Skill '{skill}' no catalogada", "status": "FAILED"}, 404)
                 return
@@ -256,7 +289,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
     httpd = ThreadedHTTPServer(("127.0.0.1", port), OasisGatewayHandler)
-    print(f"🚀 [OASIS GATEWAY + L402]: Escuchando en http://127.0.0.1:{port}/terminal")
+    print(f"🚀 [OASIS GATEWAY + POOL]: Escuchando en http://127.0.0.1:{port}/terminal")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

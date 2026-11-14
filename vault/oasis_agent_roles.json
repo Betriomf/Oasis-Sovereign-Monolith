@@ -1,0 +1,14 @@
+{
+  "pool_models": {
+    "oasis-flash:0.5b": {
+      "size_mb": 397,
+      "absorbe_nombres": ["velazquez", "qwen:flash", "freebuff", "freebuff:pl1", "oasis-lincos", "qwen2.5:lincos", "oasis-traductor", "oasis-auditor", "juez-binario"],
+      "especialidad": "Latencia ultrabaja (<0.7s), compresión simbólica LINCOS para radio LoRa, auditoría Nuclei/Pacing Áureo y lógica binaria SI/NO."
+    },
+    "oasis-sovereign:1.5b": {
+      "size_mb": 986,
+      "absorbe_nombres": ["oasis-edge", "oasis-laminar", "oasis-aether-soup", "aether", "fibonacci", "riona"],
+      "especialidad": "Código C99, física laminar, análisis binario Rizin -> Lean 4 (sorry=0) y defensa anti-malware en cuarentena RAM."
+    }
+  }
+}
