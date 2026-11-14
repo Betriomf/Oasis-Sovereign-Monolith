@@ -156,11 +156,14 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 return
             model, ctx = route_model_and_ctx(prompt, payload.get("model"))
             try:
-                res = call_ollama(model, prompt, ctx=ctx, num_predict=110, timeout=90)
+                res = call_ollama(model, prompt, ctx=ctx, num_predict=110, timeout=15)
                 ans = res.get("response", "").strip()
                 self._send_json({"agent": f"Velázquez ({model})", "model": model, "response": ans, "output": ans, "status": "COMPLETED"})
-            except Exception as e:
-                self._send_json({"error": f"Ollama ocupado o timeout: {e}", "status": "FAILED"}, 502)
+            except Exception:
+                # Fallback autonomo en la nube (Render) cuando el Mac esta cerrado
+                from tools.oasis_hybrid_oracle import run_oracle
+                ans = run_oracle(prompt)
+                self._send_json({"agent": "Velázquez Cloud (Autonomous)", "model": "oasis-hybrid-oracle", "response": ans, "output": ans, "status": "COMPLETED"})
             return
 
         elif self.path == "/v1/l402/infer":
@@ -288,7 +291,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8080))
-    httpd = ThreadedHTTPServer(("127.0.0.1", port), OasisGatewayHandler)
+    httpd = ThreadedHTTPServer(("0.0.0.0", port), OasisGatewayHandler)
     print(f"🚀 [OASIS GATEWAY + POOL]: Escuchando en http://127.0.0.1:{port}/terminal")
     try:
         httpd.serve_forever()
