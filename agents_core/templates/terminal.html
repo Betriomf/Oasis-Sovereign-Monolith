@@ -143,6 +143,27 @@
       color: #fff; padding: 6px 10px; font-size: 11px; font-family: inherit; border-radius: 3px;
     }
   </style>
+
+<script>
+  (function() {
+    const origFetch = window.fetch;
+    const RENDER_URL = "https://oasis-sovereign-wind-node.onrender.com";
+    window.fetch = async function(input, init) {
+      let url = typeof input === "string" ? input : input.url;
+      if (window.location.hostname.includes("hf.space") && url.startsWith("/v1/")) {
+        url = RENDER_URL + url;
+      }
+      try {
+        return await origFetch(url, { ...init, mode: "cors" });
+      } catch (err) {
+        // Reintento unico tras 3.5s si el nodo gratuito de Render estaba despertando
+        await new Promise(r => setTimeout(r, 3500));
+        return await origFetch(url, { ...init, mode: "cors" });
+      }
+    };
+  })();
+</script>
+
 </head>
 <body>
   <div id="top-bar">
