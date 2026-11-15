@@ -353,6 +353,10 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             return
         elif self.path == "/v1/skill":
             skill = payload.get("skill", "")
+            if skill in ["fiscal", "irpf", "iva", "hacienda"]:
+                from tools.oasis_fiscal_es import summary_report
+                self._send_json({"skill": "fiscal", "output": summary_report(), "status": "COMPLETED"})
+                return
             if skill in ["play", "game-boost", "gaming"]:
                 msg = "🎮 [OASIS PLAY SDK — GPU ASSIST & PACING ÁUREO ACTIVO]\n• Jitter P99 colapsado: 0.085 ms (Δt = π/φ = 1.94 ms)\n• Almacenamiento: OPFS Zero-Copy listo para activos WebGL/WASM\n• Endpoints SDK: POST /v1/skill (play) | WebRTC DataChannel P2P"
                 self._send_json({"skill": "play", "output": msg, "status": "COMPLETED", "jitter_p99_ms": 0.085})
