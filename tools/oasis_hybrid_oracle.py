@@ -96,3 +96,21 @@ def run_oracle(query):
 if __name__ == "__main__":
     q = " ".join(sys.argv[1:]).strip() if len(sys.argv) > 1 else "CRM y Lean 4"
     print(run_oracle(q))
+
+
+def crawl_url_to_markdown(url, max_chars=1200):
+    """Extrae texto limpio en formato Markdown de cualquier URL publica sin Chromium."""
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "OasisSovereignCrawler/3.1"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            raw_html = r.read().decode("utf-8", errors="ignore")
+        m_title = re.search(r'<title[^>]*>([\s\S]*?)</title>', raw_html, re.IGNORECASE)
+        title = html.unescape(re.sub(r'\s+', ' ', m_title.group(1))).strip() if m_title else url
+        cleaned = re.sub(r'<(script|style|nav|footer|header|aside|noscript)[^>]*>[\s\S]*?</\1>', ' ', raw_html, flags=re.IGNORECASE)
+        cleaned = re.sub(r'<(p|div|br|h[1-3]|li)[^>]*>', '\n', cleaned, flags=re.IGNORECASE)
+        cleaned = re.sub(r'<[^>]+>', ' ', cleaned)
+        cleaned = html.unescape(cleaned)
+        lines = [re.sub(r'[ \t]+', ' ', ln).strip() for ln in cleaned.splitlines() if len(ln.strip()) > 25]
+        return title, "\n".join(lines)[:max_chars]
+    except Exception as e:
+        return url, f"Error extrayendo URL: {e}"

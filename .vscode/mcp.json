@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "oasis-local-darwin": {
+      "type": "http",
+      "url": "http://127.0.0.1:8080/v1/mcp"
+    },
+    "oasis-cloud-node": {
+      "type": "http",
+      "url": "https://oasis-sovereign-wind-node.onrender.com/v1/mcp"
+    }
+  }
+}

@@ -16,6 +16,8 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     daemon_threads = True
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 VAULT_DIR = os.path.join(BASE_DIR, "vault")
 TEMPLATE_DIR = os.path.join(BASE_DIR, "agents_core", "templates")
 
@@ -255,24 +257,50 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 return
 
         elif self.path == "/v1/mcp":
-            content_len = int(self.headers.get("Content-Length", 0))
-            raw_body = self.rfile.read(content_len).decode("utf-8") if content_len > 0 else "{}"
-            try:
-                payload = json.loads(raw_body)
-            except Exception:
-                payload = {}
             method = payload.get("method", "")
-            rpc_id = payload.get("id", 1)
+            rpc_id = payload.get("id")
             params = payload.get("params", {})
-            if method == "tools/list":
+
+            if method == "initialize":
+                self._send_json({
+                    "jsonrpc": "2.0",
+                    "id": rpc_id,
+                    "result": {
+                        "protocolVersion": "2024-11-05",
+                        "capabilities": {"tools": {"listChanged": False}},
+                        "serverInfo": {"name": "oasis-sovereign-mcp", "version": "20.1.0"}
+                    }
+                })
+                return
+            elif method == "notifications/initialized":
+                self.send_response(204)
+                self.end_headers()
+                return
+            elif method == "tools/list":
                 self._send_json({
                     "jsonrpc": "2.0",
                     "id": rpc_id,
                     "result": {
                         "tools": [
-                            {"name": "ask", "description": "Oraculo soberano RAG + arXiv + Wiki + GNews + Crawl4AI"},
-                            {"name": "minkowski", "description": "Filtro causal C99 O(1)"},
-                            {"name": "sec", "description": "Auditoria defensiva de red"}
+                            {
+                                "name": "ask",
+                                "description": "Oráculo híbrido soberano (Bóveda RAG + Wikipedia + arXiv + GNews + URL-to-Markdown)",
+                                "inputSchema": {
+                                    "type": "object",
+                                    "properties": {"query": {"type": "string", "description": "Consulta o URL https://"}},
+                                    "required": ["query"]
+                                }
+                            },
+                            {
+                                "name": "minkowski",
+                                "description": "Verifica causalidad relativista C99 (ds^2 >= 0) y cota Golod-Shafarevich (r > d^2/4)",
+                                "inputSchema": {"type": "object", "properties": {}}
+                            },
+                            {
+                                "name": "sec",
+                                "description": "Auditoría defensiva de invariantes del sistema Oasis",
+                                "inputSchema": {"type": "object", "properties": {}}
+                            }
                         ]
                     }
                 })
@@ -280,15 +308,26 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             elif method == "tools/call":
                 t_name = params.get("name", "ask")
                 q_arg = params.get("arguments", {}).get("query", "")
-                if t_name == "ask":
-                    from tools.oasis_hybrid_oracle import run_oracle
-                    res_txt = run_oracle(q_arg)
-                elif t_name == "minkowski":
-                    res_txt = subprocess.run(["./tools/oasis_kernel_filter"], capture_output=True, text=True, cwd=BASE_DIR).stdout
-                else:
-                    res_txt = subprocess.run([sys.executable, "tools/oasis_sec_auditor.py"], capture_output=True, text=True, cwd=BASE_DIR).stdout
-                self._send_json({"jsonrpc": "2.0", "id": rpc_id, "result": {"content": [{"type": "text", "text": res_txt}]}})
+                try:
+                    if t_name == "ask":
+                        from tools.oasis_hybrid_oracle import run_oracle
+                        res_txt = run_oracle(q_arg)
+                    elif t_name == "minkowski":
+                        res_txt = subprocess.run(["./tools/oasis_kernel_filter"], capture_output=True, text=True, cwd=BASE_DIR, timeout=5).stdout
+                    else:
+                        res_txt = subprocess.run([sys.executable, "tools/oasis_sec_auditor.py"], capture_output=True, text=True, cwd=BASE_DIR, timeout=5).stdout
+                except Exception as e:
+                    res_txt = f"[OASIS MCP ERROR]: {e}"
+                self._send_json({
+                    "jsonrpc": "2.0",
+                    "id": rpc_id,
+                    "result": {"content": [{"type": "text", "text": res_txt}], "isError": False}
+                })
                 return
+            else:
+                self._send_json({"jsonrpc": "2.0", "id": rpc_id, "error": {"code": -32601, "message": f"Method not found: {method}"}}, 400)
+                return
+
         elif self.path == "/v1/skill":
             skill = payload.get("skill", "")
             prompt = payload.get("prompt", "")
