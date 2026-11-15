@@ -92,7 +92,7 @@ def run_oracle(query):
             }).encode("utf-8"),
             headers={"Content-Type": "application/json"}
         )
-        with urllib.request.urlopen(ai_req, timeout=20) as r:
+        with urllib.request.urlopen(ai_req, timeout=4.5) as r:
             gen = json.loads(r.read().decode("utf-8")).get("response", "").strip()
             if gen:
                 answer = gen + "\n\n" + "\n".join(bullets)
