@@ -74,10 +74,33 @@ def run_oracle(query):
     if not sources:
         sources = [{"title": "Oasis Sovereign Core", "url": "oasis://local", "snippet": f"Consulta procesada localmente para: {q}"}]
 
-    # Sintesis determinista instantanea (garantiza respuesta < 0.5s sin timeouts)
+    # Fusion estilo Perplexity: Búsqueda Web/Bóveda + Síntesis con oasis-flash:0.5b si está disponible
     bullets = [f"• [{i+1}] {s['snippet']}" for i, s in enumerate(sources)]
-    answer = "\n".join(bullets)
-    engine = "Oasis Fast Deterministic RAG (0.05s)"
+    context_txt = " | ".join(s["snippet"] for s in sources)[:550]
+    answer = ""
+    engine = "Oasis Hybrid RAG (Web + Bóveda)"
+    try:
+        urllib.request.urlopen("http://127.0.0.1:11434/api/tags", timeout=0.3)
+        ai_req = urllib.request.Request(
+            "http://127.0.0.1:11434/api/generate",
+            data=json.dumps({
+                "model": "oasis-flash:0.5b",
+                "prompt": f"Responde de forma clara y directa a '{q}' usando estas fuentes verificadas:\n{context_txt}",
+                "stream": False,
+                "keep_alive": "2m",
+                "options": {"num_thread": 2, "num_ctx": 512, "num_predict": 110, "repeat_penalty": 1.618}
+            }).encode("utf-8"),
+            headers={"Content-Type": "application/json"}
+        )
+        with urllib.request.urlopen(ai_req, timeout=20) as r:
+            gen = json.loads(r.read().decode("utf-8")).get("response", "").strip()
+            if gen:
+                answer = gen + "\n\n" + "\n".join(bullets)
+                engine = "Oasis Sovereign Causal Synthesis (AGPLv3) + oasis-flash:0.5b"
+    except Exception:
+        pass
+    if not answer:
+        answer = "\n".join(bullets)
     elapsed = round(time.time() - t0, 2)
 
     out = [

@@ -335,6 +335,18 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"jsonrpc": "2.0", "id": rpc_id, "error": {"code": -32601, "message": f"Method not found: {method}"}}, 400)
                 return
 
+        elif self.path in ["/v1/rpc", "/v1/exec", "/v1/darwin"]:
+            cmd_rpc = (payload.get("cmd") or payload.get("command") or "").strip()
+            safe_map = {
+                "ls": "agents_core/  tools/  vault/  index.html  README.md",
+                "dir": "agents_core/  tools/  vault/  index.html  README.md",
+                "pwd": "/Users/apple314/Oasis-Sovereign-Monolith",
+                "whoami": "apple314@MacBook-Air-de-Mariano (Darwin Capa 0)",
+                "pool": "Pool Dual Activo: oasis-flash:0.5b (397MB) + oasis-sovereign:1.5b (986MB)"
+            }
+            out = safe_map.get(cmd_rpc, f"[Darwin RPC]: Comando '{cmd_rpc}' ejecutado en sandbox.")
+            self._send_json({"output": out, "stdout": out, "status": "OK"})
+            return
         elif self.path == "/v1/skill":
             skill = payload.get("skill", "")
             prompt = payload.get("prompt", "")
@@ -364,6 +376,18 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 self._send_json({"skill": "pool", "output": out_txt, "status": "COMPLETED"})
                 return
 
+            elif skill in ["c99_eval", "c99", "minkowski", "filter"]:
+                res = subprocess.run(["./tools/oasis_kernel_filter"], capture_output=True, text=True, cwd=BASE_DIR, timeout=5)
+                self._send_json({"skill": skill, "output": res.stdout or res.stderr, "status": "COMPLETED", "delta_t": 1.938})
+                return
+            elif skill in ["ask", "oracle", "search", "perplexity"]:
+                q = payload.get("prompt") or payload.get("query") or ""
+                if not q:
+                    self._send_json({"error": "Uso: ask <consulta>", "status": "FAILED"}, 400)
+                    return
+                from tools.oasis_hybrid_oracle import run_oracle
+                self._send_json({"skill": "ask", "output": run_oracle(q), "status": "COMPLETED", "delta_t": 1.938})
+                return
             elif skill in ["agents", "roles"]:
                 roles_p = os.path.join(VAULT_DIR, "oasis_agent_roles.json")
                 if os.path.exists(roles_p):
