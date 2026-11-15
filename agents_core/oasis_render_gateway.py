@@ -93,6 +93,13 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
         self.send_header("X-Silicon-Power", "<= 2.58 W")
         self.end_headers()
 
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        self.end_headers()
+
     def do_GET(self):
         if self.path == "/v1/health":
             port = int(os.environ.get("PORT", 8080))
