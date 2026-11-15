@@ -407,3 +407,13 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# --- HOOK AUDIT WEB ---
+if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "sync":
+    import subprocess
+    if os.path.exists("tools/audit_web_terminal.py"):
+        res_web = subprocess.run([sys.executable, "tools/audit_web_terminal.py"], capture_output=True, text=True)
+        if res_web.returncode != 0:
+            print(res_web.stderr or res_web.stdout)
+            sys.exit(1)
+        print(res_web.stdout.strip())
