@@ -1,5 +1,5 @@
 {
-  "catalog_version": "v20.5.0",
+  "catalog_version": "v20.6.0",
   "policy": "Cada módulo es un archivo único 100% autónomo, auditado por separado y despachado dinámicamente sin dependencias externas.",
   "modules": [
     {
@@ -48,6 +48,14 @@
       "file": "sovereign_catalog/06_fiscal_local.py",
       "description": "Simulador privado offline (RAM-only, sin conexión AEAT ni almacenamiento en servidor) para estimación Mod. 303 e IRPF Mod. 130.",
       "standalone_test": "python3 sovereign_catalog/06_fiscal_local.py \"4200 650\"",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "07",
+      "command": "verify_bin / soc",
+      "file": "sovereign_catalog/07_verify_bin_uma.py",
+      "description": "Auditoría binaria C99 -> Lean 4 (BinaryMemorySafety) + Gobernador automático de Memoria Unificada (UMA) para Apple Silicon / Intel.",
+      "standalone_test": "python3 sovereign_catalog/07_verify_bin_uma.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]

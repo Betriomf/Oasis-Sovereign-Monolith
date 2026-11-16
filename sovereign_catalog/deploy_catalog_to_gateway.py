@@ -49,6 +49,8 @@ def inject_unified_dispatcher():
             "modules": ("05_modules_registry.py", "modules_process", True),
             "catalog": ("05_modules_registry.py", "modules_process", True),
             "fiscal": ("06_fiscal_local.py", "fiscal_process", True),
+            "verify_bin": ("07_verify_bin_uma.py", "verify_bin_process", True),
+            "soc": ("07_verify_bin_uma.py", "verify_bin_process", True),
         }}
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]
