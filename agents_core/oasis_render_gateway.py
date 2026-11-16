@@ -353,6 +353,25 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             return
         elif self.path == "/v1/skill":
             skill = payload.get("skill", "")
+        # === SOVEREIGN CATALOG UNIFIED DISPATCHER ===
+        import importlib.util as _ilu
+        _cat_map = {
+            "riona": ("01_riona_sentinel.py", "riona_process", True),
+            "qr": ("02_qr_gossip.py", "qr_process", True),
+            "mesh": ("02_qr_gossip.py", "mesh_process", False),
+            "id": ("02_qr_gossip.py", "id_process", False),
+            "check_hash": ("02_qr_gossip.py", "check_hash_process", True),
+        }
+        if skill in _cat_map:
+            _fname, _fn_name, _takes_arg = _cat_map[skill]
+            _spec = _ilu.spec_from_file_location("cat_mod", str(BASE_DIR / "sovereign_catalog" / _fname))
+            _mod = _ilu.module_from_spec(_spec)
+            _spec.loader.exec_module(_mod)
+            _fn = getattr(_mod, _fn_name)
+            _res = _fn(payload.get("prompt", "")) if _takes_arg else _fn()
+            self._send_json({"skill": skill, "output": _res, "status": "COMPLETED"})
+            return
+        # === END SOVEREIGN CATALOG DISPATCHER ===
         # === OASIS v20.2.0 UNIFIED SKILL & COMPATIBILITY ROUTER ===
         if skill in ["minkowski", "c99", "c99_eval", "pool", "play", "boost-gta", "spark", "rtx", "sheets", "riona", "hemo", "lean", "did", "mesh", "webgpu", "modules"]:
             import platform, shutil
