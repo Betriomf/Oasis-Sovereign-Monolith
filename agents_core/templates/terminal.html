@@ -761,5 +761,90 @@
   }, true);
   </script>
 
+
+<script id="oasis-v208-router">
+(function() {
+  const CATALOG_SKILLS = new Set([
+    "riona", "qr", "mesh", "id", "check_hash",
+    "webgpu", "play", "boost-gta", "sheets",
+    "modules", "catalog", "fiscal", "verify_bin", "soc",
+    "ai", "v", "pilares", "cloud", "always-on",
+    "ask", "pool", "agents", "minkowski", "sec", "c99", "crm", "prove", "lean", "spark"
+  ]);
+
+  function getApiBase() {
+    if (window.location.hostname.includes("huggingface.co") || window.location.hostname.includes("hf.space")) {
+      return "https://oasis-sovereign-wind-node.onrender.com";
+    }
+    return window.location.origin;
+  }
+
+  function printToTerminal(text, color = "#00ff9d") {
+    if (typeof window.appendLine === "function") {
+      String(text).split("\n").forEach(line => window.appendLine(line, color));
+      return;
+    }
+    if (window.term && typeof window.term.writeln === "function") {
+      String(text).split("\n").forEach(line => window.term.writeln(line));
+      return;
+    }
+    const out = document.querySelector("#terminal-output, #output, .terminal-body, pre");
+    if (out) {
+      const div = document.createElement("div");
+      div.style.color = color;
+      div.style.whiteSpace = "pre-wrap";
+      div.textContent = text;
+      out.appendChild(div);
+      out.scrollTop = out.scrollHeight;
+    }
+  }
+
+  async function dispatchCatalogCommand(rawInput) {
+    const parts = rawInput.trim().split(/\s+/);
+    const cmd = parts[0].toLowerCase();
+    const arg = rawInput.trim().slice(parts[0].length).trim();
+
+    if (cmd === "help" || cmd === "ayuda") {
+      printToTerminal(window.OASIS_HELP_V202 || "Comandos: riona, ai, v, qr, mesh, webgpu, play, sheets, fiscal, verify_bin, cloud, modules", "#00ffff");
+      return;
+    }
+
+    if (cmd === "qr" && typeof window.showOasisQRPublic === "function") {
+      window.showOasisQRPublic(arg);
+    }
+
+    printToTerminal(`⚡ [DICCIONARIO SOBERANO — ${cmd}]: Consultando nodo 24/7...`, "#88ccee");
+    try {
+      const res = await fetch(getApiBase() + "/v1/skill", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ skill: cmd, prompt: arg })
+      });
+      const data = await res.json();
+      printToTerminal(data.output || data.response || JSON.stringify(data, null, 2), "#00ff9d");
+    } catch (err) {
+      printToTerminal(`❌ Error conectando con el nodo público: ${err.message}`, "#ff5555");
+    }
+  }
+
+  document.addEventListener("keydown", function(ev) {
+    if (ev.key !== "Enter") return;
+    const el = ev.target;
+    if (!el || typeof el.value !== "string") return;
+    const raw = el.value.trim();
+    if (!raw) return;
+    const first = raw.split(/\s+/)[0].toLowerCase();
+
+    if (first === "help" || first === "ayuda" || CATALOG_SKILLS.has(first)) {
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      el.value = "";
+      printToTerminal(`root@oasis-hurd:/workspace# ${raw}`, "#ffffff");
+      dispatchCatalogCommand(raw);
+    }
+  }, true);
+})();
+</script>
+
 </body>
 </html>
