@@ -1,6 +1,6 @@
 {
-  "catalog_version": "v20.3.0",
-  "policy": "Cada módulo es un archivo único 100% autónomo (0 dependencias internas), verificado por separado y desplegado en bloque mediante deploy_catalog_to_gateway.py.",
+  "catalog_version": "v20.4.0",
+  "policy": "Cada módulo es un archivo único 100% autónomo, auditado por separado y despachado dinámicamente sin dependencias externas.",
   "modules": [
     {
       "id": "01",
@@ -15,7 +15,7 @@
       "command": "qr / mesh / id / check_hash",
       "file": "sovereign_catalog/02_qr_gossip.py",
       "description": "Generador QR SVG escaneable (#qr-modal-public), telemetría de Malla Gossip sin undefined, identidad DID y aduana SHA-256.",
-      "standalone_test": "python3 sovereign_catalog/02_qr_gossip.py qr",
+      "standalone_test": "python3 sovereign_catalog/02_qr_gossip.py mesh",
       "status": "VERIFIED_AND_SEALED"
     },
     {
@@ -32,6 +32,14 @@
       "file": "sovereign_catalog/04_sovereign_sheets.py",
       "description": "Hoja de cálculo soberana conectada a vault/ con exportación automática a CSV.",
       "standalone_test": "python3 sovereign_catalog/04_sovereign_sheets.py",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "05",
+      "command": "modules / catalog",
+      "file": "sovereign_catalog/05_modules_registry.py",
+      "description": "Inventario vivo de Capa 0 y estado de sellado de todos los módulos del Diccionario Soberano.",
+      "standalone_test": "python3 sovereign_catalog/05_modules_registry.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]

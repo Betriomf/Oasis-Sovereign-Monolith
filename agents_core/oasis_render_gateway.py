@@ -355,16 +355,24 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             skill = payload.get("skill", "")
         # === SOVEREIGN CATALOG UNIFIED DISPATCHER ===
         import importlib.util as _ilu
+        from pathlib import Path as _Path
+        _cat_dir = _Path(__file__).resolve().parent.parent / "sovereign_catalog"
         _cat_map = {
             "riona": ("01_riona_sentinel.py", "riona_process", True),
             "qr": ("02_qr_gossip.py", "qr_process", True),
             "mesh": ("02_qr_gossip.py", "mesh_process", False),
             "id": ("02_qr_gossip.py", "id_process", False),
             "check_hash": ("02_qr_gossip.py", "check_hash_process", True),
+            "webgpu": ("03_webgpu_play.py", "webgpu_process", True),
+            "play": ("03_webgpu_play.py", "play_process", True),
+            "boost-gta": ("03_webgpu_play.py", "play_process", True),
+            "sheets": ("04_sovereign_sheets.py", "sheets_process", True),
+            "modules": ("05_modules_registry.py", "modules_process", True),
+            "catalog": ("05_modules_registry.py", "modules_process", True),
         }
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]
-            _spec = _ilu.spec_from_file_location("cat_mod", str(BASE_DIR / "sovereign_catalog" / _fname))
+            _spec = _ilu.spec_from_file_location("cat_mod_" + skill, str(_cat_dir / _fname))
             _mod = _ilu.module_from_spec(_spec)
             _spec.loader.exec_module(_mod)
             _fn = getattr(_mod, _fn_name)
