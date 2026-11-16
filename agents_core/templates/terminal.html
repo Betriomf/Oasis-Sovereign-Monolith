@@ -726,5 +726,38 @@
   }, true);
 </script>
 
+
+  <!-- MODAL QR ORIGINAL RESTAURADO (#qr-modal-public) -->
+  <div id="qr-modal-public" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#040906; border:1px solid #00ff9d; border-radius:10px; padding:20px; text-align:center; max-width:440px; font-family:'SF Mono', Menlo, Consolas, monospace;">
+      <h3 style="color:#00ff9d; margin-top:0; margin-bottom:8px;">🌐 MALLA GOSSIP OASIS (NODO PÚBLICO)</h3>
+      <p style="font-size:12px; color:#a8ffdc; margin-bottom:12px;">Escanea para conectar tu nodo al enjambre colectivo (≤ 3.78 W):</p>
+      <div style="background:#ffffff; padding:12px; border-radius:8px; display:inline-block; margin-bottom:12px;">
+        <img id="qr-modal-img" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https%3A//oasis-sovereign-wind-node.onrender.com/terminal&format=svg" alt="QR Render" style="width:180px; height:180px; display:block;">
+      </div>
+      <p id="qr-modal-url" style="font-size:11px; word-break:break-all; color:#00ff9d; margin-bottom:14px;">https://oasis-sovereign-wind-node.onrender.com/terminal</p>
+      <button onclick="document.getElementById('qr-modal-public').style.display='none'" style="background:#00ff9d; color:#040906; border:none; padding:8px 20px; font-weight:bold; border-radius:6px; cursor:pointer;">CERRAR</button>
+    </div>
+  </div>
+  <script id="oasis-qr-public-hook">
+  window.showOasisQRPublic = function(customTarget) {
+    const base = "https://oasis-sovereign-wind-node.onrender.com/terminal";
+    const target = (customTarget && customTarget.trim())
+      ? (customTarget.startsWith("http") ? customTarget.trim() : base + "#peer=" + encodeURIComponent(customTarget.trim()))
+      : base;
+    document.getElementById("qr-modal-url").textContent = target;
+    document.getElementById("qr-modal-img").src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(target) + "&format=svg";
+    document.getElementById("qr-modal-public").style.display = "flex";
+  };
+  document.addEventListener("keydown", function(ev) {
+    if (ev.key === "Enter" && ev.target && typeof ev.target.value === "string") {
+      const v = ev.target.value.trim();
+      if (v === "qr" || v.toLowerCase().startsWith("qr ")) {
+        setTimeout(() => window.showOasisQRPublic(v.slice(2)), 100);
+      }
+    }
+  }, true);
+  </script>
+
 </body>
 </html>
