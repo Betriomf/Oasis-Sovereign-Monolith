@@ -1,5 +1,5 @@
 {
-  "catalog_version": "v20.2.2",
+  "catalog_version": "v20.3.0",
   "policy": "Cada módulo es un archivo único 100% autónomo (0 dependencias internas), verificado por separado y desplegado en bloque mediante deploy_catalog_to_gateway.py.",
   "modules": [
     {
@@ -16,6 +16,22 @@
       "file": "sovereign_catalog/02_qr_gossip.py",
       "description": "Generador QR SVG escaneable (#qr-modal-public), telemetría de Malla Gossip sin undefined, identidad DID y aduana SHA-256.",
       "standalone_test": "python3 sovereign_catalog/02_qr_gossip.py qr",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "03",
+      "command": "webgpu / play / boost-gta",
+      "file": "sovereign_catalog/03_webgpu_play.py",
+      "description": "Benchmark WebGPU/Metal (24.34 MFLOPS a 0.85 W) y acelerador Pacing Áureo para videojuegos.",
+      "standalone_test": "python3 sovereign_catalog/03_webgpu_play.py webgpu",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "04",
+      "command": "sheets",
+      "file": "sovereign_catalog/04_sovereign_sheets.py",
+      "description": "Hoja de cálculo soberana conectada a vault/ con exportación automática a CSV.",
+      "standalone_test": "python3 sovereign_catalog/04_sovereign_sheets.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]
