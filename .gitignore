@@ -50,3 +50,15 @@ vault/e2ee_vault_mirror.json
 vault/quarantine_hashes.json
 vault/swarm_peers.json
 auditor_modelfile.txt
+
+# === BLINDAJE DE SEGURIDAD SOBERANA (NUNCA SUBIR A GITHUB) ===
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.mnemonic
+*secret*
+*private_key*
+vault/libro_fiscal_es.json
+vault/e2ee_vault_mirror.json

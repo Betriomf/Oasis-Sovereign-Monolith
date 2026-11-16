@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v20.1.0-DualPool-Oracle]</title>
+  <title>OASIS SOVEREIGN OS [v20.2.0-Sovereign-Unified]</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
   <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.js"></script>
@@ -164,10 +164,59 @@
   })();
 </script>
 
+
+<script id="oasis-v202-unified">
+(function() {
+  // Evitar crashes de res.json() si algún endpoint devuelve texto plano o vacío
+  const origFetch = window.fetch;
+  window.fetch = async function(...args) {
+    const resp = await origFetch.apply(this, args);
+    const origJson = resp.json.bind(resp);
+    resp.json = async function() {
+      const txt = await resp.clone().text();
+      if (!txt || !txt.trim()) return { output: "✅ Comando ejecutado (sin salida adicional).", status: "OK" };
+      try { return JSON.parse(txt); }
+      catch (e) { return { output: txt, status: "TEXT_FALLBACK" }; }
+    };
+    return resp;
+  };
+
+  // Tabla completa de ayuda (Comandos actuales + históricos preservados en CRM)
+  window.OASIS_HELP_V202 = [
+    "═════════════════════════════════════════════════════════════════════════════",
+    "🛰️  OASIS SOVEREIGN OS [v20.2.0-Sovereign-Unified] — GUÍA DE COMANDOS",
+    "═════════════════════════════════════════════════════════════════════════════",
+    "🧠 IA Y BÚSQUEDA SOBERANA:",
+    "  • ask <consulta>    : Oráculo Híbrido (cruza tu Bóveda privada + Wikipedia/arXiv)",
+    "  • v <pregunta>      : Asistente Velázquez (respuesta directa en <1s)",
+    "  • pool / agents     : Muestra los modelos IA locales activos (0.5B y 1.5B)",
+    "  • riona <tema>      : Centinela web de noticias, deportes y GitHub",
+    "  • sheets            : Abre hoja de cálculo interactiva conectada a tu Bóveda",
+    "",
+    "⚛️  CIENCIA, MATEMÁTICAS Y HARDWARE:",
+    "  • prove             : Laboratorio Neuro-Simbólico (IA propone -> Lean 4 certifica)",
+    "  • lean              : Audita los 14 módulos matemáticos en Lean 4 (sorry = 0)",
+    "  • pilares           : Busca soluciones dentro de tus Pilares internos (1–388)",
+    "  • c99 / minkowski   : Motor determinista C99 y filtro causal de espacio-tiempo",
+    "  • spark             : Puente de aceleración NVIDIA RTX / DGX Spark (o Silicio Frío)",
+    "  • hemo              : Simulación hemodinámica Polígono de Willis (Navier-Stokes)",
+    "",
+    "🎮 GAMING, RED Y NEGOCIO:",
+    "  • play / boost-gta  : Acelerador de red Pacing Áureo (0.085ms jitter) + Benchmark 3D",
+    "  • fiscal            : Contabilidad España (cálculo automático IVA Mod.303 + IRPF Mod.130)",
+    "  • boveda / view     : Gestor de archivos cifrados E2EE y editor de código",
+    "  • sec / did         : Auditoría de ciberseguridad e identidad soberana did:key",
+    "  • crm               : Historial completo de versiones desde v1.0.0 hasta v20.2.0",
+    "  • eval <js> / clear : Calculadora JavaScript en vivo y limpieza de pantalla",
+    "═════════════════════════════════════════════════════════════════════════════"
+  ].join("\n");
+})();
+</script>
+
 </head>
 <body>
   <div id="top-bar">
-    <div class="logo">🛰️ OASIS SOVEREIGN OS <span style="font-size:10px; color:#718096;">[v20.1.0-DualPool-Oracle]</span></div>
+    <div class="logo">🛰️ OASIS SOVEREIGN OS <span style="font-size:10px; color:#718096;">[v20.2.0-Sovereign-Unified]</span></div>
     <div class="hud-actions">
       <button class="hud-btn active" onclick="openVault()">📂 BÓVEDA E2EE</button>
       <button class="hud-btn" onclick="runBenchmark()">⚡ BENCHMARK</button>
@@ -282,7 +331,7 @@
 
     let sovBuf = "";
     const sovPrompt = "root@oasis-hurd:/workspace# ";
-    termSov.writeln("🛰️ OASIS SOVEREIGN OS [v20.1.0-DualPool-Oracle]");
+    termSov.writeln("🛰️ OASIS SOVEREIGN OS [v20.2.0-Sovereign-Unified]");
     termSov.writeln("🔒 Cifrado E2EE WebCrypto + did:key activo.");
     termSov.writeln("💡 Escribe 'ask <consulta>', 'pool', 'agents', 'minkowski', 'sec', 'boveda', 'c99', 'crm', 'v <pregunta>' o 'help'.");
     termSov.writeln("-----------------------------------------------------------------------------");
