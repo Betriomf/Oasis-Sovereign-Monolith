@@ -1,6 +1,6 @@
 {
-  "catalog_version": "v20.6.0",
-  "policy": "Cada módulo es un archivo único 100% autónomo, auditado por separado y despachado dinámicamente sin dependencias externas.",
+  "catalog_version": "v20.8.0-AlwaysOn",
+  "policy": "9 módulos 100% autónomos (Python estándar, 0 dependencias GPU), operativos 24/7 en Render/HF incluso con el Mac cerrado.",
   "modules": [
     {
       "id": "01",
@@ -54,8 +54,24 @@
       "id": "07",
       "command": "verify_bin / soc",
       "file": "sovereign_catalog/07_verify_bin_uma.py",
-      "description": "Auditoría binaria C99 -> Lean 4 (BinaryMemorySafety) + Gobernador automático de Memoria Unificada (UMA) para Apple Silicon / Intel.",
+      "description": "Auditoría binaria C99 -> Lean 4 (BinaryMemorySafety) + Gobernador automático de Memoria Unificada (UMA).",
       "standalone_test": "python3 sovereign_catalog/07_verify_bin_uma.py",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "08",
+      "command": "ai / v / pilares",
+      "file": "sovereign_catalog/08_ai_vault_oracle.py",
+      "description": "Oráculo RAG de Bóveda y Pilares (Pilar 377 Bony/Fisher-Rao, kappa^2) con delegación automática a Riona y Wikipedia 24/7.",
+      "standalone_test": "python3 sovereign_catalog/08_ai_vault_oracle.py \"que dice el pilar 377\"",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "09",
+      "command": "cloud / always-on",
+      "file": "sovereign_catalog/09_cloud_always_on.py",
+      "description": "Monitor en vivo de los nodos públicos permanentes (Render + Hugging Face) que atienden 24/7 con el Mac cerrado.",
+      "standalone_test": "python3 sovereign_catalog/09_cloud_always_on.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]
