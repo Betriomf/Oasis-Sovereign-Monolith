@@ -56,6 +56,8 @@ def inject_unified_dispatcher():
             "pilares": ("08_ai_vault_oracle.py", "ai_process", True),
             "cloud": ("09_cloud_always_on.py", "cloud_process", True),
             "always-on": ("09_cloud_always_on.py", "cloud_process", True),
+            "nod": ("10_sovereign_nod_flow.py", "nod_process", True),
+            "flow": ("10_sovereign_nod_flow.py", "nod_process", True),
         }}
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]

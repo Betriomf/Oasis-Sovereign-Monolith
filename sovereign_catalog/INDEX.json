@@ -1,5 +1,5 @@
 {
-  "catalog_version": "v20.8.0-AlwaysOn",
+  "catalog_version": "v20.9.0-NodFlow",
   "policy": "9 módulos 100% autónomos (Python estándar, 0 dependencias GPU), operativos 24/7 en Render/HF incluso con el Mac cerrado.",
   "modules": [
     {
@@ -72,6 +72,14 @@
       "file": "sovereign_catalog/09_cloud_always_on.py",
       "description": "Monitor en vivo de los nodos públicos permanentes (Render + Hugging Face) que atienden 24/7 con el Mac cerrado.",
       "standalone_test": "python3 sovereign_catalog/09_cloud_always_on.py",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "10",
+      "command": "nod / flow",
+      "file": "sovereign_catalog/10_sovereign_nod_flow.py",
+      "description": "Motor DAG propio estilo n8n (0 dependencias) que encadena y audita nodos del Diccionario Soberano con huella SHA-256.",
+      "standalone_test": "python3 sovereign_catalog/10_sovereign_nod_flow.py \"champions league\"",
       "status": "VERIFIED_AND_SEALED"
     }
   ]
