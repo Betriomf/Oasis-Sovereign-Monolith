@@ -60,6 +60,9 @@ def inject_unified_dispatcher():
             "flow": ("10_sovereign_nod_flow.py", "nod_process", True),
             "edge0": ("11_edge0_1458.py", "edge0_process", True),
             "1458": ("11_edge0_1458.py", "edge0_process", True),
+            "smol": ("12_smolmaxxing_pool.py", "smol_process", True),
+            "smolmax": ("12_smolmaxxing_pool.py", "smol_process", True),
+            "pool": ("12_smolmaxxing_pool.py", "smol_process", True),
         }}
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]

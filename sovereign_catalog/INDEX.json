@@ -1,5 +1,5 @@
 {
-  "catalog_version": "v21.0.0-Edge0-1458",
+  "catalog_version": "v21.1.0-Smolmaxxing",
   "policy": "9 módulos 100% autónomos (Python estándar, 0 dependencias GPU), operativos 24/7 en Render/HF incluso con el Mac cerrado.",
   "modules": [
     {
@@ -88,6 +88,14 @@
       "file": "sovereign_catalog/11_edge0_1458.py",
       "description": "Kernel de borde sin fragmentación MTU (<= 1458 bytes) con serialización LINCOS y latencia en microsegundos.",
       "standalone_test": "python3 sovereign_catalog/11_edge0_1458.py \"pilar 378\"",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "12",
+      "command": "smol / smolmax / pool",
+      "file": "sovereign_catalog/12_smolmaxxing_pool.py",
+      "description": "Pool Smolmaxxing (<1.5B, Q4_K_M, num_ctx=1024, temp=0.05) con alias GGUF sin duplicar espacio en disco y fallback 24/7.",
+      "standalone_test": "python3 sovereign_catalog/12_smolmaxxing_pool.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]
