@@ -369,6 +369,7 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             "sheets": ("04_sovereign_sheets.py", "sheets_process", True),
             "modules": ("05_modules_registry.py", "modules_process", True),
             "catalog": ("05_modules_registry.py", "modules_process", True),
+            "fiscal": ("06_fiscal_local.py", "fiscal_process", True),
         }
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]
