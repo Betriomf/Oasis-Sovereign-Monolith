@@ -373,9 +373,13 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
                 vault_files = sorted([p.name for p in (BASE_DIR / "vault").glob("*") if p.is_file()])[:12] if (BASE_DIR / "vault").exists() else []
                 out = "📊 [OASIS SOVEREIGN SHEETS — BÓVEDA + IA]:\n  • Fuentes disponibles en Bóveda: " + (", ".join(vault_files) or "vault vacía") + "\n  • Fórmulas activas: =OASIS_ASK(), =FISCAL_303(), =LEAN_CHECK() | Exportación CSV habilitada."
             elif skill == "riona":
-                q = payload.get("prompt", "").strip() or "estado global"
-                from tools.oasis_hybrid_oracle import hybrid_query
-                out = "🛰️ [CENTINELA RIONA]:\n" + hybrid_query(q)
+                q = payload.get("prompt", "").strip() or "noticias de ciencia"
+                from sovereign_catalog import __path__ as _sc_path
+                import importlib.util
+                spec = importlib.util.spec_from_file_location("riona_mod", str(BASE_DIR / "sovereign_catalog/01_riona_sentinel.py"))
+                mod = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(mod)
+                out = mod.riona_process(q)
             elif skill == "hemo":
                 out = "🫀 [HEMO — POLÍGONO DE WILLIS]: Flujo laminar Navier-Stokes acotado por Atractor Decádico κ = ln(10) ≈ 2.3026 (BiomedStability.lean SELLADO)."
             elif skill == "lean":

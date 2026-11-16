@@ -1,0 +1,14 @@
+{
+  "catalog_version": "v20.2.0",
+  "policy": "Cada módulo es un archivo único 100% autónomo (0 dependencias internas), verificado por separado antes de integrarse en el Gateway y sellarse en el CRM.",
+  "modules": [
+    {
+      "id": "01",
+      "command": "riona",
+      "file": "sovereign_catalog/01_riona_sentinel.py",
+      "description": "Centinela web autónomo: titulares RSS en vivo (Google News ES) + fallback Wikipedia verificada.",
+      "standalone_test": "python3 sovereign_catalog/01_riona_sentinel.py \"barcelona aston villa\"",
+      "status": "VERIFIED_AND_SEALED"
+    }
+  ]
+}
