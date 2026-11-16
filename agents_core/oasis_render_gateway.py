@@ -384,6 +384,8 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             "smol": ("12_smolmaxxing_pool.py", "smol_process", True),
             "smolmax": ("12_smolmaxxing_pool.py", "smol_process", True),
             "pool": ("12_smolmaxxing_pool.py", "smol_process", True),
+            "ym": ("13_yang_mills_research.py", "ym_process", True),
+            "yang-mills": ("13_yang_mills_research.py", "ym_process", True),
         }
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]
