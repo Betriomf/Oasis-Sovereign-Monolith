@@ -353,6 +353,10 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             return
         elif self.path == "/v1/skill":
             skill = payload.get("skill", "")
+            if skill in ["pilares", "pillars", "crossref"]:
+                res = subprocess.run([sys.executable, "tools/oasis_pillar_crossref.py"], capture_output=True, text=True, cwd=BASE_DIR, timeout=10)
+                self._send_json({"skill": "pilares", "output": res.stdout or res.stderr, "status": "COMPLETED"})
+                return
             if skill in ["fiscal", "irpf", "iva", "hacienda"]:
                 from tools.oasis_fiscal_es import summary_report
                 self._send_json({"skill": "fiscal", "output": summary_report(), "status": "COMPLETED"})
