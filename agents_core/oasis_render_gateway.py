@@ -406,6 +406,8 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             "audit-web": ("19_web_forensic_auditor.py", "web_audit_process", True),
             "mcp": ("20_mcp_sovereign_server.py", "mcp_process", True),
             "scrape": ("20_mcp_sovereign_server.py", "mcp_process", True),
+            "paper-c": ("21_paper_c_synthesizer.py", "paper_c_process", True),
+            "draft-paper": ("21_paper_c_synthesizer.py", "paper_c_process", True),
         }
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]
