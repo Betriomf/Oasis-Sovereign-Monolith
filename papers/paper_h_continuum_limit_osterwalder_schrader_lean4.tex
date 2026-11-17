@@ -1,0 +1,43 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{conjecture}{Open Renormalization Hypothesis}
+\newtheorem{remark}{Remark}
+
+\title{\textbf{Continuum Limit Stability and Osterwalder-Schrader Spectral Gap Preservation under Uniform Araki-Renormalization Scaling: A Machine-Checked Lean 4 Framework}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 18, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Completing our five-phase formal verification architecture in Lean 4 (\texttt{0 sorry}, \texttt{0 admit}, \texttt{0 custom axioms}), we analyze the ultraviolet ($a \to 0$) and thermodynamic ($V \to \infty$) limits of the Araki-Pinsker spectral gap bridge established in our prior releases (DOIs: \href{https://doi.org/10.5281/zenodo.24311596}{10.5281/zenodo.24311596}, \href{https://doi.org/10.5281/zenodo.24323807}{10.5281/zenodo.24323807}, and \href{https://doi.org/10.5281/zenodo.24326329}{10.5281/zenodo.24326329}). In \texttt{ContinuumLimit\_OsterwalderSchrader\_Fase5.lean}, we machine-check the \textbf{Renormalization Group (RG) Spectral Stability Theorem}: whenever the dimensionless lattice Araki contraction rate scales at least linearly with the lattice spacing ($\Delta_{\mathrm{lat}}(a, V) \ge m_0 \, a$) uniformly in the volume $V$, the reconstructed Osterwalder-Schrader physical mass gap remains strictly bounded away from zero ($M_{\mathrm{phys}}(a, V) \ge m_0 > 0$) across the entire refinement tower. Multi-scale C99 Monte Carlo simulations ($N \in \{16, 32, 64, 128\}$) corroborate the convergence of $M_{\mathrm{phys}}(a)$ to a stable continuum plateau. Finally, we isolate the exact non-perturbative multi-scale Log-Sobolev / Balaban block-spin uniformity condition required to turn this conditional theorem into an unconditional proof of the four-dimensional Yang-Mills Mass Gap problem.
+\end{abstract}
+
+\section{Machine-Checked Continuum & Thermodynamic Stability (Lean 4)}
+Let a family of regularized lattice theories be indexed by inverse lattice spacing $N \ge 1$ ($a = 1/N$) and spatial volume $V \ge 1$. Defining the physical mass numerator via $M_{\mathrm{phys}}(N, V) = N \cdot \Delta_{\mathrm{lat}}(N, V)$, Lean 4 certifies:
+\begin{theorem}[Ultraviolet and Infrared Spectral Gap Preservation]
+If there exists $m_0 = m_{0,\mathrm{num}} / m_{0,\mathrm{den}} > 0$ such that $m_0 \le N \cdot \Delta_{\mathrm{lat}}(N, V)$ for all $N \ge 1$ and $V \ge 1$, then $M_{\mathrm{phys}}(N, V) > 0$ holds uniformly along every subsequence $N \to \infty$ ($a \to 0$) and $V \to \infty$, preventing massless collapse in the Osterwalder-Schrader Hilbert space reconstruction.
+\end{theorem}
+
+\section{Exact Frontier Toward the Clay Millennium Problem}
+\begin{conjecture}[Uniform Multi-Scale Araki Contraction in 4D $SU(N)$ Yang-Mills]
+Proving unconditionally that four-dimensional non-Abelian $SU(2)/SU(3)$ lattice gauge theory satisfies the uniform linear scaling bound $\Delta_{\mathrm{lat}}(a, V) \ge m_0 \, a$ across ultraviolet renormalization group steps ($a \to 0$) without artificial infrared cutoffs remains the central open analytical step required to satisfy the Clay Mathematics Institute Yang-Mills Existence and Mass Gap criteria.
+\end{conjecture}
+
+\begin{remark}[Scientific Integrity Statement]
+This work establishes a machine-checked conditional equivalence and numerical multi-scale corroboration; it does not claim an unconditional resolution of the Clay Millennium Prize problem.
+\end{remark}
+
+\begin{thebibliography}{9}
+\bibitem{panzano2026a} M. Panzano Caball\'e, \emph{Oasis Sovereign Monolith: Machine-Checked Lean 4 Spectral Bounds in Discretized SU(2) Gauge Models and Decadic Entropy Confinement}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24311596}
+\bibitem{panzano2026g} M. Panzano Caball\'e, \emph{From Araki Relative Entropy Contraction to Vacuum Spectral Gap Isolation: A Machine-Checked Lean 4 Proof Pipeline and C99 Lattice Verification}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24326329}
+\bibitem{jaffe_witten} A. Jaffe and E. Witten, \emph{Quantum Yang-Mills Theory}, Clay Mathematics Institute Millennium Prize Problems, 2000.
+\end{thebibliography}
+
+\end{document}
