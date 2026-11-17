@@ -408,6 +408,9 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             "scrape": ("20_mcp_sovereign_server.py", "mcp_process", True),
             "paper-c": ("21_paper_c_synthesizer.py", "paper_c_process", True),
             "draft-paper": ("21_paper_c_synthesizer.py", "paper_c_process", True),
+            "qos": ("22_quantum_os_radar.py", "qos_process", True),
+            "papers-cs": ("22_quantum_os_radar.py", "qos_process", True),
+            "quantum-os": ("22_quantum_os_radar.py", "qos_process", True),
         }
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]

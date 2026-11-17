@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>OASIS SOVEREIGN OS [v22.3.0-PaperC-21Mods-Sovereign-Unified]</title>
+  <title>OASIS SOVEREIGN OS [v22.5.0-QuantumOS-22Mods-Sovereign-Unified]</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
   <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.js"></script>
@@ -184,7 +184,7 @@
   // Tabla completa de ayuda (Comandos actuales + históricos preservados en CRM)
   window.OASIS_HELP_V202 = [
     "═════════════════════════════════════════════════════════════════════════════",
-    "🛰️  OASIS SOVEREIGN OS [v22.3.0-PaperC-21Mods-Sovereign-Unified] — GUÍA DE COMANDOS",
+    "🛰️  OASIS SOVEREIGN OS [v22.5.0-QuantumOS-22Mods-Sovereign-Unified] — GUÍA DE COMANDOS",
     "═════════════════════════════════════════════════════════════════════════════",
     "🧠 IA Y BÚSQUEDA SOBERANA:",
     "  • ask <consulta>    : Oráculo Híbrido (cruza tu Bóveda privada + Wikipedia/arXiv)",
@@ -206,7 +206,7 @@
     "  • fiscal            : Contabilidad España (cálculo automático IVA Mod.303 + IRPF Mod.130)",
     "  • boveda / view     : Gestor de archivos cifrados E2EE y editor de código",
     "  • sec / did         : Auditoría de ciberseguridad e identidad soberana did:key",
-    "  • crm               : Historial completo de versiones desde v1.0.0 hasta v22.3.0-PaperC-21Mods",
+    "  • crm               : Historial completo de versiones desde v1.0.0 hasta v22.5.0-QuantumOS-22Mods",
     "  • eval <js> / clear : Calculadora JavaScript en vivo y limpieza de pantalla",
     "═════════════════════════════════════════════════════════════════════════════"
   ].join("\n");
@@ -216,7 +216,7 @@
 </head>
 <body>
   <div id="top-bar">
-    <div class="logo">🛰️ OASIS SOVEREIGN OS <span style="font-size:10px; color:#718096;">[v22.3.0-PaperC-21Mods-Sovereign-Unified]</span></div>
+    <div class="logo">🛰️ OASIS SOVEREIGN OS <span style="font-size:10px; color:#718096;">[v22.5.0-QuantumOS-22Mods-Sovereign-Unified]</span></div>
     <div class="hud-actions">
       <button class="hud-btn active" onclick="openVault()">📂 BÓVEDA E2EE</button>
       <button class="hud-btn" onclick="runBenchmark()">⚡ BENCHMARK</button>
@@ -331,7 +331,7 @@
 
     let sovBuf = "";
     const sovPrompt = "root@oasis-hurd:/workspace# ";
-    termSov.writeln("🛰️ OASIS SOVEREIGN OS [v22.3.0-PaperC-21Mods-Sovereign-Unified]");
+    termSov.writeln("🛰️ OASIS SOVEREIGN OS [v22.5.0-QuantumOS-22Mods-Sovereign-Unified]");
     termSov.writeln("🔒 Cifrado E2EE WebCrypto + did:key | 📜 DOI: https://doi.org/10.5281/zenodo.24311596 | Paper C: https://doi.org/10.5281/zenodo.24323807");
     termSov.writeln("💡 Escribe 'ask <consulta>', 'pool', 'agents', 'minkowski', 'sec', 'boveda', 'c99', 'crm', 'v <pregunta>' o 'help'.");
     termSov.writeln("-----------------------------------------------------------------------------");
@@ -428,7 +428,7 @@
         return;
       }
       
-      const __EXTRA_20__ = new Set(["nod","flow","edge0","1458","smol","smolmax","pool","ym","yang-mills","fase1","audit-ym","fase2","wilson","fase3","fase4","mc-ym","fase5","os-axioms","verify-ym","oasis","web-audit","audit-web","mcp","scrape","paper-c","draft-paper","pilares","ai"]);
+      const __EXTRA_20__ = new Set(["nod","flow","edge0","1458","smol","smolmax","pool","ym","yang-mills","fase1","audit-ym","fase2","wilson","fase3","fase4","mc-ym","fase5","os-axioms","verify-ym","oasis","web-audit","audit-web","mcp","scrape","paper-c","draft-paper","qos","papers-cs","quantum-os","lincos_radio","pilares","ai"]);
       const __w0__ = cmd.trim().split(/\s+/)[0].toLowerCase();
       if (__EXTRA_20__.has(__w0__)) {
         execSkill(__w0__, cmd.trim().slice(__w0__.length).trim());
