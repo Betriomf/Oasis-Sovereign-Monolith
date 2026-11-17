@@ -76,7 +76,7 @@ def tool_web_scraper(url: str) -> str:
         }
     )
     try:
-        with urllib.request.urlopen(req, timeout=12, context=SSL_CTX) as resp:
+        with urllib.request.urlopen(req, timeout=28, context=SSL_CTX) as resp:
             raw = resp.read().decode("utf-8", errors="ignore")
         # Limpiar scripts, estilos y etiquetas HTML
         clean = re.sub(r"<(script|style|noscript)[^>]*>[\s\S]*?</\1>", " ", raw, flags=re.I)
@@ -96,7 +96,7 @@ def tool_arxiv_physics_today(topic: str = "hep-th OR math-ph") -> str:
     time.sleep(GOLDEN_PACING_SEC)
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "OasisMCP-ArXiv/22.2"})
-        xml_raw = urllib.request.urlopen(req, timeout=12).read().decode("utf-8", errors="ignore")
+        xml_raw = urllib.request.urlopen(req, timeout=28).read().decode("utf-8", errors="ignore")
         root = ET.fromstring(xml_raw)
         ns = {"atom": "http://www.w3.org/2005/Atom"}
         entries = []

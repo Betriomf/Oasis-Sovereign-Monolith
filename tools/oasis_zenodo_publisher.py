@@ -34,6 +34,11 @@ BASE_FILES = [
     "tools/ym_su2_mc_c99.c",
 ]
 
+PAPER_F_FILES = [
+    "papers/paper_f_personal_desktop_cold_silicon_lean4.tex",
+    "formal_proofs/PersonalDesktop_ColdSilicon_Fase12.lean",
+]
+
 PAPER_E_FILES = [
     "papers/paper_e_pilar86_leech_qpu_os_lean4.tex",
     "formal_proofs/Pilar86_LeechQPU_QuantumOS_Fase11.lean",
@@ -105,6 +110,28 @@ def api_request(url: str, token: str, method: str = "GET", data: bytes | None = 
         return json.loads(raw) if raw else {}
 
 def build_metadata(mode: str) -> dict:
+    if mode == "paper-f":
+        return {
+            "metadata": {
+                "title": "Cold-Silicon Personal Desktop Architecture: Zero-Swap Local AI Pooling, Bounded Context Pruning, and Ring-3 Isolation on Memory-Constrained Consumer Laptops",
+                "upload_type": "publication",
+                "publication_type": "preprint",
+                "description": (
+                    "Machine-checked Lean 4 memory and thermal containment invariants (zero sorry, zero admit, zero custom axioms) "
+                    "for consumer 8 GiB personal computers, continuing DOI 10.5281/zenodo.24324683 and DOI 10.5281/zenodo.24324622. "
+                    "Formally verifies strict zero-swap RAM partitioning (2872 MiB OS + 1200 MiB Q4_K_M LLM + 28 MiB PQC Dilithium <= 8192 MiB) "
+                    "and bounded MCP context ingestion (1400 B <= 2048 B) under two-thread thermal capping."
+                ),
+                "creators": [{"name": "Panzano Caballé, Mariano", "affiliation": "Oasis Sovereign Architecture Research, Barcelona"}],
+                "keywords": ["Personal Computing", "Edge AI", "Lean 4", "Formal Verification", "Low-Power Systems", "Post-Quantum Cryptography"],
+                "license": "cc-by-nc-4.0",
+                "related_identifiers": [
+                    {"identifier": "10.5281/zenodo.24324683", "relation": "continues", "scheme": "doi"},
+                    {"identifier": "10.5281/zenodo.24324622", "relation": "isPartOf", "scheme": "doi"},
+                    {"identifier": "https://github.com/Betriomf/Oasis-Sovereign-Monolith", "relation": "isSupplementedBy", "scheme": "url"}
+                ]
+            }
+        }
     if mode == "paper-e":
         return {
             "metadata": {
@@ -197,8 +224,8 @@ def build_metadata(mode: str) -> dict:
     }
 
 def main():
-    mode = "paper-e" if "--paper-e" in sys.argv else ("paper-d" if "--paper-d" in sys.argv else ("paper-c" if "--paper-c" in sys.argv else "base"))
-    target_files = PAPER_E_FILES if mode == "paper-e" else (PAPER_D_FILES if mode == "paper-d" else (PAPER_C_FILES if mode == "paper-c" else BASE_FILES))
+    mode = "paper-f" if "--paper-f" in sys.argv else ("paper-e" if "--paper-e" in sys.argv else ("paper-d" if "--paper-d" in sys.argv else ("paper-c" if "--paper-c" in sys.argv else "base"))
+    target_files = PAPER_F_FILES if mode == "paper-f" else (PAPER_E_FILES if mode == "paper-e" else (PAPER_D_FILES if mode == "paper-d" else (PAPER_C_FILES if mode == "paper-c" else BASE_FILES))
 
     if not scientific_audit(target_files):
         print("\n⛔ AUDITORÍA RECHAZADA: No se ha contactado con Zenodo.")
@@ -214,7 +241,7 @@ def main():
         sys.exit(1)
 
     publish_now = "--publish-confirmed" in sys.argv
-    label = "PAPER E (PILAR 86 Q-OS)" if mode == "paper-e" else ("PAPER D (Q-OS)" if mode == "paper-d" else ("PAPER C" if mode == "paper-c" else "PAQUETE BASE"))
+    label = "PAPER F (PERSONAL DESKTOP)" if mode == "paper-f" else ("PAPER E (PILAR 86 Q-OS)" if mode == "paper-e" else ("PAPER D (Q-OS)" if mode == "paper-d" else ("PAPER C" if mode == "paper-c" else "PAQUETE BASE"))
     print(f"\n🌐 [ZENODO — {label}]: Creando depósito controlado (TLS estricto)...")
     dep = api_request(API_BASE, token, method="POST", data=b"{}")
     dep_id = dep["id"]
