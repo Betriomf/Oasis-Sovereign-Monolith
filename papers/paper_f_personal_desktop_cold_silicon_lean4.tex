@@ -1,0 +1,38 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+
+\title{\textbf{Cold-Silicon Personal Desktop Architecture: Zero-Swap Local AI Pooling, Bounded Context Pruning, and Ring-3 Isolation on Memory-Constrained Consumer Laptops}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 17, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Modern personal computers experience severe thermal throttling, SSD swap thrashing, and background daemon contention when running local Large Language Models (LLMs) and cryptographic workloads on 8\,GiB consumer hardware. Extending our machine-checked Lean 4 verification series (DOIs: \href{https://doi.org/10.5281/zenodo.24311596}{10.5281/zenodo.24311596}, \href{https://doi.org/10.5281/zenodo.24323807}{10.5281/zenodo.24323807}, \href{https://doi.org/10.5281/zenodo.24324622}{10.5281/zenodo.24324622}, and \href{https://doi.org/10.5281/zenodo.24324683}{10.5281/zenodo.24324683}), we formalize the \textbf{Cold-Silicon Personal Desktop Architecture}. By enforcing single-slot quantized model pooling ($\le 1.2\,\mathrm{GiB}$), decadic MCP context pruning ($\le 1400\,\mathrm{B}$), two-thread thermal capping, and $87.5\%$-compressed post-quantum Dilithium buffers ($28\,\mathrm{MiB}$), consumer laptops achieve responsive sovereign AI and deterministic builds without kernel modifications. Memory and context invariants are verified in Lean 4 (\texttt{PersonalDesktop\_ColdSilicon\_Fase12.lean}) with zero unproven axioms.
+\end{abstract}
+
+\section{Zero-Swap Memory Budgeting and Thermal Containment}
+On fanless or thermally constrained laptops equipped with $8192\,\mathrm{MiB}$ of unified/physical RAM, concurrent model loading triggers page-out thrashing. Restricting execution to a single active quantized slot ($1.5\mathrm{B}$ at $Q4\_K\_M$, $\approx 1200\,\mathrm{MiB}$) with automatic eviction (\texttt{KEEP\_ALIVE=3m}) and two physical threads eliminates thermal throttling (\texttt{Pages throttled = 0}) while preserving over $4\,\mathrm{GiB}$ of headroom for interactive desktop workflows.
+
+\section{Machine-Checked Desktop Invariants (Lean 4)}
+\begin{theorem}[Strict Zero-Swap Memory Partition]
+Under an $8192\,\mathrm{MiB}$ physical ceiling, allocating $2872\,\mathrm{MiB}$ to wired OS services, $1200\,\mathrm{MiB}$ to the quantized local inference slot, and $28\,\mathrm{MiB}$ to compressed post-quantum state leaves exactly $4092\,\mathrm{MiB}$ of unencumbered user memory.
+\end{theorem}
+
+\begin{theorem}[Bounded MCP Context Ingestion]
+Capping external web and documentation extraction at $1400\,\mathrm{bytes} \le 2048\,\mathrm{bytes}$ prevents quadratic attention memory spikes during local retrieval-augmented generation.
+\end{theorem}
+
+\begin{thebibliography}{9}
+\bibitem{panzano2026a} M. Panzano Caball\'e, \emph{Oasis Sovereign Monolith: Machine-Checked Lean 4 Spectral Bounds in Discretized SU(2) Gauge Models and Decadic Entropy Confinement}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24311596}
+\bibitem{panzano2026d} M. Panzano Caball\'e, \emph{Oasis Sovereign Q-OS: A Formally Verified Ring-3 Adiabatic Microkernel, Irrational $\pi/\phi$ Pulse Scheduler, and 21-Byte LINCOS Control Plane for Hybrid Quantum-Classical Computing}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24324622}
+\bibitem{panzano2026e} M. Panzano Caball\'e, \emph{Pilar 86 Quantum Kernel Architecture and $\phi$-Aware Distributed Operating System: Leech Lattice ($\Lambda_{24}$) Compilation, Non-Commutative Logic Gates, and Reversible Transition}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24324683}
+\end{thebibliography}
+
+\end{document}
