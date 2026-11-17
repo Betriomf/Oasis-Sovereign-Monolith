@@ -69,6 +69,8 @@ def inject_unified_dispatcher():
             "audit-ym": ("14_ym_devils_advocate.py", "fase1_process", True),
             "fase2": ("15_ym_wilson_fisher_rao.py", "fase2_process", True),
             "wilson": ("15_ym_wilson_fisher_rao.py", "fase2_process", True),
+            "fase4": ("16_ym_monte_carlo_c99.py", "fase4_process", True),
+            "mc-ym": ("16_ym_monte_carlo_c99.py", "fase4_process", True),
         }}
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]

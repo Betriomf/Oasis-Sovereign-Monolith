@@ -1,5 +1,5 @@
 {
-  "catalog_version": "v21.4.0-YM-Fase2-3",
+  "catalog_version": "v21.5.0-YM-Fase4",
   "policy": "9 módulos 100% autónomos (Python estándar, 0 dependencias GPU), operativos 24/7 en Render/HF incluso con el Mac cerrado.",
   "modules": [
     {
@@ -120,6 +120,14 @@
       "file": "sovereign_catalog/15_ym_wilson_fisher_rao.py",
       "description": "Fase 2-3 Yang-Mills: Acción de Wilson S_W(U) + Filtro de Fisher-Rao Δ_FR(L) > 0 verificado en Lean 4 (sorry=0).",
       "standalone_test": "python3 sovereign_catalog/15_ym_wilson_fisher_rao.py",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "16",
+      "command": "fase4 / mc-ym",
+      "file": "sovereign_catalog/16_ym_monte_carlo_c99.py",
+      "description": "Fase 4 Yang-Mills: Simulación Monte Carlo SU(2) en C99 nativo (Silicio Frío) para correlaciones C(t, L) y gap Δ_MC(L).",
+      "standalone_test": "python3 sovereign_catalog/16_ym_monte_carlo_c99.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]
