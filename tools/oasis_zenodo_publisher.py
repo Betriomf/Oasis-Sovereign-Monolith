@@ -34,6 +34,11 @@ BASE_FILES = [
     "tools/ym_su2_mc_c99.c",
 ]
 
+PAPER_D_FILES = [
+    "papers/paper_d_quantum_os_ring3_lean4.tex",
+    "formal_proofs/QuantumOS_ControlPlane_Fase10.lean",
+]
+
 PAPER_C_FILES = [
     "papers/paper_c_araki_entropy_mqm_lean4.tex",
     "formal_proofs/ArakiRelativeEntropy_Fase9.lean",
@@ -94,8 +99,32 @@ def api_request(url: str, token: str, method: str = "GET", data: bytes | None = 
         raw = resp.read().decode("utf-8")
         return json.loads(raw) if raw else {}
 
-def build_metadata(is_paper_c: bool) -> dict:
-    if is_paper_c:
+def build_metadata(mode: str) -> dict:
+    if mode == "paper-d":
+        return {
+            "metadata": {
+                "title": "Oasis Sovereign Q-OS: A Formally Verified Ring-3 Adiabatic Microkernel, Irrational pi/phi Pulse Scheduler, and 21-Byte LINCOS Control Plane for Hybrid Quantum-Classical Computing",
+                "upload_type": "publication",
+                "publication_type": "preprint",
+                "description": (
+                    "Architecture and machine-checked Lean 4 control-plane invariants (zero sorry, zero admit, zero custom axioms) "
+                    "for Oasis Sovereign Q-OS, continuing DOI 10.5281/zenodo.24323807 and DOI 10.5281/zenodo.24311596. "
+                    "Integrates Ring-3 adiabatic Fibonacci register recycling (E = k_B T ln phi), irrational pi/phi scheduling, "
+                    "21-byte LINCOS zero-fragmentation framing (<= 32 B), O(1) Pauli-X parity recovery, and 87.5% memory "
+                    "compression (224 MiB -> 28 MiB) for post-quantum Dilithium signatures on low-dissipation classical controllers "
+                    "(<= 5.39 W), explicitly scoped to classical silicon benchmarks and hybrid control emulation."
+                ),
+                "creators": [{"name": "Panzano Caballé, Mariano", "affiliation": "Oasis Sovereign Architecture Research, Barcelona"}],
+                "keywords": ["Quantum Operating System", "Lean 4", "Formal Verification", "Post-Quantum Cryptography", "Microkernel", "Low-Power Computing"],
+                "license": "cc-by-4.0",
+                "related_identifiers": [
+                    {"identifier": "10.5281/zenodo.24323807", "relation": "continues", "scheme": "doi"},
+                    {"identifier": "10.5281/zenodo.24311596", "relation": "isPartOf", "scheme": "doi"},
+                    {"identifier": "https://github.com/Betriomf/Oasis-Sovereign-Monolith", "relation": "isSupplementedBy", "scheme": "url"}
+                ]
+            }
+        }
+    if mode == "paper-c":
         return {
             "metadata": {
                 "title": "Araki Relative Entropy Monotonicity and Variational Matrix Compression in Machine-Checked Cold-Silicon Gauge Verification",
@@ -139,8 +168,8 @@ def build_metadata(is_paper_c: bool) -> dict:
     }
 
 def main():
-    is_paper_c = "--paper-c" in sys.argv
-    target_files = PAPER_C_FILES if is_paper_c else BASE_FILES
+    mode = "paper-d" if "--paper-d" in sys.argv else ("paper-c" if "--paper-c" in sys.argv else "base")
+    target_files = PAPER_D_FILES if mode == "paper-d" else (PAPER_C_FILES if mode == "paper-c" else BASE_FILES)
 
     if not scientific_audit(target_files):
         print("\n⛔ AUDITORÍA RECHAZADA: No se ha contactado con Zenodo.")
@@ -156,7 +185,7 @@ def main():
         sys.exit(1)
 
     publish_now = "--publish-confirmed" in sys.argv
-    label = "PAPER C" if is_paper_c else "PAQUETE BASE"
+    label = "PAPER D (Q-OS)" if mode == "paper-d" else ("PAPER C" if mode == "paper-c" else "PAQUETE BASE")
     print(f"\n🌐 [ZENODO — {label}]: Creando depósito controlado (TLS estricto)...")
     dep = api_request(API_BASE, token, method="POST", data=b"{}")
     dep_id = dep["id"]
@@ -169,7 +198,7 @@ def main():
         api_request(f"{bucket_url}/{fpath.name}", token, method="PUT", data=fpath.read_bytes(), content_type="application/octet-stream")
         print(f"  ✅ Subido: {fpath.name} ({fpath.stat().st_size} bytes)")
 
-    api_request(f"{API_BASE}/{dep_id}", token, method="PUT", data=json.dumps(build_metadata(is_paper_c)).encode("utf-8"))
+    api_request(f"{API_BASE}/{dep_id}", token, method="PUT", data=json.dumps(build_metadata(mode)).encode("utf-8"))
     print("📝 Metadatos científicos registrados en el borrador.")
 
     if publish_now:
