@@ -404,6 +404,8 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             "ask": ("08_ai_vault_oracle.py", "ai_process", True),
             "web-audit": ("19_web_forensic_auditor.py", "web_audit_process", True),
             "audit-web": ("19_web_forensic_auditor.py", "web_audit_process", True),
+            "mcp": ("20_mcp_sovereign_server.py", "mcp_process", True),
+            "scrape": ("20_mcp_sovereign_server.py", "mcp_process", True),
         }
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]
