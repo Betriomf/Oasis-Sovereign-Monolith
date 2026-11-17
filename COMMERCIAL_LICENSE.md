@@ -1,40 +1,15 @@
-# Oasis Sovereign OS — Commercial Licensing Framework & SDK Grant
-**Copyright (c) 2026 Mariano Panzano Caballé. All Rights Reserved.**
-**Cryptographic Attestation:** Bitcoin Blocks #975442, #975480, #975481 | DOI: 10.5281/zenodo.24137568
+# Oasis Sovereign Monolith — Dual Licensing Model (Open Source AGPL-3.0 / Commercial B2B)
 
----
+Copyright (c) 2026 Mariano Panzano Caballé. All rights reserved.
 
-## 1. Dual-Licensing Architecture
-Oasis Sovereign OS is distributed under a dual-licensing scheme:
-- **Academic & Audit License (GNU AGPLv3):** Free public inspection, peer review, and verification.
-  Any networked deployment or commercial derivative requires full public disclosure of all proprietary source code under AGPLv3.
-- **Commercial Enterprise License (Exemption Grant):** Proprietary commercial agreement allowing
-  enterprises, appliance manufacturers, high-frequency trading firms, and defense contractors to
-  embed Capa 0 binaries (Minkowski C99 Kernel, L1 Pacing, Tensor Engines) into closed-source commercial hardware without triggering copyleft provisions.
+## 1. Open Source License (GNU AGPL-3.0)
+This software is available under the **GNU Affero General Public License v3.0 (AGPL-3.0)** for academic research, personal use, and open-source projects that release their complete corresponding source code (including network/cloud deployments).
 
----
+## 2. Commercial Enterprise License (B2B / OEM / Government)
+Organizations wishing to incorporate **Oasis Sovereign Q-OS**, the **Ring-3 Adiabatic Microkernel**, the **$\pi/\phi$ Phase Scheduler**, the **21-Byte LINCOS Control Transport**, or the **87.5% Compressed Post-Quantum Dilithium SDK** into proprietary products, closed-source cloud services, or quantum hardware controllers without copyleft obligations must obtain a commercial license.
 
-## 2. Commercial Deliverables (What the Client Receives)
-1. **Minkowski C99 Kernel Filter (`tools/oasis_minkowski_filter.c`):**
-   - Zero-allocation wire-speed packet defense (< 50 ns decision latency, > 20 Mpps per single CPU thread).
-   - $O(1)$ Spacelike drop engine ($ds^2 < 0$) in native L1 cache ring buffer.
-2. **Formal Verification Assurance Package (Lean 4):**
-   - Full mathematical proof tree (`sorry = 0`) verifying Sobolev regularity, bounded enstrophy, and Minkowski cone stability.
-3. **Cold-Silicon Runtime Engine:**
-   - Guaranteed passive thermal dissipation ($\le 2.58\text{ W}$) for edge devices, satellites, drones, and uncooled rack blades.
-
----
-
-## 3. Commercial Tiers & Pricing Model
-
-| Tier | Target Market | Rights Granted | Pricing Model |
-| :--- | :--- | :--- | :--- |
-| **Tier 1: Developer SDK** | Web3 RPC Nodes, Solo Validators | Binary distribution for up to 3 edge nodes | €2,500 / node (Perpetual) |
-| **Tier 2: Enterprise Appliance** | Firewall / Data Center Operators | Full C99 source embedding in proprietary hardware appliances | €25,000 / appliance model |
-| **Tier 3: Core Buyout / OEM** | Silicon Vendors, Aerospace, Defense | Full perpetual source buyout, private white-labeling, Lean 4 re-verification support | Custom Quote (from €75,000) |
-
----
-
-## 4. Inquiries & Legal Representation
-All commercial rights, patent grants, and proprietary source distributions are executed
-exclusively by the canonical copyright holder: **Mariano Panzano Caballé**.
+- **Official Scientific DOIs:**
+  - Base Monolith & Gauge Bounds: `10.5281/zenodo.24311596`
+  - Araki Entropy & MQM Compression: `10.5281/zenodo.24323807`
+  - Oasis Sovereign Q-OS Control Plane: `10.5281/zenodo.24324622`
+  - Pilar 86 Quantum Kernel & Leech Lattice OS: `10.5281/zenodo.24324683`
