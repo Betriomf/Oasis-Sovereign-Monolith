@@ -74,6 +74,8 @@ def inject_unified_dispatcher():
             "fase3": ("17_ym_fase3_5_os_verifier.py", "fase5_process", True),
             "fase5": ("17_ym_fase3_5_os_verifier.py", "fase5_process", True),
             "os-axioms": ("17_ym_fase3_5_os_verifier.py", "fase5_process", True),
+            "verify-ym": ("18_ym_notary_verify.py", "verify_ym_process", True),
+            "oasis": ("18_ym_notary_verify.py", "verify_ym_process", True),
         }}
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]

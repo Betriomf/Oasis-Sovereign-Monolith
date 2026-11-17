@@ -1,5 +1,5 @@
 {
-  "catalog_version": "v21.6.0-YM-Fase5-OS",
+  "catalog_version": "v21.7.0-YM-Notary-18Mods",
   "policy": "9 módulos 100% autónomos (Python estándar, 0 dependencias GPU), operativos 24/7 en Render/HF incluso con el Mac cerrado.",
   "modules": [
     {
@@ -136,6 +136,14 @@
       "file": "sovereign_catalog/17_ym_fase3_5_os_verifier.py",
       "description": "Auditor explícito Fases 1-5 + Axiomas Osterwalder-Schrader OS1-OS2 y puente C99->Lean 4.",
       "standalone_test": "python3 sovereign_catalog/17_ym_fase3_5_os_verifier.py",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "18",
+      "command": "verify-ym / oasis verify yang-mills",
+      "file": "sovereign_catalog/18_ym_notary_verify.py",
+      "description": "Notario Matemático (Fase 6-7): compila y certifica la biblioteca Yang-Mills en Lean 4 (sorry=0) con raíz SHA-256.",
+      "standalone_test": "python3 sovereign_catalog/18_ym_notary_verify.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]
