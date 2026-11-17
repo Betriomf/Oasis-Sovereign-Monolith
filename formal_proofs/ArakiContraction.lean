@@ -50,15 +50,15 @@ theorem araki_iterated_contraction {State : Type} {S : ArakiDivergenceSpace Stat
       calc
         S.relEntropy (iterateStep Φ (k + 1) ρ) (iterateStep Φ (k + 1) σ) * (Φ.denom ^ (k + 1))
             = (S.relEntropy (Φ.step (iterateStep Φ k ρ)) (Φ.step (iterateStep Φ k σ)) * Φ.denom) * (Φ.denom ^ k) := by
-              simp [iterateStep, Nat.pow_succ, Nat.mul_assoc, Nat.mul_comm]
+              rw [iterateStep, Nat.pow_succ]; ac_rfl
         _ ≤ (S.relEntropy (iterateStep Φ k ρ) (iterateStep Φ k σ) * Φ.contractNum) * (Φ.denom ^ k) :=
               Nat.mul_le_mul_right (Φ.denom ^ k) h_step
         _ = (S.relEntropy (iterateStep Φ k ρ) (iterateStep Φ k σ) * (Φ.denom ^ k)) * Φ.contractNum := by
-              simp [Nat.mul_comm, Nat.mul_left_comm]
+              ac_rfl
         _ ≤ (S.relEntropy ρ σ * (Φ.contractNum ^ k)) * Φ.contractNum :=
               Nat.mul_le_mul_right Φ.contractNum ih
         _ = S.relEntropy ρ σ * (Φ.contractNum ^ (k + 1)) := by
-              simp [Nat.pow_succ, Nat.mul_assoc, Nat.mul_comm]
+              rw [Nat.pow_succ]; ac_rfl
 
 /-- Teorema 3 (Preservación de Información / No-Colapso en Tiempo Finito) -/
 theorem araki_contraction_preserves_information {State : Type} {S : ArakiDivergenceSpace State}
@@ -82,15 +82,15 @@ theorem araki_contraction_preserves_information {State : Type} {S : ArakiDiverge
         calc
           S.relEntropy ρ σ * (Φ.fidelityNum ^ (k + 1))
               = (S.relEntropy ρ σ * (Φ.fidelityNum ^ k)) * Φ.fidelityNum := by
-                simp [Nat.pow_succ, Nat.mul_assoc, Nat.mul_comm]
+                rw [Nat.pow_succ]; ac_rfl
           _ ≤ (S.relEntropy (iterateStep Φ k ρ) (iterateStep Φ k σ) * (Φ.denom ^ k)) * Φ.fidelityNum :=
                 Nat.mul_le_mul_right Φ.fidelityNum ih
           _ = (S.relEntropy (iterateStep Φ k ρ) (iterateStep Φ k σ) * Φ.fidelityNum) * (Φ.denom ^ k) := by
-                simp [Nat.mul_comm, Nat.mul_left_comm]
+                ac_rfl
           _ ≤ (S.relEntropy (iterateStep Φ (k + 1) ρ) (iterateStep Φ (k + 1) σ) * Φ.denom) * (Φ.denom ^ k) :=
                 Nat.mul_le_mul_right (Φ.denom ^ k) h_f
           _ = S.relEntropy (iterateStep Φ (k + 1) ρ) (iterateStep Φ (k + 1) σ) * (Φ.denom ^ (k + 1)) := by
-                simp [iterateStep, Nat.pow_succ, Nat.mul_assoc, Nat.mul_comm]
+                rw [iterateStep, Nat.pow_succ]; ac_rfl
   have h_lhs_pos : 0 < S.relEntropy ρ σ * (Φ.fidelityNum ^ n) :=
     Nat.mul_pos h_pos (Nat.pow_pos Φ.h_fidelity_pos)
   have h_rhs_pos : 0 < S.relEntropy (iterateStep Φ n ρ) (iterateStep Φ n σ) * (Φ.denom ^ n) :=
