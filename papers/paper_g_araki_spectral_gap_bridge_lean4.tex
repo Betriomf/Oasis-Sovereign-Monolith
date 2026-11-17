@@ -1,0 +1,42 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\title{\textbf{From Araki Relative Entropy Contraction to Vacuum Spectral Gap Isolation: A Machine-Checked Lean 4 Proof Pipeline and C99 Lattice Verification}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 17, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present a four-phase, machine-checked formal verification pipeline in Lean 4 (\texttt{0 sorry}, \texttt{0 admit}, \texttt{0 custom axioms}) connecting \textbf{Araki relative entropy contraction} to \textbf{connected correlation decay} and \textbf{strict vacuum spectral gap isolation} ($\Delta = E_1 - E_0 > 0$) in regularized lattice gauge/scalar models, extending our prior Zenodo releases (DOIs: \href{https://doi.org/10.5281/zenodo.24311596}{10.5281/zenodo.24311596} and \href{https://doi.org/10.5281/zenodo.24323807}{10.5281/zenodo.24323807}). Using exact natural-number inductive bounds across three modular Lean 4 artifacts (\texttt{ArakiContraction.lean}, \texttt{ArakiPinskerCorrelations\_Fase3.lean}, and \texttt{SpectralGap\_From\_Entropy.lean}) paired with a deterministic C99 Monte Carlo lattice solver (\texttt{oasis\_fase3\_lattice\_mc.c}), we prove that geometric entropy contraction under faithful channels preserves state distinguishability, enforces exponential decay of connected two-point functions via Pinsker's inequality, and forbids a gapless spectrum ($E_1 = E_0$).
+\end{abstract}
+
+\section{Four-Phase Formal Architecture (Lean 4)}
+\begin{enumerate}
+    \item \textbf{Phase 1 — Dependency Audit:} Separation of structural model hypotheses from inductively proved theorems, isolating exploratory drafts into quarantine.
+    \item \textbf{Phase 2 — The Araki Contraction Wall (\texttt{ArakiContraction.lean}):} Proves single-step non-expansiveness, $n$-step geometric decay $D(\Phi^n(\rho), \Phi^n(\sigma)) \cdot d^n \le D(\rho, \sigma) \cdot c^n$, and finite-time information preservation ($\rho \neq \sigma \implies \Phi^n(\rho) \neq \Phi^n(\sigma)$) under faithful channels.
+    \item \textbf{Phase 3 — Pinsker Correlation Bridge (\texttt{ArakiPinskerCorrelations\_Fase3.lean}):} Combines Pinsker's inequality $C(t)^2 \le 2 D(\rho_t \| \omega)$ with geometric contraction to establish $(C(t) \cdot d^t)^2 \le 2 D_0 (c \cdot d)^t$ and positive decay rate $\Delta_{\mathrm{num}} = d - c > 0$.
+    \item \textbf{Phase 4 — Vacuum Spectral Gap Isolation (\texttt{SpectralGap\_From\_Entropy.lean}):} Proves by contradiction against the Lehmann spectral lower bound $w_1 d^t \le C(t)(d + (E_1 - E_0))^t$ that asymptotic decay below $w_1$ forces $\Delta = E_1 - E_0 > 0$.
+\end{enumerate}
+
+\section{C99 Lattice Monte Carlo Corroboration}
+In a $64$-site periodic lattice regularized by the decadic attractor $\kappa = \ln 10 \approx 2.302585$ ($4000$ sweeps), connected correlators satisfy $C(t)^2 \le 2 D(\rho_t \| \omega)$ across $t \in \{1,\dots,8\}$ with strictly positive effective mass gap $\Delta_{\mathrm{eff}}(t) = -\ln C(t)/t > 0$.
+
+\begin{remark}[Scope and Continuum Limit Boundary]
+All machine-checked theorems in this artifact hold rigorously for discrete, regularized lattice and transfer-matrix models. Constructing a non-perturbative continuum limit ($a \to 0$) in four-dimensional $\mathbb{R}^4$ Yang-Mills theory remains an open mathematical frontier beyond the present discrete certification.
+\end{remark}
+
+\begin{thebibliography}{9}
+\bibitem{panzano2026a} M. Panzano Caball\'e, \emph{Oasis Sovereign Monolith: Machine-Checked Lean 4 Spectral Bounds in Discretized SU(2) Gauge Models and Decadic Entropy Confinement}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24311596}
+\bibitem{panzano2026c} M. Panzano Caball\'e, \emph{Araki Relative Entropy Monotonicity and Variational Matrix Compression in Machine-Checked Cold-Silicon Gauge Verification}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24323807}
+\bibitem{panzano2026f} M. Panzano Caball\'e, \emph{Cold-Silicon Personal Desktop Architecture: Zero-Swap Local AI Pooling, Bounded Context Pruning, and Ring-3 Isolation on Memory-Constrained Consumer Laptops}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24325171}
+\end{thebibliography}
+
+\end{document}
