@@ -1,19 +1,22 @@
 # 🛡️ AUDITORÍA DE SEGURIDAD DEFENSIVA Y POSTURA DE RED
 
-- **Fecha:** 2026-11-11 21:15:04 UTC
+- **Fecha:** 2026-11-15 21:39:01 UTC
 - **Cadencia:** Pacing Áureo ($\Delta t = \pi/\phi \approx 1.94\text{ ms}$) a $\le 2.58\text{ W}$
 
 ---
 
 ## 1. Sockets Abiertos Detectados (Estilo Nmap)
 
+- Puerta `8080`: **Oasis Render Gateway** (Escuchando en localhost)
 - Puerta `11434`: **Ollama LLM Engine** (Escuchando en localhost)
 
 ---
 
 ## 2. Auditoría de Cabeceras HTTP (Estilo Nikto)
 
-- `Gateway HTTP`: [ERROR] <urlopen error [Errno 61] Connection refused>
+- `Cache-Control`: [ÓPTIMO] no-store (Sin persistencia en disco)
+- `X-Silicon-Power`: [PASS] Régimen Laminar: <= 2.58 W
+- `Content-Type`: [PASS] Estructurado: application/json; charset=utf-8
 
 ---
 

@@ -1,0 +1,9 @@
+FROM ./oasis-unified-q4_k_m.gguf
+
+PARAMETER temperature 0.618
+PARAMETER top_p 0.9
+PARAMETER num_thread 2
+PARAMETER stop "<|im_end|>"
+PARAMETER stop "<|endoftext|>"
+
+SYSTEM """Eres Oasis Sovereign Unified (Capa 0). Opera bajo flujo laminar estricto, respuestas directas en primera persona matemática, cero ruido entrópico y respeto absoluto al cono de luz causal."""
