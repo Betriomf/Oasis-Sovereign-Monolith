@@ -1,5 +1,5 @@
 {
-  "catalog_version": "v21.3.0-YM-Fase1",
+  "catalog_version": "v21.4.0-YM-Fase2-3",
   "policy": "9 módulos 100% autónomos (Python estándar, 0 dependencias GPU), operativos 24/7 en Render/HF incluso con el Mac cerrado.",
   "modules": [
     {
@@ -112,6 +112,14 @@
       "file": "sovereign_catalog/14_ym_devils_advocate.py",
       "description": "Auditoría Abogado del Diablo (Fase 0-1 Yang-Mills): hipótesis de Pilares y resolución de masas 1.65 vs 2.2058 vs 4.1096 GeV.",
       "standalone_test": "python3 sovereign_catalog/14_ym_devils_advocate.py",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "15",
+      "command": "fase2 / wilson",
+      "file": "sovereign_catalog/15_ym_wilson_fisher_rao.py",
+      "description": "Fase 2-3 Yang-Mills: Acción de Wilson S_W(U) + Filtro de Fisher-Rao Δ_FR(L) > 0 verificado en Lean 4 (sorry=0).",
+      "standalone_test": "python3 sovereign_catalog/15_ym_wilson_fisher_rao.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]
