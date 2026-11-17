@@ -43,8 +43,15 @@ def verify_ym_process(arg: str = "") -> str:
 
         raw = fpath.read_text(encoding="utf-8")
         # Eliminar comentarios Lean (-- ... y /- ... -/) antes de buscar 'sorry' o 'axiom'
-        no_block = re.sub(r"/-.*?-/", "", raw, flags=re.S)
+        # Eliminar comentarios de bloque Lean 4 (/- ... -/ y /-- ... -/) de forma iterativa
+        no_block = raw
+        while "/-" in no_block and "-/" in no_block:
+            next_nb = re.sub(r"/-[\s\S]*?-/", "", no_block)
+            if next_nb == no_block:
+                break
+            no_block = next_nb
         no_comments = re.sub(r"--.*", "", no_block)
+        no_comments = re.sub(r'"[^"\\]*(?:\\.[^"\\]*)*"', '""', no_comments)
         has_sorry = bool(re.search(r"\bsorry\b", no_comments))
 
         merkle.update(raw.encode("utf-8"))
