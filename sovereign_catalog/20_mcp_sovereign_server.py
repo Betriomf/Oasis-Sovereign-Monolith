@@ -88,6 +88,28 @@ def tool_web_scraper(url: str) -> str:
     except Exception as e:
         return f"❌ Error en web_scraper({target}): {type(e).__name__}: {e}"
 
+
+def tool_arxiv_physics_today(topic: str = "hep-th OR math-ph") -> str:
+    import xml.etree.ElementTree as ET
+    q_enc = urllib.parse.quote(topic)
+    url = f"http://export.arxiv.org/api/query?search_query=cat:{q_enc}&sortBy=submittedDate&sortOrder=descending&max_results=6"
+    time.sleep(GOLDEN_PACING_SEC)
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "OasisMCP-ArXiv/22.2"})
+        xml_raw = urllib.request.urlopen(req, timeout=12).read().decode("utf-8", errors="ignore")
+        root = ET.fromstring(xml_raw)
+        ns = {"atom": "http://www.w3.org/2005/Atom"}
+        entries = []
+        for entry in root.findall("atom:entry", ns):
+            title = re.sub(r"\s+", " ", entry.findtext("atom:title", "", ns)).strip()
+            published = entry.findtext("atom:published", "", ns)[:10]
+            aid = entry.findtext("atom:id", "", ns).split("/abs/")[-1]
+            summary = re.sub(r"\s+", " ", entry.findtext("atom:summary", "", ns)).strip()[:180]
+            entries.append(f"  • [{published}] ({aid}) {title}\n    Resumen: {summary}...")
+        return "🛰️ [ARXIV FÍSICA TEÓRICA & MATEMÁTICA — ÚLTIMOS PREPRINTS]:\n" + "\n".join(entries)
+    except Exception as e:
+        return f"❌ Error consultando arXiv: {e}"
+
 def tool_search_pilares(query: str) -> str:
     verdad = BASE_DIR / "vault" / "VERDAD_OASIS.md"
     if not verdad.exists():
@@ -168,6 +190,8 @@ def ask_ollama_with_mcp(user_query: str) -> str:
     tool_context = ""
     if url_match:
         tool_context = tool_web_scraper(url_match.group(1))
+    elif any(k in user_query.lower() for k in ("arxiv", "paper", "fisica", "física", "subido", "hoy")):
+        tool_context = tool_arxiv_physics_today("hep-th")
     elif any(k in user_query.lower() for k in ("pilar", "crouzeix", "378", "340", "310", "kappa")):
         tool_context = tool_search_pilares(user_query)
 
