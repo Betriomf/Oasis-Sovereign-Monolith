@@ -13,3 +13,4 @@ Organizations wishing to incorporate **Oasis Sovereign Q-OS**, the **Ring-3 Adia
   - Araki Entropy & MQM Compression: `10.5281/zenodo.24323807`
   - Oasis Sovereign Q-OS Control Plane: `10.5281/zenodo.24324622`
   - Pilar 86 Quantum Kernel & Leech Lattice OS: `10.5281/zenodo.24324683`
+  - Cold-Silicon Personal Desktop Architecture: `10.5281/zenodo.24325171`
