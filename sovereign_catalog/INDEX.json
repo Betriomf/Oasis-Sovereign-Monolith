@@ -1,5 +1,5 @@
 {
-  "catalog_version": "v21.5.0-YM-Fase4",
+  "catalog_version": "v21.6.0-YM-Fase5-OS",
   "policy": "9 módulos 100% autónomos (Python estándar, 0 dependencias GPU), operativos 24/7 en Render/HF incluso con el Mac cerrado.",
   "modules": [
     {
@@ -128,6 +128,14 @@
       "file": "sovereign_catalog/16_ym_monte_carlo_c99.py",
       "description": "Fase 4 Yang-Mills: Simulación Monte Carlo SU(2) en C99 nativo (Silicio Frío) para correlaciones C(t, L) y gap Δ_MC(L).",
       "standalone_test": "python3 sovereign_catalog/16_ym_monte_carlo_c99.py",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "17",
+      "command": "fase3 / fase5 / os-axioms",
+      "file": "sovereign_catalog/17_ym_fase3_5_os_verifier.py",
+      "description": "Auditor explícito Fases 1-5 + Axiomas Osterwalder-Schrader OS1-OS2 y puente C99->Lean 4.",
+      "standalone_test": "python3 sovereign_catalog/17_ym_fase3_5_os_verifier.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]

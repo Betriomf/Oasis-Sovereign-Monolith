@@ -392,6 +392,9 @@ class OasisGatewayHandler(BaseHTTPRequestHandler):
             "wilson": ("15_ym_wilson_fisher_rao.py", "fase2_process", True),
             "fase4": ("16_ym_monte_carlo_c99.py", "fase4_process", True),
             "mc-ym": ("16_ym_monte_carlo_c99.py", "fase4_process", True),
+            "fase3": ("17_ym_fase3_5_os_verifier.py", "fase5_process", True),
+            "fase5": ("17_ym_fase3_5_os_verifier.py", "fase5_process", True),
+            "os-axioms": ("17_ym_fase3_5_os_verifier.py", "fase5_process", True),
         }
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]
