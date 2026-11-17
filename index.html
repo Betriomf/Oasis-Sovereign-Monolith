@@ -846,5 +846,63 @@
 })();
 </script>
 
+
+<script id="oasis-tab-history-v21">
+(function() {
+  const ALL_CMDS = [
+    "help", "riona", "qr", "mesh", "id", "check_hash", "webgpu", "play", "boost-gta",
+    "sheets", "modules", "catalog", "fiscal", "verify_bin", "soc", "ai", "v", "pilares",
+    "cloud", "always-on", "nod", "flow", "edge0", "1458", "smol", "smolmax", "pool",
+    "ym", "yang-mills", "fase1", "audit-ym", "fase2", "wilson", "fase3", "fase4", "mc-ym",
+    "fase5", "os-axioms", "verify-ym", "oasis verify yang-mills", "boveda", "c99", "crm"
+  ];
+  const STORAGE_KEY = "oasis_cmd_history_v21";
+  let history = [];
+  try { history = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); } catch (_) {}
+  let histIdx = history.length;
+
+  document.addEventListener("keydown", function(ev) {
+    const el = ev.target;
+    if (!el || typeof el.value !== "string") return;
+
+    if (ev.key === "Enter") {
+      const val = el.value.trim();
+      if (val && history[history.length - 1] !== val) {
+        history.push(val);
+        if (history.length > 50) history.shift();
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(history)); } catch (_) {}
+      }
+      histIdx = history.length;
+    } else if (ev.key === "ArrowUp") {
+      if (history.length > 0 && histIdx > 0) {
+        ev.preventDefault();
+        histIdx--;
+        el.value = history[histIdx];
+      }
+    } else if (ev.key === "ArrowDown") {
+      if (histIdx < history.length - 1) {
+        ev.preventDefault();
+        histIdx++;
+        el.value = history[histIdx];
+      } else {
+        histIdx = history.length;
+        el.value = "";
+      }
+    } else if (ev.key === "Tab") {
+      const prefix = el.value.trim().toLowerCase();
+      if (!prefix) return;
+      const matches = ALL_CMDS.filter(c => c.startsWith(prefix));
+      if (matches.length === 1) {
+        ev.preventDefault();
+        el.value = matches[0] + " ";
+      } else if (matches.length > 1 && typeof window.appendLine === "function") {
+        ev.preventDefault();
+        window.appendLine("💡 Sugerencias: " + matches.join("  |  "), "#88ccee");
+      }
+    }
+  }, true);
+})();
+</script>
+
 </body>
 </html>
