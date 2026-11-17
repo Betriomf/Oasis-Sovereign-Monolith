@@ -1,5 +1,5 @@
 {
-  "catalog_version": "v21.7.0-YM-Notary-18Mods",
+  "catalog_version": "v22.0.0-WebAudit-19Mods",
   "policy": "9 módulos 100% autónomos (Python estándar, 0 dependencias GPU), operativos 24/7 en Render/HF incluso con el Mac cerrado.",
   "modules": [
     {
@@ -144,6 +144,14 @@
       "file": "sovereign_catalog/18_ym_notary_verify.py",
       "description": "Notario Matemático (Fase 6-7): compila y certifica la biblioteca Yang-Mills en Lean 4 (sorry=0) con raíz SHA-256.",
       "standalone_test": "python3 sovereign_catalog/18_ym_notary_verify.py",
+      "status": "VERIFIED_AND_SEALED"
+    },
+    {
+      "id": "19",
+      "command": "web-audit / audit-web",
+      "file": "sovereign_catalog/19_web_forensic_auditor.py",
+      "description": "Auditor forense de webs y APIs (Protocolo 8 Fases): detecta respuestas JSON vacías, rutas huérfanas y fallos de UI.",
+      "standalone_test": "python3 sovereign_catalog/19_web_forensic_auditor.py",
       "status": "VERIFIED_AND_SEALED"
     }
   ]

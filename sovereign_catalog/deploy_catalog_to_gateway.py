@@ -76,6 +76,13 @@ def inject_unified_dispatcher():
             "os-axioms": ("17_ym_fase3_5_os_verifier.py", "fase5_process", True),
             "verify-ym": ("18_ym_notary_verify.py", "verify_ym_process", True),
             "oasis": ("18_ym_notary_verify.py", "verify_ym_process", True),
+            "agents": ("05_modules_registry.py", "modules_process", False),
+            "sec": ("07_verify_bin_uma.py", "verify_bin_process", True),
+            "crm": ("04_sovereign_sheets.py", "sheets_process", False),
+            "minkowski": ("03_webgpu_play.py", "play_process", True),
+            "ask": ("08_ai_vault_oracle.py", "ai_process", True),
+            "web-audit": ("19_web_forensic_auditor.py", "web_audit_process", True),
+            "audit-web": ("19_web_forensic_auditor.py", "web_audit_process", True),
         }}
         if skill in _cat_map:
             _fname, _fn_name, _takes_arg = _cat_map[skill]
