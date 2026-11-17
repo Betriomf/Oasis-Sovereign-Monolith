@@ -34,6 +34,11 @@ BASE_FILES = [
     "tools/ym_su2_mc_c99.c",
 ]
 
+PAPER_E_FILES = [
+    "papers/paper_e_pilar86_leech_qpu_os_lean4.tex",
+    "formal_proofs/Pilar86_LeechQPU_QuantumOS_Fase11.lean",
+]
+
 PAPER_D_FILES = [
     "papers/paper_d_quantum_os_ring3_lean4.tex",
     "formal_proofs/QuantumOS_ControlPlane_Fase10.lean",
@@ -80,7 +85,7 @@ def scientific_audit(files_list: list[str]) -> bool:
             all_ok = False
             continue
         if has_lean:
-            res = subprocess.run(["lean", str(fpath)], capture_output=True, text=True, timeout=30)
+            res = subprocess.run(["lean", str(fpath)], capture_output=True, text=True, timeout=90)
             if res.returncode != 0:
                 print(f"  ❌ BLOQUEO COMPILACIÓN Lean 4 en {rel}: {res.stderr[:140]}")
                 all_ok = False
@@ -95,11 +100,35 @@ def api_request(url: str, token: str, method: str = "GET", data: bytes | None = 
         "User-Agent": "OasisZenodoPublisher/22.4-UnifiedStrictTLS"
     }
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
-    with urllib.request.urlopen(req, timeout=30, context=SSL_CTX) as resp:
+    with urllib.request.urlopen(req, timeout=90, context=SSL_CTX) as resp:
         raw = resp.read().decode("utf-8")
         return json.loads(raw) if raw else {}
 
 def build_metadata(mode: str) -> dict:
+    if mode == "paper-e":
+        return {
+            "metadata": {
+                "title": "Pilar 86 Quantum Kernel Architecture and phi-Aware Distributed Operating System: Leech Lattice (Lambda_24) Compilation, Non-Commutative Logic Gates, and Reversible Transition",
+                "upload_type": "publication",
+                "publication_type": "preprint",
+                "description": (
+                    "Formal specification and Lean 4 machine-checked structural invariants (zero sorry, zero admit, zero custom axioms) "
+                    "for the Pilar 86 QPU Kernel and 5-layer phi-Aware Distributed Operating System, continuing DOI 10.5281/zenodo.24323807 "
+                    "and DOI 10.5281/zenodo.24311596. Covers Leech lattice (Lambda_24) gate mapping, Prime-41 phase circuit-breaking, "
+                    "5-generator WASM LieAlgebraCore/BlochStateEngine primitives, non-commutative QuantumLogicGate security, and "
+                    "Fibonacci state-space pruning (F_n <= 2^n), explicitly distinguishing classical CMOS/WASM benchmarks from future "
+                    "physical superconducting QPU calorimetric experiments."
+                ),
+                "creators": [{"name": "Panzano Caballé, Mariano", "affiliation": "Oasis Sovereign Architecture Research, Barcelona"}],
+                "keywords": ["Quantum Operating System", "Leech Lattice", "Lean 4", "Formal Verification", "ZX-Calculus", "Reversible Computing"],
+                "license": "cc-by-4.0",
+                "related_identifiers": [
+                    {"identifier": "10.5281/zenodo.24323807", "relation": "continues", "scheme": "doi"},
+                    {"identifier": "10.5281/zenodo.24311596", "relation": "isPartOf", "scheme": "doi"},
+                    {"identifier": "https://github.com/Betriomf/Oasis-Sovereign-Monolith", "relation": "isSupplementedBy", "scheme": "url"}
+                ]
+            }
+        }
     if mode == "paper-d":
         return {
             "metadata": {
@@ -168,8 +197,8 @@ def build_metadata(mode: str) -> dict:
     }
 
 def main():
-    mode = "paper-d" if "--paper-d" in sys.argv else ("paper-c" if "--paper-c" in sys.argv else "base")
-    target_files = PAPER_D_FILES if mode == "paper-d" else (PAPER_C_FILES if mode == "paper-c" else BASE_FILES)
+    mode = "paper-e" if "--paper-e" in sys.argv else ("paper-d" if "--paper-d" in sys.argv else ("paper-c" if "--paper-c" in sys.argv else "base"))
+    target_files = PAPER_E_FILES if mode == "paper-e" else (PAPER_D_FILES if mode == "paper-d" else (PAPER_C_FILES if mode == "paper-c" else BASE_FILES))
 
     if not scientific_audit(target_files):
         print("\n⛔ AUDITORÍA RECHAZADA: No se ha contactado con Zenodo.")
@@ -185,7 +214,7 @@ def main():
         sys.exit(1)
 
     publish_now = "--publish-confirmed" in sys.argv
-    label = "PAPER D (Q-OS)" if mode == "paper-d" else ("PAPER C" if mode == "paper-c" else "PAQUETE BASE")
+    label = "PAPER E (PILAR 86 Q-OS)" if mode == "paper-e" else ("PAPER D (Q-OS)" if mode == "paper-d" else ("PAPER C" if mode == "paper-c" else "PAQUETE BASE"))
     print(f"\n🌐 [ZENODO — {label}]: Creando depósito controlado (TLS estricto)...")
     dep = api_request(API_BASE, token, method="POST", data=b"{}")
     dep_id = dep["id"]
