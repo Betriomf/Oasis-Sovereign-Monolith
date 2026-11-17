@@ -54,7 +54,7 @@ theorem continuum_limit_forbids_massless_collapse
     Nat.mul_pos F.h_m0_pos (F.h_den_pos N V)
   have h_rhs_pos : 0 < physicalMassNum F N V * F.m0_den :=
     Nat.lt_of_lt_of_le h_lhs_pos h1
-  exact Nat.pos_of_mul_pos_left h_rhs_pos
+  exact Nat.pos_of_mul_pos_right h_rhs_pos
 
 /-- Teorema 3 (Condición Necesaria y Suficiente de Osterwalder-Schrader):
     Si la brecha física renormalizada es uniforme en N y V, la cota de reconstrucción de
