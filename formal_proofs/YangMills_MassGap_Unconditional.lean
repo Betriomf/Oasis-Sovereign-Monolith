@@ -70,7 +70,6 @@ theorem su3_eight_gluon_generators (T : SU3YangMillsVerifiedTheory) :
     su3LieDim T = 8 := by
   unfold su3LieDim
   rw [T.h_is_su3]
-  rfl
 
 /-- Lema B (No-Explosión Ultravioleta en Todas las Escalas k):
     El residuo ultravioleta R_k(A) permanece estrictamente acotado bajo el techo de Araki -/
