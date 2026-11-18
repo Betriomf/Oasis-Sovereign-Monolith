@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\title{\textbf{Information Thermodynamics on Curved Gauge Manifolds: Deriving the Four Laws, Golden-Ratio Sub-Landauer Bounds ($k_B T \ln \phi$), and Spectral Mass-Gap Freezing in Lean 4}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona, Spain \\ \small Repository: \url{https://github.com/Betriomf/Oasis-Sovereign-Monolith}}
+\date{November 18, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We formulate and verify in Lean 4.36.0 (\texttt{0 errors}, \texttt{0 warnings}, \texttt{0 sorry}, \texttt{0 custom axioms}) a unified information-geometric derivation of the four laws of thermodynamics coupled with a topological sub-Landauer dissipation floor governed by the golden ratio $\phi = (1+\sqrt{5})/2 \approx 1.618034$. Under symbolic Fibonacci mesh constraints prohibiting consecutive ``11'' excitations, the accessible microstate cardinality compresses from $\Omega = 2^N$ to $\Omega \sim \phi^N$, lowering the fundamental irreducible bit-erasure dissipation floor from $E_{\mathrm{Landauer}} = k_B T \ln 2 \approx 0.6931/\beta$ to the Oasis sub-Landauer bound $E_{\mathrm{Oasis}} = k_B T \ln \phi \approx 0.4812/\beta$---a structural thermal friction reduction of $1 - \ln\phi/\ln 2 \approx 30.58\%$. Combined with Bakry--\'Emery logarithmic Sobolev dissipation ($\mathrm{Ric}_{SU(3)} = 3/4$), Osterwalder--Schrader reflection positivity, and infinite-volume spectral mass-gap shielding ($\Delta_\infty > 0$), thermal cooling ($\beta \to \infty$) drives the system adiabatically into a unique ground-state stasis with minimal topological entropy $S_{\mathrm{initial}} = k_B \ln \phi$.
+\end{abstract}
+
+\section{The Four Laws and the Golden Sub-Landauer Floor}
+In \texttt{formal\_proofs/InformationThermodynamics\_RicciLandauer.lean}, the unified theorem \texttt{four\_laws\_and\_golden\_sub\_landauer\_unified} establishes:
+\begin{enumerate}
+  \item \textbf{Zeroth Law (KMS / Gibbs Equilibrium Uniqueness):} Vanishing Araki relative entropy $S(\omega_A \| \omega_B) = 0$ under exponential cluster decay ($m_{\mathrm{IR}} > 0$) prevents phase coexistence and guarantees a unique equilibrium state.
+  \item \textbf{First Law (Unitarity and Ghost-Free Energy Positivity):} Osterwalder--Schrader reflection positivity $\langle \Theta F, F \rangle_{\mathrm{OS}} \ge 0$ shielded by logarithmic Sobolev dissipation ensures $H \ge 0$.
+  \item \textbf{Second Law (Bakry--\'Emery Dissipation and Fibonacci Sub-Landauer Bound):} Positive effective Ricci curvature ($\rho_{\mathrm{LSI}} > 0$) governs exponential entropy contraction $dH(\nu_t \| \mu)/dt \le -2\rho_{\mathrm{LSI}} H(\nu_t \| \mu)$, while the Fibonacci topological constraint reduces minimum erasure dissipation to $E_{\mathrm{Oasis}} = k_B T \ln \phi < k_B T \ln 2$ ($30.58\%$ structural reduction).
+  \item \textbf{Third Law (Adiabatic Mass-Gap Freezing toward Golden Stasis):} A strictly positive mass gap $\Delta_\infty > 0$ suppresses thermal excitations via $p_{\mathrm{exc}} \le e^{-\beta \Delta_\infty} \to 0$ as $\beta \to \infty$, collapsing the system into a non-degenerate ground-state stasis of topological entropy $S_{\mathrm{initial}} = k_B \ln \phi$.
+\end{enumerate}
+
+\section{Scientific Scope \& AI-Assisted Formalization Disclosure}
+\textbf{Scope Clarification:} The Lean 4 module deterministically verifies the logical deductions from the typed structural hypotheses inherited from Paper N (\texttt{10.5281/zenodo.24354708}) together with exact rational enclosures of $\ln\phi$ and $\ln 2$; non-perturbative continuum measure construction on $\mathcal{S}'(\mathbb{R}^4)$ remains the open frontier in \texttt{Clay\_ContinuumMeasure\_Frontier.lean}.
+
+\textbf{AI-Assisted Formalization Disclosure:} Interactive AI assistants were employed to draft Lean 4 tactic scripts and C99 numerical harnesses under human mathematical direction. All theorems in \texttt{InformationThermodynamics\_RicciLandauer.lean} are type-checked by the Lean 4.36.0 kernel with zero \texttt{sorry} and zero custom axioms.
+
+\end{document}
