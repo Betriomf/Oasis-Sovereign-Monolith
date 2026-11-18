@@ -46,11 +46,12 @@ theorem macroscopic_stability_under_blocking (B : BalabanBlockScale) (k : Nat) :
     B.dissipationAt k ≤ B.dissipationAt 0 := by
   have h_bound := balaban_global_scale_bounded B k
   have h_pos : 0 < B.boundaryOverlapDen ^ k := Nat.pow_pos B.h_bound_den_pos
+  have h_step : B.boundaryOverlapNum ≤ B.boundaryOverlapDen := Nat.le_of_lt B.h_overlap_controlled
   have h_ratio_le : B.boundaryOverlapNum ^ k ≤ B.boundaryOverlapDen ^ k := by
+    clear h_bound h_pos
     induction k with
     | zero => exact Nat.le_refl 1
     | succ m ih =>
-        have h_step : B.boundaryOverlapNum ≤ B.boundaryOverlapDen := B.h_overlap_controlled.le
         calc
           B.boundaryOverlapNum ^ (m + 1)
               = B.boundaryOverlapNum ^ m * B.boundaryOverlapNum := by rw [Nat.pow_succ]
