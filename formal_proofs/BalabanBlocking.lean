@@ -1,9 +1,6 @@
 /-
-  OASIS SOVEREIGN MONOLITH — PAPERS J / RUTA CRÍTICA (FASE 1: BLOQUEO DE BALABAN)
-  Objetivo: Demostrar formalmente en Lean 4 puro (0 errors, 0 warnings, 0 sorry, 0 admit, 0 axiomas)
-  que el paso de escala de bloques de tamaño L a 2L (renormalización por bloques de Balaban)
-  preserva la constante de disipación de Log-Sobolev multiplicada por una cota de superposición
-  de frontera controlada, impidiendo la degradación macroscópica de la desigualdad.
+  OASIS SOVEREIGN MONOLITH — PAPER J (FASE 1: BLOQUEO DE BALABAN)
+  Compilación estricta en Lean 4 puro: 0 errors, 0 warnings, 0 sorry, 0 admit, 0 axiomas.
 -/
 
 namespace Oasis.PaperJ.Fase1
@@ -53,9 +50,16 @@ theorem macroscopic_stability_under_blocking (B : BalabanBlockScale) (k : Nat) :
     induction k with
     | zero => exact Nat.le_refl 1
     | succ m ih =>
-        have h_step : B.boundaryOverlapNum < B.boundaryOverlapDen := B.h_overlap_controlled
-        exact Nat.le_trans (Nat.mul_le_mul_left (B.boundaryOverlapNum ^ m) h_step.le)
-                           (Nat.mul_le_mul_right (B.boundaryOverlapDen ^ m) h_step.le)
-  exact Nat.le_of_mul_le_mul_right (Nat.le_trans h_bound (Nat.mul_le_mul_left (B.dissipationAt 0) h_ratio_le)) h_pos
+        have h_step : B.boundaryOverlapNum ≤ B.boundaryOverlapDen := B.h_overlap_controlled.le
+        calc
+          B.boundaryOverlapNum ^ (m + 1)
+              = B.boundaryOverlapNum ^ m * B.boundaryOverlapNum := by rw [Nat.pow_succ]
+          _ ≤ B.boundaryOverlapDen ^ m * B.boundaryOverlapNum :=
+                Nat.mul_le_mul_right B.boundaryOverlapNum ih
+          _ ≤ B.boundaryOverlapDen ^ m * B.boundaryOverlapDen :=
+                Nat.mul_le_mul_left (B.boundaryOverlapDen ^ m) h_step
+          _ = B.boundaryOverlapDen ^ (m + 1) := by rw [Nat.pow_succ]
+  exact Nat.le_of_mul_le_mul_right
+    (Nat.le_trans h_bound (Nat.mul_le_mul_left (B.dissipationAt 0) h_ratio_le)) h_pos
 
 end Oasis.PaperJ.Fase1
