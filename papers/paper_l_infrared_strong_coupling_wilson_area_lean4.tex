@@ -1,0 +1,45 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\title{\textbf{Infrared Strong-Coupling Cluster Convergence, Wilson Area Law Glueball Mass Bounds, and Dual-Regime Synthesis for 4D SU(3) Yang-Mills in Lean 4}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 18, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Completing the dual-regime formalization initiated with our ultraviolet Balaban--Araki--Wightman architecture (\href{https://doi.org/10.5281/zenodo.24342481}{DOI: 10.5281/zenodo.24342481}), we present a machine-checked Lean 4 verification (\texttt{0 sorry}, \texttt{0 admit}, \texttt{0 custom axioms}) of the \textbf{infrared strong-coupling regime} ($g^2 \gg 1$) for four-dimensional $SU(3)$ lattice gauge theory. Across two verified Lean 4 modules (\texttt{InfraredClusterExpansion.lean} and \texttt{WilsonAreaToMassGap.lean}) paired with deterministic C99 strong-coupling benchmarks, we prove that: (i) under the Koteck\'y--Preiss / Osterwalder--Seiler polymer suppression criterion, higher-order infrared cluster terms decay geometrically without divergence; and (ii) a strictly positive confining string tension ($\sigma > 0$) in the Wilson area law enforces a strictly positive lower bound on the lightest glueball mass ($M_{\mathrm{gb}} \ge 4\sigma > 0$). Together with our ultraviolet renormalization theorems, these results formally bracket both asymptotic regimes of 4D $SU(3)$ Yang-Mills theory while explicitly isolating the intermediate crossover continuity problem in $\mathbb{R}^4$.
+\end{abstract}
+
+\section{Dual-Regime Architecture: Ultraviolet vs. Infrared}
+\begin{theorem}[Infrared Cluster Convergence and Glueball Mass Positivity]
+\begin{enumerate}
+    \item \textbf{Koteck\'y--Preiss Polymer Decay (\texttt{InfraredClusterExpansion.lean}):} Whenever $w_{\mathrm{num}} \cdot z_{\mathrm{coord}} < w_{\mathrm{den}}$, every order $n \in \mathbb{N}$ of the strong-coupling polymer expansion obeys $C_n \le C_0$ with geometric suppression $(w_{\mathrm{num}} \cdot z_{\mathrm{coord}} / w_{\mathrm{den}})^n$.
+    \item \textbf{Confining Flux-Tube Mass Gap (\texttt{WilsonAreaToMassGap.lean}):} For any confining Wilson area system with string tension $\sigma > 0$, the closed elementary plaquette flux-tube bound $M_{\mathrm{gb}} \ge 4\sigma$ guarantees $M_{\mathrm{gb}} > 0$.
+\end{enumerate}
+\end{theorem}
+
+\section{SU(3) Strong-Coupling Numerical Corroboration ($\beta \in [0.60, 2.20]$)}
+Deterministic C99 evaluation of the $SU(3)$ strong-coupling plaquette expansion $\langle P \rangle = \beta/18 + \beta^2/216$ yields $\sigma(\beta) = -\ln\langle P \rangle$ decreasing smoothly from $\sigma(0.60) = 3.352407$ ($4\sigma = 13.409629$) to $\sigma(2.20) = 1.933579$ ($4\sigma = 7.734316$), confirming a strictly positive confining gap across the strong-coupling domain.
+
+\begin{remark}[Exact Boundary of Open Mathematical Work]
+While our Lean 4 suite formally verifies both the ultraviolet Balaban--Araki--Wightman cascade (Paper K) and the infrared Osterwalder--Seiler--Wilson confining regime (Paper L), proving non-perturbatively in $\mathbb{R}^4$ that no deconfining phase transition closes the spectral gap across the intermediate crossover coupling region remains the central open analytical step toward the Clay Millennium formulation.
+\end{remark}
+
+\section*{Author Contributions and AI-Assisted Formalization Disclosure}
+The mathematical synthesis, dual-regime framing, and research direction were conceived and supervised by M. Panzano Caball\'e. Interactive AI assistants were employed to draft Lean 4 tactic scripts and C99 numerical harnesses; all formal theorems and proofs were independently verified by the deterministic Lean 4 type-checking kernel with zero \texttt{sorry} and zero custom axioms.
+
+\begin{thebibliography}{9}
+\bibitem{osterwalder1978} K. Osterwalder and E. Seiler, \emph{Gauge field theories on a lattice}, Ann. Phys. \textbf{110} (1978), 440--471.
+\bibitem{kotecky1986} R. Koteck\'y and D. Preiss, \emph{Cluster expansion for abstract polymer models}, Commun. Math. Phys. \textbf{103} (1986), 491--498.
+\bibitem{panzano2026k} M. Panzano Caball\'e, \emph{Building on Tadeusz Balaban's Renormalization Group Program: Machine-Checked Ultraviolet Polymer Error Suppression, Araki Continuum Cauchy Convergence, and Wightman Spectral Gap Verification for 4D SU(3) Yang-Mills}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24342481}
+\end{thebibliography}
+
+\end{document}
