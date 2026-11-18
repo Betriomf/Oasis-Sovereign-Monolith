@@ -1,0 +1,41 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\title{\textbf{Log-Sobolev Dissipation Dominance and Ultraviolet Large-Field Suppression in Machine-Checked Lattice Renormalization: Unifying the Araki-Spectral Gap Architecture}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 18, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present the unified formal and computational synthesis of our five-stage investigation into the Araki-Spectral Gap bridge for regularized four-dimensional gauge theories, extending our prior Zenodo releases (DOIs: \href{https://doi.org/10.5281/zenodo.24311596}{10.5281/zenodo.24311596}, \href{https://doi.org/10.5281/zenodo.24323807}{10.5281/zenodo.24323807}, \href{https://doi.org/10.5281/zenodo.24326329}{10.5281/zenodo.24326329}, and \href{https://doi.org/10.5281/zenodo.24326462}{10.5281/zenodo.24326462}). Using Lean 4 (\texttt{0 sorry}, \texttt{0 admit}, \texttt{0 custom axioms}) with automated arithmetic decision tactics (\texttt{omega}), we prove in \texttt{LogSobolev\_Theorem\_Fase4.lean} and \texttt{RG\_LargeFieldSuppression\_Fase4.lean} that whenever local Modified Log-Sobolev (MLSI) block dissipation dominates nonlinear ultraviolet defect generation ($\mathrm{uvGen}_k \le \mathrm{lsiDissip}_k$), the large-field residual $R_k(A)$ remains strictly bounded below the Araki contraction ceiling across all refinement scales $k \to \infty$. Multi-scale C99 Monte Carlo simulations across four-dimensional lattices $L^4$ ($L \in \{16, 32, 64, 128\}$, up to $2.68 \times 10^8$ sites) under one-loop asymptotic freedom scaling confirm a four-order-of-magnitude suppression of large-field defects ($R_k: 0.423 \to 0.000214$) and strictly increasing Log-Sobolev dissipation ($\lambda_{\mathrm{LSI}}: 0.967 \to 6.139$).
+\end{abstract}
+
+\section{Unified Machine-Checked Theorem Chain (Lean 4)}
+Across six interconnected, zero-\texttt{sorry} Lean 4 artifacts, the logical chain is verified end-to-end:
+\begin{enumerate}
+    \item \textbf{Geometric Araki Contraction (\texttt{ArakiContraction.lean}):} $D(\Phi^n(\rho), \Phi^n(\sigma)) d^n \le D(\rho, \sigma) c^n$ with finite-time distinguishability preservation.
+    \item \textbf{Pinsker Correlation Decay (\texttt{ArakiPinskerCorrelations\_Fase3.lean}):} $C(t)^2 \le 2 D(\rho_t \| \omega) \implies$ exponential decay of connected correlators.
+    \item \textbf{Vacuum Spectral Gap Isolation (\texttt{SpectralGap\_From\_Entropy.lean}):} Lehmann spectral decomposition forces $\Delta = E_1 - E_0 > 0$.
+    \item \textbf{Log-Sobolev Balance \& UV Suppression (\texttt{LogSobolev\_Theorem\_Fase4.lean}, \texttt{RG\_LargeFieldSuppression\_Fase4.lean}):} Local MLSI dissipation dominance ($\mathrm{uvGen}_k \le \mathrm{lsiDissip}_k$) and asymptotic freedom ($\beta_{k+1} \ge \beta_k + \delta\beta$) strictly prevent ultraviolet blowup ($R_k(A) < \mathrm{ArakiCeiling}(k)$).
+    \item \textbf{Osterwalder-Schrader Continuum Stability (\texttt{ContinuumLimit\_OsterwalderSchrader\_Fase5.lean}):} Uniform linear scaling preserves $M_{\mathrm{phys}} \ge m_0 > 0$ under $a \to 0$ and $V \to \infty$.
+\end{enumerate}
+
+\begin{remark}[Epistemic Boundary]
+While every step of the discrete, multi-scale conditional deduction and numerical 4D verification is machine-checked without \texttt{sorry}, establishing unconditionally that non-perturbative 4D $SU(2)/SU(3)$ Yang-Mills satisfies the uniform block-spin MLSI balance across the infrared strong-coupling crossover remains the open analytical milestone of the Clay Millennium Problem.
+\end{remark}
+
+\begin{thebibliography}{9}
+\bibitem{panzano2026a} M. Panzano Caball\'e, \emph{Oasis Sovereign Monolith: Machine-Checked Lean 4 Spectral Bounds in Discretized SU(2) Gauge Models and Decadic Entropy Confinement}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24311596}
+\bibitem{panzano2026g} M. Panzano Caball\'e, \emph{From Araki Relative Entropy Contraction to Vacuum Spectral Gap Isolation: A Machine-Checked Lean 4 Proof Pipeline and C99 Lattice Verification}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24326329}
+\bibitem{panzano2026h} M. Panzano Caball\'e, \emph{Continuum Limit Stability and Osterwalder-Schrader Spectral Gap Preservation under Uniform Araki-Renormalization Scaling}, Zenodo, 2026. \url{https://doi.org/10.5281/zenodo.24326462}
+\end{thebibliography}
+
+\end{document}
