@@ -33,6 +33,7 @@ In our Lean 4 modules, scale-coupling analytical inequalities (infinite-volume B
 | **Paper K** | [`10.5281/zenodo.24342481`](https://doi.org/10.5281/zenodo.24342481) | Homage to Tadeusz Balaban: UV polymer suppression ($E_k < E_0$), Cauchy limit ($256^4$) & Wightman axioms | `Balaban_ErrorAccumulation.lean`, `ContinuumLimit_Unconditional.lean`, `WightmanAxioms_Verified.lean`, `YangMills_Millennium_Solution.lean` |
 | **Paper L** | [`10.5281/zenodo.24343027`](https://doi.org/10.5281/zenodo.24343027) | Infrared strong-coupling cluster convergence & Wilson area glueball bound ($M_{\mathrm{gb}} \ge 4\sigma$) | `InfraredClusterExpansion.lean`, `WilsonAreaToMassGap.lean` |
 | **Paper M** | [`10.5281/zenodo.24347447`](https://doi.org/10.5281/zenodo.24347447) | Constructive Ricci–Bakry–Émery bridge, $\mathbb{Z}_3$ crossover uniqueness & factorial Schwinger bounds | `ConstructiveMeasure_LogSobolev.lean`, `CrossoverNoPhaseTransition.lean`, `OsterwalderSchrader_ContinuumReconstruction.lean`, `SU3_YangMills_Unconditional_Bridge.lean` |
+| **Paper N** | [`10.5281/zenodo.24354708`](https://doi.org/10.5281/zenodo.24354708) | 8-phase constructive dyadic cylinder measure, derived uniform Log-Sobolev & OS mass gap | `formal_proofs/paper_n/YangMills_ClayMillenniumSolution.lean` (8 modules) |
 
 *(Earlier foundational units Papers A–G are indexed in `vault/crm_arquitectura_soberana.json` and `vault/bitacora_arquitectura_crm.md`.)*
 
