@@ -34,7 +34,7 @@ structure SchemePhaseCertificate where
 theorem global_scheme_bounds_at_scale
     (n : Nat)
     (seq : Nat → SchemePhaseCertificate)
-    (h_cert : ∀ i : Nat, Nonempty (SchemePhaseCertificate))
+    (_h_cert : ∀ _i : Nat, Nonempty (SchemePhaseCertificate))
     (h_seq : ∀ i : Nat,
       (seq i).momentPermille ≤ 3000 ∧
       746 ≤ (seq i).spectralFloorPermille ∧
@@ -46,7 +46,6 @@ theorem global_scheme_bounds_at_scale
     freeGaussianCumulantMillionths < (seq n).connectedCumulantMillionths ∧
     (seq n).relEntropyMillionths ≤ 100 ∧
     (seq n).gapSplitMillionths ≤ 100 := by
-  have _ := h_cert n
   rcases h_seq n with ⟨hm, hf, hnt, he, hg⟩
   exact ⟨hf, hm, Nat.lt_of_lt_of_le (by decide) hnt, he, hg⟩
 
