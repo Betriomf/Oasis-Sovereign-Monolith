@@ -19,5 +19,9 @@ jobs:
       - name: Fetch Mathlib Cache & Build OasisMathlib
         working-directory: formal_proofs/mathlib_foundation
         run: |
-          lake exe cache get
+          git init -q
+          git config user.email "ci@oasis-sovereign.org"
+          git config user.name "Oasis CI"
+          lake exe cache get!
+          rm -rf .git
           lake build OasisMathlib
