@@ -1,0 +1,12 @@
+# OASIS SOVEREIGN MONOLITH & ANDERRO — COMPACT SYSTEM CONTEXT (φ-COMPRESSED)
+- **Author:** Mariano Panzano Caballé (Barcelona) | **Repo:** `Betriomf/Oasis-Sovereign-Monolith`
+- **Commercial Vehicle:** **Anderro** (Formal Verification Audits in Lean 4 + C99, Cold-Silicon Local AI Deployment, Dual-License IP).
+- **Formal Corpus:** 35 Lean 4.36.0 modules (`0 errors, 0 sorry, 0 custom axioms`), verified via `./verify_all_lean.sh` and GitHub Actions CI.
+- **Canonical Zenodo Archive (14 DOIs):**
+  - **Papers A–K:** Geometric renormalization, Wilson-Fisher-Rao metric, cluster expansion, and crossover bridge (`10.5281/zenodo.24311596`).
+  - **Paper L:** IR Strong Coupling & Exponential Clustering (`10.5281/zenodo.24343027`).
+  - **Paper M:** Crossover No-Phase-Transition & OS Bridge (`10.5281/zenodo.24347447`).
+  - **Paper N:** 8-Phase Constructive Dyadic Cylinder Measure, Derived Log-Sobolev & OS Mass Gap (`10.5281/zenodo.24354708`).
+  - **Paper O:** Information Thermodynamics 4 Laws & Fibonacci Golden Sub-Landauer Bound $E_{\text{Oasis}} = k_B T \ln \phi$ (-30.58% thermal friction) (`10.5281/zenodo.24355282`).
+- **Open Frontier:** Non-perturbative continuum measure directly on $\mathcal{S}'(\mathbb{R}^4)$ (`formal_proofs/open_frontier/Clay_ContinuumMeasure_Frontier.lean`).
+- **Operational Rules:** Always enforce `0 sorry` in Lean 4, prefer C99/Python stdlib with minimal RAM footprint, and distinguish proven cylinder theorems from open $\mathcal{S}'(\mathbb{R}^4)$ continuum hypotheses.
