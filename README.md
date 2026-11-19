@@ -66,3 +66,5 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 | **Paper S (Q5–Q8 & KL/Pinsker)** | [`10.5281/zenodo.24379088`](https://doi.org/10.5281/zenodo.24379088) | Dyadic Cauchy contraction, KL/Pinsker bounds & continuum limit in `Mathlib4` | `papers/paper_s_mathlib4_continuum_limit_pinsker_kl.tex` |
 
 | **Paper T (Global Scheme Closure)** | [`10.5281/zenodo.24380544`](https://doi.org/10.5281/zenodo.24380544) | Calibrated lattice bounds, telescopic step control & non-Gaussian separation in Lean 4.36.0 | `papers/paper_t_global_scheme_closure.tex` |
+
+| **Paper U (Blocks A–D Architecture)** | [`10.5281/zenodo.24381240`](https://doi.org/10.5281/zenodo.24381240) | Formal specification architecture across Blocks A–D in Lean 4.36.0 (0 sorry) | `papers/paper_u_blocks_abcd_formal_architecture.tex` |
