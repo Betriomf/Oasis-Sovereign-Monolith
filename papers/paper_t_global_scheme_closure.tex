@@ -1,0 +1,30 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\title{\textbf{Global Scheme Closure for Calibrated Lattice Bounds, Telescopic Step Control, and Non-Gaussian Separation in Lean 4}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona, Spain \\ \small Repository: \url{https://github.com/Betriomf/Oasis-Sovereign-Monolith}}
+\date{November 19, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present the global scheme closure module (\texttt{GlobalScheme\_Closure.lean}) in pure Lean~4.36.0 (\texttt{0 errors, 0 warnings, 0 sorry, 0 custom axioms}), synthesizing calibrated uniform lattice bounds (\texttt{UniformLatticeBounds\_Fase1.lean}), Sobolev moment and UV/IR difference bounds (\texttt{TightnessMomentBounds\_Fase3.lean}), telescopic step sums (\texttt{tightness\_telescopiccauchy\_fase3.lean}), and relative-entropy / non-triviality separation against a zero-cumulant Gaussian baseline (\texttt{NonTrivialityGap\_Fase4.lean}). All bounds are expressed in scaled integer units calibrated against C99 lattice benchmarks. We explicitly note that this formalization verifies structural bound preservation and scheme consistency rather than an unconditional continuum existence or mass-gap proof in $\mathbb{R}^4$.
+\end{abstract}
+
+\section{Scope and Verified Modules}
+\begin{itemize}
+  \item \textbf{Uniform Lattice Bounds:} \texttt{formal\_proofs/UniformLatticeBounds\_Fase1.lean}
+  \item \textbf{Moment \& UV/IR Bounds:} \texttt{formal\_proofs/TightnessMomentBounds\_Fase3.lean}
+  \item \textbf{Telescopic Step Control:} \texttt{formal\_proofs/tightness\_telescopiccauchy\_fase3.lean}
+  \item \textbf{Entropic Coupling \& Non-Gaussian Separation:} \texttt{formal\_proofs/NonTrivialityGap\_Fase4.lean}
+  \item \textbf{Global Certificate Synthesis:} \texttt{formal\_proofs/GlobalScheme\_Closure.lean}
+\end{itemize}
+
+\section{AI-Assisted Formalization Disclosure}
+Interactive AI assistants were used to draft Lean~4 proof scripts and LaTeX text under human supervision.
+
+\end{document}
