@@ -1,0 +1,30 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\title{\textbf{Dyadic Renormalization Contraction, Kullback--Leibler / Pinsker Bounds, and Continuum Characteristic Limits in Lean 4 / Mathlib4}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona, Spain \\ \small Repository: \url{https://github.com/Betriomf/Oasis-Sovereign-Monolith}}
+\date{November 19, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Building directly upon the finite-volume $SU(3)$ gauge and Wilson measure formalization in \texttt{Mathlib4} (\texttt{OasisMathlib}, DOI \texttt{10.5281/zenodo.24370265}), we present the analytical and measure-theoretic continuum bridge modules (\texttt{Q5}--\texttt{Q8}): geometric Cauchy convergence of dyadic characteristic sequences in $\mathbb{C}$ via \texttt{cauchySeq\_of\_le\_geometric} (\texttt{ThermodynamicContinuumLimit.lean}); canonical spectral gap synthesis from $\mathrm{Ric}_{SU(3)}$ and Log-Sobolev dissipation (\texttt{YangMills\_Millennium\_Inconditional.lean}); deduction of $2^{-n}$ dyadic step bounds from $4^{-n}$ relative-entropy decay (\texttt{PinskerRenormalizationStep.lean}); coupling to \texttt{Mathlib4} probability measures and Radon--Nikodym $L^1$ jumps (\texttt{KullbackLeibler\_PinskerBridge.lean}); and two-point Kullback--Leibler non-negativity and differential convexity bounds (\texttt{ElementalPinsker\_Inequality.lean}).
+\end{abstract}
+
+\section{Modules Covered in This Paper}
+\begin{enumerate}
+  \item \textbf{Q5 (\texttt{ThermodynamicContinuumLimit.lean}):} Proves \texttt{CauchySeq} in $\mathbb{C}$ from geometric dyadic step bounds and uniqueness of limits in Hausdorff spaces.
+  \item \textbf{Q6 (\texttt{YangMills\_Millennium\_Inconditional.lean}):} Links continuum characteristic convergence with positive canonical spectral bounds derived from \texttt{wilsonLogSobolevConstant}.
+  \item \textbf{Pinsker Step (\texttt{PinskerRenormalizationStep.lean}):} Derives $\mathrm{dist}(C_n(f), C_{n+1}(f)) \le K(f)(1/2)^n$ from quadratic Pinsker bounds and $4^{-n}$ relative-entropy suppression.
+  \item \textbf{Q7 (\texttt{KullbackLeibler\_PinskerBridge.lean}):} Bridges \texttt{Mathlib4} probability measures, unit-norm observables, and Radon--Nikodym $L^1$ variations to \texttt{EntropicRenormalizationStep}.
+  \item \textbf{Q8 (\texttt{ElementalPinsker\_Inequality.lean}):} Establishes binary KL equilibrium vanishing ($p = q$), Gibbs--Shannon non-negativity via $\log x \le x - 1$, and second-derivative convexity on $(0, 1)$.
+\end{enumerate}
+
+\section{AI-Assisted Formalization Disclosure}
+Interactive AI assistants were used to draft Lean 4 / Mathlib4 proof scripts under human supervision.
+
+\end{document}
