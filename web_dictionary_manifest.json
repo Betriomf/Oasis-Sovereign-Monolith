@@ -1,0 +1,120 @@
+{
+  "total_modules": 23,
+  "modules": [
+    {
+      "file": "sovereign_catalog/01_riona_sentinel.py",
+      "name": "01_riona_sentinel",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 01]: RIONA SENTINEL Archivo 100% autocontenido (cero dependencias externas, portable a cualquier sistem"
+    },
+    {
+      "file": "sovereign_catalog/02_qr_gossip.py",
+      "name": "02_qr_gossip",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 02]: QR EMPAREJAMIENTO, MALLA GOSSIP, ID Y ADUANA HASH Rescatado y consolidado desde los commits origin"
+    },
+    {
+      "file": "sovereign_catalog/03_webgpu_play.py",
+      "name": "03_webgpu_play",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 03]: WEBGPU BENCHMARK & OASIS PLAY SDK Archivo 100% autocontenido (cero dependencias externas)."
+    },
+    {
+      "file": "sovereign_catalog/04_sovereign_sheets.py",
+      "name": "04_sovereign_sheets",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 04]: SOVEREIGN SHEETS (HOJAS DE CÁLCULO SOBRE BÓVEDA) Archivo 100% autocontenido (cero dependencias ext"
+    },
+    {
+      "file": "sovereign_catalog/05_modules_registry.py",
+      "name": "05_modules_registry",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 05]: REGISTRO MODULAR DE CAPA 0 Archivo 100% autocontenido. Lee sovereign_catalog/INDEX.json y audita e"
+    },
+    {
+      "file": "sovereign_catalog/06_fiscal_local.py",
+      "name": "06_fiscal_local",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 06]: CALCULADORA FISCAL PRIVADA (LOCAL-FIRST / RAM ONLY) - 0 conexiones externas (nunca conecta con AEA"
+    },
+    {
+      "file": "sovereign_catalog/07_verify_bin_uma.py",
+      "name": "07_verify_bin_uma",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 07]: VERIFY_BIN (RIZIN -> LEAN 4) & UNIFIED MEMORY GOVERNOR Archivo 100% autocontenido. Detecta arquite"
+    },
+    {
+      "file": "sovereign_catalog/08_ai_vault_oracle.py",
+      "name": "08_ai_vault_oracle",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 08]: ORÁCULO IA DE BÓVEDA Y PILARES (`ai` / `v` / `pilares`) Funciona tanto en Darwin como en Render Cl"
+    },
+    {
+      "file": "sovereign_catalog/09_cloud_always_on.py",
+      "name": "09_cloud_always_on",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 09]: NODO PÚBLICO 24/7 (MAC CERRADO) Comprueba el estado de los servidores gratuitos permanentes (Rende"
+    },
+    {
+      "file": "sovereign_catalog/10_sovereign_nod_flow.py",
+      "name": "10_sovereign_nod_flow",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 10]: MOTOR DE FLUJOS DAG PROPIO (`nod` / `flow`) Alternativa soberana 0-dependencias a n8n: encadena no"
+    },
+    {
+      "file": "sovereign_catalog/11_edge0_1458.py",
+      "name": "11_edge0_1458",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 11]: EDGE0 1458 KERNEL (MTU ZERO-FRAGMENTATION & LINCOS) Archivo 100% autocontenido (cero dependencias "
+    },
+    {
+      "file": "sovereign_catalog/12_smolmaxxing_pool.py",
+      "name": "12_smolmaxxing_pool",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 12]: SMOLMAXXING POOL & COLD-SILICON TUNER (`smol` / `smolmax` / `pool`) Optimiza modelos ultracompacto"
+    },
+    {
+      "file": "sovereign_catalog/13_yang_mills_research.py",
+      "name": "13_yang_mills_research",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 13]: INVESTIGADOR YANG-MILLS & MASS GAP (`ym` / `yang-mills`) Combina:"
+    },
+    {
+      "file": "sovereign_catalog/14_ym_devils_advocate.py",
+      "name": "14_ym_devils_advocate",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 14]: FASE 0 & 1 — ABOGADO DEL DIABLO YANG-MILLS (`audit-ym` / `fase1`) Ejecuta auditoría forense sobre "
+    },
+    {
+      "file": "sovereign_catalog/15_ym_wilson_fisher_rao.py",
+      "name": "15_ym_wilson_fisher_rao",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 15]: FASE 2 & 3 — ACCIÓN DE WILSON & FILTRO FISHER-RAO (`fase2` / `wilson`) 1. Evalúa numéricamente la "
+    },
+    {
+      "file": "sovereign_catalog/16_ym_monte_carlo_c99.py",
+      "name": "16_ym_monte_carlo_c99",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 16]: FASE 4 — LABORATORIO SILICIO FRÍO MONTE CARLO SU(2) (`fase4` / `mc-ym`) Compila y ejecuta el kerne"
+    },
+    {
+      "file": "sovereign_catalog/17_ym_fase3_5_os_verifier.py",
+      "name": "17_ym_fase3_5_os_verifier",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 17]: AUDITOR FASES 1-5 & OSTERWALDER-SCHRADER (`fase3` / `fase5` / `os-axioms`) 1. Verifica que los ent"
+    },
+    {
+      "file": "sovereign_catalog/18_ym_notary_verify.py",
+      "name": "18_ym_notary_verify",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 18]: FASE 6 & 7 — NOTARIO MATEMÁTICO (`oasis verify yang-mills` / `verify-ym`) Audita y compila la cade"
+    },
+    {
+      "file": "sovereign_catalog/19_web_forensic_auditor.py",
+      "name": "19_web_forensic_auditor",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 19]: AUDITOR FORENSE DE WEBS Y APIS (`web-audit` / `audit-web`) Aplica el protocolo científico de 8 fas"
+    },
+    {
+      "file": "sovereign_catalog/20_mcp_sovereign_server.py",
+      "name": "20_mcp_sovereign_server",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 20]: SERVIDOR MCP & SCRAPER CON PACING ÁUREO (`mcp` / `scrape`) 1. Implementa el protocolo estándar Mod"
+    },
+    {
+      "file": "sovereign_catalog/21_paper_c_synthesizer.py",
+      "name": "21_paper_c_synthesizer",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 21]: GENERADOR AUTÓNOMO DE PAPERS (`paper-c` / `draft-paper`) Une el Scraper MCP de arXiv (Módulo 20) c"
+    },
+    {
+      "file": "sovereign_catalog/22_quantum_os_radar.py",
+      "name": "22_quantum_os_radar",
+      "summary": "[DICCIONARIO SOBERANO OASIS — MÓDULO 22]: RADAR COMPUTACIÓN CUÁNTICA, SO & PILARES (`qos` / `papers-cs`) 1. Consulta arXiv (quant-ph, cs.OS,"
+    },
+    {
+      "file": "sovereign_catalog/deploy_catalog_to_gateway.py",
+      "name": "deploy_catalog_to_gateway",
+      "summary": "Ensamblador Maestro del Diccionario Soberano: Lee sovereign_catalog/INDEX.json, valida todos los módulos independientes"
+    }
+  ]
+}
