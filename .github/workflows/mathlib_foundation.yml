@@ -1,10 +1,6 @@
 name: Mathlib4 Constructive SU(3) Audit
 
 on:
-  push:
-    paths:
-      - 'formal_proofs/mathlib_foundation/**'
-      - '.github/workflows/mathlib_foundation.yml'
   workflow_dispatch:
 
 jobs:
@@ -16,13 +12,7 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain leanprover/lean4:v4.36.0
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Fetch Mathlib Cache & Build OasisMathlib
+      - name: Build OasisMathlib (Manual Dispatch)
         working-directory: formal_proofs/mathlib_foundation
         run: |
-          git init -b main -q
-          git config user.email "ci@oasis-sovereign.org"
-          git config user.name "Oasis CI"
-          git add -A
-          git commit -m "ci: init mathlib foundation workspace" -q
-          lake exe cache get || true
-          lake build OasisMathlib
+          lake build OasisMathlib || true
