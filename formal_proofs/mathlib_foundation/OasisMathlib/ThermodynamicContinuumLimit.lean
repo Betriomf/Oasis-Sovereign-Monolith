@@ -1,45 +1,36 @@
 /-
-  OASIS SOVEREIGN MONOLITH — PAPER Q (FASE Q5: LÍMITE TERMODINÁMICO Y CONTINUO EN MATHLIB4)
+  OASIS SOVEREIGN MONOLITH — PAPER Q (FASE Q5: CONVERGENCIA GEOMÉTRICA EN MATHLIB4)
   Archivo: formal_proofs/mathlib_foundation/OasisMathlib/ThermodynamicContinuumLimit.lean
-  Formaliza la convergencia de Cauchy de la sucesión de funcionales características
-  reguladas C_n(f) en el espacio complejo completo ℂ al tomar L_n → ∞ y a_n → 0,
-  garantizando la existencia de una única funcional límite continua C_∞(f) para el
-  Teorema de Bochner–Minlos–Prokhorov en S'(R^4).
+  Deduce `CauchySeq` en ℂ directamente desde el incremento dyádico ‖C_{n+1}(f) - C_n(f)‖ ≤ K * (1/2)^n
+  mediante `cauchySeq_of_le_geometric` de Mathlib4, eliminando la hipótesis externa de Cauchy.
 -/
 
 import OasisMathlib.SpectralGap_And_ContinuumBridge
-import Mathlib.Topology.MetricSpace.Cauchy
-import Mathlib.Analysis.Complex.Basic
+import Mathlib.Analysis.SpecificLimits.Basic
 
 namespace OasisMathlib.ThermodynamicContinuum
 
 open Complex Filter Topology OasisMathlib.ContinuumBridge
 
-/-- Familia proyectiva de funcionales características reguladas C_n(f) : ℂ
-    indexada por la escala dyádica n ∈ ℕ (con a_n = 2⁻ⁿ y L_n = 2ⁿ⁺²) -/
-structure ContinuumCharacteristicSequence (TestSpace : Type*) where
+structure DyadicCharacteristicSequence (TestSpace : Type*) where
   charFunc : ℕ → TestSpace → ℂ
-  h_normalized : ∀ n : ℕ, ∀ zeroVec : TestSpace, (∀ m, charFunc m zeroVec = 1) → charFunc n zeroVec = 1
-  /-- Equicontinuidad y condición de Cauchy en ℂ cuando n → ∞ (a_n → 0, V_n → ∞) -/
-  h_cauchy_in_complex : ∀ f : TestSpace, CauchySeq (fun n => charFunc n f)
+  scaleBound : TestSpace → ℝ
+  h_scale_bound_nonneg : ∀ f, 0 ≤ scaleBound f
+  h_dyadic_step : ∀ (f : TestSpace) (n : ℕ),
+    dist (charFunc n f) (charFunc (n + 1) f) ≤ scaleBound f * ((1 : ℝ) / 2) ^ n
 
-/-- Teorema Q5.1 (Existencia y Unicidad del Funcional Límite Continuo C_∞(f) en ℂ):
-    Dado que ℂ es un espacio métrico completo (`CompleteSpace ℂ` en Mathlib4), toda sucesión
-    de Cauchy de funcionales características reguladas converge a un único límite C_∞(f). -/
-theorem continuum_characteristic_limit_exists {TestSpace : Type*}
-    (S : ContinuumCharacteristicSequence TestSpace) (f : TestSpace) :
-    ∃ C_inf : ℂ, Tendsto (fun n => S.charFunc n f) atTop (𝓝 C_inf) :=
-  cauchySeq_tendsto_of_complete (S.h_cauchy_in_complex f)
+/-- Teorema Q5.1 (Deducción Constructiva de CauchySeq desde Contracción Dyádica 2⁻ⁿ):
+    Aplica `cauchySeq_of_le_geometric` de Mathlib4 con razón r = 1/2 < 1. -/
+theorem dyadic_char_func_is_cauchy {TestSpace : Type*}
+    (S : DyadicCharacteristicSequence TestSpace) (f : TestSpace) :
+    CauchySeq (fun n => S.charFunc n f) :=
+  cauchySeq_of_le_geometric ((1 : ℝ) / 2) (S.scaleBound f) (by norm_num) (S.h_dyadic_step f)
 
-/-- Teorema Q5.2 (Unicidad Estricta del Límite por Hausdorff en ℂ):
-    Si dos funcionales continuas C_1(f) y C_2(f) son límites de la misma sucesión
-    de red regulada, entonces C_1(f) = C_2(f) idénticamente. -/
-theorem continuum_characteristic_limit_unique {TestSpace : Type*}
-    (S : ContinuumCharacteristicSequence TestSpace) (f : TestSpace)
-    {C1 C2 : ℂ}
-    (h1 : Tendsto (fun n => S.charFunc n f) atTop (𝓝 C1))
-    (h2 : Tendsto (fun n => S.charFunc n f) atTop (𝓝 C2)) :
-    C1 = C2 :=
-  tendsto_nhds_unique h1 h2
+/-- Teorema Q5.2 (Existencia y Unicidad del Límite Continuo C_∞(f) en ℂ): -/
+theorem continuum_characteristic_limit_exists_unique {TestSpace : Type*}
+    (S : DyadicCharacteristicSequence TestSpace) (f : TestSpace) :
+    ∃! C_inf : ℂ, Tendsto (fun n => S.charFunc n f) atTop (𝓝 C_inf) := by
+  obtain ⟨C_inf, h_lim⟩ := cauchySeq_tendsto_of_complete (dyadic_char_func_is_cauchy S f)
+  exact ⟨C_inf, h_lim, fun C' hC' => tendsto_nhds_unique hC' h_lim⟩
 
 end OasisMathlib.ThermodynamicContinuum
