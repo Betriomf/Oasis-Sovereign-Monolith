@@ -64,3 +64,5 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 * **AI-Assisted Formalization:** Interactive AI assistants were employed to draft Lean 4 tactic scripts and C99 simulation harnesses under human mathematical supervision. Every formal theorem in `formal_proofs/*.lean` has been deterministically type-checked by the Lean 4 kernel with zero `sorry` and zero custom axioms.
 
 | **Paper S (Q5–Q8 & KL/Pinsker)** | [`10.5281/zenodo.24379088`](https://doi.org/10.5281/zenodo.24379088) | Dyadic Cauchy contraction, KL/Pinsker bounds & continuum limit in `Mathlib4` | `papers/paper_s_mathlib4_continuum_limit_pinsker_kl.tex` |
+
+| **Paper T (Global Scheme Closure)** | [`<DOI_PAPER_T>`](https://doi.org/<DOI_PAPER_T>) | Calibrated lattice bounds, telescopic step control & non-Gaussian separation in Lean 4.36.0 | `papers/paper_t_global_scheme_closure.tex` |
