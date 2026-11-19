@@ -1,0 +1,23 @@
+name: Mathlib4 Constructive SU(3) Audit
+
+on:
+  push:
+    paths:
+      - 'formal_proofs/mathlib_foundation/**'
+      - '.github/workflows/mathlib_foundation.yml'
+  workflow_dispatch:
+
+jobs:
+  build-mathlib-su3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Elan & Lean 4.36.0
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain leanprover/lean4:v4.36.0
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      - name: Fetch Mathlib Cache & Build OasisMathlib
+        working-directory: formal_proofs/mathlib_foundation
+        run: |
+          lake exe cache get
+          lake build OasisMathlib
