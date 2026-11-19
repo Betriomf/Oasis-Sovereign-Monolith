@@ -397,7 +397,7 @@
       }
       if (cmd === "boveda") { openVault(); termSov.write(sovPrompt); return; }
       if (cmd === "help") {
-        termSov.writeln("Comandos de Capa 0 (Product-Builder F01):\r\n  • dict / modules    : Diccionario Soberano Real (23 módulos activos)\r\n  • decisions / adr   : Product-Builder Decision Log + CRM Soberano\r\n  • papers            : Índice de 14 DOIs Zenodo (Yang-Mills SU(3) Lean 4)\r\n  • osure             : Estado flujo product-builder (develop -> main) y osure618\r\n  • boveda            : Bóveda E2EE con Visor y Descargas\r\n  • c99               : Inferencia directa en binario C99 sin GPU\r\n  • v <pregunta>      : Inferencia Velázquez (Capa 0)\r\n  • skills run <name> : Ejecutar skill (pacing_c99, soap_triage, etc.)\r\n  • ls / pwd / cat    : Passthrough a Darwin RPC (Localhost Usuario)");
+        termSov.writeln("Comandos de Capa 0 (Product-Builder F01):\r\n  • dict / modules    : Diccionario Soberano Real (23 módulos activos)\r\n  • decisions / adr   : Product-Builder Decision Log + CRM Soberano\r\n  • papers            : Índice de 15 DOIs Zenodo (Yang-Mills SU(3) Lean 4)\r\n  • osure             : Estado flujo product-builder (develop -> main) y osure618\r\n  • boveda            : Bóveda E2EE con Visor y Descargas\r\n  • c99               : Inferencia directa en binario C99 sin GPU\r\n  • v <pregunta>      : Inferencia Velázquez (Capa 0)\r\n  • skills run <name> : Ejecutar skill (pacing_c99, soap_triage, etc.)\r\n  • ls / pwd / cat    : Passthrough a Darwin RPC (Localhost Usuario)");
         termSov.write(sovPrompt);
         return;
       }
@@ -412,7 +412,7 @@
         return;
       }
       if (cmd === "papers" || cmd === "dois") {
-        termSov.writeln("\x1b[32m📜 [ARCHIVO CIENTÍFICO ZENODO — 14 DOIs | LEAN 4 (0 sorry)]:\x1b[0m\r\n" + "  \u2022 Paper H: https://doi.org/10.5281/zenodo.24326462 (Continuum OS Gap)\r\n  \u2022 Paper I: https://doi.org/10.5281/zenodo.24327167 (Araki + Log-Sobolev)\r\n  \u2022 Paper J: https://doi.org/10.5281/zenodo.24341969 (SU(3) QCD Scaling)\r\n  \u2022 Paper K: https://doi.org/10.5281/zenodo.24342481 (Balaban UV + Wightman)\r\n  \u2022 Paper L: https://doi.org/10.5281/zenodo.24343027 (IR Strong Coupling)\r\n  \u2022 Paper M: https://doi.org/10.5281/zenodo.24347447 (Crossover Bridge & OS)\r\n  • Paper N: https://doi.org/10.5281/zenodo.24354708 (8-Phase Constructive Cylinder & OS Gap)\r\n  • Paper O: https://doi.org/10.5281/zenodo.24355282 (Info Thermodynamics & Golden Sub-Landauer)");
+        termSov.writeln("\x1b[32m📜 [ARCHIVO CIENTÍFICO ZENODO — 15 DOIs | LEAN 4 (0 sorry)]:\x1b[0m\r\n" + "  \u2022 Paper H: https://doi.org/10.5281/zenodo.24326462 (Continuum OS Gap)\r\n  \u2022 Paper I: https://doi.org/10.5281/zenodo.24327167 (Araki + Log-Sobolev)\r\n  \u2022 Paper J: https://doi.org/10.5281/zenodo.24341969 (SU(3) QCD Scaling)\r\n  \u2022 Paper K: https://doi.org/10.5281/zenodo.24342481 (Balaban UV + Wightman)\r\n  \u2022 Paper L: https://doi.org/10.5281/zenodo.24343027 (IR Strong Coupling)\r\n  \u2022 Paper M: https://doi.org/10.5281/zenodo.24347447 (Crossover Bridge & OS)\r\n  • Paper N: https://doi.org/10.5281/zenodo.24354708 (8-Phase Constructive Cylinder & OS Gap)\r\n  • Paper O: https://doi.org/10.5281/zenodo.24355282 (Info Thermodynamics & Golden Sub-Landauer)\r\n  • Paper P: https://doi.org/10.5281/zenodo.24368271 (S'(R^4) Bochner-Minlos, Tightness & Uniqueness)");
         termSov.write(sovPrompt);
         return;
       }

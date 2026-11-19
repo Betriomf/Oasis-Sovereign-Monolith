@@ -7,7 +7,7 @@ echo "================================================================="
 lean --version
 
 COUNT=0
-for f in formal_proofs/*.lean formal_proofs/paper_n/*.lean; do
+for f in formal_proofs/*.lean formal_proofs/paper_n/*.lean formal_proofs/open_frontier/*.lean; do
   [ -f "$f" ] || continue
   echo "  ▸ Checking $f..."
   lean "$f"
