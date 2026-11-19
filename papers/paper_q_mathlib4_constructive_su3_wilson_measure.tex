@@ -1,0 +1,31 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\title{\textbf{First-Principles Construction of 4D $SU(3)$ Lattice Wilson Measures, Exact Gauge Invariance, Osterwalder--Schrader Positivity, and Bochner--Minlos Continuum Bridge in Lean 4 / Mathlib4}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona, Spain \\ \small Repository: \url{https://github.com/Betriomf/Oasis-Sovereign-Monolith}}
+\date{November 19, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present the first-principles constructive formalization in Lean 4.36.0 built directly upon \texttt{Mathlib4} (\texttt{formal\_proofs/mathlib\_foundation/OasisMathlib/}) for four-dimensional $SU(3)$ lattice gauge theory and its continuum bridge to $\mathcal{S}'(\mathbb{R}^4)$. Eliminating intermediate abstract hypotheses in the finite-volume gauge layer, we construct: (Q1) the compact gauge group $SU(3)$ via \texttt{Matrix.SpecialUnitaryGroup (Fin 3) Complex} and local gauge transformations on configuration spaces (\texttt{SU3\_CompactGaugeGroup.lean}); (Q2) oriented plaquette holonomies, exact algebraic gauge invariance of the Wilson trace $\mathrm{Tr}(U_p)$, and the interacting Gibbs--Wilson measure $\mu_{\Lambda,\beta} = \mu_0.\mathrm{withDensity}(e^{-\beta S_W})$ via \texttt{MeasureTheory.Measure.withDensity} (\texttt{WilsonHaarMeasure.lean}); (Q3) time-reflection involution $\Theta$ and unconditional Osterwalder--Schrader reflection positivity $\int \|F\|^2 \, d\mu_{\Lambda,\beta} \ge 0$ (\texttt{OsterwalderSchrader\_Lattice.lean}); and (Q4) strictly positive Holley--Stroock Log-Sobolev spectral bounds $\rho_{\mathrm{LSI}} = \frac{3}{4} e^{-\beta \Delta S_W} > 0$ coupled with the regulated Bochner--Minlos characteristic functional $C_{\Lambda,\beta}(f)$ (\texttt{SpectralGap\_And\_ContinuumBridge.lean}).
+\end{abstract}
+
+\section{Constructive Mathlib4 Architecture (Phases Q1--Q4)}
+\begin{enumerate}
+  \item \textbf{Q1 (\texttt{SU3\_CompactGaugeGroup.lean}):} Instantiates $SU(3)$ as \texttt{SpecialUnitaryGroup (Fin 3) Complex} and proves local gauge invariance of the trivial vacuum configuration $U_e = I$.
+  \item \textbf{Q2 (\texttt{WilsonHaarMeasure.lean}):} Proves exact plaquette holonomy covariance $U_p' = g_0 U_p g_0^{-1}$, cyclic trace invariance $\mathrm{Tr}(U_p') = \mathrm{Tr}(U_p)$, and defines $\mu_{\Lambda,\beta}$ via \texttt{Measure.withDensity}.
+  \item \textbf{Q3 (\texttt{OsterwalderSchrader\_Lattice.lean}):} Proves involutivity $\Theta^2 = \mathrm{id}$ on configurations and observables and establishes reflection positivity via \texttt{MeasureTheory.integral\_nonneg}.
+  \item \textbf{Q4 (\texttt{SpectralGap\_And\_ContinuumBridge.lean}):} Establishes $\rho_{\mathrm{LSI}} > 0$ and bounds the Bochner--Minlos characteristic functional $\|C_{\Lambda,\beta}(f)\| \le Z_{\Lambda,\beta}$ via \texttt{norm\_integral\_le\_of\_norm\_le\_const}.
+\end{enumerate}
+
+\section{Scientific Scope \& AI-Assisted Formalization Disclosure}
+\textbf{Scope Clarification:} Phases Q1--Q4 construct the finite-volume $SU(3)$ gauge theory directly on \texttt{Mathlib4} objects without external structural axioms. Passing simultaneously to the infinite-volume and zero-lattice-spacing continuum limit on $\mathcal{S}'(\mathbb{R}^4)$ interfaces with the Bochner--Minlos--Prokhorov architecture of Paper P (\texttt{10.5281/zenodo.24368271}), where non-perturbative multi-scale tightness remains the open constructive frontier.
+
+\textbf{AI-Assisted Formalization Disclosure:} Interactive AI assistants were employed to draft Lean 4 / Mathlib4 tactic scripts under human mathematical supervision.
+
+\end{document}
