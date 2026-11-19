@@ -62,3 +62,5 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 
 * **Bitcoin OpenTimestamps:** SHA-256 digests and `.ots` Merkle proofs for the complete series are stored in `vault/SERIES_A_TO_M_MASTER_SHA256.txt` and `vault/SERIES_A_TO_M_MASTER_BITCOIN.ots`.
 * **AI-Assisted Formalization:** Interactive AI assistants were employed to draft Lean 4 tactic scripts and C99 simulation harnesses under human mathematical supervision. Every formal theorem in `formal_proofs/*.lean` has been deterministically type-checked by the Lean 4 kernel with zero `sorry` and zero custom axioms.
+
+| **Paper S (Q5–Q8 & KL/Pinsker)** | [`10.5281/zenodo.24379088`](https://doi.org/10.5281/zenodo.24379088) | Dyadic Cauchy contraction, KL/Pinsker bounds & continuum limit in `Mathlib4` | `papers/paper_s_mathlib4_continuum_limit_pinsker_kl.tex` |
