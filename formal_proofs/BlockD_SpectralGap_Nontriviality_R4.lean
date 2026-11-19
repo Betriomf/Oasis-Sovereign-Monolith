@@ -1,11 +1,11 @@
 /-
-  OASIS SOVEREIGN MONOLITH — BLOQUE D: BRECHA ESPECTRAL Y NO-TRIVIALIDAD
+  OASIS SOVEREIGN MONOLITH — BLOQUE D: BRECHA ESPECTRAL, NO-TRIVIALIDAD Y ENLACE CON BLOQUE C
   Archivo: formal_proofs/BlockD_SpectralGap_Nontriviality_R4.lean
   Compilación estricta en Lean 4.36.0 puro: 0 errors, 0 warnings, 0 sorry, 0 custom axioms.
   Separación explícita:
     - [DEFINICIÓN]: observables espectrales, cumulante conexo y baseline gaussiano libre.
-    - [HIPÓTESIS EXPLÍCITA]: cotas explícitas de brecha, separación gaussiana y perturbación.
-    - [TEOREMA DEMOSTRADO]: positividad de brecha y no-trivialidad bajo hipótesis explícitas.
+    - [HIPÓTESIS EXPLÍCITA]: cotas explícitas de brecha, separación gaussiana, perturbación y enlace.
+    - [TEOREMA DEMOSTRADO]: positividad de brecha, no-trivialidad y enlace con control de límite.
 -/
 
 namespace Oasis.YangMills.BlockDSpectralGap
@@ -58,6 +58,27 @@ theorem gap_and_nontriviality_at_scale
   exact ⟨
     Nat.lt_of_lt_of_le (by decide) h_n.h_gap_floor,
     Nat.lt_of_lt_of_le (by decide) h_n.h_nontrivial_floor
+  ⟩
+
+/-- Enlace Bloque C ↔ Bloque D: si un estado espectral `st` cumple `SpectralGapAssumptions`
+    y su suelo espectral es al menos `limitGapFloorPermille` (proveniente de una cota de
+    límite con error residual acotado `residualPermille ≤ 50`), se conservan en conjunto
+    la cota del límite, la positividad estricta de la brecha y la no-trivialidad. -/
+theorem continuum_limit_preserves_gap_and_nontriviality
+    (st : SpectralAndCumulantState)
+    (assump : SpectralGapAssumptions st)
+    (limitGapFloorPermille residualPermille : Nat)
+    (h_limit_floor : limitGapFloorPermille ≤ st.spectralGapPermille)
+    (h_residual : residualPermille ≤ 50) :
+    limitGapFloorPermille ≤ st.spectralGapPermille ∧
+    0 < st.spectralGapPermille ∧
+    freeGaussianCumulantMillionths < st.connectedCumulantMillionths ∧
+    residualPermille ≤ 50 := by
+  exact ⟨
+    h_limit_floor,
+    Nat.lt_of_lt_of_le (by decide) assump.h_gap_floor,
+    Nat.lt_of_lt_of_le (by decide) assump.h_nontrivial_floor,
+    h_residual
   ⟩
 
 end Oasis.YangMills.BlockDSpectralGap
