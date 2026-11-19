@@ -22,6 +22,8 @@ jobs:
           git init -q
           git config user.email "ci@oasis-sovereign.org"
           git config user.name "Oasis CI"
-          lake exe cache get!
+          git commit --allow-empty -m "init" -q
+          lake update
+          lake exe cache get
           rm -rf .git
           lake build OasisMathlib
