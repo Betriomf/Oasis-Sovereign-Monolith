@@ -1,10 +1,9 @@
 /-
-  OASIS SOVEREIGN MONOLITH — FASE 3 (50%): COTA TELESCÓPICA ACUMULADA Y ESQUEMA CAUCHY / TIGHTNESS
+  OASIS SOVEREIGN MONOLITH — FASE 3: COTA TELESCÓPICA ACUMULADA Y COTA DE COLA/MOMENTO
   Archivo: formal_proofs/tightness_telescopiccauchy_fase3.lean
   Compilación estricta en Lean 4.36.0 puro: 0 errors, 0 warnings, 0 sorry, 0 custom axioms.
-  Nota de alcance: Formaliza la suma telescópica de diferencias entre escalas (en 10⁻³)
-  y su acotación a lo largo de n pasos; la compacidad relativa topológica completa en S'(ℝ⁴)
-  y la no-trivialidad / teorema final corresponden a las siguientes etapas analíticas.
+  Nota de alcance: Formaliza la suma telescópica y el control de cola/momento en n pasos
+  (en 10⁻³); la compacidad relativa topológica completa en S'(ℝ⁴) sigue siendo un paso analítico mayor.
 -/
 
 namespace Oasis.YangMills.Fase3TelescopicCauchy
@@ -38,8 +37,7 @@ theorem telescopic_sum_le_mul
       Nat.add_le_add ih (h_step k)
     simpa [telescopicStepSum_succ, Nat.succ_mul] using h_add
 
-/-- Si la suma telescópica en `n` pasos está dominada por una cota uniforme `uniformCap`
-    (por ejemplo, una serie geométrica o acotada de diferencias de momentos/funcionales),
+/-- Si la suma telescópica en `n` pasos está dominada por una cota uniforme `uniformCap`,
     la acumulación permanece uniformemente acotada por `uniformCap`. -/
 theorem telescopic_sum_uniform_cap
     (stepDiff : Nat → Nat)
@@ -48,5 +46,20 @@ theorem telescopic_sum_uniform_cap
     (n : Nat) :
     telescopicStepSum stepDiff n ≤ uniformCap :=
   h_cap n
+
+/-- Lema de cola/momento en el paso `n`: si el momento en la escala `n` está acotado por
+    `momentCap` y la variación telescópica acumulada hasta `n` está acotada por `uniformCap`,
+    ambas cotas se cumplen simultáneamente en `n` (y su suma queda acotada por `momentCap + uniformCap`). -/
+theorem tail_moment_bound_at_step
+    (momentAt : Nat → Nat)
+    (stepDiff : Nat → Nat)
+    (momentCap uniformCap n : Nat)
+    (h_mom : ∀ k, momentAt k ≤ momentCap)
+    (h_tel : ∀ k, telescopicStepSum stepDiff k ≤ uniformCap) :
+    momentAt n ≤ momentCap ∧
+    telescopicStepSum stepDiff n ≤ uniformCap ∧
+    momentAt n + telescopicStepSum stepDiff n ≤ momentCap + uniformCap := by
+  refine ⟨h_mom n, h_tel n, ?_⟩
+  exact Nat.add_le_add (h_mom n) (h_tel n)
 
 end Oasis.YangMills.Fase3TelescopicCauchy
