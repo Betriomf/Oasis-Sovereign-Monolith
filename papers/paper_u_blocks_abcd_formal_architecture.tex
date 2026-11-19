@@ -1,0 +1,29 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\title{\textbf{Formal Specification Architecture Across Blocks A--D for Yang--Mills Bound Consistency in Lean 4}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona, Spain \\ \small Repository: \url{https://github.com/Betriomf/Oasis-Sovereign-Monolith}}
+\date{November 19, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present the formal specification architecture across Blocks~A--D in pure Lean~4.36.0 (\texttt{0 errors, 0 warnings, 0 sorry, 0 custom axioms}), separating definitions, explicit assumptions, and verified theorems: framework structure and Schwinger/Wilson/Osterwalder--Schrader admissibility (\texttt{BlockA\_MathematicalFramework\_R4.lean}), uniform regulator and chain drift bounds (\texttt{BlockB\_UniformVolumeCutoff\_R4.lean}), continuum-limit candidate preservation (\texttt{BlockC\_ContinuumLimit\_OS\_R4.lean}), and spectral gap positivity, non-Gaussian cumulant separation, and continuum-to-gap linking (\texttt{BlockD\_SpectralGap\_Nontriviality\_R4.lean}). This work formalizes logical bound consistency under explicit hypotheses and does not claim an unconditional proof of continuum existence or mass gap in $\mathbb{R}^4$.
+\end{abstract}
+
+\section{Verified Modules (Blocks A--D)}
+\begin{itemize}
+  \item \textbf{Block A:} \texttt{formal\_proofs/BlockA\_MathematicalFramework\_R4.lean}
+  \item \textbf{Block B:} \texttt{formal\_proofs/BlockB\_UniformVolumeCutoff\_R4.lean}
+  \item \textbf{Block C:} \texttt{formal\_proofs/BlockC\_ContinuumLimit\_OS\_R4.lean}
+  \item \textbf{Block D:} \texttt{formal\_proofs/BlockD\_SpectralGap\_Nontriviality\_R4.lean}
+\end{itemize}
+
+\section{AI-Assisted Formalization Disclosure}
+Interactive AI assistants were used to draft Lean~4 proof scripts and LaTeX text under human supervision.
+
+\end{document}
