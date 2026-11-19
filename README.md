@@ -36,6 +36,7 @@ In our Lean 4 modules, scale-coupling analytical inequalities (infinite-volume B
 | **Paper N** | [`10.5281/zenodo.24354708`](https://doi.org/10.5281/zenodo.24354708) | 8-phase constructive dyadic cylinder measure, derived uniform Log-Sobolev & OS mass gap | `formal_proofs/paper_n/YangMills_ClayMillenniumSolution.lean` (8 modules) |
 | **Paper O** | [`10.5281/zenodo.24355282`](https://doi.org/10.5281/zenodo.24355282) | Information thermodynamics 4 laws & Fibonacci golden sub-Landauer bound ($k_B T \ln \phi$, -30.58%) | `formal_proofs/InformationThermodynamics_RicciLandauer.lean` |
 | **Paper P** | [`10.5281/zenodo.24368271`](https://doi.org/10.5281/zenodo.24368271) | Bochner–Minlos $\mathcal{S}'(\mathbb{R}^4)$ extension, $H^{-s}$ Prokhorov tightness, $SO(4)$, non-triviality & uniqueness | `formal_proofs/open_frontier/ContinuumSchwartzMeasure_Synthesis.lean` (5 modules) |
+| **Paper Q** | [`10.5281/zenodo.24370265`](https://doi.org/10.5281/zenodo.24370265) | First-principles `Mathlib4` construction of 4D $SU(3)$ Wilson measure (`withDensity`), OS positivity & LSI bridge | `formal_proofs/mathlib_foundation/OasisMathlib/` (4 modules) |
 
 *(Earlier foundational units Papers A–G are indexed in `vault/crm_arquitectura_soberana.json` and `vault/bitacora_arquitectura_crm.md`.)*
 
