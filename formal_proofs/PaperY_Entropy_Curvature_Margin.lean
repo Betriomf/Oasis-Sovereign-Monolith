@@ -31,6 +31,10 @@ theorem stabilized_margin_strictly_positive
     (s : CurvatureMarginState)
     (h : StabilizedMarginAssumptions s) :
     0 < netEffectiveMargin s := by
+  have hlt :
+      (s.quotientLossPermille : Int) <
+        (s.intrinsicPermille : Int) + (s.entropyMarginPermille : Int) :=
+    Int.ofNat_lt.mpr h.h_strict_pos
   unfold netEffectiveMargin
   omega
 
