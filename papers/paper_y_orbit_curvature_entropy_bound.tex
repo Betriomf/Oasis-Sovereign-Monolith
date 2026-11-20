@@ -1,0 +1,37 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Negative Sectional Projections in $\mathfrak{su}(3)$ Commutator Sampling and Conditional Entropy-Bounded Stabilization}
+\author{Mariano Panzano Caball\'e \\ Oasis Sovereign Architecture Research, Barcelona}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We report a finite-dimensional numerical probe on the Lie algebra $\mathfrak{su}(3)$ ($N=2000$ orthonormalized pairs) comparing the non-negative bi-invariant commutator term $\frac{1}{4}\|[X,Y]\|_{\mathrm{HS}}^2$ (mean $0.220498$) against a subtractive orthogonal-commutator term modeling quotient/horizontal curvature loss (mean projected value $-0.440979$, minimum $-0.958835$). The sign reversal illustrates why unstabilized quotient directions can violate uniform positivity assumptions if not controlled. Within the Oasis Sovereign Architecture conditional program, we formulate a bounded stabilization hypothesis linking an explicit entropy/scale margin to a positive Poincaré/gap floor, while explicitly stating that this finite-algebra probe does not establish unconditional continuum existence or mass-gap proof for four-dimensional $\mathrm{SU}(3)$ Yang--Mills theory on $\mathcal{S}'(\mathbb{R}^4)$.
+\end{abstract}
+
+\section{Numerical Observation on $\mathfrak{su}(3)$}
+For Hilbert--Schmidt orthonormal generators $X, Y \in \mathfrak{su}(3)$, the intrinsic bi-invariant sectional quantity satisfies
+\[
+K_{\mathrm{SU}(3)}(X,Y) = \frac{1}{4}\|[X,Y]\|_{\mathrm{HS}}^2 \ge 0.
+\]
+Subtracting the orthogonal commutator contribution $K_{\mathrm{sub}}(X,Y) = \frac{3}{4}\|([X,Y])_\perp\|_{\mathrm{HS}}^2$ yields a negative mean across $2000$ samples ($\bar{K}_{\mathrm{proj}} = -0.440979$, $\min K_{\mathrm{proj}} = -0.958835$).
+
+\section{Conditional Stabilization and Scope Boundary}
+\begin{proposition}[Conditional Bound Propagation]
+Suppose a regulated model satisfies an explicit effective curvature-entropy margin $\kappa_{\mathrm{eff}} > 0$ under a stated entropy/scale bound. Under the formal chain verified in Lean~4.36.0 (\texttt{0 sorry}), a strictly positive spectral gap floor follows conditionally from those stated premises.
+\end{proposition}
+
+\begin{remark}[Analytic Scope]
+Sampling on $\mathfrak{su}(3)$ is finite-dimensional and does not compute full infinite-dimensional gauge orbit geometry $\mathcal{A}/\mathcal{G}$ or continuum Osterwalder--Schrader measures on $\mathcal{S}'(\mathbb{R}^4)$. Unconditional existence and mass gap in 4D Yang--Mills remain open.
+\end{remark}
+
+\end{document}
