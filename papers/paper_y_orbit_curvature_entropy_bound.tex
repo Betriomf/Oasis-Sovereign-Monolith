@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage[margin=1in]{geometry}
+\usepackage{tikz}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
@@ -15,7 +16,7 @@
 \maketitle
 
 \begin{abstract}
-We report finite-dimensional numerical probes on the Lie algebra $\mathfrak{su}(3)$ ($N=2000$ orthonormalized pairs) and on elementary $L=2^4$ and $L=3^4$ $\mathrm{SU}(3)$ lattices under adjoint link transport ($N_{\mathrm{cfg}}=200$ per lattice size). Across all three regimes, subtracting the orthogonal commutator contribution modeling quotient/horizontal curvature loss reverses the sign of the mean sectional quantity: $\bar{K}_{\mathrm{proj}} = -0.440979$ ($\min = -0.958835$) on pointwise $\mathfrak{su}(3)$, $\bar{K}_{\mathrm{proj}} = -0.396026$ ($\min = -0.875473$) on $L=2^4$, and $\bar{K}_{\mathrm{proj}} = -0.353224$ ($\min = -0.775408$) on $L=3^4$. We pair these measurements with a deterministic golden-ratio partition ($\varphi^{-1} \approx 0.618034$, $\varphi^{-2} \approx 0.381966$), cross-benchmark them against C99 Cabibbo--Marinari Wilson Monte Carlo observables on $L=8^4$ and $L=12^4$ lattices ($\beta \in [5.70, 6.10]$), and provide a formal Lean~4.36.0 conditional stabilization proof (\texttt{0 sorry}). These finite probes and conditional bounds do not establish unconditional continuum existence or a mass gap on $\mathbb{R}^4$ or $\mathcal{S}'(\mathbb{R}^4)$.
+We report finite-dimensional numerical probes on the Lie algebra $\mathfrak{su}(3)$ ($N=2000$ orthonormalized pairs) and on elementary $L=2^4$ and $L=3^4$ $\mathrm{SU}(3)$ lattices under adjoint link transport ($N_{\mathrm{cfg}}=200$ per lattice size). Across all three regimes, subtracting the orthogonal commutator contribution modeling quotient/horizontal curvature loss reverses the sign of the mean sectional quantity: $\bar{K}_{\mathrm{proj}} = -0.440979$ ($\min = -0.958835$) on pointwise $\mathfrak{su}(3)$, $\bar{K}_{\mathrm{proj}} = -0.396026$ ($\min = -0.875473$) on $L=2^4$, and $\bar{K}_{\mathrm{proj}} = -0.353224$ ($\min = -0.775408$) on $L=3^4$. We pair these measurements with a deterministic golden-ratio partition ($\varphi^{-1} \approx 0.618034$, $\varphi^{-2} \approx 0.381966$), cross-benchmark them against C99 Cabibbo--Marinari Wilson Monte Carlo observables on $L=8^4$ and $L=12^4$ lattices ($\beta \in [5.70, 6.10]$), and provide a formal Lean~4.36.0 conditional stabilization proof (\texttt{0 sorry}, Pillar~389). These finite probes and conditional bounds do not establish unconditional continuum existence or a mass gap on $\mathbb{R}^4$ or $\mathcal{S}'(\mathbb{R}^4)$.
 \end{abstract}
 
 \section{Numerical Observations on $\mathfrak{su}(3)$, $L=2^4$, and $L=3^4$}
@@ -43,11 +44,11 @@ Adjoint-transported $L=3^4$ lattice & $200$ & $0.176612$ & $-0.353224$ & $-0.775
 \section{Golden Partition and Conditional Margin Bound}
 Using $\varphi = \frac{1+\sqrt{5}}{2}$, the complementary weights $\varphi^{-1} \approx 0.618034$ and $\varphi^{-2} \approx 0.381966$ define a deterministic parameter split for bounded stabilization checks.
 \begin{proposition}[Conditional Bound Propagation]
-Suppose a regulated model satisfies an explicit effective curvature-entropy margin $\kappa_{\mathrm{eff}} > 0$ and a positive effective string tension floor $\chi > 0$ under stated stabilization assumptions. Under the formal chain verified in Lean~4.36.0 (\texttt{0 sorry}), a strictly positive combined floor follows conditionally from those premises.
+Suppose a regulated model satisfies an explicit effective curvature-entropy margin $\kappa_{\mathrm{eff}} > 0$ and a positive effective string tension floor $\chi > 0$ under stated stabilization assumptions. Under the formal chain verified in Lean~4.36.0 (\texttt{0 sorry}, Theorem \texttt{wilson\_curvature\_bridge\_positive}), a strictly positive combined floor follows conditionally from those premises.
 \end{proposition}
 
 \section{Cross-Benchmark with C99 Wilson Monte Carlo ($L=8^4, 12^4$)}
-To test finite-volume scaling under the Wilson plaquette action, C99 Cabibbo--Marinari runs were evaluated across four golden-partitioned couplings $\beta \in \{5.7000, 5.8673, 5.9706, 6.1000\}$ (Table~\ref{tab:wilson}).
+To test finite-volume scaling under the Wilson plaquette action, C99 Cabibbo--Marinari runs were evaluated across four golden-partitioned couplings $\beta \in \{5.7000, 5.8673, 5.9706, 6.1000\}$ (Table~\ref{tab:wilson} and Figure~\ref{fig:combined_scaling}).
 
 \begin{table}[h]
 \centering
@@ -66,6 +67,66 @@ $12^4$ & $6.1000$ & $0.61747$ & $0.23308$ & $0.19785$ \\
 \caption{Mean plaquette $\langle P \rangle$, $2\times 2$ Wilson loop, and Creutz ratio $\chi(2,2)$.}
 \label{tab:wilson}
 \end{table}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.0]
+  \begin{scope}[xshift=0cm]
+    \draw[->] (0,0) -- (5.2,0) node[right,font=\scriptsize] {Scale};
+    \draw[->] (0,-2.5) -- (0,1.5) node[above,font=\scriptsize] {$K$};
+    \draw[dashed, gray!60] (0,0) -- (5.0,0);
+    \foreach \y/\lbl in {-2.0/-0.40, -1.0/-0.20, 1.0/0.20} {
+      \draw (-0.08,\y) -- (0.08,\y) node[left,xshift=-3pt,font=\tiny] {\lbl};
+    }
+    \node[below,font=\scriptsize] at (1.0,-2.5) {$\mathfrak{su}(3)$};
+    \node[below,font=\scriptsize] at (2.8,-2.5) {$L=2^4$};
+    \node[below,font=\scriptsize] at (4.6,-2.5) {$L=3^4$};
+    \draw[thick, blue!75!black] (1.0, 1.102) -- (2.8, 0.990) -- (4.6, 0.883);
+    \foreach \x/\y in {1.0/1.102, 2.8/0.990, 4.6/0.883} {
+      \fill[blue!75!black] (\x,\y) circle (2pt);
+    }
+    \node[above,blue!75!black,font=\tiny] at (2.8,1.02) {$\bar{K}_{\mathrm{int}}$};
+    \draw[thick, red!75!black] (1.0, -2.205) -- (2.8, -1.980) -- (4.6, -1.766);
+    \foreach \x/\y in {1.0/-2.205, 2.8/-1.980, 4.6/-1.766} {
+      \fill[red!75!black] (\x,\y) circle (2pt);
+    }
+    \node[below,red!75!black,font=\tiny] at (2.8,-2.05) {$\bar{K}_{\mathrm{proj}}$};
+    \node[font=\footnotesize\bfseries] at (2.6, 1.8) {(a) Sectional Curvature Probes};
+  \end{scope}
+
+  \begin{scope}[xshift=7.2cm, yshift=-1.5cm]
+    \draw[->] (0,0) -- (5.2,0) node[right,font=\scriptsize] {$\beta$};
+    \draw[->] (0,0) -- (0,3.2) node[above,font=\scriptsize] {Observable};
+    \foreach \y/\lbl in {0.90/0.20, 1.80/0.40, 2.70/0.60} {
+      \draw (-0.08,\y) -- (0.08,\y) node[left,xshift=-3pt,font=\tiny] {\lbl};
+    }
+    \node[below,font=\scriptsize] at (1.0,0) {$5.70$};
+    \node[below,font=\scriptsize] at (3.2,0) {$5.97$};
+    \node[below,font=\scriptsize] at (4.5,0) {$6.10$};
+    \draw[thick, teal!80!black] (1.0, 2.592) -- (3.2, 2.732) -- (4.5, 2.779);
+    \foreach \x/\y in {1.0/2.592, 3.2/2.732, 4.5/2.779} {
+      \fill[teal!80!black] (\x,\y) circle (2pt);
+    }
+    \node[above,teal!80!black,font=\tiny] at (2.8,2.75) {$\langle P \rangle_{12^4}$};
+    \draw[thick, orange!85!black] (1.0, 1.085) -- (3.2, 0.929) -- (4.5, 0.890);
+    \foreach \x/\y in {1.0/1.085, 3.2/0.929, 4.5/0.890} {
+      \fill[orange!85!black] (\x,\y) circle (2pt);
+    }
+    \node[below,orange!85!black,font=\tiny] at (2.8,0.88) {$\chi(2,2)_{12^4}$};
+    \node[font=\footnotesize\bfseries] at (2.6, 3.5) {(b) C99 Wilson Scaling ($L=12^4$)};
+  \end{scope}
+\end{tikzpicture}
+\caption{Multi-scale curvature stabilization across $\mathfrak{su}(3) \to L=2^4 \to L=3^4$ (a) and C99 Cabibbo--Marinari plaquette and Creutz string tension trends on $L=12^4$ (b).}
+\label{fig:combined_scaling}
+\end{figure}
+
+\section{Reproducibility and Artifact Verification}
+All numerical probes, formal proofs, and integrity manifests are archived under version control in the \texttt{Betriomf/Oasis-Sovereign-Monolith} repository (Pillar~389):
+\begin{itemize}
+  \item \textbf{Git Provenance:} Cross-benchmark integration is anchored at commit \texttt{d113f19} and Pillar~389 registration at commit \texttt{e2d6331} on branch \texttt{main}.
+  \item \textbf{Cryptographic Integrity:} SHA-256 checksums for both the manuscript and the formal Lean specification are recorded in \texttt{vault/PAPER\_Y\_MARGIN\_SHA256.txt} (\texttt{shasum -a 256 -c vault/PAPER\_Y\_MARGIN\_SHA256.txt}).
+  \item \textbf{Formal Lean~4.36.0 Verification:} Executing \texttt{lean formal\_proofs/PaperY\_Entropy\_Curvature\_Margin.lean} validates all conditional margin bounds and the Wilson bridge theorem (\texttt{wilson\_curvature\_bridge\_positive}) with \texttt{0 errors}, \texttt{0 warnings}, \texttt{0 sorry}, and \texttt{0 custom axioms}.
+\end{itemize}
 
 \begin{remark}[Analytic Scope and Open Continuum Barrier]
 At $40\text{--}60$ thermalization/measurement sweeps, direct $0^{++}$ correlator mass ratios exhibit statistical noise (\texttt{NaN}) and require higher statistics and smearing. Furthermore, pointwise $\mathfrak{su}(3)$ sampling, $L=2^4, 3^4$ link-transport probes, and finite-lattice Wilson runs do not establish reflection positivity in the continuum limit $a \to 0, L \to \infty$ or an unconditional mass gap on $\mathbb{R}^4$ or $\mathcal{S}'(\mathbb{R}^4)$.
