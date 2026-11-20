@@ -54,5 +54,15 @@
   "378": {
     "titulo": "Pilar 378 — Atractor Termodinámico de Enstrofía (κ = ln 10) y Techo Asintótico de Silicio Frío",
     "definicion": "∀Ω̃ ∈ H_flujo [ dΩ̃/dt ≤ κ² - Ω̃ ∧ κ = ln 10 ≈ 2.3026 ⊢ sup_{t≥0} Ω̃(t) ≤ 5.3019 ∧ P_disipacion ≤ 5.39W ]. Formaliza el techo asintótico universal en mecánica de fluidos e inferencia: la enstrofía adimensional queda confinada bajo κ² ≈ 5.30, impidiendo cascadas turbulentas divergentes y fijando la cota máxima de disipación de silicio frío en 5.39 W sin activación de ventiladores."
+  },
+  "pilar_389": {
+    "pilar": 389,
+    "nombre": "Puente Curvatura-Entropía y Tensión de Creutz Wilson (Paper Y)",
+    "definicion": "0 < creutzMilli * netEffectiveMargin s (verificado en Lean 4.36.0, 0 sorry, bajo hipótesis explícitas de margen compensado en retículo finito).",
+    "artefactos": [
+      "papers/paper_y_orbit_curvature_entropy_bound.tex",
+      "formal_proofs/PaperY_Entropy_Curvature_Margin.lean",
+      "vault/PAPER_Y_MARGIN_SHA256.txt"
+    ]
   }
 }
