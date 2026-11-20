@@ -1,0 +1,2 @@
+3753edee8730bb8ebe6e754ff28300608763d3ce4402afb82e92f4b867a3fb84  tools/su3_mc_ape_wilson.c
+527fd3b59a286adc60f5d4e4088bf9602a5a6706cc9de98de4c205a52139ca55  results/su3_mc_ape_8_12_run3.txt
