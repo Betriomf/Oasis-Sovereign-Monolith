@@ -70,4 +70,16 @@ theorem lattice2x4SampleMargin_positive :
     { h_compensated := by decide
       h_strict_pos := by decide }
 
+/-- Instancia retículo L=3^4: K_int ~ 177‰, pérdida ~ 530‰, margen áureo 618‰. -/
+def lattice3x4SampleMargin : CurvatureMarginState :=
+  { intrinsicPermille := 177
+    quotientLossPermille := 530
+    entropyMarginPermille := goldenPrimaryPermille }
+
+theorem lattice3x4SampleMargin_positive :
+    0 < netEffectiveMargin lattice3x4SampleMargin :=
+  stabilized_margin_strictly_positive lattice3x4SampleMargin
+    { h_compensated := by decide
+      h_strict_pos := by decide }
+
 end Oasis.YangMills.PaperY
