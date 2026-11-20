@@ -1,0 +1,31 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\title{\textbf{Conditional Bakry--\'Emery Curvature Propagation to Poincar\'e and Spectral-Gap Bounds in Lean 4}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona, Spain \\ \small Repository: \url{https://github.com/Betriomf/Oasis-Sovereign-Monolith}}
+\date{November 20, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present the verified formalization in pure Lean~4.36.0 (\texttt{0 errors, 0 warnings, 0 sorry, 0 custom axioms}) of the deductive chain propagating a positive weighted curvature floor to a positive Poincar\'e constant, a positive spectral-gap floor, and a bounded decay rate (\texttt{formal\_proofs/BakryEmery\_Poincare\_Bridge.lean}), complemented by bounded finite-lattice scaling checks (\texttt{tests/bakry\_emery\_poincare\_scaling\_test.py}). All analytic curvature-dimension conditions $CD(\kappa, \infty)$ on weighted gauge-orbit spaces are stated as explicit hypotheses; this work certifies logical bound consistency and does not claim an unconditional analytic proof of continuum Yang--Mills existence or mass gap in $\mathbb{R}^4$.
+\end{abstract}
+
+\section{Verified Artifacts}
+\begin{itemize}
+  \item \texttt{formal\_proofs/BakryEmery\_Poincare\_Bridge.lean} (Lean~4.36.0, \texttt{0 sorry})
+  \item \texttt{formal\_proofs/poincare\_to\_massgap.lean} (Lean~4.36.0, \texttt{0 sorry})
+  \item \texttt{tests/bakry\_emery\_poincare\_scaling\_test.py} (Finite-lattice bounded scaling check)
+\end{itemize}
+
+\section{Scope Boundary}
+Proving unconditionally that weighted gauge-orbit measures satisfy uniform $CD(\kappa, \infty)$ curvature bounds in the continuum limit $\mathcal{S}'(\mathbb{R}^4)$ remains an open problem of constructive quantum field theory.
+
+\section{AI-Assisted Formalization Disclosure}
+Interactive AI assistants were used to draft Lean~4 proof scripts, numerical verification scripts, and LaTeX text under human supervision.
+
+\end{document}
