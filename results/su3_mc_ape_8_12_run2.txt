@@ -1,0 +1,8 @@
+L= 8^4 | beta=5.7000 | <P>=0.56691 | chi(2,2)=0.28585 | m0++(0->1)=nan | m0++(eff)=nan | m/sqrt(sigma)=nan
+L= 8^4 | beta=5.8673 | <P>=0.58442 | chi(2,2)=0.25754 | m0++(0->1)=nan | m0++(eff)=nan | m/sqrt(sigma)=nan
+L= 8^4 | beta=5.9706 | <P>=0.59658 | chi(2,2)=0.22860 | m0++(0->1)=nan | m0++(eff)=nan | m/sqrt(sigma)=nan
+L= 8^4 | beta=6.1000 | <P>=0.60986 | chi(2,2)=0.21575 | m0++(0->1)=nan | m0++(eff)=nan | m/sqrt(sigma)=nan
+L=12^4 | beta=5.7000 | <P>=0.57224 | chi(2,2)=0.26053 | m0++(0->1)=nan | m0++(eff)=nan | m/sqrt(sigma)=nan
+L=12^4 | beta=5.8673 | <P>=0.59018 | chi(2,2)=0.23335 | m0++(0->1)=nan | m0++(eff)=nan | m/sqrt(sigma)=nan
+L=12^4 | beta=5.9706 | <P>=0.60296 | chi(2,2)=0.21199 | m0++(0->1)=nan | m0++(eff)=nan | m/sqrt(sigma)=nan
+L=12^4 | beta=6.1000 | <P>=0.61407 | chi(2,2)=0.19917 | m0++(0->1)=nan | m0++(eff)=nan | m/sqrt(sigma)=nan
