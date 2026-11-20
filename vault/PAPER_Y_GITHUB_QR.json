@@ -1,0 +1,9 @@
+{
+  "repo": "Betriomf/Oasis-Sovereign-Monolith",
+  "branch": "main",
+  "tree_api": "https://api.github.com/repos/Betriomf/Oasis-Sovereign-Monolith/git/trees/main?recursive=1",
+  "paper_y_raw": "https://raw.githubusercontent.com/Betriomf/Oasis-Sovereign-Monolith/main/papers/paper_y_orbit_curvature_entropy_bound.tex",
+  "lean_raw": "https://raw.githubusercontent.com/Betriomf/Oasis-Sovereign-Monolith/main/formal_proofs/PaperY_Entropy_Curvature_Margin.lean",
+  "crm_snapshot_raw": "https://raw.githubusercontent.com/Betriomf/Oasis-Sovereign-Monolith/main/vault/OASIS_AI_CONTEXT_SNAPSHOT.md",
+  "sha256_prefix": "ff3a6e304e9f026e"
+}
