@@ -1,0 +1,40 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\title{\textbf{Conditional Reduction of Four-Dimensional Yang--Mills Mass-Gap Bounds to Uniform Information-Curvature Persistence}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona, Spain \\ \small Repository: \url{https://github.com/Betriomf/Oasis-Sovereign-Monolith}}
+\date{November 20, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We formulate a conditional reduction of the four-dimensional Yang--Mills spectral-gap problem to a single uniform curvature-dimension hypothesis along joint ultraviolet ($a \to 0$) and thermodynamic ($L \to \infty$) scaling limits. Rather than claiming an unconditional construction on $\mathcal{S}'(\mathbb{R}^4)$, we separate analytical hypotheses from machine-checked deductive consequences in pure Lean~4.36.0 (\texttt{formal\_proofs/PaperX\_UniformCurvature\_ContinuumBridge.lean}, compiled with \texttt{0 errors, 0 warnings, 0 sorry, 0 custom axioms}).
+\end{abstract}
+
+\section{Epistemological Scope and Conditional Reduction}
+Following the conditional-reduction paradigm, global continuum bounds are reduced to whether an effective Bakry--\'Emery curvature lower bound $\kappa(a, L)$ remains uniformly bounded away from zero:
+\begin{equation}
+  \inf_{a \to 0,\; L \to \infty} \kappa(a, L) \ge \kappa_\infty > 0.
+\end{equation}
+
+\section{The Uniform Information-Curvature Conjecture and Continuum Reconstruction}
+\subsection{Ultraviolet Stability ($a \to 0$)}
+In non-Abelian gauge theories such as $SU(3)$, asymptotic freedom drives the bare coupling $g^2(a) \sim [\beta_0 \ln(1 / a \Lambda_{\mathrm{QCD}})]^{-1} \to 0$ as $a \to 0$, suppressing short-distance curvature blow-up in the perturbative regime.
+
+\subsection{Infrared Confinement ($L \to \infty$)}
+On the physical gauge-orbit space $\mathcal{M} = \mathcal{A}/\mathcal{G}$, restriction to the fundamental Gribov region $\Omega$ where the Faddeev--Popov operator is strictly positive introduces an entropic boundary barrier at $\partial\Omega$, preventing flat-direction dispersion as $L \to \infty$.
+
+\subsection{Bakry--\'Emery Transfer and Osterwalder--Schrader Reconstruction}
+Under the explicit hypothesis that $\kappa(a, L) \ge \kappa_\infty > 0$ holds uniformly, Bakry--\'Emery concentration yields uniform Poincar\'e / log-Sobolev bounds, providing tightness for Euclidean Schwinger functions and Osterwalder--Schrader reconstruction on $\mathcal{S}'(\mathbb{R}^4)$ with spectral gap $\Delta > 0$.
+
+\section{Machine-Checked Verification in Lean 4}
+The deductive propagation of scaled bounds ($\kappa_\infty \to C_P \to \Delta \to \text{decay}$) is formally verified in \texttt{formal\_proofs/PaperX\_UniformCurvature\_ContinuumBridge.lean} with zero \texttt{sorry} and zero custom axioms. Unconditional proof of $\inf_{a,L}\kappa(a,L) \ge \kappa_\infty > 0$ in $\mathcal{S}'(\mathbb{R}^4)$ remains open.
+
+\section{AI-Assisted Formalization Disclosure}
+Interactive AI assistants were used to draft Lean~4 proof scripts and LaTeX text under human supervision.
+
+\end{document}

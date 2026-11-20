@@ -73,4 +73,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 
 | **Paper V (Poincaré–MassGap Bridge)** | [`10.5281/zenodo.24383187`](https://doi.org/10.5281/zenodo.24383187) | Conditional spectral-gap reduction and subphase synthesis bridge in Lean 4.36.0 (0 sorry) | `papers/paper_v_poincare_massgap_bridge.tex` |
 
-| **Paper W (Bakry–Émery–Poincaré Bridge)** | [`<DOI_PAPER_W>`](https://doi.org/<DOI_PAPER_W>) | Conditional Bakry–Émery curvature propagation to Poincaré and spectral-gap bounds in Lean 4.36.0 (0 sorry) | `papers/paper_w_bakry_emery_poincare_bridge.tex` |
+| **Paper W (Bakry–Émery–Poincaré Bridge)** | [`10.5281/zenodo.24383399`](https://doi.org/10.5281/zenodo.24383399) | Conditional Bakry–Émery curvature propagation to Poincaré and spectral-gap bounds in Lean 4.36.0 (0 sorry) | `papers/paper_w_bakry_emery_poincare_bridge.tex` |
