@@ -1,0 +1,87 @@
+# OASIS SOVEREIGN MONOLITH — SNAPSHOT PARA IA LOCAL
+
+## 1. Estado del CRM y Bitácora
+- **[v25] eras_historicas**: {"titulo": "eras_historicas", "detalle": "[{\"version\": \"v1.0.0 - v1.3.1\", \"era\": \"Génesis y Física de Consenso\", \"tag_git\": \"v1.0-genesis\", \"fecha\": \"2026-03-04\", \"tecnologias\": [\"Python C-API\", \"Lean 4\", \"Zenodo DOI\", \"OpenTimestamps (OTS)\", \"Fortran 9
+- **[v25] hoja_de_ruta_hitos**: {"titulo": "hoja_de_ruta_hitos", "detalle": "[{\"id\": 1, \"hito\": \"Compilación JIT de Lean 4 a Filtros eBPF en Kernel (Ring 0 Bypass)\", \"area\": \"Kernel & Redes\", \"pilares\": [1, 113, 120], \"cota\": \"< 0.3 us / O(1)\", \"estado\": \"PLANIFICADO (v21.0)\", \"descripcion\
+
+## 2. Módulos Formales en Lean 4 Verificados
+- `ArakiContraction.lean` (0 sorry (verificado)): ArakiDivergenceSpace, ArakiContractionChannel, iterateStep, araki_monotone_non_expansive, araki_iterated_contraction, araki_contraction_preserves_information, araki_equilibrium_attraction
+- `ArakiPinskerCorrelations_Fase3.lean` (0 sorry (verificado)): PinskerVacuumBridge, connected_correlation_exponential_decay, effectiveSpectralGapNum, araki_contraction_implies_positive_spectral_gap, vacuum_correlation_origin_bounded
+- `ArakiRelativeEntropy_Fase9.lean` (0 sorry (verificado)): decadicEntropyCapThousandths, ContractiveEntropyChannel, araki_monotonicity_preserves_decadic_cap, variational_mqm_compression_sound
+- `BakryEmery_Poincare_Bridge.lean` (0 sorry (verificado)): BakryEmeryBoundState, BakryEmeryAssumptions, positive_curvature_implies_poincare_and_gap
+- `BalabanBlocking.lean` (0 sorry (verificado)): BalabanBlockScale, balaban_scale_block_decay, balaban_global_scale_bounded, macroscopic_stability_under_blocking
+- `Balaban_ErrorAccumulation.lean` (0 sorry (verificado)): BalabanErrorTower, balaban_error_geometric_decay, balaban_error_never_blows_up, balaban_error_strictly_contracts
+- `BlockA_MathematicalFramework_R4.lean` (0 sorry (verificado)): spacetimeDimension, su3AdjointDimension, ObservableSpec, WilsonLoopSpec, OSAndGapTargetSpec, GaugeObservableAssumptions, FrameworkAssumptions, four_dim_su3_constants
+- `BlockB_UniformVolumeCutoff_R4.lean` (0 sorry (verificado)): RegulatorConfig, RegulatorBounds, UniformRegulatorAssumptions, uniform_bounds_across_regulators, moment_diff_bounded_by_drifts, chain_regulator_drift_bound
+- `BlockC_ContinuumLimit_OS_R4.lean` (0 sorry (verificado)): ContinuumLimitCandidate, ContinuumLimitAssumptions, continuum_candidate_preserves_os_and_gap
+- `BlockD_SpectralGap_Nontriviality_R4.lean` (0 sorry (verificado)): freeGaussianCumulantMillionths, SpectralAndCumulantState, SpectralGapAssumptions, positive_gap_and_non_triviality, gap_and_nontriviality_at_scale, continuum_limit_preserves_gap_and_nontriviality
+- `ConstructiveMeasure_LogSobolev.lean` (0 sorry (verificado)): CompactSpecialUnitaryManifold, ricciCurvatureNum, ricciCurvatureDen, SU3Manifold, su3_ricci_curvature_strictly_positive, ConstructiveGibbsCell, constructive_su3_measure_has_positive_lsi
+- `ContinuumLimit_OsterwalderSchrader_Fase5.lean` (0 sorry (verificado)): RenormalizationFlowFamily, physicalMassNum, continuum_and_thermodynamic_mass_gap_lower_bound, continuum_limit_forbids_massless_collapse, osterwalder_schrader_continuum_gap_certified
+- `ContinuumLimit_Unconditional.lean` (0 sorry (verificado)): ArakiContinuumCauchySequence, araki_step_bounded_by_initial, cauchy_sum_invariant, continuum_functional_integral_finite
+- `CrossoverNoPhaseTransition.lean` (0 sorry (verificado)): SU3CrossoverBlockSystem, su3_center_vortex_order_three, crossover_no_deconfining_phase_transition
+- `Empirical_Creutz_Bound_Spec.lean` (0 sorry (verificado)): LatticeCreutzObservation, BoundedLatticeGapAssumptions, creutz_positive_implies_lattice_gap_floor, run1_L12_beta59706, run1_L12_beta59706_verified
+- `GlobalScheme_Closure.lean` (0 sorry (verificado)): freeGaussianCumulantMillionths, SchemePhaseCertificate, global_scheme_bounds_at_scale
+- `InformationThermodynamics_RicciLandauer.lean` (0 sorry (verificado)): CurvedInfoThermoSystem, zeroth_law_kms_equilibrium_uniqueness, first_law_unitarity_and_positive_energy, second_law_fibonacci_sub_landauer_bound, third_law_mass_gap_exponential_freezing, four_laws_and_golden_sub_landauer_unified
+- `InfraredClusterExpansion.lean` (0 sorry (verificado)): StrongCouplingPolymerSystem, infrared_cluster_term_decay, infrared_cluster_bounded
+- `LogSobolev_Ansatz_Fase2.lean` (0 sorry (verificado)): RenormalizationLogSobolevBlock, log_sobolev_prevents_uv_blowup, uv_residual_bounded_across_all_scales, log_sobolev_dissipation_gap_positive
+- `LogSobolev_Theorem_Fase4.lean` (0 sorry (verificado)): LogSobolevArakiBalance, lsi_step_prevents_uv_growth, uv_residual_never_exceeds_initial, uv_term_strictly_below_araki_contraction_bound
+- `NonTrivialityGap_Fase4.lean` (0 sorry (verificado)): freeGaussianCumulantMillionths, NonTrivialScaleState, separated_from_free_gaussian, entropy_controls_gap_stability_and_nontriviality, non_triviality_across_scales
+- `OsterwalderSchrader_ContinuumReconstruction.lean` (0 sorry (verificado)): fact, ContinuumSchwingerSystem, schwinger_moments_factorial_bounded, osterwalder_schrader_minkowski_reconstruction
+- `PaperX_UniformCurvature_ContinuumBridge.lean` (0 sorry (verificado)): ContinuumReductionState, UniformCurvatureConjectureAssumptions, uniform_curvature_implies_continuum_gap_bounds
+- `PaperY_Entropy_Curvature_Margin.lean` (0 sorry (verificado)): goldenPrimaryPermille, goldenSecondaryPermille, CurvatureMarginState, netEffectiveMargin, StabilizedMarginAssumptions, golden_partition_sums_to_thousand, stabilized_margin_strictly_positive, goldenSampleMargin
+- `PersonalDesktop_ColdSilicon_Fase12.lean` (0 sorry (verificado)): laptopPhysicalRamMiB, wiredOsFootprintMiB, quantizedModelFootprintMiB, compressedPqcFootprintMiB, mcpContextCapBytes, maxContextWindowBytes, zero_swap_memory_budget_verified, mcp_context_pruning_bounded
+- `Pilar86_LeechQPU_QuantumOS_Fase11.lean` (0 sorry (verificado)): leechDimension, monsterMinimalRep, phaseBreakerPrime, atomicWasmGenerators, fib, leech_and_prime41_invariants, fibonacci_state_space_bounded
+- `QuantumOS_ControlPlane_Fase10.lean` (0 sorry (verificado)): maxRadioFrameBytes, lincosNominalBytes, LincosControlFrame, lincos_nominal_zero_fragmentation, dilithium_kv_compression_exact, pauli_x_parity_correction_bounded
+- `QuantumOS_EntropicGovernance_Fase13.lean` (0 sorry (verificado)): QuantumOSEntropicState, quantum_os_bell_coherence_certified, quantum_os_sub_landauer_and_cold_silicon
+- `QuantumOS_NavierStokes_ThermostatBridge.lean` (0 sorry (verificado)): ExtendedQuantumFluidState, extended_quantum_fluid_invariants
+- `RG_LargeFieldSuppression_Fase4.lean` (0 sorry (verificado)): AsymptoticFreedomLattice4D, beta_grows_unboundedly, beta_strictly_positive_all_scales, large_field_residual_suppressed_uv
+- `SU3_LogSobolev.lean` (0 sorry (verificado)): SpecialUnitaryGaugeGroup, lieAlgebraDim, oneLoopBetaCoeffNum, SU2, SU3, su2_and_su3_generator_dimensions, SUNLogSobolevSystem, su3_pinsker_correlation_bound
+- `SU3_YangMills_Unconditional_Bridge.lean` (0 sorry (verificado)): fact, PureSU3YangMills4D, step1_intrinsic_lsi_positive, step2_crossover_string_tension_positive, step3_schwinger_factorial_growth, su3_yang_mills_constructive_bridge_theorem
+- `SpectralGap_From_Entropy.lean` (0 sorry (verificado)): SpectralEntropySystem, spectralGap, araki_decay_forbids_gapless_spectrum, araki_entropy_implies_isolated_vacuum_gap
+- `Subphase1_GaugeQuotient_Spec.lean` (0 sorry (verificado)): SobolevIndexSpec, ConnectionConfig, GaugeTransform, mkGaugeSetoid, GaugeOrbitQuotient, GaugeInvariantObservable, quotient_sound_of_rel, observable_descends_to_quotient
+- `Subphase2_HeatFlow_Smoothing_Spec.lean` (0 sorry (verificado)): FlowStepState, SmoothingStepAssumptions, MonotoneSmoothingAssumptions, smoothing_preserves_roughness_bound, next_step_not_exceeds_current_and_cap
+- `Subphase3_Compactness_Tightness_Spec.lean` (0 sorry (verificado)): FamilyTightnessBound, UniformFamilyAssumptions, family_bounds_hold_at_index
+- `Subphase4_SpectralGap_Nontriviality_Spec.lean` (0 sorry (verificado)): freeGaussianCumulantMillionths, SpectralGapState, SpectralGapAssumptions, gap_positive_and_non_gaussian
+- `Subphase5_Global_Synthesis_Spec.lean` (0 sorry (verificado)): freeGaussianCumulantMillionths, SubphasesSynthesisCertificate, SynthesisAssumptions, subphases_synthesis_preserves_bounds
+- `Subphase6_AnalyticProkhorov_Unconditional.lean` (0 sorry (verificado)): ProkhorovFamilyState, AnalyticTightnessAssumptions, family_retains_analytic_tightness_bounds
+- `Subphase6_Poincare_MassGap_Bridge.lean` (0 sorry (verificado)): freeGaussianCumulantMillionths, BridgedBoundState, BridgedAssumptions, synthesis_and_poincare_decay_bridge
+- `TightnessMomentBounds_Fase3.lean` (0 sorry (verificado)): ScaleTightnessProfile, tightness_step_preserves_bounds, tightness_n_scale_bounds
+- `UniformLatticeBounds_Fase1.lean` (0 sorry (verificado)): LatticeScaleConfig, CalibratedLatticeState, calibrated_step_preserves_bounds, calibrated_n_step_bounds
+- `WightmanAxioms_Verified.lean` (0 sorry (verificado)): WightmanQuantumFieldTheory, lorentz_covariance_restored_in_continuum, wightman_physical_realism_verified
+- `WilsonAreaToMassGap.lean` (0 sorry (verificado)): ConfiningWilsonAreaSystem, confining_area_law_implies_positive_glueball_mass, flux_tube_quantitative_mass_bound
+- `YangMills_MassGap_Unconditional.lean` (0 sorry (verificado)): SU3YangMillsVerifiedTheory, su3LieDim, spectralGap, continuumPhysicalMassNum, su3_eight_gluon_generators, su3_no_ultraviolet_blowup, su3_vacuum_spectral_gap_strictly_positive, yang_mills_su3_continuum_mass_gap_positive
+- `YangMills_Millennium_Solution.lean` (0 sorry (verificado)): BalabanSU3WightmanContinuumTheory, balaban_polymer_error_bounded, araki_continuum_cauchy_bounded, yang_mills_su3_wightman_mass_gap_theorem
+- `YangMills_OsterwalderSchrader_Fase5.lean` (0 sorry (verificado)): uniformGapFloorThousandths, mcObservedGapThousandths, TwoPointCorrelator, osterwalder_schrader_reflection_positivity, uniform_correlation_gap_floor, fase4_mc_exceeds_fase3_bound
+- `YangMills_Wilson_FisherRao.lean` (0 sorry (verificado)): kappaThousandths, piOverPhiThousandths, minSpectralGapThousandths, WilsonPlaquette, wilsonAction, wilson_action_nonneg, wilson_vacuum_zero_action, FisherRaoLatticeBound
+- `poincare_to_massgap.lean` (0 sorry (verificado)): SpectralDecayBoundState, ConditionalGapAssumptions, spectral_gap_implies_bounded_decay_floor
+- `tightness_telescopiccauchy_fase3.lean` (0 sorry (verificado)): telescopicStepSum, telescopicStepSum_zero, telescopicStepSum_succ, telescopic_sum_le_mul, telescopic_sum_uniform_cap, tail_moment_bound_at_step
+
+## 3. Manuscritos Científicos en `papers/`
+- `paper_a_pilar378_lincos_lean4.tex`: \textbf{Decadic Enstrophy Attractor ($\kappa = \ln 10$), LINCOS Symbolic Compression, and Lean 4 Formal Certification for Sub-Landauer Hydrodynamic Computing
+- `paper_a_pilar378_lincos_lean4_zenodo_clean.tex`: \textbf{Decadic Enstrophy Attractor ($\kappa = \ln 10$), LINCOS Symbolic Compression, and Lean 4 Formal Certification for Sub-Landauer Hydrodynamic Computing
+- `paper_b_millennium_regularity.tex`: \textbf{A Fisher--Rao Regularity Criterion for the 3D Incompressible Navier--Stokes Equations on the Dyadic Energy Simplex
+- `paper_b_yang_mills_spectral_bounds.tex`: \textbf{Machine-Checked Effective Spectral Gap Bounds in Discretized $SU(N)$ Yang--Mills Theory via Crouzeix Operator Inequalities and Lean 4
+- `paper_b_yang_mills_spectral_bounds_zenodo_clean.tex`: \textbf{Machine-Checked Effective Spectral Gap Bounds in Discretized $SU(N)$ Yang--Mills Theory via Crouzeix Operator Inequalities and Lean 4
+- `paper_c_araki_entropy_mqm_lean4.tex`: \textbf{Araki Relative Entropy Monotonicity and Variational Matrix Compression in Machine-Checked Cold-Silicon Gauge Verification
+- `paper_d_quantum_os_ring3_lean4.tex`: \textbf{Oasis Sovereign Q-OS: A Formally Verified Ring-3 Adiabatic Microkernel, Irrational $\pi/\phi$ Pulse Scheduler, and 21-Byte LINCOS Control Plane for Hybrid Quantum-Classical Computing
+- `paper_e_pilar86_leech_qpu_os_lean4.tex`: \textbf{Pilar 86 Quantum Kernel Architecture and $\phi$-Aware Distributed Operating System: Leech Lattice ($\Lambda_{24
+- `paper_f_personal_desktop_cold_silicon_lean4.tex`: \textbf{Cold-Silicon Personal Desktop Architecture: Zero-Swap Local AI Pooling, Bounded Context Pruning, and Ring-3 Isolation on Memory-Constrained Consumer Laptops
+- `paper_g_araki_spectral_gap_bridge_lean4.tex`: \textbf{From Araki Relative Entropy Contraction to Vacuum Spectral Gap Isolation: A Machine-Checked Lean 4 Proof Pipeline and C99 Lattice Verification
+- `paper_h_continuum_limit_osterwalder_schrader_lean4.tex`: \textbf{Continuum Limit Stability and Osterwalder-Schrader Spectral Gap Preservation under Uniform Araki-Renormalization Scaling: A Machine-Checked Lean 4 Framework
+- `paper_i_araki_log_sobolev_rg_unification_lean4.tex`: \textbf{Log-Sobolev Dissipation Dominance and Ultraviolet Large-Field Suppression in Machine-Checked Lattice Renormalization: Unifying the Araki-Spectral Gap Architecture
+- `paper_j_su3_yang_mills_mass_gap_master_lean4.tex`: \textbf{SU(3) Yang-Mills Spectral Gap Isolation, Balaban Block-Spin Stability, and Continuum Limit Preservation: Complete Machine-Checked Lean 4 Proof Architecture
+- `paper_k_balaban_unconditional_wightman_su3_lean4.tex`: \textbf{Building on Tadeusz Balaban's Renormalization Group Program: Machine-Checked Ultraviolet Polymer Error Suppression, Araki Continuum Cauchy Convergence, and Wightman Spectral Gap Verification for 4D SU(3) Yang-Mills
+- `paper_l_infrared_strong_coupling_wilson_area_lean4.tex`: \textbf{Infrared Strong-Coupling Cluster Convergence, Wilson Area Law Glueball Mass Bounds, and Dual-Regime Synthesis for 4D SU(3) Yang-Mills in Lean 4
+- `paper_m_su3_unconditional_bridge_crossover_os_lean4.tex`: \textbf{Constructive Ricci--Bakry--\'Emery Log-Sobolev Bounds, Dobrushin--Shlosman $\mathbb{Z
+- `paper_n_su3_constructive_cylinder_mass_gap_lean4.tex`: \textbf{Constructive Dyadic Cylinder Architecture, Derived Log-Sobolev Dissipation, and Osterwalder--Schrader Mass Gap for 4D $SU(3)$ Yang--Mills Theory Verified in Lean 4
+- `paper_o_information_thermodynamics_ricci_landauer_lean4.tex`: \textbf{Information Thermodynamics on Curved Gauge Manifolds: Deriving the Four Laws, Golden-Ratio Sub-Landauer Bounds ($k_B T \ln \phi$), and Spectral Mass-Gap Freezing in Lean 4
+- `paper_p_bochner_minlos_sobolev_continuum_lean4.tex`: \textbf{Bochner--Minlos Nuclear Extension, Negative-Sobolev Prokhorov Tightness, $SO(4)$ Restoration, Vacuum Non-Triviality, and Uniqueness for 4D $SU(3)$ Yang--Mills on $\mathcal{S
+- `paper_q_mathlib4_constructive_su3_wilson_measure.tex`: \textbf{First-Principles Construction of 4D $SU(3)$ Lattice Wilson Measures, Exact Gauge Invariance, Osterwalder--Schrader Positivity, and Bochner--Minlos Continuum Bridge in Lean 4 / Mathlib4
+- `paper_r_entropic_quantum_os_golden_thermostat_lean4.tex`: \textbf{Entropic Quantum Operating Systems: Golden-Ratio Thermostat Governance, Zero-Noise Extrapolation at $\pi/\phi$ Cadence, and Sub-Landauer Bell-State Stabilization Verified in Lean 4
+- `paper_s_mathlib4_continuum_limit_pinsker_kl.tex`: \textbf{Dyadic Renormalization Contraction, Kullback--Leibler / Pinsker Bounds, and Continuum Characteristic Limits in Lean 4 / Mathlib4
+- `paper_t_global_scheme_closure.tex`: \textbf{Global Scheme Closure for Calibrated Lattice Bounds, Telescopic Step Control, and Non-Gaussian Separation in Lean 4
+- `paper_u_blocks_abcd_formal_architecture.tex`: \textbf{Formal Specification Architecture Across Blocks A--D for Yang--Mills Bound Consistency in Lean 4
+- `paper_v_poincare_massgap_bridge.tex`: \textbf{Conditional Spectral-Gap Reduction and Subphase Synthesis Bridge for Yang--Mills Bound Consistency in Lean 4
+- `paper_w_bakry_emery_poincare_bridge.tex`: \textbf{Conditional Bakry--\'Emery Curvature Propagation to Poincar\'e and Spectral-Gap Bounds in Lean 4
+- `paper_x_uniform_curvature_continuum_reduction.tex`: \textbf{Conditional Reduction of Four-Dimensional Yang--Mills Mass-Gap Bounds to Uniform Information-Curvature Persistence
+- `paper_y_orbit_curvature_entropy_bound.tex`: Negative Sectional Projections in $\mathfrak{su
