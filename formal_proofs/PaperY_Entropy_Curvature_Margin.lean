@@ -1,5 +1,5 @@
 /-
-  OASIS SOVEREIGN MONOLITH — PAPER Y CONDITIONAL MARGIN SPEC
+  OASIS SOVEREIGN MONOLITH — PAPER Y GOLDEN PARTITION & MARGIN SPEC
   Archivo: formal_proofs/PaperY_Entropy_Curvature_Margin.lean
   Lean 4.36.0 puro: 0 errors, 0 warnings, 0 sorry, 0 custom axioms.
   Alcance: Formaliza de forma condicional que si un margen efectivo acotado
@@ -10,6 +10,10 @@
 namespace Oasis.YangMills.PaperY
 
 /-! ### 1. DEFINICIONES -/
+
+/-- Constantes de partición áurea en milésimas: phi^{-1} ~ 618‰, phi^{-2} ~ 382‰. -/
+def goldenPrimaryPermille : Nat := 618
+def goldenSecondaryPermille : Nat := 382
 
 structure CurvatureMarginState where
   intrinsicPermille : Nat
@@ -27,6 +31,10 @@ structure StabilizedMarginAssumptions (s : CurvatureMarginState) where
 
 /-! ### 3. TEOREMAS DEMOSTRADOS -/
 
+theorem golden_partition_sums_to_thousand :
+    goldenPrimaryPermille + goldenSecondaryPermille = 1000 := by
+  decide
+
 theorem stabilized_margin_strictly_positive
     (s : CurvatureMarginState)
     (h : StabilizedMarginAssumptions s) :
@@ -38,15 +46,14 @@ theorem stabilized_margin_strictly_positive
   unfold netEffectiveMargin
   omega
 
-/-- Instancia ilustrativa escalada en milésimas (K_SU3 ~ 220‰, pérdida ~ 661‰, margen ~ 500‰ -> +59‰). -/
-def sampleSU3Margin : CurvatureMarginState :=
+def goldenSampleMargin : CurvatureMarginState :=
   { intrinsicPermille := 220
     quotientLossPermille := 661
-    entropyMarginPermille := 500 }
+    entropyMarginPermille := goldenPrimaryPermille }
 
-theorem sampleSU3Margin_positive :
-    0 < netEffectiveMargin sampleSU3Margin :=
-  stabilized_margin_strictly_positive sampleSU3Margin
+theorem goldenSampleMargin_positive :
+    0 < netEffectiveMargin goldenSampleMargin :=
+  stabilized_margin_strictly_positive goldenSampleMargin
     { h_compensated := by decide
       h_strict_pos := by decide }
 

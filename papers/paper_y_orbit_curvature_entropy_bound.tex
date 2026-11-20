@@ -7,7 +7,7 @@
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{remark}[theorem]{Remark}
 
-\title{Negative Sectional Projections in $\mathfrak{su}(3)$ Commutator Sampling and Conditional Entropy-Bounded Stabilization}
+\title{Negative Sectional Projections in $\mathfrak{su}(3)$ Commutator Sampling and Golden-Partitioned Conditional Stabilization}
 \author{Mariano Panzano Caball\'e \\ Oasis Sovereign Architecture Research, Barcelona}
 \date{November 2026}
 
@@ -15,7 +15,7 @@
 \maketitle
 
 \begin{abstract}
-We report a finite-dimensional numerical probe on the Lie algebra $\mathfrak{su}(3)$ ($N=2000$ orthonormalized pairs) comparing the non-negative bi-invariant commutator term $\frac{1}{4}\|[X,Y]\|_{\mathrm{HS}}^2$ (mean $0.220498$) against a subtractive orthogonal-commutator term modeling quotient/horizontal curvature loss (mean projected value $-0.440979$, minimum $-0.958835$). The sign reversal illustrates why unstabilized quotient directions can violate uniform positivity assumptions if not controlled. Within the Oasis Sovereign Architecture conditional program, we formulate a bounded stabilization hypothesis linking an explicit entropy/scale margin to a positive Poincaré/gap floor, while explicitly stating that this finite-algebra probe does not establish unconditional continuum existence or mass-gap proof for four-dimensional $\mathrm{SU}(3)$ Yang--Mills theory on $\mathcal{S}'(\mathbb{R}^4)$.
+We report a finite-dimensional numerical probe on the Lie algebra $\mathfrak{su}(3)$ ($N=2000$ orthonormalized pairs) comparing the non-negative bi-invariant commutator term $\frac{1}{4}\|[X,Y]\|_{\mathrm{HS}}^2$ (mean $0.220498$) against a subtractive orthogonal-commutator term modeling quotient/horizontal curvature loss (mean projected value $-0.440979$, minimum $-0.958835$). We introduce a deterministic golden-ratio partition ($\varphi^{-1} \approx 0.618034$, $\varphi^{-2} \approx 0.381966$) to structure bounded stabilization margins within the Oasis Sovereign Architecture conditional program. This finite-algebra probe and conditional bound do not establish unconditional continuum existence or a mass gap on $\mathbb{R}^4$ or $\mathcal{S}'(\mathbb{R}^4)$.
 \end{abstract}
 
 \section{Numerical Observation on $\mathfrak{su}(3)$}
@@ -25,9 +25,10 @@ K_{\mathrm{SU}(3)}(X,Y) = \frac{1}{4}\|[X,Y]\|_{\mathrm{HS}}^2 \ge 0.
 \]
 Subtracting the orthogonal commutator contribution $K_{\mathrm{sub}}(X,Y) = \frac{3}{4}\|([X,Y])_\perp\|_{\mathrm{HS}}^2$ yields a negative mean across $2000$ samples ($\bar{K}_{\mathrm{proj}} = -0.440979$, $\min K_{\mathrm{proj}} = -0.958835$).
 
-\section{Conditional Stabilization and Scope Boundary}
+\section{Golden Partition and Conditional Margin Bound}
+Using the golden ratio $\varphi = \frac{1+\sqrt{5}}{2}$, the complementary partitions $\varphi^{-1} \approx 0.618034$ and $\varphi^{-2} \approx 0.381966$ provide a deterministic parameter split for bounded stabilization checks.
 \begin{proposition}[Conditional Bound Propagation]
-Suppose a regulated model satisfies an explicit effective curvature-entropy margin $\kappa_{\mathrm{eff}} > 0$ under a stated entropy/scale bound. Under the formal chain verified in Lean~4.36.0 (\texttt{0 sorry}), a strictly positive spectral gap floor follows conditionally from those stated premises.
+Suppose a regulated model satisfies an explicit effective curvature-entropy margin $\kappa_{\mathrm{eff}} > 0$ under a stated stabilization bound. Under the formal chain verified in Lean~4.36.0 (\texttt{0 sorry}), a strictly positive spectral gap floor follows conditionally from those stated premises.
 \end{proposition}
 
 \begin{remark}[Analytic Scope]
