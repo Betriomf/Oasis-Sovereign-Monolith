@@ -7,7 +7,7 @@
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{remark}[theorem]{Remark}
 
-\title{Negative Sectional Projections in $\mathfrak{su}(3)$ and $L=2^4$ Lattice Probes with Golden-Partitioned Conditional Stabilization}
+\title{Negative Sectional Projections in $\mathfrak{su}(3)$ and $L=2^4, L=3^4$ Lattice Probes with Golden-Partitioned Conditional Stabilization and C99 Wilson Cross-Benchmarks}
 \author{Mariano Panzano Caball\'e \\ Oasis Sovereign Architecture Research, Barcelona}
 \date{November 2026}
 
@@ -15,15 +15,15 @@
 \maketitle
 
 \begin{abstract}
-We report finite-dimensional numerical probes on the Lie algebra $\mathfrak{su}(3)$ ($N=2000$ orthonormalized pairs) and on elementary $L=2^4$ and $L=3^4$ $\mathrm{SU}(3)$ lattices under adjoint link transport ($N_{\mathrm{cfg}}=200$). Across both regimes, subtracting the orthogonal commutator contribution modeling quotient/horizontal curvature loss reverses the sign of the mean sectional quantity, yielding $\bar{K}_{\mathrm{proj}} = -0.440979$ ($\min = -0.958835$) on $\mathfrak{su}(3)$ and $\bar{K}_{\mathrm{proj}} = -0.396026$ ($\min = -0.875473$) on $L=2^4$. We pair these measurements with a deterministic golden-ratio partition ($\varphi^{-1} \approx 0.618034$, $\varphi^{-2} \approx 0.381966$) and a formal Lean~4.36.0 conditional stabilization proof (\texttt{0 sorry}). These finite probes and conditional bounds do not establish unconditional continuum existence or a mass gap on $\mathbb{R}^4$ or $\mathcal{S}'(\mathbb{R}^4)$.
+We report finite-dimensional numerical probes on the Lie algebra $\mathfrak{su}(3)$ ($N=2000$ orthonormalized pairs) and on elementary $L=2^4$ and $L=3^4$ $\mathrm{SU}(3)$ lattices under adjoint link transport ($N_{\mathrm{cfg}}=200$ per lattice size). Across all three regimes, subtracting the orthogonal commutator contribution modeling quotient/horizontal curvature loss reverses the sign of the mean sectional quantity: $\bar{K}_{\mathrm{proj}} = -0.440979$ ($\min = -0.958835$) on pointwise $\mathfrak{su}(3)$, $\bar{K}_{\mathrm{proj}} = -0.396026$ ($\min = -0.875473$) on $L=2^4$, and $\bar{K}_{\mathrm{proj}} = -0.353224$ ($\min = -0.775408$) on $L=3^4$. We pair these measurements with a deterministic golden-ratio partition ($\varphi^{-1} \approx 0.618034$, $\varphi^{-2} \approx 0.381966$), cross-benchmark them against C99 Cabibbo--Marinari Wilson Monte Carlo observables on $L=8^4$ and $L=12^4$ lattices ($\beta \in [5.70, 6.10]$), and provide a formal Lean~4.36.0 conditional stabilization proof (\texttt{0 sorry}). These finite probes and conditional bounds do not establish unconditional continuum existence or a mass gap on $\mathbb{R}^4$ or $\mathcal{S}'(\mathbb{R}^4)$.
 \end{abstract}
 
-\section{Numerical Observations on $\mathfrak{su}(3)$ and $L=2^4$}
+\section{Numerical Observations on $\mathfrak{su}(3)$, $L=2^4$, and $L=3^4$}
 For Hilbert--Schmidt orthonormal generators $X, Y \in \mathfrak{su}(3)$, the intrinsic bi-invariant sectional quantity satisfies
 \[
 K_{\mathrm{int}}(X,Y) = \frac{1}{4}\|[X,Y]\|_{\mathrm{HS}}^2 \ge 0,
 \]
-while subtracting the orthogonal commutator contribution $K_{\mathrm{sub}}(X,Y) = \frac{3}{4}\|([X,Y])_\perp\|_{\mathrm{HS}}^2$ yields $K_{\mathrm{proj}} = K_{\mathrm{int}} - K_{\mathrm{sub}}$. Table~\ref{tab:probes} summarizes both probes.
+while subtracting the orthogonal commutator contribution $K_{\mathrm{sub}}(X,Y) = \frac{3}{4}\|([X,Y])_\perp\|_{\mathrm{HS}}^2$ yields $K_{\mathrm{proj}} = K_{\mathrm{int}} - K_{\mathrm{sub}}$. Table~\ref{tab:probes} summarizes all three regimes.
 
 \begin{table}[h]
 \centering
@@ -43,11 +43,32 @@ Adjoint-transported $L=3^4$ lattice & $200$ & $0.176612$ & $-0.353224$ & $-0.775
 \section{Golden Partition and Conditional Margin Bound}
 Using $\varphi = \frac{1+\sqrt{5}}{2}$, the complementary weights $\varphi^{-1} \approx 0.618034$ and $\varphi^{-2} \approx 0.381966$ define a deterministic parameter split for bounded stabilization checks.
 \begin{proposition}[Conditional Bound Propagation]
-Suppose a regulated model satisfies an explicit effective curvature-entropy margin $\kappa_{\mathrm{eff}} > 0$ under a stated stabilization bound. Under the formal chain verified in Lean~4.36.0 (\texttt{0 sorry}), a strictly positive spectral gap floor follows conditionally from those stated premises.
+Suppose a regulated model satisfies an explicit effective curvature-entropy margin $\kappa_{\mathrm{eff}} > 0$ and a positive effective string tension floor $\chi > 0$ under stated stabilization assumptions. Under the formal chain verified in Lean~4.36.0 (\texttt{0 sorry}), a strictly positive combined floor follows conditionally from those premises.
 \end{proposition}
 
-\begin{remark}[Analytic Scope]
-Pointwise $\mathfrak{su}(3)$ sampling and $L=2^4$ link-transport probes are finite-dimensional and do not compute full infinite-dimensional gauge orbit geometry $\mathcal{A}/\mathcal{G}$ or continuum Osterwalder--Schrader measures on $\mathcal{S}'(\mathbb{R}^4)$. Unconditional existence and mass gap in 4D Yang--Mills remain open.
+\section{Cross-Benchmark with C99 Wilson Monte Carlo ($L=8^4, 12^4$)}
+To test finite-volume scaling under the Wilson plaquette action, C99 Cabibbo--Marinari runs were evaluated across four golden-partitioned couplings $\beta \in \{5.7000, 5.8673, 5.9706, 6.1000\}$ (Table~\ref{tab:wilson}).
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccccc}
+\hline
+Lattice & $\beta$ & $\langle P \rangle$ & $W(2,2)$ & $\chi(2,2)$ \\
+\hline
+$8^4$ & $5.7000$ & $0.57071$ & $0.17223$ & $0.26832$ \\
+$8^4$ & $5.9706$ & $0.59839$ & $0.20471$ & $0.23128$ \\
+$8^4$ & $6.1000$ & $0.61517$ & $0.22503$ & $0.21746$ \\
+$12^4$ & $5.7000$ & $0.57591$ & $0.18188$ & $0.24112$ \\
+$12^4$ & $5.9706$ & $0.60700$ & $0.22074$ & $0.20649$ \\
+$12^4$ & $6.1000$ & $0.61747$ & $0.23308$ & $0.19785$ \\
+\hline
+\end{tabular}
+\caption{Mean plaquette $\langle P \rangle$, $2\times 2$ Wilson loop, and Creutz ratio $\chi(2,2)$.}
+\label{tab:wilson}
+\end{table}
+
+\begin{remark}[Analytic Scope and Open Continuum Barrier]
+At $40\text{--}60$ thermalization/measurement sweeps, direct $0^{++}$ correlator mass ratios exhibit statistical noise (\texttt{NaN}) and require higher statistics and smearing. Furthermore, pointwise $\mathfrak{su}(3)$ sampling, $L=2^4, 3^4$ link-transport probes, and finite-lattice Wilson runs do not establish reflection positivity in the continuum limit $a \to 0, L \to \infty$ or an unconditional mass gap on $\mathbb{R}^4$ or $\mathcal{S}'(\mathbb{R}^4)$.
 \end{remark}
 
 \end{document}

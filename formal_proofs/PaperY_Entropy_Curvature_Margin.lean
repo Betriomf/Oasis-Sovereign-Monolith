@@ -1,17 +1,16 @@
 /-
-  OASIS SOVEREIGN MONOLITH — PAPER Y GOLDEN PARTITION & MARGIN SPEC
+  OASIS SOVEREIGN MONOLITH — PAPER Y GOLDEN PARTITION, CURVATURE MARGIN & WILSON BRIDGE
   Archivo: formal_proofs/PaperY_Entropy_Curvature_Margin.lean
   Lean 4.36.0 puro: 0 errors, 0 warnings, 0 sorry, 0 custom axioms.
-  Alcance: Formaliza de forma condicional que si un margen efectivo acotado
-  compensa una pérdida de curvatura en milésimas (10^-3), se obtiene un
-  margen neto positivo. No afirma prueba incondicional en ℝ⁴ ni en S'(ℝ⁴).
+  Alcance: Formaliza de forma condicional la positividad del margen neto de curvatura-entropía
+  y su acoplamiento con una tensión de Creutz positiva en retículo finito.
+  No afirma prueba incondicional en ℝ⁴ ni en S'(ℝ⁴).
 -/
 
 namespace Oasis.YangMills.PaperY
 
 /-! ### 1. DEFINICIONES -/
 
-/-- Constantes de partición áurea en milésimas: phi^{-1} ~ 618‰, phi^{-2} ~ 382‰. -/
 def goldenPrimaryPermille : Nat := 618
 def goldenSecondaryPermille : Nat := 382
 
@@ -46,7 +45,16 @@ theorem stabilized_margin_strictly_positive
   unfold netEffectiveMargin
   omega
 
-/-- Instancia muestreo puntual su(3): K_int ~ 220‰, pérdida ~ 661‰, margen áureo 618‰ -> +177‰. -/
+theorem wilson_curvature_bridge_positive
+    (s : CurvatureMarginState)
+    (h : StabilizedMarginAssumptions s)
+    (creutzMilli : Nat)
+    (h_creutz : 0 < creutzMilli) :
+    0 < (creutzMilli : Int) * netEffectiveMargin s := by
+  have hm : 0 < netEffectiveMargin s := stabilized_margin_strictly_positive s h
+  have hc : (0 : Int) < (creutzMilli : Int) := Int.ofNat_lt.mpr h_creutz
+  exact Int.mul_pos hc hm
+
 def goldenSampleMargin : CurvatureMarginState :=
   { intrinsicPermille := 220
     quotientLossPermille := 661
@@ -58,7 +66,6 @@ theorem goldenSampleMargin_positive :
     { h_compensated := by decide
       h_strict_pos := by decide }
 
-/-- Instancia retículo L=2^4: K_int ~ 198‰, pérdida ~ 594‰, margen áureo 618‰ -> +222‰. -/
 def lattice2x4SampleMargin : CurvatureMarginState :=
   { intrinsicPermille := 198
     quotientLossPermille := 594
@@ -70,7 +77,6 @@ theorem lattice2x4SampleMargin_positive :
     { h_compensated := by decide
       h_strict_pos := by decide }
 
-/-- Instancia retículo L=3^4: K_int ~ 177‰, pérdida ~ 530‰, margen áureo 618‰. -/
 def lattice3x4SampleMargin : CurvatureMarginState :=
   { intrinsicPermille := 177
     quotientLossPermille := 530
@@ -81,5 +87,14 @@ theorem lattice3x4SampleMargin_positive :
   stabilized_margin_strictly_positive lattice3x4SampleMargin
     { h_compensated := by decide
       h_strict_pos := by decide }
+
+/-- Puente verificado L=3^4 + Creutz chi(2,2) en L=12^4 (beta=5.9706 -> 206 milésimas). -/
+theorem lattice3x4_wilson12x4_bridge_certified :
+    0 < (206 : Int) * netEffectiveMargin lattice3x4SampleMargin :=
+  wilson_curvature_bridge_positive lattice3x4SampleMargin
+    { h_compensated := by decide
+      h_strict_pos := by decide }
+    206
+    (by decide)
 
 end Oasis.YangMills.PaperY

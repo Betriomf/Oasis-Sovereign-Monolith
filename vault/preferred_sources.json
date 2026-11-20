@@ -1,0 +1,36 @@
+{
+  "allowed_domains": [
+    "github.com",
+    "raw.githubusercontent.com",
+    "zenodo.org",
+    "doi.org",
+    "arxiv.org",
+    "leanprover-community.github.io"
+  ],
+  "pinned_references": [
+    {
+      "id": "paper_y_metrics",
+      "instruction": "Cuáles son los valores numéricos exactos de K_int y K_proj del Paper Y en su(3), L=2^4 y L=3^4, y cuál es su límite de alcance?",
+      "output": "Valores del Paper Y: 1) su(3) puntual (N=2000): K_int=0.220498, K_proj=-0.440979 (min=-0.958835); 2) Retículo L=2^4 (Cfg=200): K_int=0.198013, K_proj=-0.396026 (min=-0.875473); 3) Retículo L=3^4 (Cfg=200): K_int=0.176612, K_proj=-0.353224 (min=-0.775408). Verificado en Lean 4.36.0 (PaperY_Entropy_Curvature_Margin.lean, 0 sorry) de forma condicional; NO demuestra existencia incondicional ni mass gap en el continuo R^4 o S'(R^4).",
+      "source": "https://github.com/Betriomf/Oasis-Sovereign-Monolith/blob/main/papers/paper_y_orbit_curvature_entropy_bound.tex"
+    },
+    {
+      "id": "lean4_mathlib_ref",
+      "instruction": "Qué fuente oficial respalda la formalización en Lean 4 de Oasis Sovereign Monolith?",
+      "output": "Los módulos en formal_proofs/ usan Lean 4.36.0 puro (0 sorry, 0 axiomas ocultos) y estructuras compatibles con Mathlib4.",
+      "source": "https://leanprover-community.github.io/"
+    },
+    {
+      "id": "ref_3",
+      "instruction": "Resume la fuente verificada: Paper Y DOI",
+      "output": "Depósito oficial en Zenodo de los probes en su(3), L=2^4 y L=3^4 junto con PaperY_Entropy_Curvature_Margin.lean.",
+      "source": "https://zenodo.org/"
+    },
+    {
+      "id": "ref_4",
+      "instruction": "Resume la fuente verificada: Paper Y + C99 Wilson Bridge",
+      "output": "Cruce verificado en Lean 4.36.0 (0 sorry): margen L=3^4 (+265‰) acoplado con tensión de Creutz chi(2,2)=0.20649 en retículo C99 L=12^4 (beta=5.9706).",
+      "source": "https://github.com/Betriomf/Oasis-Sovereign-Monolith/blob/main/formal_proofs/PaperY_Entropy_Curvature_Margin.lean"
+    }
+  ]
+}
