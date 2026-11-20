@@ -46,6 +46,7 @@ theorem stabilized_margin_strictly_positive
   unfold netEffectiveMargin
   omega
 
+/-- Instancia muestreo puntual su(3): K_int ~ 220‰, pérdida ~ 661‰, margen áureo 618‰ -> +177‰. -/
 def goldenSampleMargin : CurvatureMarginState :=
   { intrinsicPermille := 220
     quotientLossPermille := 661
@@ -54,6 +55,18 @@ def goldenSampleMargin : CurvatureMarginState :=
 theorem goldenSampleMargin_positive :
     0 < netEffectiveMargin goldenSampleMargin :=
   stabilized_margin_strictly_positive goldenSampleMargin
+    { h_compensated := by decide
+      h_strict_pos := by decide }
+
+/-- Instancia retículo L=2^4: K_int ~ 198‰, pérdida ~ 594‰, margen áureo 618‰ -> +222‰. -/
+def lattice2x4SampleMargin : CurvatureMarginState :=
+  { intrinsicPermille := 198
+    quotientLossPermille := 594
+    entropyMarginPermille := goldenPrimaryPermille }
+
+theorem lattice2x4SampleMargin_positive :
+    0 < netEffectiveMargin lattice2x4SampleMargin :=
+  stabilized_margin_strictly_positive lattice2x4SampleMargin
     { h_compensated := by decide
       h_strict_pos := by decide }
 
