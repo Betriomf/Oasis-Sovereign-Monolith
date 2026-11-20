@@ -68,3 +68,7 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 | **Paper T (Global Scheme Closure)** | [`10.5281/zenodo.24380544`](https://doi.org/10.5281/zenodo.24380544) | Calibrated lattice bounds, telescopic step control & non-Gaussian separation in Lean 4.36.0 | `papers/paper_t_global_scheme_closure.tex` |
 
 | **Paper U (Blocks A–D Architecture)** | [`10.5281/zenodo.24381240`](https://doi.org/10.5281/zenodo.24381240) | Formal specification architecture across Blocks A–D in Lean 4.36.0 (0 sorry) | `papers/paper_u_blocks_abcd_formal_architecture.tex` |
+
+- **Paper V Bridge (`Subphase6_Poincare_MassGap_Bridge.lean` + `paper_v_poincare_massgap_bridge.tex`):** SHA-256 `067c494cfa84bafc0c3ea969db0cf54aa7e7d7265f8f7dfb32dc53dbf47768bd,9b894c28b6aa155c813e2452186067d212f46d29edc81f30e48a7f696b7e453d,ab770219b4a337955124624c2395f9cf626864dc87bd021ea6283edc94ba2432`
+
+| **Paper V (Poincaré–MassGap Bridge)** | [`10.5281/zenodo.24383187`](https://doi.org/10.5281/zenodo.24383187) | Conditional spectral-gap reduction and subphase synthesis bridge in Lean 4.36.0 (0 sorry) | `papers/paper_v_poincare_massgap_bridge.tex` |

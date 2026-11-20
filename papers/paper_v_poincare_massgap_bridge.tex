@@ -1,0 +1,36 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\title{\textbf{Conditional Spectral-Gap Reduction and Subphase Synthesis Bridge for Yang--Mills Bound Consistency in Lean 4}}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona, Spain \\ \small Repository: \url{https://github.com/Betriomf/Oasis-Sovereign-Monolith}}
+\date{November 20, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present the verified integration in pure Lean~4.36.0 (\texttt{0 errors, 0 warnings, 0 sorry, 0 custom axioms}) linking gauge-quotient specification, smoothing bounds, tightness bounds, spectral-gap and non-Gaussian cumulant separation, and conditional spectral-gap-to-decay reduction (\texttt{Subphase1\_GaugeQuotient\_Spec.lean} through \texttt{Subphase6\_Poincare\_MassGap\_Bridge.lean} and \texttt{poincare\_to\_massgap.lean}). All analytical assumptions are stated explicitly; this work certifies deductive bound consistency and does not claim an unconditional analytic proof of continuum existence or mass gap in $\mathbb{R}^4$.
+\end{abstract}
+
+\section{Verified Lean 4 Modules}
+\begin{itemize}
+  \item \texttt{formal\_proofs/Subphase1\_GaugeQuotient\_Spec.lean}
+  \item \texttt{formal\_proofs/Subphase2\_HeatFlow\_Smoothing\_Spec.lean}
+  \item \texttt{formal\_proofs/Subphase3\_Compactness\_Tightness\_Spec.lean}
+  \item \texttt{formal\_proofs/Subphase4\_SpectralGap\_Nontriviality\_Spec.lean}
+  \item \texttt{formal\_proofs/Subphase5\_Global\_Synthesis\_Spec.lean}
+  \item \texttt{formal\_proofs/Subphase6\_AnalyticProkhorov\_Unconditional.lean}
+  \item \texttt{formal\_proofs/poincare\_to\_massgap.lean}
+  \item \texttt{formal\_proofs/Subphase6\_Poincare\_MassGap\_Bridge.lean}
+\end{itemize}
+
+\section{Scope Boundary and Future Analytic Work}
+Unconditional construction of the continuum Yang--Mills measure on $\mathcal{S}'(\mathbb{R}^4)$ and analytic proof of a uniform Poincar\'e / spectral gap lower bound remain open problems outside the scope of these Lean~4 specifications.
+
+\section{AI-Assisted Formalization Disclosure}
+Interactive AI assistants were used to draft Lean~4 proof scripts and LaTeX text under human supervision.
+
+\end{document}
