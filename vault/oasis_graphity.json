@@ -1,0 +1,661 @@
+{
+  "nodes": {
+    "paper_a_pilar378_lincos_lean4": {
+      "id": "paper_a_pilar378_lincos_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Decadic Enstrophy Attractor ($\\kappa = \\ln 10$), LINCOS Symbolic Compression, and Lean 4 Formal Certification for Sub-Landauer Hydrodynamic Computing",
+      "ref": "papers/paper_a_pilar378_lincos_lean4.tex"
+    },
+    "paper_a_pilar378_lincos_lean4_zenodo_clean": {
+      "id": "paper_a_pilar378_lincos_lean4_zenodo_clean",
+      "type": "paper",
+      "summary": "\\textbf{Decadic Enstrophy Attractor ($\\kappa = \\ln 10$), LINCOS Symbolic Compression, and Lean 4 Formal Certification for Sub-Landauer Hydrodynamic Computing",
+      "ref": "papers/paper_a_pilar378_lincos_lean4_zenodo_clean.tex"
+    },
+    "paper_b_millennium_regularity": {
+      "id": "paper_b_millennium_regularity",
+      "type": "paper",
+      "summary": "\\textbf{A Fisher--Rao Regularity Criterion for the 3D Incompressible Navier--Stokes Equations on the Dyadic Energy Simplex",
+      "ref": "papers/paper_b_millennium_regularity.tex"
+    },
+    "paper_b_yang_mills_spectral_bounds": {
+      "id": "paper_b_yang_mills_spectral_bounds",
+      "type": "paper",
+      "summary": "\\textbf{Machine-Checked Effective Spectral Gap Bounds in Discretized $SU(N)$ Yang--Mills Theory via Crouzeix Operator Inequalities and Lean 4",
+      "ref": "papers/paper_b_yang_mills_spectral_bounds.tex"
+    },
+    "paper_b_yang_mills_spectral_bounds_zenodo_clean": {
+      "id": "paper_b_yang_mills_spectral_bounds_zenodo_clean",
+      "type": "paper",
+      "summary": "\\textbf{Machine-Checked Effective Spectral Gap Bounds in Discretized $SU(N)$ Yang--Mills Theory via Crouzeix Operator Inequalities and Lean 4",
+      "ref": "papers/paper_b_yang_mills_spectral_bounds_zenodo_clean.tex"
+    },
+    "paper_c_araki_entropy_mqm_lean4": {
+      "id": "paper_c_araki_entropy_mqm_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Araki Relative Entropy Monotonicity and Variational Matrix Compression in Machine-Checked Cold-Silicon Gauge Verification",
+      "ref": "papers/paper_c_araki_entropy_mqm_lean4.tex"
+    },
+    "paper_d_quantum_os_ring3_lean4": {
+      "id": "paper_d_quantum_os_ring3_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Oasis Sovereign Q-OS: A Formally Verified Ring-3 Adiabatic Microkernel, Irrational $\\pi/\\phi$ Pulse Scheduler, and 21-Byte LINCOS Control Plane for Hybrid Quantum-Classical Computing",
+      "ref": "papers/paper_d_quantum_os_ring3_lean4.tex"
+    },
+    "paper_e_pilar86_leech_qpu_os_lean4": {
+      "id": "paper_e_pilar86_leech_qpu_os_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Pilar 86 Quantum Kernel Architecture and $\\phi$-Aware Distributed Operating System: Leech Lattice ($\\Lambda_{24",
+      "ref": "papers/paper_e_pilar86_leech_qpu_os_lean4.tex"
+    },
+    "paper_f_personal_desktop_cold_silicon_lean4": {
+      "id": "paper_f_personal_desktop_cold_silicon_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Cold-Silicon Personal Desktop Architecture: Zero-Swap Local AI Pooling, Bounded Context Pruning, and Ring-3 Isolation on Memory-Constrained Consumer Laptops",
+      "ref": "papers/paper_f_personal_desktop_cold_silicon_lean4.tex"
+    },
+    "paper_g_araki_spectral_gap_bridge_lean4": {
+      "id": "paper_g_araki_spectral_gap_bridge_lean4",
+      "type": "paper",
+      "summary": "\\textbf{From Araki Relative Entropy Contraction to Vacuum Spectral Gap Isolation: A Machine-Checked Lean 4 Proof Pipeline and C99 Lattice Verification",
+      "ref": "papers/paper_g_araki_spectral_gap_bridge_lean4.tex"
+    },
+    "paper_h_continuum_limit_osterwalder_schrader_lean4": {
+      "id": "paper_h_continuum_limit_osterwalder_schrader_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Continuum Limit Stability and Osterwalder-Schrader Spectral Gap Preservation under Uniform Araki-Renormalization Scaling: A Machine-Checked Lean 4 Framework",
+      "ref": "papers/paper_h_continuum_limit_osterwalder_schrader_lean4.tex"
+    },
+    "paper_i_araki_log_sobolev_rg_unification_lean4": {
+      "id": "paper_i_araki_log_sobolev_rg_unification_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Log-Sobolev Dissipation Dominance and Ultraviolet Large-Field Suppression in Machine-Checked Lattice Renormalization: Unifying the Araki-Spectral Gap Architecture",
+      "ref": "papers/paper_i_araki_log_sobolev_rg_unification_lean4.tex"
+    },
+    "paper_j_su3_yang_mills_mass_gap_master_lean4": {
+      "id": "paper_j_su3_yang_mills_mass_gap_master_lean4",
+      "type": "paper",
+      "summary": "\\textbf{SU(3) Yang-Mills Spectral Gap Isolation, Balaban Block-Spin Stability, and Continuum Limit Preservation: Complete Machine-Checked Lean 4 Proof Architecture",
+      "ref": "papers/paper_j_su3_yang_mills_mass_gap_master_lean4.tex"
+    },
+    "paper_k_balaban_unconditional_wightman_su3_lean4": {
+      "id": "paper_k_balaban_unconditional_wightman_su3_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Building on Tadeusz Balaban's Renormalization Group Program: Machine-Checked Ultraviolet Polymer Error Suppression, Araki Continuum Cauchy Convergence, and Wightman Spectral Gap Verification for 4D SU(3) Yang-Mills",
+      "ref": "papers/paper_k_balaban_unconditional_wightman_su3_lean4.tex"
+    },
+    "paper_l_infrared_strong_coupling_wilson_area_lean4": {
+      "id": "paper_l_infrared_strong_coupling_wilson_area_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Infrared Strong-Coupling Cluster Convergence, Wilson Area Law Glueball Mass Bounds, and Dual-Regime Synthesis for 4D SU(3) Yang-Mills in Lean 4",
+      "ref": "papers/paper_l_infrared_strong_coupling_wilson_area_lean4.tex"
+    },
+    "paper_m_su3_unconditional_bridge_crossover_os_lean4": {
+      "id": "paper_m_su3_unconditional_bridge_crossover_os_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Constructive Ricci--Bakry--\\'Emery Log-Sobolev Bounds, Dobrushin--Shlosman $\\mathbb{Z",
+      "ref": "papers/paper_m_su3_unconditional_bridge_crossover_os_lean4.tex"
+    },
+    "paper_n_su3_constructive_cylinder_mass_gap_lean4": {
+      "id": "paper_n_su3_constructive_cylinder_mass_gap_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Constructive Dyadic Cylinder Architecture, Derived Log-Sobolev Dissipation, and Osterwalder--Schrader Mass Gap for 4D $SU(3)$ Yang--Mills Theory Verified in Lean 4",
+      "ref": "papers/paper_n_su3_constructive_cylinder_mass_gap_lean4.tex"
+    },
+    "paper_o_information_thermodynamics_ricci_landauer_lean4": {
+      "id": "paper_o_information_thermodynamics_ricci_landauer_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Information Thermodynamics on Curved Gauge Manifolds: Deriving the Four Laws, Golden-Ratio Sub-Landauer Bounds ($k_B T \\ln \\phi$), and Spectral Mass-Gap Freezing in Lean 4",
+      "ref": "papers/paper_o_information_thermodynamics_ricci_landauer_lean4.tex"
+    },
+    "paper_p_bochner_minlos_sobolev_continuum_lean4": {
+      "id": "paper_p_bochner_minlos_sobolev_continuum_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Bochner--Minlos Nuclear Extension, Negative-Sobolev Prokhorov Tightness, $SO(4)$ Restoration, Vacuum Non-Triviality, and Uniqueness for 4D $SU(3)$ Yang--Mills on $\\mathcal{S",
+      "ref": "papers/paper_p_bochner_minlos_sobolev_continuum_lean4.tex"
+    },
+    "paper_q_mathlib4_constructive_su3_wilson_measure": {
+      "id": "paper_q_mathlib4_constructive_su3_wilson_measure",
+      "type": "paper",
+      "summary": "\\textbf{First-Principles Construction of 4D $SU(3)$ Lattice Wilson Measures, Exact Gauge Invariance, Osterwalder--Schrader Positivity, and Bochner--Minlos Continuum Bridge in Lean 4 / Mathlib4",
+      "ref": "papers/paper_q_mathlib4_constructive_su3_wilson_measure.tex"
+    },
+    "paper_r_entropic_quantum_os_golden_thermostat_lean4": {
+      "id": "paper_r_entropic_quantum_os_golden_thermostat_lean4",
+      "type": "paper",
+      "summary": "\\textbf{Entropic Quantum Operating Systems: Golden-Ratio Thermostat Governance, Zero-Noise Extrapolation at $\\pi/\\phi$ Cadence, and Sub-Landauer Bell-State Stabilization Verified in Lean 4",
+      "ref": "papers/paper_r_entropic_quantum_os_golden_thermostat_lean4.tex"
+    },
+    "paper_s_mathlib4_continuum_limit_pinsker_kl": {
+      "id": "paper_s_mathlib4_continuum_limit_pinsker_kl",
+      "type": "paper",
+      "summary": "\\textbf{Dyadic Renormalization Contraction, Kullback--Leibler / Pinsker Bounds, and Continuum Characteristic Limits in Lean 4 / Mathlib4",
+      "ref": "papers/paper_s_mathlib4_continuum_limit_pinsker_kl.tex"
+    },
+    "paper_t_global_scheme_closure": {
+      "id": "paper_t_global_scheme_closure",
+      "type": "paper",
+      "summary": "\\textbf{Global Scheme Closure for Calibrated Lattice Bounds, Telescopic Step Control, and Non-Gaussian Separation in Lean 4",
+      "ref": "papers/paper_t_global_scheme_closure.tex"
+    },
+    "paper_u_blocks_abcd_formal_architecture": {
+      "id": "paper_u_blocks_abcd_formal_architecture",
+      "type": "paper",
+      "summary": "\\textbf{Formal Specification Architecture Across Blocks A--D for Yang--Mills Bound Consistency in Lean 4",
+      "ref": "papers/paper_u_blocks_abcd_formal_architecture.tex"
+    },
+    "paper_v_poincare_massgap_bridge": {
+      "id": "paper_v_poincare_massgap_bridge",
+      "type": "paper",
+      "summary": "\\textbf{Conditional Spectral-Gap Reduction and Subphase Synthesis Bridge for Yang--Mills Bound Consistency in Lean 4",
+      "ref": "papers/paper_v_poincare_massgap_bridge.tex"
+    },
+    "paper_w_bakry_emery_poincare_bridge": {
+      "id": "paper_w_bakry_emery_poincare_bridge",
+      "type": "paper",
+      "summary": "\\textbf{Conditional Bakry--\\'Emery Curvature Propagation to Poincar\\'e and Spectral-Gap Bounds in Lean 4",
+      "ref": "papers/paper_w_bakry_emery_poincare_bridge.tex"
+    },
+    "paper_x_uniform_curvature_continuum_reduction": {
+      "id": "paper_x_uniform_curvature_continuum_reduction",
+      "type": "paper",
+      "summary": "\\textbf{Conditional Reduction of Four-Dimensional Yang--Mills Mass-Gap Bounds to Uniform Information-Curvature Persistence",
+      "ref": "papers/paper_x_uniform_curvature_continuum_reduction.tex"
+    },
+    "paper_y_orbit_curvature_entropy_bound": {
+      "id": "paper_y_orbit_curvature_entropy_bound",
+      "type": "paper",
+      "summary": "Negative Sectional Projections in $\\mathfrak{su",
+      "ref": "papers/paper_y_orbit_curvature_entropy_bound.tex"
+    },
+    "paper_z_sovereign_synthesis": {
+      "id": "paper_z_sovereign_synthesis",
+      "type": "paper",
+      "summary": "Paper Z: Discrete Ricci--Entropic Evolution Operator, Multi-Scale Stabilization in $\\mathrm{SU",
+      "ref": "papers/paper_z_sovereign_synthesis.tex"
+    },
+    "ArakiContraction": {
+      "id": "ArakiContraction",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 ArakiContraction",
+      "ref": "formal_proofs/ArakiContraction.lean"
+    },
+    "ArakiPinskerCorrelations_Fase3": {
+      "id": "ArakiPinskerCorrelations_Fase3",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 ArakiPinskerCorrelations_Fase3",
+      "ref": "formal_proofs/ArakiPinskerCorrelations_Fase3.lean"
+    },
+    "ArakiRelativeEntropy_Fase9": {
+      "id": "ArakiRelativeEntropy_Fase9",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 ArakiRelativeEntropy_Fase9",
+      "ref": "formal_proofs/ArakiRelativeEntropy_Fase9.lean"
+    },
+    "BakryEmery_Poincare_Bridge": {
+      "id": "BakryEmery_Poincare_Bridge",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 BakryEmery_Poincare_Bridge",
+      "ref": "formal_proofs/BakryEmery_Poincare_Bridge.lean"
+    },
+    "BalabanBlocking": {
+      "id": "BalabanBlocking",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 BalabanBlocking",
+      "ref": "formal_proofs/BalabanBlocking.lean"
+    },
+    "Balaban_ErrorAccumulation": {
+      "id": "Balaban_ErrorAccumulation",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Balaban_ErrorAccumulation",
+      "ref": "formal_proofs/Balaban_ErrorAccumulation.lean"
+    },
+    "BlockA_MathematicalFramework_R4": {
+      "id": "BlockA_MathematicalFramework_R4",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 BlockA_MathematicalFramework_R4",
+      "ref": "formal_proofs/BlockA_MathematicalFramework_R4.lean"
+    },
+    "BlockB_UniformVolumeCutoff_R4": {
+      "id": "BlockB_UniformVolumeCutoff_R4",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 BlockB_UniformVolumeCutoff_R4",
+      "ref": "formal_proofs/BlockB_UniformVolumeCutoff_R4.lean"
+    },
+    "BlockC_ContinuumLimit_OS_R4": {
+      "id": "BlockC_ContinuumLimit_OS_R4",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 BlockC_ContinuumLimit_OS_R4",
+      "ref": "formal_proofs/BlockC_ContinuumLimit_OS_R4.lean"
+    },
+    "BlockD_SpectralGap_Nontriviality_R4": {
+      "id": "BlockD_SpectralGap_Nontriviality_R4",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 BlockD_SpectralGap_Nontriviality_R4",
+      "ref": "formal_proofs/BlockD_SpectralGap_Nontriviality_R4.lean"
+    },
+    "ConstructiveMeasure_LogSobolev": {
+      "id": "ConstructiveMeasure_LogSobolev",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 ConstructiveMeasure_LogSobolev",
+      "ref": "formal_proofs/ConstructiveMeasure_LogSobolev.lean"
+    },
+    "ContinuumLimit_OsterwalderSchrader_Fase5": {
+      "id": "ContinuumLimit_OsterwalderSchrader_Fase5",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 ContinuumLimit_OsterwalderSchrader_Fase5",
+      "ref": "formal_proofs/ContinuumLimit_OsterwalderSchrader_Fase5.lean"
+    },
+    "ContinuumLimit_Unconditional": {
+      "id": "ContinuumLimit_Unconditional",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 ContinuumLimit_Unconditional",
+      "ref": "formal_proofs/ContinuumLimit_Unconditional.lean"
+    },
+    "CrossoverNoPhaseTransition": {
+      "id": "CrossoverNoPhaseTransition",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 CrossoverNoPhaseTransition",
+      "ref": "formal_proofs/CrossoverNoPhaseTransition.lean"
+    },
+    "Empirical_Creutz_Bound_Spec": {
+      "id": "Empirical_Creutz_Bound_Spec",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Empirical_Creutz_Bound_Spec",
+      "ref": "formal_proofs/Empirical_Creutz_Bound_Spec.lean"
+    },
+    "GlobalScheme_Closure": {
+      "id": "GlobalScheme_Closure",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 GlobalScheme_Closure",
+      "ref": "formal_proofs/GlobalScheme_Closure.lean"
+    },
+    "InformationThermodynamics_RicciLandauer": {
+      "id": "InformationThermodynamics_RicciLandauer",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 InformationThermodynamics_RicciLandauer",
+      "ref": "formal_proofs/InformationThermodynamics_RicciLandauer.lean"
+    },
+    "InfraredClusterExpansion": {
+      "id": "InfraredClusterExpansion",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 InfraredClusterExpansion",
+      "ref": "formal_proofs/InfraredClusterExpansion.lean"
+    },
+    "LogSobolev_Ansatz_Fase2": {
+      "id": "LogSobolev_Ansatz_Fase2",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 LogSobolev_Ansatz_Fase2",
+      "ref": "formal_proofs/LogSobolev_Ansatz_Fase2.lean"
+    },
+    "LogSobolev_Theorem_Fase4": {
+      "id": "LogSobolev_Theorem_Fase4",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 LogSobolev_Theorem_Fase4",
+      "ref": "formal_proofs/LogSobolev_Theorem_Fase4.lean"
+    },
+    "NonTrivialityGap_Fase4": {
+      "id": "NonTrivialityGap_Fase4",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 NonTrivialityGap_Fase4",
+      "ref": "formal_proofs/NonTrivialityGap_Fase4.lean"
+    },
+    "OsterwalderSchrader_ContinuumReconstruction": {
+      "id": "OsterwalderSchrader_ContinuumReconstruction",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 OsterwalderSchrader_ContinuumReconstruction",
+      "ref": "formal_proofs/OsterwalderSchrader_ContinuumReconstruction.lean"
+    },
+    "PaperX_UniformCurvature_ContinuumBridge": {
+      "id": "PaperX_UniformCurvature_ContinuumBridge",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 PaperX_UniformCurvature_ContinuumBridge",
+      "ref": "formal_proofs/PaperX_UniformCurvature_ContinuumBridge.lean"
+    },
+    "PaperY_Entropy_Curvature_Margin": {
+      "id": "PaperY_Entropy_Curvature_Margin",
+      "type": "lean4",
+      "summary": "Alcance: Formaliza de forma condicional la positividad del margen neto de curvatura-entropía",
+      "ref": "formal_proofs/PaperY_Entropy_Curvature_Margin.lean"
+    },
+    "PaperZ_Sovereign_Synthesis": {
+      "id": "PaperZ_Sovereign_Synthesis",
+      "type": "lean4",
+      "summary": "Alcance: Formaliza por inducción discreta que, bajo hipótesis explícitas de compensación",
+      "ref": "formal_proofs/PaperZ_Sovereign_Synthesis.lean"
+    },
+    "PersonalDesktop_ColdSilicon_Fase12": {
+      "id": "PersonalDesktop_ColdSilicon_Fase12",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 PersonalDesktop_ColdSilicon_Fase12",
+      "ref": "formal_proofs/PersonalDesktop_ColdSilicon_Fase12.lean"
+    },
+    "Pilar86_LeechQPU_QuantumOS_Fase11": {
+      "id": "Pilar86_LeechQPU_QuantumOS_Fase11",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Pilar86_LeechQPU_QuantumOS_Fase11",
+      "ref": "formal_proofs/Pilar86_LeechQPU_QuantumOS_Fase11.lean"
+    },
+    "QuantumOS_ControlPlane_Fase10": {
+      "id": "QuantumOS_ControlPlane_Fase10",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 QuantumOS_ControlPlane_Fase10",
+      "ref": "formal_proofs/QuantumOS_ControlPlane_Fase10.lean"
+    },
+    "QuantumOS_EntropicGovernance_Fase13": {
+      "id": "QuantumOS_EntropicGovernance_Fase13",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 QuantumOS_EntropicGovernance_Fase13",
+      "ref": "formal_proofs/QuantumOS_EntropicGovernance_Fase13.lean"
+    },
+    "QuantumOS_NavierStokes_ThermostatBridge": {
+      "id": "QuantumOS_NavierStokes_ThermostatBridge",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 QuantumOS_NavierStokes_ThermostatBridge",
+      "ref": "formal_proofs/QuantumOS_NavierStokes_ThermostatBridge.lean"
+    },
+    "RG_LargeFieldSuppression_Fase4": {
+      "id": "RG_LargeFieldSuppression_Fase4",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 RG_LargeFieldSuppression_Fase4",
+      "ref": "formal_proofs/RG_LargeFieldSuppression_Fase4.lean"
+    },
+    "SU3_LogSobolev": {
+      "id": "SU3_LogSobolev",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 SU3_LogSobolev",
+      "ref": "formal_proofs/SU3_LogSobolev.lean"
+    },
+    "SU3_YangMills_Unconditional_Bridge": {
+      "id": "SU3_YangMills_Unconditional_Bridge",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 SU3_YangMills_Unconditional_Bridge",
+      "ref": "formal_proofs/SU3_YangMills_Unconditional_Bridge.lean"
+    },
+    "SpectralGap_From_Entropy": {
+      "id": "SpectralGap_From_Entropy",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 SpectralGap_From_Entropy",
+      "ref": "formal_proofs/SpectralGap_From_Entropy.lean"
+    },
+    "Subphase1_GaugeQuotient_Spec": {
+      "id": "Subphase1_GaugeQuotient_Spec",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Subphase1_GaugeQuotient_Spec",
+      "ref": "formal_proofs/Subphase1_GaugeQuotient_Spec.lean"
+    },
+    "Subphase2_HeatFlow_Smoothing_Spec": {
+      "id": "Subphase2_HeatFlow_Smoothing_Spec",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Subphase2_HeatFlow_Smoothing_Spec",
+      "ref": "formal_proofs/Subphase2_HeatFlow_Smoothing_Spec.lean"
+    },
+    "Subphase3_Compactness_Tightness_Spec": {
+      "id": "Subphase3_Compactness_Tightness_Spec",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Subphase3_Compactness_Tightness_Spec",
+      "ref": "formal_proofs/Subphase3_Compactness_Tightness_Spec.lean"
+    },
+    "Subphase4_SpectralGap_Nontriviality_Spec": {
+      "id": "Subphase4_SpectralGap_Nontriviality_Spec",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Subphase4_SpectralGap_Nontriviality_Spec",
+      "ref": "formal_proofs/Subphase4_SpectralGap_Nontriviality_Spec.lean"
+    },
+    "Subphase5_Global_Synthesis_Spec": {
+      "id": "Subphase5_Global_Synthesis_Spec",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Subphase5_Global_Synthesis_Spec",
+      "ref": "formal_proofs/Subphase5_Global_Synthesis_Spec.lean"
+    },
+    "Subphase6_AnalyticProkhorov_Unconditional": {
+      "id": "Subphase6_AnalyticProkhorov_Unconditional",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Subphase6_AnalyticProkhorov_Unconditional",
+      "ref": "formal_proofs/Subphase6_AnalyticProkhorov_Unconditional.lean"
+    },
+    "Subphase6_Poincare_MassGap_Bridge": {
+      "id": "Subphase6_Poincare_MassGap_Bridge",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 Subphase6_Poincare_MassGap_Bridge",
+      "ref": "formal_proofs/Subphase6_Poincare_MassGap_Bridge.lean"
+    },
+    "TightnessMomentBounds_Fase3": {
+      "id": "TightnessMomentBounds_Fase3",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 TightnessMomentBounds_Fase3",
+      "ref": "formal_proofs/TightnessMomentBounds_Fase3.lean"
+    },
+    "UniformLatticeBounds_Fase1": {
+      "id": "UniformLatticeBounds_Fase1",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 UniformLatticeBounds_Fase1",
+      "ref": "formal_proofs/UniformLatticeBounds_Fase1.lean"
+    },
+    "WightmanAxioms_Verified": {
+      "id": "WightmanAxioms_Verified",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 WightmanAxioms_Verified",
+      "ref": "formal_proofs/WightmanAxioms_Verified.lean"
+    },
+    "WilsonAreaToMassGap": {
+      "id": "WilsonAreaToMassGap",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 WilsonAreaToMassGap",
+      "ref": "formal_proofs/WilsonAreaToMassGap.lean"
+    },
+    "YangMills_MassGap_Unconditional": {
+      "id": "YangMills_MassGap_Unconditional",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 YangMills_MassGap_Unconditional",
+      "ref": "formal_proofs/YangMills_MassGap_Unconditional.lean"
+    },
+    "YangMills_Millennium_Solution": {
+      "id": "YangMills_Millennium_Solution",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 YangMills_Millennium_Solution",
+      "ref": "formal_proofs/YangMills_Millennium_Solution.lean"
+    },
+    "YangMills_OsterwalderSchrader_Fase5": {
+      "id": "YangMills_OsterwalderSchrader_Fase5",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 YangMills_OsterwalderSchrader_Fase5",
+      "ref": "formal_proofs/YangMills_OsterwalderSchrader_Fase5.lean"
+    },
+    "YangMills_Wilson_FisherRao": {
+      "id": "YangMills_Wilson_FisherRao",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 YangMills_Wilson_FisherRao",
+      "ref": "formal_proofs/YangMills_Wilson_FisherRao.lean"
+    },
+    "poincare_to_massgap": {
+      "id": "poincare_to_massgap",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 poincare_to_massgap",
+      "ref": "formal_proofs/poincare_to_massgap.lean"
+    },
+    "tightness_telescopiccauchy_fase3": {
+      "id": "tightness_telescopiccauchy_fase3",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 tightness_telescopiccauchy_fase3",
+      "ref": "formal_proofs/tightness_telescopiccauchy_fase3.lean"
+    },
+    "pilar_389": {
+      "id": "pilar_389",
+      "type": "pilar",
+      "summary": "Puente Curvatura-Entropía su(3)/retículos y tensión Creutz Wilson (Paper Y + Paper Z, Lean 4.36.0, 0 sorry).",
+      "ref": "vault/VERDAD_OASIS.md"
+    },
+    "c99_evolution": {
+      "id": "c99_evolution",
+      "type": "benchmark",
+      "summary": "L=2^4: K_eff -0.409235 -> +0.405826 (t=10); L=3^4: K_eff -0.382315 -> +0.413178 (t=10, <P>=0.47873).",
+      "ref": "tools/oasis_evolution_operator.c"
+    },
+    "01_riona_sentinel": {
+      "id": "01_riona_sentinel",
+      "type": "module",
+      "summary": "Módulo soberano 01_riona_sentinel.py",
+      "ref": "sovereign_catalog/01_riona_sentinel.py"
+    },
+    "02_qr_gossip": {
+      "id": "02_qr_gossip",
+      "type": "module",
+      "summary": "Módulo soberano 02_qr_gossip.py",
+      "ref": "sovereign_catalog/02_qr_gossip.py"
+    },
+    "03_webgpu_play": {
+      "id": "03_webgpu_play",
+      "type": "module",
+      "summary": "Módulo soberano 03_webgpu_play.py",
+      "ref": "sovereign_catalog/03_webgpu_play.py"
+    },
+    "04_sovereign_sheets": {
+      "id": "04_sovereign_sheets",
+      "type": "module",
+      "summary": "Módulo soberano 04_sovereign_sheets.py",
+      "ref": "sovereign_catalog/04_sovereign_sheets.py"
+    },
+    "05_modules_registry": {
+      "id": "05_modules_registry",
+      "type": "module",
+      "summary": "Módulo soberano 05_modules_registry.py",
+      "ref": "sovereign_catalog/05_modules_registry.py"
+    },
+    "06_fiscal_local": {
+      "id": "06_fiscal_local",
+      "type": "module",
+      "summary": "Módulo soberano 06_fiscal_local.py",
+      "ref": "sovereign_catalog/06_fiscal_local.py"
+    },
+    "07_verify_bin_uma": {
+      "id": "07_verify_bin_uma",
+      "type": "module",
+      "summary": "Módulo soberano 07_verify_bin_uma.py",
+      "ref": "sovereign_catalog/07_verify_bin_uma.py"
+    },
+    "08_ai_vault_oracle": {
+      "id": "08_ai_vault_oracle",
+      "type": "module",
+      "summary": "Módulo soberano 08_ai_vault_oracle.py",
+      "ref": "sovereign_catalog/08_ai_vault_oracle.py"
+    },
+    "09_cloud_always_on": {
+      "id": "09_cloud_always_on",
+      "type": "module",
+      "summary": "Módulo soberano 09_cloud_always_on.py",
+      "ref": "sovereign_catalog/09_cloud_always_on.py"
+    },
+    "10_sovereign_nod_flow": {
+      "id": "10_sovereign_nod_flow",
+      "type": "module",
+      "summary": "Módulo soberano 10_sovereign_nod_flow.py",
+      "ref": "sovereign_catalog/10_sovereign_nod_flow.py"
+    },
+    "11_edge0_1458": {
+      "id": "11_edge0_1458",
+      "type": "module",
+      "summary": "Módulo soberano 11_edge0_1458.py",
+      "ref": "sovereign_catalog/11_edge0_1458.py"
+    },
+    "12_smolmaxxing_pool": {
+      "id": "12_smolmaxxing_pool",
+      "type": "module",
+      "summary": "Módulo soberano 12_smolmaxxing_pool.py",
+      "ref": "sovereign_catalog/12_smolmaxxing_pool.py"
+    },
+    "13_yang_mills_research": {
+      "id": "13_yang_mills_research",
+      "type": "module",
+      "summary": "Módulo soberano 13_yang_mills_research.py",
+      "ref": "sovereign_catalog/13_yang_mills_research.py"
+    },
+    "14_ym_devils_advocate": {
+      "id": "14_ym_devils_advocate",
+      "type": "module",
+      "summary": "Módulo soberano 14_ym_devils_advocate.py",
+      "ref": "sovereign_catalog/14_ym_devils_advocate.py"
+    },
+    "15_ym_wilson_fisher_rao": {
+      "id": "15_ym_wilson_fisher_rao",
+      "type": "module",
+      "summary": "Módulo soberano 15_ym_wilson_fisher_rao.py",
+      "ref": "sovereign_catalog/15_ym_wilson_fisher_rao.py"
+    },
+    "16_ym_monte_carlo_c99": {
+      "id": "16_ym_monte_carlo_c99",
+      "type": "module",
+      "summary": "Módulo soberano 16_ym_monte_carlo_c99.py",
+      "ref": "sovereign_catalog/16_ym_monte_carlo_c99.py"
+    },
+    "17_ym_fase3_5_os_verifier": {
+      "id": "17_ym_fase3_5_os_verifier",
+      "type": "module",
+      "summary": "Módulo soberano 17_ym_fase3_5_os_verifier.py",
+      "ref": "sovereign_catalog/17_ym_fase3_5_os_verifier.py"
+    },
+    "18_ym_notary_verify": {
+      "id": "18_ym_notary_verify",
+      "type": "module",
+      "summary": "Módulo soberano 18_ym_notary_verify.py",
+      "ref": "sovereign_catalog/18_ym_notary_verify.py"
+    },
+    "19_web_forensic_auditor": {
+      "id": "19_web_forensic_auditor",
+      "type": "module",
+      "summary": "Módulo soberano 19_web_forensic_auditor.py",
+      "ref": "sovereign_catalog/19_web_forensic_auditor.py"
+    },
+    "20_mcp_sovereign_server": {
+      "id": "20_mcp_sovereign_server",
+      "type": "module",
+      "summary": "Módulo soberano 20_mcp_sovereign_server.py",
+      "ref": "sovereign_catalog/20_mcp_sovereign_server.py"
+    },
+    "21_paper_c_synthesizer": {
+      "id": "21_paper_c_synthesizer",
+      "type": "module",
+      "summary": "Módulo soberano 21_paper_c_synthesizer.py",
+      "ref": "sovereign_catalog/21_paper_c_synthesizer.py"
+    },
+    "22_quantum_os_radar": {
+      "id": "22_quantum_os_radar",
+      "type": "module",
+      "summary": "Módulo soberano 22_quantum_os_radar.py",
+      "ref": "sovereign_catalog/22_quantum_os_radar.py"
+    },
+    "deploy_catalog_to_gateway": {
+      "id": "deploy_catalog_to_gateway",
+      "type": "module",
+      "summary": "Módulo soberano deploy_catalog_to_gateway.py",
+      "ref": "sovereign_catalog/deploy_catalog_to_gateway.py"
+    }
+  },
+  "edges": [
+    {
+      "from": "paper_y_orbit_curvature_entropy_bound",
+      "rel": "verified_by",
+      "to": "PaperY_Entropy_Curvature_Margin"
+    },
+    {
+      "from": "pilar_389",
+      "rel": "anchored_in",
+      "to": "paper_y_orbit_curvature_entropy_bound"
+    },
+    {
+      "from": "paper_z_sovereign_synthesis",
+      "rel": "verified_by",
+      "to": "PaperZ_Sovereign_Synthesis"
+    },
+    {
+      "from": "paper_z_sovereign_synthesis",
+      "rel": "extends",
+      "to": "paper_y_orbit_curvature_entropy_bound"
+    },
+    {
+      "from": "paper_z_sovereign_synthesis",
+      "rel": "evidenced_by",
+      "to": "c99_evolution"
+    }
+  ]
+}
