@@ -1,0 +1,2 @@
+bd077a6c0757553275076eec39902a800492a74398e8c3a18958dcfdc5eebeca  papers/paper_z_sovereign_synthesis.tex
+764f0445e0026b4a14650da080d84555e46c07ea02fcb3c6990c9ce87d2e3ab6  formal_proofs/PaperZ_Sovereign_Synthesis.lean
