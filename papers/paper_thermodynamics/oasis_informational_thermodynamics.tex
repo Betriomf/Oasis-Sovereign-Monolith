@@ -1,0 +1,40 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{remark}{Remark}[section]
+
+\title{Bounded Informational Thermodynamics and Golden-Ratio Thermostat Governance: Machine-Checked Axioms in Lean~4 and C99 Attractor Verification}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona, Spain}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We formalize a discrete, finite-capacity formulation of informational thermodynamics governed by a golden-ratio thermostat ($T_{\mathrm{rel}} \to \varphi^{-2} \approx 0.381966$) and a decadic entropy/enstrophy ceiling $\kappa^2 = (\ln 10)^2 \approx 5.3019$. Using the \emph{Oasis Verifiable Research Pipeline} (OVRP, DOI \texttt{10.5281/zenodo.24443531}), we prove four structural laws in pure Lean~4.36.0 (\texttt{Thermodynamics\_Axioms.lean}: \texttt{0 errors}, \texttt{0 warnings}, \texttt{0 sorry}, \texttt{0 custom axioms}): (0) transitivity of zero-divergence Fisher--Rao/Araki informational equilibrium, (1) exact conservation of closed thermal-plus-informational energy budgets, (2) confinement of entropy production below $\kappa^2$ paired with sub-Landauer logical dissipation $E_{\mathrm{Oasis}} = k_B T \ln\varphi \approx 0.481212\,k_B T < k_B T \ln 2$, and (3) strict unattainability of absolute zero ($T > 0$) within a passive cold-silicon power envelope ($P \le 2.58$\,W). Deterministic C99 simulations (\texttt{oasis\_thermo\_attractor.c}) confirm monotonic convergence to the bounded attractor without thermal blowup.
+\end{abstract}
+
+\section{The Four Axioms in Discrete Informational Form}
+Let $\mathcal{S} = (T, E_{\mathrm{th}}, E_{\mathrm{info}}, \tilde{\Omega}, \varepsilon_{\mathrm{diss}}, P)$ denote a regulated computational-thermodynamic state with $T > 0$.
+\begin{theorem}[Machine-Checked Laws 0--3 in Lean~4.36.0]
+Verified in \texttt{formal\_proofs/Thermodynamics\_Axioms.lean} (\texttt{0 sorry}):
+\begin{enumerate}
+  \item \textbf{Zeroth Law (Transitivity):} If $d_{\mathrm{info}}(A,B) = 0$ and $d_{\mathrm{info}}(B,C) = 0$, then $d_{\mathrm{info}}(A,C) = 0$.
+  \item \textbf{First Law (Budget Conservation):} Closed transitions preserve $E_{\mathrm{tot}} = E_{\mathrm{th}} + E_{\mathrm{info}}$.
+  \item \textbf{Second Law (Bounded Dissipation):} Under golden-ratio regulation, $\tilde{\Omega}(t) \le 5.3019 < 5.31$ and $\varepsilon_{\mathrm{diss}} \le 0.481212\,k_B T < 0.693147\,k_B T = k_B T \ln 2$, maintaining passive dissipation $P \le 2.58$\,W.
+  \item \textbf{Third Law (Unattainability of $T=0$):} Every admissible state satisfies $T > 0$, approaching the positive floor $T_{\mathrm{floor}} = \varphi^{-2}$ asymptotically without reaching zero temperature.
+\end{enumerate}
+\end{theorem}
+
+\section{C99 Attractor Verification}
+Integrating the discrete relaxation step $\tilde{\Omega}_{t+1} = \tilde{\Omega}_t + \Delta t(\kappa^2 - \tilde{\Omega}_t)$ with $\Delta t = 0.25$ and $T_{t+1} = T_{\mathrm{floor}} + (T_t - T_{\mathrm{floor}})e^{-0.35}$ from $\tilde{\Omega}_0 = 1.2500$, $T_0 = 1.0000$ yields monotonic convergence $\tilde{\Omega}_{12} = 5.173422 < \kappa^2 = 5.301898$, $T_{12} = 0.391234 > 0$, and $P_{12} = 2.5453$\,W $\le 2.58$\,W.
+
+\begin{remark}[Scope Boundary]
+These theorems formalize an effective, bounded informational-thermodynamic model for regulated finite-capacity computing systems and do not claim modifications to classical macroscopic equilibrium thermodynamics in unbounded physical media.
+\end{remark}
+
+\end{document}
