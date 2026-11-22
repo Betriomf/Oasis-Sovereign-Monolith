@@ -21,6 +21,7 @@ CANONICAL_DOIS = {
     "Paper Y (Curvature–Entropy Margin & C99 Wilson Bridge, Pilar 389)": "https://doi.org/10.5281/zenodo.24442236",
     "Paper Z (Discrete Ricci–Entropic Evolution & Series T–Z Closure)": "https://doi.org/10.5281/zenodo.24442403",
     "Paper OVRP (Oasis Verifiable Research Pipeline & Methodology)": "https://doi.org/10.5281/zenodo.24443531",
+    "Paper Informational Thermodynamics (Laws 0–3 & Cold Silicon)": "https://doi.org/10.5281/zenodo.24443786",
 }
 
 def tz_process(query: str = "") -> str:

@@ -654,6 +654,13 @@
       "type": "timestamp",
       "summary": "Anclaje Bitcoin OpenTimestamps (.ots) sobre Papers Y, Z y OVRP (Master SHA-256: f5c56a75e8c043bd...).",
       "ref": "vault/OASIS_SERIES_TZ_MASTER_HASH.txt"
+    },
+    "paper_informational_thermodynamics": {
+      "id": "paper_informational_thermodynamics",
+      "type": "paper",
+      "doi": "10.5281/zenodo.24443786",
+      "summary": "Leyes 0-3 de Termodinámica Informacional Acotada en Lean 4.36.0 (0 sorry), techo decádico kappa^2=5.3019, suelo sub-Landauer 0.481212 k_BT y silicio frío <= 2.58 W.",
+      "ref": "papers/paper_thermodynamics/oasis_informational_thermodynamics.tex"
     }
   },
   "edges": [
@@ -696,6 +703,16 @@
       "from": "paper_ovrp_infrastructure",
       "rel": "timestamped_by",
       "to": "bitcoin_ots_seal"
+    },
+    {
+      "from": "paper_informational_thermodynamics",
+      "rel": "verified_by",
+      "to": "Thermodynamics_Axioms"
+    },
+    {
+      "from": "paper_ovrp_infrastructure",
+      "rel": "produces",
+      "to": "paper_informational_thermodynamics"
     }
   ]
 }
