@@ -629,6 +629,12 @@
       "type": "module",
       "summary": "Módulo soberano deploy_catalog_to_gateway.py",
       "ref": "sovereign_catalog/deploy_catalog_to_gateway.py"
+    },
+    "bitcoin_ots_seal": {
+      "id": "bitcoin_ots_seal",
+      "type": "timestamp",
+      "summary": "Anclaje Bitcoin OpenTimestamps (.ots) sobre PAPER_Y_MARGIN_SHA256.txt y PAPER_Z_SYNTHESIS_SHA256.txt (Master SHA-256: f5c56a75e8c043bd...).",
+      "ref": "vault/OASIS_SERIES_TZ_MASTER_HASH.txt"
     }
   },
   "edges": [
@@ -656,6 +662,16 @@
       "from": "paper_z_sovereign_synthesis",
       "rel": "evidenced_by",
       "to": "c99_evolution"
+    },
+    {
+      "from": "paper_y_orbit_curvature_entropy_bound",
+      "rel": "timestamped_by",
+      "to": "bitcoin_ots_seal"
+    },
+    {
+      "from": "paper_z_sovereign_synthesis",
+      "rel": "timestamped_by",
+      "to": "bitcoin_ots_seal"
     }
   ]
 }
