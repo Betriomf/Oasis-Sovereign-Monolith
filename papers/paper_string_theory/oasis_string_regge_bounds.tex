@@ -1,0 +1,40 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\newtheorem{definition}{Definici\'on}
+\newtheorem{theorem}{Teorema}
+\newtheorem{remark}{Observaci\'on}
+
+\title{Espectro Discreto de Cuerdas, Cotas de Regge y Verificaci\'on Formal en Lean 4 bajo el Pipeline OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{Noviembre de 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Presentamos una formalizaci\'on verificable de las relaciones espectrales elementales de la teor\'ia de cuerdas y trayectorias de Regge acotadas mediante el \emph{Oasis Verifiable Research Pipeline} (OVRP, DOI: \texttt{10.5281/zenodo.24443531}). Se verifican en Lean~4.36.0 (sin \texttt{sorry} ni axiomas personalizados) las identidades dimensionales can\'onicas ($D_{\mathrm{bos}} = 26$, $D_{\mathrm{super}} = 10$) y las cotas de monot\'onia espectral por nivel excitado $N \in \mathbb{N}$, acompa\~nadas de un simulador determinista en C99 ejecutado en memoria RAM.
+\end{abstract}
+
+\section{Alcance y Frontera Expl\'icita}
+Este trabajo formaliza propiedades estructurales y espectrales perturbativas de primer orden sobre niveles discretos de excitaci\'on de cuerda. No pretende resolver la din\'amica no perturbativa completa de gravedad cu\'antica, compactificaciones de Calabi--Yau ni la selecci\'on de vac\'io en el \emph{landscape} de cuerdas.
+
+\begin{definition}[Dimensiones Cr\'iticas y Nivel Espectral]
+Sea $D_{\mathrm{bos}} = 26$ la dimensi\'on cr\'itica de la cuerda bos\'onica y $D_{\mathrm{super}} = 10$ la de la supercuerda. Para un nivel de excitaci\'on entero $N \ge 1$ y pendiente de Regge $\alpha' > 0$, definimos el cuadrado de masa normalizado en unidades de $(\alpha')^{-1}$ como:
+\[
+\mu_{\mathrm{open}}^2(N) = N - 1, \qquad \mu_{\mathrm{closed}}^2(N) = 2(N - 2) \quad (N \ge 2).
+\]
+\end{definition}
+
+\begin{theorem}[Monoton\'ia Espectral y Cota por Nivel]
+Si $N_1 \le N_2$ con niveles v\'alidos, entonces $\mu_{\mathrm{open}}^2(N_1) \le \mu_{\mathrm{open}}^2(N_2)$ y $\mu_{\mathrm{closed}}^2(N_1) \le \mu_{\mathrm{closed}}^2(N_2)$, preservando el orden del espectro de masas.
+\end{theorem}
+
+\section{Verificaci\'on OVRP}
+El m\'odulo \texttt{formal\_proofs/StringTheory\_Regge\_Spec.lean} certifica estas relaciones en Lean~4.36.0, mientras \texttt{oasis\_string\_spectrum.c} eval\'ua num\'ericamente el espectro hasta el nivel $N = 16$ en disco RAM.
+\end{document}
