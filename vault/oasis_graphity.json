@@ -661,6 +661,12 @@
       "doi": "10.5281/zenodo.24443786",
       "summary": "Leyes 0-3 de Termodinámica Informacional Acotada en Lean 4.36.0 (0 sorry), techo decádico kappa^2=5.3019, suelo sub-Landauer 0.481212 k_BT y silicio frío <= 2.58 W.",
       "ref": "papers/paper_thermodynamics/oasis_informational_thermodynamics.tex"
+    },
+    "ovrp_security_audit_curl": {
+      "id": "ovrp_security_audit_curl",
+      "type": "security_audit",
+      "summary": "Auditoría OVRP en RAM sobre libcurl 8.23.1-DEV (ASan+UBSan): 60.000 mutaciones (URL, Cookie/Date/MIME, HTTP/2 HPACK) con 0 crashes + invariantes verificados en Security_BufferBounds_Spec.lean (0 sorry).",
+      "ref": "formal_proofs/Security_BufferBounds_Spec.lean"
     }
   },
   "edges": [
@@ -713,6 +719,11 @@
       "from": "paper_ovrp_infrastructure",
       "rel": "produces",
       "to": "paper_informational_thermodynamics"
+    },
+    {
+      "from": "paper_ovrp_infrastructure",
+      "rel": "validates_security_of",
+      "to": "ovrp_security_audit_curl"
     }
   ]
 }
