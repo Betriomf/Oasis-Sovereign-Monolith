@@ -31,6 +31,18 @@
       "instruction": "Resume la fuente verificada: Paper Y + C99 Wilson Bridge",
       "output": "Cruce verificado en Lean 4.36.0 (0 sorry): margen L=3^4 (+265‰) acoplado con tensión de Creutz chi(2,2)=0.20649 en retículo C99 L=12^4 (beta=5.9706).",
       "source": "https://github.com/Betriomf/Oasis-Sovereign-Monolith/blob/main/formal_proofs/PaperY_Entropy_Curvature_Margin.lean"
+    },
+    {
+      "id": "ref_5",
+      "instruction": "Resume la fuente verificada: Paper Y DOI Oficial Zenodo",
+      "output": "Paper Y publicado bajo CC-BY-NC-4.0 (DOI: 10.5281/zenodo.24442236) con Lean 4.36.0 (0 sorry) y recibo Bitcoin OTS.",
+      "source": "https://doi.org/10.5281/zenodo.24442236"
+    },
+    {
+      "id": "ref_6",
+      "instruction": "Resume la fuente verificada: Paper Z DOI Oficial Zenodo",
+      "output": "Paper Z publicado bajo CC-BY-NC-4.0 (DOI: 10.5281/zenodo.24442403) cerrando la serie T-Z con C99 Ricci-entropic flow y Lean 4.36.0 (0 sorry).",
+      "source": "https://doi.org/10.5281/zenodo.24442403"
     }
   ]
 }

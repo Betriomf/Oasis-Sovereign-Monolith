@@ -166,13 +166,15 @@
       "id": "paper_y_orbit_curvature_entropy_bound",
       "type": "paper",
       "summary": "Negative Sectional Projections in $\\mathfrak{su",
-      "ref": "papers/paper_y_orbit_curvature_entropy_bound.tex"
+      "ref": "papers/paper_y_orbit_curvature_entropy_bound.tex",
+      "doi": "10.5281/zenodo.24442236"
     },
     "paper_z_sovereign_synthesis": {
       "id": "paper_z_sovereign_synthesis",
       "type": "paper",
       "summary": "Paper Z: Discrete Ricci--Entropic Evolution Operator, Multi-Scale Stabilization in $\\mathrm{SU",
-      "ref": "papers/paper_z_sovereign_synthesis.tex"
+      "ref": "papers/paper_z_sovereign_synthesis.tex",
+      "doi": "10.5281/zenodo.24442403"
     },
     "ArakiContraction": {
       "id": "ArakiContraction",

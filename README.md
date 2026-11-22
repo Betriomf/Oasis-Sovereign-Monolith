@@ -76,3 +76,6 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 | **Paper W (Bakry–Émery–Poincaré Bridge)** | [`10.5281/zenodo.24383399`](https://doi.org/10.5281/zenodo.24383399) | Conditional Bakry–Émery curvature propagation to Poincaré and spectral-gap bounds in Lean 4.36.0 (0 sorry) | `papers/paper_w_bakry_emery_poincare_bridge.tex` |
 
 | **Paper X (Uniform Curvature Continuum Reduction)** | [`10.5281/zenodo.24383530`](https://doi.org/10.5281/zenodo.24383530) | Conditional reduction of 4D Yang–Mills mass-gap bounds to uniform information-curvature persistence in Lean 4.36.0 (0 sorry) | `papers/paper_x_uniform_curvature_continuum_reduction.tex` |
+
+- **Paper Y (Curvature–Entropy Margin & C99 Wilson Bridge, Pilar 389):** https://doi.org/10.5281/zenodo.24442236
+- **Paper Z (Discrete Ricci–Entropic Evolution & Series T–Z Closure):** https://doi.org/10.5281/zenodo.24442403
