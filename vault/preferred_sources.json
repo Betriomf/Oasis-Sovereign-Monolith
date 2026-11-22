@@ -43,6 +43,12 @@
       "instruction": "Resume la fuente verificada: Paper Z DOI Oficial Zenodo",
       "output": "Paper Z publicado bajo CC-BY-NC-4.0 (DOI: 10.5281/zenodo.24442403) cerrando la serie T-Z con C99 Ricci-entropic flow y Lean 4.36.0 (0 sorry).",
       "source": "https://doi.org/10.5281/zenodo.24442403"
+    },
+    {
+      "id": "ref_7",
+      "instruction": "Resume la fuente verificada: Paper OVRP DOI Oficial Zenodo",
+      "output": "Oasis Verifiable Research Pipeline publicado bajo CC-BY-NC-4.0 (DOI: 10.5281/zenodo.24443531): Graphity 3.33 ms, Lean 4.36.0 (0 sorry) y benchmark C99 100 paquetes en 0.6420 ms.",
+      "source": "https://doi.org/10.5281/zenodo.24443531"
     }
   ]
 }

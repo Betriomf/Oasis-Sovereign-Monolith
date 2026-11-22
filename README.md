@@ -79,3 +79,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 
 - **Paper Y (Curvature–Entropy Margin & C99 Wilson Bridge, Pilar 389):** https://doi.org/10.5281/zenodo.24442236
 - **Paper Z (Discrete Ricci–Entropic Evolution & Series T–Z Closure):** https://doi.org/10.5281/zenodo.24442403
+- **Paper OVRP (Oasis Verifiable Research Pipeline & Methodology):** https://doi.org/10.5281/zenodo.24443531

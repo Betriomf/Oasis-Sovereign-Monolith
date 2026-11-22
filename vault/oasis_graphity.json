@@ -166,15 +166,13 @@
       "id": "paper_y_orbit_curvature_entropy_bound",
       "type": "paper",
       "summary": "Negative Sectional Projections in $\\mathfrak{su",
-      "ref": "papers/paper_y_orbit_curvature_entropy_bound.tex",
-      "doi": "10.5281/zenodo.24442236"
+      "ref": "papers/paper_y_orbit_curvature_entropy_bound.tex"
     },
     "paper_z_sovereign_synthesis": {
       "id": "paper_z_sovereign_synthesis",
       "type": "paper",
       "summary": "Paper Z: Discrete Ricci--Entropic Evolution Operator, Multi-Scale Stabilization in $\\mathrm{SU",
-      "ref": "papers/paper_z_sovereign_synthesis.tex",
-      "doi": "10.5281/zenodo.24442403"
+      "ref": "papers/paper_z_sovereign_synthesis.tex"
     },
     "ArakiContraction": {
       "id": "ArakiContraction",
@@ -307,6 +305,12 @@
       "type": "lean4",
       "summary": "Módulo Lean 4 OsterwalderSchrader_ContinuumReconstruction",
       "ref": "formal_proofs/OsterwalderSchrader_ContinuumReconstruction.lean"
+    },
+    "PaperMeta_Infrastructure": {
+      "id": "PaperMeta_Infrastructure",
+      "type": "lean4",
+      "summary": "Módulo Lean 4 PaperMeta_Infrastructure",
+      "ref": "formal_proofs/PaperMeta_Infrastructure.lean"
     },
     "PaperX_UniformCurvature_ContinuumBridge": {
       "id": "PaperX_UniformCurvature_ContinuumBridge",
@@ -626,16 +630,29 @@
       "summary": "Módulo soberano 22_quantum_os_radar.py",
       "ref": "sovereign_catalog/22_quantum_os_radar.py"
     },
+    "23_series_tz_graphity_oracle": {
+      "id": "23_series_tz_graphity_oracle",
+      "type": "module",
+      "summary": "Módulo soberano 23_series_tz_graphity_oracle.py",
+      "ref": "sovereign_catalog/23_series_tz_graphity_oracle.py"
+    },
     "deploy_catalog_to_gateway": {
       "id": "deploy_catalog_to_gateway",
       "type": "module",
       "summary": "Módulo soberano deploy_catalog_to_gateway.py",
       "ref": "sovereign_catalog/deploy_catalog_to_gateway.py"
     },
+    "paper_ovrp_infrastructure": {
+      "id": "paper_ovrp_infrastructure",
+      "type": "methodology",
+      "doi": "10.5281/zenodo.24443531",
+      "summary": "Oasis Verifiable Research Pipeline (OVRP): Graphity (3.33 ms) + Lean 4.36.0 (0 sorry) + C99 (100 pkgs en 0.6420 ms) + Bitcoin OTS.",
+      "ref": "papers/paper_meta_infrastructure/oasis_verifiable_research_pipeline.tex"
+    },
     "bitcoin_ots_seal": {
       "id": "bitcoin_ots_seal",
       "type": "timestamp",
-      "summary": "Anclaje Bitcoin OpenTimestamps (.ots) sobre PAPER_Y_MARGIN_SHA256.txt y PAPER_Z_SYNTHESIS_SHA256.txt (Master SHA-256: f5c56a75e8c043bd...).",
+      "summary": "Anclaje Bitcoin OpenTimestamps (.ots) sobre Papers Y, Z y OVRP (Master SHA-256: f5c56a75e8c043bd...).",
       "ref": "vault/OASIS_SERIES_TZ_MASTER_HASH.txt"
     }
   },
@@ -666,12 +683,17 @@
       "to": "c99_evolution"
     },
     {
-      "from": "paper_y_orbit_curvature_entropy_bound",
-      "rel": "timestamped_by",
-      "to": "bitcoin_ots_seal"
+      "from": "paper_ovrp_infrastructure",
+      "rel": "verified_by",
+      "to": "PaperMeta_Infrastructure"
     },
     {
-      "from": "paper_z_sovereign_synthesis",
+      "from": "paper_ovrp_infrastructure",
+      "rel": "orchestrates",
+      "to": "paper_z_sovereign_synthesis"
+    },
+    {
+      "from": "paper_ovrp_infrastructure",
       "rel": "timestamped_by",
       "to": "bitcoin_ots_seal"
     }
