@@ -674,6 +674,12 @@
       "doi": "10.5281/zenodo.24448235",
       "summary": "Dimensiones críticas (D_bos=26, D_super=10) y monotonía espectral de Regge en StringTheory_Regge_Spec.lean (0 sorry) + simulador C99 en RAM.",
       "ref": "papers/paper_string_theory/oasis_string_regge_bounds.tex"
+    },
+    "audit_alpoge_rh_2026": {
+      "id": "audit_alpoge_rh_2026",
+      "type": "external_audit",
+      "summary": "Auditoría OVRP sobre verificación de Alpöge (175.187 archivos Lean 4, Main.olean SHA-256 9146dfb4, 3 axiomas estándar). Estructura basada en series theta y grupos unitarios (0 menciones de entropía/ln 10).",
+      "ref": "tests/riemann_spectral_scan.py"
     }
   },
   "edges": [
@@ -741,6 +747,11 @@
       "from": "paper_ovrp_infrastructure",
       "rel": "produces",
       "to": "paper_string_regge_bounds"
+    },
+    {
+      "from": "paper_ovrp_infrastructure",
+      "rel": "audits_methodology_of",
+      "to": "audit_alpoge_rh_2026"
     }
   ]
 }
