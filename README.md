@@ -84,3 +84,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Paper String Spectrum & Regge Bounds (Lean 4 & C99):** https://doi.org/10.5281/zenodo.24448235
 - **Paper OVRP Audit of RH Lean 4 & Critical-Line Scan:** https://doi.org/10.5281/zenodo.24463308
 - **Paper Discrete Entropic Gravity Model (Lean 4 & C99):** https://doi.org/10.5281/zenodo.24464014
+- **Paper Entropic Gradient Inversion & Repulsive Lattice Dynamics (Lean 4 & C99):** https://doi.org/10.5281/zenodo.24464245

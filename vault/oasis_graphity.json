@@ -694,6 +694,13 @@
       "doi": "10.5281/zenodo.24464014",
       "summary": "Modelo discreto de gravedad entrópica en red + cotas de gradiente en EntropicGravity_Spec.lean (0 sorry) + sonda C99 en RAM.",
       "ref": "papers/paper_entropic_gravity/oasis_entropic_gravity_discrete.tex"
+    },
+    "paper_entropic_antigravity_discrete": {
+      "id": "paper_entropic_antigravity_discrete",
+      "type": "paper",
+      "doi": "10.5281/zenodo.24464245",
+      "summary": "Inversión local de gradiente entrópico en red discreta + teoremas de cambio de signo en AntiGravity_Spec.lean (0 sorry) + sonda C99 en RAM.",
+      "ref": "papers/paper_entropic_antigravity/oasis_entropic_antigravity_discrete.tex"
     }
   },
   "edges": [
@@ -786,6 +793,16 @@
       "from": "paper_z_ricci_entropic",
       "rel": "extends_to",
       "to": "paper_entropic_gravity_discrete"
+    },
+    {
+      "from": "paper_entropic_antigravity_discrete",
+      "rel": "verified_by",
+      "to": "AntiGravity_Spec"
+    },
+    {
+      "from": "paper_entropic_gravity_discrete",
+      "rel": "extends_to",
+      "to": "paper_entropic_antigravity_discrete"
     }
   ]
 }

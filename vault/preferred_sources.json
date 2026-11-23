@@ -73,6 +73,12 @@
       "instruction": "Resume la fuente verificada: Paper Discrete Entropic Gravity Model DOI Zenodo",
       "output": "Modelo discreto de gravedad entrópica y cotas de gradiente en red bajo OVRP (DOI: 10.5281/zenodo.24464014) bajo CC-BY-NC-4.0.",
       "source": "https://doi.org/10.5281/zenodo.24464014"
+    },
+    {
+      "id": "ref_12",
+      "instruction": "Resume la fuente verificada: Paper Entropic Gradient Inversion & Repulsive Lattice Dynamics DOI Zenodo",
+      "output": "Inversión local de gradientes entrópicos y dinámica repulsiva efectiva en redes discretas bajo OVRP (DOI: 10.5281/zenodo.24464245) bajo CC-BY-NC-4.0.",
+      "source": "https://doi.org/10.5281/zenodo.24464245"
     }
   ]
 }
