@@ -55,6 +55,12 @@
       "instruction": "Resume la fuente verificada: Paper Informational Thermodynamics DOI Zenodo",
       "output": "Leyes 0-3 de Termodinámica Informacional Acotada publicadas bajo CC-BY-NC-4.0 (DOI: 10.5281/zenodo.24443786) con Lean 4.36.0 (0 sorry) y simulador C99.",
       "source": "https://doi.org/10.5281/zenodo.24443786"
+    },
+    {
+      "id": "ref_9",
+      "instruction": "Resume la fuente verificada: Paper String Theory Regge Bounds DOI Zenodo",
+      "output": "Espectro discreto de cuerdas, dimensiones críticas y cotas de Regge publicadas bajo CC-BY-NC-4.0 (DOI: 10.5281/zenodo.24448235) con Lean 4.36.0 (0 sorry) y simulador C99.",
+      "source": "https://doi.org/10.5281/zenodo.24448235"
     }
   ]
 }

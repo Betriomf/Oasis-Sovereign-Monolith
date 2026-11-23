@@ -667,6 +667,13 @@
       "type": "security_audit",
       "summary": "Auditoría OVRP en RAM sobre libcurl 8.23.1-DEV (ASan+UBSan): 60.000 mutaciones (URL, Cookie/Date/MIME, HTTP/2 HPACK) con 0 crashes + invariantes verificados en Security_BufferBounds_Spec.lean (0 sorry).",
       "ref": "formal_proofs/Security_BufferBounds_Spec.lean"
+    },
+    "paper_string_regge_bounds": {
+      "id": "paper_string_regge_bounds",
+      "type": "paper",
+      "doi": "10.5281/zenodo.24448235",
+      "summary": "Dimensiones críticas (D_bos=26, D_super=10) y monotonía espectral de Regge en StringTheory_Regge_Spec.lean (0 sorry) + simulador C99 en RAM.",
+      "ref": "papers/paper_string_theory/oasis_string_regge_bounds.tex"
     }
   },
   "edges": [
@@ -724,6 +731,16 @@
       "from": "paper_ovrp_infrastructure",
       "rel": "validates_security_of",
       "to": "ovrp_security_audit_curl"
+    },
+    {
+      "from": "paper_string_regge_bounds",
+      "rel": "verified_by",
+      "to": "StringTheory_Regge_Spec"
+    },
+    {
+      "from": "paper_ovrp_infrastructure",
+      "rel": "produces",
+      "to": "paper_string_regge_bounds"
     }
   ]
 }
