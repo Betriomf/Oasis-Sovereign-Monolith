@@ -1,0 +1,31 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\newtheorem{definition}{Definici\'on}
+\newtheorem{theorem}{Teorema}
+\newtheorem{remark}{Observaci\'on}
+
+\title{Arquitectura Escalonada en Cinco Fases de Proyecciones Discretas Acotadas bajo el Pipeline OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{Noviembre de 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Presentamos la organizaci\'on en cinco fases formales dentro del \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}; Compendio Maestro, \texttt{DOI: 10.5281/zenodo.24466455}): (1)~cota de referencia y preservaci\'on en \texttt{UnifiedAxiom.lean}, (2)~m\'argenes discretos de ret\'iculo/confinamiento en \texttt{MatterProjection.lean}, (3)~perfiles de capas adyacentes en \texttt{GravityProjection.lean}, (4)~simetr\'ia de punto medio y cotas espectrales en \texttt{NumberTheoryProjection.lean}, y (5)~acotaci\'on compuesta del triplete en \texttt{UnifiedTheory\_Master.lean}. Todos los m\'odulos compilan en Lean~4.36.0 con \texttt{0 sorry} y \texttt{0} axiomas personalizados, con notarizaci\'on \texttt{SHA-256} y Bitcoin OpenTimestamps.
+\end{abstract}
+
+\section{Progresi\'on en Cinco Fases y Frontera Anal\'itica}
+Cada fase formaliza invariantes aritm\'eticos y de cota sobre representaciones discretas escaladas (con referencia dec\'adica $\ln 10 \approx 2.302585\text{ nats}$ y unidades en mil\'esimas).
+
+\begin{remark}[Alcance y L\'imites Expl\'icitos]
+La verificaci\'on mec\'anica en Lean~4 certifica la correcci\'on deductiva de las cotas discretas declaradas; no constituye una unificaci\'on f\'isica completa en el continuo ni una demostraci\'on incondicional de los problemas del Milenio (l\'imites $a \to 0$, $L \to \infty$ y positividad de Osterwalder--Schrader en $\mathcal{S}'(\mathbb{R}^4)$ permanecen como frontera abierta).
+\end{remark}
+
+\end{document}
