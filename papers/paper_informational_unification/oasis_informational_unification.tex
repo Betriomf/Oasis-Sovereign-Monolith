@@ -1,0 +1,38 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\newtheorem{definition}{Definici\'on}
+\newtheorem{theorem}{Teorema}
+\newtheorem{remark}{Observaci\'on}
+
+\title{S\'intesis Estructural de Proyecciones Discretas bajo Cota Entr\'opica Acotada en el Pipeline OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{Noviembre de 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Presentamos una s\'intesis formal en Lean~4.36.0 (\texttt{UnifiedTheory\_Spec.lean}, \texttt{0 sorry}, \texttt{0} axiomas personalizados) y una sonda num\'erica multi-escala determinista en C99 (\texttt{oasis\_unified\_probe.c}) dentro del \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}). Modelamos tres proyecciones discretas---din\'amica de ret\'iculo tipo Yang--Mills/Wilson, gradiente de red entr\'opica y an\'alisis espectral en la l\'inea cr\'itica de $\zeta$---bajo una cota de referencia dec\'adica $\ln 10 \approx 2.302585\text{ nats}$, delimitando expl\'icitamente la frontera frente a una teor\'ia f\'isica unificada completa en el continuo.
+\end{abstract}
+
+\section{Proyecciones Acotadas y Estabilidad Conjunta}
+Consideremos tres magnitudes escalares no negativas $m_{\mathrm{ym}}, m_{\mathrm{grav}}, m_{\zeta} \in \mathbb{N}$ (en unidades escaladas de $10^{-3}\text{ nats}$) asociadas respectivamente a las sondas de ret\'iculo, gradiente en red y entrop\'ia espectral, junto con una cota superior com\'un $B \in \mathbb{N}$.
+
+\begin{theorem}[Estabilidad Conjunta de Tres Proyecciones Acotadas]
+Si $m_{\mathrm{ym}} \le B$, $m_{\mathrm{grav}} \le B$ y $m_{\zeta} \le B$, entonces el m\'aximo de las tres proyecciones satisface $\max(m_{\mathrm{ym}}, \max(m_{\mathrm{grav}}, m_{\zeta})) \le B$.
+\end{theorem}
+
+\section{Sonda Multi-Escala en C99 y Frontera Epistemol\'ogica}
+El script \texttt{oasis\_unified\_probe.c} eval\'ua en memoria RAM las tres sondas sobre el mismo umbral de referencia $\ln 10$: (i) observaci\'on de plaqueta/cota de ret\'iculo, (ii) perfil entr\'opico de red discreta y (iii) entrop\'ia de espaciados de ceros de $\zeta(1/2+it)$.
+
+\begin{remark}[Alcance y Frontera Abierta]
+Este trabajo unifica m\'etricas y verificaciones formales discretas bajo OVRP; no afirma haber resuelto la unificaci\'on f\'isica completa de las cuatro interacciones fundamentales ni los problemas abiertos del Milenio en el continuo.
+\end{remark}
+
+\end{document}
