@@ -31,7 +31,7 @@ def netMarginInt (effPermille threshPermille : Nat) : Int :=
   (effPermille : Int) - (threshPermille : Int)
 
 theorem net_margin_nonneg_iff (effPermille threshPermille : Nat) :
-    0 ≤ netMarginInt effPermille threshPermille ↔ thresholdPermille ≤ effPermille := by
+    (0 : Int) ≤ netMarginInt effPermille threshPermille ↔ threshPermille ≤ effPermille := by
   unfold netMarginInt
   omega
 
