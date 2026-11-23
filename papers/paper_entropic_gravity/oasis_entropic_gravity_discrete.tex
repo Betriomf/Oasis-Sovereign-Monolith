@@ -1,0 +1,39 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\newtheorem{definition}{Definici\'on}
+\newtheorem{theorem}{Teorema}
+\newtheorem{remark}{Observaci\'on}
+
+\title{Modelo Discreto de Gravedad Entr\'opica y Cotas de Gradiente en Red bajo el Pipeline OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{Noviembre de 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Presentamos una especificaci\'on formal acotada en Lean~4.36.0 (\texttt{EntropicGravity\_Spec.lean}, \texttt{0 sorry}, \texttt{0} axiomas personalizados) y una simulaci\'on num\'erica determinista en C99 (\texttt{oasis\_entropic\_gravity.c}) para un modelo discreto de gravedad entr\'opica en red, enmarcado en el \emph{Oasis Verifiable Research Pipeline} (OVRP, DOI: \texttt{10.5281/zenodo.24443531}) y en la evoluci\'on discreta Ricci-entr\'opica del Paper~Z (DOI: \texttt{10.5281/zenodo.24442403}). Se dialoga conceptualmente con los planteamientos de termodin\'amica del horizonte de Jacobson y gravedad entr\'opica de Verlinde, formalizando la monot\'onia y cota de gradiente discreto en red y delimitando expl\'icitamente su alcance frente a la relatividad general en variedades continuas.
+\end{abstract}
+
+\section{Marco Conceptual y Trabajos Relacionados}
+La idea de vincular entrop\'ia, horizontes y geometr\'ia tiene antecedentes centrales en la f\'isica te\'orica:
+\begin{itemize}
+    \item \textbf{Termodin\'amica del horizonte (T. Jacobson, 1995):} interpretaci\'on de las ecuaciones de campo de Einstein como una ecuaci\'on de estado asociada a relaciones de calor y entrop\'ia en horizontes locales.
+    \item \textbf{Gravedad entr\'opica (E. Verlinde, 2011):} formulaci\'on heur\'istica donde las fuerzas gravitatorias efectivas se relacionan con gradientes de entrop\'ia y principios hologr\'aficos.
+    \item \textbf{Serie OVRP y Paper~Z (M. Panzano Caball\'e, 2026):} verificaci\'on mec\'anica en Lean~4.36.0, simulaci\'on determinista en C99 en memoria RAM y evoluci\'on discreta acotada con notarizaci\'on \texttt{SHA-256} y Bitcoin OpenTimestamps.
+\end{itemize}
+
+\section{Formulación Discreta Acotada y Simulación en Red}
+En una red discreta de capas $r \in \{1,\dots,16\}$, el perfil ilustrativo $S_r = \ln(10)\bigl(1 - e^{-r/6}\bigr)$ modela una entrop\'ia acumulada mon\'otona acotada asint\'oticamente por $\ln 10 \approx 2.302585\text{ nats}$, con incremento escalonado decreciente $\Delta S_r$ y potencial efectivo $-S_r$. En \texttt{EntropicGravity\_Spec.lean}, el teorema \texttt{entropy\_gradient\_bounded} certifica en Lean~4.36.0 que, bajo no-decrecimiento ($S_{\mathrm{curr}} \le S_{\mathrm{next}}$) y cota de incremento $\Gamma_{\max}$, el gradiente discreto permanece acotado por $\Gamma_{\max}$.
+
+\begin{remark}[Alcance y Frontera Abierta]
+Este trabajo constituye un modelo discreto y computacional acotado. No deriva las ecuaciones de Einstein completas sobre una variedad pseudoriemanniana 4D ni resuelve singularidades gravitatorias generales o la gravedad cu\'antica completa en el continuo.
+\end{remark}
+
+\end{document}
