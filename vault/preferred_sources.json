@@ -79,6 +79,12 @@
       "instruction": "Resume la fuente verificada: Paper Entropic Gradient Inversion & Repulsive Lattice Dynamics DOI Zenodo",
       "output": "Inversión local de gradientes entrópicos y dinámica repulsiva efectiva en redes discretas bajo OVRP (DOI: 10.5281/zenodo.24464245) bajo CC-BY-NC-4.0.",
       "source": "https://doi.org/10.5281/zenodo.24464245"
+    },
+    {
+      "id": "ref_13",
+      "instruction": "Resume la fuente verificada: OVRP Master Compendium & Genealogy DOI Zenodo",
+      "output": "Compendio Maestro OVRP que unifica los 11 DOIs de la serie bajo CC-BY-NC-4.0 (DOI: 10.5281/zenodo.24466455).",
+      "source": "https://doi.org/10.5281/zenodo.24466455"
     }
   ]
 }

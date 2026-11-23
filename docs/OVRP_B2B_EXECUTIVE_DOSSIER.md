@@ -33,3 +33,5 @@ OVRP desacopla la generación asistida por IA de la certificación determinista 
 1. **Auditoría Formal de Invariantes y Código Crítico (C99 / Rust / Algoritmos):** Entrega de especificación verificada en Lean 4 + batería C99 ASan/UBSan + certificado SHA-256/OTS.
 2. **Despliegue de Nodos Soberanos On-Premise:** Instalación de tuberías de verificación locales sin fuga de datos a la nube.
 3. **Licencia Comercial OVRP:** Cesión de uso comercial sobre la arquitectura y corpus publicados bajo `CC-BY-NC-4.0`.
+
+**Compendio Maestro de la Colección (12.º DOI):** [DOI: 10.5281/zenodo.24466455](https://doi.org/10.5281/zenodo.24466455)
