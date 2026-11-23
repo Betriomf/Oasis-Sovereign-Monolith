@@ -23,6 +23,7 @@ CANONICAL_DOIS = {
     "Paper OVRP (Oasis Verifiable Research Pipeline & Methodology)": "https://doi.org/10.5281/zenodo.24443531",
     "Paper Informational Thermodynamics (Laws 0–3 & Cold Silicon)": "https://doi.org/10.5281/zenodo.24443786",
     "Paper String Spectrum & Regge Bounds (Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24448235",
+    "Paper OVRP Audit of RH Lean 4 & Critical-Line Scan": "https://doi.org/10.5281/zenodo.24463308",
 }
 
 def tz_process(query: str = "") -> str:
