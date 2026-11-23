@@ -1,0 +1,39 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\newtheorem{definition}{Definici\'on}
+\newtheorem{theorem}{Teorema}
+\newtheorem{remark}{Observaci\'on}
+
+\title{Auditor\'ia Formal de C\'odigo Generado por IA y Certificaci\'on Expl\'icita de Fronteras bajo el Pipeline OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{Noviembre de 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+La generaci\'on automatizada de demostraciones formales y c\'odigo cr\'itico a gran escala desplaza el cuello de botella desde la s\'intesis o compilaci\'on inicial hacia la auditor\'ia estructural, la trazabilidad de dependencias y la declaraci\'on honesta de fronteras. Presentamos el enfoque del \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}; Compendio Maestro, \texttt{DOI: 10.5281/zenodo.24466455}), combinando consulta determinista en grafo (\texttt{Graphity}, latencia $< 2.5\,\text{ms}$ sin inferencia LLM), verificaci\'on mec\'anica en Lean~4.36.0 (\texttt{0 sorry}, \texttt{0} axiomas personalizados), pruebas deterministas en C99 y notarizaci\'on \texttt{SHA-256} con Bitcoin OpenTimestamps.
+\end{abstract}
+
+\section{Frontera entre Certificaci\'on Mec\'anica y Alcance Real}
+En sistemas formales complejos, verificar que un m\'odulo compila sin axiomas no est\'andar es condici\'on necesaria de integridad formal, pero no exime de auditar la alineaci\'on del enunciado con el problema objetivo, la revisi\'on humana de las definiciones y los l\'imites asint\'oticos o f\'isicos no cubiertos por el teorema.
+
+\begin{definition}[Estado de Auditor\'ia Verificable]
+Un artefacto auditado bajo OVRP es \emph{frontera-verificado} cuando su huella axiom\'atica carece de huecos (\texttt{sorry}) y axiomas ad-hoc, su trazabilidad criptogr\'afica est\'a sellada y sus l\'imites no demostrados constan expl\'icitamente.
+\end{definition}
+
+\begin{theorem}[Preservaci\'on de Integridad en Auditor\'ia Compuesta]
+Si un artefacto cumple el criterio de ausencia de huecos formales y su frontera declarada no omite condiciones de contorno requeridas, el sello de auditor\'ia conserva validez trazable.
+\end{theorem}
+
+\begin{remark}[Licenciamiento y Aplicaci\'on]
+Este marco se distribuye bajo \texttt{CC-BY-NC-4.0} para investigaci\'on y verificaci\'on abierta, con esquemas de licenciamiento y auditor\'ia bajo contrato para organizaciones que auditen bases de c\'odigo formales o cr\'iticas.
+\end{remark}
+
+\end{document}
