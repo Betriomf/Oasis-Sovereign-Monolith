@@ -87,3 +87,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Paper Entropic Gradient Inversion & Repulsive Lattice Dynamics (Lean 4 & C99):** https://doi.org/10.5281/zenodo.24464245
 - **OVRP Master Compendium & Genealogy (11-Paper Index):** https://doi.org/10.5281/zenodo.24466455
 - **Paper Structural Synthesis of Bounded Projections (Lean 4 & C99):** https://doi.org/10.5281/zenodo.24468098
+- **Paper Formal Auditing of AI-Generated Code & Boundaries (Lean 4):** https://doi.org/10.5281/zenodo.24469140

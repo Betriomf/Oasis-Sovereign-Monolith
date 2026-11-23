@@ -715,6 +715,13 @@
       "doi": "10.5281/zenodo.24468098",
       "summary": "Síntesis formal en UnifiedTheory_Spec.lean (0 sorry) + sonda C99 multi-escala (< ln(10)) bajo OVRP.",
       "ref": "papers/paper_informational_unification/oasis_informational_unification.tex"
+    },
+    "paper_ai_formal_audit_boundaries": {
+      "id": "paper_ai_formal_audit_boundaries",
+      "type": "paper",
+      "doi": "10.5281/zenodo.24469140",
+      "summary": "Auditoría formal de código generado por IA y certificación explícita de fronteras en AI_Audit_Boundary_Spec.lean (0 sorry) bajo OVRP.",
+      "ref": "papers/paper_ai_formal_audit_boundaries/oasis_ai_formal_audit_boundaries.tex"
     }
   },
   "edges": [
@@ -832,6 +839,16 @@
       "from": "paper_ovrp_master_compendium",
       "rel": "extended_by",
       "to": "paper_bounded_projections_synthesis"
+    },
+    {
+      "from": "paper_ai_formal_audit_boundaries",
+      "rel": "verified_by",
+      "to": "AI_Audit_Boundary_Spec"
+    },
+    {
+      "from": "paper_riemann_ovrp_audit",
+      "rel": "generalized_by",
+      "to": "paper_ai_formal_audit_boundaries"
     }
   ]
 }
