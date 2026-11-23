@@ -261,7 +261,7 @@ def scan_ovrp_bounties(timeout: int = 10) -> list[dict]:
     sources = [
         ("NLnet Foundation", "https://nlnet.nl/feed.atom", 25000.0, 120.0, 2.0),
         ("Ethereum Foundation", "https://blog.ethereum.org/feed.xml", 30000.0, 150.0, 3.0),
-        ("ACCIÓ Catalonia", "https://www.accio.gencat.cat/ca/serveis/ajuts/index.html", 40000.0, 160.0, 2.0),
+        ("ACCIÓ Catalonia", "https://www.accio.gencat.cat/ca/serveis/ajuts-i-financament/", 40000.0, 160.0, 2.0),
         ("EU Funding & Tenders", "https://ec.europa.eu/info/funding-tenders/opportunities/data/referenceData/grantsTenders.json", 60000.0, 240.0, 4.0),
     ]
     ranked = []
@@ -288,9 +288,13 @@ def scan_ovrp_bounties(timeout: int = 10) -> list[dict]:
                         ranked.append({"score": score, "fit": fit, "reward_eur": reward, "source": src, "title": clean_t, "url": full_u})
             else:
                 root = ET.fromstring(raw)
-                entries = root.findall(".//{http://www.w3.org/2005/Atom}entry") or root.findall(".//item")
+                entries = root.findall(".//{http://www.w3.org/2005/Atom}entry")
+                if not entries:
+                    entries = root.findall(".//item")
                 for item in entries[:25]:
-                    t_el = item.find("{http://www.w3.org/2005/Atom}title") or item.find("title")
+                    t_el = item.find("{http://www.w3.org/2005/Atom}title")
+                    if t_el is None:
+                        t_el = item.find("title")
                     title = (t_el.text or "").strip() if t_el is not None else "Feed Entry"
                     blob = re.sub(r"<[^>]+>", " ", ET.tostring(item, encoding="unicode")).lower()
                     fit = min(1.0, sum(w for kw, w in keywords.items() if kw in blob))
