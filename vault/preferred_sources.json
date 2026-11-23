@@ -67,6 +67,12 @@
       "instruction": "Resume la fuente verificada: Paper OVRP Audit of RH Lean 4 & Critical-Line Scan DOI Zenodo",
       "output": "Auditoría estructural OVRP de RH en Lean 4 + invariantes de línea crítica (DOI: 10.5281/zenodo.24463308) bajo CC-BY-NC-4.0.",
       "source": "https://doi.org/10.5281/zenodo.24463308"
+    },
+    {
+      "id": "ref_11",
+      "instruction": "Resume la fuente verificada: Paper Discrete Entropic Gravity Model DOI Zenodo",
+      "output": "Modelo discreto de gravedad entrópica y cotas de gradiente en red bajo OVRP (DOI: 10.5281/zenodo.24464014) bajo CC-BY-NC-4.0.",
+      "source": "https://doi.org/10.5281/zenodo.24464014"
     }
   ]
 }

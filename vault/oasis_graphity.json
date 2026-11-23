@@ -687,6 +687,13 @@
       "doi": "10.5281/zenodo.24463308",
       "summary": "Auditoría estructural OVRP de la formalización en Lean 4 de RH + invariantes de simetría crítica en Lean 4 (0 sorry) + escaneo espectral.",
       "ref": "papers/paper_riemann_audit/oasis_riemann_ovrp_audit.tex"
+    },
+    "paper_entropic_gravity_discrete": {
+      "id": "paper_entropic_gravity_discrete",
+      "type": "paper",
+      "doi": "10.5281/zenodo.24464014",
+      "summary": "Modelo discreto de gravedad entrópica en red + cotas de gradiente en EntropicGravity_Spec.lean (0 sorry) + sonda C99 en RAM.",
+      "ref": "papers/paper_entropic_gravity/oasis_entropic_gravity_discrete.tex"
     }
   },
   "edges": [
@@ -769,6 +776,16 @@
       "from": "paper_ovrp_infrastructure",
       "rel": "produces",
       "to": "paper_riemann_ovrp_audit"
+    },
+    {
+      "from": "paper_entropic_gravity_discrete",
+      "rel": "verified_by",
+      "to": "EntropicGravity_Spec"
+    },
+    {
+      "from": "paper_z_ricci_entropic",
+      "rel": "extends_to",
+      "to": "paper_entropic_gravity_discrete"
     }
   ]
 }
