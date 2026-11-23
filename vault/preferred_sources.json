@@ -103,6 +103,12 @@
       "instruction": "Resume la fuente verificada: Paper Five-Phase Bounded Discrete Projections DOI Zenodo",
       "output": "Especificación escalonada en cinco fases en Lean 4.36.0 (0 sorry) bajo OVRP (DOI: ) bajo CC-BY-NC-4.0.",
       "source": "https://doi.org/"
+    },
+    {
+      "id": "ref_17",
+      "instruction": "Resume la fuente verificada: Paper Five-Phase Bounded Discrete Projections DOI Zenodo",
+      "output": "Especificación escalonada en cinco fases en Lean 4.36.0 (0 sorry) bajo OVRP (DOI: 10.5281/zenodo.24477406) bajo CC-BY-NC-4.0.",
+      "source": "https://doi.org/10.5281/zenodo.24477406"
     }
   ]
 }
