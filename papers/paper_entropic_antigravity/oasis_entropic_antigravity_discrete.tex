@@ -1,0 +1,42 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\newtheorem{definition}{Definici\'on}
+\newtheorem{theorem}{Teorema}
+\newtheorem{remark}{Observaci\'on}
+
+\title{Inversi\'on Local de Gradientes Entr\'opicos y Din\'amica Repulsiva Efectiva en Redes Discretas bajo el Pipeline OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{Noviembre de 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Extendemos el modelo discreto de gravedad entr\'opica del Paper~10 (\texttt{DOI: 10.5281/zenodo.24464014}) dentro del \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}) para analizar el r\'egimen de inversi\'on local de gradiente entr\'opico ($\Delta S_r < 0$) en una red discreta de capas. Certificamos en Lean~4.36.0 (\texttt{AntiGravity\_Spec.lean}, \texttt{0 sorry}, \texttt{0} axiomas personalizados) que la inversi\'on del signo de la variaci\'on entr\'opica induce una inversi\'on exacta en el signo de la respuesta efectiva sobre una part\'icula de prueba, y lo verificamos num\'ericamente mediante el simulador determinista en C99 \texttt{oasis\_antigravity\_probe.c}.
+\end{abstract}
+
+\section{Formulación Algebraica de la Inversión de Gradiente}
+En el modelo discreto de capas $r \in \mathbb{N}$ con entrop\'ia acumulada $S_r \in \mathbb{Z}$ (en unidades escaladas de $10^{-3}\text{ nats}$), definimos la variaci\'on espacial entre capas adyacentes como $\Delta S_r = S_{r+1} - S_r$ y la respuesta efectiva normalizada como:
+\[
+F_{\mathrm{eff}}(r) = -\Delta S_r = S_r - S_{r+1}.
+\]
+
+\begin{definition}[Régimen Estándar frente a Régimen Invertido]
+Se dice que una celda discreta opera en r\'egimen atractivo est\'andar cuando $\Delta S_r > 0$ (implicando $F_{\mathrm{eff}}(r) < 0$), y en r\'egimen repulsivo efectivo cuando una fuente externa de trabajo o bombeo informacional sostiene localmente $\Delta S_r < 0$ (implicando $F_{\mathrm{eff}}(r) > 0$).
+\end{definition}
+
+\begin{theorem}[Inversión de Signo y Conservación de Cota]
+Si $S_{r+1} < S_r$ y la disminuci\'on local est\'a acotada por $S_r - S_{r+1} \le \Gamma_{\max}$, entonces $0 < F_{\mathrm{eff}}(r) \le \Gamma_{\max}$.
+\end{theorem}
+
+\begin{remark}[Frontera Física y Termodinámica]
+Este resultado demuestra una propiedad algebraica y num\'erica exacta dentro de un modelo discreto de red con perfiles entr\'opicos controlados. No constituye una demostraci\'on de antigravedad f\'isica macrosc\'opica ni exime del coste energ\'etico impuesto por la segunda ley de la termodin\'amica para sostener un gradiente negativo de entrop\'ia.
+\end{remark}
+
+\end{document}
