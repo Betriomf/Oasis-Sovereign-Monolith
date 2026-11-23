@@ -85,6 +85,12 @@
       "instruction": "Resume la fuente verificada: OVRP Master Compendium & Genealogy DOI Zenodo",
       "output": "Compendio Maestro OVRP que unifica los 11 DOIs de la serie bajo CC-BY-NC-4.0 (DOI: 10.5281/zenodo.24466455).",
       "source": "https://doi.org/10.5281/zenodo.24466455"
+    },
+    {
+      "id": "ref_14",
+      "instruction": "Resume la fuente verificada: Paper Structural Synthesis of Bounded Projections DOI Zenodo",
+      "output": "Síntesis formal en Lean 4.36.0 (0 sorry) y sonda C99 multi-escala bajo OVRP (DOI: 10.5281/zenodo.24468098) bajo CC-BY-NC-4.0.",
+      "source": "https://doi.org/10.5281/zenodo.24468098"
     }
   ]
 }
