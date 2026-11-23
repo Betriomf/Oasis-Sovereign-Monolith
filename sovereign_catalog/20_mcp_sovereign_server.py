@@ -242,3 +242,62 @@ if __name__ == "__main__":
         serve_mcp_stdio()
     else:
         print(mcp_process(" ".join(sys.argv[1:])))
+
+
+# === OVRP DETERMINISTIC BOUNTY & GRANT RADAR (16-DOI STACK) ===
+def scan_ovrp_bounties(timeout: int = 10) -> list[dict]:
+    """Rastrea convocatorias y bounties alineados con Lean 4, C99, OVRP y EU AI Act (0% LLM)."""
+    import json
+    import re
+    import urllib.request
+    import xml.etree.ElementTree as ET
+
+    keywords = {
+        "formal verification": 0.30, "lean": 0.25, "cryptograph": 0.20,
+        "audit": 0.20, "reproducib": 0.20, "provenance": 0.20,
+        "sovereign": 0.15, "open source": 0.15, "ai act": 0.25,
+        "trustworthy ai": 0.25, "c99": 0.15, "security": 0.10,
+    }
+    sources = [
+        ("NLnet Foundation", "https://nlnet.nl/feed.atom", 25000.0, 120.0, 2.0),
+        ("Ethereum Foundation", "https://blog.ethereum.org/feed.xml", 30000.0, 150.0, 3.0),
+        ("ACCIÓ Catalonia", "https://www.accio.gencat.cat/ca/serveis/ajuts/index.html", 40000.0, 160.0, 2.0),
+        ("EU Funding & Tenders", "https://ec.europa.eu/info/funding-tenders/opportunities/data/referenceData/grantsTenders.json", 60000.0, 240.0, 4.0),
+    ]
+    ranked = []
+    for src, url, reward, hours, comp in sources:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Oasis-OVRP-Radar/1.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                raw = resp.read().decode("utf-8", errors="ignore")
+            if url.endswith(".json"):
+                items = json.loads(raw).get("fundingData", {}).get("GrantTenderObj", [])[:35]
+                for it in items:
+                    title = str(it.get("title") or it.get("identifier") or "EU Call").strip()
+                    fit = min(1.0, sum(w for kw, w in keywords.items() if kw in json.dumps(it).lower()))
+                    if fit >= 0.20:
+                        score = round((reward * fit) / (hours * comp), 2)
+                        ranked.append({"score": score, "fit": fit, "reward_eur": reward, "source": src, "title": title, "url": "https://ec.europa.eu/info/funding-tenders/"})
+            elif url.endswith(".html"):
+                for href, label in re.findall(r'<a[^>]+href=["\']([^"\']+)["\'][^>]*>(.*?)</a>', raw, flags=re.I | re.S)[:50]:
+                    clean_t = re.sub(r"<[^>]+>", " ", label).strip()
+                    fit = min(1.0, sum(w for kw, w in keywords.items() if kw in f"{clean_t} {href}".lower()))
+                    if fit >= 0.15 and len(clean_t) > 8:
+                        full_u = href if href.startswith("http") else f"https://www.accio.gencat.cat{href}"
+                        score = round((reward * fit) / (hours * comp), 2)
+                        ranked.append({"score": score, "fit": fit, "reward_eur": reward, "source": src, "title": clean_t, "url": full_u})
+            else:
+                root = ET.fromstring(raw)
+                entries = root.findall(".//{http://www.w3.org/2005/Atom}entry") or root.findall(".//item")
+                for item in entries[:25]:
+                    t_el = item.find("{http://www.w3.org/2005/Atom}title") or item.find("title")
+                    title = (t_el.text or "").strip() if t_el is not None else "Feed Entry"
+                    blob = re.sub(r"<[^>]+>", " ", ET.tostring(item, encoding="unicode")).lower()
+                    fit = min(1.0, sum(w for kw, w in keywords.items() if kw in blob))
+                    if fit >= 0.20:
+                        score = round((reward * fit) / (hours * comp), 2)
+                        ranked.append({"score": score, "fit": fit, "reward_eur": reward, "source": src, "title": title, "url": url})
+        except Exception:
+            continue
+    ranked.sort(key=lambda x: x["score"], reverse=True)
+    return ranked
