@@ -115,6 +115,12 @@
       "instruction": "Resume la fuente verificada: Paper Zero-LLM Triage & Cryptographic Provenance DOI Zenodo",
       "output": "Triaje determinista sin LLM, procedencia criptográfica SHA-256/OTS y licenciamiento dual B2B bajo OVRP (DOI: 10.5281/zenodo.24482608).",
       "source": "https://doi.org/10.5281/zenodo.24482608"
+    },
+    {
+      "id": "ref_19",
+      "instruction": "Resume la fuente verificada: Paper Protein Folding Informational Attractor DOI Zenodo",
+      "output": "Ratio informacional adimensional en plegamiento proteico verificado en Lean 4.36.0 (0 sorry) y C99 bajo OVRP (DOI: 10.5281/zenodo.24483484).",
+      "source": "https://doi.org/10.5281/zenodo.24483484"
     }
   ]
 }

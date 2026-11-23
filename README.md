@@ -90,3 +90,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Paper Formal Auditing of AI-Generated Code & Boundaries (Lean 4):** https://doi.org/10.5281/zenodo.24469140
 - **Paper Five-Phase Bounded Discrete Projections (Lean 4):** https://doi.org/10.5281/zenodo.24477406
 - **Paper Zero-LLM Triage & Cryptographic Provenance (Lean 4 & C99):** https://doi.org/10.5281/zenodo.24482608
+- **Paper Protein Folding Informational Attractor (Lean 4 & C99):** https://doi.org/10.5281/zenodo.24483484

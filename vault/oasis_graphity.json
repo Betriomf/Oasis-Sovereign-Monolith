@@ -736,6 +736,13 @@
       "doi": "10.5281/zenodo.24482608",
       "summary": "Triaje determinista sin LLM (<3ms), ZeroLLMProvenance_Spec.lean (0 sorry), benchmark C99 y licenciamiento dual B2B bajo OVRP.",
       "ref": "papers/paper_zero_llm_provenance/oasis_zero_llm_provenance.tex"
+    },
+    "paper_protein_folding_attractor": {
+      "id": "paper_protein_folding_attractor",
+      "type": "paper",
+      "doi": "10.5281/zenodo.24483484",
+      "summary": "Ratio informacional adimensional |ΔG|/(c_scale·H) ≈ ln(10) en plegamiento proteico con ProteinFoldingAttractor_Spec.lean (0 sorry) y sonda C99.",
+      "ref": "papers/paper_protein_folding_attractor/oasis_protein_folding_attractor.tex"
     }
   },
   "edges": [
@@ -883,6 +890,16 @@
       "from": "paper_ai_formal_audit_boundaries",
       "rel": "operationalized_by",
       "to": "paper_zero_llm_provenance"
+    },
+    {
+      "from": "paper_protein_folding_attractor",
+      "rel": "verified_by",
+      "to": "ProteinFoldingAttractor_Spec"
+    },
+    {
+      "from": "paper_informational_thermodynamics",
+      "rel": "applied_to",
+      "to": "paper_protein_folding_attractor"
     }
   ]
 }
