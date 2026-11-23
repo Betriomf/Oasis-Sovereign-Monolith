@@ -1,0 +1,38 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\newtheorem{definition}{Definici\'on}
+\newtheorem{theorem}{Teorema}
+\newtheorem{remark}{Observaci\'on}
+
+\title{Triaje Determinista sin LLM y Procedencia Criptogr\'afica para Artefactos Formales y Num\'ericos en Hardware Ligero}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{Noviembre de 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Presentamos la arquitectura de ingenier\'ia del \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}) aplicada a la verificaci\'on reproducible y auditor\'ia de artefactos formales y num\'ericos en equipos de bajo consumo. Combinamos indexaci\'on estructural determinista en grafo (\texttt{Graphity}, latencia $< 3\,\text{ms}$ y $0\,\%$ de inferencia LLM), certificaci\'on deductiva en Lean~4.36.0 (\texttt{ZeroLLMProvenance\_Spec.lean}, \texttt{0 sorry}, \texttt{0} axiomas personalizados), ejecuci\'on aislada en disco RAM (\texttt{C99}) y notarizaci\'on inmutable mediante \texttt{SHA-256} y Bitcoin OpenTimestamps. Definimos asimismo un esquema de licenciamiento dual (\texttt{CC-BY-NC-4.0} abierta y licencia comercial B2B \emph{on-premise}).
+\end{abstract}
+
+\section{Arquitectura de Auditor\'ia en Hardware Ligero}
+Frente a flujos dependientes de cl\'usteres de GPU o reconstrucciones masivas de cientos de gigabytes, OVRP desacopla la inspecci\'on estructural (grafo determinista de dependencias) de la verificaci\'on de n\'ucleo (Lean~4) y de las sondas num\'ericas en memoria vol\'atil (\texttt{tmpfs}/RAM disk).
+
+\begin{definition}[Certificado de Procedencia Soberana]
+Un artefacto posee procedencia verificable cuando dispone de: (i) compendio de hashes \texttt{SHA-256} reproducible, (ii) recibo de anclaje temporal OpenTimestamps, y (iii) verificaci\'on formal sin huecos (\texttt{0 sorry}) dentro de su frontera declarada.
+\end{definition}
+
+\begin{theorem}[Invariancia de Triaje Determinista]
+Si el grafo de dependencias mantiene latencia acotada por $L_{\max}$ y huella de inferencia LLM nula ($C_{\mathrm{LLM}} = 0$), el coste marginal de auditor\'ia estructural permanece acotado independientemente del tama\~no del modelo generador externo.
+\end{theorem}
+
+\section{Modelo de Licenciamiento Dual y Transferencia B2B}
+El protocolo se publica bajo licencia abierta \texttt{CC-BY-NC-4.0} para investigaci\'on acad\'emica y verificaci\'on p\'ublica, reservando los derechos de explotaci\'on comercial para auditor\'ias corporativas bajo contrato y despliegues privados (\emph{air-gapped}) en entornos regulados.
+
+\end{document}
