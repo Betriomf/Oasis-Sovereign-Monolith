@@ -30,6 +30,7 @@ CANONICAL_DOIS = {
     "Paper Structural Synthesis of Bounded Projections (Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24468098",
     "Paper Formal Auditing of AI-Generated Code & Boundaries (Lean 4)": "https://doi.org/10.5281/zenodo.24469140",
     "Paper Five-Phase Bounded Discrete Projections (Lean 4)": "https://doi.org/10.5281/zenodo.24477406",
+    "Paper Zero-LLM Triage & Cryptographic Provenance (Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24482608",
 }
 
 def tz_process(query: str = "") -> str:

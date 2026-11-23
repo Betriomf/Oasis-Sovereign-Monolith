@@ -729,6 +729,13 @@
       "doi": "10.5281/zenodo.24477406",
       "summary": "Arquitectura escalonada en cinco fases en Lean 4.36.0 (0 sorry) con sello SHA-256/OTS bajo OVRP.",
       "ref": "papers/paper_five_phase_projections/oasis_five_phase_projections.tex"
+    },
+    "paper_zero_llm_provenance": {
+      "id": "paper_zero_llm_provenance",
+      "type": "paper",
+      "doi": "10.5281/zenodo.24482608",
+      "summary": "Triaje determinista sin LLM (<3ms), ZeroLLMProvenance_Spec.lean (0 sorry), benchmark C99 y licenciamiento dual B2B bajo OVRP.",
+      "ref": "papers/paper_zero_llm_provenance/oasis_zero_llm_provenance.tex"
     }
   },
   "edges": [
@@ -866,6 +873,16 @@
       "from": "paper_bounded_projections_synthesis",
       "rel": "complemented_by",
       "to": "paper_five_phase_projections"
+    },
+    {
+      "from": "paper_zero_llm_provenance",
+      "rel": "verified_by",
+      "to": "ZeroLLMProvenance_Spec"
+    },
+    {
+      "from": "paper_ai_formal_audit_boundaries",
+      "rel": "operationalized_by",
+      "to": "paper_zero_llm_provenance"
     }
   ]
 }

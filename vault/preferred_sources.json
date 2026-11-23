@@ -109,6 +109,12 @@
       "instruction": "Resume la fuente verificada: Paper Five-Phase Bounded Discrete Projections DOI Zenodo",
       "output": "Especificación escalonada en cinco fases en Lean 4.36.0 (0 sorry) bajo OVRP (DOI: 10.5281/zenodo.24477406) bajo CC-BY-NC-4.0.",
       "source": "https://doi.org/10.5281/zenodo.24477406"
+    },
+    {
+      "id": "ref_18",
+      "instruction": "Resume la fuente verificada: Paper Zero-LLM Triage & Cryptographic Provenance DOI Zenodo",
+      "output": "Triaje determinista sin LLM, procedencia criptográfica SHA-256/OTS y licenciamiento dual B2B bajo OVRP (DOI: 10.5281/zenodo.24482608).",
+      "source": "https://doi.org/10.5281/zenodo.24482608"
     }
   ]
 }
