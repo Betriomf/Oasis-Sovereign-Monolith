@@ -764,6 +764,14 @@
       "doi": "10.5281/zenodo.24530182",
       "summary": "Estabilidad entrópica QOS (Pilar 370 / ZNE en Lean 4 0 sorry) + sonda C99 D(p_n) (arXiv:2611.32537 & 2611.31469).",
       "ref": "papers/paper_qos_stability_prime_com/oasis_qos_stability_prime_com.tex"
+    },
+    "paper21_oasis_proof_runtime_auditor": {
+      "id": "paper21_oasis_proof_runtime_auditor",
+      "type": "commercial_release",
+      "license": "Apache-2.0",
+      "doi": "10.5281/zenodo.24530918",
+      "summary": "Paquete comercial bajo Apache-2.0 con verificación ZNE en Lean 4 (0 sorry), benchmark C99 y procedencia SHA-256/OTS.",
+      "ref": "papers/paper21_oasis_proof_runtime_auditor/oasis_proof_runtime_auditor.tex"
     }
   },
   "edges": [
@@ -951,6 +959,16 @@
       "from": "paper_prime_simplicity_compendium",
       "rel": "extended_by",
       "to": "paper_qos_stability_prime_com"
+    },
+    {
+      "from": "paper21_oasis_proof_runtime_auditor",
+      "rel": "verified_by",
+      "to": "QOS_Entropic_Stability_Spec"
+    },
+    {
+      "from": "paper_qos_stability_prime_com",
+      "rel": "commercialized_in",
+      "to": "paper21_oasis_proof_runtime_auditor"
     }
   ]
 }
