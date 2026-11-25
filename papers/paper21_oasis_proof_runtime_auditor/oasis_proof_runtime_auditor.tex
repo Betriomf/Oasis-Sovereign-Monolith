@@ -1,0 +1,35 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\title{Oasis Proof Quantum-Classical Runtime Auditor: Lean 4 ZNE Verification, Zero-LLM Graph Triage, and Cryptographic Provenance}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present the commercial-ready engineering reference package for \emph{Oasis Proof Quantum-Classical Runtime Auditor} under the \texttt{Apache-2.0} license, building on the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}). The package combines: (1) formal algebraic verification of two-point linear Zero-Noise Extrapolation (ZNE) and bounded thermal/fidelity envelopes in \texttt{Lean~4.36.0} (\texttt{QOS\_Entropic\_Stability\_Spec.lean}, \texttt{0 sorry}, \texttt{0} custom axioms), (2) deterministic zero-LLM structural graph triage and sub-millisecond benchmark execution in \texttt{C99}, and (3) reproducible \texttt{SHA-256} manifests anchored via Bitcoin OpenTimestamps (\texttt{OTS}). It is designed for B2B code audits, reproducible verification workflows, and air-gapped compliance pipelines.
+\end{abstract}
+
+\section{Architecture and Commercial Scope}
+Unlike academic preprints licensed under \texttt{CC-BY-NC-4.0}, this release provides an open commercial baseline (\texttt{Apache-2.0}) for engineering teams requiring deterministic verification without heavy cloud LLM inference:
+\begin{itemize}
+  \item \textbf{Formal Layer (\texttt{Lean~4.36.0}):} Mechanical verification of linear bias cancellation in two-point ZNE extrapolation and explicit envelope checks (\texttt{0 sorry}).
+  \item \textbf{Deterministic Execution Layer (\texttt{C99}):} Low-overhead timing and numerical consistency checks executable on standard workstation or edge hardware.
+  \item \textbf{Provenance Layer (\texttt{SHA-256} + \texttt{OTS}):} Tamper-evident hash manifests and timestamp receipts for audit trails.
+\end{itemize}
+
+\begin{remark}[Operational Boundaries]
+Two-point linear ZNE cancellation holds under an affine noise model $E(\lambda) = E_0 + c\lambda$ with $\lambda_1 \neq \lambda_2$; non-linear or correlated hardware noise requires dedicated calibration beyond this baseline specification.
+\end{remark}
+
+\end{document}
