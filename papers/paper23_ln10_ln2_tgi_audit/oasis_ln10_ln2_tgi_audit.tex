@@ -9,7 +9,7 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{remark}{Remark}
 
-\title{Logarithmic Scales ($\ln 2$ and $\ln 10$) Across Thermodynamics, Information, and Geometry: An OVRP Observational and Formal Audit}
+\title{Logarithmic Scales ($\ln 2$, $\ln \phi$, and $\ln 10$) Across Thermodynamics, Information, and Geometry: An OVRP Observational and Formal Audit}
 \author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
 \date{November 2026}
 
@@ -17,13 +17,33 @@
 \maketitle
 
 \begin{abstract}
-Within the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), we examine the roles of $\ln 2 \approx 0.693147$ and $\ln 10 \approx 2.302585$ across thermodynamics, information theory, and information geometry. Rather than claiming a universal law or closing open foundational problems, we document where $\ln 10$ appears as an observed attractor/reference scale in our probes alongside the binary/qubit scale $\ln 2$, contextualized against recent literature on information thermodynamics and geometric/entropic structures. A self-contained \texttt{Lean~4.36.0} specification (\texttt{Ln10Ln2\_TGI\_Spec.lean}, \texttt{0 sorry}, \texttt{0} custom axioms) and a deterministic \texttt{C99} scale probe accompany the manuscript under \texttt{SHA-256} and Bitcoin OpenTimestamps provenance.
+Within the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), we examine the roles of $\ln 2 \approx 0.693147$, the golden-ratio logarithm $\ln \phi \approx 0.481212$ ($\phi = \frac{1+\sqrt{5}}{2} \approx 1.618034$), and $\ln 10 \approx 2.302585$ across thermodynamics, information theory, and information geometry. Rather than claiming a universal law or closing open foundational problems, we document $\ln 10$ as an observed attractor/reference scale in our probes alongside $\ln 2$ and $\ln \phi$, contextualized against recent literature on information thermodynamics and geometric/entropic structures. A self-contained \texttt{Lean~4.36.0} specification (\texttt{Ln10Ln2\_TGI\_Spec.lean}, \texttt{0 sorry}, \texttt{0} custom axioms) and a deterministic \texttt{C99} probe accompany the manuscript under \texttt{SHA-256} and Bitcoin OpenTimestamps provenance.
 \end{abstract}
 
 \section{Thermodynamics, Information, Geometry, and Observed Scales}
-In information thermodynamics and quantum information, $\ln 2$ naturally marks two-state/qubit logarithmic scale, whereas $\ln 10$ provides a ten-base logarithmic reference ($\log_{10} x = \ln x / \ln 10$) that we have observed as a recurring attractor/reference value across our OVRP probes. Situating both constants across thermodynamic, informational, and geometric perspectives clarifies what is observed in finite probes versus what remains open theory.
+In information thermodynamics and quantum information, $\ln 2$ marks the binary/two-state logarithmic scale, whereas $\ln 10$ provides a ten-base logarithmic scale ($\log_{10} x = \ln x / \ln 10$) observed as a recurring attractor/reference value across our OVRP probes. Incorporating $\ln \phi \approx 0.481212$ allows a clear comparative table across the three logarithmic scales ($1 - \ln \phi / \ln 2 \approx 30.58\%$ relative gap vs.\ $\ln 2$), keeping physical thermodynamic bounds distinct from structural/combinatorial comparisons.
 
-\begin{remark}[Explicit Scope and Open Boundaries]
+\begin{table}[h!]
+\centering
+\caption{Comparative Logarithmic Scales ($\ln 2$, $\ln \phi$, and $\ln 10$).}
+\begin{tabular}{cccc}
+\hline
+Constant / Scale & Value (nats) & Ratio to $\ln 2$ & Role in Comparative Audit \\
+\hline
+$\ln 2$ & $0.693147$ & $1.000000$ & Binary / single-qubit entropy reference \\
+$\ln \phi$ & $0.481212$ & $0.694243$ & Golden-ratio log ($\phi \approx 1.618034$; $30.58\%$ below $\ln 2$) \\
+$\ln 10$ & $2.302585$ & $3.321928$ & Decimal scale \& observed probe attractor/reference \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Conclusions and Open Boundaries}
+\begin{itemize}
+  \item \textbf{Scale Comparison ($\ln 2$, $\ln \phi$, $\ln 10$):} Putting $\ln 2$, $\ln \phi$, and $\ln 10$ side by side clarifies their exact numerical ratios without conflating base conversions or structural state-space ratios with a universal physical law.
+  \item \textbf{Observed Attractor vs.\ Open Theory:} Documenting $\ln 10$ as an observed attractor/reference in our probes anchors the narrative transparently while leaving open questions in non-equilibrium quantum thermodynamics, information geometry, gauge confinement, and analytic number theory explicit.
+\end{itemize}
+
+\begin{remark}[Explicit Open Boundaries]
 Observing $\ln 10$ as an attractor in specific probes and models does not establish a universal physical law or resolve open problems in quantum gravity, gauge confinement, or analytic number theory.
 \end{remark}
 
