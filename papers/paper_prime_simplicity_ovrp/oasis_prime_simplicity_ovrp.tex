@@ -1,0 +1,41 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\title{Prime Indivisibility, Discrete Midpoint Symmetry, and OVRP Compression vs. Brute-Force Formalization}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We synthesize an earlier distributed information-geometry draft (April 2026) with an elementary prime-indivisibility symmetry model under the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}). Rather than relying on opaque, multi-million-line LLM-generated formalizations, we isolate a compact, human-auditable Lean~4.36.0 kernel (\texttt{PrimeSimplicity\_Spec.lean}, \texttt{0 sorry}, \texttt{0} custom axioms) proving that uniform local generator rules on indivisible elements induce midpoint balance invariants, paired with a deterministic \texttt{C99} prime-entropy probe and \texttt{SHA-256} + Bitcoin OpenTimestamps notarization. We explicitly distinguish these verified discrete invariants from the open analytic continuation problem of the Riemann Hypothesis.
+\end{abstract}
+
+\section{From April 2026 Network Consensus to Prime Indivisibility}
+Every integer $n > 1$ admits a unique prime factorization (Fundamental Theorem of Arithmetic), which encodes arithmetic structure into mutually independent, indivisible generators $p \in \mathbb{P}$. In our April 2026 draft, prime contributions were modeled as distributed consensus weights. Under OVRP, we strip away unverified analytic claims and formalize the exact discrete symmetry induced when identical local balance rules act across indivisible generators.
+
+\begin{definition}[Indivisible Generator]
+An integer $p \ge 2$ is indivisible (prime) if for every $d \in \mathbb{N}$ dividing $p$, either $d = 1$ or $d = p$.
+\end{definition}
+
+\begin{theorem}[Midpoint Reflection Invariance]
+For any normalized weight parameter $\sigma \in [0, 1]$ scaled in permille ($s \in [0, 1000]$), the symmetric reflection $R(s) = 1000 - s$ fixes the critical midpoint $s = 500$ ($\sigma = 0.5$) uniquely and preserves quadratic distance to the midpoint: $(R(s) - 500)^2 = (s - 500)^2$.
+\end{theorem}
+
+\section{Compression vs. Brute-Force Formalization}
+Recent announcements of multi-hundred-thousand-page formal proof scripts highlight an auditability bottleneck: mechanical compilation alone does not guarantee human transparency of definitions and auxiliary assumptions. OVRP addresses this by enforcing compact specifications (\texttt{< 100} lines of Lean~4), deterministic \texttt{C99} numerical probes, and cryptographic provenance.
+
+\begin{remark}[Explicit Open Boundary]
+Discrete midpoint symmetry and prime-entropy convergence on finite intervals do not constitute an unconditional analytic proof of the Riemann Hypothesis across the entire complex critical strip $0 < \operatorname{Re}(s) < 1$, which remains an open problem.
+\end{remark}
+
+\end{document}
