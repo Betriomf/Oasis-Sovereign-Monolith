@@ -151,6 +151,12 @@
       "instruction": "Resume la fuente verificada: Oasis Proof Quantum-Classical Runtime Auditor DOI Zenodo (Apache-2.0)",
       "output": "Paquete de auditoría y verificación ZNE bajo licencia comercial Apache-2.0 (DOI: 10.5281/zenodo.24530918).",
       "source": "https://doi.org/10.5281/zenodo.24530918"
+    },
+    {
+      "id": "ref_25",
+      "instruction": "Resume la fuente verificada: Paper Entanglement Entropy & Discrete Symmetry Audit DOI Zenodo (CC-BY-4.0)",
+      "output": "Auditoría comparativa de entropía de dos qubits y simetría discreta bajo licencia abierta CC-BY-4.0 (DOI: 10.5281/zenodo.24533461).",
+      "source": "https://doi.org/10.5281/zenodo.24533461"
     }
   ]
 }

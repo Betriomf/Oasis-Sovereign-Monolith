@@ -36,6 +36,7 @@ CANONICAL_DOIS = {
     "OVRP Prime Symmetry & Formal Audit Compendium (Lean 4)": "https://doi.org/10.5281/zenodo.24529374",
     "Paper QOS Entropic Stability & Prime Center-of-Mass Audit (Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24530182",
     "Oasis Proof Quantum-Classical Runtime Auditor (Apache-2.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24530918",
+    "Paper Entanglement Entropy & Discrete Symmetry Audit (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24533461",
 }
 
 def tz_process(query: str = "") -> str:

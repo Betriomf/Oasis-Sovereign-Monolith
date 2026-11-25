@@ -772,6 +772,14 @@
       "doi": "10.5281/zenodo.24530918",
       "summary": "Paquete comercial bajo Apache-2.0 con verificación ZNE en Lean 4 (0 sorry), benchmark C99 y procedencia SHA-256/OTS.",
       "ref": "papers/paper21_oasis_proof_runtime_auditor/oasis_proof_runtime_auditor.tex"
+    },
+    "paper22_entanglement_symmetry_audit": {
+      "id": "paper22_entanglement_symmetry_audit",
+      "type": "paper",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.24533461",
+      "summary": "Auditoría comparativa de entropía reducida de dos qubits, simetrías discretas en Lean 4 (0 sorry) y fronteras abiertas.",
+      "ref": "papers/paper22_entanglement_symmetry_audit/oasis_entanglement_symmetry_audit.tex"
     }
   },
   "edges": [
@@ -969,6 +977,16 @@
       "from": "paper_qos_stability_prime_com",
       "rel": "commercialized_in",
       "to": "paper21_oasis_proof_runtime_auditor"
+    },
+    {
+      "from": "paper22_entanglement_symmetry_audit",
+      "rel": "verified_by",
+      "to": "EntanglementSymmetry_Spec"
+    },
+    {
+      "from": "paper21_oasis_proof_runtime_auditor",
+      "rel": "followed_by",
+      "to": "paper22_entanglement_symmetry_audit"
     }
   ]
 }

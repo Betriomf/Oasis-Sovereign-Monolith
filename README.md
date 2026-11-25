@@ -95,3 +95,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **OVRP Prime Symmetry & Formal Audit Compendium (Lean 4):** https://doi.org/10.5281/zenodo.24529374
 - **Paper QOS Entropic Stability, ZNE & Prime Center-of-Mass Audit (Lean 4 & C99):** https://doi.org/10.5281/zenodo.24530182
 - **Oasis Proof Quantum-Classical Runtime Auditor (Apache-2.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24530918
+- **Paper Entanglement Entropy, Discrete Symmetry & Confinement Audit (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24533461
