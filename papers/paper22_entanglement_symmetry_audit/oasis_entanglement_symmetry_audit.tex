@@ -17,7 +17,7 @@
 \maketitle
 
 \begin{abstract}
-Within the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), we present a comparative computational and formal audit examining two-qubit reduced von Neumann entropy $S(\rho_A) = -\operatorname{Tr}(\rho_A \ln \rho_A)$, discrete midpoint/parity symmetries in \texttt{Lean~4.36.0} (\texttt{EntanglementSymmetry\_Spec.lean}, \texttt{0 sorry}, \texttt{0} custom axioms), and open problems across gauge theory, string unification, and analytic number theory. We document both an initial internal consistency table and a contrast table comparing a pure Bell state ($S(\rho_A) = \ln 2$) against a separable product state ($S(\rho_A) = 0$) and noisy diagonal states in \texttt{C99}, while keeping open analytic boundaries explicit.
+Within the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), we present a comparative computational and formal audit examining two-qubit reduced von Neumann entropy $S(\rho_A) = -\operatorname{Tr}(\rho_A \ln \rho_A)$, discrete midpoint/parity symmetries in \texttt{Lean~4.36.0} (\texttt{EntanglementSymmetry\_Spec.lean}, \texttt{0 sorry}, \texttt{0} custom axioms), and open problems across gauge theory, string unification, and analytic number theory. We document both an initial internal consistency table and a contrast table comparing a pure Bell state ($S(\rho_A) = \ln 2$) against a separable product state ($S(\rho_A) = 0$) and noisy diagonal states in \texttt{C99}, together with conclusions and an open-commons licensing stance.
 \end{abstract}
 
 \section{Numerical Tables and Comparative Audit}
@@ -50,6 +50,13 @@ $1.00$ & $0.693147$ & $0.000000$ & $0.000000$ & $+0.693147$ \\
 \hline
 \end{tabular}
 \end{table}
+
+\section{Conclusions and Open Licensing Stance}
+\begin{itemize}
+  \item \textbf{Table~1 Conclusion:} Identical evaluations across $w \in [0, 1]$ with $\Delta S = 0$ confirm numerical consistency of the binary von Neumann entropy routine in \texttt{C99} without hidden drift.
+  \item \textbf{Table~2 Conclusion:} Comparing a pure Bell state ($S(\rho_A) = \ln 2 \approx 0.693147$) against a separable product state ($S(\rho_A) = 0$) and a noisy diagonal state clarifies how subsystem entropy separates maximal single-qubit entanglement from separable/noisy baselines in finite dimension.
+  \item \textbf{Open Commons Licensing:} Following OVRP transparency standards, verification artifacts and code are released under open, non-restrictive commons terms (such as \texttt{Apache-2.0} or \texttt{CC-BY-4.0}) so researchers and engineers can audit, reproduce, and build upon them openly.
+\end{itemize}
 
 \begin{remark}[Explicit Open Boundaries]
 All numerical probes operate on finite-dimensional two-qubit states and discrete arithmetic invariants; continuum Yang--Mills confinement, string-theoretic unification, and the Riemann Hypothesis remain open.
