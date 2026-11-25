@@ -17,7 +17,7 @@ theorem balanced_permil_sum (u : Nat) (hu : u ≤ 100) :
   omega
 
 /-- Cota inferior trivial de distancia absoluta no negativa en enteros. -/
-theorem nonneg_diff_bound (a b : Nat) (hab : b ≤ a) :
+theorem nonneg_diff_bound (a b : Nat) :
     0 ≤ a - b := by
   omega
 
