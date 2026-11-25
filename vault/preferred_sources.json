@@ -163,6 +163,12 @@
       "instruction": "Resume la fuente verificada: Paper Logarithmic Scales ln(2)/ln(phi)/ln(10) Across TGI DOI Zenodo (CC-BY-4.0)",
       "output": "Auditoría comparativa de escalas logarítmicas ln(2), ln(phi) y ln(10) en termodinámica, información y geometría (DOI: 10.5281/zenodo.24538777).",
       "source": "https://doi.org/10.5281/zenodo.24538777"
+    },
+    {
+      "id": "ref_27",
+      "instruction": "Resume la fuente verificada: Integrated OVRP Compendium (Papers 22-24) DOI Zenodo (CC-BY-4.0)",
+      "output": "Compendio integrado de entrelazamiento, escalas logarítmicas, auditoría transversal y bien común abierto (DOI: 10.5281/zenodo.24539182).",
+      "source": "https://doi.org/10.5281/zenodo.24539182"
     }
   ]
 }

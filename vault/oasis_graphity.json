@@ -788,6 +788,14 @@
       "doi": "10.5281/zenodo.24538777",
       "summary": "Auditoría comparativa de escalas logarítmicas ln(2), ln(phi) y ln(10) en termodinámica, información y geometría.",
       "ref": "papers/paper23_ln10_ln2_tgi_audit/oasis_ln10_ln2_tgi_audit.tex"
+    },
+    "compendium_22_24_integrated": {
+      "id": "compendium_22_24_integrated",
+      "type": "compendium",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.24539182",
+      "summary": "Síntesis integrada de entrelazamiento, escalas ln(2)/ln(phi)/ln(10), auditoría transversal y bien común abierto.",
+      "ref": "papers/paper24_open_science_commons_audit/oasis_paper24_commons_audit.tex"
     }
   },
   "edges": [
@@ -1005,6 +1013,16 @@
       "from": "paper22_entanglement_symmetry_audit",
       "rel": "followed_by",
       "to": "paper23_ln10_ln2_tgi_audit"
+    },
+    {
+      "from": "paper23bis_cross_domain_synthesis",
+      "rel": "followed_by",
+      "to": "paper24_open_science_commons_audit"
+    },
+    {
+      "from": "paper24_open_science_commons_audit",
+      "rel": "part_of",
+      "to": "compendium_22_24_integrated"
     }
   ]
 }
