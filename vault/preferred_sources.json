@@ -127,6 +127,12 @@
       "instruction": "Resume la fuente verificada: Paper Prime Indivisibility & Discrete Midpoint Symmetry DOI Zenodo",
       "output": "Indivisibilidad de primos, reflexión discreta en punto medio y compresión formal verificada en Lean 4.36.0 (0 sorry) bajo OVRP (DOI: ).",
       "source": "https://doi.org/"
+    },
+    {
+      "id": "ref_21",
+      "instruction": "Resume la fuente verificada: Paper Prime Indivisibility & Discrete Midpoint Symmetry DOI Zenodo",
+      "output": "Indivisibilidad de primos, reflexión discreta en punto medio y compresión formal verificada en Lean 4.36.0 (0 sorry) bajo OVRP (DOI: 10.5281/zenodo.24528811).",
+      "source": "https://doi.org/10.5281/zenodo.24528811"
     }
   ]
 }

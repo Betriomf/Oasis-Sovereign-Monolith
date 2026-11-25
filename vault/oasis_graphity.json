@@ -743,6 +743,13 @@
       "doi": "10.5281/zenodo.24483484",
       "summary": "Ratio informacional adimensional |ΔG|/(c_scale·H) ≈ ln(10) en plegamiento proteico con ProteinFoldingAttractor_Spec.lean (0 sorry) y sonda C99.",
       "ref": "papers/paper_protein_folding_attractor/oasis_protein_folding_attractor.tex"
+    },
+    "paper_prime_simplicity_ovrp": {
+      "id": "paper_prime_simplicity_ovrp",
+      "type": "paper",
+      "doi": "10.5281/zenodo.24528811",
+      "summary": "Indivisibilidad de primos, simetría discreta en punto medio (PrimeSimplicity_Spec.lean 0 sorry) y compresión OVRP frente a pruebas masivas.",
+      "ref": "papers/paper_prime_simplicity_ovrp/oasis_prime_simplicity_ovrp.tex"
     }
   },
   "edges": [
@@ -900,6 +907,16 @@
       "from": "paper_informational_thermodynamics",
       "rel": "applied_to",
       "to": "paper_protein_folding_attractor"
+    },
+    {
+      "from": "paper_prime_simplicity_ovrp",
+      "rel": "verified_by",
+      "to": "PrimeSimplicity_Spec"
+    },
+    {
+      "from": "paper_rh_audit_scan",
+      "rel": "synthesized_in",
+      "to": "paper_prime_simplicity_ovrp"
     }
   ]
 }

@@ -32,6 +32,7 @@ CANONICAL_DOIS = {
     "Paper Five-Phase Bounded Discrete Projections (Lean 4)": "https://doi.org/10.5281/zenodo.24477406",
     "Paper Zero-LLM Triage & Cryptographic Provenance (Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24482608",
     "Paper Protein Folding Informational Attractor (Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24483484",
+    "Paper Prime Indivisibility & Discrete Midpoint Symmetry (Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24528811",
 }
 
 def tz_process(query: str = "") -> str:
