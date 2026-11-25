@@ -121,6 +121,12 @@
       "instruction": "Resume la fuente verificada: Paper Protein Folding Informational Attractor DOI Zenodo",
       "output": "Ratio informacional adimensional en plegamiento proteico verificado en Lean 4.36.0 (0 sorry) y C99 bajo OVRP (DOI: 10.5281/zenodo.24483484).",
       "source": "https://doi.org/10.5281/zenodo.24483484"
+    },
+    {
+      "id": "ref_20",
+      "instruction": "Resume la fuente verificada: Paper Prime Indivisibility & Discrete Midpoint Symmetry DOI Zenodo",
+      "output": "Indivisibilidad de primos, reflexión discreta en punto medio y compresión formal verificada en Lean 4.36.0 (0 sorry) bajo OVRP (DOI: ).",
+      "source": "https://doi.org/"
     }
   ]
 }
