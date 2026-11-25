@@ -98,3 +98,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Paper Entanglement Entropy, Discrete Symmetry & Confinement Audit (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24533461
 - **Paper Logarithmic Scales (ln 2, ln phi, ln 10) Across TGI (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24538777
 - **Integrated OVRP Compendium (Papers 22–24, Entanglement, ln(2)/ln(phi)/ln(10), Cross-Domain & Open Commons, CC-BY-4.0):** https://doi.org/10.5281/zenodo.24539182
+- **Paper Critical Line as a Stability Boundary Interpretation (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24539709

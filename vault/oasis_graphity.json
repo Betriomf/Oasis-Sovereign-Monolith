@@ -796,6 +796,14 @@
       "doi": "10.5281/zenodo.24539182",
       "summary": "Síntesis integrada de entrelazamiento, escalas ln(2)/ln(phi)/ln(10), auditoría transversal y bien común abierto.",
       "ref": "papers/paper24_open_science_commons_audit/oasis_paper24_commons_audit.tex"
+    },
+    "paper25_critical_line_stability": {
+      "id": "paper25_critical_line_stability",
+      "type": "paper",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.24539709",
+      "summary": "Lectura interpretativa de la línea crítica como frontera de estabilidad con especificación Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper25_critical_line_stability/oasis_paper25_critical_line.tex"
     }
   },
   "edges": [
@@ -1023,6 +1031,16 @@
       "from": "paper24_open_science_commons_audit",
       "rel": "part_of",
       "to": "compendium_22_24_integrated"
+    },
+    {
+      "from": "paper25_critical_line_stability",
+      "rel": "verified_by",
+      "to": "Paper25_CriticalLine_Spec"
+    },
+    {
+      "from": "compendium_22_24_integrated",
+      "rel": "followed_by",
+      "to": "paper25_critical_line_stability"
     }
   ]
 }

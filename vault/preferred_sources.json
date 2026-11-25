@@ -169,6 +169,12 @@
       "instruction": "Resume la fuente verificada: Integrated OVRP Compendium (Papers 22-24) DOI Zenodo (CC-BY-4.0)",
       "output": "Compendio integrado de entrelazamiento, escalas logarítmicas, auditoría transversal y bien común abierto (DOI: 10.5281/zenodo.24539182).",
       "source": "https://doi.org/10.5281/zenodo.24539182"
+    },
+    {
+      "id": "ref_28",
+      "instruction": "Resume la fuente verificada: Paper Critical Line Stability Boundary DOI Zenodo (CC-BY-4.0)",
+      "output": "Auditoría e interpretación de frontera de estabilidad de la línea crítica bajo licencia abierta CC-BY-4.0 (DOI: 10.5281/zenodo.24539709).",
+      "source": "https://doi.org/10.5281/zenodo.24539709"
     }
   ]
 }
