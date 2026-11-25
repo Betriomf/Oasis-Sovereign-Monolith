@@ -757,6 +757,13 @@
       "doi": "10.5281/zenodo.24529374",
       "summary": "Compendio OVRP que enlaza DOI 24463308 y DOI 24528811 con fronteras abiertas explícitas.",
       "ref": "papers/paper_prime_simplicity_compendium/oasis_prime_simplicity_compendium.tex"
+    },
+    "paper_qos_stability_prime_com": {
+      "id": "paper_qos_stability_prime_com",
+      "type": "paper",
+      "doi": "10.5281/zenodo.24530182",
+      "summary": "Estabilidad entrópica QOS (Pilar 370 / ZNE en Lean 4 0 sorry) + sonda C99 D(p_n) (arXiv:2611.32537 & 2611.31469).",
+      "ref": "papers/paper_qos_stability_prime_com/oasis_qos_stability_prime_com.tex"
     }
   },
   "edges": [
@@ -934,6 +941,16 @@
       "from": "paper_prime_simplicity_compendium",
       "rel": "links",
       "to": "paper_prime_simplicity_ovrp"
+    },
+    {
+      "from": "paper_qos_stability_prime_com",
+      "rel": "verified_by",
+      "to": "QOS_Entropic_Stability_Spec"
+    },
+    {
+      "from": "paper_prime_simplicity_compendium",
+      "rel": "extended_by",
+      "to": "paper_qos_stability_prime_com"
     }
   ]
 }
