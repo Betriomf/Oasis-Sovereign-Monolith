@@ -1,0 +1,41 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\title{Bounded Proof Compression, Prime Logarithmic Center-of-Mass Audits, and Entropic Stability in Quantum-Classical Operating Systems}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Motivated by two recent developments in analytic number theory and proof complexity---namely the logarithmic prime center-of-mass equivalence of Mehdi-Nezhad and Rahimi (\texttt{arXiv:2611.32537}) and Lisewski's proof-theoretic obstruction against unbounded symbolic proof compression (\texttt{arXiv:2611.31469})---we formalize stability invariants for lightweight quantum-classical operating systems (Pillar~370) under the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}). In \texttt{Lean~4.36.0} (\texttt{QOS\_Entropic\_Stability\_Spec.lean}, \texttt{0 sorry}, \texttt{0} custom axioms), we mechanically verify linear Zero-Noise Extrapolation (ZNE) bias cancellation alongside sub-stochastic temperature and passive thermal-envelope bounds. In parallel, a deterministic \texttt{C99} probe audits the finite logarithmic center-of-mass residual $D(p_n) = \log(p_n / G_n)$ up to $N = 10^6$, maintaining explicit open boundaries between finite computational invariants and infinite analytic limits.
+\end{abstract}
+
+\section{Proof-Theoretic Obstruction and Architectural Stability}
+Lisewski (\texttt{arXiv:2611.31469}) demonstrates via diagonalization and Pudl\'ak's lower bound that analytic regularity alone cannot uniformly compress arbitrary symbolic derivations into short proofs. Consequently, operational reliability in hybrid quantum-classical schedulers cannot rely on unbounded emergent compression; instead, it requires explicit runtime invariants: sub-stochastic inference temperature bounds ($T \le 0.23 \approx \varphi^{-2}$), passive thermal budgets ($\le 2.58\,\mathrm{W}$ nominal, $\le 3.78\,\mathrm{W}$ peak), and deterministic error mitigation.
+
+\begin{theorem}[Two-Point Linear ZNE Bias Cancellation]
+For any observable $E(\lambda) = E_0 + c\lambda$ evaluated at distinct noise scale factors $\lambda_1 \neq \lambda_2$, the Richardson linear extrapolant
+\[
+E_{\mathrm{ZNE}} = \frac{\lambda_2 E(\lambda_1) - \lambda_1 E(\lambda_2)}{\lambda_2 - \lambda_1}
+\]
+recovers the zero-noise expectation $E_0$ identically.
+\end{theorem}
+
+\section{Logarithmic Prime Center-of-Mass Probe}
+Following Mehdi-Nezhad and Rahimi (\texttt{arXiv:2611.32537}), let $G_n = \left(\prod_{k=1}^n p_k\right)^{1/n}$ denote the geometric mean of the first $n$ primes and $D(p_n) = \log(p_n / G_n)$ the distance from the logarithmic prime center of mass to $\log p_n$. Our \texttt{C99} probe evaluates $D(p_n)$, the asymptotic reference $D_0(p_n) \approx 1 - \frac{\log p_n}{p_n}\mathrm{li}(p_n)$ via trapezoidal integration, and the scaled residual $\sqrt{p_n}|D(p_n) - D_0(p_n)|$ on finite intervals.
+
+\begin{remark}[Explicit Open Boundary]
+Finite center-of-mass evaluations ($N \le 10^6$) and discrete OS scheduler invariants verify algorithmic stability and numerical consistency on bounded domains; they do not constitute an analytic proof of asymptotic bounds as $n \to \infty$.
+\end{remark}
+
+\end{document}
