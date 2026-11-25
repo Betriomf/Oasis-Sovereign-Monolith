@@ -174,7 +174,7 @@
     const origJson = resp.json.bind(resp);
     resp.json = async function() {
       const txt = await resp.clone().text();
-      if (!txt || !txt.trim()) return { output: "✅ Comando ejecutado (sin salida adicional).", status: "OK" };
+      if (!txt || !txt.trim()) return { output: "ℹ️ Comando completado sin cuerpo JSON/texto en la respuesta.", status: "EMPTY_BODY" };
       try { return JSON.parse(txt); }
       catch (e) { return { output: txt, status: "TEXT_FALLBACK" }; }
     };
@@ -478,7 +478,8 @@
             termSov.writeln(`\r\n\x1b[32m[OK]: Ejecución completada sin salida.\x1b[0m`);
         }
     } catch (err) {
-        termSov.writeln(`\r\n\x1b[31mError de comunicación: ${err.message || err}\x1b[0m`);
+        const detail = err && err.message ? err.message : String(err);
+        termSov.writeln(`\r\n\x1b[31m[AVISO /v1/skill]: Servicio no disponible o sin respuesta (${detail}). Verifica el backend local o el nodo de Render.\x1b[0m`);
     }
     termSov.write(sovPrompt);
 }
@@ -514,7 +515,8 @@
         const d = await res.json();
         if (d.output) termHost.writeln(d.output.replace(/\n/g, "\r\n"));
       } catch(e) {
-        termHost.writeln("Error RPC: " + e);
+        const detail = e && e.message ? e.message : String(e);
+        termHost.writeln(`\r\n\x1b[33m[AVISO RPC /v1/darwin/exec]: Puente RPC no disponible (${detail}). Inicia el servidor backend para ejecutar comandos en el host.\x1b[0m`);
       }
       termHost.write(hostPrompt);
     }
@@ -738,9 +740,16 @@
         ctx.fillRect(x, y, 3, 3);
       }
       angle += 0.03;
+      if (!document.hidden) {
+        requestAnimationFrame(loop);
+      }
+    }
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) requestAnimationFrame(loop);
+    });
+    if (!document.hidden) {
       requestAnimationFrame(loop);
     }
-    requestAnimationFrame(loop);
   };
 
   // Disparar benchmark automáticamente al escribir 'play' o 'bench'
