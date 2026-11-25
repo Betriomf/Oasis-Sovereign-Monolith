@@ -37,6 +37,7 @@ CANONICAL_DOIS = {
     "Paper QOS Entropic Stability & Prime Center-of-Mass Audit (Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24530182",
     "Oasis Proof Quantum-Classical Runtime Auditor (Apache-2.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24530918",
     "Paper Entanglement Entropy & Discrete Symmetry Audit (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24533461",
+    "Paper Logarithmic Scales (ln 2, ln phi, ln 10) Across TGI (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24538777",
 }
 
 def tz_process(query: str = "") -> str:

@@ -780,6 +780,14 @@
       "doi": "10.5281/zenodo.24533461",
       "summary": "Auditoría comparativa de entropía reducida de dos qubits, simetrías discretas en Lean 4 (0 sorry) y fronteras abiertas.",
       "ref": "papers/paper22_entanglement_symmetry_audit/oasis_entanglement_symmetry_audit.tex"
+    },
+    "paper23_ln10_ln2_tgi_audit": {
+      "id": "paper23_ln10_ln2_tgi_audit",
+      "type": "paper",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.24538777",
+      "summary": "Auditoría comparativa de escalas logarítmicas ln(2), ln(phi) y ln(10) en termodinámica, información y geometría.",
+      "ref": "papers/paper23_ln10_ln2_tgi_audit/oasis_ln10_ln2_tgi_audit.tex"
     }
   },
   "edges": [
@@ -987,6 +995,16 @@
       "from": "paper21_oasis_proof_runtime_auditor",
       "rel": "followed_by",
       "to": "paper22_entanglement_symmetry_audit"
+    },
+    {
+      "from": "paper23_ln10_ln2_tgi_audit",
+      "rel": "verified_by",
+      "to": "Ln10Ln2_TGI_Spec"
+    },
+    {
+      "from": "paper22_entanglement_symmetry_audit",
+      "rel": "followed_by",
+      "to": "paper23_ln10_ln2_tgi_audit"
     }
   ]
 }
