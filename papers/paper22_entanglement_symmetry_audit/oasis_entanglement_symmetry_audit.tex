@@ -17,18 +17,42 @@
 \maketitle
 
 \begin{abstract}
-Within the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), we conduct a comparative computational and formal audit linking two-qubit entanglement entropy, discrete parity/midpoint symmetries, and open foundational problems in gauge theory, string unification, and analytic number theory. In \texttt{Lean~4.36.0} (\texttt{EntanglementSymmetry\_Spec.lean}, \texttt{0 sorry}, \texttt{0} custom axioms), we formally verify exact finite conservation and discrete reflection lemmas. In \texttt{C99}, we simulate reduced-density-matrix von Neumann entropy $S(\rho_A) = -\operatorname{Tr}(\rho_A \ln \rho_A)$ across noisy two-qubit states alongside finite discrete parity-balance probes, explicitly separating finite verified computations from open problems in continuous Yang--Mills confinement, string unification, and the Riemann Hypothesis.
+Within the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), we present a comparative computational and formal audit examining two-qubit reduced von Neumann entropy $S(\rho_A) = -\operatorname{Tr}(\rho_A \ln \rho_A)$, discrete midpoint/parity symmetries in \texttt{Lean~4.36.0} (\texttt{EntanglementSymmetry\_Spec.lean}, \texttt{0 sorry}, \texttt{0} custom axioms), and open problems across gauge theory, string unification, and analytic number theory. We document both an initial internal consistency table and a contrast table comparing a pure Bell state ($S(\rho_A) = \ln 2$) against a separable product state ($S(\rho_A) = 0$) and noisy diagonal states in \texttt{C99}, while keeping open analytic boundaries explicit.
 \end{abstract}
 
-\section{Comparative Audit Scope}
-Quantum entanglement captures non-classical correlations across subsystems, whereas non-Abelian gauge lattices study confinement and spectral gaps, and analytic number theory examines prime distributions and zeta zeros. Rather than conflating distinct mathematical regimes, OVRP audits finite invariants mechanically while recording open analytic frontiers explicitly:
-\begin{itemize}
-  \item \textbf{Formal Layer (\texttt{Lean~4.36.0}):} Zero-\texttt{sorry} proofs of finite probability-weight normalization and discrete reflection symmetry.
-  \item \textbf{Numerical Probe (\texttt{C99}):} Evaluation of reduced von Neumann entropy $S(\rho_A)$ for mixed/pure two-qubit ensembles and finite discrete balance metrics.
-\end{itemize}
+\section{Numerical Tables and Comparative Audit}
+Table~1 records the initial internal consistency check of the binary von Neumann entropy routine across $w \in [0, 1]$, where identical evaluations yield $\Delta S = 0$. Table~2 contrasts the pure Bell reduced entropy $S(\rho_A) = \ln 2 \approx 0.693147$ against the separable state $|00\rangle$ ($S = 0$) and a noisy diagonal state $p_0(w) = w + \frac{1-w}{2}$.
+
+\begin{table}[h!]
+\centering
+\caption{Table 1: Internal Consistency Check of Binary Entropy Routine ($w \in [0, 1]$).}
+\begin{tabular}{cccc}
+\hline
+$w$ & $S_{\mathrm{init}}(\rho_A)$ & $S_{\mathrm{ref}}(\rho_A)$ & $\Delta S$ \\
+\hline
+$0.00$ & $0.693147$ & $0.693147$ & $+0.000000$ \\
+$0.50$ & $0.562335$ & $0.562335$ & $+0.000000$ \\
+$1.00$ & $0.000000$ & $0.000000$ & $+0.000000$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Table 2: Pure Bell Entropy ($\ln 2$) vs.\ Separable $|00\rangle$ ($0$) and Noisy State ($p_0(w) = w + \frac{1-w}{2}$).}
+\begin{tabular}{ccccc}
+\hline
+$w$ & $S_{\mathrm{Bell}}(\rho_A)$ & $S_{\mathrm{sep}}(|00\rangle)$ & $S_{\mathrm{noise}}(w)$ & $S_{\mathrm{Bell}} - S_{\mathrm{noise}}$ \\
+\hline
+$0.00$ & $0.693147$ & $0.000000$ & $0.693147$ & $+0.000000$ \\
+$0.50$ & $0.693147$ & $0.000000$ & $0.562335$ & $+0.130812$ \\
+$1.00$ & $0.693147$ & $0.000000$ & $0.000000$ & $+0.693147$ \\
+\hline
+\end{tabular}
+\end{table}
 
 \begin{remark}[Explicit Open Boundaries]
-Finite two-qubit entropy evaluations and discrete parity probes do not establish continuum Yang--Mills confinement, full string-theoretic unification, or the Riemann Hypothesis.
+All numerical probes operate on finite-dimensional two-qubit states and discrete arithmetic invariants; continuum Yang--Mills confinement, string-theoretic unification, and the Riemann Hypothesis remain open.
 \end{remark}
 
 \end{document}
