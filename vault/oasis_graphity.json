@@ -750,6 +750,13 @@
       "doi": "10.5281/zenodo.24528811",
       "summary": "Indivisibilidad de primos, simetría discreta en punto medio (PrimeSimplicity_Spec.lean 0 sorry) y compresión OVRP frente a pruebas masivas.",
       "ref": "papers/paper_prime_simplicity_ovrp/oasis_prime_simplicity_ovrp.tex"
+    },
+    "paper_prime_simplicity_compendium": {
+      "id": "paper_prime_simplicity_compendium",
+      "type": "compendium",
+      "doi": "10.5281/zenodo.24529374",
+      "summary": "Compendio OVRP que enlaza DOI 24463308 y DOI 24528811 con fronteras abiertas explícitas.",
+      "ref": "papers/paper_prime_simplicity_compendium/oasis_prime_simplicity_compendium.tex"
     }
   },
   "edges": [
@@ -916,6 +923,16 @@
     {
       "from": "paper_rh_audit_scan",
       "rel": "synthesized_in",
+      "to": "paper_prime_simplicity_ovrp"
+    },
+    {
+      "from": "paper_prime_simplicity_compendium",
+      "rel": "links",
+      "to": "paper_rh_audit_scan"
+    },
+    {
+      "from": "paper_prime_simplicity_compendium",
+      "rel": "links",
       "to": "paper_prime_simplicity_ovrp"
     }
   ]

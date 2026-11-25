@@ -133,6 +133,12 @@
       "instruction": "Resume la fuente verificada: Paper Prime Indivisibility & Discrete Midpoint Symmetry DOI Zenodo",
       "output": "Indivisibilidad de primos, reflexión discreta en punto medio y compresión formal verificada en Lean 4.36.0 (0 sorry) bajo OVRP (DOI: 10.5281/zenodo.24528811).",
       "source": "https://doi.org/10.5281/zenodo.24528811"
+    },
+    {
+      "id": "ref_22",
+      "instruction": "Resume la fuente verificada: OVRP Prime Symmetry & Formal Audit Compendium DOI Zenodo",
+      "output": "Compendio OVRP que enlaza la auditoría espectral y la simetría discreta en punto medio bajo CC-BY-NC-4.0 (DOI: 10.5281/zenodo.24529374).",
+      "source": "https://doi.org/10.5281/zenodo.24529374"
     }
   ]
 }
