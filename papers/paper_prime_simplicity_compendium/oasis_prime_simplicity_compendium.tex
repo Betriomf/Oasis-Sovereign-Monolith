@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{remark}{Remark}
+
+\title{OVRP Prime Symmetry \& Formal Audit Compendium: Linking Critical-Line Scans and Discrete Midpoint Invariants}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This technical compendium links two verified modules of the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}): (1) the formal boundary audit and critical-line numerical scan (\texttt{DOI: 10.5281/zenodo.24463308}), and (2) the discrete prime-indivisibility and midpoint reflection specification (\texttt{DOI: 10.5281/zenodo.24528811}, \texttt{PrimeSimplicity\_Spec.lean}, Lean~4.36.0, \texttt{0 sorry}, \texttt{0} custom axioms). Together, both records establish a self-contained, human-auditable baseline of discrete parity and reflection invariants while explicitly preserving the open analytic boundary of the Riemann Hypothesis across the infinite complex critical strip.
+\end{abstract}
+
+\section{Linked Verified Records}
+\begin{itemize}
+  \item \textbf{Record A (9th DOI — Critical-Line Audit \& Scan):} \texttt{https://doi.org/10.5281/zenodo.24463308}
+  \item \textbf{Record B (18th DOI — Prime Indivisibility \& Midpoint Symmetry):} \texttt{https://doi.org/10.5281/zenodo.24528811}
+  \item \textbf{Formal Kernel (\texttt{0 sorry}):} \texttt{formal\_proofs/PrimeSimplicity\_Spec.lean}
+\end{itemize}
+
+\begin{remark}[Scientific Scope and Explicit Open Boundary]
+This compendium synthesizes finite numerical probes ($N \le 10^5$) and elementary discrete midpoint reflection theorems in $\mathbb{N}$. It does not claim an unconditional analytic proof of the Riemann Hypothesis in $0 < \operatorname{Re}(s) < 1$, which remains an open problem.
+\end{remark}
+
+\end{document}
