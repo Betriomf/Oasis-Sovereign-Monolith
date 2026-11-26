@@ -804,6 +804,14 @@
       "doi": "10.5281/zenodo.24539709",
       "summary": "Lectura interpretativa de la línea crítica como frontera de estabilidad con especificación Lean 4 (0 sorry, 0 warnings) y sonda C99.",
       "ref": "papers/paper25_critical_line_stability/oasis_paper25_critical_line.tex"
+    },
+    "paper26_ln3_ternary_scales": {
+      "id": "paper26_ln3_ternary_scales",
+      "type": "paper",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.24559695",
+      "summary": "Escala ternaria ln(3) en sondas de mezcla y cruce con ln(2) y ln(10) verificada en Lean 4 (0 sorry, 0 warnings) y C99.",
+      "ref": "papers/paper26_ln3_ternary_scales/oasis_paper26_ln3_scales.tex"
     }
   },
   "edges": [
@@ -1041,6 +1049,16 @@
       "from": "compendium_22_24_integrated",
       "rel": "followed_by",
       "to": "paper25_critical_line_stability"
+    },
+    {
+      "from": "paper26_ln3_ternary_scales",
+      "rel": "verified_by",
+      "to": "Paper26_Ln3Scales_Spec"
+    },
+    {
+      "from": "paper25_critical_line_stability",
+      "rel": "followed_by",
+      "to": "paper26_ln3_ternary_scales"
     }
   ]
 }

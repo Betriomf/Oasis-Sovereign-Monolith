@@ -175,6 +175,12 @@
       "instruction": "Resume la fuente verificada: Paper Critical Line Stability Boundary DOI Zenodo (CC-BY-4.0)",
       "output": "Auditoría e interpretación de frontera de estabilidad de la línea crítica bajo licencia abierta CC-BY-4.0 (DOI: 10.5281/zenodo.24539709).",
       "source": "https://doi.org/10.5281/zenodo.24539709"
+    },
+    {
+      "id": "ref_29",
+      "instruction": "Resume la fuente verificada: Paper Ternary Scale ln(3) DOI Zenodo (CC-BY-4.0)",
+      "output": "Sonda de escala ternaria ln(3) y cruce logarítmico con ln(2) y ln(10) bajo licencia abierta CC-BY-4.0 (DOI: 10.5281/zenodo.24559695).",
+      "source": "https://doi.org/10.5281/zenodo.24559695"
     }
   ]
 }
