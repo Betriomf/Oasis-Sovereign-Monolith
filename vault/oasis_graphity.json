@@ -852,6 +852,14 @@
       "doi": "10.5281/zenodo.19098625",
       "summary": "Auditoría crítica de constantes y razones de acoplamiento con fronteras abiertas explícitas, Lean 4 (0 sorry, 0 warnings) y sonda C99.",
       "ref": "papers/paper31_constants_couplings_critique/oasis_paper31_constants_critique.tex"
+    },
+    "paper100_cosmic_coupling": {
+      "id": "paper100_cosmic_coupling",
+      "type": "paper",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.24563096",
+      "summary": "Síntesis exploratoria de repartos phi y sondas de acoplamiento con fronteras abiertas, Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper100_cosmic_coupling_milestone/oasis_paper100_cosmic_coupling.tex"
     }
   },
   "edges": [
@@ -1149,6 +1157,16 @@
       "from": "paper30_ig_hybrids",
       "rel": "followed_by",
       "to": "paper31_constants_critique"
+    },
+    {
+      "from": "paper100_cosmic_coupling",
+      "rel": "verified_by",
+      "to": "Paper100_CosmicCoupling_Spec"
+    },
+    {
+      "from": "paper31_constants_critique",
+      "rel": "followed_by",
+      "to": "paper100_cosmic_coupling"
     }
   ]
 }

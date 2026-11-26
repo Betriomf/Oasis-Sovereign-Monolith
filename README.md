@@ -105,3 +105,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Paper Comparative Contrast of Noise and Entropy Models in Finite Quantum Systems (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24528606
 - **Paper Information Geometry Applied to Networks and Hybrid Systems (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24529309
 - **Paper Critical Audit of Constants, Coupling Ratios, and Open Boundaries (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.19098625
+- **Milestone 100 Synthesis: Exploratory phi-Ratio Cosmic Shares, Coupling Probes, and Open Boundaries (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24563096
