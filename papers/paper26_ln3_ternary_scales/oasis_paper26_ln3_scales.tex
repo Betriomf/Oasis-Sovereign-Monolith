@@ -1,0 +1,34 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+
+\title{Ternary Scale $\ln 3$ in Quantum Mixture Probes and Cross-Logarithmic Ratios with $\ln 2$ and $\ln 10$ Under OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 26, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Building on the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}) and the critical-line stability note (\texttt{DOI: 10.5281/zenodo.24539709}), this paper examines $\ln 3 \approx 1.098612\text{ nats}$ as the maximal entropy scale of a uniform three-level (qutrit) state and cross-compares it against $\ln 2 \approx 0.693147\text{ nats}$ and $\ln 10 \approx 2.302585\text{ nats}$ (treated as an observed probe reference/attractor). Deterministic \texttt{C99} sweeps across mixing parameter $\varepsilon \in [0, 1]$, a zero-\texttt{sorry} \texttt{Lean~4.36.0} specification (\texttt{Paper26\_Ln3Scales\_Spec.lean}), and \texttt{SHA-256} + Bitcoin OpenTimestamps provenance accompany the study under explicit open boundaries.
+\end{abstract}
+
+\section{Conclusions and Numerical Findings}
+\begin{itemize}
+  \item \textbf{Three-Level Entropy Ceiling:} Along a diagonal three-level mixture parameterized by $\varepsilon \in [0, 1]$, von Neumann entropy rises from $0$ at $\varepsilon = 0.00$ to $S(0.50) \approx 0.867563\text{ nats}$ and reaches $\ln 3 \approx 1.098612\text{ nats}$ at $\varepsilon = 1.00$.
+  \item \textbf{Cross-Scale Ratios with $\ln 2$ and $\ln 10$:} At $\varepsilon = 1.00$, $S / \ln 2 \approx 1.584963$, $S / \ln 10 = \ln 3 / \ln 10 \approx 0.477121$, and the additive gap $\ln 10 - \ln 3 \approx 1.203973\text{ nats}$ remains positive.
+  \item \textbf{Scope and Open Boundaries:} These results characterize finite three-level mixture probes and logarithmic scale ratios; they do not establish universal quantum laws or resolve open foundational conjectures.
+\end{itemize}
+
+\begin{remark}[Explicit Open Boundaries]
+Numerical ratios and finite three-state entropy probes do not prove universal physical laws or close open mathematical and physical problems.
+\end{remark}
+
+\end{document}
