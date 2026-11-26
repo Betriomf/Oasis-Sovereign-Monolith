@@ -1,0 +1,604 @@
+{
+  "graphity_nodes": 136,
+  "graphity_edges": 59,
+  "papers_count": 50,
+  "papers": [
+    {
+      "id": "paper_a_pilar378_lincos_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Decadic Enstrophy Attractor ($\\kappa = \\ln 10$), LINCOS Symbolic Compression, and Lean 4 Formal Certification for Sub-Landauer Hydrodynamic Computing",
+      "ref": "papers/paper_a_pilar378_lincos_lean4.tex"
+    },
+    {
+      "id": "paper_a_pilar378_lincos_lean4_zenodo_clean",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Decadic Enstrophy Attractor ($\\kappa = \\ln 10$), LINCOS Symbolic Compression, and Lean 4 Formal Certification for Sub-Landauer Hydrodynamic Computing",
+      "ref": "papers/paper_a_pilar378_lincos_lean4_zenodo_clean.tex"
+    },
+    {
+      "id": "paper_b_millennium_regularity",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{A Fisher--Rao Regularity Criterion for the 3D Incompressible Navier--Stokes Equations on the Dyadic Energy Simplex",
+      "ref": "papers/paper_b_millennium_regularity.tex"
+    },
+    {
+      "id": "paper_b_yang_mills_spectral_bounds",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Machine-Checked Effective Spectral Gap Bounds in Discretized $SU(N)$ Yang--Mills Theory via Crouzeix Operator Inequalities and Lean 4",
+      "ref": "papers/paper_b_yang_mills_spectral_bounds.tex"
+    },
+    {
+      "id": "paper_b_yang_mills_spectral_bounds_zenodo_clean",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Machine-Checked Effective Spectral Gap Bounds in Discretized $SU(N)$ Yang--Mills Theory via Crouzeix Operator Inequalities and Lean 4",
+      "ref": "papers/paper_b_yang_mills_spectral_bounds_zenodo_clean.tex"
+    },
+    {
+      "id": "paper_c_araki_entropy_mqm_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Araki Relative Entropy Monotonicity and Variational Matrix Compression in Machine-Checked Cold-Silicon Gauge Verification",
+      "ref": "papers/paper_c_araki_entropy_mqm_lean4.tex"
+    },
+    {
+      "id": "paper_d_quantum_os_ring3_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Oasis Sovereign Q-OS: A Formally Verified Ring-3 Adiabatic Microkernel, Irrational $\\pi/\\phi$ Pulse Scheduler, and 21-Byte LINCOS Control Plane for Hybrid Quantum-Classical Computing",
+      "ref": "papers/paper_d_quantum_os_ring3_lean4.tex"
+    },
+    {
+      "id": "paper_e_pilar86_leech_qpu_os_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Pilar 86 Quantum Kernel Architecture and $\\phi$-Aware Distributed Operating System: Leech Lattice ($\\Lambda_{24",
+      "ref": "papers/paper_e_pilar86_leech_qpu_os_lean4.tex"
+    },
+    {
+      "id": "paper_f_personal_desktop_cold_silicon_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Cold-Silicon Personal Desktop Architecture: Zero-Swap Local AI Pooling, Bounded Context Pruning, and Ring-3 Isolation on Memory-Constrained Consumer Laptops",
+      "ref": "papers/paper_f_personal_desktop_cold_silicon_lean4.tex"
+    },
+    {
+      "id": "paper_g_araki_spectral_gap_bridge_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{From Araki Relative Entropy Contraction to Vacuum Spectral Gap Isolation: A Machine-Checked Lean 4 Proof Pipeline and C99 Lattice Verification",
+      "ref": "papers/paper_g_araki_spectral_gap_bridge_lean4.tex"
+    },
+    {
+      "id": "paper_h_continuum_limit_osterwalder_schrader_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Continuum Limit Stability and Osterwalder-Schrader Spectral Gap Preservation under Uniform Araki-Renormalization Scaling: A Machine-Checked Lean 4 Framework",
+      "ref": "papers/paper_h_continuum_limit_osterwalder_schrader_lean4.tex"
+    },
+    {
+      "id": "paper_i_araki_log_sobolev_rg_unification_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Log-Sobolev Dissipation Dominance and Ultraviolet Large-Field Suppression in Machine-Checked Lattice Renormalization: Unifying the Araki-Spectral Gap Architecture",
+      "ref": "papers/paper_i_araki_log_sobolev_rg_unification_lean4.tex"
+    },
+    {
+      "id": "paper_j_su3_yang_mills_mass_gap_master_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{SU(3) Yang-Mills Spectral Gap Isolation, Balaban Block-Spin Stability, and Continuum Limit Preservation: Complete Machine-Checked Lean 4 Proof Architecture",
+      "ref": "papers/paper_j_su3_yang_mills_mass_gap_master_lean4.tex"
+    },
+    {
+      "id": "paper_k_balaban_unconditional_wightman_su3_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Building on Tadeusz Balaban's Renormalization Group Program: Machine-Checked Ultraviolet Polymer Error Suppression, Araki Continuum Cauchy Convergence, and Wightman Spectral Gap Verification for 4D SU(3) Yang-Mills",
+      "ref": "papers/paper_k_balaban_unconditional_wightman_su3_lean4.tex"
+    },
+    {
+      "id": "paper_l_infrared_strong_coupling_wilson_area_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Infrared Strong-Coupling Cluster Convergence, Wilson Area Law Glueball Mass Bounds, and Dual-Regime Synthesis for 4D SU(3) Yang-Mills in Lean 4",
+      "ref": "papers/paper_l_infrared_strong_coupling_wilson_area_lean4.tex"
+    },
+    {
+      "id": "paper_m_su3_unconditional_bridge_crossover_os_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Constructive Ricci--Bakry--\\'Emery Log-Sobolev Bounds, Dobrushin--Shlosman $\\mathbb{Z",
+      "ref": "papers/paper_m_su3_unconditional_bridge_crossover_os_lean4.tex"
+    },
+    {
+      "id": "paper_n_su3_constructive_cylinder_mass_gap_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Constructive Dyadic Cylinder Architecture, Derived Log-Sobolev Dissipation, and Osterwalder--Schrader Mass Gap for 4D $SU(3)$ Yang--Mills Theory Verified in Lean 4",
+      "ref": "papers/paper_n_su3_constructive_cylinder_mass_gap_lean4.tex"
+    },
+    {
+      "id": "paper_o_information_thermodynamics_ricci_landauer_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Information Thermodynamics on Curved Gauge Manifolds: Deriving the Four Laws, Golden-Ratio Sub-Landauer Bounds ($k_B T \\ln \\phi$), and Spectral Mass-Gap Freezing in Lean 4",
+      "ref": "papers/paper_o_information_thermodynamics_ricci_landauer_lean4.tex"
+    },
+    {
+      "id": "paper_p_bochner_minlos_sobolev_continuum_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Bochner--Minlos Nuclear Extension, Negative-Sobolev Prokhorov Tightness, $SO(4)$ Restoration, Vacuum Non-Triviality, and Uniqueness for 4D $SU(3)$ Yang--Mills on $\\mathcal{S",
+      "ref": "papers/paper_p_bochner_minlos_sobolev_continuum_lean4.tex"
+    },
+    {
+      "id": "paper_q_mathlib4_constructive_su3_wilson_measure",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{First-Principles Construction of 4D $SU(3)$ Lattice Wilson Measures, Exact Gauge Invariance, Osterwalder--Schrader Positivity, and Bochner--Minlos Continuum Bridge in Lean 4 / Mathlib4",
+      "ref": "papers/paper_q_mathlib4_constructive_su3_wilson_measure.tex"
+    },
+    {
+      "id": "paper_r_entropic_quantum_os_golden_thermostat_lean4",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Entropic Quantum Operating Systems: Golden-Ratio Thermostat Governance, Zero-Noise Extrapolation at $\\pi/\\phi$ Cadence, and Sub-Landauer Bell-State Stabilization Verified in Lean 4",
+      "ref": "papers/paper_r_entropic_quantum_os_golden_thermostat_lean4.tex"
+    },
+    {
+      "id": "paper_s_mathlib4_continuum_limit_pinsker_kl",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Dyadic Renormalization Contraction, Kullback--Leibler / Pinsker Bounds, and Continuum Characteristic Limits in Lean 4 / Mathlib4",
+      "ref": "papers/paper_s_mathlib4_continuum_limit_pinsker_kl.tex"
+    },
+    {
+      "id": "paper_t_global_scheme_closure",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Global Scheme Closure for Calibrated Lattice Bounds, Telescopic Step Control, and Non-Gaussian Separation in Lean 4",
+      "ref": "papers/paper_t_global_scheme_closure.tex"
+    },
+    {
+      "id": "paper_u_blocks_abcd_formal_architecture",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Formal Specification Architecture Across Blocks A--D for Yang--Mills Bound Consistency in Lean 4",
+      "ref": "papers/paper_u_blocks_abcd_formal_architecture.tex"
+    },
+    {
+      "id": "paper_v_poincare_massgap_bridge",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Conditional Spectral-Gap Reduction and Subphase Synthesis Bridge for Yang--Mills Bound Consistency in Lean 4",
+      "ref": "papers/paper_v_poincare_massgap_bridge.tex"
+    },
+    {
+      "id": "paper_w_bakry_emery_poincare_bridge",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Conditional Bakry--\\'Emery Curvature Propagation to Poincar\\'e and Spectral-Gap Bounds in Lean 4",
+      "ref": "papers/paper_w_bakry_emery_poincare_bridge.tex"
+    },
+    {
+      "id": "paper_x_uniform_curvature_continuum_reduction",
+      "doi": "",
+      "license": "",
+      "summary": "\\textbf{Conditional Reduction of Four-Dimensional Yang--Mills Mass-Gap Bounds to Uniform Information-Curvature Persistence",
+      "ref": "papers/paper_x_uniform_curvature_continuum_reduction.tex"
+    },
+    {
+      "id": "paper_y_orbit_curvature_entropy_bound",
+      "doi": "",
+      "license": "",
+      "summary": "Negative Sectional Projections in $\\mathfrak{su",
+      "ref": "papers/paper_y_orbit_curvature_entropy_bound.tex"
+    },
+    {
+      "id": "paper_z_sovereign_synthesis",
+      "doi": "",
+      "license": "",
+      "summary": "Paper Z: Discrete Ricci--Entropic Evolution Operator, Multi-Scale Stabilization in $\\mathrm{SU",
+      "ref": "papers/paper_z_sovereign_synthesis.tex"
+    },
+    {
+      "id": "paper_informational_thermodynamics",
+      "doi": "10.5281/zenodo.24443786",
+      "license": "",
+      "summary": "Leyes 0-3 de Termodinámica Informacional Acotada en Lean 4.36.0 (0 sorry), techo decádico kappa^2=5.3019, suelo sub-Landauer 0.481212 k_BT y silicio frío <= 2.58 W.",
+      "ref": "papers/paper_thermodynamics/oasis_informational_thermodynamics.tex"
+    },
+    {
+      "id": "paper_string_regge_bounds",
+      "doi": "10.5281/zenodo.24448235",
+      "license": "",
+      "summary": "Dimensiones críticas (D_bos=26, D_super=10) y monotonía espectral de Regge en StringTheory_Regge_Spec.lean (0 sorry) + simulador C99 en RAM.",
+      "ref": "papers/paper_string_theory/oasis_string_regge_bounds.tex"
+    },
+    {
+      "id": "paper_riemann_ovrp_audit",
+      "doi": "10.5281/zenodo.24463308",
+      "license": "",
+      "summary": "Auditoría estructural OVRP de la formalización en Lean 4 de RH + invariantes de simetría crítica en Lean 4 (0 sorry) + escaneo espectral.",
+      "ref": "papers/paper_riemann_audit/oasis_riemann_ovrp_audit.tex"
+    },
+    {
+      "id": "paper_entropic_gravity_discrete",
+      "doi": "10.5281/zenodo.24464014",
+      "license": "",
+      "summary": "Modelo discreto de gravedad entrópica en red + cotas de gradiente en EntropicGravity_Spec.lean (0 sorry) + sonda C99 en RAM.",
+      "ref": "papers/paper_entropic_gravity/oasis_entropic_gravity_discrete.tex"
+    },
+    {
+      "id": "paper_entropic_antigravity_discrete",
+      "doi": "10.5281/zenodo.24464245",
+      "license": "",
+      "summary": "Inversión local de gradiente entrópico en red discreta + teoremas de cambio de signo en AntiGravity_Spec.lean (0 sorry) + sonda C99 en RAM.",
+      "ref": "papers/paper_entropic_antigravity/oasis_entropic_antigravity_discrete.tex"
+    },
+    {
+      "id": "paper_bounded_projections_synthesis",
+      "doi": "10.5281/zenodo.24468098",
+      "license": "",
+      "summary": "Síntesis formal en UnifiedTheory_Spec.lean (0 sorry) + sonda C99 multi-escala (< ln(10)) bajo OVRP.",
+      "ref": "papers/paper_informational_unification/oasis_informational_unification.tex"
+    },
+    {
+      "id": "paper_ai_formal_audit_boundaries",
+      "doi": "10.5281/zenodo.24469140",
+      "license": "",
+      "summary": "Auditoría formal de código generado por IA y certificación explícita de fronteras en AI_Audit_Boundary_Spec.lean (0 sorry) bajo OVRP.",
+      "ref": "papers/paper_ai_formal_audit_boundaries/oasis_ai_formal_audit_boundaries.tex"
+    },
+    {
+      "id": "paper_five_phase_projections",
+      "doi": "10.5281/zenodo.24477406",
+      "license": "",
+      "summary": "Arquitectura escalonada en cinco fases en Lean 4.36.0 (0 sorry) con sello SHA-256/OTS bajo OVRP.",
+      "ref": "papers/paper_five_phase_projections/oasis_five_phase_projections.tex"
+    },
+    {
+      "id": "paper_zero_llm_provenance",
+      "doi": "10.5281/zenodo.24482608",
+      "license": "",
+      "summary": "Triaje determinista sin LLM (<3ms), ZeroLLMProvenance_Spec.lean (0 sorry), benchmark C99 y licenciamiento dual B2B bajo OVRP.",
+      "ref": "papers/paper_zero_llm_provenance/oasis_zero_llm_provenance.tex"
+    },
+    {
+      "id": "paper_protein_folding_attractor",
+      "doi": "10.5281/zenodo.24483484",
+      "license": "",
+      "summary": "Ratio informacional adimensional |ΔG|/(c_scale·H) ≈ ln(10) en plegamiento proteico con ProteinFoldingAttractor_Spec.lean (0 sorry) y sonda C99.",
+      "ref": "papers/paper_protein_folding_attractor/oasis_protein_folding_attractor.tex"
+    },
+    {
+      "id": "paper_prime_simplicity_ovrp",
+      "doi": "10.5281/zenodo.24528811",
+      "license": "",
+      "summary": "Indivisibilidad de primos, simetría discreta en punto medio (PrimeSimplicity_Spec.lean 0 sorry) y compresión OVRP frente a pruebas masivas.",
+      "ref": "papers/paper_prime_simplicity_ovrp/oasis_prime_simplicity_ovrp.tex"
+    },
+    {
+      "id": "paper_qos_stability_prime_com",
+      "doi": "10.5281/zenodo.24530182",
+      "license": "",
+      "summary": "Estabilidad entrópica QOS (Pilar 370 / ZNE en Lean 4 0 sorry) + sonda C99 D(p_n) (arXiv:2611.32537 & 2611.31469).",
+      "ref": "papers/paper_qos_stability_prime_com/oasis_qos_stability_prime_com.tex"
+    },
+    {
+      "id": "paper22_entanglement_symmetry_audit",
+      "doi": "10.5281/zenodo.24533461",
+      "license": "CC-BY-4.0",
+      "summary": "Auditoría comparativa de entropía reducida de dos qubits, simetrías discretas en Lean 4 (0 sorry) y fronteras abiertas.",
+      "ref": "papers/paper22_entanglement_symmetry_audit/oasis_entanglement_symmetry_audit.tex"
+    },
+    {
+      "id": "paper23_ln10_ln2_tgi_audit",
+      "doi": "10.5281/zenodo.24538777",
+      "license": "CC-BY-4.0",
+      "summary": "Auditoría comparativa de escalas logarítmicas ln(2), ln(phi) y ln(10) en termodinámica, información y geometría.",
+      "ref": "papers/paper23_ln10_ln2_tgi_audit/oasis_ln10_ln2_tgi_audit.tex"
+    },
+    {
+      "id": "paper25_critical_line_stability",
+      "doi": "10.5281/zenodo.24539709",
+      "license": "CC-BY-4.0",
+      "summary": "Lectura interpretativa de la línea crítica como frontera de estabilidad con especificación Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper25_critical_line_stability/oasis_paper25_critical_line.tex"
+    },
+    {
+      "id": "paper26_ln3_ternary_scales",
+      "doi": "10.5281/zenodo.24559695",
+      "license": "CC-BY-4.0",
+      "summary": "Escala ternaria ln(3) en sondas de mezcla y cruce con ln(2) y ln(10) verificada en Lean 4 (0 sorry, 0 warnings) y C99.",
+      "ref": "papers/paper26_ln3_ternary_scales/oasis_paper26_ln3_scales.tex"
+    },
+    {
+      "id": "paper27_ln3_qos_governance",
+      "doi": "10.5281/zenodo.24560686",
+      "license": "CC-BY-4.0",
+      "summary": "Escala ternaria ln(3) y gobernanza de recursos/mitigación de ruido en Q-OS con especificación Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper27_ln3_qos_governance/oasis_paper27_ln3_qos.tex"
+    },
+    {
+      "id": "paper28_alpha_coupling_audit",
+      "doi": "10.5281/zenodo.24561380",
+      "license": "CC-BY-4.0",
+      "summary": "Auditoría exploratoria de razones frente a 1/alpha (CODATA) conectada con OVRP, escalas logarítmicas y Q-OS con Lean 4 (0 sorry, 0 warnings) y C99.",
+      "ref": "papers/paper28_alpha_coupling_audit/oasis_paper28_alpha_coupling.tex"
+    },
+    {
+      "id": "paper29_noise_entropy_contrast",
+      "doi": "10.5281/zenodo.24528606",
+      "license": "CC-BY-4.0",
+      "summary": "Contraste comparativo de modelos de ruido y entropía en sistemas cuánticos finitos con Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper29_quantum_noise_entropy_contrast/oasis_paper29_noise_entropy.tex"
+    },
+    {
+      "id": "paper30_ig_hybrids",
+      "doi": "10.5281/zenodo.24529309",
+      "license": "CC-BY-4.0",
+      "summary": "Geometría de la información aplicada a redes y sistemas híbridos con Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper30_info_geometry_hybrid_networks/oasis_paper30_ig_hybrids.tex"
+    },
+    {
+      "id": "paper31_constants_critique",
+      "doi": "10.5281/zenodo.19098625",
+      "license": "CC-BY-4.0",
+      "summary": "Auditoría crítica de constantes y razones de acoplamiento con fronteras abiertas explícitas, Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper31_constants_couplings_critique/oasis_paper31_constants_critique.tex"
+    }
+  ],
+  "seals": [
+    {
+      "manifest": "PAPER21_OASIS_PROOF_APACHE2_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER22_ENTANGLEMENT_SYMMETRY_SHA256.txt",
+      "has_ots": true,
+      "entries": 2
+    },
+    {
+      "manifest": "PAPER23BIS_CROSS_DOMAIN_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER23_LN10_LN2_TGI_SHA256.txt",
+      "has_ots": true,
+      "entries": 2
+    },
+    {
+      "manifest": "PAPER24_COMMONS_AUDIT_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER25_CRITICAL_LINE_SHA256.txt",
+      "has_ots": true,
+      "entries": 2
+    },
+    {
+      "manifest": "PAPER26_LN3_SCALES_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER27_LN3_QOS_SHA256.txt",
+      "has_ots": true,
+      "entries": 2
+    },
+    {
+      "manifest": "PAPER28_ALPHA_COUPLING_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER29_NOISE_ENTROPY_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER30_IG_HYBRIDS_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER31_CONSTANTS_CRITIQUE_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_AI_AUDIT_BOUNDARIES_SHA256.txt",
+      "has_ots": true,
+      "entries": 2
+    },
+    {
+      "manifest": "PAPER_ANTIGRAVITY_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_ENTROPIC_GRAVITY_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_FIVE_PHASE_PROJECTIONS_SHA256.txt",
+      "has_ots": true,
+      "entries": 6
+    },
+    {
+      "manifest": "PAPER_I_UNIFIED_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_J_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_K_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_L_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_MASTER_COMPENDIUM_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_M_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_N_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_OVRP_INFRASTRUCTURE_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_O_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_PRIME_COMPENDIUM_SHA256.txt",
+      "has_ots": true,
+      "entries": 2
+    },
+    {
+      "manifest": "PAPER_PRIME_SIMPLICITY_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_PROTEIN_FOLDING_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_P_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_QOS_STABILITY_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_Q_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_RIEMANN_AUDIT_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_R_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "PAPER_STRING_THEORY_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_S_MATHLIB4_CONTINUUM_SHA256.txt",
+      "has_ots": false,
+      "entries": 6
+    },
+    {
+      "manifest": "PAPER_THERMODYNAMICS_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_T_GLOBAL_SCHEME_SHA256.txt",
+      "has_ots": false,
+      "entries": 6
+    },
+    {
+      "manifest": "PAPER_UNIFIED_SYNTHESIS_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_U_BLOCKS_ABCD_SHA256.txt",
+      "has_ots": false,
+      "entries": 5
+    },
+    {
+      "manifest": "PAPER_W_BAKRY_EMERY_SHA256.txt",
+      "has_ots": false,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_X_UNIFORM_CURVATURE_SHA256.txt",
+      "has_ots": false,
+      "entries": 2
+    },
+    {
+      "manifest": "PAPER_Y_MARGIN_SHA256.txt",
+      "has_ots": true,
+      "entries": 2
+    },
+    {
+      "manifest": "PAPER_ZERO_LLM_PROVENANCE_SHA256.txt",
+      "has_ots": true,
+      "entries": 3
+    },
+    {
+      "manifest": "PAPER_Z_SYNTHESIS_SHA256.txt",
+      "has_ots": true,
+      "entries": 4
+    },
+    {
+      "manifest": "SELLO_MAESTRO_FASE8_SHA256.txt",
+      "has_ots": true,
+      "entries": 6
+    },
+    {
+      "manifest": "SERIES_A_TO_M_MASTER_SHA256.txt",
+      "has_ots": false,
+      "entries": 1
+    },
+    {
+      "manifest": "SU3_MC_APE_RUN2_SHA256.txt",
+      "has_ots": false,
+      "entries": 2
+    },
+    {
+      "manifest": "SU3_MC_APE_RUN3_SHA256.txt",
+      "has_ots": false,
+      "entries": 2
+    },
+    {
+      "manifest": "SU3_MC_RUN1_SHA256.txt",
+      "has_ots": false,
+      "entries": 3
+    }
+  ]
+}

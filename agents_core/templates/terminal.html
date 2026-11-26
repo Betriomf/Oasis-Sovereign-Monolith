@@ -841,3 +841,35 @@ Paper Exploratory Coupling Ratios alpha DOI (CC-BY-4.0): https://doi.org/10.5281
 Paper Comparative Contrast of Noise and Entropy Models DOI (CC-BY-4.0): https://doi.org/10.5281/zenodo.24528606
 Paper Information Geometry Hybrid Networks DOI (CC-BY-4.0): https://doi.org/10.5281/zenodo.24529309
 Paper Critical Audit of Constants and Couplings DOI (CC-BY-4.0): https://doi.org/10.5281/zenodo.19098625
+<!-- OASIS_QUICK_INDEX_PANEL_START -->
+<section id="oasis-quick-index" style="margin-top:16px;padding:12px;border:1px solid #2b3440;border-radius:6px;">
+  <div><strong>Estado del catálogo y trazabilidad</strong> — Graphity: 136 nodos / 59 aristas | Papers en grafo: 50 | Sellos OTS: 30/49</div>
+  <input id="oasis-filter" type="text" placeholder="Filtrar por DOI, licencia o tema..." style="margin-top:8px;padding:6px;width:100%;max-width:420px;" />
+  <pre id="oasis-quick-list" style="margin-top:8px;white-space:pre-wrap;font-size:12px;">Cargando vault/terminal_quick_index.json...</pre>
+</section>
+<script>
+(function() {
+  const out = document.getElementById("oasis-quick-list");
+  const inp = document.getElementById("oasis-filter");
+  if (!out) return;
+  let allPapers = [];
+  function render(filterText) {
+    const q = (filterText || "").trim().toLowerCase();
+    const rows = allPapers.filter(p => !q || JSON.stringify(p).toLowerCase().includes(q));
+    out.textContent = rows.length
+      ? rows.map(p => `[${p.license || "N/A"}] ${p.doi || p.id} — ${p.summary || ""}`).join("\n")
+      : "Sin coincidencias para el filtro actual.";
+  }
+  fetch("vault/terminal_quick_index.json")
+    .then(r => r.ok ? r.json() : Promise.reject(new Error("HTTP " + r.status)))
+    .then(data => {
+      allPapers = Array.isArray(data.papers) ? data.papers : [];
+      render("");
+      if (inp) inp.addEventListener("input", () => render(inp.value));
+    })
+    .catch(() => {
+      out.textContent = "Índice rápido local no disponible en esta ruta; consulta vault/terminal_quick_index.json en el repositorio.";
+    });
+})();
+</script>
+<!-- OASIS_QUICK_INDEX_PANEL_END -->
