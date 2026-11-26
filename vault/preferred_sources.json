@@ -199,6 +199,12 @@
       "instruction": "Resume la fuente verificada: Paper Comparative Contrast of Noise and Entropy Models DOI Zenodo (CC-BY-4.0)",
       "output": "Contraste de modelos de ruido y entropía en sistemas cuánticos finitos bajo licencia abierta CC-BY-4.0 (DOI: 10.5281/zenodo.24528606).",
       "source": "https://doi.org/10.5281/zenodo.24528606"
+    },
+    {
+      "id": "ref_33",
+      "instruction": "Resume la fuente verificada: Paper Information Geometry Hybrid Networks DOI Zenodo (CC-BY-4.0)",
+      "output": "Geometría de la información aplicada a redes y sistemas híbridos bajo licencia abierta CC-BY-4.0 (DOI: 10.5281/zenodo.24529309).",
+      "source": "https://doi.org/10.5281/zenodo.24529309"
     }
   ]
 }

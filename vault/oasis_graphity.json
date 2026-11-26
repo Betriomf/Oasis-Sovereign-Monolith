@@ -836,6 +836,14 @@
       "doi": "10.5281/zenodo.24528606",
       "summary": "Contraste comparativo de modelos de ruido y entropía en sistemas cuánticos finitos con Lean 4 (0 sorry, 0 warnings) y sonda C99.",
       "ref": "papers/paper29_quantum_noise_entropy_contrast/oasis_paper29_noise_entropy.tex"
+    },
+    "paper30_ig_hybrids": {
+      "id": "paper30_ig_hybrids",
+      "type": "paper",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.24529309",
+      "summary": "Geometría de la información aplicada a redes y sistemas híbridos con Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper30_info_geometry_hybrid_networks/oasis_paper30_ig_hybrids.tex"
     }
   },
   "edges": [
@@ -1113,6 +1121,16 @@
       "from": "paper28_alpha_coupling_audit",
       "rel": "followed_by",
       "to": "paper29_noise_entropy_contrast"
+    },
+    {
+      "from": "paper30_ig_hybrids",
+      "rel": "verified_by",
+      "to": "Paper30_InfoGeometryHybrids_Spec"
+    },
+    {
+      "from": "paper29_noise_entropy_contrast",
+      "rel": "followed_by",
+      "to": "paper30_ig_hybrids"
     }
   ]
 }
