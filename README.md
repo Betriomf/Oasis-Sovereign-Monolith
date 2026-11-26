@@ -100,3 +100,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Integrated OVRP Compendium (Papers 22–24, Entanglement, ln(2)/ln(phi)/ln(10), Cross-Domain & Open Commons, CC-BY-4.0):** https://doi.org/10.5281/zenodo.24539182
 - **Paper Critical Line as a Stability Boundary Interpretation (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24539709
 - **Paper Ternary Scale ln(3) in Quantum Mixture Probes & Cross-Logarithmic Ratios (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24559695
+- **Paper Ternary Scale ln(3) to Quantum-Classical OS Resource Governance (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24560686
