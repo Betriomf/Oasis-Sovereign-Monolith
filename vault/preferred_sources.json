@@ -193,6 +193,12 @@
       "instruction": "Resume la fuente verificada: Paper Exploratory Coupling Ratios alpha DOI Zenodo (CC-BY-4.0)",
       "output": "Auditoría exploratoria de razones frente a 1/alpha bajo licencia abierta CC-BY-4.0 con fronteras abiertas explícitas (DOI: 10.5281/zenodo.24561380).",
       "source": "https://doi.org/10.5281/zenodo.24561380"
+    },
+    {
+      "id": "ref_32",
+      "instruction": "Resume la fuente verificada: Paper Comparative Contrast of Noise and Entropy Models DOI Zenodo (CC-BY-4.0)",
+      "output": "Contraste de modelos de ruido y entropía en sistemas cuánticos finitos bajo licencia abierta CC-BY-4.0 (DOI: 10.5281/zenodo.24528606).",
+      "source": "https://doi.org/10.5281/zenodo.24528606"
     }
   ]
 }

@@ -43,6 +43,7 @@ CANONICAL_DOIS = {
     "Paper Ternary Scale ln(3) in Quantum Mixture Probes & Cross-Logarithmic Ratios (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24559695",
     "Paper Ternary Scale ln(3) to Quantum-Classical OS Resource Governance (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24560686",
     "Paper Exploratory Coupling Ratios Against Fine-Structure Constant alpha (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24561380",
+    "Paper Comparative Contrast of Noise and Entropy Models in Finite Quantum Systems (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24528606",
 }
 
 def tz_process(query: str = "") -> str:

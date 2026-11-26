@@ -828,6 +828,14 @@
       "doi": "10.5281/zenodo.24561380",
       "summary": "Auditoría exploratoria de razones frente a 1/alpha (CODATA) conectada con OVRP, escalas logarítmicas y Q-OS con Lean 4 (0 sorry, 0 warnings) y C99.",
       "ref": "papers/paper28_alpha_coupling_audit/oasis_paper28_alpha_coupling.tex"
+    },
+    "paper29_noise_entropy_contrast": {
+      "id": "paper29_noise_entropy_contrast",
+      "type": "paper",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.24528606",
+      "summary": "Contraste comparativo de modelos de ruido y entropía en sistemas cuánticos finitos con Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper29_quantum_noise_entropy_contrast/oasis_paper29_noise_entropy.tex"
     }
   },
   "edges": [
@@ -1095,6 +1103,16 @@
       "from": "paper27_ln3_qos_governance",
       "rel": "followed_by",
       "to": "paper28_alpha_coupling_audit"
+    },
+    {
+      "from": "paper29_noise_entropy_contrast",
+      "rel": "verified_by",
+      "to": "Paper29_NoiseEntropy_Spec"
+    },
+    {
+      "from": "paper28_alpha_coupling_audit",
+      "rel": "followed_by",
+      "to": "paper29_noise_entropy_contrast"
     }
   ]
 }
