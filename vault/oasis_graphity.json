@@ -844,6 +844,14 @@
       "doi": "10.5281/zenodo.24529309",
       "summary": "Geometría de la información aplicada a redes y sistemas híbridos con Lean 4 (0 sorry, 0 warnings) y sonda C99.",
       "ref": "papers/paper30_info_geometry_hybrid_networks/oasis_paper30_ig_hybrids.tex"
+    },
+    "paper31_constants_critique": {
+      "id": "paper31_constants_critique",
+      "type": "paper",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.19098625",
+      "summary": "Auditoría crítica de constantes y razones de acoplamiento con fronteras abiertas explícitas, Lean 4 (0 sorry, 0 warnings) y sonda C99.",
+      "ref": "papers/paper31_constants_couplings_critique/oasis_paper31_constants_critique.tex"
     }
   },
   "edges": [
@@ -1131,6 +1139,16 @@
       "from": "paper29_noise_entropy_contrast",
       "rel": "followed_by",
       "to": "paper30_ig_hybrids"
+    },
+    {
+      "from": "paper31_constants_critique",
+      "rel": "verified_by",
+      "to": "Paper31_ConstantsCritique_Spec"
+    },
+    {
+      "from": "paper30_ig_hybrids",
+      "rel": "followed_by",
+      "to": "paper31_constants_critique"
     }
   ]
 }
