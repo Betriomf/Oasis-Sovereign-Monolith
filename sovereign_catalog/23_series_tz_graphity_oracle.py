@@ -42,6 +42,7 @@ CANONICAL_DOIS = {
     "Paper Critical Line as a Stability Boundary Interpretation (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24539709",
     "Paper Ternary Scale ln(3) in Quantum Mixture Probes & Cross-Logarithmic Ratios (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24559695",
     "Paper Ternary Scale ln(3) to Quantum-Classical OS Resource Governance (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24560686",
+    "Paper Exploratory Coupling Ratios Against Fine-Structure Constant alpha (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24561380",
 }
 
 def tz_process(query: str = "") -> str:
