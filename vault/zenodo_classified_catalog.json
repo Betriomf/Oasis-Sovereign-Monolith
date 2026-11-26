@@ -1,0 +1,905 @@
+{
+  "total_records": 99,
+  "published_count": 98,
+  "draft_count": 1,
+  "counts_by_category": {
+    "Exploratorios y Temas Diversos": 33,
+    "Geometría de la Información, Redes y Atractores": 17,
+    "Campos, Celosías, Constantes y Fronteras Abiertas": 19,
+    "Q-OS, Sistemas Cuánticos y Ruido/Entropía": 6,
+    "OVRP, Verificación Formal y Auditoría": 24
+  },
+  "records": [
+    {
+      "id": "18157841",
+      "doi": "10.5281/zenodo.18157841",
+      "date": "2026-01-06",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Optimización Termodinámica del Consenso Distribuido: Superando el Límite de Landauer mediante Geometría de Fibonacci."
+    },
+    {
+      "id": "18248353",
+      "doi": "10.5281/zenodo.18248353",
+      "date": "2026-01-14",
+      "state": "published",
+      "license": "CC-BY-NC-ND-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Information Geometry and Topological Unification: A Common Framework for Quantum Mechanics and Relativity."
+    },
+    {
+      "id": "18271610",
+      "doi": "10.5281/zenodo.18271610",
+      "date": "2026-01-16",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "The Universe as a Non-Equilibrium Information Processing System."
+    },
+    {
+      "id": "18599288",
+      "doi": "10.5281/zenodo.18599288",
+      "date": "2026-02-10",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "The Oasis Trilogy: Computational Gravity, Fibonacci Geometry, and the Euler Engine (ODSC v1.0 Framework)."
+    },
+    {
+      "id": "19334661",
+      "doi": "10.5281/zenodo.19334661",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "AGPL-3.0-OR-LATER",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Universal Information Consensus v3.0: 3-Body Problem & Falsifiability Test"
+    },
+    {
+      "id": "19335032",
+      "doi": "10.5281/zenodo.19335032",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "AGPL-3.0-OR-LATER",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "MASTER PAPER: Information Orthogonality and the Riemann Hypothesis"
+    },
+    {
+      "id": "19335057",
+      "doi": "10.5281/zenodo.19335057",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "AGPL-3.0-OR-LATER",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "MASTER PAPER: Information Orthogonality and Fibonacci Swarms in Riemann Hypothesis"
+    },
+    {
+      "id": "19335529",
+      "doi": "10.5281/zenodo.19335529",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "ABSOLUTE VICTORY: Universal Unification of Information and Thermodynamics"
+    },
+    {
+      "id": "19339922",
+      "doi": "10.5281/zenodo.19339922",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Universal Coupling: Analytical Derivation of the Fine Structure Constant alpha"
+    },
+    {
+      "id": "19340008",
+      "doi": "10.5281/zenodo.19340008",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "THEORY OF EVERYTHING: Oasis Unified Information Protocol"
+    },
+    {
+      "id": "19340129",
+      "doi": "10.5281/zenodo.19340129",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "FALSIFIABLE PREDICTIONS: The Predictive Power of the Oasis Protocol"
+    },
+    {
+      "id": "19340403",
+      "doi": "10.5281/zenodo.19340403",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "BLACK HOLE POLARIZATION: Predictive Fibonacci Phase Knots (Final)"
+    },
+    {
+      "id": "19340513",
+      "doi": "10.5281/zenodo.19340513",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Biological Sovereignty: The Origin of Life and Consciousness via Phase Consensus"
+    },
+    {
+      "id": "19340588",
+      "doi": "10.5281/zenodo.19340588",
+      "date": "2026-03-30",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "NEURAL SINC: The Information-Theoretic Origin of Consciousness"
+    },
+    {
+      "id": "19339999",
+      "doi": "19339999",
+      "date": "2026-03-30",
+      "state": "draft",
+      "license": "CC-BY-ND-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Universal Coupling: Analytical Derivation of the Fine Structure Constant alpha"
+    },
+    {
+      "id": "19359262",
+      "doi": "10.5281/zenodo.19359262",
+      "date": "2026-03-31",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "DARK MATTER AS NETWORK LATENCY: Solving Galactic Rotation with Mariano Viscosity"
+    },
+    {
+      "id": "19359432",
+      "doi": "10.5281/zenodo.19359432",
+      "date": "2026-03-31",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "COSMOLOGICAL CONSTANT: Solution to the Vacuum Catastrophe via Information Theory"
+    },
+    {
+      "id": "19359593",
+      "doi": "10.5281/zenodo.19359593",
+      "date": "2026-03-31",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "UNIVERSAL COHERENCE: The Interdependence of Dark Matter and Consciousness"
+    },
+    {
+      "id": "19359956",
+      "doi": "10.5281/zenodo.19359956",
+      "date": "2026-03-31",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "THE OASIS MONOLITH: Final Synthesis of Information-Theoretic Physics"
+    },
+    {
+      "id": "19360378",
+      "doi": "10.5281/zenodo.19360378",
+      "date": "2026-03-31",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "PERSISTENCIA DE LA INFORMACIÓN: Un enfoque científico al estado post-biológico"
+    },
+    {
+      "id": "19360451",
+      "doi": "10.5281/zenodo.19360451",
+      "date": "2026-03-31",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "PROTOCOLOS DE RE-SINTONÍA: Extendido técnico sobre la re-ejecución de conciencia"
+    },
+    {
+      "id": "19367348",
+      "doi": "10.5281/zenodo.19367348",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "ALINEAMIENTO AGI: Solución geométrica al problema de control de la Inteligencia Artificial"
+    },
+    {
+      "id": "19367423",
+      "doi": "10.5281/zenodo.19367423",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "AGI SAFETY INERTIA: Bilingual Extended Framework on AI Alignment"
+    },
+    {
+      "id": "19367553",
+      "doi": "10.5281/zenodo.19367553",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "UNIVERSAL GENETIC CODE: DNA Topology as Fibonacci Information Storage"
+    },
+    {
+      "id": "19367617",
+      "doi": "10.5281/zenodo.19367617",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "ADN CHECKSUM: Mecanismos geométricos de auto-reparación genómica"
+    },
+    {
+      "id": "19367675",
+      "doi": "10.5281/zenodo.19367675",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "GUÍA DE SALUD SOBERANA: Protocolos de auto-reparación de ADN"
+    },
+    {
+      "id": "19368793",
+      "doi": "10.5281/zenodo.19368793",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-ZERO",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "PHASE ONCOLOGY: Resolving Cancer through Phi-Harmonic Resynchronization"
+    },
+    {
+      "id": "19368881",
+      "doi": "10.5281/zenodo.19368881",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "ZERO-POINT ENERGY: Extracting Work from the Vacuum via Phi-Phase Resonance"
+    },
+    {
+      "id": "19368919",
+      "doi": "10.5281/zenodo.19368919",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-ZERO",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "STARSHIP PHASE DRIVE: Overcoming Inertia via π/Φ Resonant Decoupling"
+    },
+    {
+      "id": "19369012",
+      "doi": "10.5281/zenodo.19369012",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-ZERO",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "FIBONACCI WARP DRIVE: Extended Bilingual Framework for Space Compression"
+    },
+    {
+      "id": "19374362",
+      "doi": "10.5281/zenodo.19374362",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Navier-Stokes Sovereign Proof - Oasis Isomorphism"
+    },
+    {
+      "id": "19375953",
+      "doi": "10.5281/zenodo.19375953",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Unified Theory of Informational Stability - Anthropic Oasis"
+    },
+    {
+      "id": "19423667",
+      "doi": "10.5281/zenodo.19423667",
+      "date": "2026-04-01",
+      "state": "published",
+      "license": "CC-ZERO",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "DISSIPATIVE INTELLIGENCE: Thermal Self-Regulation in Sovereign AI"
+    },
+    {
+      "id": "19391689",
+      "doi": "10.5281/zenodo.19391689",
+      "date": "2026-04-02",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "The Holographic Time Machine: Resolving Thermodynamic Paradoxes via Oasis Branching"
+    },
+    {
+      "id": "19392167",
+      "doi": "10.5281/zenodo.19392167",
+      "date": "2026-04-02",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Universal Branching: Resolving the Newton Trap via Landauer Truncation"
+    },
+    {
+      "id": "19458138",
+      "doi": "10.5281/zenodo.19458138",
+      "date": "2026-04-07",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "A Thermodynamic Proof of the Riemann Hypothesis via Distributed Information Geometry"
+    },
+    {
+      "id": "19501666",
+      "doi": "10.5281/zenodo.19501666",
+      "date": "2026-04-10",
+      "state": "published",
+      "license": "CC-ZERO",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "ADS/CFT UNIFIED: Complete Physical Realization in Silicon Swarms"
+    },
+    {
+      "id": "19501780",
+      "doi": "10.5281/zenodo.19501780",
+      "date": "2026-04-10",
+      "state": "published",
+      "license": "CC-ZERO",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "BIOLOGICAL SOVEREIGNTY: DNA Topology and the 2.3 Informational Attractor"
+    },
+    {
+      "id": "19501969",
+      "doi": "10.5281/zenodo.19501969",
+      "date": "2026-04-10",
+      "state": "published",
+      "license": "CC-ZERO",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "SOCIAL CONSENSUS PROTOCOL: Thermodynamic Governance"
+    },
+    {
+      "id": "19599103",
+      "doi": "10.5281/zenodo.19599103",
+      "date": "2026-04-15",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Empirical Realization of Dissipative Quantum Thermalization via Fibonacci-Constrained Geometries: A Solution to the Riemann Distributed Consensus."
+    },
+    {
+      "id": "19707164",
+      "doi": "10.5281/zenodo.19707164",
+      "date": "2026-04-23",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Computational Gravity and the Coupling Constant: Emergence of the Informational Attractor κ ≈ 2.3"
+    },
+    {
+      "id": "19976494",
+      "doi": "10.5281/zenodo.19976494",
+      "date": "2026-05-02",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "The Panzano Attractor: Critical Damping and Minimum Informational Dissipation in Distributed Systems"
+    },
+    {
+      "id": "20276453",
+      "doi": "10.5281/zenodo.20276453",
+      "date": "2026-05-18",
+      "state": "published",
+      "license": "CC-BY-ND-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "The Panzano Attractor: Critical Damping, Informational Dissipation, and Nonequilibrium Coordination in Distributed Systems"
+    },
+    {
+      "id": "20921910",
+      "doi": "10.5281/zenodo.20921910",
+      "date": "2026-06-26",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Una Cota Logarítmica Disipativa para el Tiempo de Parada de la Conjetura de Collatz mediante un Amortiguador Terminal."
+    },
+    {
+      "id": "23187571",
+      "doi": "10.5281/zenodo.23187571",
+      "date": "2026-10-06",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Oasis Sovereign Monolith: Resolution of Riemann Hypothesis and Cosmological Constant"
+    },
+    {
+      "id": "24137568",
+      "doi": "10.5281/zenodo.24137568",
+      "date": "2026-11-11",
+      "state": "published",
+      "license": "AGPL-3.0-OR-LATER",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Oasis Sovereign OS: Architecture CRM, Cold Silicon Invariants (<= 2.58 W), and Formal Lean 4 Verification"
+    },
+    {
+      "id": "24311233",
+      "doi": "10.5281/zenodo.24311233",
+      "date": "2026-11-17",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Oasis Sovereign Monolith: Machine-Checked Lean 4 Spectral Gap Bounds in Discretized Yang-Mills Theory and Decadic Enstrophy Confinement"
+    },
+    {
+      "id": "24311596",
+      "doi": "10.5281/zenodo.24311596",
+      "date": "2026-11-17",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Q-OS, Sistemas Cuánticos y Ruido/Entropía",
+      "title": "Oasis Sovereign Monolith: Machine-Checked Lean 4 Spectral Bounds in Discretized SU(2) Gauge Models and Decadic Entropy Confinement"
+    },
+    {
+      "id": "24323807",
+      "doi": "10.5281/zenodo.24323807",
+      "date": "2026-11-17",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Q-OS, Sistemas Cuánticos y Ruido/Entropía",
+      "title": "Araki Relative Entropy Monotonicity and Variational Matrix Compression in Machine-Checked Cold-Silicon Gauge Verification"
+    },
+    {
+      "id": "24324622",
+      "doi": "10.5281/zenodo.24324622",
+      "date": "2026-11-17",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Q-OS, Sistemas Cuánticos y Ruido/Entropía",
+      "title": "Oasis Sovereign Q-OS: A Formally Verified Ring-3 Adiabatic Microkernel, Irrational pi/phi Pulse Scheduler, and 21-Byte LINCOS Control Plane for Hybrid Quantum-Classical Computing"
+    },
+    {
+      "id": "24324683",
+      "doi": "10.5281/zenodo.24324683",
+      "date": "2026-11-17",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Pilar 86 Quantum Kernel Architecture and phi-Aware Distributed Operating System: Leech Lattice (Lambda_24) Compilation, Non-Commutative Logic Gates, and Reversible Transition"
+    },
+    {
+      "id": "24325171",
+      "doi": "10.5281/zenodo.24325171",
+      "date": "2026-11-17",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Cold-Silicon Personal Desktop Architecture: Zero-Swap Local AI Pooling, Bounded Context Pruning, and Ring-3 Isolation on Memory-Constrained Consumer Laptops"
+    },
+    {
+      "id": "24326329",
+      "doi": "10.5281/zenodo.24326329",
+      "date": "2026-11-17",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "From Araki Relative Entropy Contraction to Vacuum Spectral Gap Isolation: A Machine-Checked Lean 4 Proof Pipeline and C99 Lattice Verification"
+    },
+    {
+      "id": "24326462",
+      "doi": "10.5281/zenodo.24326462",
+      "date": "2026-11-18",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Continuum Limit Stability and Osterwalder-Schrader Spectral Gap Preservation under Uniform Araki-Renormalization Scaling: A Machine-Checked Lean 4 Framework"
+    },
+    {
+      "id": "24327167",
+      "doi": "10.5281/zenodo.24327167",
+      "date": "2026-11-18",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Log-Sobolev Dissipation Dominance and Ultraviolet Large-Field Suppression in Machine-Checked Lattice Renormalization: Unifying the Araki-Spectral Gap Architecture"
+    },
+    {
+      "id": "24341969",
+      "doi": "10.5281/zenodo.24341969",
+      "date": "2026-11-18",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "SU(3) Yang-Mills Spectral Gap Isolation, Balaban Block-Spin Stability, and Continuum Limit Preservation: Complete Machine-Checked Lean 4 Proof Architecture"
+    },
+    {
+      "id": "24342481",
+      "doi": "10.5281/zenodo.24342481",
+      "date": "2026-11-18",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Building on Tadeusz Balaban's Renormalization Group Program: Machine-Checked Ultraviolet Polymer Error Suppression, Araki Continuum Cauchy Convergence, and Wightman Spectral Gap Verification for 4D SU(3) Yang-Mills"
+    },
+    {
+      "id": "24343027",
+      "doi": "10.5281/zenodo.24343027",
+      "date": "2026-11-18",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Infrared Strong-Coupling Cluster Convergence, Wilson Area Law Glueball Mass Bounds, and Dual-Regime Synthesis for 4D SU(3) Yang-Mills in Lean 4"
+    },
+    {
+      "id": "24347447",
+      "doi": "10.5281/zenodo.24347447",
+      "date": "2026-11-18",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Constructive Ricci-Bakry-Emery Log-Sobolev Bounds, Dobrushin-Shlosman Z_3 Crossover Uniqueness, and Osterwalder-Schrader Continuum Reconstruction for 4D SU(3) Yang-Mills in Lean 4"
+    },
+    {
+      "id": "24354708",
+      "doi": "10.5281/zenodo.24354708",
+      "date": "2026-11-18",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Constructive Dyadic Cylinder Architecture, Derived Log-Sobolev Dissipation, and Osterwalder-Schrader Mass Gap for 4D SU(3) Yang-Mills Theory Verified in Lean 4"
+    },
+    {
+      "id": "24355282",
+      "doi": "10.5281/zenodo.24355282",
+      "date": "2026-11-18",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Information Thermodynamics on Curved Gauge Manifolds: Deriving the Four Laws, Golden-Ratio Sub-Landauer Bounds (k_B T ln phi), and Spectral Mass-Gap Freezing in Lean 4"
+    },
+    {
+      "id": "24368271",
+      "doi": "10.5281/zenodo.24368271",
+      "date": "2026-11-19",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Bochner-Minlos Nuclear Extension, Negative-Sobolev Prokhorov Tightness, SO(4) Restoration, Vacuum Non-Triviality, and Uniqueness for 4D SU(3) Yang-Mills on S'(R^4) in Lean 4"
+    },
+    {
+      "id": "24370265",
+      "doi": "10.5281/zenodo.24370265",
+      "date": "2026-11-19",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "First-Principles Construction of 4D SU(3) Lattice Wilson Measures, Exact Gauge Invariance, Osterwalder-Schrader Positivity, and Bochner-Minlos Continuum Bridge in Lean 4 / Mathlib4"
+    },
+    {
+      "id": "24371010",
+      "doi": "10.5281/zenodo.24371010",
+      "date": "2026-11-19",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Q-OS, Sistemas Cuánticos y Ruido/Entropía",
+      "title": "Entropic Quantum Operating Systems: Golden-Ratio Thermostat Governance, Zero-Noise Extrapolation at pi/phi Cadence, and Sub-Landauer Bell-State Stabilization Verified in Lean 4"
+    },
+    {
+      "id": "24376078",
+      "doi": "10.5281/zenodo.24376078",
+      "date": "2026-11-19",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Q-OS, Sistemas Cuánticos y Ruido/Entropía",
+      "title": "Entropic Quantum Operating Systems (Extended Bridge — Phase 14): Golden-Ratio Thermostat, ZNE Cadence, and Enstrophy Bounds in Lean 4"
+    },
+    {
+      "id": "24379088",
+      "doi": "10.5281/zenodo.24379088",
+      "date": "2026-11-19",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Dyadic Renormalization Contraction, Kullback-Leibler / Pinsker Bounds, and Continuum Characteristic Limits in Lean 4 / Mathlib4"
+    },
+    {
+      "id": "24380544",
+      "doi": "10.5281/zenodo.24380544",
+      "date": "2026-11-19",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Global Scheme Closure for Calibrated Lattice Bounds, Telescopic Step Control, and Non-Gaussian Separation in Lean 4"
+    },
+    {
+      "id": "24381240",
+      "doi": "10.5281/zenodo.24381240",
+      "date": "2026-11-19",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Formal Specification Architecture Across Blocks A--D for Yang--Mills Bound Consistency in Lean 4"
+    },
+    {
+      "id": "24383187",
+      "doi": "10.5281/zenodo.24383187",
+      "date": "2026-11-20",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Conditional Spectral-Gap Reduction and Subphase Synthesis Bridge for Yang--Mills Bound Consistency in Lean 4"
+    },
+    {
+      "id": "24383399",
+      "doi": "10.5281/zenodo.24383399",
+      "date": "2026-11-20",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Conditional Bakry--Emery Curvature Propagation to Poincare and Spectral-Gap Bounds in Lean 4"
+    },
+    {
+      "id": "24383530",
+      "doi": "10.5281/zenodo.24383530",
+      "date": "2026-11-20",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Conditional Reduction of Four-Dimensional Yang--Mills Mass-Gap Bounds to Uniform Information-Curvature Persistence"
+    },
+    {
+      "id": "24442236",
+      "doi": "10.5281/zenodo.24442236",
+      "date": "2026-11-22",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Negative Sectional Projections in su(3) and L=2^4, L=3^4 Lattice Probes with Golden-Partitioned Conditional Stabilization and C99 Wilson Cross-Benchmarks (Paper Y)"
+    },
+    {
+      "id": "24442403",
+      "doi": "10.5281/zenodo.24442403",
+      "date": "2026-11-22",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Paper Z: Discrete Ricci-Entropic Evolution Operator, Multi-Scale Stabilization in SU(3) Lattices, and Formal Synthesis of the Oasis Program"
+    },
+    {
+      "id": "24443531",
+      "doi": "10.5281/zenodo.24443531",
+      "date": "2026-11-22",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Oasis Verifiable Research Pipeline (OVRP): An AI-Assisted, Machine-Checked, and Cryptographically Sealed Architecture for Reproducible Mathematical Physics"
+    },
+    {
+      "id": "24443786",
+      "doi": "10.5281/zenodo.24443786",
+      "date": "2026-11-22",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Bounded Informational Thermodynamics and Golden-Ratio Thermostat Governance: Machine-Checked Axioms in Lean 4 and C99 Attractor Verification"
+    },
+    {
+      "id": "24448235",
+      "doi": "10.5281/zenodo.24448235",
+      "date": "2026-11-22",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Discrete String Spectrum, Regge Bounds, and Machine-Checked Verification in Lean 4 under the OVRP Pipeline"
+    },
+    {
+      "id": "24463308",
+      "doi": "10.5281/zenodo.24463308",
+      "date": "2026-11-23",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "OVRP Structural Audit of the Lean 4 Riemann Hypothesis Formalization and Critical-Line Spectral Scan"
+    },
+    {
+      "id": "24464014",
+      "doi": "10.5281/zenodo.24464014",
+      "date": "2026-11-23",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Discrete Entropic Gravity Model and Gradient Bounds under the OVRP Pipeline"
+    },
+    {
+      "id": "24464245",
+      "doi": "10.5281/zenodo.24464245",
+      "date": "2026-11-23",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Local Entropy-Gradient Inversion and Effective Repulsive Dynamics in Discrete Lattices under OVRP"
+    },
+    {
+      "id": "24466455",
+      "doi": "10.5281/zenodo.24466455",
+      "date": "2026-11-23",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "OVRP Master Compendium & Verifiable Genealogy (11 Zenodo Publications under Lean 4.36.0 and C99)"
+    },
+    {
+      "id": "24468098",
+      "doi": "10.5281/zenodo.24468098",
+      "date": "2026-11-23",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Structural Synthesis of Bounded Discrete Projections under OVRP"
+    },
+    {
+      "id": "24469140",
+      "doi": "10.5281/zenodo.24469140",
+      "date": "2026-11-23",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Formal Auditing of AI-Generated Code and Explicit Boundary Certification under OVRP"
+    },
+    {
+      "id": "24477406",
+      "doi": "10.5281/zenodo.24477406",
+      "date": "2026-11-23",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Five-Phase Bounded Discrete Projections under the OVRP Pipeline"
+    },
+    {
+      "id": "24482608",
+      "doi": "10.5281/zenodo.24482608",
+      "date": "2026-11-23",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Reproducible Zero-LLM Triage and Cryptographic Provenance for Formal and Numerical Artifacts on Commodity Hardware"
+    },
+    {
+      "id": "24483484",
+      "doi": "10.5281/zenodo.24483484",
+      "date": "2026-11-23",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "The Dimensionless Informational Ratio as a Phenotypic Attractor in Protein Folding Dynamics under OVRP"
+    },
+    {
+      "id": "24528811",
+      "doi": "10.5281/zenodo.24528811",
+      "date": "2026-11-25",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Prime Indivisibility, Discrete Midpoint Symmetry, and OVRP Compression vs. Brute-Force Formalization"
+    },
+    {
+      "id": "24529374",
+      "doi": "10.5281/zenodo.24529374",
+      "date": "2026-11-25",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "OVRP Prime Symmetry & Formal Audit Compendium: Linking Critical-Line Scans and Discrete Midpoint Invariants"
+    },
+    {
+      "id": "24530182",
+      "doi": "10.5281/zenodo.24530182",
+      "date": "2026-11-25",
+      "state": "published",
+      "license": "CC-BY-NC-4.0",
+      "category": "Exploratorios y Temas Diversos",
+      "title": "Bounded Proof Compression, Prime Logarithmic Center-of-Mass Audits, and Entropic Stability in Quantum-Classical Operating Systems"
+    },
+    {
+      "id": "24530918",
+      "doi": "10.5281/zenodo.24530918",
+      "date": "2026-11-25",
+      "state": "published",
+      "license": "APACHE2.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Oasis Proof Quantum-Classical Runtime Auditor: Lean 4 ZNE Verification, Zero-LLM Graph Triage, and Cryptographic Provenance"
+    },
+    {
+      "id": "24533461",
+      "doi": "10.5281/zenodo.24533461",
+      "date": "2026-11-25",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Q-OS, Sistemas Cuánticos y Ruido/Entropía",
+      "title": "Symmetry, Entanglement Entropy, and Confinement Bounds: A Comparative Audit Across Quantum Information, Gauge Lattices, and Zeta Symmetry"
+    },
+    {
+      "id": "24538777",
+      "doi": "10.5281/zenodo.24538777",
+      "date": "2026-11-25",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Logarithmic Scales (ln 2, ln phi, and ln 10) Across Thermodynamics, Information, and Geometry: An OVRP Observational and Formal Audit"
+    },
+    {
+      "id": "24539182",
+      "doi": "10.5281/zenodo.24539182",
+      "date": "2026-11-25",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Integrated OVRP Compendium (Papers 22–24): Entanglement Entropy, Logarithmic Scales (ln 2, ln phi, ln 10), Cross-Domain Audit, and Open Commons"
+    },
+    {
+      "id": "24539709",
+      "doi": "10.5281/zenodo.24539709",
+      "date": "2026-11-25",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "The Critical Line as a Stability Boundary Interpretation: An OVRP Audit Across Symmetry, Oscillation, and Open Foundations"
+    },
+    {
+      "id": "19098625",
+      "doi": "10.5281/zenodo.19098625",
+      "date": "2026-11-26",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Critical Audit of Constants, Coupling Ratios, and Open Boundaries Under OVRP"
+    },
+    {
+      "id": "24528606",
+      "doi": "10.5281/zenodo.24528606",
+      "date": "2026-11-26",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Comparative Contrast of Noise and Entropy Models in Finite Quantum Systems Under OVRP"
+    },
+    {
+      "id": "24529309",
+      "doi": "10.5281/zenodo.24529309",
+      "date": "2026-11-26",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Information Geometry Applied to Networks and Hybrid Systems Under OVRP"
+    },
+    {
+      "id": "24559695",
+      "doi": "10.5281/zenodo.24559695",
+      "date": "2026-11-26",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Ternary Scale ln 3 in Quantum Mixture Probes and Cross-Logarithmic Ratios with ln 2 and ln 10 Under OVRP"
+    },
+    {
+      "id": "24560686",
+      "doi": "10.5281/zenodo.24560686",
+      "date": "2026-11-26",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "From Ternary Scale ln 3 to Quantum-Classical OS Resource Governance: Bounded Entropy Probes, Noise-Mitigation Interfaces, and Open Boundaries Under OVRP"
+    },
+    {
+      "id": "24561380",
+      "doi": "10.5281/zenodo.24561380",
+      "date": "2026-11-26",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "OVRP, Verificación Formal y Auditoría",
+      "title": "Exploratory Coupling Ratios and Logarithmic Scales Against the Fine-Structure Constant alpha Under OVRP"
+    }
+  ]
+}

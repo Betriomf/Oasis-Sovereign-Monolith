@@ -600,5 +600,15 @@
       "has_ots": false,
       "entries": 3
     }
-  ]
+  ],
+  "classified_counts": {
+    "Exploratorios y Temas Diversos": 33,
+    "Geometría de la Información, Redes y Atractores": 17,
+    "Campos, Celosías, Constantes y Fronteras Abiertas": 19,
+    "Q-OS, Sistemas Cuánticos y Ruido/Entropía": 6,
+    "OVRP, Verificación Formal y Auditoría": 24
+  },
+  "zenodo_total_records": 99,
+  "zenodo_published": 98,
+  "zenodo_drafts": 1
 }
