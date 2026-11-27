@@ -1,10 +1,10 @@
 {
-  "total_records": 104,
-  "published_count": 103,
+  "total_records": 105,
+  "published_count": 104,
   "draft_count": 1,
   "counts_by_category": {
     "Exploratorios y Temas Diversos": 33,
-    "Geometría de la Información, Redes y Atractores": 21,
+    "Geometría de la Información, Redes y Atractores": 22,
     "Campos, Celosías, Constantes y Fronteras Abiertas": 20,
     "Q-OS, Sistemas Cuánticos y Ruido/Entropía": 6,
     "OVRP, Verificación Formal y Auditoría": 24
@@ -945,6 +945,15 @@
       "license": "CC-BY-SA-4.0",
       "category": "Geometría de la Información, Redes y Atractores",
       "title": "Integrated OVRP Compendium on Informational Folding, Two-State PDB Kinetics, and ATP-Driven Proteostasis (Papers 32–35)"
+    },
+    {
+      "id": "24596750",
+      "doi": "10.5281/zenodo.24596750",
+      "date": "2026-11-27",
+      "state": "published",
+      "license": "CC-BY-SA-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Multi-State Molten-Globule Kinetics and Macromolecular Crowding Optima in Cellular Protein Folding Under OVRP"
     }
   ]
 }

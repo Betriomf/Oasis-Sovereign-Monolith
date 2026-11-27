@@ -51,6 +51,7 @@ CANONICAL_DOIS = {
     "Paper 33: Non-Markovian Informational Folding, Proteostatic Stress Plateaus, and Chaperone Damping (CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24590834",
     "Paper 34: Empirical Calibration of Informational Folding Rates Against Two-State PDB Kinetics (r = -0.9437, CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24594697",
     "Paper 36: Integrated OVRP Compendium on Informational Folding, PDB Kinetics, and ATP Proteostasis (Papers 32–35, CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24595841",
+    "Paper 37: Multi-State Molten-Globule Kinetics and Macromolecular Crowding Optima (CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24596750",
     "Paper 35: ATP-Driven Iterative Annealing and Kinetic Trap Rescue in High-Contact-Order Protein Folding (CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24595638",
 }
 

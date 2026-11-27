@@ -900,6 +900,14 @@
       "doi": "10.5281/zenodo.24595841",
       "summary": "Compendio integrado de plegamiento informacional, calibración PDB (r=-0.9437) y proteostasis ATP (Papers 32-35).",
       "ref": "papers/paper36_proteostasis_folding_compendium/oasis_paper36_compendium.tex"
+    },
+    "paper37_multistate_crowding": {
+      "id": "paper37_multistate_crowding",
+      "type": "paper",
+      "license": "CC-BY-SA-4.0",
+      "doi": "10.5281/zenodo.24596750",
+      "summary": "Plegamiento multi-estado (molten globule) y óptimo de hacinamiento macromolecular phi=0.20 (1BNI, 1HEL, 1MBN).",
+      "ref": "papers/paper37_multistate_crowding_folding/oasis_paper37_multistate_crowding.tex"
     }
   },
   "edges": [
@@ -1272,6 +1280,16 @@
       "from": "paper36_proteostasis_compendium",
       "rel": "compiles",
       "to": "paper35_atp_chaperones"
+    },
+    {
+      "from": "paper37_multistate_crowding",
+      "rel": "verified_by",
+      "to": "Paper37_MultistateCrowding_Spec"
+    },
+    {
+      "from": "paper36_proteostasis_compendium",
+      "rel": "followed_by",
+      "to": "paper37_multistate_crowding"
     }
   ]
 }
