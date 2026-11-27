@@ -1,0 +1,36 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\title{Monotonic Informational Folding Toward a $\ln(10)$ Ceiling: A Mpemba-Inspired Discrete Relaxation Model Under OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 27, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Continuing the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), logarithmic scale audits (\texttt{DOI: 10.5281/zenodo.24538777}), and Milestone 100 (\texttt{DOI: 10.5281/zenodo.24563096}), \texttt{Paper~32} (Repository Record 101) formalizes a Mpemba-inspired discrete informational folding model motivated by recent literature on monotonic asymmetry probes (\texttt{arXiv:2611.34853}), geometric speed limits (\texttt{arXiv:2611.22547}), logical-information exposure in monitored circuits (\texttt{arXiv:2611.16479}), classical-versus-quantum relaxation constraints (\texttt{arXiv:2611.15349}), and state-preparation protocols (\texttt{arXiv:2611.12328}). Measuring monotonic residual distance $\Delta(t) = \ln(10) - S(t)$ toward a bounded ceiling $S_{\max} = \ln(10)$, states initialized with higher unfolded dispersion ($S_{\mathrm{hot},0} > S_{\mathrm{cold},0}$) start with a smaller remaining gap and enter the folded threshold in fewer discrete steps. The specification is verified in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and paired with a deterministic \texttt{C99} probe, \texttt{SHA-256} and Bitcoin OpenTimestamps provenance, AI assistance disclosure, and explicit open boundaries under \texttt{CC-BY-4.0}.
+\end{abstract}
+
+\section{Monotonic Gap Contraction and State Preparation}
+Following the requirement for monotonic distance indicators (\texttt{arXiv:2611.34853}), geometric reachability bounds (\texttt{arXiv:2611.22547}), and explicit initial-preparation dependence (\texttt{arXiv:2611.12328}), consider a discrete relaxation process bounded above by $S_{\max} = \ln(10) \approx 2.302585$:
+\begin{equation}
+S(t+1) = S(t) + k_{\mathrm{fold}}\bigl(S_{\max} - S(t)\bigr), \qquad 0 < k_{\mathrm{fold}} < 1.
+\end{equation}
+The residual gap $\Delta(t) = S_{\max} - S(t) = (1 - k_{\mathrm{fold}})^t \Delta(0)$ contracts monotonically. Whenever $S_{\mathrm{cold}}(0) \le S_{\mathrm{hot}}(0) \le S_{\max}$, the initial remaining gap satisfies $\Delta_{\mathrm{hot}}(0) \le \Delta_{\mathrm{cold}}(0)$, so the higher-initialized preparation enters any threshold $\Delta(t) \le \varepsilon$ in no more discrete steps than the lower-initialized preparation, echoing logical-information exposure dynamics in monitored discrete cycles (\texttt{arXiv:2611.16479}).
+
+\section*{AI Assistance Disclosure and Open Boundaries}
+Prepared with AI assistance under author direction and verification, paired with machine checking in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and a deterministic \texttt{C99} probe under \texttt{CC-BY-4.0}.
+
+\begin{remark}[Explicit Open Boundaries]
+Consistent with classical-versus-quantum comparisons (\texttt{arXiv:2611.15349}), this discrete relaxation model uses the Mpemba effect as a structural analogy for bounded informational compression toward $\ln(10)$; it does not claim a general physical proof of anomalous freezing in liquid water, where convection, evaporation, supercooling, and phase-change thermodynamics govern experimental outcomes.
+\end{remark}
+
+\end{document}
