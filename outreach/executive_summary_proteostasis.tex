@@ -1,47 +1,46 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{geometry}
 \geometry{margin=2.0cm}
-\pagestyle{empty}
+
+\title{Executive Summary: Formally Verified Informational Protein Folding, Proteostasis, and p53 Energetic Thresholds (Papers 32--41)}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 27, 2026}
 
 \begin{document}
+\maketitle
 
-\begin{center}
-{\Large \textbf{Open-Source Informational Thermodynamics Framework for Protein Folding Kinetics \& ATP Proteostasis}} \\[4pt]
-{\small \textbf{Mariano Panzano Caball\'e} $\cdot$ Oasis Sovereign Architecture Research (Barcelona) $\cdot$ Licenses: \texttt{CC-BY-SA-4.0} \& \texttt{AGPL-3.0-or-later}}
-\end{center}
-
-\vspace{4pt}
-\hrule
-\vspace{8pt}
-
-\noindent\textbf{Executive Overview:}
-We present an open-access, formally verified computational pipeline (\emph{Oasis Verifiable Research Pipeline}, OVRP) modeling coarse-grained protein folding kinetics, non-Markovian stress plateaus, and non-equilibrium ATP chaperone rescue. All algebraic invariants are machine-checked in \texttt{Lean~4.36.0} (\texttt{0~sorry}) alongside deterministic \texttt{C99} numerical probes and Bitcoin OpenTimestamps provenance. Released under copyleft commons (\texttt{CC-BY-SA-4.0} / \texttt{AGPL-3.0-or-later}) for unrestricted academic and public-health reuse.
+\noindent\textbf{Overview:}
+Under the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), we present an open-access series of ten working papers (\texttt{Papers 32--41}, licensed under \texttt{CC-BY-SA-4.0} / \texttt{AGPL-3.0-or-later}) coupling low-dimensional informational folding kinetics, proteostatic ATP budgets, and closed-form stability thresholds in human p53 core variants (\texttt{PDB: 1TUP}). Every manuscript is paired with machine-checked invariants in \texttt{Lean~4.36.0} (\texttt{0~errors}, \texttt{0~warnings}, \texttt{0~sorry}), deterministic \texttt{C99} verification, \texttt{SHA-256} digests, and Bitcoin OpenTimestamps.
 
 \vspace{6pt}
-\noindent\textbf{Core Findings Across the Series (Papers 32--36):}
 \begin{center}
 \small
-\begin{tabular}{p{2.2cm}p{5.8cm}p{4.2cm}p{3.2cm}}
+\begin{tabular}{llll}
 \toprule
-\textbf{Study} & \textbf{Model & Mechanism} & \textbf{Quantitative Result} & \textbf{Zenodo DOI} \\
+\textbf{Work} & \textbf{Core Mechanism / Result} & \textbf{Verified Metric} & \textbf{Zenodo DOI} \\
 \midrule
 Paper 32 & Monotonic gap contraction toward $\ln(10)$ ceiling & Saturation in 9 vs.\ 12 steps & \texttt{10.5281/zenodo.24590134} \\
 Paper 33 & Non-Markovian memory + proteostatic stress & Residual plateau $\Delta \approx 0.0446$ & \texttt{10.5281/zenodo.24590834} \\
 Paper 34 & Two-state PDB $\mathrm{RCO}$ calibration (\texttt{1VII}--\texttt{1APS}) & Pearson $r = -0.9437$ ($N=8$) & \texttt{10.5281/zenodo.24594697} \\
-Paper 35 & Discrete ATP iterative annealing (\texttt{1APS}) & Trap rescue at step 16 ($30\,k_B T$) & \texttt{Paper35\_ATPChaperone} \\
+Paper 35 & Discrete ATP iterative annealing (\texttt{1APS}) & Trap rescue at step 16 ($30\,k_B T$) & \texttt{10.5281/zenodo.24595638} \\
+Paper 36 & Integrated OVRP compendium (\texttt{Papers 32--35}) & Formal synthesis (\texttt{0 sorry}) & \texttt{10.5281/zenodo.24595841} \\
+Paper 37 & Multi-state molten-globule crowding (\texttt{1BNI}, \texttt{1HEL}, \texttt{1MBN}) & Physiological optimum $\phi_{\mathrm{opt}} = 0.20$ & \texttt{10.5281/zenodo.24596750} \\
+Paper 38 & Autocatalytic amyloid secondary nucleation & Critical clearance $m_{\mathrm{crit}} = 0.300$ & \texttt{10.5281/zenodo.24597024} \\
+Paper 39 & Master biophysical compendium (\texttt{Papers 32--38}) & Unified parameter audit & \texttt{10.5281/zenodo.24600415} \\
+Paper 40 & p53 core $\Delta\Delta G$ (\texttt{WT}--\texttt{Y220C}) \& chaperone budget & Depletion at $t=22, 21$ ($E_{\mathrm{in}}=0.22$) & \texttt{10.5281/zenodo.24605051} \\
+Paper 41 & Closed-form $\Delta\Delta G_{\mathrm{crit}}^{(N)}$ analytical proof & $\Delta\Delta G_{\mathrm{stab}}^{\min}(\texttt{Y220C}) = 3.1655\,\mathrm{kcal/mol}$ & \texttt{10.5281/zenodo.24605536} \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\vspace{4pt}
-\noindent\textbf{Scope & Collaboration Invitation:}
-These phenomenological models provide fast, formally audited low-dimensional benchmarks rather than all-atom molecular dynamics. We welcome feedback or collaborative benchmarking against experimental folding datasets and chaperone kinetic assays.
+\vspace{6pt}
+\noindent\textbf{Methodological Scope & Open Boundaries:}
+The threshold evaluations in \texttt{Paper 41} represent closed-form analytical verification of equilibrium inequalities rather than stochastic simulation. These phenomenological models serve as fast, formally audited theoretical benchmarks to guide computational hypothesis generation; they do not simulate all-atom molecular dynamics or clinical oncology and do not constitute medical advice.
 
 \vspace{4pt}
-\noindent\textbf{Repository & Verification Artifacts:} \texttt{https://github.com/Betriomf/Oasis-Sovereign-Monolith}
+\noindent\textbf{Repository, Portal & RSS Feed:} \texttt{https://github.com/Betriomf/Oasis-Sovereign-Monolith} (\texttt{outreach/index.html}, \texttt{outreach/feed.xml})
 
 \end{document}

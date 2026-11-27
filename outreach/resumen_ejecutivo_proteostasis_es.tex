@@ -1,48 +1,47 @@
-\documentclass[10pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[spanish]{babel}
-\usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{geometry}
 \geometry{margin=2.0cm}
-\pagestyle{empty}
+
+\title{Resumen Ejecutivo: Plegamiento Proteico Informacional, Proteostasis y Umbrales Energ\'eticos en p53 Verificados Formalmente (Papers 32--41)}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{27 de noviembre de 2026}
 
 \begin{document}
+\maketitle
 
-\begin{center}
-{\Large \textbf{Marco Computacional Abierto de Termodin\'amica Informacional para Cin\'etica de Plegamiento Proteico y Proteostasis ATP}} \\[4pt]
-{\small \textbf{Mariano Panzano Caball\'e} $\cdot$ Oasis Sovereign Architecture Research (Barcelona) $\cdot$ Licencias: \texttt{CC-BY-SA-4.0} y \texttt{AGPL-3.0-or-later}}
-\end{center}
-
-\vspace{4pt}
-\hrule
-\vspace{8pt}
-
-\noindent\textbf{Resumen Ejecutivo:}
-Presentamos una l\'inea de investigaci\'on computacional en acceso abierto y verificada formalmente (\emph{Oasis Verifiable Research Pipeline}, OVRP) que modela la cin\'etica de plegamiento proteico de grano grueso, las mesetas de estr\'es no markoviano y el rescate energ\'etico mediante chaperonas impulsadas por ATP. Todas las invariantes algebraicas est\'an demostradas en \texttt{Lean~4.36.0} (\texttt{0~sorry}) junto con sondas num\'ericas deterministas en \texttt{C99} y trazabilidad criptogr\'afica (SHA-256 + Bitcoin OpenTimestamps). Publicado bajo licencias libres con copyleft (\texttt{CC-BY-SA-4.0} / \texttt{AGPL-3.0-or-later}) para su uso universal sin regal\'ias en investigaci\'on biom\'edica y salud p\'ublica.
+\noindent\textbf{Panorama General:}
+Bajo el marco \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), presentamos una serie abierta de diez trabajos de investigaci\'on (\texttt{Papers 32--41}, licencias \texttt{CC-BY-SA-4.0} / \texttt{AGPL-3.0-or-later}) que acoplan cin\'etica de plegamiento informacional de baja dimensi\'on, presupuestos metab\'olicos de ATP en chaperonas y umbrales anal\'iticos cerrados de estabilidad en variantes del dominio central de p53 humana (\texttt{PDB: 1TUP}). Cada entrega incluye verificaci\'on formal en \texttt{Lean~4.36.0} (\texttt{0~errors}, \texttt{0~warnings}, \texttt{0~sorry}), contraste determinista en \texttt{C99}, res\'umenes \texttt{SHA-256} y sellado temporal en Bitcoin OpenTimestamps.
 
 \vspace{6pt}
-\noindent\textbf{Resultados Principales de la Serie (Papers 32--36):}
 \begin{center}
 \small
-\begin{tabular}{p{2.0cm}p{5.8cm}p{4.3cm}p{3.3cm}}
+\begin{tabular}{llll}
 \toprule
-\textbf{Estudio} & \textbf{Modelo y Mecanismo} & \textbf{Resultado Cuantitativo} & \textbf{DOI en Zenodo} \\
+\textbf{Trabajo} & \textbf{Mecanismo / Resultado Principal} & \textbf{M\'etrica Verificada} & \textbf{DOI Zenodo} \\
 \midrule
 Paper 32 & Contracci\'on monot\'onica hacia techo $\ln(10)$ & Saturaci\'on en 9 frente a 12 pasos & \texttt{10.5281/zenodo.24590134} \\
 Paper 33 & Memoria no markoviana + estr\'es proteost\'atico & Meseta residual $\Delta \approx 0.0446$ & \texttt{10.5281/zenodo.24590834} \\
 Paper 34 & Calibraci\'on PDB de dos estados (\texttt{1VII}--\texttt{1APS}) & Correlaci\'on Pearson $r = -0.9437$ & \texttt{10.5281/zenodo.24594697} \\
-Paper 35 & Recocido iterativo por hidr\'olisis de ATP (\texttt{1APS}) & Rescate en paso 16 ($30\,k_B T$) & \texttt{Paper35\_ATPChaperone} \\
+Paper 35 & Recocido iterativo por hidr\'olisis de ATP (\texttt{1APS}) & Rescate en paso 16 ($30\,k_B T$) & \texttt{10.5281/zenodo.24595638} \\
+Paper 36 & Compendio integrado OVRP (\texttt{Papers 32--35}) & S\'intesis formal (\texttt{0 sorry}) & \texttt{10.5281/zenodo.24595841} \\
+Paper 37 & Hacinamiento en molten globule (\texttt{1BNI}, \texttt{1HEL}, \texttt{1MBN}) & \'Optimo fisiol\'ogico $\phi_{\mathrm{opt}} = 0.20$ & \texttt{10.5281/zenodo.24596750} \\
+Paper 38 & Nucleaci\'on secundaria amiloide autocatal\'itica & Aclaramiento cr\'itico $m_{\mathrm{crit}} = 0.300$ & \texttt{10.5281/zenodo.24597024} \\
+Paper 39 & Compendio maestro biof\'isico (\texttt{Papers 32--38}) & Auditor\'ia unificada de par\'ametros & \texttt{10.5281/zenodo.24600415} \\
+Paper 40 & Desestabilizaci\'on $\Delta\Delta G$ en p53 y presupuesto ATP & Agotamiento en $t=22, 21$ ($E_{\mathrm{in}}=0.22$) & \texttt{10.5281/zenodo.24605051} \\
+Paper 41 & Prueba anal\'itica cerrada de $\Delta\Delta G_{\mathrm{crit}}^{(N)}$ & $\Delta\Delta G_{\mathrm{stab}}^{\min}(\texttt{Y220C}) = 3.1655\,\mathrm{kcal/mol}$ & \texttt{10.5281/zenodo.24605536} \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\vspace{4pt}
-\noindent\textbf{Alcance e Invitaci\'on a Colaborar:}
-Estos modelos ofrecen referencias fenomenol\'ogicas r\'apidas y auditadas matem\'aticamente, complementarias a la din\'amica molecular atom\'istica. Agradecemos cualquier contraste con conjuntos experimentales de cin\'etica de plegamiento o ensayos de chaperonas.
+\vspace{6pt}
+\noindent\textbf{Alcance Metodol\'ogico y Fronteras Abiertas:}
+Las comprobaciones de umbral del \texttt{Paper 41} corresponden a verificaci\'on anal\'itica cerrada de desigualdades de equilibrio y no a una simulaci\'on estoc\'astica. Estos modelos fenomenol\'ogicos act\'uan como referencias te\'oricas r\'apidas y auditadas matem\'aticamente para guiar la generaci\'on de hip\'otesis computacionales; no sustituyen la din\'amica molecular atom\'istica ni la oncolog\'ia cl\'inica, y no constituyen consejo m\'edico.
 
 \vspace{4pt}
-\noindent\textbf{Repositorio y Artefactos Verificables:} \texttt{https://github.com/Betriomf/Oasis-Sovereign-Monolith}
+\noindent\textbf{Repositorio, Portal y Canal RSS:} \texttt{https://github.com/Betriomf/Oasis-Sovereign-Monolith} (\texttt{outreach/index.html}, \texttt{outreach/feed.xml})
 
 \end{document}
