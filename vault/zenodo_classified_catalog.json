@@ -1,11 +1,11 @@
 {
-  "total_records": 99,
-  "published_count": 98,
+  "total_records": 102,
+  "published_count": 101,
   "draft_count": 1,
   "counts_by_category": {
     "Exploratorios y Temas Diversos": 33,
-    "Geometría de la Información, Redes y Atractores": 17,
-    "Campos, Celosías, Constantes y Fronteras Abiertas": 19,
+    "Geometría de la Información, Redes y Atractores": 19,
+    "Campos, Celosías, Constantes y Fronteras Abiertas": 20,
     "Q-OS, Sistemas Cuánticos y Ruido/Entropía": 6,
     "OVRP, Verificación Formal y Auditoría": 24
   },
@@ -900,6 +900,33 @@
       "license": "CC-BY-4.0",
       "category": "OVRP, Verificación Formal y Auditoría",
       "title": "Exploratory Coupling Ratios and Logarithmic Scales Against the Fine-Structure Constant alpha Under OVRP"
+    },
+    {
+      "id": "24563096",
+      "doi": "10.5281/zenodo.24563096",
+      "date": "2026-11-26",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Campos, Celosías, Constantes y Fronteras Abiertas",
+      "title": "Milestone 100 Synthesis: Exploratory phi-Ratio Cosmic Shares, Coupling Probes, and Open Boundaries Under OVRP"
+    },
+    {
+      "id": "24590134",
+      "doi": "10.5281/zenodo.24590134",
+      "date": "2026-11-27",
+      "state": "published",
+      "license": "CC-BY-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Monotonic Informational Folding Toward a ln(10) Ceiling: A Mpemba-Inspired Discrete Relaxation Model Under OVRP"
+    },
+    {
+      "id": "24590834",
+      "doi": "10.5281/zenodo.24590834",
+      "date": "2026-11-27",
+      "state": "published",
+      "license": "CC-BY-SA-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Non-Markovian Informational Folding, Proteostatic Stress Plateaus, and Chaperone Damping Under OVRP"
     }
   ]
 }
