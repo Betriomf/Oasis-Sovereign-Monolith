@@ -908,6 +908,14 @@
       "doi": "10.5281/zenodo.24596750",
       "summary": "Plegamiento multi-estado (molten globule) y óptimo de hacinamiento macromolecular phi=0.20 (1BNI, 1HEL, 1MBN).",
       "ref": "papers/paper37_multistate_crowding_folding/oasis_paper37_multistate_crowding.tex"
+    },
+    "paper38_amyloid_threshold": {
+      "id": "paper38_amyloid_threshold",
+      "type": "paper",
+      "license": "CC-BY-SA-4.0",
+      "doi": "10.5281/zenodo.24597024",
+      "summary": "Umbral crítico m_crit = k_clear/k2 de nucleación secundaria amiloide y rescate ATP bajo CC-BY-SA-4.0.",
+      "ref": "papers/paper38_amyloid_secondary_nucleation_threshold/oasis_paper38_amyloid_threshold.tex"
     }
   },
   "edges": [
@@ -1290,6 +1298,16 @@
       "from": "paper36_proteostasis_compendium",
       "rel": "followed_by",
       "to": "paper37_multistate_crowding"
+    },
+    {
+      "from": "paper38_amyloid_threshold",
+      "rel": "verified_by",
+      "to": "Paper38_AmyloidThreshold_Spec"
+    },
+    {
+      "from": "paper37_multistate_crowding",
+      "rel": "followed_by",
+      "to": "paper38_amyloid_threshold"
     }
   ]
 }

@@ -117,3 +117,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Canal RSS Científico (`feed.xml`):** `https://raw.githubusercontent.com/Betriomf/Oasis-Sovereign-Monolith/main/outreach/feed.xml`
 - **Compendio Integrado Proteostasis (DOI `CC-BY-SA-4.0`):** https://doi.org/10.5281/zenodo.24595841
 - **Paper 37: Multi-State Molten-Globule Kinetics and Macromolecular Crowding Optima (CC-BY-SA-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24596750
+- **Paper 38: Autocatalytic Secondary Nucleation and Critical ATP-Clearance Thresholds in Amyloid Proteostasis (CC-BY-SA-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24597024

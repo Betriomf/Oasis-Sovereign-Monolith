@@ -24,7 +24,7 @@ Let $m(t)$ denote the misfolded monomer load and $M(t)$ the catalytic oligomer/f
 \begin{equation}
 M(t+1) = \max\Bigl(0,\; M(t) + k_n\,m(t)^2 + \bigl(k_2\,m(t) - k_{\mathrm{clear}}\bigr)M(t)\Bigr).
 \end{equation}
-Autocatalytic amplification occurs if and only if $m(t) > m_{\mathrm{crit}} = k_{\mathrm{clear}} / k_2$. In the deterministic \texttt{C99} probe ($k_{\mathrm{clear}} = 0.24$, $k_2 = 0.80 \implies m_{\mathrm{crit}} = 0.30$), a subcritical misfolded load ($m = 0.25 < m_{\mathrm{crit}}$) remains suppressed ($M(20) = 0.0011$), whereas a supercritical load ($m = 0.42 > m_{\mathrm{crit}}$) triggers exponential oligomer proliferation ($M(20) = 0.4673$), unless restored by an ATP-clearance boost ($k_{\mathrm{clear}} \to 0.38$).
+Autocatalytic amplification occurs if and only if $m(t) > m_{\mathrm{crit}} = k_{\mathrm{clear}} / k_2$. In the deterministic \texttt{C99} probe ($k_{\mathrm{clear}} = 0.24$, $k_2 = 0.80 \implies m_{\mathrm{crit}} = 0.300$), a subcritical misfolded load ($m = 0.25 < m_{\mathrm{crit}}$) decays smoothly ($M(20) = 0.006042$), whereas a supercritical load ($m = 0.42 > m_{\mathrm{crit}}$) drives exponential oligomer amplification ($M(20) = 0.090070$, a $9\times$ surge from $M(0) = 0.010$), which is reversed ($M(20) = 0.014133$) when ATP-chaperone clearance is boosted ($k_{\mathrm{clear}} = 0.38$) at step~6.
 
 \section*{AI Assistance Disclosure, Copyleft Commons, and Open Boundaries}
 Prepared with AI assistance under author direction and verification, paired with machine checking in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and deterministic \texttt{C99} probing under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
