@@ -12,7 +12,7 @@ theorem atp_budget_conservation (e_total c_atp : Nat) (h : c_atp ≤ e_total) :
   omega
 
 /-- El número máximo de ciclos de chaperona posibles está acotado por el presupuesto inicial e_total. -/
-theorem max_annealing_cycles_le_budget (e_total c_atp : Nat) (h : 0 < c_atp) :
+theorem max_annealing_cycles_le_budget (e_total c_atp : Nat) (_h : 0 < c_atp) :
     e_total / c_atp ≤ e_total := by
   exact Nat.div_le_self e_total c_atp
 

@@ -884,6 +884,14 @@
       "doi": "10.5281/zenodo.24594697",
       "summary": "Calibración empírica de tasas de plegamiento frente a 8 estructuras PDB de dos estados (r = -0.9437) y análisis de margen proteostático.",
       "ref": "papers/paper34_empirical_pdb_folding_kinetics/oasis_paper34_pdb_kinetics.tex"
+    },
+    "paper35_atp_chaperones": {
+      "id": "paper35_atp_chaperones",
+      "type": "paper",
+      "license": "CC-BY-SA-4.0",
+      "doi": "10.5281/zenodo.24595638",
+      "summary": "Recocido iterativo por hidrólisis de ATP y rescate de trampas cinéticas en proteínas de alto RCO (1APS) bajo CC-BY-SA-4.0.",
+      "ref": "papers/paper35_atp_iterative_annealing_chaperones/oasis_paper35_atp_chaperones.tex"
     }
   },
   "edges": [
@@ -1221,6 +1229,16 @@
       "from": "paper33_folding_stress",
       "rel": "followed_by",
       "to": "paper34_pdb_kinetics"
+    },
+    {
+      "from": "paper35_atp_chaperones",
+      "rel": "verified_by",
+      "to": "Paper35_ATPChaperone_Spec"
+    },
+    {
+      "from": "paper34_pdb_kinetics",
+      "rel": "followed_by",
+      "to": "paper35_atp_chaperones"
     }
   ]
 }

@@ -16,7 +16,7 @@
 \maketitle
 
 \begin{abstract}
-Continuing the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}) and empirical two-state PDB calibration (\texttt{Paper~34}, \texttt{DOI: 10.5281/zenodo.24594697}), \texttt{Paper~35} models the residual \emph{in vivo} variance ($\sim 10.9\%$) through ATP-driven chaperone iterative annealing. Grounded in chaperone iterative annealing theory (\texttt{arXiv:2506.12645}), obligate \emph{in vivo} chaperonin remodeling (\texttt{arXiv:2211.08623}), glycoprotein quality-control binding cycles (\texttt{arXiv:2008.05608}), biological machine energetics (\texttt{arXiv:1908.11323}), Hsp90 ATP-hydrolysis dynamics (\texttt{arXiv:2306.02935}), and phase-transition modulation (\texttt{arXiv:2601.07513}), the study couples a discrete ATP energy budget to kinetic-trap escape for high-$\mathrm{RCO}$ proteins (\texttt{1APS}). Verified in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and probed in \texttt{C99}, released under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+Continuing the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}) and empirical two-state PDB calibration (\texttt{Paper~34}, \texttt{DOI: 10.5281/zenodo.24594697}), \texttt{Paper~35} models the residual \emph{in vivo} variance ($\sim 10.9\%$) through ATP-driven chaperone iterative annealing. Grounded in chaperone iterative annealing theory (\texttt{arXiv:2506.12645}), obligate \emph{in vivo} chaperonin remodeling (\texttt{arXiv:2211.08623}), glycoprotein quality-control binding cycles (\texttt{arXiv:2008.05608}), biological machine energetics (\texttt{arXiv:1908.11323}), Hsp90 ATP-hydrolysis dynamics (\texttt{arXiv:2306.02935}), and phase-transition modulation (\texttt{arXiv:2601.07513}), the study couples a discrete ATP energy budget to kinetic-trap escape for high-$\mathrm{RCO}$ proteins (\texttt{1APS}). Verified in \texttt{Lean~4.36.0} (\texttt{0~errors}, \texttt{0~warnings}, \texttt{0~sorry}) and probed in \texttt{C99}, confirming that non-equilibrium ATP hydrolysis prevents kinetic trapping associated with misfolding pathologies. Released under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
 \end{abstract}
 
 \section{Discrete ATP Budget and Iterative Annealing Cycles}
@@ -24,13 +24,13 @@ Following \texttt{arXiv:2506.12645} and \texttt{arXiv:1908.11323}, let each chap
 \begin{equation}
 E_{\mathrm{ATP}}(t+1) = E_{\mathrm{ATP}}(t) - c_{\mathrm{ATP}}\,\mathbb{I}_{\mathrm{cycle}}(t), \qquad E_{\mathrm{ATP}}(t) \ge 0.
 \end{equation}
-In the deterministic \texttt{C99} probe calibrated to \texttt{1APS} ($\mathrm{RCO} = 0.236$), passive folding stalls in a kinetic trap ($\Delta_{\mathrm{passive}} \approx 0.280$), whereas three ATP-driven annealing pulses ($3 \times 15\,k_B T = 45\,k_B T$) rescue the trajectory and achieve native threshold closure ($\Delta \le 0.015$) at step~21.
+In the deterministic \texttt{C99} probe calibrated to \texttt{1APS} ($\mathrm{RCO} = 0.236$), passive folding stalls in a kinetic trap ($\Delta_{\mathrm{passive}} = 0.280$), whereas two ATP-driven annealing cycles ($2 \times 15\,k_B T = 30.0\,k_B T$, triggered at steps~8 and~11) rescue the trajectory and achieve native threshold closure ($\Delta \le 0.015$) at step~16.
 
 \section*{AI Assistance Disclosure, Copyleft Commons, and Open Boundaries}
 Prepared with AI assistance under author direction and verification, paired with machine checking in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and deterministic \texttt{C99} probing under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
 
 \begin{remark}[Explicit Open Boundaries]
-This discrete energetic model abstracts chaperone annealing cycles and ATP consumption; it does not replace atomistic free-energy simulations or experimental \emph{in vivo} calorimetry.
+This simplified discrete thermodynamic model abstracts chaperone annealing cycles and ATP consumption; it does not replace atomistic free-energy simulations, clinical pathology models, or experimental \emph{in vivo} calorimetry.
 \end{remark}
 
 \end{document}
