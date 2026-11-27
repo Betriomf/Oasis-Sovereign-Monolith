@@ -876,6 +876,14 @@
       "doi": "10.5281/zenodo.24590834",
       "summary": "Plegamiento no markoviano, mesetas de estrés y amortiguamiento por chaperonas con citas arXiv y flujo OVRP asistido por IA.",
       "ref": "papers/paper33_nonmarkovian_folding_stress/oasis_paper33_folding_stress.tex"
+    },
+    "paper34_pdb_kinetics": {
+      "id": "paper34_pdb_kinetics",
+      "type": "paper",
+      "license": "CC-BY-SA-4.0",
+      "doi": "10.5281/zenodo.24594697",
+      "summary": "Calibración empírica de tasas de plegamiento frente a 8 estructuras PDB de dos estados (r = -0.9437) y análisis de margen proteostático.",
+      "ref": "papers/paper34_empirical_pdb_folding_kinetics/oasis_paper34_pdb_kinetics.tex"
     }
   },
   "edges": [
@@ -1203,6 +1211,16 @@
       "from": "paper32_mpemba_folding",
       "rel": "followed_by",
       "to": "paper33_folding_stress"
+    },
+    {
+      "from": "paper34_pdb_kinetics",
+      "rel": "verified_by",
+      "to": "Paper34_PDBKinetics_Spec"
+    },
+    {
+      "from": "paper33_folding_stress",
+      "rel": "followed_by",
+      "to": "paper34_pdb_kinetics"
     }
   ]
 }

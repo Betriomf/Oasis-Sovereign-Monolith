@@ -229,6 +229,12 @@
       "instruction": "Resume la fuente verificada: Paper 33 Non-Markovian Folding & Stress DOI Zenodo (CC-BY-SA-4.0)",
       "output": "Modelo no markoviano de plegamiento informacional y amortiguamiento bajo estrés con citas arXiv y método OVRP bajo licencia copyleft CC-BY-SA-4.0 (DOI: 10.5281/zenodo.24590834).",
       "source": "https://doi.org/10.5281/zenodo.24590834"
+    },
+    {
+      "id": "ref_38",
+      "instruction": "Resume la fuente verificada: Paper 34 Empirical PDB Folding Kinetics DOI Zenodo (CC-BY-SA-4.0)",
+      "output": "Calibración empírica frente a 8 proteínas PDB de dos estados (Pearson r = -0.9437) bajo licencia copyleft CC-BY-SA-4.0 (DOI: 10.5281/zenodo.24594697).",
+      "source": "https://doi.org/10.5281/zenodo.24594697"
     }
   ]
 }
