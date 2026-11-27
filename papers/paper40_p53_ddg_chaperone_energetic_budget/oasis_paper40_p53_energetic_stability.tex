@@ -43,11 +43,18 @@ Using canonical literature values for the p53 core domain ($s_{\mathrm{basal}} =
 \end{tabular}
 \end{center}
 
+\section{Theoretical Implications for Drug-Discovery Hypothesis Generation}
+As a coarse-grained mathematical model, this framework provides a low-cost computational testbed to prioritize biophysical hypotheses prior to molecular dynamics or wet-lab screening:
+\begin{enumerate}
+  \item \textbf{Variant-Specific Stratification ($\Delta\Delta G$ vs.\ Contact Mutants):} The separation between folding-destabilized structural mutants (\texttt{Y220C}, \texttt{R175H}) and near-native DNA-contact mutants (\texttt{R273H}) illustrates why small-molecule conformational stabilizers (such as pocket-binding reactivators targeting \texttt{Y220C}) directly reduce effective $\Delta\Delta G$ and relieve chaperone energetic load, whereas contact mutants require distinct functional restoration mechanisms.
+  \item \textbf{Chaperone-Buffer Trade-offs Under Metabolic Stress:} Coupling chaperone demand with finite energetic inflow highlights how modulating proteostasis capacity interacts with cellular energy availability, offering a quantitative parameter space for exploring synthetic lethality or stress-sensitization hypotheses in silico.
+\end{enumerate}
+
 \section*{AI Assistance Disclosure, Copyleft Commons, and Open Boundaries}
 Prepared with AI assistance under author direction and verification, paired with machine checking in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and deterministic \texttt{C99} probing under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
 
 \begin{remark}[Explicit Open Boundaries]
-This discrete two-compartment and scalar-budget formulation is a coarse-grained biophysical and bioinformatic exploration. It does not simulate all-atom folding landscapes, full cellular metabolic networks, tumor microenvironments, or clinical outcomes, and does not constitute medical or therapeutic advice.
+This discrete two-compartment and scalar-budget formulation is a coarse-grained biophysical and bioinformatic exploration intended strictly to guide theoretical modeling. It does not simulate all-atom folding landscapes, full cellular metabolic networks, pharmacokinetics, toxicity, or clinical outcomes, and does not constitute medical advice or a therapeutic protocol.
 \end{remark}
 
 \end{document}

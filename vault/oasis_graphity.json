@@ -924,6 +924,14 @@
       "doi": "10.5281/zenodo.24600415",
       "summary": "Compendio Maestro Biomédico (Papers 32-38) sobre plegamiento informacional, PDB, hacinamiento y umbral amiloide.",
       "ref": "papers/paper39_master_biophysical_proteostasis_compendium/oasis_paper39_master_compendium.tex"
+    },
+    "paper40_p53_energetic_stability": {
+      "id": "paper40_p53_energetic_stability",
+      "type": "paper",
+      "license": "CC-BY-SA-4.0",
+      "doi": "10.5281/zenodo.24605051",
+      "summary": "Desestabilización ΔΔG en variantes p53 (1TUP) y presupuesto energético de chaperonas con guía teórica para cribado.",
+      "ref": "papers/paper40_p53_ddg_chaperone_energetic_budget/oasis_paper40_p53_energetic_stability.tex"
     }
   },
   "edges": [
@@ -1336,6 +1344,16 @@
       "from": "paper39_master_biophysical_compendium",
       "rel": "compiles",
       "to": "paper38_amyloid_threshold"
+    },
+    {
+      "from": "paper40_p53_energetic_stability",
+      "rel": "verified_by",
+      "to": "Paper40_p53EnergeticStability_Spec"
+    },
+    {
+      "from": "paper40_p53_energetic_stability",
+      "rel": "extends",
+      "to": "paper39_master_biophysical_compendium"
     }
   ]
 }

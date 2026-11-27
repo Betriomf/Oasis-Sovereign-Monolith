@@ -265,6 +265,12 @@
       "instruction": "Resume la fuente verificada: Paper 39 Master Biophysical Proteostasis Compendium DOI Zenodo (CC-BY-SA-4.0)",
       "output": "Compendio Maestro de los Papers 32-38 sobre plegamiento informacional, calibración PDB, hacinamiento celular y umbral amiloide (DOI: 10.5281/zenodo.24600415).",
       "source": "https://doi.org/10.5281/zenodo.24600415"
+    },
+    {
+      "id": "ref_44",
+      "instruction": "Resume la fuente verificada: Paper 40 p53 ddG & Chaperone Energetic Budget DOI Zenodo (CC-BY-SA-4.0)",
+      "output": "Modelo teórico de desestabilización ΔΔG en variantes p53 y presupuesto energético de chaperonas para guiar hipótesis de descubrimiento de fármacos (DOI: 10.5281/zenodo.24605051).",
+      "source": "https://doi.org/10.5281/zenodo.24605051"
     }
   ]
 }

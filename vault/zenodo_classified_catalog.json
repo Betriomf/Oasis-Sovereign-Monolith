@@ -1,10 +1,10 @@
 {
-  "total_records": 107,
-  "published_count": 106,
+  "total_records": 108,
+  "published_count": 107,
   "draft_count": 1,
   "counts_by_category": {
     "Exploratorios y Temas Diversos": 33,
-    "Geometría de la Información, Redes y Atractores": 24,
+    "Geometría de la Información, Redes y Atractores": 25,
     "Campos, Celosías, Constantes y Fronteras Abiertas": 20,
     "Q-OS, Sistemas Cuánticos y Ruido/Entropía": 6,
     "OVRP, Verificación Formal y Auditoría": 24
@@ -972,6 +972,15 @@
       "license": "CC-BY-SA-4.0",
       "category": "Geometría de la Información, Redes y Atractores",
       "title": "Master OVRP Compendium on Informational Protein Folding, Empirical PDB Kinetics, Cellular Crowding, and Amyloid Proteostasis Thresholds (Papers 32–38)"
+    },
+    {
+      "id": "24605051",
+      "doi": "10.5281/zenodo.24605051",
+      "date": "2026-11-27",
+      "state": "published",
+      "license": "CC-BY-SA-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Thermodynamic Destabilization (ΔΔG) in p53 Core Variants and Discrete Chaperone Energetic Budgets Under OVRP"
     }
   ]
 }
