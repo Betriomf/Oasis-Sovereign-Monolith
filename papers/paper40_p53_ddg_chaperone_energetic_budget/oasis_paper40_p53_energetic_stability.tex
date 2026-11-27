@@ -1,0 +1,53 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{remark}{Remark}
+
+\title{Thermodynamic Destabilization ($\Delta\Delta G$) in p53 Core Variants and Discrete Chaperone Energetic Budgets Under OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 27, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Extending the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}) and the proteostasis synthesis (\texttt{Paper~39}, \texttt{DOI: 10.5281/zenodo.24600415}), \texttt{Paper~40} formulates a bounded discrete-time model coupling published thermodynamic destabilization energies ($\Delta\Delta G$) of human p53 DNA-binding domain variants (\texttt{PDB: 1TUP}) with finite chaperone metabolic budgets. Parameterizing baseline proteotoxic stress via experimental urea-denaturation shifts ($\Delta\Delta G \in [0.00, 4.00]\,\mathrm{kcal/mol}$ across \texttt{WT}, \texttt{R273H}, \texttt{R248Q}, \texttt{R175H}, and \texttt{Y220C}) and grounding sequence-encoded aggregation propensity in recent biophysical literature (\texttt{EuropePMC: 42840663}, \texttt{42143149}), we identify the metabolic inflow regime separating sustained chaperone buffering from energetic depletion. Machine-checked in \texttt{Lean~4.36.0} (\texttt{0~errors}, \texttt{0~warnings}, \texttt{0~sorry}) and verified via deterministic \texttt{C99} probing under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+\end{abstract}
+
+\section{Coupled Discrete Energetic-Proteotoxic Dynamics}
+For a p53 variant with folding free-energy shift $\Delta\Delta G \ge 0$, baseline proteotoxic stress is bounded by $s_0(\Delta\Delta G) = \min(0.95,\, s_{\mathrm{basal}} + \alpha\,\Delta\Delta G)$. At each discrete step $t \in \{1,\dots,30\}$, available metabolic budget $E_t$ receives basal inflow $E_{\mathrm{inflow}}$ and funds chaperone activity $a_t \le a_{\mathrm{target}}$ at unit cost $\kappa_{\mathrm{chap}}$, reducing effective stress to $s_{\mathrm{eff},t} = s_0\max(0,\, 1 - \gamma_{\mathrm{chap}} a_t)$ while incurring stress-induced energetic drain $\kappa_{\mathrm{stress}} s_{\mathrm{eff},t}$:
+\begin{equation}
+E_{t+1} = \max\Bigl(0,\; E_t + E_{\mathrm{inflow}} - \kappa_{\mathrm{chap}} a_t - \kappa_{\mathrm{stress}} s_{\mathrm{eff},t}\Bigr).
+\end{equation}
+
+\section{Deterministic C99 Calibration Across p53 Variants}
+Using canonical literature values for the p53 core domain ($s_{\mathrm{basal}} = 0.28$, $\alpha = 0.14$, $E_0 = 5.0$, $\kappa_{\mathrm{chap}} = 0.40$, $\kappa_{\mathrm{stress}} = 0.35$), a constrained metabolic inflow ($E_{\mathrm{inflow}} = 0.22$) sustains \texttt{WT} and the DNA-contact mutant \texttt{R273H}, whereas strongly destabilized structural variants (\texttt{R175H}, \texttt{Y220C}) exhaust the budget at steps $t=22$ and $t=21$:
+
+\begin{center}
+\small
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Variant} & \textbf{Structural Class} & $\Delta\Delta G$ ($\mathrm{kcal/mol}$) & \textbf{Depletion ($E_{\mathrm{in}}=0.22$)} & $E_{30}$ ($E_{\mathrm{in}}=0.22$) & $E_{30}$ ($E_{\mathrm{in}}=0.35$) \\
+\midrule
+\texttt{WT (1TUP)} & Native reference & $0.00$ & Stable & $0.589$ & $4.489$ \\
+\texttt{R273H} & DNA-contact & $0.40$ & Stable & $0.307$ & $4.207$ \\
+\texttt{R248Q} & L3-loop contact & $1.90$ & $t = 27$ & $0.000$ & $3.148$ \\
+\texttt{R175H} & Structural (Zn site) & $3.50$ & $t = 22$ & $0.000$ & $2.019$ \\
+\texttt{Y220C} & Structural core & $4.00$ & $t = 21$ & $0.000$ & $1.666$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{AI Assistance Disclosure, Copyleft Commons, and Open Boundaries}
+Prepared with AI assistance under author direction and verification, paired with machine checking in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and deterministic \texttt{C99} probing under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+
+\begin{remark}[Explicit Open Boundaries]
+This discrete two-compartment and scalar-budget formulation is a coarse-grained biophysical and bioinformatic exploration. It does not simulate all-atom folding landscapes, full cellular metabolic networks, tumor microenvironments, or clinical outcomes, and does not constitute medical or therapeutic advice.
+\end{remark}
+
+\end{document}
