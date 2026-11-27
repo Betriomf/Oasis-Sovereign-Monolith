@@ -1,0 +1,36 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\title{Non-Markovian Informational Folding, Proteostatic Stress Plateaus, and Chaperone Damping Under OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 27, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Continuing the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}) and monotonic informational folding (\texttt{Paper~32}, \texttt{DOI: 10.5281/zenodo.24590134}), \texttt{Paper~33} investigates discrete relaxation trajectories under memory kernels, external stressors, and damping operators inspired by non-Markovian protein folding dynamics (\texttt{arXiv:2610.14234}), conformational trajectory analysis (\texttt{arXiv:2606.08647}), thermal/pH/shear unfolding stressors (\texttt{arXiv:2408.11147}), and Hsp90 chaperone proteostasis (\texttt{arXiv:2308.16629}). A zero-\texttt{sorry} \texttt{Lean~4.36.0} specification (\texttt{Paper33\_FoldingStress\_Spec.lean}) proves gap boundedness when damping dominates perturbation, while a deterministic \texttt{C99} probe contrasts nominal convergence (step~13) against stress-induced residual plateaus ($\Delta \approx 0.0446$). Released under \texttt{CC-BY-SA-4.0} (manuscript) and \texttt{AGPL-3.0-or-later} (code) to guarantee universal, royalty-free public-health and social-security access.
+\end{abstract}
+
+\section{Non-Markovian Relaxation and Proteostatic Damping}
+Let $\Delta(t) \ge 0$ denote the configurational gap from the folded attractor. Incorporating a memory term $\mu(\Delta(t-1) - \Delta(t))$ (\texttt{arXiv:2610.14234}), external perturbation $\eta_{\mathrm{stress}}(t)$ (\texttt{arXiv:2408.11147}), and chaperone-inspired damping $k_{\mathrm{chap}}$ (\texttt{arXiv:2308.16629}):
+\begin{equation}
+\Delta(t+1) = \max\Bigl(0,\; \Delta(t)(1 - k_{\mathrm{fold}} - k_{\mathrm{chap}}) + \eta_{\mathrm{stress}}(t) + \mu\bigl(\Delta(t-1) - \Delta(t)\bigr)\Bigr).
+\end{equation}
+In the deterministic \texttt{C99} probe ($\varepsilon = 0.015$), the unperturbed trajectory reaches $\Delta \le \varepsilon$ at step~13, whereas a sustained stress pulse ($\eta = 0.18$ for $2 \le t \le 6$, $\eta = 0.02$ thereafter) traps the trajectory in a non-zero residual plateau ($\Delta(18) \approx 0.044580$), illustrating why persistent background noise prevents complete closure without active clearance.
+
+\section*{AI Assistance Disclosure, Copyleft Commons, and Open Boundaries}
+Prepared with AI assistance under author direction and verification, paired with machine checking in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and a deterministic \texttt{C99} probe under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later} for universal public-benefit access.
+
+\begin{remark}[Explicit Open Boundaries]
+This discrete dynamical model abstracts relaxation memory and damping mathematically; it does not simulate atomistic amino-acid sequences, clinical therapeutics, or biological pathogens.
+\end{remark}
+
+\end{document}
