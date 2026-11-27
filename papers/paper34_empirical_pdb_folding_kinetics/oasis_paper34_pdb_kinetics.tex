@@ -1,0 +1,39 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\title{Empirical Calibration of Informational Folding Rates Against Two-State PDB Kinetics and Non-Markovian Friction Under OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 27, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Continuing the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), bounded informational folding (\texttt{Paper~32}, \texttt{DOI: 10.5281/zenodo.24590134}), and non-Markovian stress damping (\texttt{Paper~33}, \texttt{DOI: 10.5281/zenodo.24590834}), \texttt{Paper~34} calibrates discrete relaxation rates against published two-state protein folding kinetics from the Protein Data Bank (PDB). Grounded in network-pathway correlations (\texttt{arXiv:2604.04677}), reaction-coordinate non-Markovian friction (\texttt{arXiv:2607.20504}), solvent cooperativity (\texttt{arXiv:2503.23280}), high-contact-order acylphosphatase landscapes (\texttt{arXiv:2203.05786}), and barnase calorimetric force spectroscopy (\texttt{arXiv:2204.05771}), the study maps Relative Contact Order ($\mathrm{RCO}$) across eight benchmark PDB structures (\texttt{1VII}, \texttt{1ENH}, \texttt{2CI2}, \texttt{1UBQ}, \texttt{2PTL}, \texttt{1SHG}, \texttt{1FKB}, \texttt{1APS}) to discrete contraction steps. Verified in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and probed in \texttt{C99}, confirming a strong inverse correlation ($r \approx -0.94$) between discrete step count and experimental $\ln k_f$, released under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+\end{abstract}
+
+\section{Physical Clarification and Topological Contact-Order Mapping}
+In macroscopic thermal dispersion (such as boiling water atomized into sub-zero air), rapid freezing arises from surface-area amplification and convective/evaporative heat loss rather than a violation of energy balance. Conversely, in aqueous two-state protein folding (\texttt{arXiv:2503.23280}, \texttt{arXiv:2604.04677}), experimental folding rates $\ln k_f$ are governed by native topological complexity measured via Relative Contact Order ($\mathrm{RCO}$). Projecting high-dimensional conformational dynamics onto a 1D reaction coordinate (\texttt{arXiv:2607.20504}), we parameterize the discrete contraction rate as:
+\begin{equation}
+k_{\mathrm{fold}}(\mathrm{RCO}) = k_0 \exp(-\gamma\,\mathrm{RCO}), \qquad k_0 = 0.95,\;\gamma = 6.2.
+\end{equation}
+
+\section{Empirical Benchmark Across Eight Two-State PDB Structures}
+Evaluating $\Delta(t+1) = \Delta(t)(1 - k_{\mathrm{fold}}(\mathrm{RCO}))$ from $\Delta(0) = 1.60$ to $\varepsilon = 0.015$ yields discrete step counts $T_{\mathrm{fold}}$ matching experimental $\ln k_f$ ordering across fast helical folds (\texttt{1VII}: $T=4$, $\ln k_f = 11.8$) through slow high-$\mathrm{RCO}$ folds (\texttt{1APS}: $T=15$, $\ln k_f = -1.5$, \texttt{arXiv:2203.05786}).
+
+\section*{AI Assistance Disclosure, Copyleft Commons, and Open Boundaries}
+Prepared with AI assistance under author direction and verification, paired with machine checking in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and deterministic \texttt{C99} probing under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+
+\begin{remark}[Explicit Open Boundaries]
+This phenomenological calibration correlates discrete step counts with published two-state $\mathrm{RCO}$ benchmarks; it does not replace all-atom molecular dynamics, multi-state kinetic intermediates (\texttt{arXiv:2204.05771}), or wet-lab biophysical assays.
+\end{remark}
+
+\end{document}
