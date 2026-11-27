@@ -892,6 +892,14 @@
       "doi": "10.5281/zenodo.24595638",
       "summary": "Recocido iterativo por hidrólisis de ATP y rescate de trampas cinéticas en proteínas de alto RCO (1APS) bajo CC-BY-SA-4.0.",
       "ref": "papers/paper35_atp_iterative_annealing_chaperones/oasis_paper35_atp_chaperones.tex"
+    },
+    "paper36_proteostasis_compendium": {
+      "id": "paper36_proteostasis_compendium",
+      "type": "compendium",
+      "license": "CC-BY-SA-4.0",
+      "doi": "10.5281/zenodo.24595841",
+      "summary": "Compendio integrado de plegamiento informacional, calibración PDB (r=-0.9437) y proteostasis ATP (Papers 32-35).",
+      "ref": "papers/paper36_proteostasis_folding_compendium/oasis_paper36_compendium.tex"
     }
   },
   "edges": [
@@ -1238,6 +1246,31 @@
     {
       "from": "paper34_pdb_kinetics",
       "rel": "followed_by",
+      "to": "paper35_atp_chaperones"
+    },
+    {
+      "from": "paper36_proteostasis_compendium",
+      "rel": "verified_by",
+      "to": "Paper36_ProteostasisCompendium_Spec"
+    },
+    {
+      "from": "paper36_proteostasis_compendium",
+      "rel": "compiles",
+      "to": "paper32_mpemba_folding"
+    },
+    {
+      "from": "paper36_proteostasis_compendium",
+      "rel": "compiles",
+      "to": "paper33_folding_stress"
+    },
+    {
+      "from": "paper36_proteostasis_compendium",
+      "rel": "compiles",
+      "to": "paper34_pdb_kinetics"
+    },
+    {
+      "from": "paper36_proteostasis_compendium",
+      "rel": "compiles",
       "to": "paper35_atp_chaperones"
     }
   ]

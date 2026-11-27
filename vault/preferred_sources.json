@@ -241,6 +241,12 @@
       "instruction": "Resume la fuente verificada: Paper 35 ATP Iterative Annealing Chaperones DOI Zenodo (CC-BY-SA-4.0)",
       "output": "Modelo termodinámico discreto de recocido iterativo por hidrólisis de ATP en chaperonas bajo licencia CC-BY-SA-4.0 (DOI: 10.5281/zenodo.24595638).",
       "source": "https://doi.org/10.5281/zenodo.24595638"
+    },
+    {
+      "id": "ref_40",
+      "instruction": "Resume la fuente verificada: Paper 36 Proteostasis Compendium DOI Zenodo (CC-BY-SA-4.0)",
+      "output": "Compendio integrado de los Papers 32-35 sobre plegamiento informacional, calibración PDB (r=-0.9437) y proteostasis ATP (DOI: 10.5281/zenodo.24595841).",
+      "source": "https://doi.org/10.5281/zenodo.24595841"
     }
   ]
 }

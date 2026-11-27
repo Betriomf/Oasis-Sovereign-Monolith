@@ -1,6 +1,6 @@
 {
-  "graphity_nodes": 141,
-  "graphity_edges": 69,
+  "graphity_nodes": 142,
+  "graphity_edges": 74,
   "papers_count": 50,
   "papers": [
     {
@@ -603,12 +603,12 @@
   ],
   "classified_counts": {
     "Exploratorios y Temas Diversos": 33,
-    "Geometría de la Información, Redes y Atractores": 20,
+    "Geometría de la Información, Redes y Atractores": 21,
     "Campos, Celosías, Constantes y Fronteras Abiertas": 20,
     "Q-OS, Sistemas Cuánticos y Ruido/Entropía": 6,
     "OVRP, Verificación Formal y Auditoría": 24
   },
-  "zenodo_total_records": 103,
-  "zenodo_published": 102,
+  "zenodo_total_records": 104,
+  "zenodo_published": 103,
   "zenodo_drafts": 1
 }
