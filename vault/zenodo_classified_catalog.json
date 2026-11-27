@@ -1,10 +1,10 @@
 {
-  "total_records": 106,
-  "published_count": 105,
+  "total_records": 107,
+  "published_count": 106,
   "draft_count": 1,
   "counts_by_category": {
     "Exploratorios y Temas Diversos": 33,
-    "Geometría de la Información, Redes y Atractores": 23,
+    "Geometría de la Información, Redes y Atractores": 24,
     "Campos, Celosías, Constantes y Fronteras Abiertas": 20,
     "Q-OS, Sistemas Cuánticos y Ruido/Entropía": 6,
     "OVRP, Verificación Formal y Auditoría": 24
@@ -963,6 +963,15 @@
       "license": "CC-BY-SA-4.0",
       "category": "Geometría de la Información, Redes y Atractores",
       "title": "Autocatalytic Secondary Nucleation and Critical ATP-Clearance Thresholds in Amyloid Proteostasis Collapse Under OVRP"
+    },
+    {
+      "id": "24600415",
+      "doi": "10.5281/zenodo.24600415",
+      "date": "2026-11-27",
+      "state": "published",
+      "license": "CC-BY-SA-4.0",
+      "category": "Geometría de la Información, Redes y Atractores",
+      "title": "Master OVRP Compendium on Informational Protein Folding, Empirical PDB Kinetics, Cellular Crowding, and Amyloid Proteostasis Thresholds (Papers 32–38)"
     }
   ]
 }

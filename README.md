@@ -118,3 +118,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Compendio Integrado Proteostasis (DOI `CC-BY-SA-4.0`):** https://doi.org/10.5281/zenodo.24595841
 - **Paper 37: Multi-State Molten-Globule Kinetics and Macromolecular Crowding Optima (CC-BY-SA-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24596750
 - **Paper 38: Autocatalytic Secondary Nucleation and Critical ATP-Clearance Thresholds in Amyloid Proteostasis (CC-BY-SA-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24597024
+- **Paper 39: Master OVRP Compendium on Informational Protein Folding, PDB Kinetics, Crowding, and Amyloid Proteostasis (Papers 32–38, CC-BY-SA-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24600415

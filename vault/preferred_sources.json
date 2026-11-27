@@ -259,6 +259,12 @@
       "instruction": "Resume la fuente verificada: Paper 38 Amyloid Secondary Nucleation Threshold DOI Zenodo (CC-BY-SA-4.0)",
       "output": "Umbral crítico m_crit = k_clear/k2 de nucleación secundaria amiloide y rescate ATP (DOI: 10.5281/zenodo.24597024).",
       "source": "https://doi.org/10.5281/zenodo.24597024"
+    },
+    {
+      "id": "ref_43",
+      "instruction": "Resume la fuente verificada: Paper 39 Master Biophysical Proteostasis Compendium DOI Zenodo (CC-BY-SA-4.0)",
+      "output": "Compendio Maestro de los Papers 32-38 sobre plegamiento informacional, calibración PDB, hacinamiento celular y umbral amiloide (DOI: 10.5281/zenodo.24600415).",
+      "source": "https://doi.org/10.5281/zenodo.24600415"
     }
   ]
 }

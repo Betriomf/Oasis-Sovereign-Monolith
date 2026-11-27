@@ -916,6 +916,14 @@
       "doi": "10.5281/zenodo.24597024",
       "summary": "Umbral crítico m_crit = k_clear/k2 de nucleación secundaria amiloide y rescate ATP bajo CC-BY-SA-4.0.",
       "ref": "papers/paper38_amyloid_secondary_nucleation_threshold/oasis_paper38_amyloid_threshold.tex"
+    },
+    "paper39_master_biophysical_compendium": {
+      "id": "paper39_master_biophysical_compendium",
+      "type": "compendium",
+      "license": "CC-BY-SA-4.0",
+      "doi": "10.5281/zenodo.24600415",
+      "summary": "Compendio Maestro Biomédico (Papers 32-38) sobre plegamiento informacional, PDB, hacinamiento y umbral amiloide.",
+      "ref": "papers/paper39_master_biophysical_proteostasis_compendium/oasis_paper39_master_compendium.tex"
     }
   },
   "edges": [
@@ -1307,6 +1315,26 @@
     {
       "from": "paper37_multistate_crowding",
       "rel": "followed_by",
+      "to": "paper38_amyloid_threshold"
+    },
+    {
+      "from": "paper39_master_biophysical_compendium",
+      "rel": "verified_by",
+      "to": "Paper39_MasterBiophysicalCompendium_Spec"
+    },
+    {
+      "from": "paper39_master_biophysical_compendium",
+      "rel": "compiles",
+      "to": "paper36_proteostasis_compendium"
+    },
+    {
+      "from": "paper39_master_biophysical_compendium",
+      "rel": "compiles",
+      "to": "paper37_multistate_crowding"
+    },
+    {
+      "from": "paper39_master_biophysical_compendium",
+      "rel": "compiles",
       "to": "paper38_amyloid_threshold"
     }
   ]

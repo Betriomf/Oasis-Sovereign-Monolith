@@ -53,6 +53,7 @@ CANONICAL_DOIS = {
     "Paper 36: Integrated OVRP Compendium on Informational Folding, PDB Kinetics, and ATP Proteostasis (Papers 32–35, CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24595841",
     "Paper 37: Multi-State Molten-Globule Kinetics and Macromolecular Crowding Optima (CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24596750",
     "Paper 38: Autocatalytic Secondary Nucleation and Critical ATP-Clearance Thresholds in Amyloid Proteostasis (CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24597024",
+    "Paper 39: Master OVRP Compendium on Informational Protein Folding, PDB Kinetics, Crowding, and Amyloid Proteostasis (Papers 32–38, CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24600415",
     "Paper 35: ATP-Driven Iterative Annealing and Kinetic Trap Rescue in High-Contact-Order Protein Folding (CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24595638",
 }
 
