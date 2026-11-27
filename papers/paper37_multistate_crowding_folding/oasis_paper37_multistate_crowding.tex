@@ -1,0 +1,36 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{remark}{Remark}
+
+\title{Multi-State Molten-Globule Kinetics and Macromolecular Crowding Optima in Cellular Protein Folding Under OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 27, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Continuing the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}) and the proteostasis compendium (\texttt{Paper~36}, \texttt{DOI: 10.5281/zenodo.24595841}), \texttt{Paper~37} extends two-state contact-order relaxation to multi-state folding pathways populated by molten-globule intermediates (\texttt{arXiv:2204.05771}, \texttt{arXiv:2604.04677}) embedded in a crowded intracellular environment ($\phi_{\mathrm{crowd}} \in [0, 0.35]$). Modeling excluded-volume entropic stabilization alongside viscosity-induced diffusive drag yields a non-monotonic crowding optimum ($\phi_{\mathrm{opt}} \approx 0.20$) across multi-state PDB benchmarks (\texttt{1BNI} Barnase, \texttt{1HEL} Lysozyme, \texttt{1MBN} Myoglobin). Machine-checked in \texttt{Lean~4.36.0} (\texttt{0~errors}, \texttt{0~warnings}, \texttt{0~sorry}) and probed in \texttt{C99} under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+\end{abstract}
+
+\section{Two-Stage Molten-Globule Kinetics and Crowding Trade-Off}
+For multi-state proteins traversing a molten-globule intermediate $I_{\mathrm{MG}}$ (\texttt{arXiv:2204.05771}), total relaxation decomposes into hydrophobic collapse ($U \to I_{\mathrm{MG}}$) and native packing ($I_{\mathrm{MG}} \to N$). Under intracellular volume fraction $\phi_{\mathrm{crowd}}$, excluded-volume compaction accelerates folding by $\exp(\alpha\,\phi_{\mathrm{crowd}})$ while cytoplasmic viscosity dampens chain diffusion by $\exp(-\beta\,\phi_{\mathrm{crowd}}^2)$:
+\begin{equation}
+k_{\mathrm{eff}}(\mathrm{RCO}, \phi_{\mathrm{crowd}}) = k_{\mathrm{fold}}(\mathrm{RCO})\,\exp\bigl(\alpha\,\phi_{\mathrm{crowd}} - \beta\,\phi_{\mathrm{crowd}}^2\bigr), \qquad \alpha = 1.8,\;\beta = 4.5.
+\end{equation}
+In the deterministic \texttt{C99} probe, $k_{\mathrm{eff}}$ peaks near $\phi_{\mathrm{opt}} = \alpha/(2\beta) = 0.20$ (matching physiological macromolecular volume fractions), reducing total folding steps for Barnase (\texttt{1BNI}, $\mathrm{RCO} = 0.172$) from 16 steps in dilute buffer ($\phi = 0$) to 13 steps at $\phi = 0.20$, before slowing at high crowding ($\phi = 0.35$).
+
+\section*{AI Assistance Disclosure, Copyleft Commons, and Open Boundaries}
+Prepared with AI assistance under author direction and verification, paired with machine checking in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and deterministic \texttt{C99} probing under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+
+\begin{remark}[Explicit Open Boundaries]
+This coarse-grained model captures the excluded-volume versus viscosity trade-off parametrically; it does not simulate explicit steric crowder geometries, hydrodynamic interactions, or specific cellular compartments.
+\end{remark}
+
+\end{document}

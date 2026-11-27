@@ -111,3 +111,8 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Paper 34: Empirical Calibration of Informational Folding Rates Against Two-State PDB Kinetics (r = -0.9437, CC-BY-SA-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24594697
 - **Paper 35: ATP-Driven Iterative Annealing and Kinetic Trap Rescue in High-Contact-Order Protein Folding (CC-BY-SA-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24595638
 - **Paper 36: Integrated OVRP Compendium on Informational Folding, PDB Kinetics, and ATP Proteostasis (Papers 32–35, CC-BY-SA-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24595841
+
+## Difusión Abierta y Portal de Proteostasis (RSS / Zenodo)
+- **Portal Web de la Serie (Papers 32–36):** `outreach/index.html`
+- **Canal RSS Científico (`feed.xml`):** `https://raw.githubusercontent.com/Betriomf/Oasis-Sovereign-Monolith/main/outreach/feed.xml`
+- **Compendio Integrado Proteostasis (DOI `CC-BY-SA-4.0`):** https://doi.org/10.5281/zenodo.24595841
