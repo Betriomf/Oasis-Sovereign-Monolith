@@ -1,0 +1,36 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{remark}{Remark}
+
+\title{Autocatalytic Secondary Nucleation and Critical ATP-Clearance Thresholds in Amyloid Proteostasis Collapse Under OVRP}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 27, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Continuing the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), the proteostasis compendium (\texttt{Paper~36}, \texttt{DOI: 10.5281/zenodo.24595841}), and multi-state crowding kinetics (\texttt{Paper~37}, \texttt{DOI: 10.5281/zenodo.24596750}), \texttt{Paper~38} models the critical transition between soluble proteostasis and autocatalytic amyloid oligomer proliferation. Grounded in reaction-diffusion and active-site secondary nucleation kinetics (\texttt{arXiv:2610.33981}, \texttt{arXiv:2610.30531}), monomer--oligomer--fibril coupling (\texttt{arXiv:2610.09583}, \texttt{arXiv:2609.38708}), phase-transition modulation (\texttt{arXiv:2601.07513}), and endogenous chemical chaperones (\texttt{arXiv:2012.09805}, \texttt{arXiv:2112.10621}), the study derives the critical misfolded monomer threshold $m_{\mathrm{crit}} = k_{\mathrm{clear}} / k_2$. Machine-checked in \texttt{Lean~4.36.0} (\texttt{0~errors}, \texttt{0~warnings}, \texttt{0~sorry}) and probed in \texttt{C99} under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+\end{abstract}
+
+\section{Monomer--Oligomer--Fibril Kinetics and Critical Threshold}
+Let $m(t)$ denote the misfolded monomer load and $M(t)$ the catalytic oligomer/fibril population. Combining primary nucleation ($k_n$), fibril-catalyzed secondary nucleation ($k_2$, \texttt{arXiv:2610.30531}), and ATP-dependent chaperone clearance ($k_{\mathrm{clear}}$):
+\begin{equation}
+M(t+1) = \max\Bigl(0,\; M(t) + k_n\,m(t)^2 + \bigl(k_2\,m(t) - k_{\mathrm{clear}}\bigr)M(t)\Bigr).
+\end{equation}
+Autocatalytic amplification occurs if and only if $m(t) > m_{\mathrm{crit}} = k_{\mathrm{clear}} / k_2$. In the deterministic \texttt{C99} probe ($k_{\mathrm{clear}} = 0.24$, $k_2 = 0.80 \implies m_{\mathrm{crit}} = 0.30$), a subcritical misfolded load ($m = 0.25 < m_{\mathrm{crit}}$) remains suppressed ($M(20) = 0.0011$), whereas a supercritical load ($m = 0.42 > m_{\mathrm{crit}}$) triggers exponential oligomer proliferation ($M(20) = 0.4673$), unless restored by an ATP-clearance boost ($k_{\mathrm{clear}} \to 0.38$).
+
+\section*{AI Assistance Disclosure, Copyleft Commons, and Open Boundaries}
+Prepared with AI assistance under author direction and verification, paired with machine checking in \texttt{Lean~4.36.0} (\texttt{0~sorry}) and deterministic \texttt{C99} probing under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+
+\begin{remark}[Explicit Open Boundaries]
+This discrete mean-field threshold model abstracts secondary nucleation and chaperone clearance; it does not simulate spatial reaction-diffusion hotspots (\texttt{arXiv:2610.33981}), connectome propagation (\texttt{arXiv:2610.09583}), or clinical therapies.
+\end{remark}
+
+\end{document}
