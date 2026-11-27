@@ -868,6 +868,14 @@
       "doi": "10.5281/zenodo.24590134",
       "summary": "Plegamiento informacional monotónico hacia ln(10) inspirado en el efecto Mpemba con radar arXiv, Lean 4 (0 sorry) y sonda C99.",
       "ref": "papers/paper32_mpemba_informational_folding/oasis_paper32_mpemba.tex"
+    },
+    "paper33_folding_stress": {
+      "id": "paper33_folding_stress",
+      "type": "paper",
+      "license": "CC-BY-SA-4.0",
+      "doi": "10.5281/zenodo.24590834",
+      "summary": "Plegamiento no markoviano, mesetas de estrés y amortiguamiento por chaperonas con citas arXiv y flujo OVRP asistido por IA.",
+      "ref": "papers/paper33_nonmarkovian_folding_stress/oasis_paper33_folding_stress.tex"
     }
   },
   "edges": [
@@ -1185,6 +1193,16 @@
       "from": "paper100_cosmic_coupling",
       "rel": "followed_by",
       "to": "paper32_mpemba_folding"
+    },
+    {
+      "from": "paper33_folding_stress",
+      "rel": "verified_by",
+      "to": "Paper33_FoldingStress_Spec"
+    },
+    {
+      "from": "paper32_mpemba_folding",
+      "rel": "followed_by",
+      "to": "paper33_folding_stress"
     }
   ]
 }

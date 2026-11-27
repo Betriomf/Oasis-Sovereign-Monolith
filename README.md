@@ -107,3 +107,4 @@ echo "ALL ACTIVE LEAN 4 PROOFS VERIFIED: 0 ERRORS, 0 SORRY."
 - **Paper Critical Audit of Constants, Coupling Ratios, and Open Boundaries (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.19098625
 - **Milestone 100 Synthesis: Exploratory phi-Ratio Cosmic Shares, Coupling Probes, and Open Boundaries (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24563096
 - **Paper 32 / Record 101: Monotonic Informational Folding Toward a ln(10) Ceiling (CC-BY-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24590134
+- **Paper 33: Non-Markovian Informational Folding, Proteostatic Stress Plateaus, and Chaperone Damping (CC-BY-SA-4.0, Lean 4 & C99):** https://doi.org/10.5281/zenodo.24590834
