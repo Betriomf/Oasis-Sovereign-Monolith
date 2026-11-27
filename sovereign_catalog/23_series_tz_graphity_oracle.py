@@ -47,6 +47,7 @@ CANONICAL_DOIS = {
     "Paper Information Geometry Applied to Networks and Hybrid Systems (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24529309",
     "Paper Critical Audit of Constants, Coupling Ratios, and Open Boundaries (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.19098625",
     "Milestone 100 Synthesis: Exploratory phi-Ratio Cosmic Shares, Coupling Probes, and Open Boundaries (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24563096",
+    "Paper 32 / Record 101: Monotonic Informational Folding Toward a ln(10) Ceiling (CC-BY-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24590134",
 }
 
 def tz_process(query: str = "") -> str:

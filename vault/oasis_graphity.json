@@ -860,6 +860,14 @@
       "doi": "10.5281/zenodo.24563096",
       "summary": "Síntesis exploratoria de repartos phi y sondas de acoplamiento con fronteras abiertas, Lean 4 (0 sorry, 0 warnings) y sonda C99.",
       "ref": "papers/paper100_cosmic_coupling_milestone/oasis_paper100_cosmic_coupling.tex"
+    },
+    "paper32_mpemba_folding": {
+      "id": "paper32_mpemba_folding",
+      "type": "paper",
+      "license": "CC-BY-4.0",
+      "doi": "10.5281/zenodo.24590134",
+      "summary": "Plegamiento informacional monotónico hacia ln(10) inspirado en el efecto Mpemba con radar arXiv, Lean 4 (0 sorry) y sonda C99.",
+      "ref": "papers/paper32_mpemba_informational_folding/oasis_paper32_mpemba.tex"
     }
   },
   "edges": [
@@ -1167,6 +1175,16 @@
       "from": "paper31_constants_critique",
       "rel": "followed_by",
       "to": "paper100_cosmic_coupling"
+    },
+    {
+      "from": "paper32_mpemba_folding",
+      "rel": "verified_by",
+      "to": "Paper32_Mpemba_Spec"
+    },
+    {
+      "from": "paper100_cosmic_coupling",
+      "rel": "followed_by",
+      "to": "paper32_mpemba_folding"
     }
   ]
 }
