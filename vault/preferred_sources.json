@@ -271,6 +271,12 @@
       "instruction": "Resume la fuente verificada: Paper 40 p53 ddG & Chaperone Energetic Budget DOI Zenodo (CC-BY-SA-4.0)",
       "output": "Modelo teórico de desestabilización ΔΔG en variantes p53 y presupuesto energético de chaperonas para guiar hipótesis de descubrimiento de fármacos (DOI: 10.5281/zenodo.24605051).",
       "source": "https://doi.org/10.5281/zenodo.24605051"
+    },
+    {
+      "id": "ref_45",
+      "instruction": "Resume la fuente verificada: Paper 41 Analytic p53 Threshold & Synthesis DOI Zenodo (CC-BY-SA-4.0)",
+      "output": "Derivación analítica cerrada del umbral ΔΔG_crit^(N) en variantes p53 y síntesis de proteostasis Papers 37-41 (DOI: 10.5281/zenodo.24605536).",
+      "source": "https://doi.org/10.5281/zenodo.24605536"
     }
   ]
 }

@@ -55,6 +55,7 @@ CANONICAL_DOIS = {
     "Paper 38: Autocatalytic Secondary Nucleation and Critical ATP-Clearance Thresholds in Amyloid Proteostasis (CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24597024",
     "Paper 39: Master OVRP Compendium on Informational Protein Folding, PDB Kinetics, Crowding, and Amyloid Proteostasis (Papers 32–38, CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24600415",
     "Paper 40: Thermodynamic Destabilization (ΔΔG) in p53 Core Variants and Discrete Chaperone Energetic Budgets (CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24605051",
+    "Paper 41: Closed-Form Energetic-Proteostatic Stability Thresholds in p53 Variants and Synthesis (Papers 37–41, CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24605536",
     "Paper 35: ATP-Driven Iterative Annealing and Kinetic Trap Rescue in High-Contact-Order Protein Folding (CC-BY-SA-4.0, Lean 4 & C99)": "https://doi.org/10.5281/zenodo.24595638",
 }
 

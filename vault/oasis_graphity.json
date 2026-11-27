@@ -932,6 +932,14 @@
       "doi": "10.5281/zenodo.24605051",
       "summary": "Desestabilización ΔΔG en variantes p53 (1TUP) y presupuesto energético de chaperonas con guía teórica para cribado.",
       "ref": "papers/paper40_p53_ddg_chaperone_energetic_budget/oasis_paper40_p53_energetic_stability.tex"
+    },
+    "paper41_p53_analytic_threshold": {
+      "id": "paper41_p53_analytic_threshold",
+      "type": "compendium",
+      "license": "CC-BY-SA-4.0",
+      "doi": "10.5281/zenodo.24605536",
+      "summary": "Derivación analítica cerrada del umbral crítico ΔΔG_crit^(N) y síntesis de proteostasis (Papers 37-41).",
+      "ref": "papers/paper41_p53_analytic_stability_threshold/oasis_paper41_p53_analytic_threshold.tex"
     }
   },
   "edges": [
@@ -1354,6 +1362,16 @@
       "from": "paper40_p53_energetic_stability",
       "rel": "extends",
       "to": "paper39_master_biophysical_compendium"
+    },
+    {
+      "from": "paper41_p53_analytic_threshold",
+      "rel": "verified_by",
+      "to": "Paper41_p53AnalyticThreshold_Spec"
+    },
+    {
+      "from": "paper41_p53_analytic_threshold",
+      "rel": "compiles",
+      "to": "paper40_p53_energetic_stability"
     }
   ]
 }

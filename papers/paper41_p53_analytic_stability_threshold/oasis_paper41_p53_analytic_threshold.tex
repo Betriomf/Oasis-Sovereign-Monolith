@@ -1,0 +1,70 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.4cm}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+\title{Closed-Form Energetic-Proteostatic Stability Thresholds in p53 Variants and Integrated Synthesis of Crowding and Amyloid Regimes (Papers 37--41)}
+\author{Mariano Panzano Caball\'e \\ \small Oasis Sovereign Architecture Research, Barcelona}
+\date{November 27, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Within the \emph{Oasis Verifiable Research Pipeline} (OVRP, \texttt{DOI: 10.5281/zenodo.24443531}), we derive the closed-form analytical threshold $\Delta\Delta G_{\mathrm{crit}}^{(N)}$ governing the competition between conformational destabilization ($\Delta\Delta G$) in human p53 core variants (\texttt{PDB: 1TUP}) and finite cellular metabolic budgets ($E_0$, $E_{\mathrm{inflow}}$), and synthesize the verified regime boundaries established across \texttt{Papers~37--40} (\texttt{DOIs: 10.5281/zenodo.24596750}, \texttt{24597024}, \texttt{24600415}, \texttt{24605051}). Rather than relying on stochastic simulation, we prove exact algebraic conservation laws in \texttt{Lean~4.36.0} (\texttt{0~errors}, \texttt{0~warnings}, \texttt{0~sorry}) and evaluate the exact analytical equilibrium equations in \texttt{C99}, determining the minimum thermodynamic stabilization $\Delta\Delta G_{\mathrm{stab}}^{\min} = 3.1655\,\mathrm{kcal/mol}$ required to prevent energetic depletion in the structural mutant \texttt{Y220C} under constrained inflow ($E_{\mathrm{inflow}} = 0.22$). Sealed with \texttt{SHA-256} and Bitcoin OpenTimestamps under \texttt{CC-BY-SA-4.0} and \texttt{AGPL-3.0-or-later}.
+\end{abstract}
+
+\section{Closed-Form Analytical Derivation of $\Delta\Delta G_{\mathrm{crit}}^{(N)}$}
+In the non-saturated regime $s_0(\Delta\Delta G) = s_{\mathrm{basal}} + \alpha\,\Delta\Delta G \le 0.95$ with full chaperone buffering $D = \min(0.80,\, \gamma_{\mathrm{chap}} a_{\mathrm{target}})$, the net metabolic balance per discrete step is $\Delta E = E_{\mathrm{inflow}} - \kappa_{\mathrm{chap}} a_{\mathrm{target}} - \kappa_{\mathrm{stress}} s_0(\Delta\Delta G)(1 - D)$.
+
+\begin{proposition}[Finite-Horizon Stability Threshold]
+Over a finite horizon of $N \ge 1$ steps starting from initial energetic reserve $E_0 > 0$, non-depletion ($E_N > 0$) holds if and only if $\Delta\Delta G < \Delta\Delta G_{\mathrm{crit}}^{(N)}$, where
+\begin{equation}
+\Delta\Delta G_{\mathrm{crit}}^{(N)} = \frac{1}{\alpha}\left(\frac{E_{\mathrm{inflow}} - \kappa_{\mathrm{chap}} a_{\mathrm{target}} + E_0/N}{\kappa_{\mathrm{stress}}(1 - D)} - s_{\mathrm{basal}}\right).
+\end{equation}
+\end{proposition}
+
+For the canonical parameter set ($N=30$, $E_0=5.0$, $s_{\mathrm{basal}}=0.28$, $\alpha=0.14$, $a_{\mathrm{target}}=0.80$, $\gamma_{\mathrm{chap}}=0.65$, $\kappa_{\mathrm{chap}}=0.40$, $\kappa_{\mathrm{stress}}=0.35$), closed-form evaluation yields:
+\begin{center}
+\small
+\begin{tabular}{cccc}
+\toprule
+$E_{\mathrm{inflow}}$ & $\Delta\Delta G_{\mathrm{crit}}^{(30)}$ ($\mathrm{kcal/mol}$) & $E_{\mathrm{net}}(\Delta\Delta G_{\mathrm{crit}} - 10^{-4})$ & $E_{\mathrm{net}}(\Delta\Delta G_{\mathrm{crit}} + 10^{-4})$ \\
+\midrule
+$0.18$ & $-0.8662$ & $+0.000071$ & $-0.000071$ \\
+$0.22$ & $+0.8345$ & $+0.000071$ & $-0.000071$ \\
+$0.28$ & $+3.3855$ & $+0.000071$ & $-0.000071$ \\
+$0.35$ & $+6.3617$ & $+0.000071$ & $-0.000071$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Consequently, for \texttt{Y220C} ($\Delta\Delta G_0 = 4.00\,\mathrm{kcal/mol}$) at $E_{\mathrm{inflow}} = 0.22$, preventing energetic collapse over $N=30$ steps requires an effective stabilization shift $\Delta\Delta G_{\mathrm{stab}} > 4.00 - 0.8345 = 3.1655\,\mathrm{kcal/mol}$.
+
+\section{Integrated Synthesis Across Papers 37--41}
+\begin{center}
+\small
+\begin{tabular}{lllc}
+\toprule
+\textbf{Paper} & \textbf{Biophysical Regime} & \textbf{Verified Threshold / Metric} & \textbf{Zenodo DOI} \\
+\midrule
+\texttt{Paper 37} & Molten-globule crowding & $\phi_{\mathrm{opt}} = 0.20$ & \texttt{10.5281/zenodo.24596750} \\
+\texttt{Paper 38} & Amyloid secondary nucleation & $m_{\mathrm{crit}} = k_{\mathrm{clear}}/k_2 = 0.300$ & \texttt{10.5281/zenodo.24597024} \\
+\texttt{Paper 39} & Compendium (\texttt{Papers 32--38}) & $S_{\max} = \ln(10)$, $r_{\mathrm{PDB}} = -0.9437$ & \texttt{10.5281/zenodo.24600415} \\
+\texttt{Paper 40} & p53 $\Delta\Delta G$ \& chaperone budget & \texttt{R175H}/\texttt{Y220C} depletion ($t=22, 21$) & \texttt{10.5281/zenodo.24605051} \\
+\texttt{Paper 41} & Closed-form $\Delta\Delta G_{\mathrm{crit}}^{(N)}$ proof & $\Delta\Delta G_{\mathrm{stab}}^{\min}(\texttt{Y220C}) = 3.1655\,\mathrm{kcal/mol}$ & \emph{This work} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{Methodological Disclosure, Copyleft Commons, and Open Boundaries}
+\begin{remark}[Analytical Verification vs.\ Simulation \& Clinical Scope]
+The numerical checks in \texttt{Paper~41} represent exact closed-form algebraic evaluations of equilibrium inequalities rather than stochastic simulations. This theoretical framework models the scalar interplay between protein conformational stability and metabolic energy supply to guide computational hypothesis generation; it does not model full cellular networks, pharmacokinetics, or clinical oncology, and does not constitute medical advice.
+\end{remark}
+
+\end{document}
