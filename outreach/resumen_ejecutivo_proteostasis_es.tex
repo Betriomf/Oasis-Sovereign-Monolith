@@ -1,0 +1,48 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.0cm}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Marco Computacional Abierto de Termodin\'amica Informacional para Cin\'etica de Plegamiento Proteico y Proteostasis ATP}} \\[4pt]
+{\small \textbf{Mariano Panzano Caball\'e} $\cdot$ Oasis Sovereign Architecture Research (Barcelona) $\cdot$ Licencias: \texttt{CC-BY-SA-4.0} y \texttt{AGPL-3.0-or-later}}
+\end{center}
+
+\vspace{4pt}
+\hrule
+\vspace{8pt}
+
+\noindent\textbf{Resumen Ejecutivo:}
+Presentamos una l\'inea de investigaci\'on computacional en acceso abierto y verificada formalmente (\emph{Oasis Verifiable Research Pipeline}, OVRP) que modela la cin\'etica de plegamiento proteico de grano grueso, las mesetas de estr\'es no markoviano y el rescate energ\'etico mediante chaperonas impulsadas por ATP. Todas las invariantes algebraicas est\'an demostradas en \texttt{Lean~4.36.0} (\texttt{0~sorry}) junto con sondas num\'ericas deterministas en \texttt{C99} y trazabilidad criptogr\'afica (SHA-256 + Bitcoin OpenTimestamps). Publicado bajo licencias libres con copyleft (\texttt{CC-BY-SA-4.0} / \texttt{AGPL-3.0-or-later}) para su uso universal sin regal\'ias en investigaci\'on biom\'edica y salud p\'ublica.
+
+\vspace{6pt}
+\noindent\textbf{Resultados Principales de la Serie (Papers 32--36):}
+\begin{center}
+\small
+\begin{tabular}{p{2.0cm}p{5.8cm}p{4.3cm}p{3.3cm}}
+\toprule
+\textbf{Estudio} & \textbf{Modelo y Mecanismo} & \textbf{Resultado Cuantitativo} & \textbf{DOI en Zenodo} \\
+\midrule
+Paper 32 & Contracci\'on monot\'onica hacia techo $\ln(10)$ & Saturaci\'on en 9 frente a 12 pasos & \texttt{10.5281/zenodo.24590134} \\
+Paper 33 & Memoria no markoviana + estr\'es proteost\'atico & Meseta residual $\Delta \approx 0.0446$ & \texttt{10.5281/zenodo.24590834} \\
+Paper 34 & Calibraci\'on PDB de dos estados (\texttt{1VII}--\texttt{1APS}) & Correlaci\'on Pearson $r = -0.9437$ & \texttt{10.5281/zenodo.24594697} \\
+Paper 35 & Recocido iterativo por hidr\'olisis de ATP (\texttt{1APS}) & Rescate en paso 16 ($30\,k_B T$) & \texttt{Paper35\_ATPChaperone} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent\textbf{Alcance e Invitaci\'on a Colaborar:}
+Estos modelos ofrecen referencias fenomenol\'ogicas r\'apidas y auditadas matem\'aticamente, complementarias a la din\'amica molecular atom\'istica. Agradecemos cualquier contraste con conjuntos experimentales de cin\'etica de plegamiento o ensayos de chaperonas.
+
+\vspace{4pt}
+\noindent\textbf{Repositorio y Artefactos Verificables:} \texttt{https://github.com/Betriomf/Oasis-Sovereign-Monolith}
+
+\end{document}

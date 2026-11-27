@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Oasis Sovereign Research — Protein Folding &amp; Proteostasis Series</title>
+    <link>https://github.com/Betriomf/Oasis-Sovereign-Monolith</link>
+    <description>Open-access, formally verified computational biophysics and informational thermodynamics working papers (CC-BY-SA-4.0 / AGPL-3.0).</description>
+    <lastBuildDate>Fri, 27 Nov 2026 16:33:54 +0000</lastBuildDate>
+    <item>
+      <title>The Dimensionless Informational Ratio as a Phenotypic Attractor in Protein Folding Dynamics under OVRP</title>
+      <link>https://doi.org/10.5281/zenodo.24483484</link>
+      <guid isPermaLink="true">https://doi.org/10.5281/zenodo.24483484</guid>
+      <pubDate>Fri, 27 Nov 2026 16:33:54 +0000</pubDate>
+      <description>The Dimensionless Informational Ratio as a Phenotypic Attractor in Protein Folding Dynamics under OVRP — Verified under OVRP (Lean 4 + C99 + Bitcoin OTS), License: cc-by-nc-4.0.</description>
+    </item>
+    <item>
+      <title>Monotonic Informational Folding Toward a ln(10) Ceiling: A Mpemba-Inspired Discrete Relaxation Model Under OVRP</title>
+      <link>https://doi.org/10.5281/zenodo.24590134</link>
+      <guid isPermaLink="true">https://doi.org/10.5281/zenodo.24590134</guid>
+      <pubDate>Fri, 27 Nov 2026 16:33:54 +0000</pubDate>
+      <description>Monotonic Informational Folding Toward a ln(10) Ceiling: A Mpemba-Inspired Discrete Relaxation Model Under OVRP — Verified under OVRP (Lean 4 + C99 + Bitcoin OTS), License: cc-by-4.0.</description>
+    </item>
+    <item>
+      <title>Non-Markovian Informational Folding, Proteostatic Stress Plateaus, and Chaperone Damping Under OVRP</title>
+      <link>https://doi.org/10.5281/zenodo.24590834</link>
+      <guid isPermaLink="true">https://doi.org/10.5281/zenodo.24590834</guid>
+      <pubDate>Fri, 27 Nov 2026 16:33:54 +0000</pubDate>
+      <description>Non-Markovian Informational Folding, Proteostatic Stress Plateaus, and Chaperone Damping Under OVRP — Verified under OVRP (Lean 4 + C99 + Bitcoin OTS), License: cc-by-sa-4.0.</description>
+    </item>
+    <item>
+      <title>Empirical Calibration of Informational Folding Rates Against Two-State PDB Kinetics, Non-Markovian Friction, and Proteostatic Residual Margins Under OVRP</title>
+      <link>https://doi.org/10.5281/zenodo.24594697</link>
+      <guid isPermaLink="true">https://doi.org/10.5281/zenodo.24594697</guid>
+      <pubDate>Fri, 27 Nov 2026 16:33:54 +0000</pubDate>
+      <description>Empirical Calibration of Informational Folding Rates Against Two-State PDB Kinetics, Non-Markovian Friction, and Proteostatic Residual Margins Under OVRP — Verified under OVRP (Lean 4 + C99 + Bitcoin OTS), License: cc-by-sa-4.0.</description>
+    </item>
+    <item>
+      <title>ATP-Driven Iterative Annealing and Kinetic Trap Rescue in High-Contact-Order Protein Folding Under OVRP</title>
+      <link>https://doi.org/10.5281/zenodo.24595638</link>
+      <guid isPermaLink="true">https://doi.org/10.5281/zenodo.24595638</guid>
+      <pubDate>Fri, 27 Nov 2026 16:33:54 +0000</pubDate>
+      <description>ATP-Driven Iterative Annealing and Kinetic Trap Rescue in High-Contact-Order Protein Folding Under OVRP — Verified under OVRP (Lean 4 + C99 + Bitcoin OTS), License: cc-by-sa-4.0.</description>
+    </item>
+    <item>
+      <title>Integrated OVRP Compendium on Informational Folding, Two-State PDB Kinetics, and ATP-Driven Proteostasis (Papers 32–35)</title>
+      <link>https://doi.org/10.5281/zenodo.24595841</link>
+      <guid isPermaLink="true">https://doi.org/10.5281/zenodo.24595841</guid>
+      <pubDate>Fri, 27 Nov 2026 16:33:54 +0000</pubDate>
+      <description>Integrated OVRP Compendium on Informational Folding, Two-State PDB Kinetics, and ATP-Driven Proteostasis (Papers 32–35) — Verified under OVRP (Lean 4 + C99 + Bitcoin OTS), License: cc-by-sa-4.0.</description>
+    </item>
+  </channel>
+</rss>

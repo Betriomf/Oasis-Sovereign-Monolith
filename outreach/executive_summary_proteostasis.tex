@@ -1,0 +1,47 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.0cm}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Open-Source Informational Thermodynamics Framework for Protein Folding Kinetics \& ATP Proteostasis}} \\[4pt]
+{\small \textbf{Mariano Panzano Caball\'e} $\cdot$ Oasis Sovereign Architecture Research (Barcelona) $\cdot$ Licenses: \texttt{CC-BY-SA-4.0} \& \texttt{AGPL-3.0-or-later}}
+\end{center}
+
+\vspace{4pt}
+\hrule
+\vspace{8pt}
+
+\noindent\textbf{Executive Overview:}
+We present an open-access, formally verified computational pipeline (\emph{Oasis Verifiable Research Pipeline}, OVRP) modeling coarse-grained protein folding kinetics, non-Markovian stress plateaus, and non-equilibrium ATP chaperone rescue. All algebraic invariants are machine-checked in \texttt{Lean~4.36.0} (\texttt{0~sorry}) alongside deterministic \texttt{C99} numerical probes and Bitcoin OpenTimestamps provenance. Released under copyleft commons (\texttt{CC-BY-SA-4.0} / \texttt{AGPL-3.0-or-later}) for unrestricted academic and public-health reuse.
+
+\vspace{6pt}
+\noindent\textbf{Core Findings Across the Series (Papers 32--36):}
+\begin{center}
+\small
+\begin{tabular}{p{2.2cm}p{5.8cm}p{4.2cm}p{3.2cm}}
+\toprule
+\textbf{Study} & \textbf{Model & Mechanism} & \textbf{Quantitative Result} & \textbf{Zenodo DOI} \\
+\midrule
+Paper 32 & Monotonic gap contraction toward $\ln(10)$ ceiling & Saturation in 9 vs.\ 12 steps & \texttt{10.5281/zenodo.24590134} \\
+Paper 33 & Non-Markovian memory + proteostatic stress & Residual plateau $\Delta \approx 0.0446$ & \texttt{10.5281/zenodo.24590834} \\
+Paper 34 & Two-state PDB $\mathrm{RCO}$ calibration (\texttt{1VII}--\texttt{1APS}) & Pearson $r = -0.9437$ ($N=8$) & \texttt{10.5281/zenodo.24594697} \\
+Paper 35 & Discrete ATP iterative annealing (\texttt{1APS}) & Trap rescue at step 16 ($30\,k_B T$) & \texttt{Paper35\_ATPChaperone} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{4pt}
+\noindent\textbf{Scope & Collaboration Invitation:}
+These phenomenological models provide fast, formally audited low-dimensional benchmarks rather than all-atom molecular dynamics. We welcome feedback or collaborative benchmarking against experimental folding datasets and chaperone kinetic assays.
+
+\vspace{4pt}
+\noindent\textbf{Repository & Verification Artifacts:} \texttt{https://github.com/Betriomf/Oasis-Sovereign-Monolith}
+
+\end{document}
